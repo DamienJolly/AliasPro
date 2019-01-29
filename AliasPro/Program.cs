@@ -1,40 +1,39 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using AliasPro.Network;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AliasPro
 {
     public class Program
     {
-        /// <summary>
-		/// Boot up the application
-		/// </summary>
-        private async Task Boot()
-        {
-            Console.WriteLine("Testing.. Hello World!");
+        private readonly IServiceProvider _serviceProvider;
 
-            while (true)
+        private Program()
+        {
+            IList<INetworkService> services = new List<INetworkService>
             {
-                if (Console.ReadKey(false).Key == ConsoleKey.Enter)
-                {
-                    await DisposeAsync();
-                }
+                new NetworkService()
+            };
+
+            IServiceCollection serviceCollection = new ServiceCollection();
+            foreach (INetworkService service in services)
+            {
+                service.SetupService(serviceCollection);
             }
+
+            _serviceProvider = serviceCollection.BuildServiceProvider();
         }
 
-        /// <summary>
-		/// Dispose off the application
-		/// </summary>
-        private async Task DisposeAsync()
+        private async Task Run()
         {
-            Environment.Exit(0);
-        }
+            INetworkListener listener = _serviceProvider.GetService<INetworkListener>();
+            await listener.Listen(30000);
 
-        /// <summary>
-		/// Entry point for the application
-		/// </summary>
-        public static async Task Main()
-        {
-            await new Program().Boot();
+            Console.ReadKey();
         }
+        
+        static Task Main() => new Program().Run();
     }
 }
