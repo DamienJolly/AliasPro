@@ -2,6 +2,7 @@
 using DotNetty.Transport.Bootstrapping;
 using DotNetty.Transport.Channels;
 using DotNetty.Transport.Channels.Sockets;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Net;
 using System.Threading.Tasks;
@@ -12,10 +13,13 @@ namespace AliasPro.Network
     {
         private IEventLoopGroup _workerGroup;
         private IEventLoopGroup _bossGroup;
+
+        private readonly ILogger<NetworkListener> _logger;
         private readonly NetworkInitializer _initializer;
 
-        public NetworkListener(NetworkInitializer initalizer)
+        public NetworkListener(ILogger<NetworkListener> logger, NetworkInitializer initalizer)
         {
+            _logger = logger;
             _initializer = initalizer;
         }
 
@@ -38,11 +42,11 @@ namespace AliasPro.Network
             IChannel serverChannl = await bootstrap.BindAsync(new IPEndPoint(IPAddress.Parse("0.0.0.0"), port));
             if (serverChannl.Active)
             {
-                Console.WriteLine($"Listening on port: {port}");
+                _logger.LogInformation($"Listening on port: {port}");
             }
             else
             {
-                Console.WriteLine($"Failed to listen on port: {port}");
+                _logger.LogError($"Failed to listen on port: {port}");
             }
         }
     }

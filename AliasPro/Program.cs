@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AliasPro.Network;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace AliasPro
 {
@@ -18,6 +19,11 @@ namespace AliasPro
             };
 
             IServiceCollection serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging(logging =>
+            {
+                logging.AddConsole();
+            });
+
             foreach (INetworkService service in services)
             {
                 service.SetupService(serviceCollection);
