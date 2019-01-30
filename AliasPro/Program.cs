@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AliasPro.Network;
+using AliasPro.Network.Events;
 using AliasPro.Sessions;
+using AliasPro.Util;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -30,6 +32,8 @@ namespace AliasPro
             {
                 service.SetupService(serviceCollection);
             }
+            
+            serviceCollection.AddSingleton<IEventProvider, EventProvider>();
 
             _serviceProvider = serviceCollection.BuildServiceProvider();
         }

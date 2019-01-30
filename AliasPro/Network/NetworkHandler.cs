@@ -1,17 +1,20 @@
-﻿using AliasPro.Network.Protocol;
+﻿using AliasPro.Network.Events;
+using AliasPro.Network.Protocol;
 using AliasPro.Sessions;
 using DotNetty.Transport.Channels;
-using System;
 
 namespace AliasPro.Network
 {
     internal class NetworkHandler : SimpleChannelInboundHandler<IClientPacket>
     {
+        private readonly IEventProvider _eventProvider;
         private readonly ISessionController _sessionController;
 
         internal NetworkHandler(
+            IEventProvider provider,
             ISessionController sessionController)
         {
+            _eventProvider = provider;
             _sessionController = sessionController;
         }
 
@@ -25,7 +28,7 @@ namespace AliasPro.Network
         {
             if (_sessionController.TryGetSession(ctx.Channel.Id, out ISession session))
             {
-                //todo: handle packet
+                await _eventProvider.Handle(session, msg);
             }
         }
     }
