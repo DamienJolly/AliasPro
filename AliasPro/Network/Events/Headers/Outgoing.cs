@@ -1,6 +1,6 @@
 ﻿namespace AliasPro.Network.Events.Headers
 {
-    internal static class OutgoingHeaders
+    internal static class Outgoing
     {
         // User
         internal const short SecureLoginOKMessageComposer = 3412;

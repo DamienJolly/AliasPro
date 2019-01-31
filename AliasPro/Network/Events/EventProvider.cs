@@ -1,12 +1,13 @@
-﻿using AliasPro.Network.Protocol;
-using AliasPro.Sessions;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace AliasPro.Network.Events
 {
+    using Protocol;
+    using Sessions;
+
     internal class EventProvider : IEventProvider
     {
         private readonly ILogger<EventProvider> _logger;

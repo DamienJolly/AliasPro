@@ -1,11 +1,12 @@
-﻿using AliasPro.Network.Codec;
-using AliasPro.Network.Events;
-using AliasPro.Sessions;
-using DotNetty.Transport.Channels;
+﻿using DotNetty.Transport.Channels;
 using DotNetty.Transport.Channels.Sockets;
 
 namespace AliasPro.Network
 {
+    using Codec;
+    using Events;
+    using Sessions;
+
     internal class NetworkInitializer : ChannelInitializer<ISocketChannel>
     {
         private readonly IEventProvider _eventProvider;

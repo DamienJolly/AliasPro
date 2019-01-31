@@ -1,14 +1,15 @@
-﻿using AliasPro.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
-using AliasPro.Sessions;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace AliasPro.Player.Packets.Incoming
 {
+    using Network.Events;
+    using Network.Events.Headers;
+    using Network.Protocol;
+    using Sessions;
+
     public class UniqueIdEvent : IAsyncPacket
     {
-        public short Header { get; } = IncomingHeaders.UniqueIdMessageEvent;
+        public short Header { get; } = Incoming.UniqueIdMessageEvent;
 
         public async Task HandleAsync(
             ISession session,

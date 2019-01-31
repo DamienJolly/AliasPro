@@ -1,10 +1,11 @@
-﻿using AliasPro.Network.Events;
-using AliasPro.Network.Protocol;
-using AliasPro.Sessions;
-using DotNetty.Transport.Channels;
+﻿using DotNetty.Transport.Channels;
 
 namespace AliasPro.Network
 {
+    using Events;
+    using Protocol;
+    using Sessions;
+
     internal class NetworkHandler : SimpleChannelInboundHandler<IClientPacket>
     {
         private readonly IEventProvider _eventProvider;

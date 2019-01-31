@@ -1,8 +1,9 @@
-﻿using AliasPro.Network.Protocol;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace AliasPro.Sessions
 {
+    using Network.Protocol;
+
     public interface ISession
     {
         string UniqueId { get; set; }

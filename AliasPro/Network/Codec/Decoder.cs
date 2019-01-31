@@ -1,5 +1,4 @@
-﻿using AliasPro.Network.Protocol;
-using DotNetty.Buffers;
+﻿using DotNetty.Buffers;
 using DotNetty.Codecs;
 using DotNetty.Transport.Channels;
 using System.Collections.Generic;
@@ -7,6 +6,8 @@ using System.Text;
 
 namespace AliasPro.Network.Codec
 {
+    using Protocol;
+
     internal class Decoder : ByteToMessageDecoder
     {
         protected override void Decode(IChannelHandlerContext context, IByteBuffer input, List<object> output)

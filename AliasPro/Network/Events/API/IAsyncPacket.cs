@@ -1,9 +1,10 @@
-﻿using AliasPro.Network.Protocol;
-using AliasPro.Sessions;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace AliasPro.Network.Events
 {
+    using Protocol;
+    using Sessions;
+
     public interface IAsyncPacket
     {
         short Header { get; }

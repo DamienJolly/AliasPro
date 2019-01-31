@@ -1,9 +1,10 @@
-﻿using AliasPro.Network.Protocol;
-using DotNetty.Transport.Channels;
+﻿using DotNetty.Transport.Channels;
 using System.Threading.Tasks;
 
 namespace AliasPro.Sessions
 {
+    using Network.Protocol;
+
     internal class SessionClient : ISession
     {
         public string UniqueId { get; set; }

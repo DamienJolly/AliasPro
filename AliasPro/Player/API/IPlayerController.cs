@@ -1,8 +1,9 @@
-﻿using AliasPro.Player.Models;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace AliasPro.Player
 {
+    using Models;
+
     public interface IPlayerController
     {
         Task<IPlayer> GetPlayerByIdAsync(uint id);

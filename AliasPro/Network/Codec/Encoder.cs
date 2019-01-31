@@ -1,10 +1,11 @@
-﻿using AliasPro.Network.Protocol;
-using DotNetty.Codecs;
+﻿using DotNetty.Codecs;
 using DotNetty.Transport.Channels;
 using System.Collections.Generic;
 
 namespace AliasPro.Network.Codec
 {
+    using Protocol;
+
     internal class Encoder : MessageToMessageEncoder<ServerPacket>
     {
         protected override void Encode(IChannelHandlerContext context, ServerPacket message, List<object> output)

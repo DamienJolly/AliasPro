@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AliasPro.Network;
-using AliasPro.Network.Events;
-using AliasPro.Player;
-using AliasPro.Sessions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace AliasPro
 {
+    using Network;
+    using Network.Events;
+    using Player;
+    using Sessions;
+
     public class Program
     {
         private readonly IServiceProvider _serviceProvider;

@@ -1,8 +1,9 @@
-﻿using AliasPro.Player.Models;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace AliasPro.Player
 {
+    using Models;
+
     internal class PlayerController : IPlayerController
     {
         private readonly PlayerRepostiory _playerRepostiory;

@@ -1,9 +1,10 @@
-﻿using AliasPro.Player.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AliasPro.Player
 {
+    using Models;
+
     internal class PlayerRepostiory
     {
         private readonly PlayerDao _playerDao;
