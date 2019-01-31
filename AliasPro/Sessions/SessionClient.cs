@@ -6,6 +6,8 @@ namespace AliasPro.Sessions
 {
     internal class SessionClient : ISession
     {
+        public string UniqueId { get; set; }
+
         private readonly IChannelHandlerContext _channel;
 
         internal SessionClient(IChannelHandlerContext context)

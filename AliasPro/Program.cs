@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AliasPro.Network;
 using AliasPro.Network.Events;
+using AliasPro.Player;
 using AliasPro.Sessions;
-using AliasPro.Util;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -19,7 +19,8 @@ namespace AliasPro
             IList<INetworkService> services = new List<INetworkService>
             {
                 new NetworkService(),
-                new SessionService()
+                new SessionService(),
+                new PlayerService()
             };
 
             IServiceCollection serviceCollection = new ServiceCollection();
