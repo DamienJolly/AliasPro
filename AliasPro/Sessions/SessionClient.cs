@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 namespace AliasPro.Sessions
 {
+    using Room.Models;
     using Player.Models;
     using Network.Protocol;
 
@@ -10,6 +11,7 @@ namespace AliasPro.Sessions
     {
         public string UniqueId { get; set; }
         public IPlayer Player { get; set; }
+        public IRoom CurrentRoom { get; set; }
 
         private readonly IChannelHandlerContext _channel;
 

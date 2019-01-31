@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace AliasPro
 {
+    using Room;
     using Landing;
     using Network;
     using Network.Events;
@@ -23,7 +24,8 @@ namespace AliasPro
                 new NetworkService(),
                 new PlayerService(),
                 new SessionService(),
-                new LandingService()
+                new LandingService(),
+                new RoomService()
             };
 
             IServiceCollection serviceCollection = new ServiceCollection();

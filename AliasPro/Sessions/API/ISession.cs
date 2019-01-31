@@ -2,6 +2,7 @@
 
 namespace AliasPro.Sessions
 {
+    using Room.Models;
     using Player.Models;
     using Network.Protocol;
 
@@ -9,6 +10,7 @@ namespace AliasPro.Sessions
     {
         string UniqueId { get; set; }
         IPlayer Player { get; set; }
+        IRoom CurrentRoom { get; set; }
         Task WriteAsync(ServerPacket serverPacket);
         Task WriteAndFlushAsync(ServerPacket serverPacket);
         void Flush();
