@@ -11,6 +11,7 @@
         internal const short RequestRoomLoadMessageEvent = 3464;
         internal const short RequestRoomEntryDataMessageEvent = 1583;
         internal const short RequestFurnitureAliasesMessageEvent = 2443;
+        internal const short MoveAvatarMessageEvent = 3155;
 
         // Landing
         internal const short HotelViewDataMessageEvent = 1579;

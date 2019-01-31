@@ -12,6 +12,7 @@ namespace AliasPro.Room.Models.Entities
             Id = id;
             BodyRotation = rotation;
             Position = new Position(x, y, 0);
+            NextPosition = new Position(x, y, 0);
             Name = name;
             Figure = figure;
 
@@ -21,6 +22,8 @@ namespace AliasPro.Room.Models.Entities
         public int Id { get; set; }
         public int BodyRotation { get; set; }
         public Position Position { get; set; }
+        public Position NextPosition { get; set; }
+        public IList<Position> PathToWalk { get; set; }
         public string Name { get; set; }
         public string Figure { get; set; }
 
