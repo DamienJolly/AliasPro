@@ -20,8 +20,8 @@ namespace AliasPro
             IList<INetworkService> services = new List<INetworkService>
             {
                 new NetworkService(),
+                new PlayerService(),
                 new SessionService(),
-                new PlayerService()
             };
 
             IServiceCollection serviceCollection = new ServiceCollection();

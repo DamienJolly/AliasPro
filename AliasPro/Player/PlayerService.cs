@@ -10,6 +10,10 @@ namespace AliasPro.Player
     {
         public void SetupService(IServiceCollection collection)
         {
+            collection.AddSingleton<PlayerDao>();
+            collection.AddSingleton<PlayerRepostiory>();
+            collection.AddSingleton<IPlayerController, PlayerController>();
+
             AddPackets(collection);
         }
 

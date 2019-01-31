@@ -3,11 +3,13 @@ using System.Threading.Tasks;
 
 namespace AliasPro.Sessions
 {
+    using Player.Models;
     using Network.Protocol;
 
     internal class SessionClient : ISession
     {
         public string UniqueId { get; set; }
+        public IPlayer Player { get; set; }
 
         private readonly IChannelHandlerContext _channel;
 
