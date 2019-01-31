@@ -7,5 +7,7 @@
         internal const short HomeRoomMessageComposer = 908;
         internal const short UserRightsMessageComposer = 2946;
         internal const short AvailabilityStatusMessageComposer = 770;
+        internal const short UserPerksMessageComposer = 1105;
+        internal const short UserDataMessageComposer = 3862;
     }
 }
