@@ -19,6 +19,8 @@
         internal const short RoomEntryInfoMessageComposer = 521;
         internal const short RoomVisualizationSettingsMessageComposer = 2244;
         internal const short FurnitureAliasesMessageComposer = 2958;
+        internal const short EntitiesMessageComposer = 633;
+        internal const short EntityUpdateMessageComposer = 3902;
 
         // Landing
         internal const short HotelViewDataMessageComposer = 730;

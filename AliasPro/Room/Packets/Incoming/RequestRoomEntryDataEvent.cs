@@ -8,6 +8,7 @@ namespace AliasPro.Room.Packets.Incoming
     using Packets.Outgoing;
     using Sessions;
     using Models;
+    using Models.Entities;
 
     public class RequestRoomEntryDataEvent : IAsyncPacket
     {
@@ -28,10 +29,13 @@ namespace AliasPro.Room.Packets.Incoming
 
             await session.WriteAndFlushAsync(new HeightMapComposer(room.RoomModel));
             await session.WriteAndFlushAsync(new FloorHeightMapComposer(-1, room.RoomModel.RelativeHeightMap));
-            
-            //todo: add user to room
+
+            BaseEntity userEntity = _roomController.AddUserToRoom(room, session);
 
             await session.WriteAndFlushAsync(new RoomEntryInfoComposer(room.RoomData.Id, true));
+            await session.WriteAndFlushAsync(new EntitiesComposer(room.Entities.Values));
+            await session.WriteAndFlushAsync(new EntityUpdateComposer(room.Entities.Values));
+
             await session.WriteAndFlushAsync(new RoomVisualizationSettingsComposer(false, 0, 0));
         }
     }
