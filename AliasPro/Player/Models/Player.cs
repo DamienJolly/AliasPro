@@ -1,17 +1,21 @@
-﻿namespace AliasPro.Player.Models
+﻿using System.Data.Common;
+
+namespace AliasPro.Player.Models
 {
+    using Database;
+
     internal class Player : IPlayer
     {
-        internal Player()
+        internal Player(DbDataReader reader)
         {
-            Id = 1;
-            Credits = 1337;
-            Rank = 1;
-            Username = "Damien";
-            SsoTicket = "";
-            Figure = "";
-            Gender = "M";
-            Motto = "Hello World!";
+            Id = reader.ReadData<uint>("id");
+            Credits = reader.ReadData<int>("credits");
+            Rank = reader.ReadData<int>("rank");
+            Username = reader.ReadData<string>("username");
+            SsoTicket = reader.ReadData<string>("auth_ticket");
+            Figure = reader.ReadData<string>("figure");
+            Gender = reader.ReadData<string>("gender");
+            Motto = reader.ReadData<string>("motto");
         }
 
         public uint Id { get; set; }
