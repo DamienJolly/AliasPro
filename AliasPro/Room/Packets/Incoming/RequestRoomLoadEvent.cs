@@ -34,11 +34,6 @@ namespace AliasPro.Room.Packets.Incoming
                 await session.WriteAndFlushAsync(new RoomModelComposer(room.RoomModel.Id, room.RoomData.Id));
                 await session.WriteAndFlushAsync(new RoomScoreComposer(room.RoomData.Score));
                 
-                if (!room.CycleActive)
-                {
-                    room.SetupRoomCycle();
-                }
-
                 if (session.CurrentRoom != null)
                 {
                     session.CurrentRoom.LeaveRoom(session);

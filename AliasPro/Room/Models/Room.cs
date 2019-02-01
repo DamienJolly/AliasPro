@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks.Dataflow;
 
 namespace AliasPro.Room.Models
@@ -16,7 +15,6 @@ namespace AliasPro.Room.Models
     internal class Room : IRoom, IDisposable
     {
         private readonly EntityHandler _entityHandler;
-        private readonly CancellationTokenSource _cancellationToken;
         private ActionBlock<DateTimeOffset> task;
 
         internal Room(IRoomData roomData, IRoomModel model)
@@ -24,7 +22,8 @@ namespace AliasPro.Room.Models
             RoomData = roomData;
             RoomModel = model;
 
-            _cancellationToken = new CancellationTokenSource();
+            SetupRoomCycle();
+
             RoomMap = new RoomMap(RoomModel);
             _entityHandler = new EntityHandler(this);
         }
@@ -33,7 +32,6 @@ namespace AliasPro.Room.Models
         public IRoomData RoomData { get; set; }
         public IRoomModel RoomModel { get; set; }
         public IDictionary<int, BaseEntity> Entities => _entityHandler.Entities;
-        public bool CycleActive => _cancellationToken.IsCancellationRequested;
         
         public async void OnChat(string text, int colour, BaseEntity entity)
         {
@@ -64,19 +62,14 @@ namespace AliasPro.Room.Models
             }
         }
         
-        public void SetupRoomCycle()
+        private void SetupRoomCycle()
         {
-            task = TaskHandler.PeriodicTaskWithDelay(time => Cycle(time), _cancellationToken.Token, 500);
+            task = TaskHandler.PeriodicTaskWithDelay(time => Cycle(time), 500);
             task.Post(DateTimeOffset.Now);
         }
 
-        public void StopRoomCycle()
+        private void StopRoomCycle()
         {
-            using (_cancellationToken)
-            {
-                _cancellationToken.Cancel();
-            }
-
             task = null;
         }
 
