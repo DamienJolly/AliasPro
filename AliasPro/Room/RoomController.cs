@@ -5,6 +5,7 @@ namespace AliasPro.Room
     using Models;
     using Models.Entities;
     using Sessions;
+    using System.Collections.Generic;
 
     internal class RoomController : IRoomController
     {
@@ -41,5 +42,8 @@ namespace AliasPro.Room
 
             return null;
         }
+
+        public IList<IRoom> GetRoomsByCategorySearch(uint categoryId, string searchCode) =>
+            _roomRepository.GetRoomsByCategorySearch(categoryId, searchCode);
     }
 }

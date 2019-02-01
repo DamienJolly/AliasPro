@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 namespace AliasPro.Room
 {
     using Models;
+    using System.Linq;
 
     internal class RoomRepository
     {
@@ -50,5 +51,8 @@ namespace AliasPro.Room
 
             return null;
         }
+
+        internal IList<IRoom> GetRoomsByCategorySearch(uint categoryId, string searchCode) =>
+            _rooms.Values.Where(x => x.RoomData.Name.Contains(searchCode)).ToList();
     }
 }

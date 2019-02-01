@@ -39,6 +39,10 @@ namespace AliasPro.Room.Packets.Incoming
                     room.SetupRoomCycle();
                 }
 
+                if (session.CurrentRoom != null)
+                {
+                    session.CurrentRoom.LeaveRoom(session);
+                }
                 session.CurrentRoom = room;
             }
             else

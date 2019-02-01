@@ -22,10 +22,20 @@
         internal const short EntitiesMessageComposer = 633;
         internal const short EntityUpdateMessageComposer = 3902;
         internal const short AvatarChatMessageComposer = 3576;
+        internal const short RoomDataMessageComposer = 439;
 
         // Landing
         internal const short HotelViewDataMessageComposer = 730;
         internal const short HallOfFameMessageComposer = 1243;
         internal const short NewsListMessageComposer = 811;
+
+        // Navigator
+        internal const short NavigatorMetaDataParserMessageComposer = 2279;
+        internal const short NavigatorLiftedRoomsMessageComposer = 2525;
+        internal const short NavigatorCollapsedCategoriesMessageComposer = 2141;
+        internal const short NavigatorPreferencesMessageComposer = 607;
+        internal const short UserFlatCatsMessageComposer = 1084;
+        internal const short NavigatorFlatCatsMessageComposer = 3910;
+        internal const short NavigatorSearchResultSetMessageComposer = 1388;
     }
 }
