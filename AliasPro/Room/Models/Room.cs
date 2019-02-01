@@ -59,7 +59,8 @@ namespace AliasPro.Room.Models
 
             if (!_entityHandler.HasUserEntities)
             {
-                StopRoomCycle();
+                //Todo: unload room
+                //StopRoomCycle();
             }
         }
         
