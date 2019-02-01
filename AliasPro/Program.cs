@@ -51,7 +51,14 @@ namespace AliasPro
             INetworkListener listener = _serviceProvider.GetService<INetworkListener>();
             await listener.Listen(30000);
 
-            Console.ReadKey();
+            while (true)
+            {
+                if (Console.ReadKey(true).Key == ConsoleKey.Enter)
+                {
+                    string input = Console.ReadLine().ToLower();
+                    //todo: console commands.
+                }
+            }
         }
         
         static Task Main() => new Program().Run();
