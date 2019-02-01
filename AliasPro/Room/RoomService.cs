@@ -23,6 +23,7 @@ namespace AliasPro.Room
             collection.AddSingleton<IAsyncPacket, RequestRoomEntryDataEvent>();
             collection.AddSingleton<IAsyncPacket, RequestFurnitureAliasesEvent>();
             collection.AddSingleton<IAsyncPacket, MoveAvatarEvent>();
+            collection.AddSingleton<IAsyncPacket, AvatarChatEvent>();
         }
     }
 }

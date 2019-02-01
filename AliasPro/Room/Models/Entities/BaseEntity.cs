@@ -28,7 +28,7 @@ namespace AliasPro.Room.Models.Entities
         public string Figure { get; set; }
 
         public IDictionary<string, string> ActiveStatuses { get; set; }
-
+        
         public abstract void Compose(ServerPacket serverPacket);
     }
 }

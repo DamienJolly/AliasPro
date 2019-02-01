@@ -20,6 +20,7 @@ namespace AliasPro.Landing
         private static void AddPackets(IServiceCollection collection)
         {
             collection.AddSingleton<IAsyncPacket, RequestNewsListEvent>();
+            collection.AddSingleton<IAsyncPacket, HotelViewEvent>();
         }
     }
 }

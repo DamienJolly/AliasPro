@@ -8,6 +8,10 @@ namespace AliasPro.Room.Models
     using Entities;
     using Gamemap;
     using Tasks;
+    using Sessions;
+    using System.Threading.Tasks;
+    using AliasPro.Network.Protocol;
+    using AliasPro.Room.Packets.Outgoing;
 
     internal class Room : IRoom, IDisposable
     {
@@ -30,9 +34,35 @@ namespace AliasPro.Room.Models
         public IRoomModel RoomModel { get; set; }
         public IDictionary<int, BaseEntity> Entities => _entityHandler.Entities;
         public bool CycleActive => _cancellationToken.IsCancellationRequested;
+        
+        public async void OnChat(string text, int colour, BaseEntity entity)
+        {
+            if (colour == 1 || colour == -1 || colour == 2)
+            {
+                colour = 0;
+            }
 
-        public void AddEntity(BaseEntity entity) => _entityHandler.AddEntity(entity);
+            if (text.Length > 100)
+            {
+                text = text.Substring(0, 100);
+            }
 
+            await SendAsync(new AvatarChatComposer(entity.Id, text, 0, colour));
+        }
+
+        public void LeaveRoom(ISession session)
+        {
+            int entityId = session.Entity.Id;
+            _entityHandler.RemoveEntity(entityId);
+            session.Entity = null;
+            session.CurrentRoom = null;
+
+            if (!_entityHandler.HasUserEntities)
+            {
+                StopRoomCycle();
+            }
+        }
+        
         public void SetupRoomCycle()
         {
             task = TaskHandler.PeriodicTaskWithDelay(time => Cycle(time), _cancellationToken.Token, 500);
@@ -53,6 +83,10 @@ namespace AliasPro.Room.Models
         {
             _entityHandler.Cycle(timeOffset);
         }
+
+        public Task SendAsync(ServerPacket serverPacket) => _entityHandler.SendAsync(serverPacket);
+
+        public void AddEntity(BaseEntity entity) => _entityHandler.AddEntity(entity);
 
         public void Dispose()
         {

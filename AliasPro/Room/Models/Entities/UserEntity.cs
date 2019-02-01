@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AliasPro.Room.Models.Entities
+﻿namespace AliasPro.Room.Models.Entities
 {
     using Network.Protocol;
     using Sessions;

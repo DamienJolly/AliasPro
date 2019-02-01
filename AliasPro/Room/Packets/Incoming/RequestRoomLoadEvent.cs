@@ -33,7 +33,7 @@ namespace AliasPro.Room.Packets.Incoming
                 await session.WriteAndFlushAsync(new RoomOpenComposer());
                 await session.WriteAndFlushAsync(new RoomModelComposer(room.RoomModel.Id, room.RoomData.Id));
                 await session.WriteAndFlushAsync(new RoomScoreComposer(room.RoomData.Score));
-
+                
                 if (!room.CycleActive)
                 {
                     room.SetupRoomCycle();
