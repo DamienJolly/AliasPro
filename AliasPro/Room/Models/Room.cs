@@ -16,25 +16,26 @@ namespace AliasPro.Room.Models
 
     internal class Room : IRoom, IDisposable
     {
+        private readonly EntityHandler _entityHandler;
+        private readonly ItemHandler _itemHandler;
         private ActionBlock<DateTimeOffset> task;
 
         internal Room(IRoomData roomData, IRoomModel model)
         {
             RoomData = roomData;
             RoomModel = model;
-
+            
             RoomMap = new RoomMap(RoomModel);
-            EntityHandler = new EntityHandler(this);
-            ItemHandler = new ItemHandler(this);
-
-            SetupRoomCycle();
+            _entityHandler = new EntityHandler(this);
+            _itemHandler = new ItemHandler(this);
         }
-        
+
+        public bool isLoaded { get; set; } = false;
         public RoomMap RoomMap { get; set; }
         public IRoomData RoomData { get; set; }
         public IRoomModel RoomModel { get; set; }
-        public EntityHandler EntityHandler { get; set; }
-        public ItemHandler ItemHandler { get; set; }
+        public IDictionary<int, BaseEntity> Entities => _entityHandler.Entities;
+        public IDictionary<uint, IRoomItem> RoomItems => _itemHandler.RoomItems;
         
         public async void OnChat(string text, int colour, BaseEntity entity)
         {
@@ -54,23 +55,23 @@ namespace AliasPro.Room.Models
         public void LeaveRoom(ISession session)
         {
             int entityId = session.Entity.Id;
-            EntityHandler.RemoveEntity(entityId);
+            _entityHandler.RemoveEntity(entityId);
             session.Entity = null;
             session.CurrentRoom = null;
 
-            if (!EntityHandler.HasUserEntities)
+            if (!_entityHandler.HasUserEntities)
             {
                 //Todo: unload room
                 //StopRoomCycle();
             }
         }
-        
+
         public void LoadRoomItems(IDictionary<uint, IRoomItem> items)
         {
-            ItemHandler.RoomItems = items;
+            _itemHandler.RoomItems = items;
         }
         
-        private void SetupRoomCycle()
+        public void SetupRoomCycle()
         {
             task = TaskHandler.PeriodicTaskWithDelay(time => Cycle(time), 500);
             task.Post(DateTimeOffset.Now);
@@ -83,33 +84,19 @@ namespace AliasPro.Room.Models
 
         private void Cycle(DateTimeOffset timeOffset)
         {
-            EntityHandler.Cycle(timeOffset);
+            _entityHandler.Cycle(timeOffset);
         }
 
-        public Task SendAsync(IPacketComposer serverPacket) => EntityHandler.SendAsync(serverPacket);
+        public Task SendAsync(IPacketComposer serverPacket) => _entityHandler.SendAsync(serverPacket);
 
-        public Task AddEntity(BaseEntity entity) => EntityHandler.AddEntity(entity);
+        public Task AddEntity(BaseEntity entity) => _entityHandler.AddEntity(entity);
 
-        public Task AddItem(IRoomItem item) => ItemHandler.AddItem(item);
+        public Task AddItem(IRoomItem item) => _itemHandler.AddItem(item);
 
         public void Dispose()
         {
             StopRoomCycle();
-            EntityHandler.Dispose();
+            _entityHandler.Dispose();
         }
-    }
-
-    public interface IRoom
-    {
-        RoomMap RoomMap { get; set; }
-        IRoomData RoomData { get; set; }
-        IRoomModel RoomModel { get; set; }
-        EntityHandler EntityHandler { get; set; }
-        ItemHandler ItemHandler { get; set; }
-        void OnChat(string text, int colour, BaseEntity entity);
-        void LeaveRoom(ISession session);
-        void LoadRoomItems(IDictionary<uint, IRoomItem> items);
-        Task SendAsync(IPacketComposer serverPacket);
-        Task AddEntity(BaseEntity entity);
     }
 }

@@ -36,6 +36,13 @@ namespace AliasPro.Room.Packets.Incoming
                 await session.SendPacketAsync(new RoomOpenComposer());
                 await session.SendPacketAsync(new RoomModelComposer(room.RoomModel.Id, room.RoomData.Id));
                 await session.SendPacketAsync(new RoomScoreComposer(room.RoomData.Score));
+
+                if (!room.isLoaded)
+                {
+                    room.isLoaded = true;
+                    room.SetupRoomCycle();
+                    room.LoadRoomItems(await _itemController.GetItemsForRoomAsync(room.RoomData.Id));
+                }
                 
                 if (session.CurrentRoom != null)
                 {

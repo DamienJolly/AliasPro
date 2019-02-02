@@ -22,6 +22,7 @@ namespace AliasPro.Room.Models.Item
 
         public uint Id { get; }
         public uint ItemId { get; }
+        public IItemData ItemData { get; set; }
         public int Rotation { get; }
         public Position Position { get; }
         public int Mode { get; }
@@ -31,6 +32,7 @@ namespace AliasPro.Room.Models.Item
     {
         uint Id { get; }
         uint ItemId { get; }
+        IItemData ItemData { get; set; }
         int Rotation { get; }
         Position Position { get; }
         int Mode { get; }
