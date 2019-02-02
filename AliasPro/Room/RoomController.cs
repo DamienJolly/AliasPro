@@ -43,7 +43,7 @@ namespace AliasPro.Room
             return null;
         }
 
-        public IList<IRoom> GetRoomsByCategorySearch(uint categoryId, string searchCode) =>
-            _roomRepository.GetRoomsByCategorySearch(categoryId, searchCode);
+        public ICollection<IRoom> GetAllRooms() =>
+            _roomRepository.GetAllRooms();
     }
 }

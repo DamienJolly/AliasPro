@@ -52,7 +52,7 @@ namespace AliasPro.Room
             return null;
         }
 
-        internal IList<IRoom> GetRoomsByCategorySearch(uint categoryId, string searchCode) =>
-            _rooms.Values.Where(x => x.RoomData.Name.Contains(searchCode)).ToList();
+        internal ICollection<IRoom> GetAllRooms() =>
+            _rooms.Values;
     }
 }

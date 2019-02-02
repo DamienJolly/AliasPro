@@ -24,6 +24,7 @@ namespace AliasPro.Room.Models
         public string Password { get; set; }
         public string ModelName { get; set; }
         public int UsersNow { get; set; } = 0;
+        public int CategoryId { get; set; } = 5; //Chat and discussion
 
         public int EnumType
         {

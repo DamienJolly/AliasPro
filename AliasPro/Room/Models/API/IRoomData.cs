@@ -11,6 +11,7 @@
         string Password { get; set; }
         string ModelName { get; set; }
         int UsersNow { get; set; }
+        int CategoryId { get; set; }
         int EnumType { get; }
 
         void Compose(ServerPacket serverPacket);

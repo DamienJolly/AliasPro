@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 namespace AliasPro.Navigator
 {
+    using AliasPro.Room.Models;
     using Models;
 
     internal class NavigatorRepository

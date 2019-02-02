@@ -34,7 +34,7 @@ namespace AliasPro.Navigator.Packets.Outgoing
             message.WriteInt(_categories.Count);
             foreach (INavigatorCategory navigatorCategory in _categories)
             {
-                IList<IRoom> rooms = _roomController.GetRoomsByCategorySearch(navigatorCategory.Id, _data);
+                IList<IRoom> rooms = navigatorCategory.CategoryType.Search(_roomController, navigatorCategory.Id, _data);
                 message.WriteString(navigatorCategory.Identifier);
                 message.WriteString(navigatorCategory.PublicName);
 
