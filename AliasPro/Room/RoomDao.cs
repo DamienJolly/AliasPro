@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 namespace AliasPro.Room
 {
+    using AliasPro.Room.Models.Item;
     using Database;
     using Models;
 
@@ -41,6 +42,25 @@ namespace AliasPro.Room
             });
 
             return roomModels;
+        }
+
+        internal async Task<IDictionary<uint, IRoomItem>> GetRoomItems(int id)
+        {
+            IDictionary<uint, IRoomItem> items = new Dictionary<uint, IRoomItem>();
+            await CreateTransaction(async transaction =>
+            {
+                await Select(transaction, async reader =>
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        IRoomItem item = new RoomItem(reader);
+                        items.Add(item.Id, item);
+
+                    }
+                }, "SELECT `id`, `item_id`, `rot`, `x`, `y`, `z` FROM `room_items` WHERE `player_id` = @0 LIMIT 1;", id);
+            });
+
+            return items;
         }
     }
 }

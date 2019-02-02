@@ -1,8 +1,11 @@
 ﻿using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace AliasPro.Player
 {
     using Models;
+    using Models.Inventory;
+    using Item;
 
     internal class PlayerController : IPlayerController
     {
@@ -24,8 +27,17 @@ namespace AliasPro.Player
 
         public async Task<IPlayerSettings> GetPlayerSettingsByIdAsync(uint id) =>
             await _playerRepostiory.GetPlayerSettingsById(id);
-
+        
         public async Task UpdatePlayerSettingsAsync(uint id, IPlayerSettings settings) =>
             await _playerRepostiory.UpdatePlayerSettings(id, settings);
+    }
+
+    public interface IPlayerController
+    {
+        Task AddPlayerSettingsAsync(uint id);
+        Task<IPlayer> GetPlayerByIdAsync(uint id);
+        Task<IPlayer> GetPlayerBySsoAsync(string sso);
+        Task<IPlayerSettings> GetPlayerSettingsByIdAsync(uint id);
+        Task UpdatePlayerSettingsAsync(uint id, IPlayerSettings settings);
     }
 }

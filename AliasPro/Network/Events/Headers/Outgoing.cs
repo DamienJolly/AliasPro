@@ -9,6 +9,7 @@
         internal const short AvailabilityStatusMessageComposer = 770;
         internal const short UserPerksMessageComposer = 1105;
         internal const short UserDataMessageComposer = 3862;
+        internal const short FurniListMessageComposer = 826;
 
         // Rooms
         internal const short RoomOpenMessageComposer = 1975;
@@ -23,6 +24,7 @@
         internal const short EntityUpdateMessageComposer = 3902;
         internal const short AvatarChatMessageComposer = 3576;
         internal const short RoomDataMessageComposer = 439;
+        internal const short RoomFloorItemsMessageComposer = 2585;
 
         // Landing
         internal const short HotelViewDataMessageComposer = 730;

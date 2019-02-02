@@ -8,20 +8,20 @@ namespace AliasPro.Room.Models.Entities
     using AliasPro.Network.Events;
     using Packets.Outgoing;
 
-    internal class EntityHandler : IDisposable
+    public class EntityHandler : IDisposable
     {
-        internal IDictionary<int, BaseEntity> Entities { get; private set; }
-        internal bool HasUserEntities => Entities.Where(x => x.Value is UserEntity).Any();
+        public IDictionary<int, BaseEntity> Entities { get; private set; }
+        public bool HasUserEntities => Entities.Where(x => x.Value is UserEntity).Any();
 
         private readonly EntityCycler _entityCycler;
 
-        internal EntityHandler(IRoom room)
+        public EntityHandler(IRoom room)
         {
             Entities = new Dictionary<int, BaseEntity>();
             _entityCycler = new EntityCycler(room);
         }
-        
-        internal async void Cycle(DateTimeOffset timeOffset)
+
+        public async void Cycle(DateTimeOffset timeOffset)
         {
             foreach (BaseEntity entity in Entities.Values)
             {
@@ -31,7 +31,7 @@ namespace AliasPro.Room.Models.Entities
             await SendAsync(new EntityUpdateComposer(Entities.Values));
         }
 
-        internal async Task SendAsync(IPacketComposer packet)
+        public async Task SendAsync(IPacketComposer packet)
         {
             foreach (BaseEntity entity in Entities.Values)
             {
@@ -42,7 +42,7 @@ namespace AliasPro.Room.Models.Entities
             }
         }
 
-        internal void RemoveEntity(int entityId)
+        public void RemoveEntity(int entityId)
         {
             if (Entities.ContainsKey(entityId))
             {
@@ -50,7 +50,7 @@ namespace AliasPro.Room.Models.Entities
             }
         }
 
-        internal async Task AddEntity(BaseEntity entity)
+        public async Task AddEntity(BaseEntity entity)
         {
             await SendAsync(new EntitiesComposer(entity));
             await SendAsync(new EntityUpdateComposer(entity));

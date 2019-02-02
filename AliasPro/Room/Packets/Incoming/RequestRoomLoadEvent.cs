@@ -8,16 +8,19 @@ namespace AliasPro.Room.Packets.Incoming
     using Packets.Outgoing;
     using Sessions;
     using Models;
+    using AliasPro.Item;
 
     public class RequestRoomLoadEvent : IAsyncPacket
     {
         public short Header { get; } = Incoming.RequestRoomLoadMessageEvent;
 
         private readonly IRoomController _roomController;
+        private readonly IItemController _itemController;
 
-        public RequestRoomLoadEvent(IRoomController roomController)
+        public RequestRoomLoadEvent(IRoomController roomController, IItemController itemController)
         {
             _roomController = roomController;
+            _itemController = itemController;
         }
 
         public async Task HandleAsync(
