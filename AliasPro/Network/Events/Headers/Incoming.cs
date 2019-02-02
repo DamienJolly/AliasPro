@@ -25,5 +25,6 @@
         internal const short RequestUserFlatCatsMessageEvent = 3976;
         internal const short RequestNavigatorFlatsMessageEvent = 708;
         internal const short NavigatorSearchMessageEvent = 3612;
+        internal const short UpdateNavigatorPreferencesMessageEvent = 107;
     }
 }

@@ -63,5 +63,14 @@ namespace AliasPro.Player
 
             return playerSettings;
         }
+
+        internal async Task UpdatePlayerSettings(uint id, IPlayerSettings settings)
+        {
+            await CreateTransaction(async transaction =>
+            {
+                await Insert(transaction, "UPDATE `player_settings` SET `navi_x` = @1, `navi_y` = @2, `navi_width` = @3, `navi_height` = @4, `navi_hide_searches` = @5", 
+                    id, settings.NaviX, settings.NaviY, settings.NaviWidth, settings.NaviHeight, settings.NaviHideSearches);
+            });
+        }
     }
 }

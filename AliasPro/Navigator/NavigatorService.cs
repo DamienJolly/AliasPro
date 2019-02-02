@@ -23,6 +23,7 @@ namespace AliasPro.Navigator
             collection.AddSingleton<IAsyncPacket, RequestUserFlatCatsEvent>();
             collection.AddSingleton<IAsyncPacket, RequestNavigatorFlatsEvent>();
             collection.AddSingleton<IAsyncPacket, NavigatorSearchEvent>();
+            collection.AddSingleton<IAsyncPacket, UpdateNavigatorPreferencesEvent>();
         }
     }
 }

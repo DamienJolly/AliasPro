@@ -35,5 +35,8 @@ namespace AliasPro.Player
 
         internal async Task<IPlayerSettings> GetPlayerSettingsById(uint id) =>
             await _playerDao.GetPlayerSettingsById(id);
+
+        internal async Task UpdatePlayerSettings(uint id, IPlayerSettings settings) =>
+            await _playerDao.UpdatePlayerSettings(id, settings);
     }
 }

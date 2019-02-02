@@ -10,5 +10,6 @@ namespace AliasPro.Player
         Task<IPlayer> GetPlayerByIdAsync(uint id);
         Task<IPlayer> GetPlayerBySsoAsync(string sso);
         Task<IPlayerSettings> GetPlayerSettingsByIdAsync(uint id);
+        Task UpdatePlayerSettingsAsync(uint id, IPlayerSettings settings);
     }
 }
