@@ -22,11 +22,11 @@ namespace AliasPro.Room.Models
         {
             RoomData = roomData;
             RoomModel = model;
-
-            SetupRoomCycle();
-
+            
             RoomMap = new RoomMap(RoomModel);
             _entityHandler = new EntityHandler(this);
+
+            SetupRoomCycle();
         }
 
         public RoomMap RoomMap { get; set; }
