@@ -35,8 +35,8 @@ namespace AliasPro.Landing.Packets.Incoming
                 name = splitText[1];
             }
 
-            await session.WriteAndFlushAsync(new HotelViewDataComposer(text, name));
-            await session.WriteAndFlushAsync(new HallOfFameComposer(hallOfFamers, name));
+            await session.SendPacketAsync(new HotelViewDataComposer(text, name));
+            await session.SendPacketAsync(new HallOfFameComposer(hallOfFamers, name));
         }
     }
 }

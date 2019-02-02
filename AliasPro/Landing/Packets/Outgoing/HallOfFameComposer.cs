@@ -3,27 +3,38 @@
 namespace AliasPro.Landing.Packets.Outgoing
 {
     using Models;
+    using Network.Events;
     using Network.Events.Headers;
     using Network.Protocol;
 
-    public class HallOfFameComposer : ServerPacket
+    public class HallOfFameComposer : IPacketComposer
     {
+        private readonly IList<IHallOfFamer> _hallOfFamers;
+        private readonly string _key;
+
         public HallOfFameComposer(IList<IHallOfFamer> hallOfFamers, string key)
-            : base(Outgoing.HallOfFameMessageComposer)
         {
-            WriteString(key);
-            WriteInt(hallOfFamers.Count);
+            _hallOfFamers = hallOfFamers;
+            _key = key;
+        }
+
+        public ServerPacket Compose()
+        {
+            ServerPacket message = new ServerPacket(Outgoing.HallOfFameMessageComposer);
+            message.WriteString(_key);
+            message.WriteInt(_hallOfFamers.Count);
 
             int count = 1;
-            foreach(IHallOfFamer hallOfFamer in hallOfFamers)
+            foreach (IHallOfFamer hallOfFamer in _hallOfFamers)
             {
-                WriteInt(hallOfFamer.Id);
-                WriteString(hallOfFamer.Username);
-                WriteString(hallOfFamer.Figure);
-                WriteInt(count);
-                WriteInt(hallOfFamer.Amount);
+                message.WriteInt(hallOfFamer.Id);
+                message.WriteString(hallOfFamer.Username);
+                message.WriteString(hallOfFamer.Figure);
+                message.WriteInt(count);
+                message.WriteInt(hallOfFamer.Amount);
                 count++;
             }
+            return message;
         }
     }
 }

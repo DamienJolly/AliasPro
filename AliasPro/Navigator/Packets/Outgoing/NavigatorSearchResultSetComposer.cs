@@ -3,43 +3,58 @@ using System.Linq;
 
 namespace AliasPro.Navigator.Packets.Outgoing
 {
+    using Network.Events;
     using Network.Events.Headers;
     using Network.Protocol;
     using Models;
     using Room;
     using Room.Models;
 
-    public class NavigatorSearchResultSetComposer : ServerPacket
+    public class NavigatorSearchResultSetComposer : IPacketComposer
     {
+        private readonly string _category;
+        private readonly string _data;
+        private readonly IList<INavigatorCategory> _categories;
+        private readonly IRoomController _roomController;
+
         public NavigatorSearchResultSetComposer(string category, string data, IList<INavigatorCategory> categories, IRoomController roomController)
-            : base(Outgoing.NavigatorSearchResultSetMessageComposer)
         {
-            WriteString(category);
-            WriteString(data);
+            _category = category;
+            _data = data;
+            _categories = categories;
+            _roomController = roomController;
+        }
 
-            WriteInt(categories.Count);
-            foreach (INavigatorCategory navigatorCategory in categories)
+        public ServerPacket Compose()
+        {
+            ServerPacket message = new ServerPacket(Outgoing.NavigatorSearchResultSetMessageComposer);
+            message.WriteString(_category);
+            message.WriteString(_data);
+
+            message.WriteInt(_categories.Count);
+            foreach (INavigatorCategory navigatorCategory in _categories)
             {
-                IList<IRoom> rooms = roomController.GetRoomsByCategorySearch(navigatorCategory.Id, data);
-                WriteString(navigatorCategory.Identifier);
-                WriteString(navigatorCategory.PublicName);
+                IList<IRoom> rooms = _roomController.GetRoomsByCategorySearch(navigatorCategory.Id, _data);
+                message.WriteString(navigatorCategory.Identifier);
+                message.WriteString(navigatorCategory.PublicName);
 
-                WriteInt(1);
-                WriteBoolean(false);
+                message.WriteInt(1);
+                message.WriteBoolean(false);
 
-                WriteInt(0);
+                message.WriteInt(0);
 
                 if (rooms.Count > 12)
                 {
                     rooms = rooms.Take(12).ToList();
                 }
 
-                WriteInt(rooms.Count);
-                foreach(IRoom room in rooms)
+                message.WriteInt(rooms.Count);
+                foreach (IRoom room in rooms)
                 {
-                    room.RoomData.Compose(this);
+                    room.RoomData.Compose(message);
                 }
             }
+            return message;
         }
     }
 }

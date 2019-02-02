@@ -42,7 +42,7 @@ namespace AliasPro.Navigator.Packets.Incoming
                 }
             }
 
-            await session.WriteAndFlushAsync(
+            await session.SendPacketAsync(
                 new NavigatorSearchResultSetComposer(category, data, categoriesToSend, _roomController));
         }
     }

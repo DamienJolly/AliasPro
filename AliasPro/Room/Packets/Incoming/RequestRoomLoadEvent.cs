@@ -30,9 +30,9 @@ namespace AliasPro.Room.Packets.Incoming
             IRoom room = await _roomController.GetRoomByIdAndPassword(roomId, password);
             if (room != null)
             {
-                await session.WriteAndFlushAsync(new RoomOpenComposer());
-                await session.WriteAndFlushAsync(new RoomModelComposer(room.RoomModel.Id, room.RoomData.Id));
-                await session.WriteAndFlushAsync(new RoomScoreComposer(room.RoomData.Score));
+                await session.SendPacketAsync(new RoomOpenComposer());
+                await session.SendPacketAsync(new RoomModelComposer(room.RoomModel.Id, room.RoomData.Id));
+                await session.SendPacketAsync(new RoomScoreComposer(room.RoomData.Score));
                 
                 if (session.CurrentRoom != null)
                 {

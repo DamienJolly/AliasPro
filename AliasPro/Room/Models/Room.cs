@@ -11,6 +11,7 @@ namespace AliasPro.Room.Models
     using System.Threading.Tasks;
     using AliasPro.Network.Protocol;
     using AliasPro.Room.Packets.Outgoing;
+    using AliasPro.Network.Events;
 
     internal class Room : IRoom, IDisposable
     {
@@ -78,7 +79,7 @@ namespace AliasPro.Room.Models
             _entityHandler.Cycle(timeOffset);
         }
 
-        public Task SendAsync(ServerPacket serverPacket) => _entityHandler.SendAsync(serverPacket);
+        public Task SendAsync(IPacketComposer serverPacket) => _entityHandler.SendAsync(serverPacket);
 
         public void AddEntity(BaseEntity entity) => _entityHandler.AddEntity(entity);
 

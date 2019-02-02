@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AliasPro.Room.Models
 {
+    using Network.Events;
     using Entities;
     using Gamemap;
     using Sessions;
@@ -14,6 +16,7 @@ namespace AliasPro.Room.Models
         IDictionary<int, BaseEntity> Entities { get; }
         void OnChat(string text, int colour, BaseEntity entity);
         void LeaveRoom(ISession session);
+        Task SendAsync(IPacketComposer serverPacket);
         void AddEntity(BaseEntity entity);
     }
 }

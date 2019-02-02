@@ -3,13 +3,13 @@ using System.Text;
 
 namespace AliasPro.Network.Protocol
 {
-    public abstract class ServerPacket
+    public class ServerPacket
     {
         public IByteBuffer ByteBuffer { get; }
 
         public ServerPacket(short header)
         {
-            ByteBuffer = Unpooled.Buffer(6);
+            ByteBuffer = Unpooled.Buffer();
             ByteBuffer.WriteInt(-1);
             ByteBuffer.WriteShort(header);
         }

@@ -1,19 +1,21 @@
 ﻿namespace AliasPro.Navigator.Packets.Outgoing
 {
+    using Network.Events;
     using Network.Events.Headers;
     using Network.Protocol;
 
-    public class NavigatorPreferencesComposer : ServerPacket
+    public class NavigatorPreferencesComposer : IPacketComposer
     {
-        public NavigatorPreferencesComposer()
-            : base(Outgoing.NavigatorPreferencesMessageComposer)
+        public ServerPacket Compose()
         {
-            WriteInt(68);
-            WriteInt(42);
-            WriteInt(425);
-            WriteInt(592);
-            WriteBoolean(false);
-            WriteInt(0);
+            ServerPacket message = new ServerPacket(Outgoing.NavigatorPreferencesMessageComposer);
+            message.WriteInt(68);
+            message.WriteInt(42);
+            message.WriteInt(425);
+            message.WriteInt(592);
+            message.WriteBoolean(false);
+            message.WriteInt(0);
+            return message;
         }
     }
 }

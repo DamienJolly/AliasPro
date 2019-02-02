@@ -2,23 +2,34 @@
 
 namespace AliasPro.Navigator.Packets.Outgoing
 {
+    using Network.Events;
     using Network.Events.Headers;
     using Network.Protocol;
     using Models;
 
-    public class NavigatorFlatCatsComposer : ServerPacket
+    public class NavigatorFlatCatsComposer : IPacketComposer
     {
-        public NavigatorFlatCatsComposer(IList<INavigatorCategory> categories, int playerRank)
-            : base(Outgoing.NavigatorFlatCatsMessageComposer)
-        {
-            WriteInt(categories.Count);
+        private readonly IList<INavigatorCategory> _categories;
+        private readonly int _playerRank;
 
-            foreach (INavigatorCategory category in categories)
+        public NavigatorFlatCatsComposer(IList<INavigatorCategory> categories, int playerRank)
+        {
+            _categories = categories;
+            _playerRank = playerRank;
+        }
+
+        public ServerPacket Compose()
+        {
+            ServerPacket message = new ServerPacket(Outgoing.NavigatorFlatCatsMessageComposer);
+            message.WriteInt(_categories.Count);
+
+            foreach (INavigatorCategory category in _categories)
             {
-                WriteInt(category.Id);
-                WriteString(category.PublicName);
-                WriteBoolean(category.MinRank <= playerRank);
+                message.WriteInt(category.Id);
+                message.WriteString(category.PublicName);
+                message.WriteBoolean(category.MinRank <= _playerRank);
             }
+            return message;
         }
     }
 }

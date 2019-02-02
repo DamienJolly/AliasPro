@@ -3,46 +3,53 @@ using System.Text;
 
 namespace AliasPro.Room.Packets.Outgoing
 {
+    using Network.Events;
     using Network.Events.Headers;
     using Network.Protocol;
     using Models.Entities;
 
-    public class EntityUpdateComposer : ServerPacket
+    public class EntityUpdateComposer : IPacketComposer
     {
+        private readonly ICollection<BaseEntity> _entities;
+        
         public EntityUpdateComposer(ICollection<BaseEntity> entities)
-            : base(Outgoing.EntityUpdateMessageComposer)
         {
+            _entities = entities;
+        }
+
+        public ServerPacket Compose()
+        {
+            ServerPacket message = new ServerPacket(Outgoing.EntityUpdateMessageComposer);
+            message.WriteInt(_entities.Count);
+            foreach (BaseEntity entity in _entities)
             {
-                WriteInt(entities.Count);
-                foreach (BaseEntity entity in entities)
+                message.WriteInt(entity.Id);
+                message.WriteInt(entity.Position.X);
+                message.WriteInt(entity.Position.Y);
+                message.WriteString(entity.Position.Z.ToString("0.00"));
+                message.WriteInt(entity.BodyRotation); //todo: head rotation
+                message.WriteInt(entity.BodyRotation);
+
+                StringBuilder statuses = new StringBuilder();
+                statuses.Append("/");
+
+                foreach (KeyValuePair<string, string> activeStatus in entity.ActiveStatuses)
                 {
-                    WriteInt(entity.Id);
-                    WriteInt(entity.Position.X);
-                    WriteInt(entity.Position.Y);
-                    WriteString(entity.Position.Z.ToString("0.00"));
-                    WriteInt(entity.BodyRotation); //todo: head rotation
-                    WriteInt(entity.BodyRotation);
+                    statuses.Append(activeStatus.Key);
 
-                    StringBuilder statuses = new StringBuilder();
-                    statuses.Append("/");
-
-                    foreach (KeyValuePair<string, string> activeStatus in entity.ActiveStatuses)
+                    if (!string.IsNullOrEmpty(activeStatus.Value))
                     {
-                        statuses.Append(activeStatus.Key);
-
-                        if (!string.IsNullOrEmpty(activeStatus.Value))
-                        {
-                            statuses.Append(" ");
-                            statuses.Append(activeStatus.Value);
-                        }
-
-                        statuses.Append("/");
+                        statuses.Append(" ");
+                        statuses.Append(activeStatus.Value);
                     }
 
                     statuses.Append("/");
-                    WriteString(statuses.ToString());
                 }
+
+                statuses.Append("/");
+                message.WriteString(statuses.ToString());
             }
+            return message;
         }
     }
 }

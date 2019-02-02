@@ -1,14 +1,16 @@
 ﻿namespace AliasPro.Room.Packets.Outgoing
 {
+    using Network.Events;
     using Network.Events.Headers;
     using Network.Protocol;
 
-    public class FurnitureAliasesComposer : ServerPacket
+    public class FurnitureAliasesComposer : IPacketComposer
     {
-        public FurnitureAliasesComposer()
-            : base(Outgoing.FurnitureAliasesMessageComposer)
+        public ServerPacket Compose()
         {
-            WriteInt(0);
+            ServerPacket message = new ServerPacket(Outgoing.FurnitureAliasesMessageComposer);
+            message.WriteInt(0);
+            return message;
         }
     }
 }

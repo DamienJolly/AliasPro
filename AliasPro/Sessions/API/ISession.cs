@@ -5,7 +5,7 @@ namespace AliasPro.Sessions
     using Room.Models;
     using Room.Models.Entities;
     using Player.Models;
-    using Network.Protocol;
+    using Network.Events;
 
     public interface ISession
     {
@@ -13,9 +13,7 @@ namespace AliasPro.Sessions
         IPlayer Player { get; set; }
         BaseEntity Entity { get; set; }
         IRoom CurrentRoom { get; set; }
-        Task WriteAsync(ServerPacket serverPacket);
-        Task WriteAndFlushAsync(ServerPacket serverPacket);
-        void Flush();
+        Task SendPacketAsync(IPacketComposer serverPacket);
         Task CloseAsync();
     }
 }

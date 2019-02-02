@@ -16,7 +16,7 @@ namespace AliasPro.Room.Packets.Incoming
             ISession session,
             IClientPacket clientPacket)
         {
-            await session.WriteAndFlushAsync(new FurnitureAliasesComposer());
+            await session.SendPacketAsync(new FurnitureAliasesComposer());
         }
     }
 }

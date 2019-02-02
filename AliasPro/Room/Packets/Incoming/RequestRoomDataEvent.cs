@@ -29,7 +29,7 @@ namespace AliasPro.Room.Packets.Incoming
             if (room != null)
             {
                 bool loading = !(clientPacket.ReadInt() == 0 && clientPacket.ReadInt() == 1);
-                await session.WriteAndFlushAsync(new RoomDataComposer(room, loading, true, session));
+                await session.SendPacketAsync(new RoomDataComposer(room, loading, true, session));
             }
         }
     }

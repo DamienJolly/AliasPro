@@ -1,32 +1,40 @@
 ﻿namespace AliasPro.Room.Packets.Outgoing
 {
+    using Network.Events;
     using Network.Events.Headers;
     using Network.Protocol;
     using Models;
 
-    public class HeightMapComposer : ServerPacket
+    public class HeightMapComposer : IPacketComposer
     {
-        public HeightMapComposer(IRoomModel roomModel)
-            : base(Outgoing.HeightMapMessageComposer)
-        {
-            WriteInt(roomModel.MapSizeX);
-            WriteInt(roomModel.MapSizeX * roomModel.MapSizeY);
+        private readonly IRoomModel _roomModel;
 
-            for (int y = 0; y < roomModel.MapSizeY; y++)
+        public HeightMapComposer(IRoomModel roomModel)
+        {
+            _roomModel = roomModel;
+        }
+
+        public ServerPacket Compose()
+        {
+            ServerPacket message = new ServerPacket(Outgoing.HeightMapMessageComposer);
+            message.WriteInt(_roomModel.MapSizeX);
+            message.WriteInt(_roomModel.MapSizeX * _roomModel.MapSizeY);
+
+            for (int y = 0; y < _roomModel.MapSizeY; y++)
             {
-                for (int x = 0; x < roomModel.MapSizeX; x++)
+                for (int x = 0; x < _roomModel.MapSizeX; x++)
                 {
-                    //Tile is valid.
-                    if (roomModel.GetTileState(x, y))
+                    if (_roomModel.GetTileState(x, y))
                     {
-                        WriteShort((short)(roomModel.GetHeight(x, y) * 256));
+                        message.WriteShort((short)(_roomModel.GetHeight(x, y) * 256));
                     }
                     else
                     {
-                        WriteShort(-1);
+                        message.WriteShort(-1);
                     }
                 }
             }
+            return message;
         }
     }
 }

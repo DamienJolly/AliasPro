@@ -27,16 +27,16 @@ namespace AliasPro.Room.Packets.Incoming
         {
             IRoom room = session.CurrentRoom;
 
-            await session.WriteAndFlushAsync(new HeightMapComposer(room.RoomModel));
-            await session.WriteAndFlushAsync(new FloorHeightMapComposer(-1, room.RoomModel.RelativeHeightMap));
+            await session.SendPacketAsync(new HeightMapComposer(room.RoomModel));
+            await session.SendPacketAsync(new FloorHeightMapComposer(-1, room.RoomModel.RelativeHeightMap));
 
             BaseEntity userEntity = _roomController.AddUserToRoom(room, session);
 
-            await session.WriteAndFlushAsync(new RoomEntryInfoComposer(room.RoomData.Id, true));
-            await session.WriteAndFlushAsync(new EntitiesComposer(room.Entities.Values));
-            await session.WriteAndFlushAsync(new EntityUpdateComposer(room.Entities.Values));
+            await session.SendPacketAsync(new RoomEntryInfoComposer(room.RoomData.Id, true));
+            await session.SendPacketAsync(new EntitiesComposer(room.Entities.Values));
+            await session.SendPacketAsync(new EntityUpdateComposer(room.Entities.Values));
 
-            await session.WriteAndFlushAsync(new RoomVisualizationSettingsComposer(false, 0, 0));
+            await session.SendPacketAsync(new RoomVisualizationSettingsComposer(false, 0, 0));
         }
     }
 }

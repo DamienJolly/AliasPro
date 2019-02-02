@@ -1,17 +1,26 @@
 ﻿namespace AliasPro.Player.Packets.Outgoing
 {
     using Models;
+    using Network.Events;
     using Network.Events.Headers;
     using Network.Protocol;
 
-    public class UserRightsComposer : ServerPacket
+    public class UserRightsComposer : IPacketComposer
     {
+        private readonly IPlayer _player;
+
         public UserRightsComposer(IPlayer player)
-            : base(Outgoing.UserRightsMessageComposer)
         {
-            WriteInt(2); //todo: subscription
-            WriteInt(player.Rank);
-            WriteBoolean(false); //todo: ambassador
+            _player = player;
+        }
+
+        public ServerPacket Compose()
+        {
+            ServerPacket message = new ServerPacket(Outgoing.UserRightsMessageComposer);
+            message.WriteInt(2); //todo: subscription
+            message.WriteInt(_player.Rank);
+            message.WriteBoolean(false); //todo: ambassador
+            return message;
         }
     }
 }

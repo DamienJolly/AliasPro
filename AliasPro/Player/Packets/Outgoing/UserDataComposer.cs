@@ -1,29 +1,38 @@
 ﻿namespace AliasPro.Player.Packets.Outgoing
 {
     using Models;
+    using Network.Events;
     using Network.Events.Headers;
     using Network.Protocol;
 
-    public class UserDataComposer : ServerPacket
+    public class UserDataComposer : IPacketComposer
     {
+        private readonly IPlayer _player;
+
         public UserDataComposer(IPlayer player)
-            : base(Outgoing.UserDataMessageComposer)
         {
-            WriteInt(player.Id);
-            WriteString(player.Username);
-            WriteString(player.Figure);
-            WriteString(player.Gender);
-            WriteString(player.Motto);
-            WriteString("");
-            WriteBoolean(false);
-            WriteInt(0); //Respect
-            WriteInt(0); //DailyRespect
-            WriteInt(0); //DailyPetRespect
-            WriteBoolean(false); //Friendstream
-            WriteString("01.01.1970 00:00:00"); //Last online
-            WriteBoolean(false); //Can change name
-            WriteBoolean(false);
+            _player = player;
+        }
+
+        public ServerPacket Compose()
+        {
+            ServerPacket message = new ServerPacket(Outgoing.UserDataMessageComposer);
+            message.WriteInt(_player.Id);
+            message.WriteString(_player.Username);
+            message.WriteString(_player.Figure);
+            message.WriteString(_player.Gender);
+            message.WriteString(_player.Motto);
+            message.WriteString("");
+            message.WriteBoolean(false);
+            message.WriteInt(0); //Respect
+            message.WriteInt(0); //DailyRespect
+            message.WriteInt(0); //DailyPetRespect
+            message.WriteBoolean(false); //Friendstream
+            message.WriteString("01.01.1970 00:00:00"); //Last online
+            message.WriteBoolean(false); //Can change name
+            message.WriteBoolean(false);
             //todo:
+            return message;
         }
     }
 }

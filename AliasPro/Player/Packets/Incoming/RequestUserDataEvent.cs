@@ -23,8 +23,8 @@ namespace AliasPro.Player.Packets.Incoming
             ISession session,
             IClientPacket clientPacket)
         {
-            await session.WriteAndFlushAsync(new UserDataComposer(session.Player));
-            await session.WriteAndFlushAsync(new UserPerksComposer(session.Player));
+            await session.SendPacketAsync(new UserDataComposer(session.Player));
+            await session.SendPacketAsync(new UserPerksComposer(session.Player));
         }
     }
 }

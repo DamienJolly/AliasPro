@@ -6,6 +6,7 @@ namespace AliasPro.Sessions
     using Room.Models;
     using Room.Models.Entities;
     using Player.Models;
+    using Network.Events;
     using Network.Protocol;
 
     internal class SessionClient : ISession
@@ -22,12 +23,10 @@ namespace AliasPro.Sessions
             _channel = context;
         }
 
-        public Task WriteAsync(ServerPacket serverPacket) => _channel.WriteAsync(serverPacket);
-
-        public Task WriteAndFlushAsync(ServerPacket serverPacket) => _channel.WriteAndFlushAsync(serverPacket);
-
-        public void Flush() => _channel.Flush();
-
+        public Task SendPacketAsync(IPacketComposer serverPacket) => WriteAndFlushAsync(serverPacket.Compose());
+            
+        private Task WriteAndFlushAsync(ServerPacket serverPacket) => _channel.WriteAndFlushAsync(serverPacket);
+        
         public Task CloseAsync() => _channel.CloseAsync();
     }
 }

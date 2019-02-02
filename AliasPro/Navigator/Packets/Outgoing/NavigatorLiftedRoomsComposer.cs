@@ -1,14 +1,16 @@
 ﻿namespace AliasPro.Navigator.Packets.Outgoing
 {
+    using Network.Events;
     using Network.Events.Headers;
     using Network.Protocol;
 
-    public class NavigatorLiftedRoomsComposer : ServerPacket
+    public class NavigatorLiftedRoomsComposer : IPacketComposer
     {
-        public NavigatorLiftedRoomsComposer()
-            : base(Outgoing.NavigatorLiftedRoomsMessageComposer)
+        public ServerPacket Compose()
         {
-            WriteInt(0);
+            ServerPacket message = new ServerPacket(Outgoing.NavigatorLiftedRoomsMessageComposer);
+            message.WriteInt(0);
+            return message;
         }
     }
 }

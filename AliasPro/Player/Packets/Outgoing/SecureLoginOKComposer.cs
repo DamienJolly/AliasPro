@@ -1,13 +1,12 @@
 ﻿namespace AliasPro.Player.Packets.Outgoing
 {
+    using Network.Events;
     using Network.Events.Headers;
     using Network.Protocol;
 
-    public class SecureLoginOKComposer : ServerPacket
+    public class SecureLoginOKComposer : IPacketComposer
     {
-        public SecureLoginOKComposer()
-            : base(Outgoing.SecureLoginOKMessageComposer)
-        {
-        }
+        public ServerPacket Compose() =>
+            new ServerPacket(Outgoing.SecureLoginOKMessageComposer);
     }
 }

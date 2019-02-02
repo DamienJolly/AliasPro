@@ -26,7 +26,7 @@ namespace AliasPro.Landing.Packets.Incoming
             IClientPacket clientPacket)
         {
             IList<IArticles> artiles = await _landingController.GetNewsArticlesAsync();
-            await session.WriteAndFlushAsync(new NewsListComposer(artiles));
+            await session.SendPacketAsync(new NewsListComposer(artiles));
         }
     }
 }

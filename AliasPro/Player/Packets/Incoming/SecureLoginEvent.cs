@@ -30,11 +30,11 @@ namespace AliasPro.Player.Packets.Incoming
             {
                 session.Player = player;
 
-                await session.WriteAndFlushAsync(new SecureLoginOKComposer());
-                await session.WriteAndFlushAsync(new HomeRoomComposer(1));
+                await session.SendPacketAsync(new SecureLoginOKComposer());
+                await session.SendPacketAsync(new HomeRoomComposer(1));
 
-                await session.WriteAndFlushAsync(new UserRightsComposer(session.Player));
-                await session.WriteAndFlushAsync(new AvailabilityStatusComposer());
+                await session.SendPacketAsync(new UserRightsComposer(session.Player));
+                await session.SendPacketAsync(new AvailabilityStatusComposer());
             }
         }
     }

@@ -16,10 +16,10 @@ namespace AliasPro.Navigator.Packets.Incoming
             ISession session,
             IClientPacket clientPacket)
         {
-            await session.WriteAndFlushAsync(new NavigatorMetaDataParserComposer());
-            await session.WriteAndFlushAsync(new NavigatorLiftedRoomsComposer());
-            await session.WriteAndFlushAsync(new NavigatorCollapsedCategoriesComposer());
-            await session.WriteAndFlushAsync(new NavigatorPreferencesComposer());
+            await session.SendPacketAsync(new NavigatorMetaDataParserComposer());
+            await session.SendPacketAsync(new NavigatorLiftedRoomsComposer());
+            await session.SendPacketAsync(new NavigatorCollapsedCategoriesComposer());
+            await session.SendPacketAsync(new NavigatorPreferencesComposer());
         }
     }
 }

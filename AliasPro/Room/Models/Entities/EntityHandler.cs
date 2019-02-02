@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AliasPro.Room.Models.Entities
 {
-    using Network.Protocol;
+    using AliasPro.Network.Events;
     using Packets.Outgoing;
 
     internal class EntityHandler : IDisposable
@@ -31,13 +31,13 @@ namespace AliasPro.Room.Models.Entities
             await SendAsync(new EntityUpdateComposer(Entities.Values));
         }
 
-        internal async Task SendAsync(ServerPacket packet)
+        internal async Task SendAsync(IPacketComposer packet)
         {
             foreach (BaseEntity entity in Entities.Values)
             {
                 if (entity is UserEntity userEntity)
                 {
-                    await userEntity.Session.WriteAndFlushAsync(packet);
+                    await userEntity.Session.SendPacketAsync(packet);
                 }
             }
         }

@@ -1,30 +1,45 @@
 ﻿namespace AliasPro.Room.Packets.Outgoing
 {
+    using Network.Events;
     using Network.Events.Headers;
     using Network.Protocol;
     using Room.Models;
     using Sessions;
 
-    public class RoomDataComposer : ServerPacket
+    public class RoomDataComposer : IPacketComposer
     {
+        private readonly IRoom _room;
+        private readonly bool _loading;
+        private readonly bool _entry;
+        private readonly ISession _session;
+
         public RoomDataComposer(IRoom room, bool loading, bool entry, ISession session)
-            : base(Outgoing.RoomDataMessageComposer)
         {
-            WriteBoolean(loading);
-            room.RoomData.Compose(this);
-            WriteBoolean(entry);
-            WriteBoolean(false);
-            WriteBoolean(false);
-            WriteBoolean(false);
-            WriteInt(0);
-            WriteInt(0);
-            WriteInt(0);
-            WriteBoolean(session.Player.Id == room.RoomData.OwnerId);
-            WriteInt(0);
-            WriteInt(1);
-            WriteInt(1);
-            WriteInt(50);
-            WriteInt(2);
+            _room = room;
+            _loading = loading;
+            _entry = entry;
+            _session = session;
+        }
+
+        public ServerPacket Compose()
+        {
+            ServerPacket message = new ServerPacket(Outgoing.RoomDataMessageComposer);
+            message.WriteBoolean(_loading);
+            _room.RoomData.Compose(message);
+            message.WriteBoolean(_entry);
+            message.WriteBoolean(false);
+            message.WriteBoolean(false);
+            message.WriteBoolean(false);
+            message.WriteInt(0);
+            message.WriteInt(0);
+            message.WriteInt(0);
+            message.WriteBoolean(_session.Player.Id == _room.RoomData.OwnerId);
+            message.WriteInt(0);
+            message.WriteInt(1);
+            message.WriteInt(1);
+            message.WriteInt(50);
+            message.WriteInt(2);
+            return message;
         }
     }
 }

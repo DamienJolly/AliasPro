@@ -1,17 +1,18 @@
 ﻿namespace AliasPro.Player.Packets.Outgoing
 {
-    using Models;
+    using Network.Events;
     using Network.Events.Headers;
     using Network.Protocol;
 
-    public class AvailabilityStatusComposer : ServerPacket
+    public class AvailabilityStatusComposer : IPacketComposer
     {
-        public AvailabilityStatusComposer()
-            : base(Outgoing.AvailabilityStatusMessageComposer)
+        public ServerPacket Compose()
         {
-            WriteBoolean(true);
-            WriteBoolean(false);
-            WriteBoolean(true);
+            ServerPacket message = new ServerPacket(Outgoing.AvailabilityStatusMessageComposer);
+            message.WriteBoolean(true);
+            message.WriteBoolean(false);
+            message.WriteBoolean(true);
+            return message;
         }
     }
 }

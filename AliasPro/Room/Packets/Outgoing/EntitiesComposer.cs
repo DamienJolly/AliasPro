@@ -2,27 +2,35 @@
 
 namespace AliasPro.Room.Packets.Outgoing
 {
+    using Network.Events;
     using Network.Events.Headers;
     using Network.Protocol;
     using Models.Entities;
 
-    public class EntitiesComposer : ServerPacket
+    public class EntitiesComposer : IPacketComposer
     {
+        private readonly ICollection<BaseEntity> _entities;
+
         public EntitiesComposer(ICollection<BaseEntity> entities)
-            : base(Outgoing.EntitiesMessageComposer)
         {
-            WriteInt(entities.Count);
-            foreach (BaseEntity entity in entities)
-            {
-                entity.Compose(this);
-            }
+            _entities = entities;
         }
 
         public EntitiesComposer(BaseEntity entity)
-            : base(Outgoing.EntitiesMessageComposer)
         {
-            WriteInt(1);
-            entity.Compose(this);
+            _entities = new List<BaseEntity>();
+            _entities.Add(entity);
+        }
+
+        public ServerPacket Compose()
+        {
+            ServerPacket message = new ServerPacket(Outgoing.EntitiesMessageComposer);
+            message.WriteInt(_entities.Count);
+            foreach (BaseEntity entity in _entities)
+            {
+                entity.Compose(message);
+            }
+            return message;
         }
     }
 }
