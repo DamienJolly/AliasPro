@@ -14,7 +14,6 @@ namespace AliasPro.Navigator.Models
             PublicName = reader.ReadData<string>("public_name");
             Identifier = reader.ReadData<string>("identifier");
             Category = reader.ReadData<string>("category");
-            CategoryType = Enum.Parse<CategoryType>(reader.ReadData<string>("category_type"));
         }
 
         public uint Id { get; set; }
@@ -22,6 +21,5 @@ namespace AliasPro.Navigator.Models
         public string PublicName { get; set; }
         public string Identifier { get; set; }
         public string Category { get; set; }
-        public CategoryType CategoryType { get; set; }
     }
 }

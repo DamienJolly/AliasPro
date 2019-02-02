@@ -28,7 +28,7 @@ namespace AliasPro.Navigator
 
             foreach (INavigatorCategory navigatorCategory in _unorderedCategories)
             {
-                if (navigatorCategory.CategoryType == CategoryType.Category)
+                if (navigatorCategory.Category == "hotel_view")
                     categories.Add(navigatorCategory);
             }
 
@@ -45,7 +45,7 @@ namespace AliasPro.Navigator
 
             foreach (INavigatorCategory navigatorCategory in _unorderedCategories)
             {
-                if (navigatorCategory.CategoryType == CategoryType.PromotionCategory)
+                if (navigatorCategory.Category == "roomads_view")
                     categories.Add(navigatorCategory);
             }
 

@@ -7,6 +7,5 @@
         string PublicName { get; set; }
         string Identifier { get; set; }
         string Category { get; set; }
-        CategoryType CategoryType { get; set; }
     }
 }
