@@ -17,6 +17,12 @@ namespace AliasPro.Room.Packets.Outgoing
             _entities = entities;
         }
 
+        public EntityUpdateComposer(BaseEntity entity)
+        {
+            _entities = new List<BaseEntity>();
+            _entities.Add(entity);
+        }
+
         public ServerPacket Compose()
         {
             ServerPacket message = new ServerPacket(Outgoing.EntityUpdateMessageComposer);

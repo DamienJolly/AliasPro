@@ -50,8 +50,10 @@ namespace AliasPro.Room.Models.Entities
             }
         }
 
-        internal void AddEntity(BaseEntity entity)
+        internal async Task AddEntity(BaseEntity entity)
         {
+            await SendAsync(new EntitiesComposer(entity));
+            await SendAsync(new EntityUpdateComposer(entity));
             Entities.Add(entity.Id, entity);
         }
 

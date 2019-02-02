@@ -17,6 +17,6 @@ namespace AliasPro.Room.Models
         void OnChat(string text, int colour, BaseEntity entity);
         void LeaveRoom(ISession session);
         Task SendAsync(IPacketComposer serverPacket);
-        void AddEntity(BaseEntity entity);
+        Task AddEntity(BaseEntity entity);
     }
 }

@@ -30,7 +30,8 @@ namespace AliasPro.Room.Packets.Incoming
             await session.SendPacketAsync(new HeightMapComposer(room.RoomModel));
             await session.SendPacketAsync(new FloorHeightMapComposer(-1, room.RoomModel.RelativeHeightMap));
 
-            BaseEntity userEntity = _roomController.AddUserToRoom(room, session);
+            BaseEntity userEntity = 
+                await _roomController.AddUserToRoom(room, session);
 
             await session.SendPacketAsync(new RoomEntryInfoComposer(room.RoomData.Id, true));
             await session.SendPacketAsync(new EntitiesComposer(room.Entities.Values));

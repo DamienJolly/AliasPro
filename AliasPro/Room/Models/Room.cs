@@ -81,7 +81,7 @@ namespace AliasPro.Room.Models
 
         public Task SendAsync(IPacketComposer serverPacket) => _entityHandler.SendAsync(serverPacket);
 
-        public void AddEntity(BaseEntity entity) => _entityHandler.AddEntity(entity);
+        public Task AddEntity(BaseEntity entity) => _entityHandler.AddEntity(entity);
 
         public void Dispose()
         {

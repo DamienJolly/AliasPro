@@ -9,7 +9,7 @@ namespace AliasPro.Room
 
     public interface IRoomController
     {
-        BaseEntity AddUserToRoom(IRoom room, ISession session);
+        Task<BaseEntity> AddUserToRoom(IRoom room, ISession session);
         Task<IRoom> GetRoomByIdAsync(int id);
         Task<IRoom> GetRoomByIdAndPassword(int id, string password);
         IList<IRoom> GetRoomsByCategorySearch(uint categoryId, string searchCode);
