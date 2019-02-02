@@ -27,7 +27,13 @@ namespace AliasPro.Player
             return player;
         }
 
+        internal async Task CreatePlayerSettings(uint id) =>
+            await _playerDao.CreatePlayerSettings(id);
+
         internal async Task<IPlayer> GetPlayerBySso(string sso) =>
             await _playerDao.GetPlayerBySso(sso);
+
+        internal async Task<IPlayerSettings> GetPlayerSettingsById(uint id) =>
+            await _playerDao.GetPlayerSettingsById(id);
     }
 }

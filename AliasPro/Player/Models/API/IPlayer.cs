@@ -10,6 +10,7 @@
         string Figure { get; set; }
         string Gender { get; set; }
         string Motto { get; set; }
+        IPlayerSettings PlayerSettings { get; set; }
         //todo: all other data
     }
 }

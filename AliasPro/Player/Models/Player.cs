@@ -26,5 +26,6 @@ namespace AliasPro.Player.Models
         public string Figure { get; set; }
         public string Gender { get; set; }
         public string Motto { get; set; }
+        public IPlayerSettings PlayerSettings { get; set; }
     }
 }

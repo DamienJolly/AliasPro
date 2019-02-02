@@ -19,7 +19,7 @@ namespace AliasPro.Navigator.Packets.Incoming
             await session.SendPacketAsync(new NavigatorMetaDataParserComposer());
             await session.SendPacketAsync(new NavigatorLiftedRoomsComposer());
             await session.SendPacketAsync(new NavigatorCollapsedCategoriesComposer());
-            await session.SendPacketAsync(new NavigatorPreferencesComposer());
+            await session.SendPacketAsync(new NavigatorPreferencesComposer(session.Player.PlayerSettings));
         }
     }
 }

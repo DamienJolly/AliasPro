@@ -29,6 +29,19 @@ namespace AliasPro.Player.Packets.Incoming
             if (player != null)
             {
                 session.Player = player;
+                IPlayerSettings playerSettings =
+                    await _playerController.GetPlayerSettingsByIdAsync(player.Id);
+
+                if (playerSettings != null)
+                {
+                    session.Player.PlayerSettings = playerSettings;
+                }
+                else
+                {
+                    await _playerController.AddPlayerSettingsAsync(player.Id);
+                    session.Player.PlayerSettings =
+                        await _playerController.GetPlayerSettingsByIdAsync(player.Id);
+                }
 
                 await session.SendPacketAsync(new SecureLoginOKComposer());
                 await session.SendPacketAsync(new HomeRoomComposer(1));
