@@ -30,6 +30,7 @@ namespace AliasPro.Navigator.Models
             switch (categoryType)
             {
                 case "category": default: return new DefaultCategory();
+                case "query": return new QueryCategory();
                 case "popular": return new PopularCategory();
                 case "top_promotions": return new TopPromotionsCategory();
                 case "promotion_category": return new PromotionsCategory();
