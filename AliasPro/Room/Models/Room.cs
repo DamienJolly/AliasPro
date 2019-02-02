@@ -12,10 +12,12 @@ namespace AliasPro.Room.Models
     using AliasPro.Network.Protocol;
     using AliasPro.Room.Packets.Outgoing;
     using AliasPro.Network.Events;
+    using AliasPro.Room.Models.Item;
 
     internal class Room : IRoom, IDisposable
     {
         private readonly EntityHandler _entityHandler;
+        private readonly ItemHandler _itemHandler;
         private ActionBlock<DateTimeOffset> task;
 
         internal Room(IRoomData roomData, IRoomModel model)
@@ -25,14 +27,15 @@ namespace AliasPro.Room.Models
             
             RoomMap = new RoomMap(RoomModel);
             _entityHandler = new EntityHandler(this);
-
-            SetupRoomCycle();
+            _itemHandler = new ItemHandler(this);
         }
 
+        public bool isLoaded { get; set; } = false;
         public RoomMap RoomMap { get; set; }
         public IRoomData RoomData { get; set; }
         public IRoomModel RoomModel { get; set; }
         public IDictionary<int, BaseEntity> Entities => _entityHandler.Entities;
+        public IDictionary<uint, IRoomItem> RoomItems => _itemHandler.RoomItems;
         
         public async void OnChat(string text, int colour, BaseEntity entity)
         {
@@ -62,8 +65,13 @@ namespace AliasPro.Room.Models
                 //StopRoomCycle();
             }
         }
+
+        public void LoadRoomItems(IDictionary<uint, IRoomItem> items)
+        {
+            _itemHandler.RoomItems = items;
+        }
         
-        private void SetupRoomCycle()
+        public void SetupRoomCycle()
         {
             task = TaskHandler.PeriodicTaskWithDelay(time => Cycle(time), 500);
             task.Post(DateTimeOffset.Now);
@@ -82,6 +90,8 @@ namespace AliasPro.Room.Models
         public Task SendAsync(IPacketComposer serverPacket) => _entityHandler.SendAsync(serverPacket);
 
         public Task AddEntity(BaseEntity entity) => _entityHandler.AddEntity(entity);
+
+        public Task AddItem(IRoomItem item) => _itemHandler.AddItem(item);
 
         public void Dispose()
         {

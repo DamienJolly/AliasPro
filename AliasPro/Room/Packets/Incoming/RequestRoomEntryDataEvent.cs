@@ -38,6 +38,8 @@ namespace AliasPro.Room.Packets.Incoming
             await session.SendPacketAsync(new EntityUpdateComposer(room.Entities.Values));
 
             await session.SendPacketAsync(new RoomVisualizationSettingsComposer(false, 0, 0));
+
+            await session.SendPacketAsync(new RoomFloorItemsComposer(room.RoomItems.Values));
         }
     }
 }
