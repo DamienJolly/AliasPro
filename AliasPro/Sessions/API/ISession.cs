@@ -14,6 +14,6 @@ namespace AliasPro.Sessions
         BaseEntity Entity { get; set; }
         IRoom CurrentRoom { get; set; }
         Task SendPacketAsync(IPacketComposer serverPacket);
-        Task CloseAsync();
+        Task Disconnect(bool closeSocket = true);
     }
 }

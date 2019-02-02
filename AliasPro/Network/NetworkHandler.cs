@@ -22,12 +22,18 @@ namespace AliasPro.Network
         public override void ChannelRegistered(IChannelHandlerContext context) =>
             _sessionController.CacheSession(context);
 
-        public override void ChannelUnregistered(IChannelHandlerContext context) =>
-            _sessionController.RemoveFromCache(context.Channel.Id);
-
-        protected override async void ChannelRead0(IChannelHandlerContext ctx, IClientPacket msg)
+        public override async void ChannelUnregistered(IChannelHandlerContext context)
         {
-            if (_sessionController.TryGetSession(ctx.Channel.Id, out ISession session))
+            if (_sessionController.TryGetSession(context.Channel.Id, out ISession session))
+            {
+                await session.Disconnect(false);
+            }
+            _sessionController.RemoveFromCache(context.Channel.Id);
+        }
+
+        protected override async void ChannelRead0(IChannelHandlerContext context, IClientPacket msg)
+        {
+            if (_sessionController.TryGetSession(context.Channel.Id, out ISession session))
             {
                 await _eventProvider.Handle(session, msg);
             }
