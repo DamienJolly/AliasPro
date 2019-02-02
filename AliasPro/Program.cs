@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace AliasPro
 {
+    using Item;
     using Navigator;
     using Room;
     using Landing;
@@ -27,7 +28,8 @@ namespace AliasPro
                 new SessionService(),
                 new LandingService(),
                 new RoomService(),
-                new NavigatorService()
+                new NavigatorService(),
+                new ItemService()
             };
 
             IServiceCollection serviceCollection = new ServiceCollection();
