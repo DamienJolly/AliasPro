@@ -23,6 +23,9 @@ namespace AliasPro.Room.Gamemap.Pathfinding
             Position start,
             Position end)
         {
+            if (!IsValidStep(roomGrid, end))
+                return null;
+
             BinaryHeap openHeap = new BinaryHeap();
             openHeap.Add(new HeapNode(start, ManhattanDistance(start, end)));
 
@@ -37,35 +40,44 @@ namespace AliasPro.Room.Gamemap.Pathfinding
                 {
                     return BuildPath(start, end, walkedPath, roomGrid.MapSizeX);
                 }
+
                 float cost = currentCost[curr.Position.X, curr.Position.Y];
                 foreach (AstarPosition option in DIAG)
                 {
-                    try
-                    {
-                        Position position = curr.Position + option;
+                    Position position = curr.Position + option;
+                    if (!IsValidStep(roomGrid, position))
+                        continue;
+                    
+                    float newCost = cost + option.Cost;
+                    float oldCost = currentCost[position.X, position.Y];
+                    if (!(oldCost <= 0) && !(newCost < oldCost))
+                        continue;
 
-                        if (!roomGrid.WalkableGrid[position.X, position.Y])
-                            continue;
+                    currentCost[position.X, position.Y] = newCost;
+                    walkedPath[position.X, position.Y] = curr.Position;
 
-                        float newCost = cost + option.Cost;
-                        float oldCost = currentCost[position.X, position.Y];
-                        if (!(oldCost <= 0) && !(newCost < oldCost))
-                            continue;
-
-                        currentCost[position.X, position.Y] = newCost;
-                        walkedPath[position.X, position.Y] = curr.Position;
-
-                        float expCost = newCost + ManhattanDistance(position, end);
-                        openHeap.Add(new HeapNode(position, expCost));
-                    }
-                    catch
-                    {
-                    }
+                    float expCost = newCost + ManhattanDistance(position, end);
+                    openHeap.Add(new HeapNode(position, expCost));
                 }
             }
 
             //No path was found.
             return null;
+        }
+
+        private static bool IsValidStep(RoomMap roomGrid, Position position)
+        {
+            if (position.X >= roomGrid.MapSizeX || position.Y >= roomGrid.MapSizeY)
+                return false;
+            
+            if (!roomGrid.WalkableGrid[position.X, position.Y])
+                return false;
+
+            if (roomGrid.TryGetRoomTile(position.X, position.Y, out RoomTile roomTile))
+            {
+                return roomTile.CanWalkOn();
+            }
+            return false;
         }
 
         private static IList<Position> BuildPath(
@@ -83,6 +95,7 @@ namespace AliasPro.Room.Gamemap.Pathfinding
                 path.Add(current);
             }
 
+            path.RemoveAt(path.Count - 1);
             return path;
         }
 

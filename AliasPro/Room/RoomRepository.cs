@@ -44,7 +44,6 @@ namespace AliasPro.Room
                 if (_roomModels.TryGetValue(roomData.ModelName, out IRoomModel model))
                 {
                     room = new Room(roomData, model);
-                    room.LoadRoomItems(await _roomDao.GetRoomItems(id));
                     _rooms.Add(id, room);
                     return room;
                 }

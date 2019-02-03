@@ -46,7 +46,7 @@ namespace AliasPro.Item
                         items.Add(item.Id, item);
 
                     }
-                }, "SELECT `id`, `item_id` FROM `player_items` WHERE `player_id` = @0 LIMIT 1;", id);
+                }, "SELECT `id`, `item_id` FROM `player_items` WHERE `player_id` = @0;", id);
             });
 
             return items;
@@ -69,7 +69,7 @@ namespace AliasPro.Item
                         items.Add(item.Id, item);
 
                     }
-                }, "SELECT `id`, `item_id`, `rot`, `x`, `y`, `z` FROM `room_items` WHERE `player_id` = @0 LIMIT 1;", id);
+                }, "SELECT `id`, `item_id`, `rot`, `x`, `y`, `z` FROM `room_items` WHERE `player_id` = @0;", id);
             });
 
             return items;

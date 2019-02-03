@@ -2,6 +2,7 @@
 
 namespace AliasPro.Room.Models.Entities
 {
+    using AliasPro.Room.Models.Item;
     using Gamemap;
 
     internal class EntityCycler
@@ -37,10 +38,17 @@ namespace AliasPro.Room.Models.Entities
                 int reversedIndex = entity.PathToWalk.Count - 1;
                 Position nextStep = entity.PathToWalk[reversedIndex];
                 entity.PathToWalk.RemoveAt(reversedIndex);
-
+                
+                IRoomItem topItem = null;
+                if (_room.RoomMap.TryGetRoomTile(nextStep.X, nextStep.Y, out RoomTile roomTile))
+                {
+                    topItem = roomTile.GetTopItem();
+                }
+                
+                double newZ = topItem == null ? 0.00 : (topItem.Position.Z + topItem.ItemData.Height);
                 int newDir = Position.CalculateDirection(entity.Position, nextStep);
 
-                entity.NextPosition = new Position(nextStep.X, nextStep.Y, 0);
+                entity.NextPosition = new Position(nextStep.X, nextStep.Y, newZ);
                 entity.BodyRotation = newDir;
 
                 _moveStatus
@@ -49,7 +57,7 @@ namespace AliasPro.Room.Models.Entities
                     .Append(",")
                     .Append(nextStep.Y)
                     .Append(",")
-                    .Append("0.00");
+                    .Append(newZ);
                 entity.ActiveStatuses.Add("mv", _moveStatus.ToString());
             }
             else

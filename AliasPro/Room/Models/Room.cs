@@ -68,6 +68,13 @@ namespace AliasPro.Room.Models
 
         public void LoadRoomItems(IDictionary<uint, IRoomItem> items)
         {
+            foreach (IRoomItem item in items.Values)
+            {
+                if(RoomMap.TryGetRoomTile(item.Position.X, item.Position.Y, out RoomTile tile))
+                {
+                    tile.AddItem(item);
+                }
+            }
             _itemHandler.RoomItems = items;
         }
         
