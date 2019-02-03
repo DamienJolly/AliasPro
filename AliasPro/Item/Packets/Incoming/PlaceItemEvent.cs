@@ -2,8 +2,6 @@
 
 namespace AliasPro.Item.Packets.Incoming
 {
-    using AliasPro.Player.Models.Inventory;
-    using AliasPro.Room.Models;
     using Network.Events;
     using Network.Events.Headers;
     using Network.Protocol;

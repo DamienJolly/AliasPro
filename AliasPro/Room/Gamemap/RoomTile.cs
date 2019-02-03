@@ -1,39 +1,40 @@
-﻿using AliasPro.Room.Models.Item;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace AliasPro.Room.Gamemap
 {
+    using Item.Models;
+
     public class RoomTile
     {
-        public IList<IRoomItem> ItemStack { get; }
+        public IList<IItem> ItemStack { get; }
 
         internal RoomTile()
         {
-            ItemStack = new List<IRoomItem>();
+            ItemStack = new List<IItem>();
         }
 
-        public void AddItem(IRoomItem item)
+        public void AddItem(IItem item)
         {
             ItemStack.Add(item);
         }
 
-        public void RemoveItem(IRoomItem item)
+        public void RemoveItem(IItem item)
         {
             ItemStack.Remove(item);
         }
 
         public bool CanWalkOn()
         {
-            IRoomItem topItem = GetTopItem();
+            IItem topItem = GetTopItem();
             if (topItem != null)
                 return topItem.ItemData.CanWalk;
             return true;
         }
 
-        public IRoomItem GetTopItem()
+        public IItem GetTopItem()
         {
-            IRoomItem topItem = null;
-            foreach (IRoomItem item in ItemStack)
+            IItem topItem = null;
+            foreach (IItem item in ItemStack)
             {
                 if (topItem == null)
                 {

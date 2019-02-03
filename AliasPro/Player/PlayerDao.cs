@@ -2,12 +2,8 @@
 
 namespace AliasPro.Player
 {
-    using Item;
-    using Item.Models;
-    using Models.Inventory;
     using Database;
     using Models;
-    using System.Collections.Generic;
 
     internal class PlayerDao : BaseDao
     {

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 
 namespace AliasPro.Item
 {
-    using AliasPro.Player.Models.Inventory;
-    using AliasPro.Room.Models.Item;
     using Database;
     using Models;
 
@@ -29,16 +27,16 @@ namespace AliasPro.Item
             return items;
         }
 
-        internal async Task<IDictionary<uint, IInventoryItem>> GetItemsForPlayerAsync(uint id, IDictionary<uint, IItemData> itemDatas)
+        internal async Task<IDictionary<uint, IItem>> GetItemsForPlayerAsync(uint id, IDictionary<uint, IItemData> itemDatas)
         {
-            IDictionary<uint, IInventoryItem> items = new Dictionary<uint, IInventoryItem>();
+            IDictionary<uint, IItem> items = new Dictionary<uint, IItem>();
             await CreateTransaction(async transaction =>
             {
                 await Select(transaction, async reader =>
                 {
                     while (await reader.ReadAsync())
                     {
-                        IInventoryItem item = new InventoryItem(reader);
+                        IItem item = new Item(reader);
                         if (!itemDatas.ContainsKey(item.ItemId))
                             continue;
 
@@ -46,22 +44,22 @@ namespace AliasPro.Item
                         items.Add(item.Id, item);
 
                     }
-                }, "SELECT `id`, `item_id` FROM `player_items` WHERE `player_id` = @0;", id);
+                }, "SELECT `id`, `item_id`, `player_id`, `room_id`, `rot`, `x`, `y`, `z` FROM `items` WHERE `player_id` = @0 AND `room_id` = '0';", id);
             });
 
             return items;
         }
 
-        internal async Task<IDictionary<uint, IRoomItem>> GetItemsForRoomAsync(uint id, IDictionary<uint, IItemData> itemDatas)
+        internal async Task<IDictionary<uint, IItem>> GetItemsForRoomAsync(uint id, IDictionary<uint, IItemData> itemDatas)
         {
-            IDictionary<uint, IRoomItem> items = new Dictionary<uint, IRoomItem>();
+            IDictionary<uint, IItem> items = new Dictionary<uint, IItem>();
             await CreateTransaction(async transaction =>
             {
                 await Select(transaction, async reader =>
                 {
                     while (await reader.ReadAsync())
                     {
-                        IRoomItem item = new RoomItem(reader);
+                        IItem item = new Item(reader);
                         if (!itemDatas.ContainsKey(item.ItemId))
                             continue;
 
@@ -69,7 +67,7 @@ namespace AliasPro.Item
                         items.Add(item.Id, item);
 
                     }
-                }, "SELECT `id`, `item_id`, `rot`, `x`, `y`, `z` FROM `room_items` WHERE `player_id` = @0;", id);
+                }, "SELECT `id`, `item_id`, `player_id`, `room_id`, `rot`, `x`, `y`, `z` FROM `items` WHERE `room_id` = @0;", id);
             });
 
             return items;

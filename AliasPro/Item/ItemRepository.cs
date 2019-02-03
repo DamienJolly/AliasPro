@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 
 namespace AliasPro.Item
 {
-    using AliasPro.Player.Models.Inventory;
-    using AliasPro.Room.Models.Item;
     using Models;
 
     internal class ItemRepository
@@ -21,10 +19,10 @@ namespace AliasPro.Item
             System.Console.WriteLine(_itemDatas.Count);
         }
 
-        internal async Task<IDictionary<uint, IInventoryItem>> GetItemsForPlayerAsync(uint id) =>
+        internal async Task<IDictionary<uint, IItem>> GetItemsForPlayerAsync(uint id) =>
             await _itemDao.GetItemsForPlayerAsync(id, _itemDatas);
 
-        internal async Task<IDictionary<uint, IRoomItem>> GetItemsForRoomAsync(uint id) =>
+        internal async Task<IDictionary<uint, IItem>> GetItemsForRoomAsync(uint id) =>
             await _itemDao.GetItemsForRoomAsync(id, _itemDatas);
 
         public bool TryGetItemDataById(uint itemId, out IItemData item) =>

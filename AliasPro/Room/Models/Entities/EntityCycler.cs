@@ -2,7 +2,7 @@
 
 namespace AliasPro.Room.Models.Entities
 {
-    using AliasPro.Room.Models.Item;
+    using AliasPro.Item.Models;
     using Gamemap;
 
     internal class EntityCycler
@@ -39,7 +39,7 @@ namespace AliasPro.Room.Models.Entities
                 Position nextStep = entity.PathToWalk[reversedIndex];
                 entity.PathToWalk.RemoveAt(reversedIndex);
                 
-                IRoomItem topItem = null;
+                IItem topItem = null;
                 if (_room.RoomMap.TryGetRoomTile(nextStep.X, nextStep.Y, out RoomTile roomTile))
                 {
                     topItem = roomTile.GetTopItem();

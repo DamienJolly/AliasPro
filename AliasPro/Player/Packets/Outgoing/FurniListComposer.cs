@@ -5,13 +5,13 @@ namespace AliasPro.Player.Packets.Outgoing
     using Network.Events;
     using Network.Events.Headers;
     using Network.Protocol;
-    using Models.Inventory;
+    using Item.Models;
 
     public class FurniListComposer : IPacketComposer
     {
-        private readonly ICollection<IInventoryItem> _items;
+        private readonly ICollection<IItem> _items;
 
-        public FurniListComposer(ICollection<IInventoryItem> items)
+        public FurniListComposer(ICollection<IItem> items)
         {
             _items = items;
         }
@@ -23,7 +23,7 @@ namespace AliasPro.Player.Packets.Outgoing
             message.WriteInt(0);
 
             message.WriteInt(_items.Count);
-            foreach (IInventoryItem item in _items)
+            foreach (IItem item in _items)
             {
                 message.WriteInt(item.Id);
                 message.WriteString(item.ItemData.Type.ToUpper());

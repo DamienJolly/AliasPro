@@ -1,16 +1,17 @@
-﻿namespace AliasPro.Room.Packets.Outgoing
+﻿using System.Collections.Generic;
+
+namespace AliasPro.Room.Packets.Outgoing
 {
-    using AliasPro.Room.Models.Item;
     using Network.Events;
     using Network.Events.Headers;
     using Network.Protocol;
-    using System.Collections.Generic;
+    using Item.Models;
 
     public class RoomFloorItemsComposer : IPacketComposer
     {
-        private readonly ICollection<IRoomItem> _roomItems;
+        private readonly ICollection<IItem> _roomItems;
 
-        public RoomFloorItemsComposer(ICollection<IRoomItem> roomItem)
+        public RoomFloorItemsComposer(ICollection<IItem> roomItem)
         {
             _roomItems = roomItem;
         }
@@ -20,7 +21,7 @@
             ServerPacket message = new ServerPacket(Outgoing.RoomFloorItemsMessageComposer);
             message.WriteInt(0); //todo: 
             message.WriteInt(_roomItems.Count);
-            foreach (IRoomItem item in _roomItems)
+            foreach (IItem item in _roomItems)
             {
                 message.WriteInt(item.Id);
                 message.WriteInt(item.ItemData.SpriteId);

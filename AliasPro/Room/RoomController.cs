@@ -46,4 +46,12 @@ namespace AliasPro.Room
         public ICollection<IRoom> GetAllRooms() =>
             _roomRepository.GetAllRooms();
     }
+
+    public interface IRoomController
+    {
+        Task<BaseEntity> AddUserToRoom(IRoom room, ISession session);
+        Task<IRoom> GetRoomByIdAsync(int id);
+        Task<IRoom> GetRoomByIdAndPassword(int id, string password);
+        ICollection<IRoom> GetAllRooms();
+    }
 }

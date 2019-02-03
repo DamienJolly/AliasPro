@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 namespace AliasPro.Player
 {
     using Models;
-    using Models.Inventory;
-    using Item;
 
     internal class PlayerRepostiory
     {

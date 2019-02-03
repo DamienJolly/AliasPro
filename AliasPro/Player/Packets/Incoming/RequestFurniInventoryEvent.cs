@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace AliasPro.Player.Packets.Incoming
 {
@@ -7,9 +8,9 @@ namespace AliasPro.Player.Packets.Incoming
     using Network.Protocol;
     using Packets.Outgoing;
     using Sessions;
-    using Models.Inventory;
-    using System.Collections.Generic;
+    using Models;
     using Item;
+    using Item.Models;
 
     public class RequestFurniInventoryEvent : IAsyncPacket
     {
@@ -26,12 +27,12 @@ namespace AliasPro.Player.Packets.Incoming
             ISession session,
             IClientPacket clientPacket)
         {
-            IDictionary<uint, IInventoryItem> items;
+            IDictionary<uint, IItem> items;
             if (session.Player.Inventory == null)
             {
                 items = await _itemController.GetItemsForPlayerAsync(session.Player.Id);
 
-                session.Player.Inventory = new Inventory(items);
+                session.Player.Inventory = new PlayerInventory(items);
             }
 
             items = session.Player.Inventory.Items;

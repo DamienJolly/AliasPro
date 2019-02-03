@@ -3,7 +3,6 @@
 namespace AliasPro.Player.Models
 {
     using Database;
-    using Inventory;
 
     internal class Player : IPlayer
     {
@@ -28,7 +27,7 @@ namespace AliasPro.Player.Models
         public string Gender { get; set; }
         public string Motto { get; set; }
         public IPlayerSettings PlayerSettings { get; set; }
-        public IInventory Inventory { get; set; }
+        public IPlayerInventory Inventory { get; set; }
     }
 
     public interface IPlayer
@@ -42,6 +41,6 @@ namespace AliasPro.Player.Models
         string Gender { get; set; }
         string Motto { get; set; }
         IPlayerSettings PlayerSettings { get; set; }
-        IInventory Inventory { get; set; }
+        IPlayerInventory Inventory { get; set; }
     }
 }

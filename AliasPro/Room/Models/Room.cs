@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 
 namespace AliasPro.Room.Models
@@ -8,11 +9,10 @@ namespace AliasPro.Room.Models
     using Gamemap;
     using Tasks;
     using Sessions;
-    using System.Threading.Tasks;
-    using AliasPro.Network.Protocol;
-    using AliasPro.Room.Packets.Outgoing;
-    using AliasPro.Network.Events;
-    using AliasPro.Room.Models.Item;
+    using Packets.Outgoing;
+    using Network.Events;
+    using Models.Item;
+    using AliasPro.Item.Models;
 
     internal class Room : IRoom, IDisposable
     {
@@ -35,7 +35,7 @@ namespace AliasPro.Room.Models
         public IRoomData RoomData { get; set; }
         public IRoomModel RoomModel { get; set; }
         public IDictionary<int, BaseEntity> Entities => _entityHandler.Entities;
-        public IDictionary<uint, IRoomItem> RoomItems => _itemHandler.RoomItems;
+        public IDictionary<uint, IItem> RoomItems => _itemHandler.RoomItems;
         
         public async void OnChat(string text, int colour, BaseEntity entity)
         {
@@ -66,9 +66,9 @@ namespace AliasPro.Room.Models
             }
         }
 
-        public void LoadRoomItems(IDictionary<uint, IRoomItem> items)
+        public void LoadRoomItems(IDictionary<uint, IItem> items)
         {
-            foreach (IRoomItem item in items.Values)
+            foreach (IItem item in items.Values)
             {
                 if(RoomMap.TryGetRoomTile(item.Position.X, item.Position.Y, out RoomTile tile))
                 {
@@ -98,12 +98,28 @@ namespace AliasPro.Room.Models
 
         public Task AddEntity(BaseEntity entity) => _entityHandler.AddEntity(entity);
 
-        public Task AddItem(IRoomItem item) => _itemHandler.AddItem(item);
+        public Task AddItem(IItem item) => _itemHandler.AddItem(item);
 
         public void Dispose()
         {
             StopRoomCycle();
             _entityHandler.Dispose();
         }
+    }
+
+    public interface IRoom
+    {
+        bool isLoaded { get; set; }
+        RoomMap RoomMap { get; set; }
+        IRoomData RoomData { get; set; }
+        IRoomModel RoomModel { get; set; }
+        IDictionary<int, BaseEntity> Entities { get; }
+        IDictionary<uint, IItem> RoomItems { get; }
+        void OnChat(string text, int colour, BaseEntity entity);
+        void LeaveRoom(ISession session);
+        void LoadRoomItems(IDictionary<uint, IItem> items);
+        void SetupRoomCycle();
+        Task SendAsync(IPacketComposer serverPacket);
+        Task AddEntity(BaseEntity entity);
     }
 }

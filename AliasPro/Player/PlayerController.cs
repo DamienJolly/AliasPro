@@ -1,11 +1,8 @@
 ﻿using System.Threading.Tasks;
-using System.Collections.Generic;
 
 namespace AliasPro.Player
 {
     using Models;
-    using Models.Inventory;
-    using Item;
 
     internal class PlayerController : IPlayerController
     {
