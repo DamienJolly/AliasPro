@@ -24,7 +24,7 @@ namespace AliasPro.Room.Models
         {
             RoomData = roomData;
             RoomModel = model;
-            
+
             RoomMap = new RoomMap(RoomModel);
             _entityHandler = new EntityHandler(this);
             _itemHandler = new ItemHandler(this);
@@ -36,7 +36,7 @@ namespace AliasPro.Room.Models
         public IRoomModel RoomModel { get; set; }
         public IDictionary<int, BaseEntity> Entities => _entityHandler.Entities;
         public IDictionary<uint, IItem> RoomItems => _itemHandler.RoomItems;
-        
+
         public async void OnChat(string text, int colour, BaseEntity entity)
         {
             if (colour == 1 || colour == -1 || colour == 2)
@@ -70,14 +70,56 @@ namespace AliasPro.Room.Models
         {
             foreach (IItem item in items.Values)
             {
-                if(RoomMap.TryGetRoomTile(item.Position.X, item.Position.Y, out RoomTile tile))
+                if (RoomMap.TryGetRoomTile(item.Position.X, item.Position.Y, out RoomTile tile))
                 {
                     tile.AddItem(item);
                 }
             }
             _itemHandler.RoomItems = items;
         }
-        
+
+        public async Task AddItem(IItem item, bool newItem)
+        {
+            if (RoomMap.TryGetRoomTile(item.Position.X, item.Position.Y, out RoomTile tile))
+            {
+                System.Console.WriteLine("add");
+                tile.AddItem(item);
+                if (newItem)
+                    await _itemHandler.AddItem(item);
+            }
+        }
+
+        public async Task RemoveItem(IItem item, bool newItem)
+        {
+            if (RoomMap.TryGetRoomTile(item.Position.X, item.Position.Y, out RoomTile tile))
+            {
+                System.Console.WriteLine("remove");
+                tile.RemoveItem(item);
+                if (newItem)
+                    await _itemHandler.RemoveItem(item);
+            }
+        }
+
+        public async Task UpdateItem(IItem item, Position newPosition)
+        {
+            await RemoveItem(item, false);
+            //todo: maybe add newPosition as a variable for items
+            item.Position = newPosition;
+            await AddItem(item, false);
+            await _itemHandler.UpdateItem(item);
+        }
+
+        public async Task SendAsync(IPacketComposer packet)
+        {
+            foreach (BaseEntity entity in _entityHandler.Entities.Values)
+            {
+                if (entity is UserEntity userEntity)
+                {
+                    await userEntity.Session.SendPacketAsync(packet);
+                }
+            }
+        }
+
         public void SetupRoomCycle()
         {
             task = TaskHandler.PeriodicTaskWithDelay(time => Cycle(time), 500);
@@ -93,13 +135,9 @@ namespace AliasPro.Room.Models
         {
             _entityHandler.Cycle(timeOffset);
         }
-
-        public Task SendAsync(IPacketComposer serverPacket) => _entityHandler.SendAsync(serverPacket);
-
+        
         public Task AddEntity(BaseEntity entity) => _entityHandler.AddEntity(entity);
-
-        public Task AddItem(IItem item) => _itemHandler.AddItem(item);
-
+        
         public void Dispose()
         {
             StopRoomCycle();
@@ -119,7 +157,10 @@ namespace AliasPro.Room.Models
         void LeaveRoom(ISession session);
         void LoadRoomItems(IDictionary<uint, IItem> items);
         void SetupRoomCycle();
-        Task SendAsync(IPacketComposer serverPacket);
         Task AddEntity(BaseEntity entity);
+        Task AddItem(IItem item, bool newItem = true);
+        Task RemoveItem(IItem item, bool newItem = true);
+        Task UpdateItem(IItem item, Position newPosition);
+        Task SendAsync(IPacketComposer packet);
     }
 }

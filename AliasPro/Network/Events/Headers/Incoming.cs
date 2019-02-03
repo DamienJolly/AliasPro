@@ -6,7 +6,11 @@
         internal const short UniqueIdMessageEvent = 3465;
         internal const short SecureLoginMessageEvent = 1930;
         internal const short RequestUserDataMessageEvent = 3092;
+
+        // Items
         internal const short RequestFurniInventoryMessageEvent = 2835;
+        internal const short PlaceItemMessageEvent = 2187;
+        internal const short UpdateItemMessageEvent = 1620;
 
         // Rooms
         internal const short RequestRoomLoadMessageEvent = 3464;

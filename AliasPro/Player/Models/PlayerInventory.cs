@@ -1,16 +1,28 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AliasPro.Player.Models
 {
+    using Sessions;
     using Item.Models;
+    using Item.Packets.Outgoing;
 
     internal class PlayerInventory : IPlayerInventory
     {
+        private readonly ISession _session;
+
         public IDictionary<uint, IItem> Items { get; }
 
-        internal PlayerInventory(IDictionary<uint, IItem> items)
+        internal PlayerInventory(ISession session, IDictionary<uint, IItem> items)
         {
+            _session = session;
             Items = items;
+        }
+
+        public async Task RemoveItem(IItem item)
+        {
+            Items.Remove(item.Id);
+            await _session.SendPacketAsync(new ObjectAddComposer(item));
         }
 
         public bool TryGetItem(uint id, out IItem item) => Items.TryGetValue(id, out item);
@@ -19,6 +31,7 @@ namespace AliasPro.Player.Models
     public interface IPlayerInventory
     {
         IDictionary<uint, IItem> Items { get; }
+        Task RemoveItem(IItem item);
         bool TryGetItem(uint id, out IItem item);
     }
 }

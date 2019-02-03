@@ -11,6 +11,11 @@
         internal const short UserDataMessageComposer = 3862;
         internal const short FurniListMessageComposer = 826;
 
+        // Items
+        internal const short ObjectAddMessageComposer = 2396;
+        internal const short RemovePlayerItemMessageComposer = 1518;
+        internal const short FloorItemUpdateMessageComposer = 854;
+
         // Rooms
         internal const short RoomOpenMessageComposer = 1975;
         internal const short RoomModelMessageComposer = 1303;

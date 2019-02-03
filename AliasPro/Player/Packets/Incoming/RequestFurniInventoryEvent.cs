@@ -32,7 +32,7 @@ namespace AliasPro.Player.Packets.Incoming
             {
                 items = await _itemController.GetItemsForPlayerAsync(session.Player.Id);
 
-                session.Player.Inventory = new PlayerInventory(items);
+                session.Player.Inventory = new PlayerInventory(session, items);
             }
 
             items = session.Player.Inventory.Items;

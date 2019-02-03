@@ -38,15 +38,16 @@ namespace AliasPro.Room.Models.Entities
                 int reversedIndex = entity.PathToWalk.Count - 1;
                 Position nextStep = entity.PathToWalk[reversedIndex];
                 entity.PathToWalk.RemoveAt(reversedIndex);
+
+                double newZ = 0.00;
+                int newDir = Position.CalculateDirection(entity.Position, nextStep);
                 
-                IItem topItem = null;
                 if (_room.RoomMap.TryGetRoomTile(nextStep.X, nextStep.Y, out RoomTile roomTile))
                 {
-                    topItem = roomTile.GetTopItem();
+                    IItem topItem = roomTile.GetTopItem();
+                    if (topItem != null)
+                        newZ = topItem.Position.Z + topItem.ItemData.Height;
                 }
-                
-                double newZ = topItem == null ? 0.00 : (topItem.Position.Z + topItem.ItemData.Height);
-                int newDir = Position.CalculateDirection(entity.Position, nextStep);
 
                 entity.NextPosition = new Position(nextStep.X, nextStep.Y, newZ);
                 entity.BodyRotation = newDir;
