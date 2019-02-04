@@ -26,7 +26,7 @@ namespace AliasPro.Catalog.Packets.Incoming
             IClientPacket clientPacket)
         {
             string mode = clientPacket.ReadString();
-            ICollection<ICatalogPage> rootPages = await _catalogController.GetCatalogPagesAsync(-1, session.Player.Rank);
+            ICollection<ICatalogPage> rootPages = _catalogController.GetCatalogPages(-1, session.Player.Rank);
 
             await session.SendPacketAsync(new CatalogModeComposer(mode.Equals("normal") ? 0 : 1));
             await session.SendPacketAsync(new CatalogPagesListComposer(_catalogController, rootPages, mode, session.Player.Rank));

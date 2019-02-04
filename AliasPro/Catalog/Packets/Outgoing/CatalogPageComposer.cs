@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace AliasPro.Catalog.Packets.Outgoing
+﻿namespace AliasPro.Catalog.Packets.Outgoing
 {
     using Models;
     using Network.Events;
@@ -23,30 +21,7 @@ namespace AliasPro.Catalog.Packets.Outgoing
             ServerPacket message = new ServerPacket(Outgoing.CatalogPageMessageComposer);
             message.WriteInt(_catalogPage.Id);
             message.WriteString(_mode);
-
-            if (_catalogPage.Layout == "frontpage")
-            {
-                message.WriteString("frontpage4");
-                message.WriteInt(2);
-                message.WriteString(_catalogPage.HeaderImage);
-                message.WriteString(_catalogPage.TeaserImage);
-                message.WriteInt(3);
-                message.WriteString(_catalogPage.TextOne);
-                message.WriteString(_catalogPage.TextTwo);
-                message.WriteString(_catalogPage.TextTeaser);
-            }
-            else
-            {
-                message.WriteString("default_3x3");
-                message.WriteInt(3);
-                message.WriteString(_catalogPage.HeaderImage);
-                message.WriteString(_catalogPage.TeaserImage);
-                message.WriteString(_catalogPage.SpecialImage);
-                message.WriteInt(3);
-                message.WriteString(_catalogPage.TextOne);
-                message.WriteString(_catalogPage.TextDetails);
-                message.WriteString(_catalogPage.TextTeaser);
-            }
+            _catalogPage.Layout.Compose(message, _catalogPage);
 
             message.WriteInt(0);
 

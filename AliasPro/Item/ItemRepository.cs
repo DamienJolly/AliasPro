@@ -13,8 +13,14 @@ namespace AliasPro.Item
         public ItemRepository(ItemDao itemDao)
         {
             _itemDao = itemDao;
+            _itemDatas = new Dictionary<uint, IItemData>();
+            
+            InitializeItem();
+        }
 
-            LoadItemData();
+        private async void InitializeItem()
+        {
+            _itemDatas = await _itemDao.GetItemData();
         }
 
         internal async Task<IDictionary<uint, IItem>> GetItemsForPlayerAsync(uint id) =>

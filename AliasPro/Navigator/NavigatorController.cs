@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace AliasPro.Navigator
 {
@@ -14,10 +13,16 @@ namespace AliasPro.Navigator
             _navigatorRepository = navigatorRepository;
         }
 
-        public async Task<IList<INavigatorCategory>> GetNavigatorCategoriesAsync() =>
-            await _navigatorRepository.GetNavigatorCategoriesAsync();
+        public IList<INavigatorCategory> Categories =>
+            _navigatorRepository.Categories;
 
-        public async Task<IList<INavigatorCategory>> GetEventCategoriesAsync() =>
-            await _navigatorRepository.GetPromotionNavigatorCategoriesAsync();
+        public IList<INavigatorCategory> PromotionCategories =>
+            _navigatorRepository.PromotionCategories;
+    }
+
+    public interface INavigatorController
+    {
+        IList<INavigatorCategory> Categories { get; }
+        IList<INavigatorCategory> PromotionCategories { get; }
     }
 }

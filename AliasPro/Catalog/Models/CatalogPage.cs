@@ -3,6 +3,7 @@
 namespace AliasPro.Catalog.Models
 {
     using Database;
+    using Layouts;
 
     internal class CatalogPage : ICatalogPage
     {
@@ -22,9 +23,18 @@ namespace AliasPro.Catalog.Models
 			TextTwo = reader.ReadData<string>("text_two");
 			TextDetails = reader.ReadData<string>("text_details");
 			TextTeaser = reader.ReadData<string>("text_teaser");
-            Layout = reader.ReadData<string>("layout");
+            Layout = GetCatalogLayout(reader.ReadData<string>("layout"));
 			Enabled = reader.ReadData<bool>("enabled");
 			Visible = reader.ReadData<bool>("visible");
+        }
+
+        private ICatalogLayout GetCatalogLayout(string layout)
+        {
+            switch (layout)
+            {
+                default: return new LayoutDefault();
+                case "frontpage": return new LayoutFrontpage();
+            }
         }
 
         public int Id { get; }
@@ -41,7 +51,7 @@ namespace AliasPro.Catalog.Models
         public string TextTwo { get; }
         public string TextDetails { get; }
         public string TextTeaser { get; }
-        public string Layout { get; }
+        public ICatalogLayout Layout { get; }
         public bool Enabled { get; }
         public bool Visible { get; }
     }
@@ -62,7 +72,7 @@ namespace AliasPro.Catalog.Models
         string TextTwo { get; }
         string TextDetails { get; }
         string TextTeaser { get; }
-        string Layout { get; }
+        ICatalogLayout Layout { get; }
         bool Enabled { get; }
         bool Visible { get; }
     }

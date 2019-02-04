@@ -30,8 +30,7 @@ namespace AliasPro.Navigator.Packets.Incoming
         {
             string category = clientPacket.ReadString();
             string data = clientPacket.ReadString();
-            IList<INavigatorCategory> categories =
-                await _navigatorController.GetNavigatorCategoriesAsync();
+            IList<INavigatorCategory> categories = _navigatorController.Categories;
             IList<INavigatorCategory> categoriesToSend = new List<INavigatorCategory>();
 
             foreach (INavigatorCategory navCategory in categories)

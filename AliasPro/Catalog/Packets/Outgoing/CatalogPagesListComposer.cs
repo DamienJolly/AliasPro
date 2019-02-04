@@ -45,7 +45,7 @@ namespace AliasPro.Catalog.Packets.Outgoing
         
         private async void Append(ServerPacket message, CatalogPage catalogPage)
         {
-            ICollection<ICatalogPage> pages = await _catalogController.GetCatalogPagesAsync(catalogPage.Id, _rank);
+            ICollection<ICatalogPage> pages = _catalogController.GetCatalogPages(catalogPage.Id, _rank);
 
             message.WriteBoolean(catalogPage.Visible);
             message.WriteInt(catalogPage.Icon);

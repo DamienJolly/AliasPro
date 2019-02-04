@@ -25,8 +25,7 @@ namespace AliasPro.Navigator.Packets.Incoming
             ISession session,
             IClientPacket clientPacket)
         {
-            IList<INavigatorCategory> categories =
-                await _navigatorController.GetEventCategoriesAsync();
+            IList<INavigatorCategory> categories = _navigatorController.Categories;
             await session.SendPacketAsync(new NavigatorFlatCatsComposer(categories, session.Player.Rank));
         }
     }
