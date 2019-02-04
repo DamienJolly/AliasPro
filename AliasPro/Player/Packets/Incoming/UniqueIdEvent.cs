@@ -18,7 +18,6 @@ namespace AliasPro.Player.Packets.Incoming
             clientPacket.ReadString();
             string uniqueId = clientPacket.ReadString();
             session.UniqueId = uniqueId;
-            System.Console.WriteLine("Session Id: " + session.UniqueId);
             //todo: await send composer
         }
     }

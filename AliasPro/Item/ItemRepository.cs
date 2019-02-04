@@ -15,8 +15,6 @@ namespace AliasPro.Item
             _itemDao = itemDao;
 
             LoadItemData();
-
-            System.Console.WriteLine(_itemDatas.Count);
         }
 
         internal async Task<IDictionary<uint, IItem>> GetItemsForPlayerAsync(uint id) =>

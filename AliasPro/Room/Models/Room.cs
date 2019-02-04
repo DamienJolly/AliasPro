@@ -82,7 +82,6 @@ namespace AliasPro.Room.Models
         {
             if (RoomMap.TryGetRoomTile(item.Position.X, item.Position.Y, out RoomTile tile))
             {
-                System.Console.WriteLine("add");
                 tile.AddItem(item);
                 if (newItem)
                     await _itemHandler.AddItem(item);
@@ -93,7 +92,6 @@ namespace AliasPro.Room.Models
         {
             if (RoomMap.TryGetRoomTile(item.Position.X, item.Position.Y, out RoomTile tile))
             {
-                System.Console.WriteLine("remove");
                 tile.RemoveItem(item);
                 if (newItem)
                     await _itemHandler.RemoveItem(item);
