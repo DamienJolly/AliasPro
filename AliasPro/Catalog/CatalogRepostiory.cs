@@ -20,7 +20,7 @@ namespace AliasPro.Catalog
             InitializeCatalog();
         }
 
-        private async void InitializeCatalog()
+        public async void InitializeCatalog()
         {
             _catalogPages = await _catalogDao.GetCatalogPages();
             await _catalogDao.GetCatalogItems(this, _itemRepository);

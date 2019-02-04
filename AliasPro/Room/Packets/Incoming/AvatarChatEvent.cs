@@ -6,19 +6,30 @@ namespace AliasPro.Room.Packets.Incoming
     using Network.Events.Headers;
     using Network.Protocol;
     using Sessions;
+    using Chat;
 
     public class AvatarChatEvent : IAsyncPacket
     {
         public short Header { get; } = Incoming.AvatarChatMessageEvent;
-        
-        public Task HandleAsync(
+
+        private readonly IChatController _chatController;
+
+        public AvatarChatEvent(IChatController chatController)
+        {
+            _chatController = chatController;
+        }
+
+        public async Task HandleAsync(
             ISession session,
             IClientPacket clientPacket)
         {
             string text = clientPacket.ReadString();
             int colour = clientPacket.ReadInt();
-            session.CurrentRoom.OnChat(text, colour, session.Entity);
-            return Task.CompletedTask;
+
+            if(!await _chatController.HandleCommandAsync(session, text))
+            {
+                session.CurrentRoom.OnChat(text, colour, session.Entity);
+            }
         }
     }
 }

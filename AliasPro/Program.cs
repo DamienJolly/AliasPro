@@ -15,6 +15,8 @@ namespace AliasPro
     using Network.Events;
     using Player;
     using Sessions;
+    using Chat;
+    using Chat.Models.Commands;
 
     public class Program
     {
@@ -31,7 +33,8 @@ namespace AliasPro
                 new RoomService(),
                 new NavigatorService(),
                 new ItemService(),
-                new CatalogService()
+                new CatalogService(),
+                new ChatService()
             };
 
             IServiceCollection serviceCollection = new ServiceCollection();
