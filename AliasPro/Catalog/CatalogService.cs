@@ -20,6 +20,9 @@ namespace AliasPro.Catalog
         private static void AddPackets(IServiceCollection collection)
         {
             collection.AddSingleton<IAsyncPacket, RequestDiscountEvent>();
+            collection.AddSingleton<IAsyncPacket, RequestCatalogIndexEvent>();
+            collection.AddSingleton<IAsyncPacket, RequestCatalogModeEvent>();
+            collection.AddSingleton<IAsyncPacket, RequestCatalogPageEvent>();
         }
     }
 }

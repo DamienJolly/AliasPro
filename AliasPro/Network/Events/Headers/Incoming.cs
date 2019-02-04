@@ -15,6 +15,9 @@
 
         // Catalog
         internal const short RequestDiscountMessageEvent = 703;
+        internal const short RequestCatalogIndexMessageEvent = 1191;
+        internal const short RequestCatalogModeMessageEvent = 2565;
+        internal const short RequestCatalogPageMessageEvent = 3547;
 
         // Rooms
         internal const short RequestRoomLoadMessageEvent = 3464;

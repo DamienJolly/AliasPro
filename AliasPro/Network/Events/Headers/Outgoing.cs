@@ -18,6 +18,9 @@
         internal const short RemoveFloorItemMessageComposer = 2986;
         internal const short AddPlayerItemsMessageComposer = 2323;
         internal const short InventoryRefreshMessageComposer = 32;
+        internal const short CatalogModeMessageComposer = 1103;
+        internal const short CatalogPagesListMessageComposer = 267;
+        internal const short CatalogPageMessageComposer = 3933;
 
         // Catalog
         internal const short DiscountMessageComposer = 1602;
