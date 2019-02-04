@@ -1,4 +1,5 @@
 ﻿using System.Data.Common;
+using System.Collections.Generic;
 
 namespace AliasPro.Catalog.Models
 {
@@ -14,18 +15,19 @@ namespace AliasPro.Catalog.Models
             Name = reader.ReadData<string>("name");
             Caption = reader.ReadData<string>("caption");
             Icon = reader.ReadData<int>("icon");
-			Rank = reader.ReadData<int>("rank");
-			Order = reader.ReadData<int>("order_num");
-			HeaderImage = reader.ReadData<string>("header_image");
-			TeaserImage = reader.ReadData<string>("teaser_image");
-			SpecialImage = reader.ReadData<string>("special_image");
-			TextOne = reader.ReadData<string>("text_one");
-			TextTwo = reader.ReadData<string>("text_two");
-			TextDetails = reader.ReadData<string>("text_details");
-			TextTeaser = reader.ReadData<string>("text_teaser");
+            Rank = reader.ReadData<int>("rank");
+            Order = reader.ReadData<int>("order_num");
+            Items = new List<ICatalogItem>();
+            HeaderImage = reader.ReadData<string>("header_image");
+            TeaserImage = reader.ReadData<string>("teaser_image");
+            SpecialImage = reader.ReadData<string>("special_image");
+            TextOne = reader.ReadData<string>("text_one");
+            TextTwo = reader.ReadData<string>("text_two");
+            TextDetails = reader.ReadData<string>("text_details");
+            TextTeaser = reader.ReadData<string>("text_teaser");
             Layout = GetCatalogLayout(reader.ReadData<string>("layout"));
-			Enabled = reader.ReadData<bool>("enabled");
-			Visible = reader.ReadData<bool>("visible");
+            Enabled = reader.ReadData<bool>("enabled");
+            Visible = reader.ReadData<bool>("visible");
         }
 
         private ICatalogLayout GetCatalogLayout(string layout)
@@ -44,6 +46,7 @@ namespace AliasPro.Catalog.Models
         public int Icon { get; }
         public int Rank { get; }
         public int Order { get; }
+        public IList<ICatalogItem> Items { get; set; }
         public string HeaderImage { get; }
         public string TeaserImage { get; }
         public string SpecialImage { get; }
@@ -65,6 +68,7 @@ namespace AliasPro.Catalog.Models
         int Icon { get; }
         int Rank { get; }
         int Order { get; }
+        IList<ICatalogItem> Items { get; set; }
         string HeaderImage { get; }
         string TeaserImage { get; }
         string SpecialImage { get; }
