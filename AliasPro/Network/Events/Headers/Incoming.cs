@@ -13,6 +13,9 @@
         internal const short UpdateItemMessageEvent = 1620;
         internal const short RemoveItemMessageEvent = 3036;
 
+        // Catalog
+        internal const short RequestDiscountMessageEvent = 703;
+
         // Rooms
         internal const short RequestRoomLoadMessageEvent = 3464;
         internal const short RequestRoomEntryDataMessageEvent = 1583;

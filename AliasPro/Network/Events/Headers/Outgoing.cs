@@ -19,6 +19,9 @@
         internal const short AddPlayerItemsMessageComposer = 2323;
         internal const short InventoryRefreshMessageComposer = 32;
 
+        // Catalog
+        internal const short DiscountMessageComposer = 1602;
+
         // Rooms
         internal const short RoomOpenMessageComposer = 1975;
         internal const short RoomModelMessageComposer = 1303;

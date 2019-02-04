@@ -3,8 +3,8 @@
 namespace AliasPro.Catalog
 {
     using Network;
-    //using Network.Events;
-    //using Packets.Incoming;
+    using Network.Events;
+    using Packets.Incoming;
 
     internal class CatalogService : INetworkService
     {
@@ -19,7 +19,7 @@ namespace AliasPro.Catalog
 
         private static void AddPackets(IServiceCollection collection)
         {
-
+            collection.AddSingleton<IAsyncPacket, RequestDiscountEvent>();
         }
     }
 }
