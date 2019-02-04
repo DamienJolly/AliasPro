@@ -28,7 +28,7 @@ namespace AliasPro.Room.Models.Item
         internal async Task RemoveItem(IItem item)
         {
             RoomItems.Remove(item.Id);
-            //await _room.SendAsync(new ObjectRemoveComposer(item));
+            await _room.SendAsync(new RemoveFloorItemComposer(item));
         }
 
         internal async Task UpdateItem(IItem item)

@@ -19,10 +19,16 @@ namespace AliasPro.Player.Models
             Items = items;
         }
 
+        public async Task AddItem(IItem item)
+        {
+            Items.Add(item.Id, item);
+            await _session.SendPacketAsync(new AddPlayerItemsComposer(item));
+        }
+
         public async Task RemoveItem(IItem item)
         {
             Items.Remove(item.Id);
-            await _session.SendPacketAsync(new ObjectAddComposer(item));
+            await _session.SendPacketAsync(new RemovePlayerItemComposer(item.Id));
         }
 
         public bool TryGetItem(uint id, out IItem item) => Items.TryGetValue(id, out item);
@@ -31,6 +37,7 @@ namespace AliasPro.Player.Models
     public interface IPlayerInventory
     {
         IDictionary<uint, IItem> Items { get; }
+        Task AddItem(IItem item);
         Task RemoveItem(IItem item);
         bool TryGetItem(uint id, out IItem item);
     }

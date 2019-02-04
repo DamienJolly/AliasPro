@@ -11,6 +11,7 @@
         internal const short RequestFurniInventoryMessageEvent = 2835;
         internal const short PlaceItemMessageEvent = 2187;
         internal const short UpdateItemMessageEvent = 1620;
+        internal const short RemoveItemMessageEvent = 3036;
 
         // Rooms
         internal const short RequestRoomLoadMessageEvent = 3464;

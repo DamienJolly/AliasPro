@@ -15,6 +15,9 @@
         internal const short ObjectAddMessageComposer = 2396;
         internal const short RemovePlayerItemMessageComposer = 1518;
         internal const short FloorItemUpdateMessageComposer = 854;
+        internal const short RemoveFloorItemMessageComposer = 2986;
+        internal const short AddPlayerItemsMessageComposer = 2323;
+        internal const short InventoryRefreshMessageComposer = 32;
 
         // Rooms
         internal const short RoomOpenMessageComposer = 1975;
