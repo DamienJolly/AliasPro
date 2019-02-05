@@ -4,6 +4,7 @@ namespace AliasPro.Chat.Models.Commands
 {
     using Sessions;
     using Catalog;
+    using Catalog.Packets.Outgoing;
 
     internal class UpdateCommand : IChatCommand
     {
@@ -29,7 +30,7 @@ namespace AliasPro.Chat.Models.Commands
                     case "catalogue":
                         {
                             _catalogController.ReloadCatalog();
-                            //await session.SendPacketAsync(new CatalogUpdatedComposer());
+                            await session.SendPacketAsync(new CatalogUpdatedComposer());
                             break;
                         }
                 }

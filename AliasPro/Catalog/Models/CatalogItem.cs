@@ -18,7 +18,6 @@ namespace AliasPro.Catalog.Models
             Credits = reader.ReadData<int>("cost_credits");
             Points = reader.ReadData<int>("cost_points");
             PointsType = reader.ReadData<int>("points_type");
-            Amount = reader.ReadData<int>("amount");
             ClubLevel = reader.ReadData<int>("club_level");
             CanGift = reader.ReadData<bool>("can_gift");
             HasOffer = reader.ReadData<bool>("have_offer");
@@ -49,7 +48,6 @@ namespace AliasPro.Catalog.Models
         public int Credits { get; }
         public int Points { get; }
         public int PointsType { get; }
-        public int Amount { get; }
         public int ClubLevel { get; }
         public bool CanGift { get; }
         public bool HasOffer { get; }
@@ -91,7 +89,6 @@ namespace AliasPro.Catalog.Models
         int Credits { get; }
         int Points { get; }
         int PointsType { get; }
-        int Amount { get; }
         int ClubLevel { get; }
         bool CanGift { get; }
         bool HasOffer { get; }

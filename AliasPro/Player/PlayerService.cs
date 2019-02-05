@@ -23,6 +23,7 @@ namespace AliasPro.Player
             collection.AddSingleton<IAsyncPacket, SecureLoginEvent>();
             collection.AddSingleton<IAsyncPacket, RequestUserDataEvent>();
             collection.AddSingleton<IAsyncPacket, RequestFurniInventoryEvent>();
+            collection.AddSingleton<IAsyncPacket, RequestUserCreditsEvent>();
         }
     }
 }

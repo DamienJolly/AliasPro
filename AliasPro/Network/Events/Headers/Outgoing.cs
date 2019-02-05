@@ -10,6 +10,7 @@
         internal const short UserPerksMessageComposer = 1105;
         internal const short UserDataMessageComposer = 3862;
         internal const short FurniListMessageComposer = 826;
+        internal const short UserCreditsMessageComposer = 1232;
 
         // Items
         internal const short ObjectAddMessageComposer = 2396;
@@ -24,6 +25,7 @@
 
         // Catalog
         internal const short DiscountMessageComposer = 1602;
+        internal const short CatalogUpdatedMessageComposer = 1592;
 
         // Rooms
         internal const short RoomOpenMessageComposer = 1975;

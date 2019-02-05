@@ -10,20 +10,20 @@ namespace AliasPro.Catalog.Packets.Outgoing
     public class CatalogPagesListComposer : IPacketComposer
     {
         private readonly ICatalogController _catalogController;
-        private readonly ICollection<ICatalogPage> _rootPages;
         private readonly string _mode;
         private readonly int _rank;
 
-        public CatalogPagesListComposer(ICatalogController catalogController, ICollection<ICatalogPage> rootPages, string mode, int rank)
+        public CatalogPagesListComposer(ICatalogController catalogController, string mode, int rank)
         {
             _catalogController = catalogController;
-            _rootPages = rootPages;
             _mode = mode;
             _rank = rank;
         }
 
         public ServerPacket Compose()
         {
+            ICollection<ICatalogPage> pages = _catalogController.GetCatalogPages(-1, _rank);
+
             ServerPacket message = new ServerPacket(Outgoing.CatalogPagesListMessageComposer);
             message.WriteBoolean(true);
             message.WriteInt(0);
@@ -33,8 +33,8 @@ namespace AliasPro.Catalog.Packets.Outgoing
 
             message.WriteInt(0);
 
-            message.WriteInt(_rootPages.Count);
-            foreach (CatalogPage page in _rootPages)
+            message.WriteInt(pages.Count);
+            foreach (CatalogPage page in pages)
             {
                 Append(message, page);
             }
@@ -43,7 +43,7 @@ namespace AliasPro.Catalog.Packets.Outgoing
             return message;
         }
         
-        private async void Append(ServerPacket message, CatalogPage catalogPage)
+        private void Append(ServerPacket message, CatalogPage catalogPage)
         {
             ICollection<ICatalogPage> pages = _catalogController.GetCatalogPages(catalogPage.Id, _rank);
 
