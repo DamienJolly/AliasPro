@@ -65,7 +65,8 @@ namespace AliasPro.Database
                 {
                     command.CommandText = query;
                     AddParameters(command.Parameters, parameters);
-                    id = await command.ExecuteNonQueryAsync();
+                    await command.ExecuteNonQueryAsync();
+                    id = (int)command.LastInsertedId;
                 }
             }
             catch (Exception ex)

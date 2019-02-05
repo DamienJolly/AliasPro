@@ -10,15 +10,14 @@
     {
         private readonly ICollection<IItem> _items;
 
+        public AddPlayerItemsComposer(IItem item)
+        {
+            _items = new List<IItem> { item };
+        }
+
         public AddPlayerItemsComposer(ICollection<IItem> items)
         {
             _items = items;
-        }
-
-        public AddPlayerItemsComposer(IItem item)
-        {
-            _items = new List<IItem>();
-            _items.Add(item);
         }
 
         public ServerPacket Compose()

@@ -11,18 +11,18 @@ namespace AliasPro.Player.Models
     {
         private readonly ISession _session;
 
-        public IDictionary<uint, IItem> Items { get; }
+        public IDictionary<uint, IItem> Items { get; set; }
 
-        internal PlayerInventory(ISession session, IDictionary<uint, IItem> items)
+        internal PlayerInventory(ISession session)
         {
             _session = session;
-            Items = items;
+            Items = new Dictionary<uint, IItem>();
         }
 
-        public async Task AddItem(IItem item)
+        public Task AddItem(IItem item)
         {
             Items.Add(item.Id, item);
-            await _session.SendPacketAsync(new AddPlayerItemsComposer(item));
+            return Task.CompletedTask;
         }
 
         public async Task RemoveItem(IItem item)
@@ -36,7 +36,7 @@ namespace AliasPro.Player.Models
 
     public interface IPlayerInventory
     {
-        IDictionary<uint, IItem> Items { get; }
+        IDictionary<uint, IItem> Items { get; set; }
         Task AddItem(IItem item);
         Task RemoveItem(IItem item);
         bool TryGetItem(uint id, out IItem item);

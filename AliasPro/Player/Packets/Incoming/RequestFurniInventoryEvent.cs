@@ -8,9 +8,7 @@ namespace AliasPro.Player.Packets.Incoming
     using Network.Protocol;
     using Packets.Outgoing;
     using Sessions;
-    using Models;
     using Item;
-    using Item.Models;
 
     public class RequestFurniInventoryEvent : IAsyncPacket
     {
@@ -27,17 +25,9 @@ namespace AliasPro.Player.Packets.Incoming
             ISession session,
             IClientPacket clientPacket)
         {
-            IDictionary<uint, IItem> items;
-            if (session.Player.Inventory == null)
-            {
-                items = await _itemController.GetItemsForPlayerAsync(session.Player.Id);
-
-                session.Player.Inventory = new PlayerInventory(session, items);
-            }
-
-            items = session.Player.Inventory.Items;
-
-            await session.SendPacketAsync(new FurniListComposer(items.Values));
+            session.Player.Inventory.Items =
+                    await _itemController.GetItemsForPlayerAsync(session.Player.Id);
+            await session.SendPacketAsync(new FurniListComposer(session.Player.Inventory.Items.Values));
         }
     }
 }

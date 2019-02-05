@@ -32,7 +32,7 @@ namespace AliasPro.Item
         public bool TryGetItemDataById(uint itemId, out IItemData item) =>
             _itemDatas.TryGetValue(itemId, out item);
 
-        private async void LoadItemData() =>
-            _itemDatas = await _itemDao.GetItemData();
+        public async Task<int> AddNewItemAsync(IItem item) =>
+            await _itemDao.AddNewItemAsync(item);
     }
 }

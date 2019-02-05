@@ -47,7 +47,7 @@ namespace AliasPro.Catalog
                         
                         if (catalogRepostiory.TryGetCatalogPage(item.PageId, out ICatalogPage page))
                         {
-                            page.Items.Add(item);
+                            page.Items.Add(item.Id, item);
                         }
                     }
                 }, "SELECT * FROM `catalog_items`;");

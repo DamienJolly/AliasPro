@@ -34,6 +34,7 @@ namespace AliasPro.Item.Packets.Incoming
                 }
 
                 await session.Player.Inventory.AddItem(item);
+                await session.SendPacketAsync(new AddPlayerItemsComposer(item));
                 await session.SendPacketAsync(new InventoryRefreshComposer());
             }
         }

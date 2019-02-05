@@ -43,6 +43,8 @@ namespace AliasPro.Player.Packets.Incoming
                         await _playerController.GetPlayerSettingsByIdAsync(player.Id);
                 }
 
+                session.Player.Inventory = new PlayerInventory(session);
+
                 await session.SendPacketAsync(new SecureLoginOKComposer());
                 await session.SendPacketAsync(new HomeRoomComposer(1));
 

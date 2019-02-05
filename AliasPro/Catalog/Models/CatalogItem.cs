@@ -1,11 +1,12 @@
 ﻿using System.Data.Common;
+using System.Collections.Generic;
 
 namespace AliasPro.Catalog.Models
 {
     using Item;
     using Item.Models;
     using Database;
-    using System.Collections.Generic;
+    using Network.Protocol;
 
     internal class CatalogItem : ICatalogItem
     {
@@ -78,6 +79,38 @@ namespace AliasPro.Catalog.Models
                 return LimitedNumbers[0];
             }
         }
+
+        public void Compose(ServerPacket message)
+        {
+            message.WriteInt(Id);
+            message.WriteString(Name);
+            message.WriteBoolean(false);
+            message.WriteInt(Credits);
+            message.WriteInt(Points);
+            message.WriteInt(PointsType);
+            message.WriteBoolean(CanGift);
+
+            message.WriteInt(Items.Count);
+            foreach (ICatalogItemData item in Items)
+            {
+                message.WriteString(item.ItemData.Type);
+                message.WriteInt(item.ItemData.SpriteId);
+                message.WriteString(item.ItemData.ExtraData);
+                message.WriteInt(item.Amount);
+
+                message.WriteBoolean(IsLimited && item.Amount <= 1);
+                if (IsLimited && item.Amount <= 1)
+                {
+                    message.WriteInt(LimitedStack);
+                    message.WriteInt(LimitedStack - LimitedSells);
+                }
+            }
+
+            message.WriteInt(ClubLevel);
+            message.WriteBoolean(HasOffer);
+            message.WriteBoolean(false);
+            message.WriteString(Name + ".png");
+        }
     }
 
     public interface ICatalogItem
@@ -98,5 +131,7 @@ namespace AliasPro.Catalog.Models
         int LimitedSells { get; }
         bool IsLimited { get; }
         int GetNumber { get; }
+
+        void Compose(ServerPacket message);
     }
 }

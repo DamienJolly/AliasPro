@@ -23,6 +23,7 @@ namespace AliasPro.Catalog
             collection.AddSingleton<IAsyncPacket, RequestCatalogIndexEvent>();
             collection.AddSingleton<IAsyncPacket, RequestCatalogModeEvent>();
             collection.AddSingleton<IAsyncPacket, RequestCatalogPageEvent>();
+            collection.AddSingleton<IAsyncPacket, CatalogBuyItemEvent>();
         }
     }
 }

@@ -21,6 +21,9 @@
 
         public bool TryGetItemDataById(uint itemId, out IItemData item) =>
             _itemRepository.TryGetItemDataById(itemId, out item);
+
+        public async Task<int> AddNewItemAsync(IItem item) =>
+            await _itemRepository.AddNewItemAsync(item);
     }
 
     public interface IItemController
@@ -28,5 +31,6 @@
         Task<IDictionary<uint, IItem>> GetItemsForPlayerAsync(uint id);
         Task<IDictionary<uint, IItem>> GetItemsForRoomAsync(uint id);
         bool TryGetItemDataById(uint itemId, out IItemData item);
+        Task<int> AddNewItemAsync(IItem item);
     }
 }

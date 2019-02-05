@@ -24,36 +24,9 @@
             _catalogPage.Layout.Compose(message, _catalogPage);
 
             message.WriteInt(_catalogPage.Items.Count);
-            foreach (ICatalogItem catalogitem in _catalogPage.Items)
+            foreach (ICatalogItem catalogitem in _catalogPage.Items.Values)
             {
-                message.WriteInt(catalogitem.Id);
-                message.WriteString(catalogitem.Name);
-                message.WriteBoolean(false);
-                message.WriteInt(catalogitem.Credits);
-                message.WriteInt(catalogitem.Points);
-                message.WriteInt(catalogitem.PointsType);
-                message.WriteBoolean(catalogitem.CanGift);
-
-                message.WriteInt(catalogitem.Items.Count);
-                foreach (var item in catalogitem.Items)
-                {
-                    message.WriteString(item.ItemData.Type);
-                    message.WriteInt(item.ItemData.SpriteId);
-                    message.WriteString(item.ItemData.ExtraData);
-                    message.WriteInt(item.Amount);
-
-                    message.WriteBoolean(catalogitem.IsLimited && item.Amount <= 1);
-                    if (catalogitem.IsLimited && item.Amount <= 1)
-                    {
-                        message.WriteInt(catalogitem.LimitedStack);
-                        message.WriteInt(catalogitem.LimitedStack - catalogitem.LimitedSells);
-                    }
-                }
-
-                message.WriteInt(catalogitem.ClubLevel);
-                message.WriteBoolean(catalogitem.HasOffer);
-                message.WriteBoolean(false);
-                message.WriteString(catalogitem.Name + ".png");
+                catalogitem.Compose(message);
             }
 
             message.WriteInt(0);

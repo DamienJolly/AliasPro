@@ -17,7 +17,7 @@ namespace AliasPro.Catalog.Models
             Icon = reader.ReadData<int>("icon");
             Rank = reader.ReadData<int>("rank");
             Order = reader.ReadData<int>("order_num");
-            Items = new List<ICatalogItem>();
+            Items = new Dictionary<int, ICatalogItem>();
             HeaderImage = reader.ReadData<string>("header_image");
             TeaserImage = reader.ReadData<string>("teaser_image");
             SpecialImage = reader.ReadData<string>("special_image");
@@ -39,6 +39,9 @@ namespace AliasPro.Catalog.Models
             }
         }
 
+        public bool TryGetCatalogItem(int itemId, out ICatalogItem item) =>
+            Items.TryGetValue(itemId, out item);
+
         public int Id { get; }
         public int ParentId { get; }
         public string Name { get; }
@@ -46,7 +49,7 @@ namespace AliasPro.Catalog.Models
         public int Icon { get; }
         public int Rank { get; }
         public int Order { get; }
-        public IList<ICatalogItem> Items { get; set; }
+        public IDictionary<int, ICatalogItem> Items { get; set; }
         public string HeaderImage { get; }
         public string TeaserImage { get; }
         public string SpecialImage { get; }
@@ -68,7 +71,7 @@ namespace AliasPro.Catalog.Models
         int Icon { get; }
         int Rank { get; }
         int Order { get; }
-        IList<ICatalogItem> Items { get; set; }
+        IDictionary<int, ICatalogItem> Items { get; set; }
         string HeaderImage { get; }
         string TeaserImage { get; }
         string SpecialImage { get; }
@@ -79,5 +82,7 @@ namespace AliasPro.Catalog.Models
         ICatalogLayout Layout { get; }
         bool Enabled { get; }
         bool Visible { get; }
+
+        bool TryGetCatalogItem(int itemId, out ICatalogItem item);
     }
 }

@@ -26,6 +26,10 @@
         // Catalog
         internal const short DiscountMessageComposer = 1602;
         internal const short CatalogUpdatedMessageComposer = 1592;
+        internal const short AlertPurchaseFailedMessageComposer = 1103;
+        internal const short AlertPurchaseUnavailableMessageComposer = 472;
+        internal const short AlertLimitedSoldOutMessageComposer = 2802;
+        internal const short PurchaseOKMessageComposer = 3661;
 
         // Rooms
         internal const short RoomOpenMessageComposer = 1975;
