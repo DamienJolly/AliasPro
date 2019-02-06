@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 namespace AliasPro.Player
 {
     using Models;
+    using Models.Currency;
 
     internal class PlayerRepostiory
     {
@@ -35,7 +36,10 @@ namespace AliasPro.Player
 
         internal async Task<IPlayerSettings> GetPlayerSettingsById(uint id) =>
             await _playerDao.GetPlayerSettingsById(id);
-        
+
+        public async Task<IDictionary<int, ICurrencyType>> GetPlayerCurrenciesById(uint id) =>
+            await _playerDao.GetPlayerCurrenciesById(id);
+
         internal async Task UpdatePlayerSettings(uint id, IPlayerSettings settings) =>
             await _playerDao.UpdatePlayerSettings(id, settings);
     }

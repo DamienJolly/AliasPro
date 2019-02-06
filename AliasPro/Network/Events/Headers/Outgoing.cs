@@ -11,6 +11,7 @@
         internal const short UserDataMessageComposer = 3862;
         internal const short FurniListMessageComposer = 826;
         internal const short UserCreditsMessageComposer = 1232;
+        internal const short UserCurrencyMessageComposer = 2380;
 
         // Items
         internal const short ObjectAddMessageComposer = 2396;

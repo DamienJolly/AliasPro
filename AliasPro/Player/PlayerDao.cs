@@ -1,9 +1,11 @@
 ﻿using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace AliasPro.Player
 {
     using Database;
     using Models;
+    using Models.Currency;
 
     internal class PlayerDao : BaseDao
     {
@@ -62,6 +64,27 @@ namespace AliasPro.Player
             });
 
             return playerSettings;
+        }
+
+        internal async Task<IDictionary<int, ICurrencyType>> GetPlayerCurrenciesById(uint id)
+        {
+            IDictionary<int, ICurrencyType> currencies = new Dictionary<int, ICurrencyType>();
+            await CreateTransaction(async transaction =>
+            {
+                await Select(transaction, async reader =>
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        ICurrencyType currency = new CurrencyType(reader);
+                        if (!currencies.ContainsKey(currency.Type))
+                        {
+                            currencies.Add(currency.Type, currency);
+                        }
+                    }
+                }, "SELECT `type`, `amount` FROM `player_currencies` WHERE `player_id` = @0;", id);
+            });
+
+            return currencies;
         }
 
         internal async Task UpdatePlayerSettings(uint id, IPlayerSettings settings)

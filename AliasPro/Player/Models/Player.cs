@@ -1,10 +1,12 @@
-﻿using System.Data.Common;
+﻿using System;
+using System.Data.Common;
 
 namespace AliasPro.Player.Models
 {
     using Database;
+    using Currency;
 
-    internal class Player : IPlayer
+    internal class Player : IPlayer, IDisposable
     {
         internal Player(DbDataReader reader)
         {
@@ -18,6 +20,11 @@ namespace AliasPro.Player.Models
             Motto = reader.ReadData<string>("motto");
         }
 
+        public void Dispose()
+        {
+
+        }
+
         public uint Id { get; set; }
         public int Credits { get; set; }
         public int Rank { get; set; }
@@ -28,6 +35,7 @@ namespace AliasPro.Player.Models
         public string Motto { get; set; }
         public IPlayerSettings PlayerSettings { get; set; }
         public IPlayerInventory Inventory { get; set; }
+        public PlayerCurrency Currency { get; set; }
     }
 
     public interface IPlayer
@@ -42,5 +50,6 @@ namespace AliasPro.Player.Models
         string Motto { get; set; }
         IPlayerSettings PlayerSettings { get; set; }
         IPlayerInventory Inventory { get; set; }
+        PlayerCurrency Currency { get; set; }
     }
 }

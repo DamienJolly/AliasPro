@@ -17,7 +17,7 @@ namespace AliasPro.Player.Packets.Incoming
             IClientPacket clientPacket)
         {
             await session.SendPacketAsync(new UserCreditsComposer(session.Player.Credits));
-            //todo: other currencies
+            await session.SendPacketAsync(new UserCurrencyComposer(session.Player.Currency.Currencies));
         }
     }
 }

@@ -8,6 +8,8 @@ namespace AliasPro.Player.Packets.Incoming
     using Models;
     using Packets.Outgoing;
     using Sessions;
+    using System.Collections.Generic;
+    using AliasPro.Player.Models.Currency;
 
     public class SecureLoginEvent : IAsyncPacket
     {
@@ -42,6 +44,9 @@ namespace AliasPro.Player.Packets.Incoming
                     session.Player.PlayerSettings =
                         await _playerController.GetPlayerSettingsByIdAsync(player.Id);
                 }
+
+                session.Player.Currency = new PlayerCurrency(
+                    await _playerController.GetPlayerCurrenciesByIdAsync(player.Id));
 
                 session.Player.Inventory = new PlayerInventory(session);
 

@@ -31,7 +31,8 @@ namespace AliasPro.Player.Models
             await _session.SendPacketAsync(new RemovePlayerItemComposer(item.Id));
         }
 
-        public bool TryGetItem(uint id, out IItem item) => Items.TryGetValue(id, out item);
+        public bool TryGetItem(uint id, out IItem item) => 
+            Items.TryGetValue(id, out item);
     }
 
     public interface IPlayerInventory
