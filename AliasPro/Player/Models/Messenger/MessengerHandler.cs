@@ -30,6 +30,9 @@ namespace AliasPro.Player.Models.Messenger
         public void RemoveRequest(uint targetId) =>
             _requests.Remove(targetId);
 
+        public void RemoveFriend(uint targetId) =>
+            _friends.Remove(targetId);
+
         public void RemoveAllRequests() =>
             _requests.Clear();
 

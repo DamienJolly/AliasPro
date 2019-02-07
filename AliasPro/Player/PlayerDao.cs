@@ -163,6 +163,26 @@ namespace AliasPro.Player
             return requests;
         }
 
+        internal async Task<IDictionary<uint, IPlayer>> GetPlayersByUsername(string username)
+        {
+            IDictionary<uint, IPlayer> players = new Dictionary<uint, IPlayer>();
+            await CreateTransaction(async transaction =>
+            {
+                await Select(transaction, async reader =>
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        IPlayer player = new Player(reader);
+                        if (!players.ContainsKey(player.Id))
+                        {
+                            players.Add(player.Id, player);
+                        }
+                    }
+                }, "SELECT `id`, `credits`, `rank`, `username`, `auth_ticket`, `figure`, `gender`, `motto` FROM `players` WHERE `username` LIKE @0 LIMIT 1;", "%" + username + "%");
+            });
+            return players;
+        }
+        
         internal async Task UpdatePlayerSettings(uint id, IPlayerSettings settings)
         {
             await CreateTransaction(async transaction =>
@@ -172,19 +192,27 @@ namespace AliasPro.Player
             });
         }
         
-        internal async Task RemoveAllFriendRequests(uint id)
+        internal async Task RemoveAllFriendRequests(uint playerId)
         {
             await CreateTransaction(async transaction =>
             {
-                await Insert(transaction, "DELETE FROM `messenger_requests` WHERE `player_id` = @0;", id);
+                await Insert(transaction, "DELETE FROM `messenger_requests` WHERE `player_id` = @0;", playerId);
             });
         }
 
-        internal async Task RemoveFriendRequest(uint id, uint targetId)
+        internal async Task RemoveFriendRequest(uint playerId, uint targetId)
         {
             await CreateTransaction(async transaction =>
             {
-                await Insert(transaction, "DELETE FROM `messenger_requests` WHERE `player_id` = @0 AND `target_id` = @1;", id, targetId);
+                await Insert(transaction, "DELETE FROM `messenger_requests` WHERE `player_id` = @0 AND `target_id` = @1;", playerId, targetId);
+            });
+        }
+
+        internal async Task RemoveFriendShip(uint playerId, uint targetId)
+        {
+            await CreateTransaction(async transaction =>
+            {
+                await Insert(transaction, "DELETE FROM `messenger_friends` WHERE (`target_id` = @0 AND `player_id` = @1) OR (`target_id` = @1 AND `player_id` = @0);", playerId, targetId);
             });
         }
     }

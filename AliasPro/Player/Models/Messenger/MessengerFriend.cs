@@ -7,6 +7,7 @@ namespace AliasPro.Player.Models.Messenger
 
     internal class MessengerFriend : IMessengerFriend
     {
+        //todo: use player class
         public MessengerFriend(DbDataReader reader)
         {
             Id = reader.ReadData<uint>("id");
@@ -34,7 +35,7 @@ namespace AliasPro.Player.Models.Messenger
             message.WriteInt(Id);
             message.WriteString(Username);
             message.WriteInt(1); //Gender???
-            message.WriteBoolean(true); //Online
+            message.WriteBoolean(IsOnline); //Online
             message.WriteBoolean(InRoom);
             message.WriteString(Figure);
             message.WriteInt(0); //category id
@@ -44,7 +45,7 @@ namespace AliasPro.Player.Models.Messenger
             message.WriteBoolean(true);
             message.WriteBoolean(false);
             message.WriteBoolean(false);
-            message.WriteInt(Relation);
+            message.WriteShort((short)Relation);
         }
 
         public uint Id { get; }

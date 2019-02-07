@@ -19,6 +19,9 @@
         internal const short LoadFriendRequestsMessageComposer = 365;
         internal const short FriendRequestMessageComposer = 2455;
         internal const short UpdateFriendMessageComposer = 3018;
+        internal const short UserSearchResultMessageComposer = 214;
+        internal const short RoomInviteErrorMessageComposer = 2542;
+        internal const short FriendChatMessageComposer = 2664;
 
         // Items
         internal const short ObjectAddMessageComposer = 2396;

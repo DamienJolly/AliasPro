@@ -46,14 +46,20 @@ namespace AliasPro.Player
         public async Task<IDictionary<uint, IMessengerRequest>> GetPlayerRequestsByIdAsync(uint id) =>
             await _playerRepostiory.GetPlayerRequestsById(id);
 
+        public async Task<IDictionary<uint, IPlayer>> GetPlayersByUsernameAsync(string username) =>
+            await _playerRepostiory.GetPlayersByUsername(username);
+
         public async Task UpdatePlayerSettingsAsync(uint id, IPlayerSettings settings) =>
             await _playerRepostiory.UpdatePlayerSettings(id, settings);
 
-        public async Task RemoveAllFriendRequestsAsync(uint id) =>
-            await _playerRepostiory.RemoveAllFriendRequests(id);
+        public async Task RemoveAllFriendRequestsAsync(uint playerId) =>
+            await _playerRepostiory.RemoveAllFriendRequests(playerId);
 
-        public async Task RemoveFriendRequestAsync(uint id, uint targetId) =>
-            await _playerRepostiory.RemoveFriendRequest(id, targetId);
+        public async Task RemoveFriendRequestAsync(uint playerId, uint targetId) =>
+            await _playerRepostiory.RemoveFriendRequest(playerId, targetId);
+
+        public async Task RemoveFriendShipAsync(uint playerId, uint targetId) =>
+            await _playerRepostiory.RemoveFriendShip(playerId, targetId);
     }
 
     public interface IPlayerController
@@ -68,9 +74,11 @@ namespace AliasPro.Player
         Task<IDictionary<int, ICurrencyType>> GetPlayerCurrenciesByIdAsync(uint id);
         Task<IDictionary<uint, IMessengerFriend>> GetPlayerFriendsByIdAsync(uint id);
         Task<IDictionary<uint, IMessengerRequest>> GetPlayerRequestsByIdAsync(uint id);
+        Task<IDictionary<uint, IPlayer>> GetPlayersByUsernameAsync(string username);
         Task UpdatePlayerSettingsAsync(uint id, IPlayerSettings settings);
-        Task RemoveAllFriendRequestsAsync(uint id);
-        Task RemoveFriendRequestAsync(uint id, uint targetId);
+        Task RemoveAllFriendRequestsAsync(uint playerId);
+        Task RemoveFriendRequestAsync(uint playerId, uint targetId);
+        Task RemoveFriendShipAsync(uint playerId, uint targetId);
 
     }
 }

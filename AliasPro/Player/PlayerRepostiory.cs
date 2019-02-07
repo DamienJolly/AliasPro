@@ -23,10 +23,7 @@ namespace AliasPro.Player
         {
             if (_players.TryGetValue(id, out IPlayer player)) return player;
 
-            player = await _playerDao.GetPlayerById(id);
-            _players.Add(player.Id, player);
-
-            return player;
+            return await _playerDao.GetPlayerById(id);
         }
 
         internal async Task<IPlayer> GetPlayerByUsername(string username)
@@ -41,6 +38,17 @@ namespace AliasPro.Player
             return await _playerDao.GetPlayerByUsername(username);
         }
 
+        internal async Task<IPlayer> GetPlayerBySso(string sso)
+        {
+            IPlayer player = await _playerDao.GetPlayerBySso(sso);
+            if(!_players.ContainsKey(player.Id))
+            {
+                _players.Add(player.Id, player);
+            }
+
+            return player;
+        }
+
         internal async Task CreatePlayerSettings(uint id) =>
             await _playerDao.CreatePlayerSettings(id);
 
@@ -49,9 +57,6 @@ namespace AliasPro.Player
 
         public async Task CreateFriendShip(uint playerId, uint targetId) =>
             await _playerDao.CreateFriendShip(playerId, targetId);
-
-        internal async Task<IPlayer> GetPlayerBySso(string sso) =>
-            await _playerDao.GetPlayerBySso(sso);
         
         internal async Task<IPlayerSettings> GetPlayerSettingsById(uint id) =>
             await _playerDao.GetPlayerSettingsById(id);
@@ -65,13 +70,19 @@ namespace AliasPro.Player
         public async Task<IDictionary<uint, IMessengerRequest>> GetPlayerRequestsById(uint id) =>
             await _playerDao.GetPlayerRequestById(id);
 
+        public async Task<IDictionary<uint, IPlayer>> GetPlayersByUsername(string username) =>
+            await _playerDao.GetPlayersByUsername(username);
+
         internal async Task UpdatePlayerSettings(uint id, IPlayerSettings settings) =>
             await _playerDao.UpdatePlayerSettings(id, settings);
 
-        public async Task RemoveAllFriendRequests(uint id) =>
-            await _playerDao.RemoveAllFriendRequests(id);
+        public async Task RemoveAllFriendRequests(uint playerId) =>
+            await _playerDao.RemoveAllFriendRequests(playerId);
 
-        public async Task RemoveFriendRequest(uint id, uint targetId) =>
-            await _playerDao.RemoveFriendRequest(id, targetId);
+        public async Task RemoveFriendRequest(uint playerId, uint targetId) =>
+            await _playerDao.RemoveFriendRequest(playerId, targetId);
+
+        public async Task RemoveFriendShip(uint playerId, uint targetId) =>
+            await _playerDao.RemoveFriendShip(playerId, targetId);
     }
 }

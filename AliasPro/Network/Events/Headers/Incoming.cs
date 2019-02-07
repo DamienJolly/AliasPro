@@ -15,6 +15,9 @@
         internal const short RequestFriendsMessageEvent = 1368;
         internal const short AcceptFriendRequestMessageEvent = 1879;
         internal const short DeclineFriendRequestMessageEvent = 204;
+        internal const short RemoveFriendMessageEvent = 853;
+        internal const short SearchUserMessageEvent = 3483;
+        internal const short FriendPrivateMessageEvent = 2279;
 
         // Items
         internal const short RequestFurniInventoryMessageEvent = 2835;
