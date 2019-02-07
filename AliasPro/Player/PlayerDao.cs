@@ -35,6 +35,15 @@ namespace AliasPro.Player
             });
         }
 
+        internal async Task CreateOfflineMessage(uint playerId, IMessengerMessage privateMessage)
+        {
+            await CreateTransaction(async transaction =>
+            {
+                await Insert(transaction, "INSERT INTO `messenger_offline_messages` (`player_id`, `target_id`, `message`, `timestamp`) VALUES(@0, @1, @2, @3);", 
+                    playerId, privateMessage.TargetId, privateMessage.Message, privateMessage.Timestamp);
+            });
+        }
+
         internal async Task<IPlayer> GetPlayerById(uint id)
         {
             IPlayer player = null;
@@ -182,7 +191,30 @@ namespace AliasPro.Player
             });
             return players;
         }
-        
+
+        internal async Task<ICollection<IMessengerMessage>> GetOfflineMessages(uint playerId)
+        {
+            ICollection<IMessengerMessage> messages = new List<IMessengerMessage>();
+            await CreateTransaction(async transaction =>
+            {
+                await Select(transaction, async reader =>
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        IMessengerMessage message = new MessengerMessage(reader);
+                        messages.Add(message);
+                    }
+                }, "SELECT `target_id`, `message`, `timestamp` FROM `messenger_offline_messages` WHERE `player_id` = @0;", playerId);
+            });
+
+            await CreateTransaction(async transaction =>
+            {
+                await Insert(transaction, "DELETE FROM `messenger_offline_messages` WHERE `player_id` = @0;", playerId);
+            });
+
+            return messages;
+        }
+
         internal async Task UpdatePlayerSettings(uint id, IPlayerSettings settings)
         {
             await CreateTransaction(async transaction =>

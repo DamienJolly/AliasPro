@@ -24,7 +24,10 @@ namespace AliasPro.Player
 
         public async Task AddFriendShipAsync(uint playerId, uint targetId) =>
             await _playerRepostiory.CreateFriendShip(playerId, targetId);
-        
+
+        public async Task AddOfflineMessageAsync(uint playerId, IMessengerMessage privateMessage) =>
+            await _playerRepostiory.CreateOfflineMessage(playerId, privateMessage);
+
         public async Task<IPlayer> GetPlayerByIdAsync(uint id) =>
             await _playerRepostiory.GetPlayerById(id);
 
@@ -49,6 +52,9 @@ namespace AliasPro.Player
         public async Task<IDictionary<uint, IPlayer>> GetPlayersByUsernameAsync(string username) =>
             await _playerRepostiory.GetPlayersByUsername(username);
 
+        public async Task<ICollection<IMessengerMessage>> GetOfflineMessagesAsync(uint playerId) =>
+            await _playerRepostiory.GetOfflineMessages(playerId);
+
         public async Task UpdatePlayerSettingsAsync(uint id, IPlayerSettings settings) =>
             await _playerRepostiory.UpdatePlayerSettings(id, settings);
 
@@ -67,6 +73,7 @@ namespace AliasPro.Player
         Task AddPlayerSettingsAsync(uint id);
         Task AddFriendRequestAsync(uint playerId, uint targetId);
         Task AddFriendShipAsync(uint playerId, uint targetId);
+        Task AddOfflineMessageAsync(uint playerId, IMessengerMessage privateMessage);
         Task<IPlayer> GetPlayerByIdAsync(uint id);
         Task<IPlayer> GetPlayerBySsoAsync(string sso);
         Task<IPlayer> GetPlayerByUsernameAsync(string username);
@@ -75,6 +82,7 @@ namespace AliasPro.Player
         Task<IDictionary<uint, IMessengerFriend>> GetPlayerFriendsByIdAsync(uint id);
         Task<IDictionary<uint, IMessengerRequest>> GetPlayerRequestsByIdAsync(uint id);
         Task<IDictionary<uint, IPlayer>> GetPlayersByUsernameAsync(string username);
+        Task<ICollection<IMessengerMessage>> GetOfflineMessagesAsync(uint playerId);
         Task UpdatePlayerSettingsAsync(uint id, IPlayerSettings settings);
         Task RemoveAllFriendRequestsAsync(uint playerId);
         Task RemoveFriendRequestAsync(uint playerId, uint targetId);

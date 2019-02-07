@@ -3,24 +3,25 @@
     using Network.Events;
     using Network.Events.Headers;
     using Network.Protocol;
+    using Models.Messenger;
+    using Utilities;
 
     public class FriendChatComposer : IPacketComposer
     {
-        private readonly uint _playerId;
-        private readonly string _message;
+        private readonly IMessengerMessage _privateMessage;
 
-        public FriendChatComposer(uint playerId, string message)
+        public FriendChatComposer(IMessengerMessage privateMessage)
         {
-            _playerId = playerId;
-            _message = message;
+            _privateMessage = privateMessage;
         }
 
         public ServerPacket Compose()
         {
             ServerPacket message = new ServerPacket(Outgoing.FriendChatMessageComposer);
-            message.WriteInt(_playerId);
-            message.WriteString(_message);
-            message.WriteInt(0); //time
+            message.WriteInt(_privateMessage.TargetId);
+            message.WriteString(_privateMessage.Message);
+            message.WriteInt((int)UnixTimestamp.Now - 
+                _privateMessage.Timestamp);
             return message;
         }
     }

@@ -57,7 +57,10 @@ namespace AliasPro.Player
 
         public async Task CreateFriendShip(uint playerId, uint targetId) =>
             await _playerDao.CreateFriendShip(playerId, targetId);
-        
+
+        public async Task CreateOfflineMessage(uint playerId, IMessengerMessage privateMessage) =>
+            await _playerDao.CreateOfflineMessage(playerId, privateMessage);
+
         internal async Task<IPlayerSettings> GetPlayerSettingsById(uint id) =>
             await _playerDao.GetPlayerSettingsById(id);
 
@@ -72,6 +75,9 @@ namespace AliasPro.Player
 
         public async Task<IDictionary<uint, IPlayer>> GetPlayersByUsername(string username) =>
             await _playerDao.GetPlayersByUsername(username);
+
+        public async Task<ICollection<IMessengerMessage>> GetOfflineMessages(uint playerId) =>
+            await _playerDao.GetOfflineMessages(playerId);
 
         internal async Task UpdatePlayerSettings(uint id, IPlayerSettings settings) =>
             await _playerDao.UpdatePlayerSettings(id, settings);

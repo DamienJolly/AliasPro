@@ -2,6 +2,7 @@
 
 namespace AliasPro.Player.Packets.Incoming
 {
+    using Utilities;
     using Network.Events;
     using Network.Events.Headers;
     using Network.Protocol;
@@ -51,7 +52,11 @@ namespace AliasPro.Player.Packets.Incoming
                 await session.SendPacketAsync(new RoomInviteErrorComposer(RoomInviteErrorComposer.YOU_ARE_MUTED, targetPlayer.Id));
                 return;
             }*/
-            
+
+            IMessengerMessage privateMessage =
+                    new MessengerMessage(session.Player.Id, message, (int)UnixTimestamp.Now);
+            //todo: log message
+
             if (targetPlayer.Session != null)
             {
                 //todo: muted
@@ -61,13 +66,11 @@ namespace AliasPro.Player.Packets.Incoming
                     return;
                 }*/
 
-                //todo: log message
-                System.Console.WriteLine(targetPlayer.Session.Player.Username);
-                await targetPlayer.Session.SendPacketAsync(new FriendChatComposer(session.Player.Id, message));
+                await targetPlayer.Session.SendPacketAsync(new FriendChatComposer(privateMessage));
             }
             else
             {
-                //todo: offline message
+                await _playerController.AddOfflineMessageAsync(targetPlayer.Id, privateMessage);
             }
         }
     }

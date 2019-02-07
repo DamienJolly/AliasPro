@@ -7,7 +7,6 @@ namespace AliasPro.Player.Models.Messenger
 
     internal class MessengerFriend : IMessengerFriend
     {
-        //todo: use player class
         public MessengerFriend(DbDataReader reader)
         {
             Id = reader.ReadData<uint>("id");

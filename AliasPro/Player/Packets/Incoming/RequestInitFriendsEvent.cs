@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace AliasPro.Player.Packets.Incoming
 {
@@ -36,8 +37,12 @@ namespace AliasPro.Player.Packets.Incoming
 
             await session.SendPacketAsync(new MessengerInitComposer(maxFriends));
             await session.SendPacketAsync(new FriendsComposer(session.Player.Messenger.Friends));
+            
+            ICollection<IMessengerMessage> messages = 
+                await _playerController.GetOfflineMessagesAsync(session.Player.Id);
 
-            //todo: Offline messages
+            foreach (IMessengerMessage message in messages)
+                await session.SendPacketAsync(new FriendChatComposer(message));
         }
     }
 }
