@@ -30,6 +30,7 @@ namespace AliasPro.Player.Packets.Incoming
             IPlayer player = await _playerController.GetPlayerBySsoAsync(ssoTicket);
             if (player != null)
             {
+                player.Session = session;
                 session.Player = player;
                 IPlayerSettings playerSettings =
                     await _playerController.GetPlayerSettingsByIdAsync(player.Id);

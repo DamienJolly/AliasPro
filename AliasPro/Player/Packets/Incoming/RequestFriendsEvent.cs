@@ -6,19 +6,17 @@ namespace AliasPro.Player.Packets.Incoming
     using Network.Events.Headers;
     using Network.Protocol;
     using Sessions;
+    using Packets.Outgoing;
 
-    public class UniqueIdEvent : IAsyncPacket
+    public class RequestFriendsEvent : IAsyncPacket
     {
-        public short Header { get; } = Incoming.UniqueIdMessageEvent;
+        public short Header { get; } = Incoming.RequestFriendsMessageEvent;
 
         public Task HandleAsync(
             ISession session,
             IClientPacket clientPacket)
         {
-            clientPacket.ReadString();
-            string uniqueId = clientPacket.ReadString();
-            session.UniqueId = uniqueId;
-            //todo: await send composer
+            //not used??
             return Task.CompletedTask;
         }
     }

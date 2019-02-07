@@ -16,7 +16,6 @@ namespace AliasPro
     using Player;
     using Sessions;
     using Chat;
-    using Chat.Models.Commands;
 
     public class Program
     {

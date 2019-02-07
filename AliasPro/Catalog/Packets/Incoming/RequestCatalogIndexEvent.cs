@@ -12,11 +12,12 @@ namespace AliasPro.Catalog.Packets.Incoming
     {
         public short Header { get; } = Incoming.RequestCatalogIndexMessageEvent;
 
-        public async Task HandleAsync(
+        public Task HandleAsync(
             ISession session,
             IClientPacket clientPacket)
         {
             //todo: not used??
+            return Task.CompletedTask;
         }
     }
 }

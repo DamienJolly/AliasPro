@@ -13,6 +13,12 @@
         internal const short UserCreditsMessageComposer = 1232;
         internal const short UserCurrencyMessageComposer = 2380;
 
+        // Messenger
+        internal const short MessengerInitMessageComposer = 2871;
+        internal const short FriendsMessageComposer = 3758;
+        internal const short LoadFriendRequestsMessageComposer = 365;
+        internal const short FriendRequestMessageComposer = 2455;
+
         // Items
         internal const short ObjectAddMessageComposer = 2396;
         internal const short RemovePlayerItemMessageComposer = 1518;
