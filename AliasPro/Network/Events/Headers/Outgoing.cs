@@ -22,6 +22,7 @@
         internal const short UserSearchResultMessageComposer = 214;
         internal const short RoomInviteErrorMessageComposer = 2542;
         internal const short FriendChatMessageComposer = 2664;
+        internal const short RoomInviteMessageComposer = 2246;
 
         // Items
         internal const short ObjectAddMessageComposer = 2396;
@@ -56,6 +57,7 @@
         internal const short AvatarChatMessageComposer = 3576;
         internal const short RoomDataMessageComposer = 439;
         internal const short RoomFloorItemsMessageComposer = 2585;
+        internal const short ForwardToRoomMessageComposer = 3716;
 
         // Landing
         internal const short HotelViewDataMessageComposer = 730;

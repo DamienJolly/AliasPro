@@ -18,6 +18,7 @@
         internal const short RemoveFriendMessageEvent = 853;
         internal const short SearchUserMessageEvent = 3483;
         internal const short FriendPrivateMessageEvent = 2279;
+        internal const short RoomInviteMessageEvent = 1280;
 
         // Items
         internal const short RequestFurniInventoryMessageEvent = 2835;
@@ -39,6 +40,7 @@
         internal const short MoveAvatarMessageEvent = 3155;
         internal const short AvatarChatMessageEvent = 500;
         internal const short RequestRoomDataMessageEvent = 425;
+        internal const short FindNewFriendsMessageEvent = 1100;
 
         // Landing
         internal const short HotelViewDataMessageEvent = 1579;
