@@ -30,6 +30,7 @@ namespace AliasPro.Player
             collection.AddSingleton<IAsyncPacket, RequestFriendsEvent>();
             collection.AddSingleton<IAsyncPacket, RequestFriendRequestsEvent>();
             collection.AddSingleton<IAsyncPacket, DeclineFriendRequestEvent>();
+            collection.AddSingleton<IAsyncPacket, AcceptFriendRequestEvent>();
         }
     }
 }

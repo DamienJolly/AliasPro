@@ -26,6 +26,15 @@ namespace AliasPro.Player
             });
         }
 
+        internal async Task CreateFriendShip(uint playerId, uint targetId)
+        {
+            await CreateTransaction(async transaction =>
+            {
+                await Insert(transaction, "INSERT INTO `messenger_friends` (`player_id`, `target_id`) VALUES (@0, @1);" +
+                    "INSERT INTO `messenger_friends` (`player_id`, `target_id`) VALUES (@1, @0);", playerId, targetId);
+            });
+        }
+
         internal async Task<IPlayer> GetPlayerById(uint id)
         {
             IPlayer player = null;

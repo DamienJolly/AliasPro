@@ -13,6 +13,7 @@
         internal const short RequestFriendRequestsMessageEvent = 2467;
         internal const short FriendRequestMessageEvent = 3779;
         internal const short RequestFriendsMessageEvent = 1368;
+        internal const short AcceptFriendRequestMessageEvent = 1879;
         internal const short DeclineFriendRequestMessageEvent = 204;
 
         // Items

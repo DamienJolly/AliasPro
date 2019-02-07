@@ -11,11 +11,22 @@ namespace AliasPro.Player.Models.Messenger
         {
             Id = reader.ReadData<uint>("id");
             Username = reader.ReadData<string>("username");
-            Look = reader.ReadData<string>("figure");
+            Figure = reader.ReadData<string>("figure");
             Motto = reader.ReadData<string>("motto");
             IsOnline = true;
             InRoom = false;
             Relation = reader.ReadData<int>("relation");
+        }
+
+        public MessengerFriend(IPlayer player)
+        {
+            Id = player.Id;
+            Username = player.Username;
+            Figure = player.Figure;
+            Motto = player.Motto;
+            IsOnline = true;
+            InRoom = false;
+            Relation = 0;
         }
 
         public void Compose(ServerPacket message)
@@ -25,7 +36,7 @@ namespace AliasPro.Player.Models.Messenger
             message.WriteInt(1); //Gender???
             message.WriteBoolean(true); //Online
             message.WriteBoolean(InRoom);
-            message.WriteString(Look);
+            message.WriteString(Figure);
             message.WriteInt(0); //category id
             message.WriteString(Motto);
             message.WriteString("");
@@ -38,7 +49,7 @@ namespace AliasPro.Player.Models.Messenger
 
         public uint Id { get; }
         public string Username { get; }
-        public string Look { get; }
+        public string Figure { get; }
         public string Motto { get; }
         public bool InRoom { get; }
         public bool IsOnline { get; }
@@ -51,7 +62,7 @@ namespace AliasPro.Player.Models.Messenger
 
         uint Id { get; }
         string Username { get; }
-        string Look { get; }
+        string Figure { get; }
         string Motto { get; }
         bool InRoom { get; }
         bool IsOnline { get; }

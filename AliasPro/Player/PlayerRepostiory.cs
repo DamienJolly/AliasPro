@@ -47,6 +47,9 @@ namespace AliasPro.Player
         internal async Task CreateFriendRequest(uint playerId, uint targetId) =>
             await _playerDao.CreateFriendRequest(playerId, targetId);
 
+        public async Task CreateFriendShip(uint playerId, uint targetId) =>
+            await _playerDao.CreateFriendShip(playerId, targetId);
+
         internal async Task<IPlayer> GetPlayerBySso(string sso) =>
             await _playerDao.GetPlayerBySso(sso);
         

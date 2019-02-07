@@ -22,6 +22,9 @@ namespace AliasPro.Player
         public async Task AddFriendRequestAsync(uint playerId, uint targetId) =>
             await _playerRepostiory.CreateFriendRequest(playerId, targetId);
 
+        public async Task AddFriendShipAsync(uint playerId, uint targetId) =>
+            await _playerRepostiory.CreateFriendShip(playerId, targetId);
+        
         public async Task<IPlayer> GetPlayerByIdAsync(uint id) =>
             await _playerRepostiory.GetPlayerById(id);
 
@@ -57,6 +60,7 @@ namespace AliasPro.Player
     {
         Task AddPlayerSettingsAsync(uint id);
         Task AddFriendRequestAsync(uint playerId, uint targetId);
+        Task AddFriendShipAsync(uint playerId, uint targetId);
         Task<IPlayer> GetPlayerByIdAsync(uint id);
         Task<IPlayer> GetPlayerBySsoAsync(string sso);
         Task<IPlayer> GetPlayerByUsernameAsync(string username);

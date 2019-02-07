@@ -21,6 +21,12 @@ namespace AliasPro.Player.Models.Messenger
                 _requests.Add(request.Id, request);
         }
 
+        public void AddFriend(IMessengerFriend friend)
+        {
+            if (!_friends.ContainsKey(friend.Id))
+                _friends.Add(friend.Id, friend);
+        }
+
         public void RemoveRequest(uint targetId) =>
             _requests.Remove(targetId);
 
