@@ -52,10 +52,10 @@ namespace AliasPro.Room.Packets.Incoming
                 tradeType, 
                 categoryId);
 
-            IRoom room = await _roomController.AddNewRoomAsync(roomData, model);
+            roomData.Id = 
+                (uint)await _roomController.AddNewRoomAsync(roomData);
 
-            if (room == null) return;
-            await session.SendPacketAsync(new RoomCreatedComposer(room.RoomData));
+            await session.SendPacketAsync(new RoomCreatedComposer(roomData));
         }
     }
 }

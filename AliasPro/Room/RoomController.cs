@@ -15,8 +15,8 @@ namespace AliasPro.Room
             _roomRepository = roomRepository;
         }
 
-        public Task<IRoom> AddNewRoomAsync(IRoomData roomData, IRoomModel model) =>
-            _roomRepository.CreateRoom(roomData, model);
+        public Task<int> AddNewRoomAsync(IRoomData roomData) =>
+            _roomRepository.CreateRoom(roomData);
 
         public Task<IRoom> GetRoomByIdAndPassword(uint id, string password) =>
             _roomRepository.GetRoomByIdAndPassword(id, password);
@@ -36,7 +36,7 @@ namespace AliasPro.Room
 
     public interface IRoomController
     {
-        Task<IRoom> AddNewRoomAsync(IRoomData roomData, IRoomModel model);
+        Task<int> AddNewRoomAsync(IRoomData roomData);
         Task<IRoom> GetRoomByIdAsync(uint id);
         Task<IRoom> GetRoomByIdAndPassword(uint id, string password);
         Task RemoveFromRoom(ISession session);

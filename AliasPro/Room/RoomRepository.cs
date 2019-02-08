@@ -31,19 +31,8 @@ namespace AliasPro.Room
             }
         }
 
-        internal async Task<IRoom> CreateRoom(IRoomData roomData, IRoomModel model)
-        {
-            roomData.Id = 
-                (uint)await _roomDao.CreateRoom(roomData);
-
-            IRoom room = new Room(roomData, model);
-            if (!_rooms.ContainsKey(room.RoomData.Id))
-            {
-                _rooms.Add(room.RoomData.Id, room);
-            }
-
-            return room;
-        }
+        internal async Task<int> CreateRoom(IRoomData roomData) =>
+            await _roomDao.CreateRoom(roomData);
 
         internal async Task<IRoom> GetRoomByIdAsync(uint id)
         {
