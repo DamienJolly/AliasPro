@@ -31,6 +31,20 @@ namespace AliasPro.Room
             }
         }
 
+        internal async Task<IRoom> CreateRoom(IRoomData roomData, IRoomModel model)
+        {
+            roomData.Id = 
+                (uint)await _roomDao.CreateRoom(roomData);
+
+            IRoom room = new Room(roomData, model);
+            if (!_rooms.ContainsKey(room.RoomData.Id))
+            {
+                _rooms.Add(room.RoomData.Id, room);
+            }
+
+            return room;
+        }
+
         internal async Task<IRoom> GetRoomByIdAsync(uint id)
         {
             if (_rooms.TryGetValue(id, out IRoom room))
@@ -68,17 +82,17 @@ namespace AliasPro.Room
 
         internal async Task RemoveFromRoom(ISession session)
         {
-            IRoom room = session.CurrentRoom;
             if (session.Entity != null)
             {
-                await room.RemoveEntity(session.Entity.Id);
+                await session.CurrentRoom.RemoveEntity(session.Entity.Id);
+                session.Entity = null;
             }
-            if (!room.EntityHandler.HasUserEntities)
+            if (!session.CurrentRoom.EntityHandler.HasUserEntities)
             {
-                await _roomDao.UpdateRoomItems(room.ItemHandler.Items);
+                await _roomDao.UpdateRoomItems(session.CurrentRoom.ItemHandler.Items);
+                _rooms.Remove(session.CurrentRoom.RoomData.Id);
             }
-            _rooms.Remove(room.RoomData.Id);
-            room = null;
+            session.CurrentRoom = null;
         }
 
         internal ICollection<IRoom> GetAllRooms() =>

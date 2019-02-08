@@ -9,6 +9,17 @@ namespace AliasPro.Room
 
     internal class RoomDao : BaseDao
     {
+        internal async Task<int> CreateRoom(IRoomData roomData)
+        {
+            int roomId = -1;
+            await CreateTransaction(async transaction =>
+            {
+                roomId = await Insert(transaction, "INSERT INTO `rooms` (`owner`, `name`, `model_name`) VALUES (@0, @1, @2)", 
+                    roomData.OwnerId, roomData.Name, roomData.ModelName);
+            });
+            return roomId;
+        }
+
         internal async Task<IRoomData> GetRoomData(uint id)
         {
             IRoomData roomData = null;

@@ -17,6 +17,20 @@ namespace AliasPro.Room.Models
             ModelName = reader.ReadData<string>("model_name");
         }
 
+        internal RoomData(uint ownerId, string name, string description, string modelName, int maxUsers, int tradeType, int categoryId)
+        {
+            Id = 0;
+            OwnerId = (int)ownerId;
+            Name = name;
+            //Description = description
+            ModelName = modelName;
+            //MaxUsers = maxUsers;
+            //TradeType = tradeType;
+            CategoryId = categoryId;
+            Score = 0;
+            Password = "";
+        }
+
         public uint Id { get; set; }
         public int Score { get; set; }
         public int OwnerId { get; set; }
@@ -53,7 +67,7 @@ namespace AliasPro.Room.Models
             serverPacket.WriteString(Name);
             serverPacket.WriteInt(OwnerId);
             serverPacket.WriteString("Damien");
-            serverPacket.WriteInt(1);
+            serverPacket.WriteInt(0);
             serverPacket.WriteInt(UsersNow);
             serverPacket.WriteInt(25);
             serverPacket.WriteString("");

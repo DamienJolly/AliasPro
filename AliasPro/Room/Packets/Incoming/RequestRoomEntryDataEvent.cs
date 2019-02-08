@@ -26,19 +26,23 @@ namespace AliasPro.Room.Packets.Incoming
             IClientPacket clientPacket)
         {
             IRoom room = session.CurrentRoom;
+            if (room == null) return;
 
             await session.SendPacketAsync(new HeightMapComposer(room.RoomModel));
             await session.SendPacketAsync(new FloorHeightMapComposer(-1, room.RoomModel.RelativeHeightMap));
 
-            UserEntity userEntity = new UserEntity(
-                room.EntityHandler.Entities.Count + 1, 
-                room.RoomModel.DoorX, 
-                room.RoomModel.DoorY, 
-                room.RoomModel.DoorDir, 
-                session);
+            if (session.Entity == null)
+            {
+                UserEntity userEntity = new UserEntity(
+                    room.EntityHandler.Entities.Count + 1,
+                    room.RoomModel.DoorX,
+                    room.RoomModel.DoorY,
+                    room.RoomModel.DoorDir,
+                    session);
 
-            session.Entity = userEntity;
-            await room.AddEntity(userEntity);
+                session.Entity = userEntity;
+                await room.AddEntity(userEntity);
+            }
 
             await session.SendPacketAsync(new RoomEntryInfoComposer(room.RoomData.Id, true));
             await session.SendPacketAsync(new EntitiesComposer(room.EntityHandler.Entities));

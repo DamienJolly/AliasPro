@@ -59,6 +59,7 @@
         internal const short RoomDataMessageComposer = 439;
         internal const short RoomFloorItemsMessageComposer = 2585;
         internal const short ForwardToRoomMessageComposer = 3716;
+        internal const short RoomCreatedMessageComposer = 462;
 
         // Landing
         internal const short HotelViewDataMessageComposer = 730;

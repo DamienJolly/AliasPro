@@ -41,6 +41,7 @@
         internal const short AvatarChatMessageEvent = 500;
         internal const short RequestRoomDataMessageEvent = 425;
         internal const short FindNewFriendsMessageEvent = 1100;
+        internal const short RequestCreateRoomMessageEvent = 1227;
 
         // Landing
         internal const short HotelViewDataMessageEvent = 1579;
