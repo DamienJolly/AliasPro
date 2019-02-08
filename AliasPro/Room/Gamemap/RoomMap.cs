@@ -12,7 +12,7 @@ namespace AliasPro.Room.Gamemap
 
         private readonly IDictionary<int, RoomTile> _roomTiles;
 
-        public RoomMap(IRoomModel roomModel)
+        public RoomMap(IRoom room, IRoomModel roomModel)
         {
             MapSizeX = roomModel.MapSizeX;
             MapSizeY = roomModel.MapSizeY;
@@ -24,7 +24,7 @@ namespace AliasPro.Room.Gamemap
                 for (int x = 0; x < MapSizeX; x++)
                 {
                     WalkableGrid[x, y] = roomModel.GetTileState(x, y);
-                    _roomTiles.Add(ConvertTo1D(x, y), new RoomTile());
+                    _roomTiles.Add(ConvertTo1D(x, y), new RoomTile(room));
                 }
             }
         }

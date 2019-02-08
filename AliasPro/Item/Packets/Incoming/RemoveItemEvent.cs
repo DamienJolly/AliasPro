@@ -8,7 +8,7 @@ namespace AliasPro.Item.Packets.Incoming
     using Network.Events.Headers;
     using Network.Protocol;
     using Sessions;
-    using Packets.Outgoing;
+    using Outgoing;
 
     public class RemoveItemEvent : IAsyncPacket
     {
@@ -22,11 +22,12 @@ namespace AliasPro.Item.Packets.Incoming
             uint itemId = (uint)clientPacket.ReadInt();
 
             IRoom room = session.CurrentRoom;
-            if (room.RoomItems.TryGetValue(itemId, out IItem item))
+            if (room.ItemHandler.TryGetItem(itemId, out IItem item))
             {
                 if (item.ItemData.Type == "s")
                 {
-                    await room.RemoveItem(item);
+                    room.RemoveItem(item);
+                    await room.SendAsync(new RemoveFloorItemComposer(item));
                 }
                 else
                 {

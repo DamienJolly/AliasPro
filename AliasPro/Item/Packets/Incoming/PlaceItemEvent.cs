@@ -8,6 +8,7 @@ namespace AliasPro.Item.Packets.Incoming
     using Network.Events;
     using Network.Events.Headers;
     using Network.Protocol;
+    using Outgoing;
     using Sessions;
 
     public class PlaceItemEvent : IAsyncPacket
@@ -33,20 +34,20 @@ namespace AliasPro.Item.Packets.Incoming
                     double z = 0.00;
                     int rot = int.Parse(data[3]);
 
-                    if (room.RoomMap.TryGetRoomTile(x, y, out RoomTile roomTile))
-                    {
-                        IItem topItem = roomTile.GetTopItem();
-                        if (topItem != null && topItem != item)
-                            z = topItem.Position.Z + topItem.ItemData.Height;
-                    }
+                    if (!room.RoomMap.TryGetRoomTile(x, y, out RoomTile roomTile)) return;
+
+                    IItem topItem = roomTile.GetTopItem();
+                    if (topItem != null && topItem != item)
+                        z = topItem.Position.Z + topItem.ItemData.Height;
 
                     item.RoomId = room.RoomData.Id;
                     item.Position.X = x;
                     item.Position.Y = y;
                     item.Position.Z = z;
                     item.Rotation = rot;
+                    room.AddItem(item);
 
-                    await room.AddItem(item);
+                    await room.SendAsync(new ObjectAddComposer(item));
                 }
                 else
                 {

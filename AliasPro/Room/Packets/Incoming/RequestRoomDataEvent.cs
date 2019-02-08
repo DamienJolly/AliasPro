@@ -24,7 +24,7 @@ namespace AliasPro.Room.Packets.Incoming
             ISession session,
             IClientPacket clientPacket)
         {
-            int roomId = clientPacket.ReadInt();
+            uint roomId = (uint)clientPacket.ReadInt();
             IRoom room = await _roomController.GetRoomByIdAsync(roomId);
             if (room != null)
             {

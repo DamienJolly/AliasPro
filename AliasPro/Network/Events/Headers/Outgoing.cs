@@ -54,6 +54,7 @@
         internal const short FurnitureAliasesMessageComposer = 2958;
         internal const short EntitiesMessageComposer = 633;
         internal const short EntityUpdateMessageComposer = 3902;
+        internal const short EntityRemoveMessageComposer = 2369;
         internal const short AvatarChatMessageComposer = 3576;
         internal const short RoomDataMessageComposer = 439;
         internal const short RoomFloorItemsMessageComposer = 2585;

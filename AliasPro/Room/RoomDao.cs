@@ -3,13 +3,13 @@ using System.Threading.Tasks;
 
 namespace AliasPro.Room
 {
-    using AliasPro.Room.Models.Item;
     using Database;
+    using Item.Models;
     using Models;
 
     internal class RoomDao : BaseDao
     {
-        internal async Task<IRoomData> GetRoomData(int id)
+        internal async Task<IRoomData> GetRoomData(uint id)
         {
             IRoomData roomData = null;
             await CreateTransaction(async transaction =>
@@ -42,6 +42,18 @@ namespace AliasPro.Room
             });
 
             return roomModels;
+        }
+
+        internal async Task UpdateRoomItems(ICollection<IItem> items)
+        {
+            await CreateTransaction(async transaction =>
+            {
+                foreach (IItem item in items)
+                {
+                    await Insert(transaction, "UPDATE `items` SET `room_id` = @1, `rot` = @2, `x` = @3, `y` = @4, `z` = @5 WHERE `id` = @0;",
+                       item.Id, item.RoomId, item.Rotation, item.Position.X, item.Position.Y, item.Position.Z);
+                }
+            });
         }
     }
 }

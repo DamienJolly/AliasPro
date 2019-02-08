@@ -27,7 +27,7 @@ namespace AliasPro.Room.Packets.Incoming
             ISession session,
             IClientPacket clientPacket)
         {
-            int roomId = clientPacket.ReadInt();
+            uint roomId = (uint)clientPacket.ReadInt();
             string password = clientPacket.ReadString();
 
             IRoom room = await _roomController.GetRoomByIdAndPassword(roomId, password);
@@ -46,7 +46,7 @@ namespace AliasPro.Room.Packets.Incoming
                 
                 if (session.CurrentRoom != null)
                 {
-                    session.CurrentRoom.LeaveRoom(session);
+                    await _roomController.RemoveFromRoom(session);
                 }
                 session.CurrentRoom = room;
             }

@@ -2,25 +2,18 @@
 
 namespace AliasPro.Room.Gamemap
 {
+    using Models;
     using Item.Models;
 
     public class RoomTile
     {
-        public IList<IItem> ItemStack { get; }
+        private readonly IRoom _room;
+        private readonly IDictionary<uint, IItem> _items;
 
-        internal RoomTile()
+        internal RoomTile(IRoom room)
         {
-            ItemStack = new List<IItem>();
-        }
-
-        public void AddItem(IItem item)
-        {
-            ItemStack.Add(item);
-        }
-
-        public void RemoveItem(IItem item)
-        {
-            ItemStack.Remove(item);
+            _room = room;
+            _items = new Dictionary<uint, IItem>();
         }
 
         public bool CanWalkOn()
@@ -34,7 +27,7 @@ namespace AliasPro.Room.Gamemap
         public IItem GetTopItem()
         {
             IItem topItem = null;
-            foreach (IItem item in ItemStack)
+            foreach (IItem item in _items.Values)
             {
                 if (topItem == null)
                 {
@@ -47,5 +40,16 @@ namespace AliasPro.Room.Gamemap
             }
             return topItem;
         }
+
+        public void AddItem(IItem item)
+        {
+            if (!_items.ContainsKey(item.Id))
+            {
+                _items.Add(item.Id, item);
+            }
+        }
+
+        public void RemoveItem(uint itemId) =>
+            _items.Remove(itemId);
     }
 }

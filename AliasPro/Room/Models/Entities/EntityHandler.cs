@@ -1,60 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace AliasPro.Room.Models.Entities
 {
     using Packets.Outgoing;
 
-    public class EntityHandler : IDisposable
+    public class EntityHandler
     {
-        private readonly EntityCycler _entityCycler;
         private readonly IRoom _room;
-
-        public IDictionary<int, BaseEntity> Entities { get; private set; }
-        public bool HasUserEntities => Entities.Where(x => x.Value is UserEntity).Any();
-
+        private readonly EntityCycler _entityCycler;
+        private readonly IDictionary<int, BaseEntity> _entities;
+        
         public EntityHandler(IRoom room)
         {
-            Entities = new Dictionary<int, BaseEntity>();
+            _entities = new Dictionary<int, BaseEntity>();
             _room = room;
             _entityCycler = new EntityCycler(_room);
         }
 
         public async void Cycle(DateTimeOffset timeOffset)
         {
-            foreach (BaseEntity entity in Entities.Values)
+            foreach (BaseEntity entity in Entities)
             {
                 _entityCycler.Cycle(entity);
             }
 
-            await _room.SendAsync(new EntityUpdateComposer(Entities.Values));
+            await _room.SendAsync(new EntityUpdateComposer(Entities));
         }
-
-        public void RemoveEntity(int entityId)
+        
+        public void AddEntity(BaseEntity entity)
         {
-            if (Entities.ContainsKey(entityId))
+            if (!_entities.ContainsKey(entity.Id))
             {
-                Entities.Remove(entityId);
+                _entities.Add(entity.Id, entity);
             }
         }
+        
+        public void RemoveEntity(int entityId) =>
+            _entities.Remove(entityId);
 
-        public async Task AddEntity(BaseEntity entity)
-        {
-            await _room.SendAsync(new EntitiesComposer(entity));
-            await _room.SendAsync(new EntityUpdateComposer(entity));
-            Entities.Add(entity.Id, entity);
-        }
+        public ICollection<BaseEntity> Entities =>
+            _entities.Values;
 
-        public void Dispose()
-        {
-            foreach (BaseEntity entity in Entities.Values)
-            {
-                //entity.Dispose(); todo: for later
-            }
-
-            Entities = null;
-        }
+        public bool HasUserEntities =>
+            _entities.Where(x => x.Value is UserEntity).Any();
     }
 }

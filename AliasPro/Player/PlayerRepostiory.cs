@@ -49,6 +49,17 @@ namespace AliasPro.Player
             return player;
         }
 
+        public async Task RemovePlayerById(uint playerId)
+        {
+            IPlayer player = await GetPlayerById(playerId);
+            if (player != null)
+            {
+                await _playerDao.UpdatePlayerSettings(player.Id, player.PlayerSettings);
+                await _playerDao.UpdatePlayerCurrencies(player.Id, player.Currency.Currencies);
+            }
+            _players.Remove(playerId);
+        }
+
         internal async Task CreatePlayerSettings(uint id) =>
             await _playerDao.CreatePlayerSettings(id);
 
@@ -78,10 +89,7 @@ namespace AliasPro.Player
 
         public async Task<ICollection<IMessengerMessage>> GetOfflineMessages(uint playerId) =>
             await _playerDao.GetOfflineMessages(playerId);
-
-        internal async Task UpdatePlayerSettings(uint id, IPlayerSettings settings) =>
-            await _playerDao.UpdatePlayerSettings(id, settings);
-
+        
         public async Task RemoveAllFriendRequests(uint playerId) =>
             await _playerDao.RemoveAllFriendRequests(playerId);
 

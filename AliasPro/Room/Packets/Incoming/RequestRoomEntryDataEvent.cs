@@ -30,16 +30,23 @@ namespace AliasPro.Room.Packets.Incoming
             await session.SendPacketAsync(new HeightMapComposer(room.RoomModel));
             await session.SendPacketAsync(new FloorHeightMapComposer(-1, room.RoomModel.RelativeHeightMap));
 
-            BaseEntity userEntity = 
-                await _roomController.AddUserToRoom(room, session);
+            UserEntity userEntity = new UserEntity(
+                room.EntityHandler.Entities.Count + 1, 
+                room.RoomModel.DoorX, 
+                room.RoomModel.DoorY, 
+                room.RoomModel.DoorDir, 
+                session);
+
+            session.Entity = userEntity;
+            await room.AddEntity(userEntity);
 
             await session.SendPacketAsync(new RoomEntryInfoComposer(room.RoomData.Id, true));
-            await session.SendPacketAsync(new EntitiesComposer(room.Entities.Values));
-            await session.SendPacketAsync(new EntityUpdateComposer(room.Entities.Values));
+            await session.SendPacketAsync(new EntitiesComposer(room.EntityHandler.Entities));
+            await session.SendPacketAsync(new EntityUpdateComposer(room.EntityHandler.Entities));
 
             await session.SendPacketAsync(new RoomVisualizationSettingsComposer(false, 0, 0));
 
-            await session.SendPacketAsync(new RoomFloorItemsComposer(room.RoomItems.Values));
+            await session.SendPacketAsync(new RoomFloorItemsComposer(room.ItemHandler.Items));
         }
     }
 }

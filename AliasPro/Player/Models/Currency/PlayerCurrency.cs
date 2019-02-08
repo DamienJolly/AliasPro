@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace AliasPro.Player.Models.Currency
 {
-    public class PlayerCurrency : IDisposable
+    public class PlayerCurrency
     {
         private readonly IDictionary<int, ICurrencyType> _currencies;
 
@@ -14,10 +13,5 @@ namespace AliasPro.Player.Models.Currency
 
         public ICollection<ICurrencyType> Currencies =>
             _currencies.Values;
-
-        public void Dispose()
-        {
-            //todo: save currencies
-        }
     }
 }

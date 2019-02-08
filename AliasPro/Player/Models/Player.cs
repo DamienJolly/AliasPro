@@ -8,7 +8,7 @@ namespace AliasPro.Player.Models
     using Currency;
     using Messenger;
 
-    internal class Player : IPlayer, IDisposable
+    internal class Player : IPlayer
     {
         internal Player(DbDataReader reader)
         {
@@ -21,12 +21,7 @@ namespace AliasPro.Player.Models
             Gender = reader.ReadData<string>("gender");
             Motto = reader.ReadData<string>("motto");
         }
-
-        public void Dispose()
-        {
-
-        }
-
+        
         public uint Id { get; set; }
         public int Credits { get; set; }
         public int Rank { get; set; }

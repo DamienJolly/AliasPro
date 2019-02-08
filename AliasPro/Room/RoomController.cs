@@ -3,7 +3,6 @@
 namespace AliasPro.Room
 {
     using Models;
-    using Models.Entities;
     using Sessions;
     using System.Collections.Generic;
 
@@ -15,43 +14,29 @@ namespace AliasPro.Room
         {
             _roomRepository = roomRepository;
         }
+        
+        public Task<IRoom> GetRoomByIdAndPassword(uint id, string password) =>
+            _roomRepository.GetRoomByIdAndPassword(id, password);
 
-        public async Task<BaseEntity> AddUserToRoom(IRoom room, ISession session)
-        {
-            IRoomModel roomModel = room.RoomModel;
-            UserEntity userEntity = new UserEntity(room.Entities.Count + 1, roomModel.DoorX, roomModel.DoorY, roomModel.DoorDir, session);
-            session.Entity = userEntity;
-            await room.AddEntity(userEntity);
-
-            return userEntity;
-        }
-
-        public Task<IRoom> GetRoomByIdAsync(int id) =>
+        public Task<IRoom> GetRoomByIdAsync(uint id) =>
             _roomRepository.GetRoomByIdAsync(id);
 
-        public async Task<IRoom> GetRoomByIdAndPassword(int id, string password)
-        {
-            IRoom room = await GetRoomByIdAsync(id);
-            if (room != null)
-            {
-                if (room.RoomData.Password == password)
-                {
-                    return room;
-                }
-            }
-
-            return null;
-        }
+        public Task RemoveFromRoom(ISession session) =>
+            _roomRepository.RemoveFromRoom(session);
 
         public ICollection<IRoom> GetAllRooms() =>
             _roomRepository.GetAllRooms();
+
+        public bool TryGetRoomModel(string modelName, out IRoomModel model) =>
+            _roomRepository.TryGetRoomModel(modelName, out model);
     }
 
     public interface IRoomController
     {
-        Task<BaseEntity> AddUserToRoom(IRoom room, ISession session);
-        Task<IRoom> GetRoomByIdAsync(int id);
-        Task<IRoom> GetRoomByIdAndPassword(int id, string password);
+        Task<IRoom> GetRoomByIdAsync(uint id);
+        Task<IRoom> GetRoomByIdAndPassword(uint id, string password);
+        Task RemoveFromRoom(ISession session);
         ICollection<IRoom> GetAllRooms();
+        bool TryGetRoomModel(string modelName, out IRoomModel model);
     }
 }

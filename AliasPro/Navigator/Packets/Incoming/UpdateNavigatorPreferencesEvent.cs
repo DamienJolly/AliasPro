@@ -20,7 +20,7 @@ namespace AliasPro.Navigator.Packets.Incoming
             _playerController = playerController;
         }
 
-        public async Task HandleAsync(
+        public Task HandleAsync(
             ISession session,
             IClientPacket clientPacket)
         {
@@ -32,7 +32,7 @@ namespace AliasPro.Navigator.Packets.Incoming
             settings.NaviHeight = clientPacket.ReadInt();
             settings.NaviHideSearches = clientPacket.ReadBool();
             clientPacket.ReadInt();
-            await _playerController.UpdatePlayerSettingsAsync(session.Player.Id, settings);
+            return Task.CompletedTask;
         }
     }
 }

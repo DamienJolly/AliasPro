@@ -26,17 +26,5 @@ namespace AliasPro.Sessions
         public Task SendPacketAsync(IPacketComposer serverPacket) => WriteAndFlushAsync(serverPacket.Compose());
             
         private Task WriteAndFlushAsync(ServerPacket serverPacket) => _channel.WriteAndFlushAsync(serverPacket);
-
-        public async Task Disconnect(bool closeSocket)
-        {
-            if (Entity != null)
-            {
-                CurrentRoom.LeaveRoom(this);
-            }
-            if (closeSocket)
-            {
-                await _channel.CloseAsync();
-            }
-        }
     }
 }

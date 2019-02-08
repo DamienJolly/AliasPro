@@ -54,10 +54,7 @@ namespace AliasPro.Player
 
         public async Task<ICollection<IMessengerMessage>> GetOfflineMessagesAsync(uint playerId) =>
             await _playerRepostiory.GetOfflineMessages(playerId);
-
-        public async Task UpdatePlayerSettingsAsync(uint id, IPlayerSettings settings) =>
-            await _playerRepostiory.UpdatePlayerSettings(id, settings);
-
+        
         public async Task RemoveAllFriendRequestsAsync(uint playerId) =>
             await _playerRepostiory.RemoveAllFriendRequests(playerId);
 
@@ -66,6 +63,9 @@ namespace AliasPro.Player
 
         public async Task RemoveFriendShipAsync(uint playerId, uint targetId) =>
             await _playerRepostiory.RemoveFriendShip(playerId, targetId);
+
+        public async Task RemovePlayerByIdAsync(uint playerId) =>
+            await _playerRepostiory.RemovePlayerById(playerId);
     }
 
     public interface IPlayerController
@@ -83,10 +83,9 @@ namespace AliasPro.Player
         Task<IDictionary<uint, IMessengerRequest>> GetPlayerRequestsByIdAsync(uint id);
         Task<IDictionary<uint, IPlayer>> GetPlayersByUsernameAsync(string username);
         Task<ICollection<IMessengerMessage>> GetOfflineMessagesAsync(uint playerId);
-        Task UpdatePlayerSettingsAsync(uint id, IPlayerSettings settings);
         Task RemoveAllFriendRequestsAsync(uint playerId);
         Task RemoveFriendRequestAsync(uint playerId, uint targetId);
         Task RemoveFriendShipAsync(uint playerId, uint targetId);
-
+        Task RemovePlayerByIdAsync(uint playerId);
     }
 }
