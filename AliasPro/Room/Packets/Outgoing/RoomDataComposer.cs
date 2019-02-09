@@ -27,18 +27,18 @@
             message.WriteBoolean(_loading);
             _room.RoomData.Compose(message);
             message.WriteBoolean(_entry);
-            message.WriteBoolean(false);
-            message.WriteBoolean(false);
-            message.WriteBoolean(false);
-            message.WriteInt(0);
-            message.WriteInt(0);
-            message.WriteInt(0);
-            message.WriteBoolean(_session.Player.Id == _room.RoomData.OwnerId);
-            message.WriteInt(0);
-            message.WriteInt(1);
-            message.WriteInt(1);
-            message.WriteInt(50);
-            message.WriteInt(2);
+            message.WriteBoolean(false); //staff picked
+            message.WriteBoolean(false); //public room
+            message.WriteBoolean(false); //muted
+            message.WriteInt(_room.RoomData.Settings.WhoMutes);
+            message.WriteInt(_room.RoomData.Settings.WhoKicks);
+            message.WriteInt(_room.RoomData.Settings.WhoBans);
+            message.WriteBoolean(true); //owner check
+            message.WriteInt(_room.RoomData.Settings.ChatMode);
+            message.WriteInt(_room.RoomData.Settings.ChatSize);
+            message.WriteInt(_room.RoomData.Settings.ChatSpeed);
+            message.WriteInt(_room.RoomData.Settings.ChatDistance);
+            message.WriteInt(_room.RoomData.Settings.ChatFlood);
             return message;
         }
     }

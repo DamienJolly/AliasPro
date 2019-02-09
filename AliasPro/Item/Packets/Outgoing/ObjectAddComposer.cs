@@ -17,7 +17,7 @@
         public ServerPacket Compose()
         {
             ServerPacket message = new ServerPacket(Outgoing.ObjectAddMessageComposer);
-            _item.Compose(message);
+            _item.ComposeFloorItem(message);
             message.WriteString(_item.PlayerUsername);
             return message;
         }

@@ -6,15 +6,18 @@ namespace AliasPro.Player
     using Models;
     using Models.Currency;
     using Models.Messenger;
+    using Item;
 
     internal class PlayerRepostiory
     {
         private readonly PlayerDao _playerDao;
+        private readonly ItemDao _itemDao;
         private readonly Dictionary<uint, IPlayer> _players;
 
-        public PlayerRepostiory(PlayerDao playerDao)
+        public PlayerRepostiory(PlayerDao playerDao, ItemDao itemDao)
         {
             _playerDao = playerDao;
+            _itemDao = itemDao;
 
             _players = new Dictionary<uint, IPlayer>();
         }
@@ -56,6 +59,10 @@ namespace AliasPro.Player
             {
                 await _playerDao.UpdatePlayerSettings(player.Id, player.PlayerSettings);
                 await _playerDao.UpdatePlayerCurrencies(player.Id, player.Currency.Currencies);
+                if (player.Inventory != null)
+                {
+                    await _itemDao.UpdatePlayerItems(player.Inventory.Items.Values);
+                }
             }
             _players.Remove(playerId);
         }

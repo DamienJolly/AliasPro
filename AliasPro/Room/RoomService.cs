@@ -26,6 +26,8 @@ namespace AliasPro.Room
             collection.AddSingleton<IAsyncPacket, AvatarChatEvent>();
             collection.AddSingleton<IAsyncPacket, RequestRoomDataEvent>();
             collection.AddSingleton<IAsyncPacket, RequestCreateRoomEvent>();
+            collection.AddSingleton<IAsyncPacket, RequestRoomSettingsEvent>();
+            collection.AddSingleton<IAsyncPacket, RoomSettingsSaveEvent>();
         }
     }
 }

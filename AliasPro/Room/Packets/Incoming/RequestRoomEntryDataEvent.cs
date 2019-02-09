@@ -44,13 +44,15 @@ namespace AliasPro.Room.Packets.Incoming
                 await room.AddEntity(userEntity);
             }
 
+            //todo: right check
             await session.SendPacketAsync(new RoomEntryInfoComposer(room.RoomData.Id, true));
             await session.SendPacketAsync(new EntitiesComposer(room.EntityHandler.Entities));
             await session.SendPacketAsync(new EntityUpdateComposer(room.EntityHandler.Entities));
 
-            await session.SendPacketAsync(new RoomVisualizationSettingsComposer(false, 0, 0));
+            await session.SendPacketAsync(new RoomVisualizationSettingsComposer(room.RoomData.Settings));
 
-            await session.SendPacketAsync(new RoomFloorItemsComposer(room.ItemHandler.Items));
+            await session.SendPacketAsync(new RoomFloorItemsComposer(room.ItemHandler.FloorItems));
+            await session.SendPacketAsync(new RoomWallItemsComposer(room.ItemHandler.WallItems));
         }
     }
 }

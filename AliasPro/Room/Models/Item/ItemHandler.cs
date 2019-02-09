@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace AliasPro.Room.Models.Item
 {
@@ -9,7 +9,7 @@ namespace AliasPro.Room.Models.Item
     {
         private readonly IRoom _room;
         private readonly IDictionary<uint, IItem> _items;
-        
+
         internal ItemHandler(IRoom room)
         {
             _room = room;
@@ -32,5 +32,11 @@ namespace AliasPro.Room.Models.Item
 
         internal ICollection<IItem> Items =>
             _items.Values;
+
+        internal ICollection<IItem> FloorItems =>
+            _items.Values.Where(item => item.ItemData.Type == "s").ToList();
+
+        internal ICollection<IItem> WallItems =>
+            _items.Values.Where(item => item.ItemData.Type == "i").ToList();
     }
 }

@@ -3,26 +3,23 @@
     using Network.Events;
     using Network.Events.Headers;
     using Network.Protocol;
+    using Models;
 
     public class RoomVisualizationSettingsComposer : IPacketComposer
     {
-        private readonly bool _hideWalls;
-        private readonly int _wallThickness;
-        private readonly int _floorThicknes;
+        private readonly IRoomSettings _settings;
 
-        public RoomVisualizationSettingsComposer(bool hideWalls, int wallThickness, int floorThicknes)
+        public RoomVisualizationSettingsComposer(IRoomSettings settings)
         {
-            _hideWalls = hideWalls;
-            _wallThickness = wallThickness;
-            _floorThicknes = floorThicknes;
+            _settings = settings;
         }
 
         public ServerPacket Compose()
         {
             ServerPacket message = new ServerPacket(Outgoing.RoomVisualizationSettingsMessageComposer);
-            message.WriteBoolean(_hideWalls);
-            message.WriteInt(_wallThickness);
-            message.WriteInt(_floorThicknes);
+            message.WriteBoolean(_settings.HideWalls);
+            message.WriteInt(_settings.WallThickness);
+            message.WriteInt(_settings.FloorThickness);
             return message;
         }
     }

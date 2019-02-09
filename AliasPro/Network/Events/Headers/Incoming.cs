@@ -25,6 +25,7 @@
         internal const short PlaceItemMessageEvent = 2187;
         internal const short UpdateItemMessageEvent = 1620;
         internal const short RemoveItemMessageEvent = 3036;
+        internal const short UpdateWallMessageEvent = 1132;
 
         // Catalog
         internal const short RequestDiscountMessageEvent = 703;
@@ -42,6 +43,8 @@
         internal const short RequestRoomDataMessageEvent = 425;
         internal const short FindNewFriendsMessageEvent = 1100;
         internal const short RequestCreateRoomMessageEvent = 1227;
+        internal const short RequestRoomSettingsMessageEvent = 923;
+        internal const short RoomSettingsSaveMessageEvent = 1820;
 
         // Landing
         internal const short HotelViewDataMessageEvent = 1579;

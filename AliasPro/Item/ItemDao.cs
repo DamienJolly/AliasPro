@@ -44,7 +44,7 @@ namespace AliasPro.Item
                         items.Add(item.Id, item);
 
                     }
-                }, "SELECT `id`, `item_id`, `player_id`, `room_id`, `rot`, `x`, `y`, `z` FROM `items` WHERE `player_id` = @0 AND `room_id` = '0';", id);
+                }, "SELECT * FROM `items` WHERE `player_id` = @0 AND `room_id` = '0';", id);
             });
 
             return items;
@@ -67,7 +67,7 @@ namespace AliasPro.Item
                         items.Add(item.Id, item);
 
                     }
-                }, "SELECT `id`, `item_id`, `player_id`, `room_id`, `rot`, `x`, `y`, `z` FROM `items` WHERE `room_id` = @0;", id);
+                }, "SELECT * FROM `items` WHERE `room_id` = @0;", id);
             });
 
             return items;
@@ -81,6 +81,29 @@ namespace AliasPro.Item
                 itemId = await Insert(transaction, "INSERT INTO `items` (`item_id`, `player_id`) VALUES (@0, @1)", item.ItemId, item.PlayerId);
             });
             return itemId;
+        }
+
+        internal async Task UpdateRoomItems(ICollection<IItem> items)
+        {
+            await CreateTransaction(async transaction =>
+            {
+                foreach (IItem item in items)
+                {
+                    await Insert(transaction, "UPDATE `items` SET `room_id` = @1, `rot` = @2, `x` = @3, `y` = @4, `z` = @5 WHERE `id` = @0;",
+                       item.Id, item.RoomId, item.Rotation, item.Position.X, item.Position.Y, item.Position.Z);
+                }
+            });
+        }
+
+        internal async Task UpdatePlayerItems(ICollection<IItem> items)
+        {
+            await CreateTransaction(async transaction =>
+            {
+                foreach (IItem item in items)
+                {
+                    await Insert(transaction, "UPDATE `items` SET `room_id` = 0, `extra_data` = @1 WHERE `id` = @0;", item.Id, item.ExtraData);
+                }
+            });
         }
     }
 }

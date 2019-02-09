@@ -30,14 +30,17 @@
         internal const short FloorItemUpdateMessageComposer = 854;
         internal const short RemoveFloorItemMessageComposer = 2986;
         internal const short AddPlayerItemsMessageComposer = 2323;
+        internal const short AddWallItemMessageComposer = 790;
+        internal const short RemoveWallItemMessageComposer = 3320;
+        internal const short WallItemUpdateMessageComposer = 2091;
         internal const short InventoryRefreshMessageComposer = 32;
-        internal const short CatalogModeMessageComposer = 1103;
-        internal const short CatalogPagesListMessageComposer = 267;
-        internal const short CatalogPageMessageComposer = 3933;
 
         // Catalog
         internal const short DiscountMessageComposer = 1602;
         internal const short CatalogUpdatedMessageComposer = 1592;
+        internal const short CatalogModeMessageComposer = 1103;
+        internal const short CatalogPagesListMessageComposer = 267;
+        internal const short CatalogPageMessageComposer = 3933;
         internal const short AlertPurchaseFailedMessageComposer = 1103;
         internal const short AlertPurchaseUnavailableMessageComposer = 472;
         internal const short AlertLimitedSoldOutMessageComposer = 2802;
@@ -58,8 +61,14 @@
         internal const short AvatarChatMessageComposer = 3576;
         internal const short RoomDataMessageComposer = 439;
         internal const short RoomFloorItemsMessageComposer = 2585;
+        internal const short RoomWallItemsMessageComposer = 459;
         internal const short ForwardToRoomMessageComposer = 3716;
         internal const short RoomCreatedMessageComposer = 462;
+        internal const short RoomSettingsUpdatedMessageComposer = 824;
+        internal const short RoomSettingsSavedMessageComposer = 1632;
+        internal const short RoomSettingsMessageComposer = 1644;
+        internal const short RoomEditSettingsErrorMessageComposer = 2465;
+        internal const short RoomChatSettingsMessageComposer = 3145;
 
         // Landing
         internal const short HotelViewDataMessageComposer = 730;

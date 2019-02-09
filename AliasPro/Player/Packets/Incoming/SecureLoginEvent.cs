@@ -8,7 +8,7 @@ namespace AliasPro.Player.Packets.Incoming
     using Models;
     using Packets.Outgoing;
     using Sessions;
-    using System.Collections.Generic;
+    using Item;
     using AliasPro.Player.Models.Currency;
 
     public class SecureLoginEvent : IAsyncPacket
@@ -16,10 +16,12 @@ namespace AliasPro.Player.Packets.Incoming
         public short Header { get; } = Incoming.SecureLoginMessageEvent;
 
         private readonly IPlayerController _playerController;
+        private readonly IItemController _itemController;
 
-        public SecureLoginEvent(IPlayerController playerController)
+        public SecureLoginEvent(IPlayerController playerController, IItemController itemController)
         {
             _playerController = playerController;
+            _itemController = itemController;
         }
 
         public async Task HandleAsync(
@@ -35,21 +37,20 @@ namespace AliasPro.Player.Packets.Incoming
                 IPlayerSettings playerSettings =
                     await _playerController.GetPlayerSettingsByIdAsync(player.Id);
 
-                if (playerSettings != null)
-                {
-                    session.Player.PlayerSettings = playerSettings;
-                }
-                else
+                if (playerSettings == null)
                 {
                     await _playerController.AddPlayerSettingsAsync(player.Id);
-                    session.Player.PlayerSettings =
+                    playerSettings =
                         await _playerController.GetPlayerSettingsByIdAsync(player.Id);
                 }
+
+                session.Player.PlayerSettings = playerSettings;
 
                 session.Player.Currency = new PlayerCurrency(
                     await _playerController.GetPlayerCurrenciesByIdAsync(player.Id));
 
-                session.Player.Inventory = new PlayerInventory(session);
+                session.Player.Inventory = new PlayerInventory(session,
+                    await _itemController.GetItemsForPlayerAsync(session.Player.Id));
 
                 await session.SendPacketAsync(new SecureLoginOKComposer());
                 await session.SendPacketAsync(new HomeRoomComposer(1));

@@ -7,6 +7,7 @@ namespace AliasPro.Item.Packets.Incoming
     using Network.Events;
     using Network.Events.Headers;
     using Network.Protocol;
+    using Room.Gamemap;
     using Sessions;
     using Outgoing;
 
@@ -18,6 +19,7 @@ namespace AliasPro.Item.Packets.Incoming
             ISession session,
             IClientPacket clientPacket)
         {
+            System.Console.WriteLine(session.Player.Inventory.Items.Count);
             clientPacket.ReadInt(); //??
             uint itemId = (uint)clientPacket.ReadInt();
 
@@ -26,15 +28,22 @@ namespace AliasPro.Item.Packets.Incoming
             {
                 if (item.ItemData.Type == "s")
                 {
-                    room.RemoveItem(item);
+                    if (!room.RoomMap.TryGetRoomTile(item.Position.X, item.Position.Y, out RoomTile tile)) return;
+
+                    tile.RemoveItem(item.Id);
                     await room.SendAsync(new RemoveFloorItemComposer(item));
                 }
                 else
                 {
-                    //todo: wall items
+                    await room.SendAsync(new RemoveWallItemComposer(item));
                 }
 
+                item.RoomId = 0;
+
                 await session.Player.Inventory.AddItem(item);
+
+                room.ItemHandler.RemoveItem(item.Id);
+
                 await session.SendPacketAsync(new AddPlayerItemsComposer(item));
                 await session.SendPacketAsync(new InventoryRefreshComposer());
             }

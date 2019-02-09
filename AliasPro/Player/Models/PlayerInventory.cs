@@ -13,10 +13,10 @@ namespace AliasPro.Player.Models
 
         public IDictionary<uint, IItem> Items { get; set; }
 
-        internal PlayerInventory(ISession session)
+        internal PlayerInventory(ISession session, IDictionary<uint, IItem> items)
         {
             _session = session;
-            Items = new Dictionary<uint, IItem>();
+            Items = items;
         }
 
         public Task AddItem(IItem item)

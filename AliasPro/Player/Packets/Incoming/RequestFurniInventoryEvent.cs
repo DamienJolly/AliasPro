@@ -25,8 +25,7 @@ namespace AliasPro.Player.Packets.Incoming
             ISession session,
             IClientPacket clientPacket)
         {
-            session.Player.Inventory.Items =
-                    await _itemController.GetItemsForPlayerAsync(session.Player.Id);
+            
             await session.SendPacketAsync(new FurniListComposer(session.Player.Inventory.Items.Values));
         }
     }

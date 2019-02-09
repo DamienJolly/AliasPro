@@ -16,8 +16,8 @@ namespace AliasPro.Item.Models
             PlayerUsername = "Damien";
             RoomId = reader.ReadData<uint>("room_id");
             Rotation = reader.ReadData<int>("rot");
-            Mode = 1; // reader.ReadData<int>("mode");
-            ExtraData = ""; // reader.ReadData<string>("extra_data");
+            Mode = reader.ReadData<int>("mode");
+            ExtraData = reader.ReadData<string>("extra_data");
             Position = new Position(
                 reader.ReadData<int>("x"),
                 reader.ReadData<int>("y"),
@@ -38,18 +38,7 @@ namespace AliasPro.Item.Models
             ItemData = itemData;
         }
 
-        public uint Id { get; set; }
-        public uint ItemId { get; }
-        public uint PlayerId { get; }
-        public string PlayerUsername { get; }
-        public uint RoomId { get; set; }
-        public int Rotation { get; set; }
-        public int Mode { get; }
-        public string ExtraData { get; }
-        public Position Position { get; set; }
-        public IItemData ItemData { get; set; }
-
-        public void Compose(ServerPacket message)
+        public void ComposeFloorItem(ServerPacket message)
         {
             message.WriteInt(Id);
             message.WriteInt(ItemData.SpriteId);
@@ -67,21 +56,44 @@ namespace AliasPro.Item.Models
             message.WriteInt(ItemData.Modes > 0 ? 1 : 0);
             message.WriteInt(PlayerId);
         }
+
+        public void ComposeWallItem(ServerPacket message)
+        {
+            message.WriteString(Id + "");
+            message.WriteInt(ItemData.SpriteId);
+            message.WriteString(ExtraData);
+            message.WriteString(Mode + "");
+            message.WriteInt(-1);
+            message.WriteInt(ItemData.Modes > 1 ? 1 : 0);
+            message.WriteInt(PlayerId);
+        }
+
+        public uint Id { get; set; }
+        public uint ItemId { get; }
+        public uint PlayerId { get; }
+        public string PlayerUsername { get; }
+        public uint RoomId { get; set; }
+        public int Rotation { get; set; }
+        public int Mode { get; set; }
+        public string ExtraData { get; set; }
+        public Position Position { get; set; }
+        public IItemData ItemData { get; set; }
     }
 
     public interface IItem
     {
+        void ComposeFloorItem(ServerPacket serverPacket);
+        void ComposeWallItem(ServerPacket serverPacket);
+
         uint Id { get; set; }
         uint ItemId { get; }
         uint PlayerId { get; }
         string PlayerUsername { get; }
         uint RoomId { get; set; }
         int Rotation { get; set; }
-        int Mode { get; }
-        string ExtraData { get; }
+        int Mode { get; set; }
+        string ExtraData { get; set; }
         Position Position { get; set; }
         IItemData ItemData { get; set; }
-
-        void Compose(ServerPacket serverPacket);
     }
 }

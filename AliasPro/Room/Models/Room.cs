@@ -61,27 +61,7 @@ namespace AliasPro.Room.Models
             EntityHandler.RemoveEntity(entityId);
             await SendAsync(new EntityRemoveComposer(entityId));
         }
-
-        public void AddItem(IItem item)
-        {
-            if (RoomMap.TryGetRoomTile(item.Position.X, item.Position.Y, out RoomTile tile))
-            {
-                tile.AddItem(item);
-            }
-            
-            ItemHandler.AddItem(item);
-        }
-
-        public void RemoveItem(IItem item)
-        {
-            if (RoomMap.TryGetRoomTile(item.Position.X, item.Position.Y, out RoomTile tile))
-            {
-                tile.RemoveItem(item.Id);
-            }
-            
-            ItemHandler.RemoveItem(item.Id);
-        }
-
+        
         public void LoadRoomItems(IDictionary<uint, IItem> items)
         {
             foreach (IItem item in items.Values)
@@ -134,8 +114,6 @@ namespace AliasPro.Room.Models
 
         Task AddEntity(BaseEntity entity);
         Task RemoveEntity(int entityId);
-        void AddItem(IItem item);
-        void RemoveItem(IItem item);
         void OnChat(string text, int colour, BaseEntity entity);
         void LoadRoomItems(IDictionary<uint, IItem> items);
         void SetupRoomCycle();

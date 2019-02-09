@@ -47,12 +47,29 @@ namespace AliasPro.Room
                 if (_roomModels.TryGetValue(roomData.ModelName, out IRoomModel model))
                 {
                     room = new Room(roomData, model);
-                    _rooms.Add(roomData.Id, room);
+                    roomData.Settings = 
+                        await GetRoomSettingsIdAsync(room.RoomData.Id);
+                    _rooms.Add(room.RoomData.Id, room);
                     return room;
                 }
             }
 
             return null;
+        }
+
+        internal async Task<IRoomSettings> GetRoomSettingsIdAsync(uint id)
+        {
+            IRoomSettings roomSettings =
+                    await _roomDao.GetRoomSettingsId(id);
+
+            if (roomSettings == null)
+            {
+                await _roomDao.CreateRoomSettings(id);
+                roomSettings =
+                    await _roomDao.GetRoomSettingsId(id);
+            }
+
+            return roomSettings;
         }
 
         internal async Task<IRoom> GetRoomByIdAndPassword(uint id, string password)
@@ -78,6 +95,7 @@ namespace AliasPro.Room
             }
             if (!session.CurrentRoom.EntityHandler.HasUserEntities)
             {
+                //todo: update settings
                 await _roomDao.UpdateRoomItems(session.CurrentRoom.ItemHandler.Items);
                 _rooms.Remove(session.CurrentRoom.RoomData.Id);
             }

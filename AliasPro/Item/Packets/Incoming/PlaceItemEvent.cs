@@ -39,22 +39,28 @@ namespace AliasPro.Item.Packets.Incoming
                     IItem topItem = roomTile.GetTopItem();
                     if (topItem != null && topItem != item)
                         z = topItem.Position.Z + topItem.ItemData.Height;
-
-                    item.RoomId = room.RoomData.Id;
+                    
                     item.Position.X = x;
                     item.Position.Y = y;
                     item.Position.Z = z;
                     item.Rotation = rot;
-                    room.AddItem(item);
+                    roomTile.AddItem(item);
 
                     await room.SendAsync(new ObjectAddComposer(item));
                 }
                 else
                 {
-                    //todo: wall items
+                    item.ExtraData = data[1] + " " + data[2] + " " + data[3];
+                    await session.SendPacketAsync(new AddWallItemComposer(item));
                 }
 
+                item.Mode = 1;
+                item.RoomId = room.RoomData.Id;
+                room.ItemHandler.AddItem(item);
+
+                System.Console.WriteLine(session.Player.Inventory.Items.Count);
                 await session.Player.Inventory.RemoveItem(item);
+                System.Console.WriteLine(session.Player.Inventory.Items.Count);
             }
         }
     }

@@ -5,19 +5,20 @@
     using Network.Events.Headers;
     using Network.Protocol;
 
-    public class FloorItemUpdateComposer : IPacketComposer
+    public class RemoveWallItemComposer : IPacketComposer
     {
         private readonly IItem _item;
 
-        public FloorItemUpdateComposer(IItem item)
+        public RemoveWallItemComposer(IItem item)
         {
             _item = item;
         }
 
         public ServerPacket Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.FloorItemUpdateMessageComposer);
-            _item.ComposeFloorItem(message);
+            ServerPacket message = new ServerPacket(Outgoing.RemoveWallItemMessageComposer);
+            message.WriteString(_item.Id + "");
+            message.WriteInt(_item.PlayerId);
             return message;
         }
     }
