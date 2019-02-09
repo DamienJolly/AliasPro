@@ -74,7 +74,7 @@ namespace AliasPro.Room.Models
                 }
             }
 
-            DoorZ = 0;
+            DoorZ = floorHeightMap[DoorX, DoorY];
         }
 
         private void ParseRelativeMap()

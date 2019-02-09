@@ -47,7 +47,19 @@ namespace AliasPro.Room.Gamemap.Pathfinding
                     Position position = curr.Position + option;
                     if (!IsValidStep(roomGrid, position))
                         continue;
-                    
+
+                    // Can't walk diagonal between two non-walkable tiles.
+                    if (curr.Position.X != position.X &&
+                            curr.Position.Y != position.Y)
+                    {
+                        bool firstValidTile = 
+                            IsValidStep(roomGrid, new Position(position.X, curr.Position.Y, 0));
+                        bool secondValidTile = 
+                            IsValidStep(roomGrid, new Position(curr.Position.X, position.Y, 0));
+
+                        if (!firstValidTile && !secondValidTile) continue;
+                    }
+
                     float newCost = cost + option.Cost;
                     float oldCost = currentCost[position.X, position.Y];
                     if (!(oldCost <= 0) && !(newCost < oldCost))
@@ -67,7 +79,8 @@ namespace AliasPro.Room.Gamemap.Pathfinding
 
         private static bool IsValidStep(RoomMap roomGrid, Position position)
         {
-            if (position.X >= roomGrid.MapSizeX || position.Y >= roomGrid.MapSizeY)
+            if (position.X >= roomGrid.MapSizeX || position.X < 0 || 
+                position.Y >= roomGrid.MapSizeY || position.Y < 0)
                 return false;
             
             if (!roomGrid.WalkableGrid[position.X, position.Y])
