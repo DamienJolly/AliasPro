@@ -20,7 +20,7 @@ namespace AliasPro.Room.Packets.Incoming
             IRoom room = session.CurrentRoom;
             if (room == null) return;
 
-            //todo: rights check
+            if (!room.RightHandler.IsOwner(session.Player.Id)) return;
 
             await session.SendPacketAsync(new RoomSettingsComposer(room.RoomData));
         }

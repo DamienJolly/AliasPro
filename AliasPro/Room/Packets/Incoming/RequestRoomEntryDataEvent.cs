@@ -43,9 +43,10 @@ namespace AliasPro.Room.Packets.Incoming
                 session.Entity = userEntity;
                 await room.AddEntity(userEntity);
             }
+            
+            await session.SendPacketAsync(new RoomEntryInfoComposer(room.RoomData.Id, 
+                room.RightHandler.HasRights(session.Player.Id)));
 
-            //todo: right check
-            await session.SendPacketAsync(new RoomEntryInfoComposer(room.RoomData.Id, true));
             await session.SendPacketAsync(new EntitiesComposer(room.EntityHandler.Entities));
             await session.SendPacketAsync(new EntityUpdateComposer(room.EntityHandler.Entities));
 
@@ -53,6 +54,8 @@ namespace AliasPro.Room.Packets.Incoming
 
             await session.SendPacketAsync(new RoomFloorItemsComposer(room.ItemHandler.FloorItems));
             await session.SendPacketAsync(new RoomWallItemsComposer(room.ItemHandler.WallItems));
+
+            await room.RightHandler.ReloadRights(session);
         }
     }
 }

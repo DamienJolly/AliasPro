@@ -10,7 +10,8 @@ namespace AliasPro.Room.Models
     using Tasks;
     using Packets.Outgoing;
     using Network.Events;
-    using Models.Item;
+    using Item;
+    using Right;
     using AliasPro.Item.Models;
 
     internal class Room : IRoom
@@ -20,6 +21,7 @@ namespace AliasPro.Room.Models
         public bool isLoaded { get; set; } = false;
         public EntityHandler EntityHandler { get; set; }
         public ItemHandler ItemHandler { get; set; }
+        public RightHandler RightHandler { get; set; }
         public RoomMap RoomMap { get; set; }
         public IRoomData RoomData { get; set; }
         public IRoomModel RoomModel { get; set; }
@@ -32,6 +34,7 @@ namespace AliasPro.Room.Models
             RoomMap = new RoomMap(this, RoomModel);
             EntityHandler = new EntityHandler(this);
             ItemHandler = new ItemHandler(this);
+            RightHandler = new RightHandler(this);
         }
 
         public async void OnChat(string text, int colour, BaseEntity entity)
@@ -108,6 +111,7 @@ namespace AliasPro.Room.Models
         bool isLoaded { get; set; }
         EntityHandler EntityHandler { get; set; }
         ItemHandler ItemHandler { get; set; }
+        RightHandler RightHandler { get; set; }
         RoomMap RoomMap { get; set; }
         IRoomData RoomData { get; set; }
         IRoomModel RoomModel { get; set; }

@@ -20,6 +20,9 @@ namespace AliasPro.Item.Packets.Incoming
             IClientPacket clientPacket)
         {
             IRoom room = session.CurrentRoom;
+
+            if (!room.RightHandler.HasRights(session.Player.Id)) return;
+
             uint itemId = (uint)clientPacket.ReadInt();
             if (room.ItemHandler.TryGetItem(itemId, out IItem item))
             {

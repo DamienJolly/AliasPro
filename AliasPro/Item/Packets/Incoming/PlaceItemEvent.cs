@@ -25,6 +25,9 @@ namespace AliasPro.Item.Packets.Incoming
             uint itemId = uint.Parse(data[0]);
 
             IRoom room = session.CurrentRoom;
+
+            if (!room.RightHandler.HasRights(session.Player.Id)) return;
+
             if (session.Player.Inventory.TryGetItem(itemId, out IItem item))
             {
                 if (item.ItemData.Type == "s")

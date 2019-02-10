@@ -29,7 +29,7 @@ namespace AliasPro.Room.Packets.Incoming
 
             if (room == null) return;
 
-            //todo: check rights (owner)
+            if (!room.RightHandler.IsOwner(session.Player.Id)) return;
 
             string name = clientPacket.ReadString();
             if (name.Length > 60)
