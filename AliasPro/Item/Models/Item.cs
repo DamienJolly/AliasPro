@@ -5,6 +5,7 @@ namespace AliasPro.Item.Models
     using Network.Protocol;
     using Room.Gamemap;
     using Database;
+    using Room.Models.Item.Interaction;
 
     internal class Item : IItem
     {
@@ -38,6 +39,19 @@ namespace AliasPro.Item.Models
             ItemData = itemData;
         }
 
+        private IItemInteractor _interaction { get; set; }
+
+        public IItemInteractor Interaction
+        {
+            get
+            {
+                if (_interaction == null)
+                    _interaction = ItemInteractor.GetItemInteractor(ItemData.Interaction);
+
+                return _interaction;
+            }
+        }
+
         public void ComposeFloorItem(ServerPacket message)
         {
             message.WriteInt(Id);
@@ -47,11 +61,8 @@ namespace AliasPro.Item.Models
             message.WriteInt(Rotation);
             message.WriteString(string.Format("{0:0.00}", Position.Z.ToString()));
             message.WriteString("");
-
             message.WriteInt(1);
-            message.WriteInt(0);
-            message.WriteString(ExtraData);
-
+            Interaction.Compose(message, this);
             message.WriteInt(-1);
             message.WriteInt(ItemData.Modes > 0 ? 1 : 0);
             message.WriteInt(PlayerId);
@@ -95,5 +106,6 @@ namespace AliasPro.Item.Models
         string ExtraData { get; set; }
         Position Position { get; set; }
         IItemData ItemData { get; set; }
+        IItemInteractor Interaction { get; }
     }
 }

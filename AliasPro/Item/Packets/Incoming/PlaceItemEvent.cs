@@ -25,7 +25,7 @@ namespace AliasPro.Item.Packets.Incoming
             uint itemId = uint.Parse(data[0]);
 
             IRoom room = session.CurrentRoom;
-
+            
             if (!room.RightHandler.HasRights(session.Player.Id)) return;
 
             if (session.Player.Inventory.TryGetItem(itemId, out IItem item))
@@ -60,10 +60,8 @@ namespace AliasPro.Item.Packets.Incoming
                 item.Mode = 1;
                 item.RoomId = room.RoomData.Id;
                 room.ItemHandler.AddItem(item);
-
-                System.Console.WriteLine(session.Player.Inventory.Items.Count);
+                
                 await session.Player.Inventory.RemoveItem(item);
-                System.Console.WriteLine(session.Player.Inventory.Items.Count);
             }
         }
     }

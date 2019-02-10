@@ -23,6 +23,8 @@ namespace AliasPro.Item
             collection.AddSingleton<IAsyncPacket, UpdateItemEvent>();
             collection.AddSingleton<IAsyncPacket, RemoveItemEvent>();
             collection.AddSingleton<IAsyncPacket, UpdateWallEvent>();
+            collection.AddSingleton<IAsyncPacket, ToggleFloorItemEvent>();
+            collection.AddSingleton<IAsyncPacket, ToggleWallItemEvent>();
         }
     }
 }
