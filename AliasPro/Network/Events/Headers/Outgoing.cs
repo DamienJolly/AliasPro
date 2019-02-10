@@ -69,6 +69,8 @@
         internal const short RoomSettingsMessageComposer = 1644;
         internal const short RoomEditSettingsErrorMessageComposer = 2465;
         internal const short RoomChatSettingsMessageComposer = 3145;
+        internal const short RoomRightsMessageComposer = 87;
+        internal const short RoomOwnerMessageComposer = 2696;
 
         // Landing
         internal const short HotelViewDataMessageComposer = 730;
