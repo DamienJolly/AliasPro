@@ -8,7 +8,7 @@ namespace AliasPro.Navigator.Models.Views
 
     internal class MyRoomsCategory : ICategoryType
     {
-        public override async Task<ICollection<IRoom>> Search(IRoomController roomController, uint categoryId, string searchCode, uint playerId) =>
-            await roomController.GetAllRoomsById(playerId);
+        public override async Task<ICollection<IRoomData>> Search(IRoomController roomController, uint categoryId, string searchCode, uint playerId) =>
+            await roomController.GetAllRoomDataById(playerId);
     }
 }

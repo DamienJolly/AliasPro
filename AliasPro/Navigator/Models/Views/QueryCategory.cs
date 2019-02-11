@@ -8,13 +8,13 @@ namespace AliasPro.Navigator.Models.Views
 
     internal class QueryCategory : ICategoryType
     {
-        public override Task<ICollection<IRoom>> Search(IRoomController roomController, uint categoryId, string searchCode, uint playerId)
+        public override Task<ICollection<IRoomData>> Search(IRoomController roomController, uint categoryId, string searchCode, uint playerId)
         {
-            ICollection<IRoom> roomsToGo = new List<IRoom>();
+            ICollection<IRoomData> roomsToGo = new List<IRoomData>();
             ICollection<IRoom> rooms = roomController.GetAllRooms();
             foreach (IRoom room in rooms)
             {
-                roomsToGo.Add(room);
+                roomsToGo.Add(room.RoomData);
             }
             return Task.FromResult(roomsToGo);
         }

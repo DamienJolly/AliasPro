@@ -8,6 +8,6 @@ namespace AliasPro.Navigator.Models.Views
 
     public abstract class ICategoryType
     {
-        public abstract Task<ICollection<IRoom>> Search(IRoomController roomController, uint categoryId, string searchCode, uint playerId);
+        public abstract Task<ICollection<IRoomData>> Search(IRoomController roomController, uint categoryId, string searchCode, uint playerId);
     }
 }

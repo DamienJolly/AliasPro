@@ -8,9 +8,9 @@ namespace AliasPro.Navigator.Models.Views
 
     internal class PromotionsCategory : ICategoryType
     {
-        public override Task<ICollection<IRoom>> Search(IRoomController roomController, uint categoryId, string searchCode, uint playerId)
+        public override Task<ICollection<IRoomData>> Search(IRoomController roomController, uint categoryId, string searchCode, uint playerId)
         {
-            ICollection<IRoom> roomsToGo = new List<IRoom>();
+            ICollection<IRoomData> roomsToGo = new List<IRoomData>();
             return Task.FromResult(roomsToGo);
         }
     }

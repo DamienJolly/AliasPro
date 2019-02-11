@@ -40,7 +40,7 @@ namespace AliasPro.Navigator.Packets.Outgoing
                     (category.Identifier == "query" && string.IsNullOrEmpty(_data)))
                     continue;
 
-                ICollection<IRoom> rooms = 
+                ICollection<IRoomData> rooms = 
                    category.CategoryType.Search(_roomController, category.Id, _data, _playerId).Result;
                 if (rooms.Count > 0)
                     tempCategories.Add(category);
@@ -49,7 +49,7 @@ namespace AliasPro.Navigator.Packets.Outgoing
             message.WriteInt(tempCategories.Count);
             foreach (INavigatorCategory category in tempCategories)
             {
-                ICollection<IRoom> rooms = 
+                ICollection<IRoomData> rooms = 
                     category.CategoryType.Search(_roomController, category.Id, _data, _playerId).Result;
                 message.WriteString(category.Identifier);
                 message.WriteString(category.PublicName);
@@ -61,8 +61,8 @@ namespace AliasPro.Navigator.Packets.Outgoing
                     rooms = rooms.Take(12).ToList();
 
                 message.WriteInt(rooms.Count);
-                foreach (IRoom room in rooms)
-                    room.RoomData.Compose(message);
+                foreach (IRoomData room in rooms)
+                    room.Compose(message);
             }
             return message;
         }

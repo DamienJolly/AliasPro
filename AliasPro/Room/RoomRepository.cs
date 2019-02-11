@@ -57,8 +57,8 @@ namespace AliasPro.Room
             return null;
         }
 
-        internal async Task<ICollection<IRoom>> GetAllRoomsById(uint playerId) =>
-            await _roomDao.GetAllRoomsById(playerId);
+        internal async Task<ICollection<IRoomData>> GetAllRoomDataById(uint playerId) =>
+            await _roomDao.GetAllRoomDataById(playerId);
 
         internal async Task<IRoomSettings> GetRoomSettingsIdAsync(uint id)
         {
