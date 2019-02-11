@@ -4,6 +4,7 @@ namespace AliasPro.Room.Models.Entities
 {
     using AliasPro.Item.Models;
     using Gamemap;
+    using Gamemap.Pathfinding;
 
     internal class EntityCycler
     {
@@ -32,15 +33,23 @@ namespace AliasPro.Room.Models.Entities
                 int reversedIndex = entity.PathToWalk.Count - 1;
                 Position nextStep = entity.PathToWalk[reversedIndex];
                 entity.PathToWalk.RemoveAt(reversedIndex);
-
-                int newDir = Position.CalculateDirection(entity.Position, nextStep);
-
+                
                 RoomTile roomTile = _room.RoomMap.GetRoomTile(
                     nextStep.X,
                     nextStep.Y);
 
+                if (!roomTile.IsValidTile(entity.PathToWalk.Count == 0))
+                {
+                    entity.PathToWalk = PathFinder.FindPath(
+                        _room.RoomMap,
+                        entity.Position, entity.PathToWalk[0]);
+                    return;
+                }
+                
                 IItem topItem = roomTile.TopItem;
                 double newZ = roomTile.Height;
+                int newDir = 
+                    Position.CalculateDirection(entity.Position, nextStep);
 
                 if (topItem != null)
                 {
