@@ -25,28 +25,28 @@ namespace AliasPro.Room.Models.Entities
 
             if (entity.PathToWalk != null)
             {
-                //Finished walking or found no path.
-                if (entity.PathToWalk.Count == 0)
-                {
-                    entity.ActiveStatuses.Remove("mv");
-                    entity.PathToWalk = null;
-                    return;
-                }
-
                 entity.ActiveStatuses.Remove("mv");
+                entity.ActiveStatuses.Remove("sit");
+                entity.ActiveStatuses.Remove("lay");
 
                 int reversedIndex = entity.PathToWalk.Count - 1;
                 Position nextStep = entity.PathToWalk[reversedIndex];
                 entity.PathToWalk.RemoveAt(reversedIndex);
 
-                double newZ = 0.00;
                 int newDir = Position.CalculateDirection(entity.Position, nextStep);
-                
-                if (_room.RoomMap.TryGetRoomTile(nextStep.X, nextStep.Y, out RoomTile roomTile))
+
+                RoomTile roomTile = _room.RoomMap.GetRoomTile(
+                    nextStep.X,
+                    nextStep.Y);
+
+                IItem topItem = roomTile.TopItem;
+                double newZ = roomTile.Height;
+
+                if (topItem != null)
                 {
-                    IItem topItem = roomTile.GetTopItem();
-                    if (topItem != null)
-                        newZ = topItem.Position.Z + topItem.ItemData.Height;
+                    if (topItem.ItemData.CanLay ||
+                        topItem.ItemData.CanSit)
+                        newZ -= topItem.ItemData.Height;
                 }
 
                 entity.NextPosition = new Position(nextStep.X, nextStep.Y, newZ);
@@ -60,13 +60,37 @@ namespace AliasPro.Room.Models.Entities
                     .Append(",")
                     .Append(newZ);
                 entity.ActiveStatuses.Add("mv", _moveStatus.ToString());
+
+                if (entity.PathToWalk.Count == 0)
+                    entity.PathToWalk = null;
             }
             else
             {
-                if (entity.ActiveStatuses.ContainsKey("mv"))
+                RoomTile roomTile = _room.RoomMap.GetRoomTile(
+                    entity.Position.X, 
+                    entity.Position.Y);
+
+                IItem topItem = roomTile.TopItem;
+
+                entity.ActiveStatuses.Remove("sit");
+                entity.ActiveStatuses.Remove("lay");
+                entity.ActiveStatuses.Remove("mv");
+
+                if (topItem != null)
                 {
-                    entity.ActiveStatuses.Remove("mv");
+                    if (topItem.ItemData.CanSit)
+                    {
+                        entity.ActiveStatuses.Add("sit", topItem.ItemData.Height + "");
+                        entity.BodyRotation = topItem.Rotation;
+                    }
+                    else if (topItem.ItemData.CanLay)
+                    {
+                        entity.ActiveStatuses.Add("lay", topItem.ItemData.Height + "");
+                        entity.BodyRotation = topItem.Rotation;
+                    }
                 }
+
+                entity.Position.Z = roomTile.Height;
             }
         }
     }

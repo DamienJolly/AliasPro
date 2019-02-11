@@ -34,20 +34,17 @@ namespace AliasPro.Item.Packets.Incoming
                 {
                     int x = int.Parse(data[1]);
                     int y = int.Parse(data[2]);
-                    double z = 0.00;
                     int rot = int.Parse(data[3]);
 
                     if (!room.RoomMap.TryGetRoomTile(x, y, out RoomTile roomTile)) return;
 
-                    IItem topItem = roomTile.GetTopItem();
-                    if (topItem != null && topItem != item)
-                        z = topItem.Position.Z + topItem.ItemData.Height;
+                    if (!room.RoomMap.CanStackAt(x, y, item)) return;
                     
                     item.Position.X = x;
                     item.Position.Y = y;
-                    item.Position.Z = z;
+                    item.Position.Z = roomTile.Height;
                     item.Rotation = rot;
-                    roomTile.AddItem(item);
+                    room.RoomMap.AddItem(item);
 
                     await room.SendAsync(new ObjectAddComposer(item));
                 }

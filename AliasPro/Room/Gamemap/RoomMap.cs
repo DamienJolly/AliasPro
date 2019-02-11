@@ -2,6 +2,7 @@
 
 namespace AliasPro.Room.Gamemap
 {
+    using AliasPro.Item.Models;
     using Models;
 
     public class RoomMap
@@ -23,9 +24,65 @@ namespace AliasPro.Room.Gamemap
             {
                 for (int x = 0; x < MapSizeX; x++)
                 {
+                    //todo: tile states
                     WalkableGrid[x, y] = roomModel.GetTileState(x, y);
-                    _roomTiles.Add(ConvertTo1D(x, y), new RoomTile(room));
+
+                    double posZ = roomModel.GetHeight(x, y);
+                    Position position = new Position(x, y, posZ);
+
+                    _roomTiles.Add(ConvertTo1D(x, y), new RoomTile(room, position));
                 }
+            }
+        }
+
+        public bool CanStackAt(int targertX, int targetY, IItem item)
+        {
+            bool canStack = true;
+            IList<RoomTile> tiles =
+                GetTilesFromItem(targertX, targetY, item);
+
+            foreach (RoomTile tile in tiles)
+            {
+                if (!tile.CanStack(item))
+                {
+                    canStack = false;
+                }
+            }
+            return canStack;
+        }
+
+        public IList<RoomTile> GetTilesFromItem(int targetX, int targetY, IItem item)
+        {
+            IList<RoomTile> tiles = new List<RoomTile>();
+            for (int x = targetX; x <= targetX + (item.Rotation == 0 || item.Rotation == 4 ? item.ItemData.Width : item.ItemData.Length) - 1; x++)
+            {
+                for (int y = targetY; y <= targetY + (item.Rotation == 0 || item.Rotation == 4 ? item.ItemData.Length : item.ItemData.Width) - 1; y++)
+                {
+                    tiles.Add(GetRoomTile(x, y));
+                }
+            }
+            return tiles;
+        }
+
+        public void AddItem(IItem item)
+        {
+            IList<RoomTile> tiles = 
+                GetTilesFromItem(item.Position.X, item.Position.Y, item);
+
+            foreach (RoomTile tile in tiles)
+            {
+                tile.AddItem(item);
+            }
+        }
+
+        public void RemoveItem(IItem item)
+        {
+            IList<RoomTile> tiles =
+                GetTilesFromItem(item.Position.X, item.Position.Y, item);
+
+            foreach (RoomTile tile in tiles)
+            {
+                tile.RemoveItem(item.Id);
             }
         }
 

@@ -31,9 +31,7 @@ namespace AliasPro.Item.Packets.Incoming
             {
                 if (item.ItemData.Type == "s")
                 {
-                    if (!room.RoomMap.TryGetRoomTile(item.Position.X, item.Position.Y, out RoomTile tile)) return;
-
-                    tile.RemoveItem(item.Id);
+                    room.RoomMap.RemoveItem(item);
                     await room.SendAsync(new RemoveFloorItemComposer(item));
                 }
                 else

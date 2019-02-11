@@ -23,7 +23,7 @@ namespace AliasPro.Room.Gamemap.Pathfinding
             Position start,
             Position end)
         {
-            if (!IsValidStep(roomGrid, end))
+            if (!IsValidStep(roomGrid, end, true))
                 return null;
 
             BinaryHeap openHeap = new BinaryHeap();
@@ -38,14 +38,18 @@ namespace AliasPro.Room.Gamemap.Pathfinding
 
                 if (curr.Position == end)
                 {
-                    return BuildPath(start, end, walkedPath, roomGrid.MapSizeX);
+                    IList<Position> path = BuildPath(start, end, walkedPath, roomGrid.MapSizeX);
+
+                    if (path.Count == 0) return null;
+                    return path;
                 }
 
                 float cost = currentCost[curr.Position.X, curr.Position.Y];
                 foreach (AstarPosition option in DIAG)
                 {
                     Position position = curr.Position + option;
-                    if (!IsValidStep(roomGrid, position))
+                    
+                    if (!IsValidStep(roomGrid, position, position == end))
                         continue;
 
                     // Can't walk diagonal between two non-walkable tiles.
@@ -77,7 +81,7 @@ namespace AliasPro.Room.Gamemap.Pathfinding
             return null;
         }
 
-        private static bool IsValidStep(RoomMap roomGrid, Position position)
+        private static bool IsValidStep(RoomMap roomGrid, Position position, bool final = false)
         {
             if (position.X >= roomGrid.MapSizeX || position.X < 0 || 
                 position.Y >= roomGrid.MapSizeY || position.Y < 0)
@@ -85,11 +89,10 @@ namespace AliasPro.Room.Gamemap.Pathfinding
             
             if (!roomGrid.WalkableGrid[position.X, position.Y])
                 return false;
-
+            
             if (roomGrid.TryGetRoomTile(position.X, position.Y, out RoomTile roomTile))
-            {
-                return roomTile.CanWalkOn();
-            }
+                return roomTile.IsValidTile(final);
+
             return false;
         }
 

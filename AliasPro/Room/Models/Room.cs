@@ -69,11 +69,7 @@ namespace AliasPro.Room.Models
         {
             foreach (IItem item in items.Values)
             {
-                if (RoomMap.TryGetRoomTile(item.Position.X, item.Position.Y, out RoomTile tile))
-                {
-                    tile.AddItem(item);
-                }
-
+                RoomMap.AddItem(item);
                 ItemHandler.AddItem(item);
             }
         }
