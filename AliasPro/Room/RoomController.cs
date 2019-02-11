@@ -30,6 +30,9 @@ namespace AliasPro.Room
         public ICollection<IRoom> GetAllRooms() =>
             _roomRepository.GetAllRooms();
 
+        public async Task<ICollection<IRoom>> GetAllRoomsById(uint playerId) =>
+            await _roomRepository.GetAllRoomsById(playerId);
+
         public bool TryGetRoomModel(string modelName, out IRoomModel model) =>
             _roomRepository.TryGetRoomModel(modelName, out model);
     }
@@ -41,6 +44,7 @@ namespace AliasPro.Room
         Task<IRoom> GetRoomByIdAndPassword(uint id, string password);
         Task RemoveFromRoom(ISession session);
         ICollection<IRoom> GetAllRooms();
+        Task<ICollection<IRoom>> GetAllRoomsById(uint playerId);
         bool TryGetRoomModel(string modelName, out IRoomModel model);
     }
 }

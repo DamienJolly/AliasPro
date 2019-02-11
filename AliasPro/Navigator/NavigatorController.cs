@@ -12,17 +12,13 @@ namespace AliasPro.Navigator
         {
             _navigatorRepository = navigatorRepository;
         }
-
-        public IList<INavigatorCategory> Categories =>
-            _navigatorRepository.Categories;
-
-        public IList<INavigatorCategory> PromotionCategories =>
-            _navigatorRepository.PromotionCategories;
+        
+        public bool TryGetCategories(string type, out ICollection<INavigatorCategory> categories) =>
+            _navigatorRepository.TryGetCategories(type, out categories);
     }
 
     public interface INavigatorController
     {
-        IList<INavigatorCategory> Categories { get; }
-        IList<INavigatorCategory> PromotionCategories { get; }
+        bool TryGetCategories(string type, out ICollection<INavigatorCategory> categories);
     }
 }

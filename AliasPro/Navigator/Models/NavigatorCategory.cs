@@ -34,6 +34,7 @@ namespace AliasPro.Navigator.Models
                 case "popular": return new PopularCategory();
                 case "top_promotions": return new TopPromotionsCategory();
                 case "promotion_category": return new PromotionsCategory();
+                case "my_rooms": return new MyRoomsCategory();
             }
         }
     }

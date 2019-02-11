@@ -37,6 +37,23 @@ namespace AliasPro.Room
             return roomData;
         }
 
+        internal async Task<ICollection<IRoom>> GetAllRoomsById(uint playerId)
+        {
+            ICollection<IRoom> roomData = new List<IRoom>();
+            await CreateTransaction(async transaction =>
+            {
+                await Select(transaction, async reader =>
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        roomData.Add(new Room(new RoomData(reader), null));
+                    }
+                }, "SELECT * FROM `rooms` WHERE `owner` = @0;", playerId);
+            });
+
+            return roomData;
+        }
+
         internal async Task<IRoomSettings> GetRoomSettingsId(uint id)
         {
             IRoomSettings roomSettings = null;

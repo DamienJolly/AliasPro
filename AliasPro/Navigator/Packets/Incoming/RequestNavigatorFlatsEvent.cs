@@ -25,7 +25,8 @@ namespace AliasPro.Navigator.Packets.Incoming
             ISession session,
             IClientPacket clientPacket)
         {
-            IList<INavigatorCategory> categories = _navigatorController.Categories;
+            if (!_navigatorController.TryGetCategories("roomads_view", out ICollection<INavigatorCategory> categories)) return;
+            
             await session.SendPacketAsync(new NavigatorFlatCatsComposer(categories, session.Player.Rank));
         }
     }

@@ -9,10 +9,10 @@ namespace AliasPro.Navigator.Packets.Outgoing
 
     public class NavigatorFlatCatsComposer : IPacketComposer
     {
-        private readonly IList<INavigatorCategory> _categories;
+        private readonly ICollection<INavigatorCategory> _categories;
         private readonly int _playerRank;
 
-        public NavigatorFlatCatsComposer(IList<INavigatorCategory> categories, int playerRank)
+        public NavigatorFlatCatsComposer(ICollection<INavigatorCategory> categories, int playerRank)
         {
             _categories = categories;
             _playerRank = playerRank;

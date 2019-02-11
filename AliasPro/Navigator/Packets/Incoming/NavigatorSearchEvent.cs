@@ -30,19 +30,11 @@ namespace AliasPro.Navigator.Packets.Incoming
         {
             string category = clientPacket.ReadString();
             string data = clientPacket.ReadString();
-            IList<INavigatorCategory> categories = _navigatorController.Categories;
-            IList<INavigatorCategory> categoriesToSend = new List<INavigatorCategory>();
 
-            foreach (INavigatorCategory navCategory in categories)
-            {
-                if (navCategory.Category == category)
-                {
-                    categoriesToSend.Add(navCategory);
-                }
-            }
+            if (!_navigatorController.TryGetCategories(category, out ICollection<INavigatorCategory> categories)) return;
 
             await session.SendPacketAsync(
-                new NavigatorSearchResultSetComposer(category, data, categoriesToSend, _roomController));
+                new NavigatorSearchResultSetComposer(session.Player.Id, category, data, categories, _roomController));
         }
     }
 }

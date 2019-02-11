@@ -25,7 +25,8 @@ namespace AliasPro.Navigator.Packets.Incoming
             ISession session,
             IClientPacket clientPacket)
         {
-            IList<INavigatorCategory> categories = _navigatorController.PromotionCategories;
+            if (!_navigatorController.TryGetCategories("hotel_view", out ICollection<INavigatorCategory> categories)) return;
+
             await session.SendPacketAsync(new UserFlatCatsComposer(categories, session.Player.Rank));
         }
     }

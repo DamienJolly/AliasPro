@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AliasPro.Navigator.Models.Views
 {
@@ -7,10 +8,10 @@ namespace AliasPro.Navigator.Models.Views
 
     internal class TopPromotionsCategory : ICategoryType
     {
-        public override IList<IRoom> Search(IRoomController roomController, uint categoryId, string searchCode)
+        public override Task<ICollection<IRoom>> Search(IRoomController roomController, uint categoryId, string searchCode, uint playerId)
         {
-            IList<IRoom> roomsToGo = new List<IRoom>();
-            return roomsToGo;
+            ICollection<IRoom> roomsToGo = new List<IRoom>();
+            return Task.FromResult(roomsToGo);
         }
     }
 }

@@ -12,13 +12,15 @@ namespace AliasPro.Navigator.Packets.Outgoing
 
     public class NavigatorSearchResultSetComposer : IPacketComposer
     {
+        private readonly uint _playerId;
         private readonly string _category;
         private readonly string _data;
-        private readonly IList<INavigatorCategory> _categories;
+        private readonly ICollection<INavigatorCategory> _categories;
         private readonly IRoomController _roomController;
 
-        public NavigatorSearchResultSetComposer(string category, string data, IList<INavigatorCategory> categories, IRoomController roomController)
+        public NavigatorSearchResultSetComposer(uint playerId, string category, string data, ICollection<INavigatorCategory> categories, IRoomController roomController)
         {
+            _playerId = playerId;
             _category = category;
             _data = data;
             _categories = categories;
@@ -38,7 +40,8 @@ namespace AliasPro.Navigator.Packets.Outgoing
                     (category.Identifier == "query" && string.IsNullOrEmpty(_data)))
                     continue;
 
-                IList<IRoom> rooms = category.CategoryType.Search(_roomController, category.Id, _data);
+                ICollection<IRoom> rooms = 
+                   category.CategoryType.Search(_roomController, category.Id, _data, _playerId).Result;
                 if (rooms.Count > 0)
                     tempCategories.Add(category);
             }
@@ -46,7 +49,8 @@ namespace AliasPro.Navigator.Packets.Outgoing
             message.WriteInt(tempCategories.Count);
             foreach (INavigatorCategory category in tempCategories)
             {
-                IList<IRoom> rooms = category.CategoryType.Search(_roomController, category.Id, _data);
+                ICollection<IRoom> rooms = 
+                    category.CategoryType.Search(_roomController, category.Id, _data, _playerId).Result;
                 message.WriteString(category.Identifier);
                 message.WriteString(category.PublicName);
                 message.WriteInt((rooms.Count > 12) ? 1 : 0);

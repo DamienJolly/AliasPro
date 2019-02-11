@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AliasPro.Navigator.Models.Views
 {
@@ -7,6 +8,6 @@ namespace AliasPro.Navigator.Models.Views
 
     public abstract class ICategoryType
     {
-        public abstract IList<IRoom> Search(IRoomController roomController, uint categoryId, string searchCode);
+        public abstract Task<ICollection<IRoom>> Search(IRoomController roomController, uint categoryId, string searchCode, uint playerId);
     }
 }

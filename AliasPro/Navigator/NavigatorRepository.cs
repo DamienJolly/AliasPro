@@ -8,40 +8,24 @@ namespace AliasPro.Navigator
     {
         private readonly NavigatorDao _navigatorDao;
         
-        public IList<INavigatorCategory> Categories { get; private set; }
-        public IList<INavigatorCategory> PromotionCategories { get; private set; }
+        public IDictionary<string, ICollection<INavigatorCategory>> _categories { get; private set; }
 
         public NavigatorRepository(NavigatorDao navigatorDao)
         {
             _navigatorDao = navigatorDao;
-
-            Categories = new List<INavigatorCategory>();
-            PromotionCategories = new List<INavigatorCategory>();
+            _categories = new Dictionary<string, ICollection<INavigatorCategory>>();
 
             InitializeNavigator();
         }
 
-        private async void InitializeNavigator()
+        public async void InitializeNavigator()
         {
-            IList<INavigatorCategory> unorderedCategories =
-                await _navigatorDao.GetNavigatorCategoriesAsync();
+            _categories.Clear();
 
-            foreach (INavigatorCategory navigatorCategory in unorderedCategories)
-            {
-                switch (navigatorCategory.Category)
-                {
-                    case "hotel_view":
-                        {
-                            Categories.Add(navigatorCategory);
-                            break;
-                        }
-                    case "roomads_view":
-                        {
-                            PromotionCategories.Add(navigatorCategory);
-                            break;
-                        }
-                }
-            }
+            _categories = await _navigatorDao.GetNavigatorCategoriesAsync();
         }
+
+        public bool TryGetCategories(string type, out ICollection<INavigatorCategory> categories) =>
+            _categories.TryGetValue(type, out categories);
     }
 }
