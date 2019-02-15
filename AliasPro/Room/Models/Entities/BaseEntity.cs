@@ -7,7 +7,7 @@ namespace AliasPro.Room.Models.Entities
 
     public abstract class BaseEntity
     {
-        protected BaseEntity(int id, int x, int y, int rotation, string name, string figure)
+        protected BaseEntity(int id, int x, int y, int rotation, string name, string figure, string gender, string motto)
         {
             Id = id;
             BodyRotation = rotation;
@@ -15,6 +15,8 @@ namespace AliasPro.Room.Models.Entities
             NextPosition = new Position(x, y, 0);
             Name = name;
             Figure = figure;
+            Gender = gender;
+            Motto = motto;
 
             ActiveStatuses = new Dictionary<string, string>();
         }
@@ -26,6 +28,8 @@ namespace AliasPro.Room.Models.Entities
         public IList<Position> PathToWalk { get; set; }
         public string Name { get; set; }
         public string Figure { get; set; }
+        public string Gender { get; set; }
+        public string Motto { get; set; }
 
         public IDictionary<string, string> ActiveStatuses { get; set; }
         

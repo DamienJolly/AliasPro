@@ -13,6 +13,10 @@
         internal const short UserCreditsMessageComposer = 1232;
         internal const short UserCurrencyMessageComposer = 2380;
 
+        // Figure
+        internal const short UpdateFigureMessageComposer = 757;
+        internal const short UpdateEntityDataMessageComposer = 3314;
+
         // Messenger
         internal const short MessengerInitMessageComposer = 2871;
         internal const short FriendsMessageComposer = 3758;

@@ -7,6 +7,7 @@ namespace AliasPro.Player
     using Models.Currency;
     using Models.Messenger;
     using Item;
+    using AliasPro.Player.Packets.Outgoing;
 
     internal class PlayerRepostiory
     {
@@ -20,6 +21,31 @@ namespace AliasPro.Player
             _itemDao = itemDao;
 
             _players = new Dictionary<uint, IPlayer>();
+        }
+
+        internal async Task UpdateStatus(IPlayer player, ICollection<IMessengerFriend> friends)
+        {
+            foreach (MessengerFriend friend in friends)
+            {
+                IPlayer targetPlayer =
+                    await GetPlayerById(friend.Id);
+
+                if (targetPlayer == null || 
+                    targetPlayer.Session == null || 
+                    targetPlayer.Messenger == null) continue;
+
+                if (targetPlayer.Messenger.TryGetFriend(player.Id, out IMessengerFriend targetFriend))
+                {
+                    targetFriend.Figure = player.Figure;
+                    //targetFriend.Gender = player.Gender;
+                    targetFriend.Username = player.Username;
+                    targetFriend.Motto = player.Motto;
+                    //targetFriend.IsOnline = player.IsOnline;
+                    targetFriend.InRoom = player.Session.CurrentRoom != null;
+
+                    await targetPlayer.Session.SendPacketAsync(new UpdateFriendComposer(friend));
+                }
+            }
         }
 
         internal async Task<IPlayer> GetPlayerById(uint id)

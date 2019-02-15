@@ -7,15 +7,13 @@
     internal class UserEntity : BaseEntity
     {
         internal UserEntity(int id, int x, int y, int rotation, ISession session)
-            : base(id, x, y, rotation, session.Player.Username, session.Player.Figure)
+            : base(id, x, y, rotation, session.Player.Username, session.Player.Figure, session.Player.Gender, session.Player.Motto)
         {
             Session = session;
-            Motto = session.Player.Motto;
         }
 
         public ISession Session { get; }
         public IPlayer Player => Session.Player;
-        public string Motto { get; set; }
 
         public override void Compose(ServerPacket serverPacket)
         {

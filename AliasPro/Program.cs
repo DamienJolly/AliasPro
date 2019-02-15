@@ -16,6 +16,7 @@ namespace AliasPro
     using Player;
     using Sessions;
     using Chat;
+    using Figure;
 
     public class Program
     {
@@ -33,7 +34,8 @@ namespace AliasPro
                 new NavigatorService(),
                 new ItemService(),
                 new CatalogService(),
-                new ChatService()
+                new ChatService(),
+                new FigureService()
             };
 
             IServiceCollection serviceCollection = new ServiceCollection();

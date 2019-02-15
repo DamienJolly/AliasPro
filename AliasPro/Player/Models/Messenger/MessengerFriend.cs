@@ -47,13 +47,13 @@ namespace AliasPro.Player.Models.Messenger
             message.WriteShort((short)Relation);
         }
 
-        public uint Id { get; }
-        public string Username { get; }
-        public string Figure { get; }
-        public string Motto { get; }
-        public bool InRoom { get; }
-        public bool IsOnline { get; }
-        public int Relation { get; }
+        public uint Id { get;}
+        public string Username { get; set; }
+        public string Figure { get; set; }
+        public string Motto { get; set; }
+        public bool InRoom { get; set; }
+        public bool IsOnline { get; set; }
+        public int Relation { get; set; }
     }
 
     public interface IMessengerFriend
@@ -61,11 +61,11 @@ namespace AliasPro.Player.Models.Messenger
         void Compose(ServerPacket message);
 
         uint Id { get; }
-        string Username { get; }
-        string Figure { get; }
-        string Motto { get; }
-        bool InRoom { get; }
-        bool IsOnline { get; }
-        int Relation { get; }
+        string Username { get; set; }
+        string Figure { get; set; }
+        string Motto { get; set; }
+        bool InRoom { get; set; }
+        bool IsOnline { get; set; }
+        int Relation { get; set; }
     }
 }

@@ -8,6 +8,9 @@
         internal const short RequestUserDataMessageEvent = 3092;
         internal const short RequestUserCreditsMessageEvent = 2109;
 
+        // Figure
+        internal const short UpdateFigureMessageEvent = 1588;
+
         // Messenger
         internal const short RequestInitFriendsMessageEvent = 1405;
         internal const short RequestFriendRequestsMessageEvent = 2467;
