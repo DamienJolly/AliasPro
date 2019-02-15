@@ -14,9 +14,11 @@ namespace AliasPro.Figure.Packets.Incoming
         public short Header { get; } = Incoming.UpdateFigureMessageEvent;
        
         private readonly IPlayerController _playerController;
+        private readonly IFigureController _figureController;
 
-        public UpdateFigureEvent(IPlayerController playerController)
+        public UpdateFigureEvent(IFigureController figureController, IPlayerController playerController)
         {
+            _figureController = figureController;
             _playerController = playerController;
         }
 
@@ -33,7 +35,7 @@ namespace AliasPro.Figure.Packets.Incoming
             if (figure.Length == 0 || 
                 figure == session.Player.Figure) return;
 
-            // todo: anti-mutant
+            if (!_figureController.ValidateFigure(figure, gender)) return;
 
             session.Player.Figure = figure;
             session.Player.Gender = gender;

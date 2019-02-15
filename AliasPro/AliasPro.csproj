@@ -16,8 +16,4 @@
     <PackageReference Include="MySql.Data" Version="8.0.14" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Figure\Models\" />
-  </ItemGroup>
-
 </Project>
