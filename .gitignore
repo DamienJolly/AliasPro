@@ -260,3 +260,4 @@ paket-files/
 __pycache__/
 *.pyc
 /AliasPro/Room/Packets/Incoming/RequestCreateRoomEvent.cs
+/AliasPro/Properties/PublishProfiles

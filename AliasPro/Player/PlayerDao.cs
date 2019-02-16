@@ -46,8 +46,8 @@ namespace AliasPro.Player
         {
             await CreateTransaction(async transaction =>
             {
-                await Insert(transaction, "UPDATE `players` set `credits` = @1, `is_online` = @2, `username` = @3 WHERE `id` = @0;", 
-                    player.Id, player.Credits, player.IsOnline, player.Username);
+                await Insert(transaction, "UPDATE `players` set `credits` = @1, `is_online` = @2, `username` = @3, `figure` = @4 WHERE `id` = @0;", 
+                    player.Id, player.Credits, player.IsOnline, player.Username, player.Figure);
             });
         }
 
@@ -103,7 +103,7 @@ namespace AliasPro.Player
                     {
                         player = new Player(reader);
                     }
-                }, "SELECT `id`, `credits`, `rank`, `username`, `auth_ticket`, `figure`, `gender`, `motto` FROM `players` WHERE `username` = @0 LIMIT 1;", username);
+                }, "SELECT `id`, `credits`, `rank`, `username`, `auth_ticket`, `figure`, `gender`, `motto`, `is_online` FROM `players` WHERE `username` = @0 LIMIT 1;", username);
             });
             return player;
         }
@@ -203,7 +203,7 @@ namespace AliasPro.Player
                             players.Add(player.Id, player);
                         }
                     }
-                }, "SELECT `id`, `credits`, `rank`, `username`, `auth_ticket`, `figure`, `gender`, `motto` FROM `players` WHERE `username` LIKE @0 LIMIT 1;", "%" + username + "%");
+                }, "SELECT `id`, `credits`, `rank`, `username`, `auth_ticket`, `figure`, `gender`, `motto`, `is_online` FROM `players` WHERE `username` LIKE @0 LIMIT 1;", "%" + username + "%");
             });
             return players;
         }

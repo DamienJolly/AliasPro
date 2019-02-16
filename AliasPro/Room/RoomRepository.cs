@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace AliasPro.Room
 {
     using Models;
     using Sessions;
+    using System.Linq;
 
     internal class RoomRepository
     {
@@ -93,7 +95,7 @@ namespace AliasPro.Room
         {
             if (session.Entity != null)
             {
-                await session.CurrentRoom.RemoveEntity(session.Entity.Id);
+                await session.CurrentRoom.RemoveEntity(session.Entity);
                 session.Entity = null;
             }
             if (!session.CurrentRoom.EntityHandler.HasUserEntities)
@@ -106,9 +108,12 @@ namespace AliasPro.Room
         }
 
         internal ICollection<IRoom> GetAllRooms() =>
-            _rooms.Values;
+            _rooms.Values.OrderBy(x => x.RoomData.UsersNow).ToList();
 
         internal bool TryGetRoomModel(string modelName, out IRoomModel model) =>
             _roomModels.TryGetValue(modelName, out model);
+
+        internal bool TryGetRoom(uint roomId, out IRoom room) =>
+            _rooms.TryGetValue(roomId, out room);
     }
 }

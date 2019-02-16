@@ -30,16 +30,17 @@ namespace AliasPro.Room.Packets.Incoming
 
             await session.SendPacketAsync(new HeightMapComposer(room.RoomModel));
             await session.SendPacketAsync(new FloorHeightMapComposer(-1, room.RoomModel.RelativeHeightMap));
-
+            
             if (session.Entity == null)
             {
+                int entityId = room.EntityHandler.NextEntitityId++;
                 UserEntity userEntity = new UserEntity(
-                    room.EntityHandler.Entities.Count + 1,
+                    entityId,
                     room.RoomModel.DoorX,
                     room.RoomModel.DoorY,
                     room.RoomModel.DoorDir,
                     session);
-
+                
                 session.Entity = userEntity;
                 await room.AddEntity(userEntity);
             }

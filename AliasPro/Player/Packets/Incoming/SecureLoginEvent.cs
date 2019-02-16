@@ -56,7 +56,7 @@ namespace AliasPro.Player.Packets.Incoming
                 await _playerController.UpdatePlayerByIdAsync(player);
 
                 await session.SendPacketAsync(new SecureLoginOKComposer());
-                await session.SendPacketAsync(new HomeRoomComposer(1));
+                await session.SendPacketAsync(new HomeRoomComposer(0));
 
                 await session.SendPacketAsync(new UserRightsComposer(session.Player));
                 await session.SendPacketAsync(new AvailabilityStatusComposer());

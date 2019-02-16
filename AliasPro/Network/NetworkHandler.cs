@@ -35,7 +35,10 @@ namespace AliasPro.Network
             if (_sessionController.TryGetSession(context.Channel.Id, out ISession session) &&
                 session.Player != null)
             {
-                await _roomController.RemoveFromRoom(session);
+                if (session.CurrentRoom != null)
+                {
+                    await _roomController.RemoveFromRoom(session);
+                }
                 await _playerController.RemovePlayerByIdAsync(session.Player.Id);
             }
             _sessionController.RemoveFromCache(context.Channel.Id);

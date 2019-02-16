@@ -35,6 +35,9 @@ namespace AliasPro.Room
 
         public bool TryGetRoomModel(string modelName, out IRoomModel model) =>
             _roomRepository.TryGetRoomModel(modelName, out model);
+
+        public bool TryGetRoom(uint roomId, out IRoom room) =>
+            _roomRepository.TryGetRoom(roomId, out room);
     }
 
     public interface IRoomController
@@ -46,5 +49,6 @@ namespace AliasPro.Room
         ICollection<IRoom> GetAllRooms();
         Task<ICollection<IRoomData>> GetAllRoomDataById(uint playerId);
         bool TryGetRoomModel(string modelName, out IRoomModel model);
+        bool TryGetRoom(uint roomId, out IRoom room);
     }
 }

@@ -30,13 +30,17 @@ namespace AliasPro.Room.Packets.Incoming
             uint roomId = (uint)clientPacket.ReadInt();
             string password = clientPacket.ReadString();
 
+            if (session.CurrentRoom != null)
+            {
+                await _roomController.RemoveFromRoom(session);
+            }
+
             IRoom room = await _roomController.GetRoomByIdAndPassword(roomId, password);
             if (room != null)
             {
                 await session.SendPacketAsync(new RoomOpenComposer());
                 await session.SendPacketAsync(new RoomModelComposer(room.RoomModel.Id, room.RoomData.Id));
                 await session.SendPacketAsync(new RoomScoreComposer(room.RoomData.Score));
-
                 if (!room.isLoaded)
                 {
                     room.isLoaded = true;
@@ -44,10 +48,6 @@ namespace AliasPro.Room.Packets.Incoming
                     room.LoadRoomItems(await _itemController.GetItemsForRoomAsync(room.RoomData.Id));
                 }
                 
-                if (session.CurrentRoom != null)
-                {
-                    await _roomController.RemoveFromRoom(session);
-                }
                 session.CurrentRoom = room;
             }
             else

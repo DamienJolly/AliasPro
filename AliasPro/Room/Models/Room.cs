@@ -59,10 +59,10 @@ namespace AliasPro.Room.Models
             await SendAsync(new EntityUpdateComposer(entity));
         }
 
-        public async Task RemoveEntity(int entityId)
+        public async Task RemoveEntity(BaseEntity entity)
         {
-            EntityHandler.RemoveEntity(entityId);
-            await SendAsync(new EntityRemoveComposer(entityId));
+            EntityHandler.RemoveEntity(entity);
+            await SendAsync(new EntityRemoveComposer(entity.Id));
         }
         
         public void LoadRoomItems(IDictionary<uint, IItem> items)
@@ -113,7 +113,7 @@ namespace AliasPro.Room.Models
         IRoomModel RoomModel { get; set; }
 
         Task AddEntity(BaseEntity entity);
-        Task RemoveEntity(int entityId);
+        Task RemoveEntity(BaseEntity entity);
         void OnChat(string text, int colour, BaseEntity entity);
         void LoadRoomItems(IDictionary<uint, IItem> items);
         void SetupRoomCycle();

@@ -33,6 +33,8 @@ namespace AliasPro.Room.Models.Right
             }
 
             await session.SendPacketAsync(new RoomRightsComposer((int)flatCtrl));
+
+            session.Entity.ActiveStatuses.Remove("flatctrl");
             session.Entity.ActiveStatuses.Add("flatctrl", (int)flatCtrl + "");
         }
 

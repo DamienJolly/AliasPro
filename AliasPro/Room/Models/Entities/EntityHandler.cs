@@ -11,6 +11,8 @@ namespace AliasPro.Room.Models.Entities
         private readonly IRoom _room;
         private readonly EntityCycler _entityCycler;
         private readonly IDictionary<int, BaseEntity> _entities;
+
+        public int NextEntitityId = 1;
         
         public EntityHandler(IRoom room)
         {
@@ -33,12 +35,23 @@ namespace AliasPro.Room.Models.Entities
         {
             if (!_entities.ContainsKey(entity.Id))
             {
+                if (entity is UserEntity)
+                    _room.RoomData.UsersNow++;
+
                 _entities.Add(entity.Id, entity);
             }
         }
-        
-        public void RemoveEntity(int entityId) =>
-            _entities.Remove(entityId);
+
+        public void RemoveEntity(BaseEntity entity)
+        {
+            if (_entities.ContainsKey(entity.Id))
+            {
+                if (entity is UserEntity)
+                    _room.RoomData.UsersNow--;
+
+                _entities.Remove(entity.Id);
+            }
+        }
 
         public ICollection<BaseEntity> Entities =>
             _entities.Values;

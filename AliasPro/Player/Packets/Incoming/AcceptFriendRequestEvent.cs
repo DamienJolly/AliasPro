@@ -50,8 +50,8 @@ namespace AliasPro.Player.Packets.Incoming
                         if (targetPlayer.Session != null && targetPlayer.Messenger != null)
                         {
                             IMessengerFriend friendTwo = new MessengerFriend(session.Player);
-                            targetPlayer.Session.Player.Messenger.AddFriend(friendOne);
-                            await session.SendPacketAsync(new UpdateFriendComposer(friendTwo));
+                            targetPlayer.Session.Player.Messenger.AddFriend(friendTwo);
+                            await targetPlayer.Session.SendPacketAsync(new UpdateFriendComposer(friendTwo));
                         }
                     }
                 }

@@ -24,7 +24,7 @@ namespace AliasPro.Figure.Models
                     !CheckType(parts[1]) ||
                     !CheckColourOne(parts[2])) return false;
 
-                if (parts.Length == 4 && !CheckColourTwo(parts[4])) return false;
+                if (parts.Length == 4 && !CheckColourTwo(parts[3])) return false;
 
                 if (!usedParts.Contains(parts[0]))
                     usedParts.Add(parts[0]);
