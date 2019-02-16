@@ -3,11 +3,18 @@ using System.Threading.Tasks;
 
 namespace AliasPro.Navigator
 {
+    using Configuration;
     using Database;
     using Models;
 
     internal class NavigatorDao : BaseDao
     {
+        public NavigatorDao(IConfigurationController configurationController)
+            : base(configurationController)
+        {
+
+        }
+
         internal async Task<IDictionary<string, ICollection<INavigatorCategory>>> GetNavigatorCategoriesAsync()
         {
             IDictionary<string, ICollection<INavigatorCategory>> categories = new Dictionary<string, ICollection<INavigatorCategory>>();

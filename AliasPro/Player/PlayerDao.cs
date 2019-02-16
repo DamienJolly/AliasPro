@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace AliasPro.Player
 {
+    using Configuration;
     using Database;
     using Models;
     using Models.Currency;
@@ -10,6 +11,12 @@ namespace AliasPro.Player
 
     internal class PlayerDao : BaseDao
     {
+        public PlayerDao(IConfigurationController configurationController)
+            : base(configurationController)
+        {
+
+        }
+
         internal async Task CreatePlayerSettings(uint id)
         {
             await CreateTransaction(async transaction =>

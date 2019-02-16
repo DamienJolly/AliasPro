@@ -3,12 +3,19 @@ using System.Threading.Tasks;
 
 namespace AliasPro.Room
 {
+    using Configuration;
     using Database;
     using Item.Models;
     using Models;
 
     internal class RoomDao : BaseDao
     {
+        public RoomDao(IConfigurationController configurationController)
+            : base(configurationController)
+        {
+
+        }
+
         internal async Task<int> CreateRoom(IRoomData roomData)
         {
             int roomId = -1;

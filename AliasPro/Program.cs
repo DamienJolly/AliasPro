@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace AliasPro
 {
+    using Configuration;
     using Catalog;
     using Item;
     using Navigator;
@@ -35,7 +36,8 @@ namespace AliasPro
                 new ItemService(),
                 new CatalogService(),
                 new ChatService(),
-                new FigureService()
+                new FigureService(),
+                new ConfigurationService()
             };
 
             IServiceCollection serviceCollection = new ServiceCollection();

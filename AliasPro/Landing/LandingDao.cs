@@ -3,11 +3,18 @@ using System.Threading.Tasks;
 
 namespace AliasPro.Landing
 {
+    using Configuration;
     using Database;
     using Models;
 
     internal class LandingDao : BaseDao
     {
+        public LandingDao(IConfigurationController configurationController)
+            : base(configurationController)
+        {
+
+        }
+
         internal async Task<IList<IHallOfFamer>> GetHallOfFamers()
         {
             IList<IHallOfFamer> hallOfFamers = new List<IHallOfFamer>();

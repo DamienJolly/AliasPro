@@ -3,11 +3,18 @@ using System.Collections.Generic;
 
 namespace AliasPro.Item
 {
+    using Configuration;
     using Database;
     using Models;
 
     internal class ItemDao : BaseDao
     {
+        public ItemDao(IConfigurationController configurationController)
+            : base(configurationController)
+        {
+
+        }
+
         internal async Task<IDictionary<uint, IItemData>> GetItemData()
         {
             IDictionary<uint, IItemData> items = new Dictionary<uint, IItemData>();

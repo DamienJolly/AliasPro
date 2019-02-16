@@ -3,12 +3,19 @@ using System.Threading.Tasks;
 
 namespace AliasPro.Catalog
 {
+    using Configuration;
     using Database;
     using Models;
     using Item;
 
     internal class CatalogDao : BaseDao
     {
+        public CatalogDao(IConfigurationController configurationController) 
+            : base(configurationController)
+        {
+
+        }
+
         internal async Task<IDictionary<int, ICatalogPage>> GetCatalogPages()
         {
             IDictionary<int, ICatalogPage> pages = new Dictionary<int, ICatalogPage>();

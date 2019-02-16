@@ -5,30 +5,25 @@ using System.Threading.Tasks;
 
 namespace AliasPro.Database
 {
+    using Configuration;
+    using Configuration.Models;
+
     public abstract class BaseDao
     {
         private readonly string _connectionString;
-
         private readonly Action<object> _errorPrinter;
+        private readonly IConfigurationController _configurationController;
 
-        public BaseDao()
+        protected BaseDao(IConfigurationController configurationController)
         {
+            _configurationController = configurationController;
             _errorPrinter = (text) =>
             {
                 Console.WriteLine("Caught error: " + text);
             };
 
-            MySqlConnectionStringBuilder stringBuilder = new MySqlConnectionStringBuilder()
-            {
-                Server = "localhost",
-                UserID = "root",
-                Database = "aliaspro",
-                Password = "Password123",
-                Port = 3306,
-                Pooling = true,
-                SslMode = MySqlSslMode.None
-            };
-            _connectionString = stringBuilder.ToString();
+            IConfigurationData configData = _configurationController.GetConfigurationData();
+            _connectionString = configData.ConnectionString;
         }
 
         private async Task CreateConnection(Action<MySqlConnection> connection)
