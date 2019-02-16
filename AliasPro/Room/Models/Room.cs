@@ -49,6 +49,18 @@ namespace AliasPro.Room.Models
                 text = text.Substring(0, 100);
             }
 
+            foreach (BaseEntity targetEntity in EntityHandler.Entities)
+            {
+                if (targetEntity == entity) continue;
+
+                int newDir = targetEntity.Position.CalculateDirection(entity.Position);
+
+                if (Math.Abs(newDir - targetEntity.BodyRotation) <= 2)
+                    targetEntity.HeadRotation = newDir;
+
+                targetEntity.dirOffsetTimer = 0;
+            }
+
             await SendAsync(new AvatarChatComposer(entity.Id, text, 0, colour));
         }
 

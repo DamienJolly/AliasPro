@@ -5,6 +5,7 @@ using System.Linq;
 namespace AliasPro.Room.Models.Entities
 {
     using Packets.Outgoing;
+    using Gamemap;
 
     public class EntityHandler
     {
