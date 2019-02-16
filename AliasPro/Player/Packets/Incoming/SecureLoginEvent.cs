@@ -32,6 +32,7 @@ namespace AliasPro.Player.Packets.Incoming
             IPlayer player = await _playerController.GetPlayerBySsoAsync(ssoTicket);
             if (player != null)
             {
+                player.IsOnline = true;
                 player.Session = session;
                 session.Player = player;
                 IPlayerSettings playerSettings =
@@ -51,6 +52,8 @@ namespace AliasPro.Player.Packets.Incoming
 
                 session.Player.Inventory = new PlayerInventory(session,
                     await _itemController.GetItemsForPlayerAsync(session.Player.Id));
+
+                await _playerController.UpdatePlayerByIdAsync(player);
 
                 await session.SendPacketAsync(new SecureLoginOKComposer());
                 await session.SendPacketAsync(new HomeRoomComposer(1));

@@ -19,6 +19,9 @@ namespace AliasPro.Player
         public async Task UpdateStatus(IPlayer player, ICollection<IMessengerFriend> friends) =>
             await _playerRepostiory.UpdateStatus(player, friends);
 
+        public async Task UpdatePlayerByIdAsync(IPlayer player) =>
+            await _playerRepostiory.UpdatePlayerById(player);
+
         public async Task AddPlayerSettingsAsync(uint id) =>
             await _playerRepostiory.CreatePlayerSettings(id);
 
@@ -74,6 +77,7 @@ namespace AliasPro.Player
     public interface IPlayerController
     {
         Task UpdateStatus(IPlayer player, ICollection<IMessengerFriend> friends);
+        Task UpdatePlayerByIdAsync(IPlayer player);
         Task AddPlayerSettingsAsync(uint id);
         Task AddFriendRequestAsync(uint playerId, uint targetId);
         Task AddFriendShipAsync(uint playerId, uint targetId);

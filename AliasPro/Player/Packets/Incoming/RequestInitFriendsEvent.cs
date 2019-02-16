@@ -33,6 +33,8 @@ namespace AliasPro.Player.Packets.Incoming
                 session.Player.Messenger = new MessengerHandler(
                     await _playerController.GetPlayerFriendsByIdAsync(session.Player.Id),
                     await _playerController.GetPlayerRequestsByIdAsync(session.Player.Id));
+
+                await _playerController.UpdateStatus(session.Player, session.Player.Messenger.Friends);
             }
 
             await session.SendPacketAsync(new MessengerInitComposer(maxFriends));

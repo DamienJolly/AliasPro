@@ -12,8 +12,9 @@ namespace AliasPro.Player.Models.Messenger
             Id = reader.ReadData<uint>("id");
             Username = reader.ReadData<string>("username");
             Figure = reader.ReadData<string>("figure");
+            Gender = reader.ReadData<string>("gender");
             Motto = reader.ReadData<string>("motto");
-            IsOnline = true;
+            IsOnline = reader.ReadData<bool>("is_online");
             InRoom = false;
             Relation = reader.ReadData<int>("relation");
         }
@@ -23,8 +24,9 @@ namespace AliasPro.Player.Models.Messenger
             Id = player.Id;
             Username = player.Username;
             Figure = player.Figure;
+            Gender = player.Gender;
             Motto = player.Motto;
-            IsOnline = true;
+            IsOnline = player.IsOnline;
             InRoom = false;
             Relation = 0;
         }
@@ -50,6 +52,7 @@ namespace AliasPro.Player.Models.Messenger
         public uint Id { get;}
         public string Username { get; set; }
         public string Figure { get; set; }
+        public string Gender { get; set; }
         public string Motto { get; set; }
         public bool InRoom { get; set; }
         public bool IsOnline { get; set; }
@@ -63,6 +66,7 @@ namespace AliasPro.Player.Models.Messenger
         uint Id { get; }
         string Username { get; set; }
         string Figure { get; set; }
+        string Gender { get; set; }
         string Motto { get; set; }
         bool InRoom { get; set; }
         bool IsOnline { get; set; }

@@ -37,13 +37,13 @@ namespace AliasPro.Player
                 if (targetPlayer.Messenger.TryGetFriend(player.Id, out IMessengerFriend targetFriend))
                 {
                     targetFriend.Figure = player.Figure;
-                    //targetFriend.Gender = player.Gender;
+                    targetFriend.Gender = player.Gender;
                     targetFriend.Username = player.Username;
                     targetFriend.Motto = player.Motto;
-                    //targetFriend.IsOnline = player.IsOnline;
+                    targetFriend.IsOnline = player.IsOnline;
                     targetFriend.InRoom = player.Session.CurrentRoom != null;
 
-                    await targetPlayer.Session.SendPacketAsync(new UpdateFriendComposer(friend));
+                    await targetPlayer.Session.SendPacketAsync(new UpdateFriendComposer(targetFriend));
                 }
             }
         }
@@ -83,15 +83,27 @@ namespace AliasPro.Player
             IPlayer player = await GetPlayerById(playerId);
             if (player != null)
             {
+                player.IsOnline = false;
+
+                await _playerDao.UpdatePlayerById(player);
                 await _playerDao.UpdatePlayerSettings(player.Id, player.PlayerSettings);
                 await _playerDao.UpdatePlayerCurrencies(player.Id, player.Currency.Currencies);
+
                 if (player.Inventory != null)
                 {
                     await _itemDao.UpdatePlayerItems(player.Inventory.Items.Values);
                 }
+
+                if (player.Messenger != null)
+                {
+                    await UpdateStatus(player, player.Messenger.Friends);
+                }
             }
             _players.Remove(playerId);
         }
+
+        internal async Task UpdatePlayerById(IPlayer player) =>
+            await _playerDao.UpdatePlayerById(player);
 
         internal async Task CreatePlayerSettings(uint id) =>
             await _playerDao.CreatePlayerSettings(id);

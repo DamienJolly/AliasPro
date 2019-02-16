@@ -35,6 +35,15 @@ namespace AliasPro.Player
             });
         }
 
+        internal async Task UpdatePlayerById(IPlayer player)
+        {
+            await CreateTransaction(async transaction =>
+            {
+                await Insert(transaction, "UPDATE `players` set `credits` = @1, `is_online` = @2, `username` = @3 WHERE `id` = @0;", 
+                    player.Id, player.Credits, player.IsOnline, player.Username);
+            });
+        }
+
         internal async Task CreateOfflineMessage(uint playerId, IMessengerMessage privateMessage)
         {
             await CreateTransaction(async transaction =>
@@ -55,7 +64,7 @@ namespace AliasPro.Player
                     {
                         player = new Player(reader);
                     }
-                }, "SELECT `id`, `credits`, `rank`, `username`, `auth_ticket`, `figure`, `gender`, `motto` FROM `players` WHERE `id` = @0 LIMIT 1;", id);
+                }, "SELECT `id`, `credits`, `rank`, `username`, `auth_ticket`, `figure`, `gender`, `motto`, `is_online` FROM `players` WHERE `id` = @0 LIMIT 1;", id);
             });
             return player;
         }
@@ -71,7 +80,7 @@ namespace AliasPro.Player
                     {
                         player = new Player(reader);
                     }
-                }, "SELECT `id`, `credits`, `rank`, `username`, `auth_ticket`, `figure`, `gender`, `motto` FROM `players` WHERE `auth_ticket` = @0 LIMIT 1;", sso);
+                }, "SELECT `id`, `credits`, `rank`, `username`, `auth_ticket`, `figure`, `gender`, `motto`, `is_online` FROM `players` WHERE `auth_ticket` = @0 LIMIT 1;", sso);
             });
             return player;
         }
@@ -145,7 +154,7 @@ namespace AliasPro.Player
                             friends.Add(friend.Id, friend);
                         }
                     }
-                }, "SELECT `players`.`id`, `players`.`username`, `players`.`figure`, `players`.`motto`, `messenger_friends`.`relation` " +
+                }, "SELECT `players`.`id`, `players`.`username`, `players`.`figure`, `players`.`gender`, `players`.`motto`, `players`.`is_online`, `messenger_friends`.`relation` " +
                 "FROM `messenger_friends` INNER JOIN `players` ON `players`.`id` = `messenger_friends`.`target_id` WHERE `messenger_friends`.`player_id` = @0;", id);
             });
             return friends;
@@ -230,7 +239,7 @@ namespace AliasPro.Player
             {
                 foreach (ICurrencyType curreny in currencies)
                 {
-                    await Insert(transaction, "UPDATE `player_currencies` SET `type` = @1, `amount` = @2, WHERE `player_id` = @0;",
+                    await Insert(transaction, "UPDATE `player_currencies` SET `type` = @1, `amount` = @2 WHERE `player_id` = @0;",
                        id, curreny.Type, curreny.Amount);
                 }
             });

@@ -20,6 +20,7 @@ namespace AliasPro.Player.Models
             Figure = reader.ReadData<string>("figure");
             Gender = reader.ReadData<string>("gender");
             Motto = reader.ReadData<string>("motto");
+            IsOnline = reader.ReadData<bool>("is_online");
         }
         
         public uint Id { get; set; }
@@ -30,6 +31,7 @@ namespace AliasPro.Player.Models
         public string Figure { get; set; }
         public string Gender { get; set; }
         public string Motto { get; set; }
+        public bool IsOnline { get; set; }
 
         public ISession Session { get; set; }
 
@@ -49,6 +51,7 @@ namespace AliasPro.Player.Models
         string Figure { get; set; }
         string Gender { get; set; }
         string Motto { get; set; }
+        bool IsOnline { get; set; }
 
         ISession Session { get; set; }
 
