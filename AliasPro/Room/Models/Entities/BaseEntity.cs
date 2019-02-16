@@ -11,6 +11,7 @@ namespace AliasPro.Room.Models.Entities
         {
             Id = id;
             BodyRotation = rotation;
+            HeadRotation = rotation;
             Position = new Position(x, y, 0);
             NextPosition = new Position(x, y, 0);
             Name = name;
@@ -23,6 +24,7 @@ namespace AliasPro.Room.Models.Entities
         
         public int Id { get; set; }
         public int BodyRotation { get; set; }
+        public int HeadRotation { get; set; }
         public Position Position { get; set; }
         public Position NextPosition { get; set; }
         public IList<Position> PathToWalk { get; set; }
@@ -30,9 +32,11 @@ namespace AliasPro.Room.Models.Entities
         public string Figure { get; set; }
         public string Gender { get; set; }
         public string Motto { get; set; }
-
-        public IDictionary<string, string> ActiveStatuses { get; set; }
         
+        public IDictionary<string, string> ActiveStatuses { get; set; }
+
+        public int dirOffsetTimer = 0;
+
         public abstract void Compose(ServerPacket serverPacket);
     }
 }

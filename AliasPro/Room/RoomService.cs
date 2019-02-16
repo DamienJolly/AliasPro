@@ -28,6 +28,9 @@ namespace AliasPro.Room
             collection.AddSingleton<IAsyncPacket, RequestCreateRoomEvent>();
             collection.AddSingleton<IAsyncPacket, RequestRoomSettingsEvent>();
             collection.AddSingleton<IAsyncPacket, RoomSettingsSaveEvent>();
+            collection.AddSingleton<IAsyncPacket, UserStartTypingEvent>();
+            collection.AddSingleton<IAsyncPacket, UserStopTypingEvent>();
+            collection.AddSingleton<IAsyncPacket, UserLookAtPointEvent>();
         }
     }
 }

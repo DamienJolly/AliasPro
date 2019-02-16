@@ -53,32 +53,32 @@ namespace AliasPro.Room.Gamemap
             }
         }
 
-        public static int CalculateDirection(Position oldPos, Position newPos) =>
-            CalculateDirection(oldPos.X, oldPos.Y, newPos.X, newPos.Y);
+        public int CalculateDirection(Position newPos) =>
+            CalculateDirection(newPos.X, newPos.Y);
 
-        public static int CalculateDirection(int x, int y, int x2, int y2)
+        public int CalculateDirection(int newX, int newY)
         {
-            if (x > x2)
+            if (X > newX)
             {
-                if (y == y2)
+                if (Y == newY)
                     return 6;
-                else if (y < y2)
+                else if (Y < newY)
                     return 5;
                 else
                     return 7;
             }
-            else if (x < x2)
+            else if (X < newX)
             {
-                if (y == y2)
+                if (Y == newY)
                     return 2;
-                else if (y < y2)
+                else if (Y < newY)
                     return 3;
                 else
                     return 1;
             }
             else
             {
-                if (y < y2)
+                if (Y < newY)
                     return 4;
                 else
                     return 0;

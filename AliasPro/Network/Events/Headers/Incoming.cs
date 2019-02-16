@@ -50,6 +50,9 @@
         internal const short RequestCreateRoomMessageEvent = 1227;
         internal const short RequestRoomSettingsMessageEvent = 923;
         internal const short RoomSettingsSaveMessageEvent = 1820;
+        internal const short UserStartTypingMessageEvent = 3697;
+        internal const short UserStopTypingMessageEvent = 2462;
+        internal const short UserLookAtPointMessageEvent = 258;
 
         // Landing
         internal const short HotelViewDataMessageEvent = 1579;

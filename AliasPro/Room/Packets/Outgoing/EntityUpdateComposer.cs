@@ -33,7 +33,7 @@ namespace AliasPro.Room.Packets.Outgoing
                 message.WriteInt(entity.Position.X);
                 message.WriteInt(entity.Position.Y);
                 message.WriteString(entity.Position.Z.ToString("0.00"));
-                message.WriteInt(entity.BodyRotation); //todo: head rotation
+                message.WriteInt(entity.HeadRotation);
                 message.WriteInt(entity.BodyRotation);
 
                 StringBuilder statuses = new StringBuilder();

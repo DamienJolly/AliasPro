@@ -48,8 +48,7 @@ namespace AliasPro.Room.Models.Entities
                 
                 IItem topItem = roomTile.TopItem;
                 double newZ = roomTile.Height;
-                int newDir = 
-                    Position.CalculateDirection(entity.Position, nextStep);
+                int newDir = entity.Position.CalculateDirection(nextStep);
 
                 if (topItem != null)
                 {
@@ -60,6 +59,7 @@ namespace AliasPro.Room.Models.Entities
 
                 entity.NextPosition = new Position(nextStep.X, nextStep.Y, newZ);
                 entity.BodyRotation = newDir;
+                entity.HeadRotation = newDir;
 
                 _moveStatus
                     .Clear()
@@ -100,6 +100,14 @@ namespace AliasPro.Room.Models.Entities
                 }
 
                 entity.Position.Z = roomTile.Height;
+            }
+
+            if (entity.HeadRotation != entity.BodyRotation)
+            {
+                entity.dirOffsetTimer++;
+
+                if (entity.dirOffsetTimer >= 4)
+                    entity.HeadRotation = entity.BodyRotation;
             }
         }
     }
