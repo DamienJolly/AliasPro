@@ -70,7 +70,7 @@ namespace AliasPro.Room.Models
         {
             get
             {
-                int type = 0;
+                int type = 8;
                 return type;
                 /*  int RoomType = 0;
                if (Data.Image != null)
