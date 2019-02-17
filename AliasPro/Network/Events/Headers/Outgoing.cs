@@ -76,6 +76,9 @@
         internal const short RoomRightsMessageComposer = 87;
         internal const short RoomOwnerMessageComposer = 2696;
         internal const short UserTypingMessageComposer = 1736;
+        internal const short UserDanceMessageComposer = 586;
+        internal const short UserSleepMessageComposer = 1570;
+        internal const short UserActionMessageComposer = 205;
 
         // Landing
         internal const short HotelViewDataMessageComposer = 730;

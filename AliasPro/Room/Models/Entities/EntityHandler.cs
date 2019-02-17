@@ -31,6 +31,13 @@ namespace AliasPro.Room.Models.Entities
 
             await _room.SendAsync(new EntityUpdateComposer(Entities));
         }
+
+        public async void Unidle(BaseEntity entity)
+        {
+            entity.IdleTimer = 0;
+            entity.IsIdle = false;
+            await _room.SendAsync(new UserSleepComposer(entity));
+        }
         
         public void AddEntity(BaseEntity entity)
         {

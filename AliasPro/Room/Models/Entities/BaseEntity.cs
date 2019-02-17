@@ -18,6 +18,8 @@ namespace AliasPro.Room.Models.Entities
             Figure = figure;
             Gender = gender;
             Motto = motto;
+            DanceId = 0;
+            IsIdle = true;
 
             ActiveStatuses = new Dictionary<string, string>();
         }
@@ -32,10 +34,13 @@ namespace AliasPro.Room.Models.Entities
         public string Figure { get; set; }
         public string Gender { get; set; }
         public string Motto { get; set; }
+        public int DanceId { get; set; }
+        public bool IsIdle { get; set; }
         
         public IDictionary<string, string> ActiveStatuses { get; set; }
 
-        public int dirOffsetTimer = 0;
+        public int DirOffsetTimer = 0;
+        public int IdleTimer = 0;
 
         public abstract void Compose(ServerPacket serverPacket);
     }

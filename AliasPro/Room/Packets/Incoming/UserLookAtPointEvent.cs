@@ -37,7 +37,8 @@ namespace AliasPro.Room.Packets.Incoming
             else
                 session.Entity.BodyRotation = newDir;
 
-            session.Entity.dirOffsetTimer = 0;
+            room.EntityHandler.Unidle(session.Entity);
+            session.Entity.DirOffsetTimer = 0;
         }
     }
 }

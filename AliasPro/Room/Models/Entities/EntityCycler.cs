@@ -5,6 +5,7 @@ namespace AliasPro.Room.Models.Entities
     using AliasPro.Item.Models;
     using Gamemap;
     using Gamemap.Pathfinding;
+    using Packets.Outgoing;
 
     internal class EntityCycler
     {
@@ -17,7 +18,7 @@ namespace AliasPro.Room.Models.Entities
             _moveStatus = new StringBuilder();
         }
 
-        internal void Cycle(BaseEntity entity)
+        internal async void Cycle(BaseEntity entity)
         {
             if (entity.NextPosition != entity.Position)
             {
@@ -56,7 +57,7 @@ namespace AliasPro.Room.Models.Entities
                         topItem.ItemData.CanSit)
                         newZ -= topItem.ItemData.Height;
                 }
-
+                
                 entity.NextPosition = new Position(nextStep.X, nextStep.Y, newZ);
                 entity.BodyRotation = newDir;
                 entity.HeadRotation = newDir;
@@ -69,6 +70,8 @@ namespace AliasPro.Room.Models.Entities
                     .Append(",")
                     .Append(newZ);
                 entity.ActiveStatuses.Add("mv", _moveStatus.ToString());
+
+                _room.EntityHandler.Unidle(entity);
 
                 if (entity.PathToWalk.Count == 0)
                     entity.PathToWalk = null;
@@ -104,10 +107,23 @@ namespace AliasPro.Room.Models.Entities
 
             if (entity.HeadRotation != entity.BodyRotation)
             {
-                entity.dirOffsetTimer++;
+                entity.DirOffsetTimer++;
 
-                if (entity.dirOffsetTimer >= 4)
+                if (entity.DirOffsetTimer >= 4)
                     entity.HeadRotation = entity.BodyRotation;
+            }
+
+            entity.IdleTimer++;
+            if (entity.IdleTimer >= 120 && !entity.IsIdle)
+            {
+                entity.IdleTimer = 0;
+                entity.IsIdle = true;
+                await _room.SendAsync(new UserSleepComposer(entity));
+            }
+
+            if (entity.IdleTimer >= 600 && entity.IsIdle)
+            {
+                //todo: kickuser
             }
         }
     }

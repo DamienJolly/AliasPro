@@ -58,7 +58,7 @@ namespace AliasPro.Room.Models
                 if (Math.Abs(newDir - targetEntity.BodyRotation) <= 2)
                     targetEntity.HeadRotation = newDir;
 
-                targetEntity.dirOffsetTimer = 0;
+                targetEntity.DirOffsetTimer = 0;
             }
 
             await SendAsync(new AvatarChatComposer(entity.Id, text, 0, colour));

@@ -7,6 +7,7 @@ namespace AliasPro.Room.Packets.Incoming
     using Network.Protocol;
     using Sessions;
     using Chat;
+    using Models;
 
     public class AvatarChatEvent : IAsyncPacket
     {
@@ -23,12 +24,17 @@ namespace AliasPro.Room.Packets.Incoming
             ISession session,
             IClientPacket clientPacket)
         {
+            IRoom room = session.CurrentRoom;
+            if (room == null || session.Entity == null) return;
+
             string text = clientPacket.ReadString();
             int colour = clientPacket.ReadInt();
 
-            if(!await _chatController.HandleCommandAsync(session, text))
+            room.EntityHandler.Unidle(session.Entity);
+
+            if (!await _chatController.HandleCommandAsync(session, text))
             {
-                session.CurrentRoom.OnChat(text, colour, session.Entity);
+                room.OnChat(text, colour, session.Entity);
             }
         }
     }

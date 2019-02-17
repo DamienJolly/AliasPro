@@ -53,6 +53,8 @@
         internal const short UserStartTypingMessageEvent = 3697;
         internal const short UserStopTypingMessageEvent = 2462;
         internal const short UserLookAtPointMessageEvent = 258;
+        internal const short UserDanceMessageEvent = 3911;
+        internal const short UserActionMessageEvent = 2925;
 
         // Landing
         internal const short HotelViewDataMessageEvent = 1579;
