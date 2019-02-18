@@ -20,7 +20,7 @@ namespace AliasPro.Room.Packets.Incoming
             IClientPacket clientPacket)
         {
             IRoom room = session.CurrentRoom;
-            if (room == null) return;
+            if (room == null || session.Entity == null) return;
 
             int x = clientPacket.ReadInt();
             int y = clientPacket.ReadInt();
@@ -28,8 +28,13 @@ namespace AliasPro.Room.Packets.Incoming
             if (session.Entity.Position.X == x &&
                 session.Entity.Position.Y == y) return;
 
+            if (!room.RoomMap.TryGetRoomTile(x, y, out RoomTile roomTile)) return;
+
+            if (!roomTile.IsValidTile(session.Entity, true)) return;
+            
             session.Entity.Position = session.Entity.NextPosition;
             IList<Position> walkingPath = PathFinder.FindPath(
+                session.Entity,
                 session.CurrentRoom.RoomMap,
                 session.Entity.Position, new Position(x, y, 0));
             

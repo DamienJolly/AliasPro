@@ -17,7 +17,7 @@ namespace AliasPro.Room.Models.Entities
             _room = room;
             _moveStatus = new StringBuilder();
         }
-
+        
         internal async void Cycle(BaseEntity entity)
         {
             if (entity.NextPosition != entity.Position)
@@ -31,22 +31,29 @@ namespace AliasPro.Room.Models.Entities
                 entity.ActiveStatuses.Remove("sit");
                 entity.ActiveStatuses.Remove("lay");
 
+                entity.PathToWalk = PathFinder.FindPath(
+                    entity,
+                    _room.RoomMap,
+                    entity.Position, entity.PathToWalk[0]);
+
+                if (entity.PathToWalk == null) return;
+
                 int reversedIndex = entity.PathToWalk.Count - 1;
                 Position nextStep = entity.PathToWalk[reversedIndex];
                 entity.PathToWalk.RemoveAt(reversedIndex);
-                
+
                 RoomTile roomTile = _room.RoomMap.GetRoomTile(
                     nextStep.X,
                     nextStep.Y);
 
-                if (!roomTile.IsValidTile(entity.PathToWalk.Count == 0))
+                if (!roomTile.IsValidTile(entity, reversedIndex == 0))
                 {
-                    entity.PathToWalk = PathFinder.FindPath(
-                        _room.RoomMap,
-                        entity.Position, entity.PathToWalk[0]);
+                    entity.PathToWalk = null;
                     return;
                 }
-                
+
+                _room.RoomMap.RemoveEntity(entity);
+
                 IItem topItem = roomTile.TopItem;
                 double newZ = roomTile.Height;
                 int newDir = entity.Position.CalculateDirection(nextStep);
@@ -71,10 +78,14 @@ namespace AliasPro.Room.Models.Entities
                     .Append(newZ);
                 entity.ActiveStatuses.Add("mv", _moveStatus.ToString());
 
+                _room.RoomMap.AddEntity(entity);
                 _room.EntityHandler.Unidle(entity);
 
                 if (entity.PathToWalk.Count == 0)
+                {
                     entity.PathToWalk = null;
+                    return;
+                }
             }
             else
             {

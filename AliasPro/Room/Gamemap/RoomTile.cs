@@ -4,22 +4,28 @@ namespace AliasPro.Room.Gamemap
 {
     using Models;
     using Item.Models;
+    using Models.Entities;
 
     public class RoomTile
     {
         private readonly IRoom _room;
         private readonly Position _position;
         private readonly IDictionary<uint, IItem> _items;
+        private readonly IDictionary<int, BaseEntity> _entities;
 
         internal RoomTile(IRoom room, Position position)
         {
             _room = room;
             _position = position;
             _items = new Dictionary<uint, IItem>();
+            _entities = new Dictionary<int, BaseEntity>();
         }
 
-        public bool IsValidTile(bool final = false)
+        public bool IsValidTile(BaseEntity entity, bool final = false)
         {
+            if (_entities.Count > 0)
+                return _entities.ContainsKey(entity.Id);
+            
             IItem topItem = TopItem;
             if (topItem != null)
             {
@@ -58,10 +64,10 @@ namespace AliasPro.Room.Gamemap
         public bool CanStack(IItem item)
         {
             IItem topItem = TopItem;
-            //todo: chairs
 
-            if (topItem == item)
-                return true;
+            if (topItem == item) return true;
+
+            if (_entities.Count > 0) return false;
 
             if (topItem != null)
                 return topItem.ItemData.CanStack;
@@ -79,6 +85,17 @@ namespace AliasPro.Room.Gamemap
 
         public void RemoveItem(uint itemId) =>
             _items.Remove(itemId);
+
+        public void AddEntity(BaseEntity entity)
+        {
+            if (!_entities.ContainsKey(entity.Id))
+            {
+                _entities.Add(entity.Id, entity);
+            }
+        }
+
+        public void RemoveEntity(int entityId) =>
+            _entities.Remove(entityId);
 
         public IItem TopItem
         {

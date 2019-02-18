@@ -4,6 +4,8 @@ using System.Runtime.CompilerServices;
 
 namespace AliasPro.Room.Gamemap.Pathfinding
 {
+    using Models.Entities;
+
     public static class PathFinder
     {
         private static readonly AstarPosition[] DIAG = new AstarPosition[]
@@ -19,13 +21,11 @@ namespace AliasPro.Room.Gamemap.Pathfinding
         };
 
         public static IList<Position> FindPath(
+            BaseEntity entity,
             RoomMap roomGrid,
             Position start,
             Position end)
         {
-            if (!IsValidStep(roomGrid, end, true))
-                return null;
-
             BinaryHeap openHeap = new BinaryHeap();
             openHeap.Add(new HeapNode(start, ManhattanDistance(start, end)));
 
@@ -48,18 +48,18 @@ namespace AliasPro.Room.Gamemap.Pathfinding
                 foreach (AstarPosition option in DIAG)
                 {
                     Position position = curr.Position + option;
-                    
-                    if (!IsValidStep(roomGrid, position, position == end))
-                        continue;
+
+                    if (position != end &&
+                        !IsValidStep(entity, roomGrid, position)) continue;
 
                     // Can't walk diagonal between two non-walkable tiles.
                     if (curr.Position.X != position.X &&
                             curr.Position.Y != position.Y)
                     {
                         bool firstValidTile = 
-                            IsValidStep(roomGrid, new Position(position.X, curr.Position.Y, 0));
+                            IsValidStep(entity, roomGrid, new Position(position.X, curr.Position.Y, 0));
                         bool secondValidTile = 
-                            IsValidStep(roomGrid, new Position(curr.Position.X, position.Y, 0));
+                            IsValidStep(entity, roomGrid, new Position(curr.Position.X, position.Y, 0));
 
                         if (!firstValidTile && !secondValidTile) continue;
                     }
@@ -81,7 +81,7 @@ namespace AliasPro.Room.Gamemap.Pathfinding
             return null;
         }
 
-        private static bool IsValidStep(RoomMap roomGrid, Position position, bool final = false)
+        private static bool IsValidStep(BaseEntity entity, RoomMap roomGrid, Position position)
         {
             if (position.X >= roomGrid.MapSizeX || position.X < 0 || 
                 position.Y >= roomGrid.MapSizeY || position.Y < 0)
@@ -91,7 +91,7 @@ namespace AliasPro.Room.Gamemap.Pathfinding
                 return false;
             
             if (roomGrid.TryGetRoomTile(position.X, position.Y, out RoomTile roomTile))
-                return roomTile.IsValidTile(final);
+                return roomTile.IsValidTile(entity);
 
             return false;
         }

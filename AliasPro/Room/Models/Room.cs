@@ -67,6 +67,8 @@ namespace AliasPro.Room.Models
         public async Task AddEntity(BaseEntity entity)
         {
             EntityHandler.AddEntity(entity);
+            RoomMap.AddEntity(entity);
+
             await SendAsync(new EntitiesComposer(entity));
             await SendAsync(new EntityUpdateComposer(entity));
         }
@@ -74,6 +76,8 @@ namespace AliasPro.Room.Models
         public async Task RemoveEntity(BaseEntity entity)
         {
             EntityHandler.RemoveEntity(entity);
+            RoomMap.RemoveEntity(entity);
+
             await SendAsync(new EntityRemoveComposer(entity.Id));
         }
         

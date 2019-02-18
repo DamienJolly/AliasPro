@@ -30,19 +30,21 @@ namespace AliasPro.Item.Packets.Incoming
                 int y = clientPacket.ReadInt();
                 int rot = clientPacket.ReadInt();
                 
-                if (!room.RoomMap.TryGetRoomTile(x, y, out RoomTile roomTile)) return;
-
-                if (!room.RoomMap.CanStackAt(x, y, item)) return;
-
-                room.RoomMap.RemoveItem(item);
-                item.RoomId = room.RoomData.Id;
-                item.Position = new Position(
-                    x, 
-                    y, 
-                    roomTile.Height);
-                item.Rotation = rot;
-                room.RoomMap.AddItem(item);
-                room.ItemHandler.AddItem(item);
+                if (room.RoomMap.TryGetRoomTile(x, y, out RoomTile roomTile))
+                {
+                    if (room.RoomMap.CanStackAt(x, y, item))
+                    {
+                        room.RoomMap.RemoveItem(item);
+                        item.RoomId = room.RoomData.Id;
+                        item.Position = new Position(
+                            x,
+                            y,
+                            roomTile.Height);
+                        item.Rotation = rot;
+                        room.RoomMap.AddItem(item);
+                        room.ItemHandler.AddItem(item);
+                    }
+                }
 
                 await room.SendAsync(new FloorItemUpdateComposer(item));
             }
