@@ -31,7 +31,7 @@ namespace AliasPro.Room.Packets.Incoming
 
             //todo: remove effect
 
-            if (action == 5) // todo: idle
+            if (action == 5)
             {
                 if (!session.Entity.IsIdle)
                 {

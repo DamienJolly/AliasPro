@@ -114,14 +114,14 @@ namespace AliasPro.Room.Models.Entities
             }
 
             entity.IdleTimer++;
-            if (entity.IdleTimer >= 120 && !entity.IsIdle)
+            if (entity.IdleTimer >= 600 && !entity.IsIdle)
             {
                 entity.IdleTimer = 0;
                 entity.IsIdle = true;
                 await _room.SendAsync(new UserSleepComposer(entity));
             }
 
-            if (entity.IdleTimer >= 600 && entity.IsIdle)
+            if (entity.IdleTimer >= 1800 && entity.IsIdle)
             {
                 //todo: kickuser
             }
