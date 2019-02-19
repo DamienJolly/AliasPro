@@ -11,6 +11,7 @@ namespace AliasPro.Room.Models
         {
             Id = reader.ReadData<uint>("id");
             OwnerId = reader.ReadData<int>("owner");
+            OwnerName = reader.ReadData<string>("username");
             Name = reader.ReadData<string>("name");
             Description = reader.ReadData<string>("caption");
             Password = reader.ReadData<string>("password");
@@ -21,10 +22,11 @@ namespace AliasPro.Room.Models
             Score = reader.ReadData<int>("score");
         }
 
-        internal RoomData(uint ownerId, string name, string description, string modelName, int maxUsers, int tradeType, int categoryId)
+        internal RoomData(uint ownerId, string ownerName, string name, string description, string modelName, int maxUsers, int tradeType, int categoryId)
         {
             Id = 0;
             OwnerId = (int)ownerId;
+            OwnerName = ownerName;
             Name = name;
             Description = description;
             Password = "";
@@ -40,7 +42,7 @@ namespace AliasPro.Room.Models
             serverPacket.WriteInt(Id);
             serverPacket.WriteString(Name);
             serverPacket.WriteInt(OwnerId);
-            serverPacket.WriteString("Damien");
+            serverPacket.WriteString(OwnerName);
             serverPacket.WriteInt(DoorState);
             serverPacket.WriteInt(UsersNow);
             serverPacket.WriteInt(MaxUsers);
@@ -55,6 +57,7 @@ namespace AliasPro.Room.Models
 
         public uint Id { get; set; }
         public int OwnerId { get; set; }
+        public string OwnerName { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string Password { get; set; }
@@ -96,6 +99,7 @@ namespace AliasPro.Room.Models
 
         uint Id { get; set; }
         int OwnerId { get; set; }
+        string OwnerName { get; set; }
         string Name { get; set; }
         string Description { get; set; }
         string Password { get; set; }

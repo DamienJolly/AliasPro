@@ -38,7 +38,7 @@ namespace AliasPro.Room
                     {
                         roomData = new RoomData(reader);
                     }
-                }, "SELECT * FROM `rooms` WHERE `id` = @0 LIMIT 1", id);
+                }, "SELECT `rooms`.* , `players`.`username` FROM `rooms` INNER JOIN `players` ON `players`.`id` = `rooms`.`owner` WHERE `rooms`.`id` = @0 LIMIT 1", id);
             });
 
             return roomData;
@@ -55,7 +55,7 @@ namespace AliasPro.Room
                     {
                         roomData.Add(new RoomData(reader));
                     }
-                }, "SELECT * FROM `rooms` WHERE `owner` = @0;", playerId);
+                }, "SELECT `rooms`.* , `players`.`username` FROM `rooms` INNER JOIN `players` ON `players`.`id` = `rooms`.`owner` WHERE `rooms`.`owner` = @0;", playerId);
             });
 
             return roomData;

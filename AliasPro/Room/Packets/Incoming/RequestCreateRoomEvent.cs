@@ -44,7 +44,8 @@ namespace AliasPro.Room.Packets.Incoming
             // todo: room count check
 
             IRoomData roomData = new RoomData(
-                session.Player.Id, 
+                session.Player.Id,
+                session.Player.Username,
                 name, 
                 description, 
                 modelName, 
