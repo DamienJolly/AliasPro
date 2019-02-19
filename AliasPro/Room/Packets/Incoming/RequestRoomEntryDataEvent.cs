@@ -53,8 +53,8 @@ namespace AliasPro.Room.Packets.Incoming
 
             await session.SendPacketAsync(new RoomVisualizationSettingsComposer(room.RoomData.Settings));
 
-            await session.SendPacketAsync(new RoomFloorItemsComposer(room.ItemHandler.FloorItems));
-            await session.SendPacketAsync(new RoomWallItemsComposer(room.ItemHandler.WallItems));
+            await session.SendPacketAsync(new RoomFloorItemsComposer(room.ItemHandler.FloorItems, room.ItemHandler.GetItemOwners));
+            await session.SendPacketAsync(new RoomWallItemsComposer(room.ItemHandler.WallItems, room.ItemHandler.GetItemOwners));
 
             await room.RightHandler.ReloadRights(session);
         }

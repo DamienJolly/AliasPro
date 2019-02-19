@@ -10,16 +10,24 @@ namespace AliasPro.Room.Packets.Outgoing
     public class RoomFloorItemsComposer : IPacketComposer
     {
         private readonly ICollection<IItem> _roomItems;
+        private readonly IDictionary<uint, string> _itemOwners;
 
-        public RoomFloorItemsComposer(ICollection<IItem> roomItem)
+        public RoomFloorItemsComposer(ICollection<IItem> roomItem, IDictionary<uint, string> itemOwners)
         {
             _roomItems = roomItem;
+            _itemOwners = itemOwners;
         }
 
         public ServerPacket Compose()
         {
             ServerPacket message = new ServerPacket(Outgoing.RoomFloorItemsMessageComposer);
-            message.WriteInt(0); //todo: 
+            message.WriteInt(_itemOwners.Count);
+            foreach (var owner in _itemOwners)
+            {
+                message.WriteInt(owner.Key);
+                message.WriteString(owner.Value);
+            }
+
             message.WriteInt(_roomItems.Count);
             foreach (IItem item in _roomItems)
             {

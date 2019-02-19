@@ -9,7 +9,7 @@ namespace AliasPro.Room.Models.Item
     {
         private readonly IRoom _room;
         private readonly IDictionary<uint, IItem> _items;
-
+        
         internal ItemHandler(IRoom room)
         {
             _room = room;
@@ -38,5 +38,24 @@ namespace AliasPro.Room.Models.Item
 
         internal ICollection<IItem> WallItems =>
             _items.Values.Where(item => item.ItemData.Type == "i").ToList();
+
+        internal IDictionary<uint, string> GetItemOwners
+        {
+            get
+            {
+                IDictionary<uint, string> itemOwners =
+                new Dictionary<uint, string>();
+
+                foreach (IItem item in _items.Values)
+                {
+                    if (!itemOwners.ContainsKey(item.PlayerId))
+                    {
+                        itemOwners.Add(item.PlayerId, item.PlayerUsername);
+                    }
+                }
+
+                return itemOwners;
+            }
+        }
     }
 }
