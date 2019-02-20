@@ -33,6 +33,7 @@ namespace AliasPro.Room
             collection.AddSingleton<IAsyncPacket, UserLookAtPointEvent>();
             collection.AddSingleton<IAsyncPacket, UserDanceEvent>();
             collection.AddSingleton<IAsyncPacket, UserActionEvent>();
+            collection.AddSingleton<IAsyncPacket, UserSitEvent>();
         }
     }
 }

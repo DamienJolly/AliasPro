@@ -27,16 +27,17 @@ namespace AliasPro.Room.Models.Entities
 
             if (entity.PathToWalk != null)
             {
-                entity.ActiveStatuses.Remove("mv");
-                entity.ActiveStatuses.Remove("sit");
-                entity.ActiveStatuses.Remove("lay");
-
                 entity.PathToWalk = PathFinder.FindPath(
                     entity,
                     _room.RoomMap,
                     entity.Position, entity.PathToWalk[0]);
 
                 if (entity.PathToWalk == null) return;
+
+                entity.ActiveStatuses.Remove("mv");
+                entity.ActiveStatuses.Remove("sit");
+                entity.ActiveStatuses.Remove("lay");
+                entity.IsSitting = false;
 
                 int reversedIndex = entity.PathToWalk.Count - 1;
                 Position nextStep = entity.PathToWalk[reversedIndex];
@@ -94,10 +95,10 @@ namespace AliasPro.Room.Models.Entities
                     entity.Position.Y);
 
                 IItem topItem = roomTile.TopItem;
-
+                
+                entity.ActiveStatuses.Remove("mv");
                 entity.ActiveStatuses.Remove("sit");
                 entity.ActiveStatuses.Remove("lay");
-                entity.ActiveStatuses.Remove("mv");
 
                 if (topItem != null)
                 {
@@ -105,13 +106,18 @@ namespace AliasPro.Room.Models.Entities
                     {
                         entity.ActiveStatuses.Add("sit", topItem.ItemData.Height + "");
                         entity.BodyRotation = topItem.Rotation;
+                        entity.IsSitting = false;
                     }
                     else if (topItem.ItemData.CanLay)
                     {
                         entity.ActiveStatuses.Add("lay", topItem.ItemData.Height + "");
                         entity.BodyRotation = topItem.Rotation;
+                        entity.IsSitting = false;
                     }
                 }
+
+                if (entity.IsSitting)
+                    entity.ActiveStatuses.Add("sit", 0.5 + "");
 
                 entity.Position.Z = roomTile.Height;
             }
