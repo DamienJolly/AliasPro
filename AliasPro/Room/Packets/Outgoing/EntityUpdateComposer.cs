@@ -35,25 +35,7 @@ namespace AliasPro.Room.Packets.Outgoing
                 message.WriteString(entity.Position.Z.ToString("0.00"));
                 message.WriteInt(entity.HeadRotation);
                 message.WriteInt(entity.BodyRotation);
-
-                StringBuilder statuses = new StringBuilder();
-                statuses.Append("/");
-
-                foreach (KeyValuePair<string, string> activeStatus in entity.ActiveStatuses)
-                {
-                    statuses.Append(activeStatus.Key);
-
-                    if (!string.IsNullOrEmpty(activeStatus.Value))
-                    {
-                        statuses.Append(" ");
-                        statuses.Append(activeStatus.Value);
-                    }
-
-                    statuses.Append("/");
-                }
-
-                statuses.Append("/");
-                message.WriteString(statuses.ToString());
+                message.WriteString(entity.Actions.StatusToString);
             }
             return message;
         }

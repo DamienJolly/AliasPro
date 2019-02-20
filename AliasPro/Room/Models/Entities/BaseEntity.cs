@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 
 namespace AliasPro.Room.Models.Entities
 {
@@ -19,9 +20,9 @@ namespace AliasPro.Room.Models.Entities
             Gender = gender;
             Motto = motto;
 
-            ActiveStatuses = new Dictionary<string, string>();
+            Actions = new EntityAction();
         }
-        
+
         public int Id { get; set; }
         public int BodyRotation { get; set; }
         public int HeadRotation { get; set; }
@@ -33,12 +34,12 @@ namespace AliasPro.Room.Models.Entities
         public string Gender { get; set; }
         public string Motto { get; set; }
 
+        public EntityAction Actions;
+
         public int DanceId { get; set; } = 0;
         public bool IsIdle { get; set; } = false;
         public bool IsSitting { get; set; } = false;
         
-        public IDictionary<string, string> ActiveStatuses { get; set; }
-
         public int DirOffsetTimer = 0;
         public int IdleTimer = 0;
 

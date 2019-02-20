@@ -34,9 +34,9 @@ namespace AliasPro.Room.Models.Entities
 
                 if (entity.PathToWalk == null) return;
 
-                entity.ActiveStatuses.Remove("mv");
-                entity.ActiveStatuses.Remove("sit");
-                entity.ActiveStatuses.Remove("lay");
+                entity.Actions.RemoveStatus("mv");
+                entity.Actions.RemoveStatus("sit");
+                entity.Actions.RemoveStatus("lay");
                 entity.IsSitting = false;
 
                 int reversedIndex = entity.PathToWalk.Count - 1;
@@ -77,7 +77,7 @@ namespace AliasPro.Room.Models.Entities
                     .Append(nextStep.Y)
                     .Append(",")
                     .Append(newZ);
-                entity.ActiveStatuses.Add("mv", _moveStatus.ToString());
+                entity.Actions.AddStatus("mv", _moveStatus.ToString());
 
                 _room.RoomMap.AddEntity(entity);
                 _room.EntityHandler.Unidle(entity);
@@ -96,28 +96,31 @@ namespace AliasPro.Room.Models.Entities
 
                 IItem topItem = roomTile.TopItem;
                 
-                entity.ActiveStatuses.Remove("mv");
-                entity.ActiveStatuses.Remove("sit");
-                entity.ActiveStatuses.Remove("lay");
+                entity.Actions.RemoveStatus("mv");
+                entity.Actions.RemoveStatus("lay");
+
+                if (!entity.IsSitting)
+                    entity.Actions.RemoveStatus("sit");
 
                 if (topItem != null)
                 {
                     if (topItem.ItemData.CanSit)
                     {
-                        entity.ActiveStatuses.Add("sit", topItem.ItemData.Height + "");
-                        entity.BodyRotation = topItem.Rotation;
+                        entity.Actions.AddStatus("sit", topItem.ItemData.Height + "");
+                        entity.BodyRotation = 
+                            entity.HeadRotation = 
+                            topItem.Rotation;
                         entity.IsSitting = false;
                     }
                     else if (topItem.ItemData.CanLay)
                     {
-                        entity.ActiveStatuses.Add("lay", topItem.ItemData.Height + "");
-                        entity.BodyRotation = topItem.Rotation;
+                        entity.Actions.AddStatus("lay", topItem.ItemData.Height + "");
+                        entity.BodyRotation = 
+                            entity.HeadRotation = 
+                            topItem.Rotation;
                         entity.IsSitting = false;
                     }
                 }
-
-                if (entity.IsSitting)
-                    entity.ActiveStatuses.Add("sit", 0.5 + "");
 
                 entity.Position.Z = roomTile.Height;
             }

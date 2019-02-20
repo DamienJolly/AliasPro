@@ -27,15 +27,23 @@ namespace AliasPro.Room.Packets.Incoming
             if (x == session.Entity.Position.X &&
                 y == session.Entity.Position.Y) return;
 
-            if (session.Entity.ActiveStatuses.ContainsKey("mv") ||
-                session.Entity.ActiveStatuses.ContainsKey("lay")) return;
+            if (session.Entity.Actions.HasStatus("mv") ||
+                session.Entity.Actions.HasStatus("lay")) return;
 
             int newDir = session.Entity.Position.CalculateDirection(x, y);
 
             if (Math.Abs(newDir - session.Entity.BodyRotation) <= 2)
+            {
                 session.Entity.HeadRotation = newDir;
+            }
             else
-                session.Entity.BodyRotation = newDir;
+            {
+                if (session.Entity.Actions.HasStatus("sit"))
+                {
+                    session.Entity.BodyRotation = newDir;
+                    session.Entity.HeadRotation = newDir;
+                }
+            }
 
             room.EntityHandler.Unidle(session.Entity);
             session.Entity.DirOffsetTimer = 0;
