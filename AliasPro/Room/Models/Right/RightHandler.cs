@@ -3,18 +3,19 @@ using System.Collections.Generic;
 
 namespace AliasPro.Room.Models.Right
 {
+    using Player.Models;
     using Sessions;
     using Packets.Outgoing;
 
     public class RightHandler
     {
         private readonly IRoom _room;
-        private readonly IDictionary<uint, int> _rights;
+        private readonly IDictionary<uint, string> _rights;
 
         public RightHandler(IRoom room)
         {
             _room = room;
-            _rights = new Dictionary<uint, int>();
+            _rights = new Dictionary<uint, string>();
         }
 
         public async Task ReloadRights(ISession session)
@@ -36,6 +37,17 @@ namespace AliasPro.Room.Models.Right
             
             session.Entity.Actions.AddStatus("flatctrl", (int)flatCtrl + "");
         }
+
+        public void GiveRights(IPlayer player)
+        {
+            if (!_rights.ContainsKey(player.Id))
+            {
+                _rights.Add(player.Id, player.Username);
+            }
+        }
+
+        public void RemoveRights(uint playerId) =>
+            _rights.Remove(playerId);
 
         public bool IsOwner(uint playerId) =>
             _room.RoomData.OwnerId == playerId;

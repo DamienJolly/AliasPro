@@ -56,6 +56,8 @@
         internal const short UserDanceMessageEvent = 3911;
         internal const short UserActionMessageEvent = 2925;
         internal const short UserSitMessageEvent = 68;
+        internal const short UserGiveRightsMessageEvent = 3880;
+        internal const short UserRemoveRightsMessageEvent = 404;
 
         // Landing
         internal const short HotelViewDataMessageEvent = 1579;

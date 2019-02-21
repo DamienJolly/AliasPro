@@ -61,6 +61,9 @@ namespace AliasPro.Room.Models.Entities
             }
         }
 
+        public bool TryGetEntityById(int entityId, out BaseEntity entity) =>
+            _entities.TryGetValue(entityId, out entity);
+
         public ICollection<BaseEntity> Entities =>
             _entities.Values;
 
