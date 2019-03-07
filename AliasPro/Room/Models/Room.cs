@@ -89,6 +89,14 @@ namespace AliasPro.Room.Models
                 ItemHandler.AddItem(item);
             }
         }
+
+        public void LoadRoomRights(IDictionary<uint, string> rights)
+        {
+            foreach (var right in rights)
+            {
+                RightHandler.GiveRights(right.Key, right.Value);
+            }
+        }
         
         public async Task SendAsync(IPacketComposer packet)
         {
@@ -132,6 +140,7 @@ namespace AliasPro.Room.Models
         Task RemoveEntity(BaseEntity entity);
         void OnChat(string text, int colour, BaseEntity entity);
         void LoadRoomItems(IDictionary<uint, IItem> items);
+        void LoadRoomRights(IDictionary<uint, string> rights);
         void SetupRoomCycle();
         Task SendAsync(IPacketComposer packet);
     }

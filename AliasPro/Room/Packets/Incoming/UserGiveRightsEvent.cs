@@ -15,10 +15,12 @@ namespace AliasPro.Room.Packets.Incoming
         public short Header { get; } = Incoming.UserGiveRightsMessageEvent;
 
         private readonly IPlayerController _playerController;
+        private readonly IRoomController _roomController;
 
-        public UserGiveRightsEvent(IPlayerController playerController)
+        public UserGiveRightsEvent(IPlayerController playerController, IRoomController roomController)
         {
             _playerController = playerController;
+            _roomController = roomController;
         }
 
         public async Task HandleAsync(
@@ -36,9 +38,10 @@ namespace AliasPro.Room.Packets.Incoming
 
             if (entity is UserEntity userEntity)
             {
-                //if (room.RightHandler.HasRights(userEntity.Player.Id)) return;
+                if (room.RightHandler.HasRights(userEntity.Player.Id)) return;
                 
-                room.RightHandler.GiveRights(userEntity.Player);
+                room.RightHandler.GiveRights(userEntity.Player.Id, userEntity.Player.Username);
+                await _roomController.GiveRoomRights(room.RoomData.Id, userEntity.Player.Id);
                 await room.RightHandler.ReloadRights(userEntity.Session);
             }
         }

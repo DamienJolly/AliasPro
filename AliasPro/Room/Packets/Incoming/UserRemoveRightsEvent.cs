@@ -15,10 +15,12 @@ namespace AliasPro.Room.Packets.Incoming
         public short Header { get; } = Incoming.UserRemoveRightsMessageEvent;
 
         private readonly IPlayerController _playerController;
+        private readonly IRoomController _roomController;
 
-        public UserRemoveRightsEvent(IPlayerController playerController)
+        public UserRemoveRightsEvent(IPlayerController playerController, IRoomController roomController)
         {
             _playerController = playerController;
+            _roomController = roomController;
         }
 
         public async Task HandleAsync(
@@ -43,6 +45,7 @@ namespace AliasPro.Room.Packets.Incoming
                     if (!room.RightHandler.HasRights(userEntity.Player.Id)) return;
 
                     room.RightHandler.RemoveRights(userEntity.Player.Id);
+                    await _roomController.TakeRoomRights(room.RoomData.Id, userEntity.Player.Id);
                     await room.RightHandler.ReloadRights(userEntity.Session);
                 }
             }

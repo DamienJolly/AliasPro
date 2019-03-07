@@ -33,6 +33,15 @@ namespace AliasPro.Room
             }
         }
 
+        internal async Task CreateRoomRights(uint roomId, uint playerId) =>
+            await _roomDao.CreateRoomRights(roomId, playerId);
+
+        internal async Task RemoveRoomRights(uint roomId, uint playerId) =>
+            await _roomDao.RemoveRoomRights(roomId, playerId);
+        
+        internal async Task<IDictionary<uint, string>> GetRightsForRoom(uint roomId) =>
+            await _roomDao.GetRightsForRoom(roomId);
+
         internal async Task<int> CreateRoom(IRoomData roomData) =>
             await _roomDao.CreateRoom(roomData);
 

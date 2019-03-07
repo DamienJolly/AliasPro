@@ -38,11 +38,11 @@ namespace AliasPro.Room.Models.Right
             session.Entity.Actions.AddStatus("flatctrl", (int)flatCtrl + "");
         }
 
-        public void GiveRights(IPlayer player)
+        public void GiveRights(uint playerId, string playerUsername)
         {
-            if (!_rights.ContainsKey(player.Id))
+            if (!_rights.ContainsKey(playerId))
             {
-                _rights.Add(player.Id, player.Username);
+                _rights.Add(playerId, playerUsername);
             }
         }
 

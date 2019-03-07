@@ -46,6 +46,7 @@ namespace AliasPro.Room.Packets.Incoming
                     room.isLoaded = true;
                     room.SetupRoomCycle();
                     room.LoadRoomItems(await _itemController.GetItemsForRoomAsync(room.RoomData.Id));
+                    room.LoadRoomRights(await _roomController.GetRightsForRoomAsync(room.RoomData.Id));
                 }
                 
                 session.CurrentRoom = room;

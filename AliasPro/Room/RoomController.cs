@@ -18,6 +18,15 @@ namespace AliasPro.Room
         public Task<int> AddNewRoomAsync(IRoomData roomData) =>
             _roomRepository.CreateRoom(roomData);
 
+        public Task GiveRoomRights(uint roomId, uint playerId) =>
+            _roomRepository.CreateRoomRights(roomId, playerId);
+
+        public Task TakeRoomRights(uint roomId, uint playerId) =>
+            _roomRepository.RemoveRoomRights(roomId, playerId);
+
+        public Task<IDictionary<uint, string>> GetRightsForRoomAsync(uint roomId) =>
+            _roomRepository.GetRightsForRoom(roomId);
+        
         public Task<IRoom> GetRoomByIdAndPassword(uint id, string password) =>
             _roomRepository.GetRoomByIdAndPassword(id, password);
 
@@ -43,6 +52,9 @@ namespace AliasPro.Room
     public interface IRoomController
     {
         Task<int> AddNewRoomAsync(IRoomData roomData);
+        Task GiveRoomRights(uint roomId, uint playerId);
+        Task TakeRoomRights(uint roomId, uint playerId);
+        Task<IDictionary<uint, string>> GetRightsForRoomAsync(uint roomId);
         Task<IRoom> GetRoomByIdAsync(uint id);
         Task<IRoom> GetRoomByIdAndPassword(uint id, string password);
         Task RemoveFromRoom(ISession session);

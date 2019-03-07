@@ -16,6 +16,47 @@ namespace AliasPro.Room
 
         }
 
+        internal async Task CreateRoomRights(uint roomId, uint playerId)
+        {
+            await CreateTransaction(async transaction =>
+            {
+                await Insert(transaction, "INSERT INTO `room_rights` (`room_id`, `player_id`) VALUES (@0, @1)",
+                    roomId, playerId);
+            });
+        }
+
+        internal async Task RemoveRoomRights(uint roomId, uint playerId)
+        {
+            await CreateTransaction(async transaction =>
+            {
+                await Insert(transaction, "DELETE FROM `room_rights` WHERE `room_id` = @0 AND `player_id` = @1",
+                    roomId, playerId);
+            });
+        }
+
+        internal async Task<IDictionary<uint, string>> GetRightsForRoom(uint roomId)
+        {
+            IDictionary<uint, string> rights = new Dictionary<uint, string>();
+            await CreateTransaction(async transaction =>
+            {
+                await Select(transaction, async reader =>
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        if(!rights.ContainsKey(reader.ReadData<uint>("id")))
+                        {
+                            rights.Add(reader.ReadData<uint>("id"),
+                                reader.ReadData<string>("username"));
+                        }
+                    }
+                }, "SELECT `players`.`id`, `players`.`username` FROM `room_rights` " +
+                "INNER JOIN `players` ON `players`.`id` = `room_rights`.`player_id` WHERE `room_rights`.`room_id` = @0;",
+                roomId);
+            });
+
+            return rights;
+        }
+
         internal async Task<int> CreateRoom(IRoomData roomData)
         {
             int roomId = -1;
