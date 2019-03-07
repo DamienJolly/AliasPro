@@ -8,6 +8,7 @@ namespace AliasPro.Player
     using Models;
     using Models.Currency;
     using Models.Messenger;
+    using Models.Badge;
 
     internal class PlayerDao : BaseDao
     {
@@ -144,6 +145,27 @@ namespace AliasPro.Player
             });
 
             return currencies;
+        }
+
+        internal async Task<IDictionary<string, IBadgeData>> GetPlayerBadgesById(uint id)
+        {
+            IDictionary<string, IBadgeData> badges = new Dictionary<string, IBadgeData>();
+            await CreateTransaction(async transaction =>
+            {
+                await Select(transaction, async reader =>
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        IBadgeData badge = new BadgeData(reader);
+                        if (!badges.ContainsKey(badge.Code))
+                        {
+                            badges.Add(badge.Code, badge);
+                        }
+                    }
+                }, "SELECT `code`, `slot` FROM `player_badges` WHERE `player_id` = @0;", id);
+            });
+
+            return badges;
         }
 
         internal async Task<IDictionary<uint, IMessengerFriend>> GetPlayerFriendsById(uint id)

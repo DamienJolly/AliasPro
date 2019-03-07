@@ -9,7 +9,8 @@ namespace AliasPro.Player.Packets.Incoming
     using Packets.Outgoing;
     using Sessions;
     using Item;
-    using AliasPro.Player.Models.Currency;
+    using Models.Currency;
+    using Models.Badge;
 
     public class SecureLoginEvent : IAsyncPacket
     {
@@ -52,6 +53,9 @@ namespace AliasPro.Player.Packets.Incoming
 
                 session.Player.Inventory = new PlayerInventory(session,
                     await _itemController.GetItemsForPlayerAsync(session.Player.Id));
+
+                session.Player.Badge = new BadgeHandler(
+                    await _playerController.GetPlayerBadgesByIdAsync(session.Player.Id));
 
                 await _playerController.UpdatePlayerByIdAsync(player);
 

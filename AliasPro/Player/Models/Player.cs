@@ -6,6 +6,7 @@ namespace AliasPro.Player.Models
     using Database;
     using Currency;
     using Messenger;
+    using Badge;
 
     internal class Player : IPlayer
     {
@@ -38,6 +39,7 @@ namespace AliasPro.Player.Models
         public IPlayerInventory Inventory { get; set; }
         public PlayerCurrency Currency { get; set; }
         public MessengerHandler Messenger { get; set; }
+        public BadgeHandler Badge { get; set; }
     }
 
     public interface IPlayer
@@ -58,5 +60,6 @@ namespace AliasPro.Player.Models
         IPlayerInventory Inventory { get; set; }
         PlayerCurrency Currency { get; set; }
         MessengerHandler Messenger { get; set; }
+        BadgeHandler Badge { get; set; }
     }
 }

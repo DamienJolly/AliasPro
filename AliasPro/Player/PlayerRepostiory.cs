@@ -6,8 +6,9 @@ namespace AliasPro.Player
     using Models;
     using Models.Currency;
     using Models.Messenger;
+    using Models.Badge;
     using Item;
-    using AliasPro.Player.Packets.Outgoing;
+    using Packets.Outgoing;
 
     internal class PlayerRepostiory
     {
@@ -101,6 +102,9 @@ namespace AliasPro.Player
             }
             _players.Remove(playerId);
         }
+
+        internal async Task<IDictionary<string, IBadgeData>> GetPlayerBadgesById(uint id) =>
+            await _playerDao.GetPlayerBadgesById(id);
 
         internal async Task UpdatePlayerById(IPlayer player) =>
             await _playerDao.UpdatePlayerById(player);

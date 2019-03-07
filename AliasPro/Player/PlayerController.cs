@@ -6,6 +6,7 @@ namespace AliasPro.Player
     using Models;
     using Models.Currency;
     using Models.Messenger;
+    using Models.Badge;
 
     internal class PlayerController : IPlayerController
     {
@@ -46,6 +47,9 @@ namespace AliasPro.Player
         public async Task<IPlayerSettings> GetPlayerSettingsByIdAsync(uint id) =>
             await _playerRepostiory.GetPlayerSettingsById(id);
 
+        public async Task<IDictionary<string, IBadgeData>> GetPlayerBadgesByIdAsync(uint id) =>
+            await _playerRepostiory.GetPlayerBadgesById(id);
+        
         public async Task<IDictionary<int, ICurrencyType>> GetPlayerCurrenciesByIdAsync(uint id) =>
             await _playerRepostiory.GetPlayerCurrenciesById(id);
 
@@ -87,6 +91,7 @@ namespace AliasPro.Player
         Task<IPlayer> GetPlayerByUsernameAsync(string username);
         Task<IPlayerSettings> GetPlayerSettingsByIdAsync(uint id);
         Task<IDictionary<int, ICurrencyType>> GetPlayerCurrenciesByIdAsync(uint id);
+        Task<IDictionary<string, IBadgeData>> GetPlayerBadgesByIdAsync(uint id);
         Task<IDictionary<uint, IMessengerFriend>> GetPlayerFriendsByIdAsync(uint id);
         Task<IDictionary<uint, IMessengerRequest>> GetPlayerRequestsByIdAsync(uint id);
         Task<IDictionary<uint, IPlayer>> GetPlayersByUsernameAsync(string username);

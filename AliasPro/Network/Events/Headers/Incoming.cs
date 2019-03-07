@@ -9,6 +9,11 @@
         internal const short RequestUserCreditsMessageEvent = 2109;
         internal const short RequestUserProfileMessageEvent = 2023;
 
+        // Badges
+        internal const short RequestBadgeInventoryMessageEvent = 1023;
+        internal const short UserWearBadgeMessageEvent = 3804;
+        internal const short RequestWearingBadgesMessageEvent = 1318;
+
         // Figure
         internal const short UpdateFigureMessageEvent = 1588;
 

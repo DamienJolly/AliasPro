@@ -14,6 +14,10 @@
         internal const short UserCurrencyMessageComposer = 2380;
         internal const short UserProfileMessageComposer = 1459;
 
+        // Badges
+        internal const short InventoryBadgesMessageComposer = 2782;
+        internal const short UserBadgesMessageComposer = 1757;
+
         // Figure
         internal const short UpdateFigureMessageComposer = 757;
         internal const short UpdateEntityDataMessageComposer = 3314;
