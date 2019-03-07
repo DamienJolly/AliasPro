@@ -24,7 +24,7 @@ namespace AliasPro.Player
             collection.AddSingleton<IAsyncPacket, RequestUserDataEvent>();
             collection.AddSingleton<IAsyncPacket, RequestFurniInventoryEvent>();
             collection.AddSingleton<IAsyncPacket, RequestUserCreditsEvent>();
-
+            collection.AddSingleton<IAsyncPacket, RequestUserProfileEvent>();
             collection.AddSingleton<IAsyncPacket, RequestInitFriendsEvent>();
             collection.AddSingleton<IAsyncPacket, FriendRequestEvent>();
             collection.AddSingleton<IAsyncPacket, RequestFriendsEvent>();

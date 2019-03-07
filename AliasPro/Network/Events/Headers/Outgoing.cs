@@ -12,6 +12,7 @@
         internal const short FurniListMessageComposer = 826;
         internal const short UserCreditsMessageComposer = 1232;
         internal const short UserCurrencyMessageComposer = 2380;
+        internal const short UserProfileMessageComposer = 1459;
 
         // Figure
         internal const short UpdateFigureMessageComposer = 757;

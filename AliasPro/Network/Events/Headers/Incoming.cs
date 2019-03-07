@@ -7,6 +7,7 @@
         internal const short SecureLoginMessageEvent = 1930;
         internal const short RequestUserDataMessageEvent = 3092;
         internal const short RequestUserCreditsMessageEvent = 2109;
+        internal const short RequestUserProfileMessageEvent = 2023;
 
         // Figure
         internal const short UpdateFigureMessageEvent = 1588;
