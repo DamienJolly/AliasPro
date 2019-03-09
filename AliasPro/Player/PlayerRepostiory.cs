@@ -147,5 +147,11 @@ namespace AliasPro.Player
 
         public async Task RemoveFriendShip(uint playerId, uint targetId) =>
             await _playerDao.RemoveFriendShip(playerId, targetId);
+
+        public async Task ResetPlayerWearableBadges(uint playerId) =>
+           await _playerDao.ResetPlayerWearableBadges(playerId);
+
+        public async Task UpdatePlayerWearableBadge(uint playerId, string code, int slot) =>
+           await _playerDao.UpdatePlayerWearableBadge(playerId, code, slot);
     }
 }

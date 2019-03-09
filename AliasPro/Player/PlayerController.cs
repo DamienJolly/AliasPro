@@ -76,6 +76,12 @@ namespace AliasPro.Player
 
         public async Task RemovePlayerByIdAsync(uint playerId) =>
             await _playerRepostiory.RemovePlayerById(playerId);
+
+        public async Task ResetPlayerWearableBadgesAsync(uint playerId) =>
+           await _playerRepostiory.ResetPlayerWearableBadges(playerId);
+
+        public async Task UpdatePlayerWearableBadgeAsync(uint playerId, string code, int slot) =>
+           await _playerRepostiory.UpdatePlayerWearableBadge(playerId, code, slot);
     }
 
     public interface IPlayerController
@@ -100,5 +106,7 @@ namespace AliasPro.Player
         Task RemoveFriendRequestAsync(uint playerId, uint targetId);
         Task RemoveFriendShipAsync(uint playerId, uint targetId);
         Task RemovePlayerByIdAsync(uint playerId);
+        Task ResetPlayerWearableBadgesAsync(uint playerId);
+        Task UpdatePlayerWearableBadgeAsync(uint playerId, string code, int slot);
     }
 }

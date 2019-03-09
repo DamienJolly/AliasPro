@@ -38,6 +38,7 @@ namespace AliasPro.Player
             collection.AddSingleton<IAsyncPacket, SearchUserEvent>();
             collection.AddSingleton<IAsyncPacket, FriendPrivateMessageEvent>();
             collection.AddSingleton<IAsyncPacket, RoomInviteEvent>();
+            collection.AddSingleton<IAsyncPacket, RequestProfileFriendsEvent>();
         }
     }
 }

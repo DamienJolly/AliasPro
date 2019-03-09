@@ -297,5 +297,21 @@ namespace AliasPro.Player
                 await Insert(transaction, "DELETE FROM `messenger_friends` WHERE (`target_id` = @0 AND `player_id` = @1) OR (`target_id` = @1 AND `player_id` = @0);", playerId, targetId);
             });
         }
+
+        internal async Task ResetPlayerWearableBadges(uint playerId)
+        {
+            await CreateTransaction(async transaction =>
+            {
+                await Insert(transaction, "UPDATE `player_badges` SET `slot` = '0' WHERE `player_id` = @0;", playerId);
+            });
+        }
+
+        internal async Task UpdatePlayerWearableBadge(uint playerId, string code, int slot)
+        {
+            await CreateTransaction(async transaction =>
+            {
+                await Insert(transaction, "UPDATE `player_badges` SET `slot` = @2 WHERE `code` = @1 AND `player_id` = @0;", playerId, code, slot);
+            });
+        }
     }
 }

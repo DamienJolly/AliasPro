@@ -32,6 +32,7 @@
         internal const short RoomInviteErrorMessageComposer = 2542;
         internal const short FriendChatMessageComposer = 2664;
         internal const short RoomInviteMessageComposer = 2246;
+        internal const short ProfileFriendsMessageComposer = 3458;
 
         // Items
         internal const short ObjectAddMessageComposer = 2396;

@@ -13,6 +13,13 @@ namespace AliasPro.Player.Packets.Incoming
     {
         public short Header { get; } = Incoming.UserWearBadgeMessageEvent;
 
+        private readonly IPlayerController _playerController;
+
+        public UserWearBadgeEvent(IPlayerController playerController)
+        {
+            _playerController = playerController;
+        }
+
         public async Task HandleAsync(
             ISession session,
             IClientPacket clientPacket)
@@ -23,6 +30,7 @@ namespace AliasPro.Player.Packets.Incoming
             {
                 badge.Slot = 0;
             }
+            await _playerController.ResetPlayerWearableBadgesAsync(session.Player.Id);
 
             for (int i = 0; i < 5; i++)
             {
@@ -34,6 +42,10 @@ namespace AliasPro.Player.Packets.Incoming
                 if (session.Player.Badge.TryGetBadge(code, out IBadgeData badge))
                 {
                     badge.Slot = slot;
+                    await _playerController.UpdatePlayerWearableBadgeAsync(
+                        session.Player.Id,
+                        badge.Code,
+                        badge.Slot);
                 }
             }
 
