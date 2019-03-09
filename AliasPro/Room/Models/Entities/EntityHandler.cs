@@ -29,7 +29,10 @@ namespace AliasPro.Room.Models.Entities
                 _entityCycler.Cycle(entity);
             }
 
-            await _room.SendAsync(new EntityUpdateComposer(Entities));
+            try
+            {
+                await _room.SendAsync(new EntityUpdateComposer(Entities));
+            } catch { }
         }
 
         public async void Unidle(BaseEntity entity)
