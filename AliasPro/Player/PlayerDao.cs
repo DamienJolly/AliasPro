@@ -120,7 +120,7 @@ namespace AliasPro.Player
                     {
                         playerSettings = new PlayerSettings(reader);
                     }
-                }, "SELECT `navi_x`, `navi_y`, `navi_width`, `navi_height`, `navi_hide_searches` FROM `player_settings` WHERE `player_id` = @0 LIMIT 1;", id);
+                }, "SELECT * FROM `player_settings` WHERE `player_id` = @0 LIMIT 1;", id);
             });
 
             return playerSettings;
@@ -257,8 +257,10 @@ namespace AliasPro.Player
         {
             await CreateTransaction(async transaction =>
             {
-                await Insert(transaction, "UPDATE `player_settings` SET `navi_x` = @1, `navi_y` = @2, `navi_width` = @3, `navi_height` = @4, `navi_hide_searches` = @5 " +
-                    "WHERE `player_id` = @0;", id, settings.NaviX, settings.NaviY, settings.NaviWidth, settings.NaviHeight, settings.NaviHideSearches);
+                await Insert(transaction, "UPDATE `player_settings` SET `navi_x` = @1, `navi_y` = @2, `navi_width` = @3, `navi_height` = @4, `navi_hide_searches` = @5, " +
+                    "`ignore_invites` = @6, `camera_follow` = @7, `old_chat` = @8, `volume_system` = @9, `volume_furni` = @10, `volume_trax` = @11 " +
+                    "WHERE `player_id` = @0;", id, settings.NaviX, settings.NaviY, settings.NaviWidth, settings.NaviHeight, settings.NaviHideSearches,
+                    settings.IgnoreInvites, settings.CameraFollow, settings.OldChat, settings.VolumeSystem, settings.VolumeFurni, settings.VolumeTrax);
             });
         }
 

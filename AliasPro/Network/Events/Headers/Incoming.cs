@@ -8,6 +8,11 @@
         internal const short RequestUserDataMessageEvent = 3092;
         internal const short RequestUserCreditsMessageEvent = 2109;
         internal const short RequestUserProfileMessageEvent = 2023;
+        internal const short RequestMeMenuSettingsMessageEvent = 3537;
+        internal const short SaveUserVolumesMessageEvent = 2507;
+        internal const short SavePreferOldChatMessageEvent = 2213;
+        internal const short SaveIgnoreRoomInvitesMessageEvent = 3110;
+        internal const short SaveBlockCameraFollowMessageEvent = 191;
 
         // Badges
         internal const short RequestBadgeInventoryMessageEvent = 1023;
