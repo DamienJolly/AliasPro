@@ -313,5 +313,13 @@ namespace AliasPro.Player
                 await Insert(transaction, "UPDATE `player_badges` SET `slot` = @2 WHERE `code` = @1 AND `player_id` = @0;", playerId, code, slot);
             });
         }
+
+        internal async Task UpdateFriendRelation(uint playerId, IMessengerFriend friend)
+        {
+            await CreateTransaction(async transaction =>
+            {
+                await Insert(transaction, "UPDATE `messenger_friends` SET `relation` = @2 WHERE `target_id` = @1 AND `player_id` = @0;", playerId, friend.Id, friend.Relation);
+            });
+        }
     }
 }

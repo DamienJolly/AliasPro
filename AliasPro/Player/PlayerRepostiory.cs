@@ -153,5 +153,8 @@ namespace AliasPro.Player
 
         public async Task UpdatePlayerWearableBadge(uint playerId, string code, int slot) =>
            await _playerDao.UpdatePlayerWearableBadge(playerId, code, slot);
+
+        public async Task UpdateFriendRelation(uint playerId, IMessengerFriend friend) =>
+           await _playerDao.UpdateFriendRelation(playerId, friend);
     }
 }

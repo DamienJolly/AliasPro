@@ -82,6 +82,9 @@ namespace AliasPro.Player
 
         public async Task UpdatePlayerWearableBadgeAsync(uint playerId, string code, int slot) =>
            await _playerRepostiory.UpdatePlayerWearableBadge(playerId, code, slot);
+
+        public async Task UpdateFriendRelationAsync(uint playerId, IMessengerFriend friend) =>
+           await _playerRepostiory.UpdateFriendRelation(playerId, friend);
     }
 
     public interface IPlayerController
@@ -108,5 +111,6 @@ namespace AliasPro.Player
         Task RemovePlayerByIdAsync(uint playerId);
         Task ResetPlayerWearableBadgesAsync(uint playerId);
         Task UpdatePlayerWearableBadgeAsync(uint playerId, string code, int slot);
+        Task UpdateFriendRelationAsync(uint playerId, IMessengerFriend friend);
     }
 }
