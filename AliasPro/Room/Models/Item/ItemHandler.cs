@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace AliasPro.Room.Models.Item
 {
@@ -14,6 +15,14 @@ namespace AliasPro.Room.Models.Item
         {
             _room = room;
             _items = new Dictionary<uint, IItem>();
+        }
+
+        public void Cycle(DateTimeOffset timeOffset)
+        {
+            foreach (IItem item in Items)
+            {
+                item.Interaction.OnCycle(item);
+            }
         }
 
         internal void AddItem(IItem item)

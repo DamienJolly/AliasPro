@@ -133,6 +133,7 @@ namespace AliasPro.Room.Models
         private void Cycle(DateTimeOffset timeOffset)
         {
             EntityHandler.Cycle(timeOffset);
+            ItemHandler.Cycle(timeOffset);
         }
     }
 

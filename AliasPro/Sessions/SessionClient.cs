@@ -27,4 +27,14 @@ namespace AliasPro.Sessions
             
         private Task WriteAndFlushAsync(ServerPacket serverPacket) => _channel.WriteAndFlushAsync(serverPacket);
     }
+
+    public interface ISession
+    {
+        string UniqueId { get; set; }
+        IPlayer Player { get; set; }
+        BaseEntity Entity { get; set; }
+        IRoom CurrentRoom { get; set; }
+
+        Task SendPacketAsync(IPacketComposer serverPacket);
+    }
 }
