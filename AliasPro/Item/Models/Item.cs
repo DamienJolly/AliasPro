@@ -6,6 +6,7 @@ namespace AliasPro.Item.Models
     using Room.Gamemap;
     using Database;
     using Room.Models.Item.Interaction;
+    using Room.Models.Entities;
 
     internal class Item : IItem
     {
@@ -33,7 +34,7 @@ namespace AliasPro.Item.Models
             PlayerUsername = "Damien";
             RoomId = 0;
             Rotation = 0;
-            Mode = 1;
+            Mode = 0;
             ExtraData = extraData;
             Position = new Position(0, 0, 0.00);
             ItemData = itemData;
@@ -89,6 +90,7 @@ namespace AliasPro.Item.Models
         public string ExtraData { get; set; }
         public Position Position { get; set; }
         public IItemData ItemData { get; set; }
+        public BaseEntity InteractingPlayer { get; set; }
     }
 
     public interface IItem
@@ -107,5 +109,6 @@ namespace AliasPro.Item.Models
         Position Position { get; set; }
         IItemData ItemData { get; set; }
         IItemInteractor Interaction { get; }
+        BaseEntity InteractingPlayer { get; set; }
     }
 }

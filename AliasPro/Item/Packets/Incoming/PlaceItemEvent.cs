@@ -53,8 +53,7 @@ namespace AliasPro.Item.Packets.Incoming
                     item.ExtraData = data[1] + " " + data[2] + " " + data[3];
                     await session.SendPacketAsync(new AddWallItemComposer(item));
                 }
-
-                item.Mode = 1;
+                
                 item.RoomId = room.RoomData.Id;
                 room.ItemHandler.AddItem(item);
                 
