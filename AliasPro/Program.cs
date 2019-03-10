@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 namespace AliasPro
 {
     using Configuration;
+    using Settings;
     using Catalog;
     using Item;
     using Navigator;
@@ -28,6 +29,7 @@ namespace AliasPro
             IList<INetworkService> services = new List<INetworkService>
             {
                 new NetworkService(),
+                new SettingsService(),
                 new PlayerService(),
                 new SessionService(),
                 new LandingService(),
@@ -60,7 +62,7 @@ namespace AliasPro
         {
             INetworkListener listener = _serviceProvider.GetService<INetworkListener>();
             await listener.Listen(30000);
-
+            
             while (true)
             {
                 if (Console.ReadKey(true).Key == ConsoleKey.Enter)
