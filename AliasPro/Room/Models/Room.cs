@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
+
 
 namespace AliasPro.Room.Models
 {
@@ -16,7 +18,8 @@ namespace AliasPro.Room.Models
 
     internal class Room : IRoom
     {
-        private ActionBlock<DateTimeOffset> task;
+        private readonly CancellationTokenSource _cancellationToken;
+        private ActionBlock<DateTimeOffset> _task;
         
         public bool isLoaded { get; set; } = false;
         public EntityHandler EntityHandler { get; set; }
@@ -30,6 +33,8 @@ namespace AliasPro.Room.Models
         {
             RoomData = roomData;
             RoomModel = model;
+
+            _cancellationToken = new CancellationTokenSource();
 
             RoomMap = new RoomMap(this, RoomModel);
             EntityHandler = new EntityHandler(this);
@@ -111,13 +116,18 @@ namespace AliasPro.Room.Models
 
         public void SetupRoomCycle()
         {
-            task = TaskHandler.PeriodicTaskWithDelay(time => Cycle(time), 500);
-            task.Post(DateTimeOffset.Now);
+            _task = TaskHandler.PeriodicTaskWithDelay(time => Cycle(time), _cancellationToken.Token, 500);
+            _task.Post(DateTimeOffset.Now);
         }
 
         private void StopRoomCycle()
         {
-            task = null;
+            using (_cancellationToken)
+            {
+                _cancellationToken.Cancel();
+            }
+
+            _task = null;
         }
 
         private void Cycle(DateTimeOffset timeOffset)

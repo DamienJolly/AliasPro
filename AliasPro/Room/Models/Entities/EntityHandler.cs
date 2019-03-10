@@ -5,7 +5,6 @@ using System.Linq;
 namespace AliasPro.Room.Models.Entities
 {
     using Packets.Outgoing;
-    using Gamemap;
 
     public class EntityHandler
     {
@@ -29,10 +28,7 @@ namespace AliasPro.Room.Models.Entities
                 _entityCycler.Cycle(entity);
             }
 
-            try
-            {
-                await _room.SendAsync(new EntityUpdateComposer(Entities));
-            } catch { }
+            await _room.SendAsync(new EntityUpdateComposer(Entities));
         }
 
         public async void Unidle(BaseEntity entity)

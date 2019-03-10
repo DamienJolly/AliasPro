@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Tasks\Libuv\**" />
+    <EmbeddedResource Remove="Tasks\Libuv\**" />
+    <None Remove="Tasks\Libuv\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="DotNetty.Buffers" Version="0.6.0" />
     <PackageReference Include="DotNetty.Handlers" Version="0.6.0" />
     <PackageReference Include="DotNetty.Transport" Version="0.6.0" />
