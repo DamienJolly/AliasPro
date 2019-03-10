@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AliasPro.Settings
 {
@@ -21,6 +22,11 @@ namespace AliasPro.Settings
 
             _settings =
                 await _settingsDao.GetEmulatorSettings();
+        }
+
+        public async Task CleanupDatabase()
+        {
+            await _settingsDao.CleanupPlayers();
         }
 
         public string GetSetting(string key) => 

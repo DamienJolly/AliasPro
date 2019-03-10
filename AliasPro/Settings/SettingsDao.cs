@@ -33,5 +33,13 @@
 
             return settings;
         }
+
+        internal async Task CleanupPlayers()
+        {
+            await CreateTransaction(async transaction =>
+            {
+                await Insert(transaction, "UPDATE `players` SET `is_online` = '0';");
+            });
+        }
     }
 }

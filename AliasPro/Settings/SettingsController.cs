@@ -1,4 +1,6 @@
-﻿namespace AliasPro.Settings
+﻿using System.Threading.Tasks;
+
+namespace AliasPro.Settings
 {
     internal class SettingsController : ISettingsController
     {
@@ -11,10 +13,14 @@
 
         public string GetSetting(string key) =>
             _settingsRepository.GetSetting(key);
+
+        public async Task CleanupDatabase() =>
+            await _settingsRepository.CleanupDatabase();
     }
 
     public interface ISettingsController
     {
         string GetSetting(string key);
+        Task CleanupDatabase();
     }
 }

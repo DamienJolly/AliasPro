@@ -62,7 +62,10 @@ namespace AliasPro
         {
             INetworkListener listener = _serviceProvider.GetService<INetworkListener>();
             await listener.Listen(30000);
-            
+
+            ISettingsController settings = _serviceProvider.GetService<ISettingsController>();
+            await settings.CleanupDatabase();
+
             while (true)
             {
                 if (Console.ReadKey(true).Key == ConsoleKey.Enter)
