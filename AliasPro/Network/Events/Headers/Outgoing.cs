@@ -86,6 +86,7 @@
         internal const short UserDanceMessageComposer = 586;
         internal const short UserSleepMessageComposer = 1570;
         internal const short UserActionMessageComposer = 205;
+        internal const short UserHandItemMessageComposer = 190;
 
         // Landing
         internal const short HotelViewDataMessageComposer = 730;

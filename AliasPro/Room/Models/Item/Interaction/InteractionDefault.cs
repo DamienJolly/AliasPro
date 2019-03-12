@@ -33,16 +33,18 @@
 
         }
 
-        public void OnUserInteract(ISession session, IRoom room, IItem item, int state)
+        public async void OnUserInteract(ISession session, IRoom room, IItem item, int state)
         {
             item.Mode++;
             if (item.Mode >= item.ItemData.Modes)
             {
                 item.Mode = 0;
             }
+            
+            await room.SendAsync(new FloorItemUpdateComposer(item));
         }
 
-        public void OnCycle(IItem item)
+        public void OnCycle(IRoom room, IItem item)
         {
 
         }

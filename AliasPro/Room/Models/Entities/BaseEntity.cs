@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Text;
 
 namespace AliasPro.Room.Models.Entities
 {
@@ -22,6 +21,15 @@ namespace AliasPro.Room.Models.Entities
 
             Actions = new EntityAction();
         }
+        
+        public void SetHandItem(int handItemId)
+        {
+            HandItemTimer = 0;
+            HandItemId = handItemId;
+            
+            if (handItemId != 0)
+                HandItemTimer = 240;
+        }
 
         public int Id { get; set; }
         public int BodyRotation { get; set; }
@@ -42,6 +50,9 @@ namespace AliasPro.Room.Models.Entities
         
         public int DirOffsetTimer = 0;
         public int IdleTimer = 0;
+
+        public int HandItemId = 0;
+        public int HandItemTimer = 0;
 
         public abstract void Compose(ServerPacket serverPacket);
     }

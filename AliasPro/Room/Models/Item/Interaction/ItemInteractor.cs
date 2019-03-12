@@ -10,6 +10,7 @@
         {
             switch (interaction)
             {
+                case "vending": return new InteractionVendingMachine();
                 default: return new InteractionDefault();
             }
         }
@@ -21,6 +22,6 @@
         void OnUserWalkOn(ISession session, IRoom room, IItem item);
         void OnUserWalkOff(ISession session, IRoom room, IItem item);
         void OnUserInteract(ISession session, IRoom room, IItem item, int state);
-        void OnCycle(IItem item);
+        void OnCycle(IRoom room, IItem item);
     }
 }

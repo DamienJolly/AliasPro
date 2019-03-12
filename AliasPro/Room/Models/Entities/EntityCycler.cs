@@ -133,6 +133,18 @@ namespace AliasPro.Room.Models.Entities
                     entity.HeadRotation = entity.BodyRotation;
             }
 
+            if (entity.HandItemId != 0)
+            {
+                entity.HandItemTimer--;
+                if (entity.HandItemTimer <= 0)
+                {
+                    entity.SetHandItem(0);
+                    await _room.SendAsync(new UserHandItemComposer(
+                        entity.Id, 
+                        entity.HandItemId));
+                }
+            }
+
             entity.IdleTimer++;
             if (entity.IdleTimer >= 600 && !entity.IsIdle)
             {

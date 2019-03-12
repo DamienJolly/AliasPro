@@ -102,7 +102,10 @@ namespace AliasPro.Room.Gamemap
 
             tiles.RemoveEntity(entity.Id);
         }
-        
+
+        public bool TilesAdjecent(Position pos1, Position pos2) =>
+            ((pos1.X - pos2.X) * (pos1.X - pos2.X)) + ((pos1.Y - pos2.Y) * (pos1.Y - pos2.Y)) <= 2;
+
         public bool TryGetRoomTile(int x, int y, out RoomTile roomTile) =>
             _roomTiles.TryGetValue(ConvertTo1D(x, y), out roomTile);
 

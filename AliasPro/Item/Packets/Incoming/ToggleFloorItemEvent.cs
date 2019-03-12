@@ -34,8 +34,6 @@ namespace AliasPro.Item.Packets.Incoming
                 int state = clientPacket.ReadInt();
                 
                 item.Interaction.OnUserInteract(session, room, item, state);
-
-                await room.SendAsync(new FloorItemUpdateComposer(item));
             }
         }
     }
