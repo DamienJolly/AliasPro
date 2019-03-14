@@ -22,8 +22,4 @@
     <PackageReference Include="MySql.Data" Version="8.0.14" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Room\Models\Item\WiredIntercation\" />
-  </ItemGroup>
-
 </Project>

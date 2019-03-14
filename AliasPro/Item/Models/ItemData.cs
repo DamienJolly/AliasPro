@@ -19,10 +19,15 @@ namespace AliasPro.Item.Models
             ExtraData = reader.ReadData<string>("extra_data");
             Type = reader.ReadData<string>("type");
             Modes = reader.ReadData<int>("modes");
-            InteractionType = GetItemInteractor(
-                reader.ReadData<string>("interaction_type"));
             CanWalk = reader.ReadData<bool>("can_walk");
             CanStack = reader.ReadData<bool>("can_stack");
+
+            InteractionType = GetItemInteractor(
+                reader.ReadData<string>("interaction_type"));
+            WiredInteractionType = WiredInteraction.DEFAULT;
+
+            if (IsWired && int.TryParse(ExtraData, out int wiredId))
+                WiredInteractionType = (WiredInteraction)wiredId;
         }
 
         private static ItemInteraction GetItemInteractor(string interaction)
@@ -48,9 +53,16 @@ namespace AliasPro.Item.Models
         public string ExtraData { get; }
         public string Type { get; }
         public int Modes { get; }
-        public ItemInteraction InteractionType { get; }
         public bool CanWalk { get; }
         public bool CanStack { get; }
+
+        public ItemInteraction InteractionType { get; }
+        public WiredInteraction WiredInteractionType { get; }
+
+        public bool IsWired =>
+            InteractionType == ItemInteraction.WIRED_CONDITION ||
+            InteractionType == ItemInteraction.WIRED_TRIGGER ||
+            InteractionType == ItemInteraction.WIRED_EFFECT;
     }
 
     public interface IItemData
@@ -66,8 +78,12 @@ namespace AliasPro.Item.Models
         string ExtraData { get; }
         string Type { get; }
         int Modes { get; }
-        ItemInteraction InteractionType { get; }
         bool CanWalk { get; }
         bool CanStack { get; }
+
+        ItemInteraction InteractionType { get; }
+        WiredInteraction WiredInteractionType { get; }
+
+        bool IsWired { get; }
     }
 }

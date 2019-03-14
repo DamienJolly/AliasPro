@@ -33,20 +33,19 @@
 
         }
 
-        public async void OnUserInteract(ISession session, IRoom room, IItem item, int state)
+        public void OnUserInteract(ISession session, IRoom room, IItem item, int state)
         {
-            item.Mode++;
-            if (item.Mode >= item.ItemData.Modes)
-            {
-                item.Mode = 0;
-            }
-            
-            await room.SendAsync(new FloorItemUpdateComposer(item));
+
         }
 
         public void OnCycle(IRoom room, IItem item)
         {
+            if (item.ItemData.WiredInteractionType == WiredInteraction.REPEATER)
+            {
+                item.WiredInteraction.OnTrigger(null, room, item);
+            }
 
+            item.WiredInteraction.OnCycle(room, item);
         }
     }
 }

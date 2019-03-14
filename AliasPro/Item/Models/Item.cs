@@ -6,6 +6,7 @@ namespace AliasPro.Item.Models
     using Room.Gamemap;
     using Database;
     using Room.Models.Item.Interaction;
+    using Room.Models.Item.Interaction.Wired;
     using Room.Models.Entities;
 
     internal class Item : IItem
@@ -80,6 +81,7 @@ namespace AliasPro.Item.Models
         public BaseEntity InteractingPlayer { get; set; }
 
         private IItemInteractor _interaction { get; set; }
+        private IWiredInteractor _wiredInteraction { get; set; }
 
         public IItemInteractor Interaction
         {
@@ -89,6 +91,17 @@ namespace AliasPro.Item.Models
                     _interaction = ItemInteractor.GetItemInteractor(ItemData.InteractionType);
 
                 return _interaction;
+            }
+        }
+
+        public IWiredInteractor WiredInteraction
+        {
+            get
+            {
+                if (_wiredInteraction == null)
+                    _wiredInteraction = WiredInteractor.GetWiredInteractor(ItemData.WiredInteractionType);
+
+                return _wiredInteraction;
             }
         }
     }
@@ -111,5 +124,6 @@ namespace AliasPro.Item.Models
         BaseEntity InteractingPlayer { get; set; }
 
         IItemInteractor Interaction { get; }
+        IWiredInteractor WiredInteraction { get; }
     }
 }
