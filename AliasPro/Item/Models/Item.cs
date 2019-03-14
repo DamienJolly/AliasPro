@@ -40,19 +40,6 @@ namespace AliasPro.Item.Models
             ItemData = itemData;
         }
 
-        private IItemInteractor _interaction { get; set; }
-
-        public IItemInteractor Interaction
-        {
-            get
-            {
-                if (_interaction == null)
-                    _interaction = ItemInteractor.GetItemInteractor(ItemData.Interaction);
-
-                return _interaction;
-            }
-        }
-
         public void ComposeFloorItem(ServerPacket message)
         {
             message.WriteInt(Id);
@@ -91,6 +78,19 @@ namespace AliasPro.Item.Models
         public Position Position { get; set; }
         public IItemData ItemData { get; set; }
         public BaseEntity InteractingPlayer { get; set; }
+
+        private IItemInteractor _interaction { get; set; }
+
+        public IItemInteractor Interaction
+        {
+            get
+            {
+                if (_interaction == null)
+                    _interaction = ItemInteractor.GetItemInteractor(ItemData.InteractionType);
+
+                return _interaction;
+            }
+        }
     }
 
     public interface IItem
@@ -108,7 +108,8 @@ namespace AliasPro.Item.Models
         string ExtraData { get; set; }
         Position Position { get; set; }
         IItemData ItemData { get; set; }
-        IItemInteractor Interaction { get; }
         BaseEntity InteractingPlayer { get; set; }
+
+        IItemInteractor Interaction { get; }
     }
 }

@@ -19,9 +19,22 @@ namespace AliasPro.Item.Models
             ExtraData = reader.ReadData<string>("extra_data");
             Type = reader.ReadData<string>("type");
             Modes = reader.ReadData<int>("modes");
-            Interaction = reader.ReadData<string>("interaction_type");
+            InteractionType = GetItemInteractor(
+                reader.ReadData<string>("interaction_type"));
             CanWalk = reader.ReadData<bool>("can_walk");
             CanStack = reader.ReadData<bool>("can_stack");
+        }
+
+        private static ItemInteraction GetItemInteractor(string interaction)
+        {
+            switch (interaction)
+            {
+                case "wired_trigger": return ItemInteraction.WIRED_TRIGGER;
+                case "wired_effect": return ItemInteraction.WIRED_EFFECT;
+                case "wired_condition": return ItemInteraction.WIRED_CONDITION;
+                case "vending": return ItemInteraction.VENDING_MACHINE;
+                case "default": default: return ItemInteraction.DEFAULT;
+            }
         }
 
         public uint Id { get; }
@@ -35,7 +48,7 @@ namespace AliasPro.Item.Models
         public string ExtraData { get; }
         public string Type { get; }
         public int Modes { get; }
-        public string Interaction { get; }
+        public ItemInteraction InteractionType { get; }
         public bool CanWalk { get; }
         public bool CanStack { get; }
     }
@@ -53,7 +66,7 @@ namespace AliasPro.Item.Models
         string ExtraData { get; }
         string Type { get; }
         int Modes { get; }
-        string Interaction { get; }
+        ItemInteraction InteractionType { get; }
         bool CanWalk { get; }
         bool CanStack { get; }
     }

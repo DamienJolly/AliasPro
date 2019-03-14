@@ -3,15 +3,18 @@
     using Sessions;
     using AliasPro.Item.Models;
     using Network.Protocol;
-
+    
     public class ItemInteractor
     {
-        public static IItemInteractor GetItemInteractor(string interaction)
+        public static IItemInteractor GetItemInteractor(ItemInteraction interaction)
         {
             switch (interaction)
             {
-                case "vending": return new InteractionVendingMachine();
-                default: return new InteractionDefault();
+                case ItemInteraction.WIRED_TRIGGER: return new InteractionWired();
+                case ItemInteraction.WIRED_EFFECT: return new InteractionWired();
+                case ItemInteraction.WIRED_CONDITION: return new InteractionWired();
+                case ItemInteraction.VENDING_MACHINE: return new InteractionVendingMachine();
+                case ItemInteraction.DEFAULT: default: return new InteractionDefault();
             }
         }
     }
