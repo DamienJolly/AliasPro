@@ -42,7 +42,7 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
                 {
                     foreach(IItem effect in _item.CurrentRoom.RoomMap.GetRoomTile(_item.Position.X, _item.Position.Y).WiredEffects)
                     {
-                        effect.Interaction.OnUserInteract(_targetSession);
+                        effect.WiredInteraction.OnTrigger(_targetSession);
                     }
                     _active = false;
                 }

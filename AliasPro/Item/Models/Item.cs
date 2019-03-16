@@ -96,6 +96,17 @@ namespace AliasPro.Item.Models
                 return _interaction;
             }
         }
+
+        public IWiredInteractor WiredInteraction
+        {
+            get
+            {
+                if (_wiredInteraction == null)
+                    _wiredInteraction = WiredInteractor.GetWiredInteractor(ItemData.WiredInteractionType, this);
+
+                return _wiredInteraction;
+            }
+        }
     }
 
     public interface IItem
@@ -118,5 +129,6 @@ namespace AliasPro.Item.Models
         IRoom CurrentRoom { get; set; }
 
         IItemInteractor Interaction { get; }
+        IWiredInteractor WiredInteraction { get; }
     }
 }

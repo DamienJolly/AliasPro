@@ -8,13 +8,10 @@
     public class InteractionWired : IItemInteractor
     {
         private readonly IItem _item;
-        private readonly IWiredInteractor _wiredInteraction;
 
         public InteractionWired(IItem item)
         {
             _item = item;
-            _wiredInteraction = 
-                WiredInteractor.GetWiredInteractor(item.ItemData.WiredInteractionType, item);
         }
 
         public void Compose(ServerPacket message)
@@ -45,17 +42,17 @@
 
         public void OnUserInteract(ISession session, int state)
         {
-            _wiredInteraction.OnTrigger(session);
+
         }
 
         public void OnCycle()
         {
             if (_item.ItemData.WiredInteractionType == WiredInteraction.REPEATER)
             {
-                _item.Interaction.OnUserInteract(null);
+                _item.WiredInteraction.OnTrigger(null);
             }
-
-            _wiredInteraction.OnCycle();
+             
+            _item.WiredInteraction.OnCycle();
         }
     }
 }
