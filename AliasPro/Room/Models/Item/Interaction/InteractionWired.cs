@@ -1,51 +1,61 @@
 ﻿namespace AliasPro.Room.Models.Item.Interaction
 {
     using Network.Protocol;
+    using Models.Item.Interaction.Wired;
     using AliasPro.Item.Models;
     using Sessions;
-    using AliasPro.Item.Packets.Outgoing;
 
     public class InteractionWired : IItemInteractor
     {
-        public void Compose(ServerPacket message, IItem item)
+        private readonly IItem _item;
+        private readonly IWiredInteractor _wiredInteraction;
+
+        public InteractionWired(IItem item)
+        {
+            _item = item;
+            _wiredInteraction = 
+                WiredInteractor.GetWiredInteractor(item.ItemData.WiredInteractionType, item);
+        }
+
+        public void Compose(ServerPacket message)
         {
             message.WriteInt(0);
-            message.WriteString(item.Mode.ToString());
+            message.WriteString(_item.Mode.ToString());
         }
 
-        public void OnUserEnter(ISession session, IItem item)
+        public void OnUserEnter(ISession session)
         {
 
         }
 
-        public void OnUserLeave(ISession session, IItem item)
+        public void OnUserLeave(ISession session)
         {
 
         }
 
-        public void OnUserWalkOn(ISession session, IRoom room, IItem item)
+        public void OnUserWalkOn(ISession session)
         {
 
         }
 
-        public void OnUserWalkOff(ISession session, IRoom room, IItem item)
+        public void OnUserWalkOff(ISession session)
         {
 
         }
 
-        public void OnUserInteract(ISession session, IRoom room, IItem item, int state)
+        public void OnUserInteract(ISession session, int state)
         {
-
+            _wiredInteraction.OnTrigger(session);
         }
 
-        public void OnCycle(IRoom room, IItem item)
+        public void OnCycle()
         {
-            if (item.ItemData.WiredInteractionType == WiredInteraction.REPEATER)
+            if (_item.ItemData.WiredInteractionType == WiredInteraction.REPEATER)
             {
-                item.WiredInteraction.OnTrigger(null, room, item);
+                _item.Interaction.OnUserInteract(null);
             }
 
-            item.WiredInteraction.OnCycle(room, item);
+            _wiredInteraction.OnCycle();
         }
     }
 }

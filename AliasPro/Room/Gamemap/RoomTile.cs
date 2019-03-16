@@ -97,6 +97,20 @@ namespace AliasPro.Room.Gamemap
         public void RemoveEntity(int entityId) =>
             _entities.Remove(entityId);
 
+        public ICollection<IItem> WiredEffects
+        {
+            get
+            {
+                IList<IItem> effects = new List<IItem>();
+                foreach (IItem item in _items.Values)
+                {
+                    if (item.ItemData.InteractionType == ItemInteraction.WIRED_EFFECT)
+                        effects.Add(item);
+                }
+                return effects;
+            }
+        }
+
         public IItem TopItem
         {
             get

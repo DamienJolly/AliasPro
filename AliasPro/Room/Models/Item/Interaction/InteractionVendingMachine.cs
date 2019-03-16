@@ -11,61 +11,68 @@ namespace AliasPro.Room.Models.Item.Interaction
 
     public class InteractionVendingMachine : IItemInteractor
     {
+        private readonly IItem _item;
+
         private int _tickCount = 0;
 
-        public void Compose(ServerPacket message, IItem item)
+        public InteractionVendingMachine(IItem item)
+        {
+            _item = item;
+        }
+
+        public void Compose(ServerPacket message)
         {
             message.WriteInt(0);
-            message.WriteString(item.Mode.ToString());
+            message.WriteString(_item.Mode.ToString());
         }
 
-        public void OnUserEnter(ISession session, IItem item)
+        public void OnUserEnter(ISession session)
         {
 
         }
 
-        public void OnUserLeave(ISession session, IItem item)
+        public void OnUserLeave(ISession session)
         {
 
         }
 
-        public void OnUserWalkOn(ISession session, IRoom room, IItem item)
+        public void OnUserWalkOn(ISession session)
         {
 
         }
 
-        public void OnUserWalkOff(ISession session, IRoom room, IItem item)
+        public void OnUserWalkOff(ISession session)
         {
 
         }
 
-        public async void OnUserInteract(ISession session, IRoom room, IItem item, int state)
+        public async void OnUserInteract(ISession session, int state)
         {
-            if (!room.RoomMap.TilesAdjecent(item.Position, session.Entity.Position))
+            if (!_item.CurrentRoom.RoomMap.TilesAdjecent(_item.Position, session.Entity.Position))
             {
                 //todo: walk to item
                 return;
             }
 
-            if (item.Mode == 1) return;
+            if (_item.Mode == 1) return;
 
             if (!session.Entity.Actions.HasStatus("sit") &&
                 !session.Entity.Actions.HasStatus("lay"))
             {
                 session.Entity.Actions.RemoveStatus("mv");
-                session.Entity.Position.CalculateDirection(item.Position);
+                session.Entity.Position.CalculateDirection(_item.Position);
             }
 
-            item.Mode = 1;
-            item.InteractingPlayer = session.Entity;
+            _item.Mode = 1;
+            _item.InteractingPlayer = session.Entity;
             _tickCount = 0;
 
-            await room.SendAsync(new FloorItemUpdateComposer(item));
+            await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(_item));
         }
 
-        public async void OnCycle(IRoom room, IItem item)
+        public async void OnCycle()
         {
-            if (item.Mode != 1) return;
+            if (_item.Mode != 1) return;
 
             if (_tickCount < 1)
             {
@@ -73,15 +80,15 @@ namespace AliasPro.Room.Models.Item.Interaction
                 return;
             }
 
-            item.Mode = 0;
+            _item.Mode = 0;
             int handItemId = 
-                GetRandomVendingMachineId(item.ExtraData);
-            item.InteractingPlayer.SetHandItem(handItemId);
+                GetRandomVendingMachineId(_item.ExtraData);
+            _item.InteractingPlayer.SetHandItem(handItemId);
 
-            await room.SendAsync(new FloorItemUpdateComposer(item));
-            await room.SendAsync(new UserHandItemComposer(
-                item.InteractingPlayer.Id,
-                item.InteractingPlayer.HandItemId));
+            await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(_item));
+            await _item.CurrentRoom.SendAsync(new UserHandItemComposer(
+                _item.InteractingPlayer.Id,
+                _item.InteractingPlayer.HandItemId));
         }
 
         private int GetRandomVendingMachineId(string extraData)

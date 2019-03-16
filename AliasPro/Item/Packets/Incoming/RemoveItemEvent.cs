@@ -40,6 +40,7 @@ namespace AliasPro.Item.Packets.Incoming
                 }
 
                 item.RoomId = 0;
+                item.CurrentRoom = null;
 
                 await session.Player.Inventory.AddItem(item);
 

@@ -7,44 +7,51 @@
 
     public class InteractionDefault : IItemInteractor
     {
-        public void Compose(ServerPacket message, IItem item)
+        private readonly IItem _item;
+
+        public InteractionDefault(IItem item)
+        {
+            _item = item;
+        }
+
+        public void Compose(ServerPacket message)
         {
             message.WriteInt(0);
-            message.WriteString(item.Mode.ToString());
+            message.WriteString(_item.Mode.ToString());
         }
 
-        public void OnUserEnter(ISession session, IItem item)
+        public void OnUserEnter(ISession session)
         {
 
         }
 
-        public void OnUserLeave(ISession session, IItem item)
+        public void OnUserLeave(ISession session)
         {
 
         }
 
-        public void OnUserWalkOn(ISession session, IRoom room, IItem item)
+        public void OnUserWalkOn(ISession session)
         {
 
         }
 
-        public void OnUserWalkOff(ISession session, IRoom room, IItem item)
+        public void OnUserWalkOff(ISession session)
         {
 
         }
 
-        public async void OnUserInteract(ISession session, IRoom room, IItem item, int state)
+        public async void OnUserInteract(ISession session, int state)
         {
-            item.Mode++;
-            if (item.Mode >= item.ItemData.Modes)
+            _item.Mode++;
+            if (_item.Mode >= _item.ItemData.Modes)
             {
-                item.Mode = 0;
+                _item.Mode = 0;
             }
             
-            await room.SendAsync(new FloorItemUpdateComposer(item));
+            await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(_item));
         }
 
-        public void OnCycle(IRoom room, IItem item)
+        public void OnCycle()
         {
 
         }

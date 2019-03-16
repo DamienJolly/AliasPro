@@ -33,7 +33,7 @@ namespace AliasPro.Item.Packets.Incoming
 
                 int state = clientPacket.ReadInt();
                 
-                item.Interaction.OnUserInteract(session, room, item, state);
+                item.Interaction.OnUserInteract(session, state);
             }
         }
     }

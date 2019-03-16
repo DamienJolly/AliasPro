@@ -6,19 +6,26 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
 {
     public class WiredInteractionDefault : IWiredInteractor
     {
-        public void Compose(ServerPacket message, IItem item)
+        private readonly IItem _item;
+
+        public WiredInteractionDefault(IItem item)
+        {
+            _item = item;
+        }
+
+        public void Compose(ServerPacket message)
         {
 
         }
 
-        public void OnTrigger(ISession session, IRoom room, IItem item)
+        public void OnTrigger(ISession session)
         {
 
         }
 
-        public void OnCycle(IRoom room, IItem item)
+        public void OnCycle()
         {
-            System.Console.WriteLine("works");
+
         }
     }
 }

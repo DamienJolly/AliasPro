@@ -21,7 +21,7 @@ namespace AliasPro.Room.Models.Item
         {
             foreach (IItem item in Items)
             {
-                item.Interaction.OnCycle(_room, item);
+                item.Interaction.OnCycle();
             }
         }
 

@@ -55,6 +55,8 @@ namespace AliasPro.Item.Packets.Incoming
                 }
                 
                 item.RoomId = room.RoomData.Id;
+                item.CurrentRoom = room;
+
                 room.ItemHandler.AddItem(item);
                 
                 await session.Player.Inventory.RemoveItem(item);

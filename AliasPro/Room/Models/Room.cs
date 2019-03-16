@@ -91,6 +91,7 @@ namespace AliasPro.Room.Models
             foreach (IItem item in items.Values)
             {
                 RoomMap.AddItem(item);
+                item.CurrentRoom = this;
                 ItemHandler.AddItem(item);
             }
         }

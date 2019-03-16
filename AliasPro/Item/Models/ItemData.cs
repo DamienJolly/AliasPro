@@ -55,7 +55,7 @@ namespace AliasPro.Item.Models
         public int Modes { get; }
         public bool CanWalk { get; }
         public bool CanStack { get; }
-
+        
         public ItemInteraction InteractionType { get; }
         public WiredInteraction WiredInteractionType { get; }
 
@@ -80,7 +80,7 @@ namespace AliasPro.Item.Models
         int Modes { get; }
         bool CanWalk { get; }
         bool CanStack { get; }
-
+        
         ItemInteraction InteractionType { get; }
         WiredInteraction WiredInteractionType { get; }
 

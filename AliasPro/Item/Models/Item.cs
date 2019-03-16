@@ -8,6 +8,7 @@ namespace AliasPro.Item.Models
     using Room.Models.Item.Interaction;
     using Room.Models.Item.Interaction.Wired;
     using Room.Models.Entities;
+    using AliasPro.Room.Models;
 
     internal class Item : IItem
     {
@@ -51,7 +52,7 @@ namespace AliasPro.Item.Models
             message.WriteString(string.Format("{0:0.00}", Position.Z.ToString()));
             message.WriteString("");
             message.WriteInt(1);
-            Interaction.Compose(message, this);
+            Interaction.Compose(message);
             message.WriteInt(-1);
             message.WriteInt(ItemData.Modes > 0 ? 1 : 0);
             message.WriteInt(PlayerId);
@@ -80,6 +81,8 @@ namespace AliasPro.Item.Models
         public IItemData ItemData { get; set; }
         public BaseEntity InteractingPlayer { get; set; }
 
+        public IRoom CurrentRoom { get; set; } = null;
+
         private IItemInteractor _interaction { get; set; }
         private IWiredInteractor _wiredInteraction { get; set; }
 
@@ -88,20 +91,9 @@ namespace AliasPro.Item.Models
             get
             {
                 if (_interaction == null)
-                    _interaction = ItemInteractor.GetItemInteractor(ItemData.InteractionType);
+                    _interaction = ItemInteractor.GetItemInteractor(ItemData.InteractionType, this);
 
                 return _interaction;
-            }
-        }
-
-        public IWiredInteractor WiredInteraction
-        {
-            get
-            {
-                if (_wiredInteraction == null)
-                    _wiredInteraction = WiredInteractor.GetWiredInteractor(ItemData.WiredInteractionType);
-
-                return _wiredInteraction;
             }
         }
     }
@@ -123,7 +115,8 @@ namespace AliasPro.Item.Models
         IItemData ItemData { get; set; }
         BaseEntity InteractingPlayer { get; set; }
 
+        IRoom CurrentRoom { get; set; }
+
         IItemInteractor Interaction { get; }
-        IWiredInteractor WiredInteraction { get; }
     }
 }
