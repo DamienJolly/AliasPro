@@ -1,7 +1,7 @@
 ﻿namespace AliasPro.Room.Models.Item.Interaction
 {
     using Network.Protocol;
-    using Models.Item.Interaction.Wired;
+    using Packets.Outgoing;
     using AliasPro.Item.Models;
     using Sessions;
 
@@ -40,9 +40,16 @@
 
         }
 
-        public void OnUserInteract(ISession session, int state)
+        public async void OnUserInteract(ISession session, int state)
         {
-
+            if (_item.ItemData.InteractionType == ItemInteraction.WIRED_TRIGGER)
+            {
+                await session.SendPacketAsync(new WiredTriggerDataComposer(_item));
+            }
+            else if (_item.ItemData.InteractionType == ItemInteraction.WIRED_EFFECT)
+            {
+                await session.SendPacketAsync(new WiredEffectDataComposer(_item));
+            }
         }
 
         public void OnCycle()

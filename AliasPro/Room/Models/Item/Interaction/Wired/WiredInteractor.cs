@@ -20,6 +20,7 @@
     public interface IWiredInteractor
     {
         void Compose(ServerPacket message);
+        void SaveData(IClientPacket clientPacket);
         void OnTrigger(ISession session);
         void OnCycle();
     }

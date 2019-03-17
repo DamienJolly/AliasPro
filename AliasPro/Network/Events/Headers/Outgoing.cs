@@ -87,6 +87,9 @@
         internal const short UserSleepMessageComposer = 1570;
         internal const short UserActionMessageComposer = 205;
         internal const short UserHandItemMessageComposer = 190;
+        internal const short WiredTriggerDataMessageComposer = 1319;
+        internal const short WiredEffectDataMessageComposer = 1330;
+        internal const short WiredSavedMessageComposer = 2074;
 
         // Landing
         internal const short HotelViewDataMessageComposer = 730;

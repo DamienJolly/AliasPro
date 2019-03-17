@@ -15,6 +15,18 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
 
         public void Compose(ServerPacket message)
         {
+            message.WriteInt(0);
+            message.WriteInt(_item.ItemData.SpriteId);
+            message.WriteInt(_item.Id);
+            message.WriteString(string.Empty);
+            message.WriteInt(0);
+            message.WriteInt(0);
+            message.WriteInt(0);
+            message.WriteInt(0);
+        }
+
+        public void SaveData(IClientPacket clientPacket)
+        {
 
         }
 

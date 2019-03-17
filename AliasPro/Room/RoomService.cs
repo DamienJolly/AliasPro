@@ -36,6 +36,8 @@ namespace AliasPro.Room
             collection.AddSingleton<IAsyncPacket, UserSitEvent>();
             collection.AddSingleton<IAsyncPacket, UserRemoveRightsEvent>();
             collection.AddSingleton<IAsyncPacket, UserGiveRightsEvent>();
+            collection.AddSingleton<IAsyncPacket, WiredTriggerSaveDataEvent>();
+            collection.AddSingleton<IAsyncPacket, WiredEffectSaveDataEvent>();
         }
     }
 }

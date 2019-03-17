@@ -8,29 +8,51 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
     {
         private readonly IItem _item;
 
-        private bool _active;
-        private ISession _targetSession;
+        private bool _active = false;
         private int _tick = 0;
+
+        private WiredData _wiredData;
 
         public WiredInteractionRepeater(IItem item)
         {
             _item = item;
-
-            //todo: get data from database
+            _wiredData = 
+                new WiredData(_item.ExtraData);
         }
 
         public void Compose(ServerPacket message)
         {
+            message.WriteInt(0);
+            message.WriteInt(_item.ItemData.SpriteId);
+            message.WriteInt(_item.Id);
+            message.WriteString(_wiredData.Message);
+            message.WriteInt(1);
+            message.WriteInt(_wiredData.Timer);
+            message.WriteInt(0);
+            message.WriteInt(6);
+            message.WriteInt(0);
+        }
 
+        public void SaveData(IClientPacket clientPacket)
+        {
+            clientPacket.ReadInt();
+
+            int timer = clientPacket.ReadInt();
+
+            if (timer < 1) timer = 1;
+            if (timer > 120) timer = 120;
+
+            _wiredData.Timer = timer;
+            _item.ExtraData = 
+                _wiredData.DataToString;
         }
 
         public void OnTrigger(ISession session)
         {
-            if (!_active)
+            if(!_active)
             {
-                _tick = 5;
-                _targetSession = session;
                 _active = true;
+                _tick = _wiredData.Timer;
             }
         }
 
@@ -38,15 +60,15 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
         {
             if (_active)
             {
+                _tick--;
                 if (_tick <= 0)
                 {
-                    foreach(IItem effect in _item.CurrentRoom.RoomMap.GetRoomTile(_item.Position.X, _item.Position.Y).WiredEffects)
+                    foreach (IItem effect in _item.CurrentRoom.RoomMap.GetRoomTile(_item.Position.X, _item.Position.Y).WiredEffects)
                     {
-                        effect.WiredInteraction.OnTrigger(_targetSession);
+                        effect.WiredInteraction.OnTrigger(null);
                     }
                     _active = false;
                 }
-                _tick--;
             }
         }
     }
