@@ -1,9 +1,9 @@
 ﻿namespace AliasPro.Room.Models.Item.Interaction.Wired
 {
-    using Sessions;
     using AliasPro.Item.Models;
     using Network.Protocol;
-    
+    using AliasPro.Room.Models.Entities;
+
     public class WiredInteractor
     {
         public static IWiredInteractor GetWiredInteractor(WiredInteraction interaction, IItem item)
@@ -21,7 +21,7 @@
     {
         void Compose(ServerPacket message);
         void SaveData(IClientPacket clientPacket);
-        void OnTrigger(ISession session);
+        void OnTrigger(BaseEntity entity);
         void OnCycle();
     }
 }

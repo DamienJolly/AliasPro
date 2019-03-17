@@ -21,6 +21,8 @@ namespace AliasPro.Item.Packets.Incoming
             IRoom room = session.CurrentRoom;
 
             if (room == null) return;
+
+            if (session.Entity == null) return;
             
             if (!room.RightHandler.HasRights(session.Player.Id)) return;
 
@@ -33,7 +35,7 @@ namespace AliasPro.Item.Packets.Incoming
 
                 int state = clientPacket.ReadInt();
                 
-                item.Interaction.OnUserInteract(session, state);
+                item.Interaction.OnUserInteract(session.Entity, state);
             }
         }
     }

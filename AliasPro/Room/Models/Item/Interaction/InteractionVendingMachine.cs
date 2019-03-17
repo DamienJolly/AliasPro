@@ -4,10 +4,10 @@ namespace AliasPro.Room.Models.Item.Interaction
 {
     using Network.Protocol;
     using AliasPro.Item.Models;
-    using Sessions;
     using AliasPro.Item.Packets.Outgoing;
     using Packets.Outgoing;
     using Utilities;
+    using AliasPro.Room.Models.Entities;
 
     public class InteractionVendingMachine : IItemInteractor
     {
@@ -25,30 +25,20 @@ namespace AliasPro.Room.Models.Item.Interaction
             message.WriteInt(0);
             message.WriteString(_item.Mode.ToString());
         }
-
-        public void OnUserEnter(ISession session)
+        
+        public void OnUserWalkOn(BaseEntity entity)
         {
 
         }
 
-        public void OnUserLeave(ISession session)
+        public void OnUserWalkOff(BaseEntity entity)
         {
 
         }
 
-        public void OnUserWalkOn(ISession session)
+        public async void OnUserInteract(BaseEntity entity, int state)
         {
-
-        }
-
-        public void OnUserWalkOff(ISession session)
-        {
-
-        }
-
-        public async void OnUserInteract(ISession session, int state)
-        {
-            if (!_item.CurrentRoom.RoomMap.TilesAdjecent(_item.Position, session.Entity.Position))
+            if (!_item.CurrentRoom.RoomMap.TilesAdjecent(_item.Position, entity.Position))
             {
                 //todo: walk to item
                 return;
@@ -56,15 +46,15 @@ namespace AliasPro.Room.Models.Item.Interaction
 
             if (_item.Mode == 1) return;
 
-            if (!session.Entity.Actions.HasStatus("sit") &&
-                !session.Entity.Actions.HasStatus("lay"))
+            if (!entity.Actions.HasStatus("sit") &&
+                !entity.Actions.HasStatus("lay"))
             {
-                session.Entity.Actions.RemoveStatus("mv");
-                session.Entity.Position.CalculateDirection(_item.Position);
+                entity.Actions.RemoveStatus("mv");
+                entity.Position.CalculateDirection(_item.Position);
             }
 
             _item.Mode = 1;
-            _item.InteractingPlayer = session.Entity;
+            _item.InteractingPlayer = entity;
             _tickCount = 0;
 
             await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(_item));

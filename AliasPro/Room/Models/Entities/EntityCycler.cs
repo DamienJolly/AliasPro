@@ -55,6 +55,16 @@ namespace AliasPro.Room.Models.Entities
 
                 _room.RoomMap.RemoveEntity(entity);
 
+                RoomTile oldTile = _room.RoomMap.GetRoomTile(
+                    entity.Position.X,
+                    entity.Position.Y);
+
+                IItem oldTopItem = oldTile.TopItem;
+                if (oldTopItem != null)
+                {
+                    oldTopItem.Interaction.OnUserWalkOff(entity);
+                }
+
                 IItem topItem = roomTile.TopItem;
                 double newZ = roomTile.Height;
                 int newDir = entity.Position.CalculateDirection(nextStep);
@@ -64,8 +74,10 @@ namespace AliasPro.Room.Models.Entities
                     if (topItem.ItemData.CanLay ||
                         topItem.ItemData.CanSit)
                         newZ -= topItem.ItemData.Height;
+
+                    topItem.Interaction.OnUserWalkOff(entity);
                 }
-                
+
                 entity.NextPosition = new Position(nextStep.X, nextStep.Y, newZ);
                 entity.BodyRotation = newDir;
                 entity.HeadRotation = newDir;

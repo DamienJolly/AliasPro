@@ -2,8 +2,8 @@
 {
     using Network.Protocol;
     using AliasPro.Item.Models;
-    using Sessions;
     using AliasPro.Item.Packets.Outgoing;
+    using AliasPro.Room.Models.Entities;
 
     public class InteractionDefault : IItemInteractor
     {
@@ -19,28 +19,18 @@
             message.WriteInt(0);
             message.WriteString(_item.Mode.ToString());
         }
-
-        public void OnUserEnter(ISession session)
+        
+        public void OnUserWalkOn(BaseEntity entity)
         {
 
         }
 
-        public void OnUserLeave(ISession session)
+        public void OnUserWalkOff(BaseEntity entity)
         {
 
         }
 
-        public void OnUserWalkOn(ISession session)
-        {
-
-        }
-
-        public void OnUserWalkOff(ISession session)
-        {
-
-        }
-
-        public async void OnUserInteract(ISession session, int state)
+        public async void OnUserInteract(BaseEntity entity, int state)
         {
             _item.Mode++;
             if (_item.Mode >= _item.ItemData.Modes)

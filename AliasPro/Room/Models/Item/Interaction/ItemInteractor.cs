@@ -3,7 +3,8 @@
     using Sessions;
     using AliasPro.Item.Models;
     using Network.Protocol;
-    
+    using AliasPro.Room.Models.Entities;
+
     public class ItemInteractor
     {
         public static IItemInteractor GetItemInteractor(ItemInteraction interaction, IItem item)
@@ -22,9 +23,9 @@
     public interface IItemInteractor
     {
         void Compose(ServerPacket message);
-        void OnUserWalkOn(ISession session);
-        void OnUserWalkOff(ISession session);
-        void OnUserInteract(ISession session, int state = 0);
+        void OnUserWalkOn(BaseEntity entity);
+        void OnUserWalkOff(BaseEntity entity);
+        void OnUserInteract(BaseEntity entity, int state = 0);
         void OnCycle();
     }
 }

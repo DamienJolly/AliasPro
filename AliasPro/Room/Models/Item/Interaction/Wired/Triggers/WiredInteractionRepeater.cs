@@ -1,6 +1,6 @@
 ﻿using AliasPro.Item.Models;
 using AliasPro.Network.Protocol;
-using AliasPro.Sessions;
+using AliasPro.Room.Models.Entities;
 
 namespace AliasPro.Room.Models.Item.Interaction.Wired
 {
@@ -47,7 +47,7 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
                 _wiredData.DataToString;
         }
 
-        public void OnTrigger(ISession session)
+        public void OnTrigger(BaseEntity entity)
         {
             if(!_active)
             {

@@ -4,6 +4,7 @@
     using Packets.Outgoing;
     using AliasPro.Item.Models;
     using Sessions;
+    using AliasPro.Room.Models.Entities;
 
     public class InteractionWired : IItemInteractor
     {
@@ -20,35 +21,34 @@
             message.WriteString(_item.Mode.ToString());
         }
 
-        public void OnUserEnter(ISession session)
+        public void OnUserWalkOn(BaseEntity entity)
         {
-
-        }
-
-        public void OnUserLeave(ISession session)
-        {
-
-        }
-
-        public void OnUserWalkOn(ISession session)
-        {
-
-        }
-
-        public void OnUserWalkOff(ISession session)
-        {
-
-        }
-
-        public async void OnUserInteract(ISession session, int state)
-        {
-            if (_item.ItemData.InteractionType == ItemInteraction.WIRED_TRIGGER)
+            if (_item.ItemData.WiredInteractionType == WiredInteraction.WALKS_ON_FURNI)
             {
-                await session.SendPacketAsync(new WiredTriggerDataComposer(_item));
+                _item.WiredInteraction.OnTrigger(entity);
             }
-            else if (_item.ItemData.InteractionType == ItemInteraction.WIRED_EFFECT)
+        }
+
+        public void OnUserWalkOff(BaseEntity entity)
+        {
+            if (_item.ItemData.WiredInteractionType == WiredInteraction.WALKS_OFF_FURNI)
             {
-                await session.SendPacketAsync(new WiredEffectDataComposer(_item));
+                _item.WiredInteraction.OnTrigger(entity);
+            }
+        }
+
+        public async void OnUserInteract(BaseEntity entity, int state)
+        {
+            if (entity is UserEntity userEntity)
+            {
+                if (_item.ItemData.InteractionType == ItemInteraction.WIRED_TRIGGER)
+                {
+                    await userEntity.Session.SendPacketAsync(new WiredTriggerDataComposer(_item));
+                }
+                else if (_item.ItemData.InteractionType == ItemInteraction.WIRED_EFFECT)
+                {
+                    await userEntity.Session.SendPacketAsync(new WiredEffectDataComposer(_item));
+                }
             }
         }
 

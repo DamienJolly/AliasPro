@@ -2,7 +2,6 @@
 using AliasPro.Network.Protocol;
 using AliasPro.Room.Models.Entities;
 using AliasPro.Room.Packets.Outgoing;
-using AliasPro.Sessions;
 
 namespace AliasPro.Room.Models.Item.Interaction.Wired
 {
@@ -11,7 +10,7 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
         private readonly IItem _item;
 
         private bool _active = false;
-        private ISession _targetSession = null;
+        private BaseEntity _target = null;
         private int _tick = 0;
 
         private WiredData _wiredData;
@@ -54,12 +53,12 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
                 _wiredData.DataToString;
         }
 
-        public void OnTrigger(ISession session)
+        public void OnTrigger(BaseEntity entity)
         {
             if (!_active)
             {
                 _tick = _wiredData.Timer;
-                _targetSession = session;
+                _target = entity;
                 _active = true;
             }
         }
@@ -70,10 +69,13 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
             {
                 if (_tick <= 0)
                 {
-                    if (_targetSession != null)
+                    if (_target != null)
                     {
-                        await _targetSession.SendPacketAsync(new AvatarChatComposer(
-                            _targetSession.Entity.Id, _wiredData.Message, 0, 34));
+                        if (_target is UserEntity userEntity)
+                        {
+                            await userEntity.Session.SendPacketAsync(new AvatarChatComposer(
+                                userEntity.Id, _wiredData.Message, 0, 34));
+                        }
                     }
                     else
                     {
