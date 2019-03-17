@@ -7,6 +7,7 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
     public class WiredInteractionRepeater : IWiredInteractor
     {
         private readonly IItem _item;
+        private readonly WiredTriggerType _type = WiredTriggerType.PERIODICALLY;
 
         private bool _active = false;
         private int _tick = 0;
@@ -29,7 +30,7 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
             message.WriteInt(1);
             message.WriteInt(_wiredData.Timer);
             message.WriteInt(0);
-            message.WriteInt(6);
+            message.WriteInt((int)_type);
             message.WriteInt(0);
         }
 

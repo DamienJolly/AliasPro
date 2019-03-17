@@ -3,7 +3,6 @@
     using Network.Protocol;
     using Packets.Outgoing;
     using AliasPro.Item.Models;
-    using Sessions;
     using AliasPro.Room.Models.Entities;
 
     public class InteractionWired : IItemInteractor

@@ -8,6 +8,7 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
     public class WiredInteractionMessage : IWiredInteractor
     {
         private readonly IItem _item;
+        private readonly WiredEffectType _type = WiredEffectType.SHOW_MESSAGE;
 
         private bool _active = false;
         private BaseEntity _target = null;
@@ -30,7 +31,7 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
             message.WriteString(_wiredData.Message);
             message.WriteInt(0);
             message.WriteInt(0);
-            message.WriteInt(7);
+            message.WriteInt((int)_type);
             message.WriteInt(_wiredData.Timer);
             message.WriteInt(0);
         }
