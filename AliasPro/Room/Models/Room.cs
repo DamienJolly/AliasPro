@@ -54,6 +54,8 @@ namespace AliasPro.Room.Models
                 text = text.Substring(0, 100);
             }
 
+            ItemHandler.TriggerWired(WiredInteraction.SAY_SOMETHING, entity);
+
             foreach (BaseEntity targetEntity in EntityHandler.Entities)
             {
                 if (targetEntity == entity) continue;

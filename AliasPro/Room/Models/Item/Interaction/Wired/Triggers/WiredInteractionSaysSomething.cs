@@ -4,14 +4,14 @@ using AliasPro.Room.Models.Entities;
 
 namespace AliasPro.Room.Models.Item.Interaction.Wired
 {
-    public class WiredInteractionWalksOff : IWiredInteractor
+    public class WiredInteractionSaysSomething : IWiredInteractor
     {
         private readonly IItem _item;
-        private readonly WiredTriggerType _type = WiredTriggerType.WALKS_OFF_FURNI;
+        private readonly WiredTriggerType _type = WiredTriggerType.SAY_COMMAND;
         
         private WiredData _wiredData;
 
-        public WiredInteractionWalksOff(IItem item)
+        public WiredInteractionSaysSomething(IItem item)
         {
             _item = item;
             _wiredData = 
@@ -29,8 +29,8 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
             message.WriteInt(_item.Id);
             message.WriteString(_wiredData.Message);
             message.WriteInt(1);
-            message.WriteInt(_wiredData.Timer);
             message.WriteInt(_wiredData.OwnerOnly ? 1 : 0);
+            message.WriteInt(0);
             message.WriteInt((int)_type);
             message.WriteInt(0);
         }
@@ -38,17 +38,8 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
         public void SaveData(IClientPacket clientPacket)
         {
             clientPacket.ReadInt();
-            clientPacket.ReadString();
-
-            _wiredData.Items.Clear();
-
-            int count = clientPacket.ReadInt();
-
-            for (int i = 0; i < count; i++)
-            {
-                int itemId = clientPacket.ReadInt();
-                _wiredData.Items.Add((uint)itemId);
-            }
+            _wiredData.OwnerOnly = clientPacket.ReadInt() == 1;
+            _wiredData.Message = clientPacket.ReadString();
 
             _item.ExtraData =
                 _wiredData.DataToString;
@@ -56,6 +47,12 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
 
         public void OnTrigger(BaseEntity entity)
         {
+            if (entity is UserEntity userEntity)
+            {
+                if (_wiredData.OwnerOnly &&
+                    !_item.CurrentRoom.RightHandler.IsOwner(userEntity.Player.Id)) return;
+            }
+
             foreach (IItem effect in _item.CurrentRoom.RoomMap.GetRoomTile(_item.Position.X, _item.Position.Y).WiredEffects)
             {
                 effect.WiredInteraction.OnTrigger(entity);

@@ -63,14 +63,7 @@ namespace AliasPro.Room.Models.Entities
                 if (oldTopItem != null)
                 {
                     oldTopItem.Interaction.OnUserWalkOff(entity);
-
-                    foreach (IItem item in _room.ItemHandler.WiredTriggers)
-                    {
-                        if (item.ItemData.WiredInteractionType != WiredInteraction.WALKS_OFF_FURNI) continue;
-
-                        if (item.WiredInteraction.HasItem(oldTopItem.Id))
-                            item.WiredInteraction.OnTrigger(entity);
-                    }
+                    _room.ItemHandler.TriggerWired(WiredInteraction.WALKS_OFF_FURNI, entity, oldTopItem.Id);
                 }
 
                 IItem topItem = roomTile.TopItem;
@@ -84,14 +77,7 @@ namespace AliasPro.Room.Models.Entities
                         newZ -= topItem.ItemData.Height;
 
                     topItem.Interaction.OnUserWalkOn(entity);
-
-                    foreach (IItem item in _room.ItemHandler.WiredTriggers)
-                    {
-                        if (item.ItemData.WiredInteractionType != WiredInteraction.WALKS_ON_FURNI) continue;
-
-                        if (item.WiredInteraction.HasItem(topItem.Id))
-                            item.WiredInteraction.OnTrigger(entity);
-                    }
+                    _room.ItemHandler.TriggerWired(WiredInteraction.WALKS_ON_FURNI, entity, topItem.Id);
                 }
 
                 entity.NextPosition = new Position(nextStep.X, nextStep.Y, newZ);

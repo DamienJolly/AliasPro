@@ -8,11 +8,7 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
     {
         private readonly IItem _item;
         private readonly WiredTriggerType _type = WiredTriggerType.WALKS_ON_FURNI;
-
-        private bool _active = false;
-        private BaseEntity _target = null;
-        private int _tick = 0;
-
+        
         private WiredData _wiredData;
 
         public WiredInteractionWalksOn(IItem item)
@@ -34,7 +30,7 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
             message.WriteString(_wiredData.Message);
             message.WriteInt(1);
             message.WriteInt(_wiredData.Timer);
-            message.WriteInt(0);
+            message.WriteInt(_wiredData.OwnerOnly ? 1 : 0);
             message.WriteInt((int)_type);
             message.WriteInt(0);
         }
@@ -60,28 +56,15 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
 
         public void OnTrigger(BaseEntity entity)
         {
-            if (!_active)
+            foreach (IItem effect in _item.CurrentRoom.RoomMap.GetRoomTile(_item.Position.X, _item.Position.Y).WiredEffects)
             {
-                _active = true;
-                _target = entity;
-                _tick = _wiredData.Timer;
+                effect.WiredInteraction.OnTrigger(entity);
             }
         }
 
         public void OnCycle()
         {
-            if (_active)
-            {
-                _tick--;
-                if (_tick <= 0)
-                {
-                    foreach (IItem effect in _item.CurrentRoom.RoomMap.GetRoomTile(_item.Position.X, _item.Position.Y).WiredEffects)
-                    {
-                        effect.WiredInteraction.OnTrigger(_target);
-                    }
-                    _active = false;
-                }
-            }
+
         }
 
         public bool HasItem(uint itemId) =>

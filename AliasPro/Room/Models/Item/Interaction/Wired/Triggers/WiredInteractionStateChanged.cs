@@ -4,14 +4,14 @@ using AliasPro.Room.Models.Entities;
 
 namespace AliasPro.Room.Models.Item.Interaction.Wired
 {
-    public class WiredInteractionWalksOff : IWiredInteractor
+    public class WiredInteractionStateChanged : IWiredInteractor
     {
         private readonly IItem _item;
-        private readonly WiredTriggerType _type = WiredTriggerType.WALKS_OFF_FURNI;
+        private readonly WiredTriggerType _type = WiredTriggerType.STATE_CHANGED;
         
         private WiredData _wiredData;
 
-        public WiredInteractionWalksOff(IItem item)
+        public WiredInteractionStateChanged(IItem item)
         {
             _item = item;
             _wiredData = 

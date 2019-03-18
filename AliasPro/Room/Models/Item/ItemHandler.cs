@@ -18,6 +18,19 @@ namespace AliasPro.Room.Models.Item
             _items = new Dictionary<uint, IItem>();
         }
 
+        public void TriggerWired(WiredInteraction interaction, BaseEntity entity, uint itemId = 0)
+        {
+            foreach (IItem effect in WiredTriggers)
+            {
+                if (effect.ItemData.WiredInteractionType != interaction) continue;
+
+                if (itemId != 0)
+                    if (!effect.WiredInteraction.HasItem(itemId)) continue;
+                
+                effect.WiredInteraction.OnTrigger(entity);
+            }
+        }
+
         public void Cycle(DateTimeOffset timeOffset)
         {
             foreach (IItem item in Items)

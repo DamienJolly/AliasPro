@@ -24,13 +24,17 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
 
         public void Compose(ServerPacket message)
         {
-            message.WriteInt(0);
+            message.WriteInt(_wiredData.Items.Count);
+            foreach (uint itemId in _wiredData.Items)
+            {
+                message.WriteInt(itemId);
+            }
             message.WriteInt(_item.ItemData.SpriteId);
             message.WriteInt(_item.Id);
             message.WriteString(_wiredData.Message);
             message.WriteInt(1);
             message.WriteInt(_wiredData.Timer);
-            message.WriteInt(0);
+            message.WriteInt(_wiredData.OwnerOnly ? 1 : 0);
             message.WriteInt((int)_type);
             message.WriteInt(0);
         }
