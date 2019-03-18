@@ -22,18 +22,12 @@
 
         public void OnUserWalkOn(BaseEntity entity)
         {
-            if (_item.ItemData.WiredInteractionType == WiredInteraction.WALKS_ON_FURNI)
-            {
-                _item.WiredInteraction.OnTrigger(entity);
-            }
+
         }
 
         public void OnUserWalkOff(BaseEntity entity)
         {
-            if (_item.ItemData.WiredInteractionType == WiredInteraction.WALKS_OFF_FURNI)
-            {
-                _item.WiredInteraction.OnTrigger(entity);
-            }
+
         }
 
         public async void OnUserInteract(BaseEntity entity, int state)

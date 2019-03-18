@@ -4,10 +4,10 @@ using AliasPro.Room.Models.Entities;
 
 namespace AliasPro.Room.Models.Item.Interaction.Wired
 {
-    public class WiredInteractionRepeater : IWiredInteractor
+    public class WiredInteractionWalksOn : IWiredInteractor
     {
         private readonly IItem _item;
-        private readonly WiredTriggerType _type = WiredTriggerType.PERIODICALLY;
+        private readonly WiredTriggerType _type = WiredTriggerType.WALKS_ON_FURNI;
 
         private bool _active = false;
         private BaseEntity _target = null;
@@ -15,7 +15,7 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
 
         private WiredData _wiredData;
 
-        public WiredInteractionRepeater(IItem item)
+        public WiredInteractionWalksOn(IItem item)
         {
             _item = item;
             _wiredData = 
@@ -24,7 +24,11 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
 
         public void Compose(ServerPacket message)
         {
-            message.WriteInt(0);
+            message.WriteInt(_wiredData.Items.Count);
+            foreach (uint itemId in _wiredData.Items)
+            {
+                message.WriteInt(itemId);
+            }
             message.WriteInt(_item.ItemData.SpriteId);
             message.WriteInt(_item.Id);
             message.WriteString(_wiredData.Message);
@@ -38,20 +42,25 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
         public void SaveData(IClientPacket clientPacket)
         {
             clientPacket.ReadInt();
+            clientPacket.ReadString();
 
-            int timer = clientPacket.ReadInt();
+            _wiredData.Items.Clear();
 
-            if (timer < 1) timer = 1;
-            if (timer > 120) timer = 120;
+            int count = clientPacket.ReadInt();
 
-            _wiredData.Timer = timer;
+            for (int i = 0; i < count; i++)
+            {
+                int itemId = clientPacket.ReadInt();
+                _wiredData.Items.Add((uint)itemId);
+            }
+
             _item.ExtraData = 
                 _wiredData.DataToString;
         }
 
         public void OnTrigger(BaseEntity entity)
         {
-            if(!_active)
+            if (!_active)
             {
                 _active = true;
                 _target = entity;

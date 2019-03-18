@@ -39,5 +39,8 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
         {
 
         }
+
+        public bool HasItem(uint itemId) =>
+            false;
     }
 }

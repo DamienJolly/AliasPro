@@ -20,7 +20,7 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
         {
             _item = item;
             _wiredData =
-                new WiredData(_item.ExtraData);
+                new WiredData(_item);
         }
 
         public void Compose(ServerPacket message)
@@ -91,5 +91,8 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
                 _tick--;
             }
         }
+
+        public bool HasItem(uint itemId) =>
+           _wiredData.Items.Contains(itemId);
     }
 }

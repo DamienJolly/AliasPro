@@ -11,6 +11,8 @@
             switch (interaction)
             {
                 case WiredInteraction.MESSAGE: return new WiredInteractionMessage(item);
+                case WiredInteraction.WALKS_ON_FURNI: return new WiredInteractionWalksOn(item);
+                case WiredInteraction.WALKS_OFF_FURNI: return new WiredInteractionWalksOff(item);
                 case WiredInteraction.REPEATER: return new WiredInteractionRepeater(item);
                 case WiredInteraction.DEFAULT: default: return new WiredInteractionDefault(item);
             }
@@ -23,5 +25,6 @@
         void SaveData(IClientPacket clientPacket);
         void OnTrigger(BaseEntity entity);
         void OnCycle();
+        bool HasItem(uint itemId);
     }
 }

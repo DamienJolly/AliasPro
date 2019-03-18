@@ -5,6 +5,7 @@ using System;
 namespace AliasPro.Room.Models.Item
 {
     using AliasPro.Item.Models;
+    using AliasPro.Room.Models.Entities;
 
     public class ItemHandler
     {
@@ -47,6 +48,13 @@ namespace AliasPro.Room.Models.Item
 
         internal ICollection<IItem> WallItems =>
             _items.Values.Where(item => item.ItemData.Type == "i").ToList();
+
+        internal ICollection<IItem> WiredTriggers =>
+            _items.Values.Where(item => item.ItemData.InteractionType == ItemInteraction.WIRED_TRIGGER).ToList();
+
+        internal ICollection<IItem> WiredEffects =>
+            _items.Values.Where(item => item.ItemData.InteractionType == ItemInteraction.WIRED_EFFECT).ToList();
+
 
         internal IDictionary<uint, string> GetItemOwners
         {

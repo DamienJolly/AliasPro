@@ -1,6 +1,5 @@
 ﻿namespace AliasPro.Room.Models.Item.Interaction
 {
-    using Sessions;
     using AliasPro.Item.Models;
     using Network.Protocol;
     using AliasPro.Room.Models.Entities;
