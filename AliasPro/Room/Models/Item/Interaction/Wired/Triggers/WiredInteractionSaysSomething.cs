@@ -29,7 +29,7 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
             message.WriteInt(_item.Id);
             message.WriteString(_wiredData.Message);
             message.WriteInt(1);
-            message.WriteInt(_wiredData.OwnerOnly ? 1 : 0);
+            message.WriteInt(0);
             message.WriteInt(0);
             message.WriteInt((int)_type);
             message.WriteInt(0);

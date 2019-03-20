@@ -10,6 +10,7 @@
         {
             switch (interaction)
             {
+                case ItemInteraction.GAME_TIMER: return new InteractionGameTimer(item);
                 case ItemInteraction.WIRED_TRIGGER: return new InteractionWired(item);
                 case ItemInteraction.WIRED_EFFECT: return new InteractionWired(item);
                 case ItemInteraction.WIRED_CONDITION: return new InteractionWired(item);

@@ -4,6 +4,7 @@
     {
         DEFAULT,
         VENDING_MACHINE,
+        GAME_TIMER,
 
         WIRED_TRIGGER,
         WIRED_EFFECT,

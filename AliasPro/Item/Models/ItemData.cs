@@ -37,6 +37,7 @@ namespace AliasPro.Item.Models
                 case "wired_trigger": return ItemInteraction.WIRED_TRIGGER;
                 case "wired_effect": return ItemInteraction.WIRED_EFFECT;
                 case "wired_condition": return ItemInteraction.WIRED_CONDITION;
+                case "game_timer": return ItemInteraction.GAME_TIMER;
                 case "vending": return ItemInteraction.VENDING_MACHINE;
                 case "default": default: return ItemInteraction.DEFAULT;
             }

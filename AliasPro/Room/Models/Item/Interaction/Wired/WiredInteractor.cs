@@ -15,6 +15,8 @@
                 case WiredInteraction.WALKS_OFF_FURNI: return new WiredInteractionWalksOff(item);
                 case WiredInteraction.STATE_CHANGED: return new WiredInteractionStateChanged(item);
                 case WiredInteraction.SAY_SOMETHING: return new WiredInteractionSaysSomething(item);
+                case WiredInteraction.GAME_STARTS: return new WiredInteractionGameStarts(item);
+                case WiredInteraction.GAME_ENDS: return new WiredInteractionGameEnds(item);
                 case WiredInteraction.REPEATER: return new WiredInteractionRepeater(item);
                 case WiredInteraction.DEFAULT: default: return new WiredInteractionDefault(item);
             }

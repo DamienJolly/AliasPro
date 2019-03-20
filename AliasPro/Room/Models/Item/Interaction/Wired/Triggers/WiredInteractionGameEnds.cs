@@ -4,14 +4,14 @@ using AliasPro.Room.Models.Entities;
 
 namespace AliasPro.Room.Models.Item.Interaction.Wired
 {
-    public class WiredInteractionWalksOn : IWiredInteractor
+    public class WiredInteractionGameEnds : IWiredInteractor
     {
         private readonly IItem _item;
-        private readonly WiredTriggerType _type = WiredTriggerType.WALKS_ON_FURNI;
+        private readonly WiredTriggerType _type = WiredTriggerType.GAME_ENDS;
         
         private WiredData _wiredData;
 
-        public WiredInteractionWalksOn(IItem item)
+        public WiredInteractionGameEnds(IItem item)
         {
             _item = item;
             _wiredData = 
@@ -37,21 +37,7 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
 
         public void SaveData(IClientPacket clientPacket)
         {
-            clientPacket.ReadInt();
-            clientPacket.ReadString();
 
-            _wiredData.Items.Clear();
-
-            int count = clientPacket.ReadInt();
-
-            for (int i = 0; i < count; i++)
-            {
-                int itemId = clientPacket.ReadInt();
-                _wiredData.Items.Add((uint)itemId);
-            }
-
-            _item.ExtraData = 
-                _wiredData.DataToString;
         }
 
         public void OnTrigger(BaseEntity entity)

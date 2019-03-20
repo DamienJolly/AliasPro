@@ -10,6 +10,8 @@
         WALKS_OFF_FURNI = 4,
         STATE_CHANGED = 5,
         SAY_SOMETHING = 6,
+        GAME_STARTS = 7,
+        GAME_ENDS = 8,
 
         // Effects
         MESSAGE = 2

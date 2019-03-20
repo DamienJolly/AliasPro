@@ -18,7 +18,7 @@ namespace AliasPro.Room.Models.Item
             _items = new Dictionary<uint, IItem>();
         }
 
-        public void TriggerWired(WiredInteraction interaction, BaseEntity entity, uint itemId = 0)
+        public void TriggerWired(WiredInteraction interaction, BaseEntity entity = null, uint itemId = 0)
         {
             foreach (IItem effect in WiredTriggers)
             {

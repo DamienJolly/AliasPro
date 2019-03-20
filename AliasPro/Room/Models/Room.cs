@@ -14,6 +14,7 @@ namespace AliasPro.Room.Models
     using Network.Events;
     using Item;
     using Right;
+    using Game;
     using AliasPro.Item.Models;
 
     internal class Room : IRoom
@@ -24,6 +25,7 @@ namespace AliasPro.Room.Models
         public bool isLoaded { get; set; } = false;
         public EntityHandler EntityHandler { get; set; }
         public ItemHandler ItemHandler { get; set; }
+        public GameHandler GameHandler { get; set; }
         public RightHandler RightHandler { get; set; }
         public RoomMap RoomMap { get; set; }
         public IRoomData RoomData { get; set; }
@@ -39,6 +41,7 @@ namespace AliasPro.Room.Models
             RoomMap = new RoomMap(this, RoomModel);
             EntityHandler = new EntityHandler(this);
             ItemHandler = new ItemHandler(this);
+            GameHandler = new GameHandler(this);
             RightHandler = new RightHandler(this);
         }
 
@@ -145,6 +148,7 @@ namespace AliasPro.Room.Models
         bool isLoaded { get; set; }
         EntityHandler EntityHandler { get; set; }
         ItemHandler ItemHandler { get; set; }
+        GameHandler GameHandler { get; set; }
         RightHandler RightHandler { get; set; }
         RoomMap RoomMap { get; set; }
         IRoomData RoomData { get; set; }
