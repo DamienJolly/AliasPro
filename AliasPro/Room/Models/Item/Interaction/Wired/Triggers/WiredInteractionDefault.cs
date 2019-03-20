@@ -1,36 +1,22 @@
 ﻿using AliasPro.Item.Models;
-using AliasPro.Network.Protocol;
-using AliasPro.Room.Models.Entities;
 
 namespace AliasPro.Room.Models.Item.Interaction.Wired
 {
     public class WiredInteractionDefault : IWiredInteractor
     {
         private readonly IItem _item;
+        private readonly WiredTriggerType _type = WiredTriggerType.DEFAULT;
+
+        public IWiredData WiredData { get; set; }
 
         public WiredInteractionDefault(IItem item)
         {
             _item = item;
+            WiredData =
+                new WiredData((int)_type, _item.ExtraData);
         }
 
-        public void Compose(ServerPacket message)
-        {
-            message.WriteInt(0);
-            message.WriteInt(_item.ItemData.SpriteId);
-            message.WriteInt(_item.Id);
-            message.WriteString(string.Empty);
-            message.WriteInt(0);
-            message.WriteInt(0);
-            message.WriteInt(0);
-            message.WriteInt(0);
-        }
-
-        public void SaveData(IClientPacket clientPacket)
-        {
-
-        }
-
-        public void OnTrigger(BaseEntity entity)
+        public void OnTrigger(params object[] args)
         {
 
         }
@@ -39,8 +25,5 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
         {
 
         }
-
-        public bool HasItem(uint itemId) =>
-            false;
     }
 }

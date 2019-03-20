@@ -9,6 +9,7 @@ namespace AliasPro.Room.Packets.Incoming
     using Models;
     using AliasPro.Item.Models;
     using Outgoing;
+    using AliasPro.Room.Models.Item.Interaction.Wired;
 
     public class WiredEffectSaveDataEvent : IAsyncPacket
     {
@@ -24,10 +25,37 @@ namespace AliasPro.Room.Packets.Incoming
 
             if (!room.RightHandler.HasRights(session.Player.Id)) return;
 
-            uint itemId = (uint)clientPacket.ReadInt();
-            if (room.ItemHandler.TryGetItem(itemId, out IItem item))
+            uint wiredItemId = (uint)clientPacket.ReadInt();
+            if (room.ItemHandler.TryGetItem(wiredItemId, out IItem item))
             {
-                item.WiredInteraction.SaveData(clientPacket);
+                if (!item.ItemData.IsWired) return;
+
+                IWiredData wiredData = item.WiredInteraction.WiredData;
+
+                wiredData.Params.Clear();
+                wiredData.Items.Clear();
+
+                int paramCount = clientPacket.ReadInt();
+
+                for (int i = 0; i < paramCount; i++)
+                {
+                    int paramData = clientPacket.ReadInt();
+                    wiredData.Params.Add(paramData);
+                }
+
+                wiredData.Message = clientPacket.ReadString();
+
+                int itemsCount = clientPacket.ReadInt();
+
+                for (int i = 0; i < itemsCount; i++)
+                {
+                    int itemId = clientPacket.ReadInt(); //todo: check if item exists
+                    wiredData.Items.Add((uint)itemId);
+                }
+
+                wiredData.Delay = clientPacket.ReadInt();
+                clientPacket.ReadInt();
+                item.ExtraData = wiredData.DataToString;
 
                 await session.SendPacketAsync(new WiredSavedComposer());
             }

@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AliasPro.Room.Models.Game
+﻿namespace AliasPro.Room.Models.Game
 {
-    class GameTeam
+    public class GameTeam
     {
+        public int Points;
+
+        internal GameTeam()
+        {
+            Points = 0;
+        }
     }
 }

@@ -17,17 +17,14 @@ namespace AliasPro.Room.Models.Item
             _room = room;
             _items = new Dictionary<uint, IItem>();
         }
-
-        public void TriggerWired(WiredInteraction interaction, BaseEntity entity = null, uint itemId = 0)
+        
+        public void TriggerWired(WiredInteraction interaction, params object[] args)
         {
             foreach (IItem effect in WiredTriggers)
             {
                 if (effect.ItemData.WiredInteractionType != interaction) continue;
 
-                if (itemId != 0)
-                    if (!effect.WiredInteraction.HasItem(itemId)) continue;
-                
-                effect.WiredInteraction.OnTrigger(entity);
+                effect.WiredInteraction.OnTrigger(args);
             }
         }
 

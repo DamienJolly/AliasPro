@@ -1,5 +1,4 @@
 ﻿using AliasPro.Item.Models;
-using AliasPro.Network.Protocol;
 using AliasPro.Room.Models.Entities;
 
 namespace AliasPro.Room.Models.Item.Interaction.Wired
@@ -8,54 +7,26 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
     {
         private readonly IItem _item;
         private readonly WiredTriggerType _type = WiredTriggerType.WALKS_OFF_FURNI;
-        
-        private WiredData _wiredData;
+
+        public IWiredData WiredData { get; set; }
 
         public WiredInteractionWalksOff(IItem item)
         {
             _item = item;
-            _wiredData = 
-                new WiredData(_item);
+            WiredData =
+                new WiredData((int)_type, _item.ExtraData);
         }
 
-        public void Compose(ServerPacket message)
+        public void OnTrigger(params object[] args)
         {
-            message.WriteInt(_wiredData.Items.Count);
-            foreach (uint itemId in _wiredData.Items)
-            {
-                message.WriteInt(itemId);
-            }
-            message.WriteInt(_item.ItemData.SpriteId);
-            message.WriteInt(_item.Id);
-            message.WriteString(_wiredData.Message);
-            message.WriteInt(1);
-            message.WriteInt(_wiredData.Timer);
-            message.WriteInt(0);
-            message.WriteInt((int)_type);
-            message.WriteInt(0);
-        }
+            BaseEntity entity = (BaseEntity)args[0];
+            if (entity == null) return;
 
-        public void SaveData(IClientPacket clientPacket)
-        {
-            clientPacket.ReadInt();
-            clientPacket.ReadString();
+            IItem item = (IItem)args[1];
+            if (item == null) return;
 
-            _wiredData.Items.Clear();
+            if (!WiredData.Items.Contains(item.Id)) return;
 
-            int count = clientPacket.ReadInt();
-
-            for (int i = 0; i < count; i++)
-            {
-                int itemId = clientPacket.ReadInt();
-                _wiredData.Items.Add((uint)itemId);
-            }
-
-            _item.ExtraData =
-                _wiredData.DataToString;
-        }
-
-        public void OnTrigger(BaseEntity entity)
-        {
             foreach (IItem effect in _item.CurrentRoom.RoomMap.GetRoomTile(_item.Position.X, _item.Position.Y).WiredEffects)
             {
                 effect.WiredInteraction.OnTrigger(entity);
@@ -66,8 +37,5 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
         {
 
         }
-
-        public bool HasItem(uint itemId) =>
-           _wiredData.Items.Contains(itemId);
     }
 }

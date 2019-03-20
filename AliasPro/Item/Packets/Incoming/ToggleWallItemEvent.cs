@@ -36,7 +36,7 @@ namespace AliasPro.Item.Packets.Incoming
                 int state = clientPacket.ReadInt();
                 
                 item.Interaction.OnUserInteract(session.Entity, state);
-                room.ItemHandler.TriggerWired(WiredInteraction.STATE_CHANGED, session.Entity, item.Id);
+                room.ItemHandler.TriggerWired(WiredInteraction.STATE_CHANGED, session.Entity, item);
 
                 await room.SendAsync(new WallItemUpdateComposer(item));
             }

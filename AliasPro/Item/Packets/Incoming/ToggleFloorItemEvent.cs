@@ -37,7 +37,7 @@ namespace AliasPro.Item.Packets.Incoming
                 
                 item.Interaction.OnUserInteract(session.Entity, state);
 
-                room.ItemHandler.TriggerWired(WiredInteraction.STATE_CHANGED, session.Entity, item.Id);
+                room.ItemHandler.TriggerWired(WiredInteraction.STATE_CHANGED, session.Entity, item);
             }
         }
     }

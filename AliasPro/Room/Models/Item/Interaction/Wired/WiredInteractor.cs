@@ -25,10 +25,8 @@
 
     public interface IWiredInteractor
     {
-        void Compose(ServerPacket message);
-        void SaveData(IClientPacket clientPacket);
-        void OnTrigger(BaseEntity entity);
+        IWiredData WiredData { get; set; }
+        void OnTrigger(params object[] args);
         void OnCycle();
-        bool HasItem(uint itemId);
     }
 }

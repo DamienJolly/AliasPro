@@ -1,5 +1,4 @@
 ﻿using AliasPro.Item.Models;
-using AliasPro.Network.Protocol;
 using AliasPro.Room.Models.Entities;
 
 namespace AliasPro.Room.Models.Item.Interaction.Wired
@@ -10,56 +9,23 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
         private readonly WiredTriggerType _type = WiredTriggerType.PERIODICALLY;
 
         private bool _active = false;
-        private BaseEntity _target = null;
         private int _tick = 0;
-
-        private WiredData _wiredData;
+        
+        public IWiredData WiredData { get; set; }
 
         public WiredInteractionRepeater(IItem item)
         {
             _item = item;
-            _wiredData = 
-                new WiredData(_item);
+            WiredData = 
+                new WiredData((int)_type, _item.ExtraData);
         }
 
-        public void Compose(ServerPacket message)
-        {
-            message.WriteInt(_wiredData.Items.Count);
-            foreach (uint itemId in _wiredData.Items)
-            {
-                message.WriteInt(itemId);
-            }
-            message.WriteInt(_item.ItemData.SpriteId);
-            message.WriteInt(_item.Id);
-            message.WriteString(_wiredData.Message);
-            message.WriteInt(1);
-            message.WriteInt(_wiredData.Timer);
-            message.WriteInt(0);
-            message.WriteInt((int)_type);
-            message.WriteInt(0);
-        }
-
-        public void SaveData(IClientPacket clientPacket)
-        {
-            clientPacket.ReadInt();
-
-            int timer = clientPacket.ReadInt();
-
-            if (timer < 1) timer = 1;
-            if (timer > 120) timer = 120;
-
-            _wiredData.Timer = timer;
-            _item.ExtraData = 
-                _wiredData.DataToString;
-        }
-
-        public void OnTrigger(BaseEntity entity)
+        public void OnTrigger(params object[] args)
         {
             if(!_active)
             {
                 _active = true;
-                _target = entity;
-                _tick = _wiredData.Timer;
+                _tick = Timer;
             }
         }
 
@@ -72,14 +38,14 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
                 {
                     foreach (IItem effect in _item.CurrentRoom.RoomMap.GetRoomTile(_item.Position.X, _item.Position.Y).WiredEffects)
                     {
-                        effect.WiredInteraction.OnTrigger(_target);
+                        effect.WiredInteraction.OnTrigger();
                     }
                     _active = false;
                 }
             }
         }
 
-        public bool HasItem(uint itemId) =>
-            _wiredData.Items.Contains(itemId);
+        private int Timer =>
+            (WiredData.Params.Count != 1) ? 10 : WiredData.Params[0];
     }
 }

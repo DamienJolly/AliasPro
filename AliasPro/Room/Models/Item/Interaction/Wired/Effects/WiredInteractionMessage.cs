@@ -1,5 +1,4 @@
 ﻿using AliasPro.Item.Models;
-using AliasPro.Network.Protocol;
 using AliasPro.Room.Models.Entities;
 using AliasPro.Room.Packets.Outgoing;
 
@@ -14,53 +13,24 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
         private BaseEntity _target = null;
         private int _tick = 0;
 
-        private WiredData _wiredData;
+        public IWiredData WiredData { get; set; }
 
         public WiredInteractionMessage(IItem item)
         {
             _item = item;
-            _wiredData =
-                new WiredData(_item);
+            WiredData =
+                new WiredData((int)_type, _item.ExtraData);
         }
-
-        public void Compose(ServerPacket message)
-        {
-            message.WriteInt(0);
-            message.WriteInt(_item.ItemData.SpriteId);
-            message.WriteInt(_item.Id);
-            message.WriteString(_wiredData.Message);
-            message.WriteInt(0);
-            message.WriteInt(0);
-            message.WriteInt((int)_type);
-            message.WriteInt(_wiredData.Timer);
-            message.WriteInt(0);
-        }
-
-        public void SaveData(IClientPacket clientPacket)
-        {
-            clientPacket.ReadInt();
-
-            _wiredData.Message = 
-                clientPacket.ReadString();
-            clientPacket.ReadInt();
-
-            int timer = clientPacket.ReadInt();
-
-            if (timer < 0) timer = 0;
-            if (timer > 20) timer = 20;
-
-            _wiredData.Timer = timer;
-            _item.ExtraData =
-                _wiredData.DataToString;
-        }
-
-        public void OnTrigger(BaseEntity entity)
+        
+        public void OnTrigger(params object[] args)
         {
             if (!_active)
             {
-                _tick = _wiredData.Timer;
-                _target = entity;
                 _active = true;
+                _tick = WiredData.Delay;
+
+                if (args.Length != 0)
+                    _target = (BaseEntity)args[0];
             }
         }
 
@@ -75,7 +45,7 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
                         if (_target is UserEntity userEntity)
                         {
                             await userEntity.Session.SendPacketAsync(new AvatarChatComposer(
-                                userEntity.Id, _wiredData.Message, 0, 34));
+                                userEntity.Id, WiredData.Message, 0, 34));
                         }
                     }
                     else
@@ -83,7 +53,7 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
                         foreach (UserEntity entity in _item.CurrentRoom.EntityHandler.Entities)
                         {
                             await entity.Session.SendPacketAsync(new AvatarChatComposer(
-                            entity.Id, _wiredData.Message, 0, 34));
+                            entity.Id, WiredData.Message, 0, 34));
                         }
                     }
                     _active = false;
@@ -91,8 +61,5 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
                 _tick--;
             }
         }
-
-        public bool HasItem(uint itemId) =>
-           _wiredData.Items.Contains(itemId);
     }
 }

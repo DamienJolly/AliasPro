@@ -1,52 +1,64 @@
 ﻿using System.Collections.Generic;
-using AliasPro.Item.Models;
 
 namespace AliasPro.Room.Models.Item.Interaction.Wired
 {
     internal class WiredData : IWiredData
     {
-        internal WiredData(IItem wiredItem)
+        internal WiredData(int wiredId, string extraData)
         {
-            Timer = 0;
-            OwnerOnly = false;
+            WiredId = wiredId;
+            Params = new List<int>();
             Message = "";
             Items = new List<uint>();
+            Delay = 0;
 
-            string[] parts = wiredItem.ExtraData.Split(";");
+            LoadData(extraData);
+        }
+
+        private void LoadData(string extraData)
+        {
+            string[] parts = extraData.Split(";");
 
             if (parts.Length != 4) return;
-            
-            if (int.TryParse(parts[0], out int timer))
-                Timer = timer;
 
-            if (int.TryParse(parts[1], out int owner))
-                OwnerOnly = owner == 1;
-
-            Message = parts[2];
-
-            foreach (string itemString in parts[3].Split(","))
+            foreach (string param in parts[0].Split(","))
             {
-                if (!int.TryParse(itemString, out int itemId)) continue;
-                
-                Items.Add((uint)itemId);
+                if (!int.TryParse(param, out int paramId)) continue;
+
+                Params.Add(paramId);
             }
+
+            Message = parts[1]; //todo: filter
+
+            foreach (string itemString in parts[2].Split(","))
+            {
+                if (!uint.TryParse(itemString, out uint itemId)) continue;
+
+                Items.Add(itemId);
+            }
+
+            if (int.TryParse(parts[3], out int delay))
+                Delay = delay;
         }
-        
-        public int Timer { get; set; }
-        public string Message { get; set; }
-        public bool OwnerOnly { get; set; }
-        public List<uint> Items { get; set; }
-        
+
         public string DataToString =>
-            Timer + ";" + Message + ";" + (OwnerOnly ? "1" : "0") + ";" + string.Join(",", Items);
+            string.Join(",", Params) + ";" + Message + ";" + string.Join(",", Items) + ";" + Delay;
+
+        public int WiredId { get; set; }
+        public List<int> Params { get; set; }
+        public string Message { get; set; }
+        public List<uint> Items { get; set; }
+        public int Delay { get; set; }
     }
 
     public interface IWiredData
     {
-        int Timer { get; set; }
-        string Message { get; set; }
-        bool OwnerOnly { get; set; }
-        List<uint> Items { get; set; }
         string DataToString { get; }
+
+        int WiredId { get; set; }
+        List<int> Params { get; set; }
+        string Message { get; set; }
+        List<uint> Items { get; set; }
+        int Delay { get; set; }
     }
 }

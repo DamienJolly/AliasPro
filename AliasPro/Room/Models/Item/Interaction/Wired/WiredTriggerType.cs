@@ -2,6 +2,7 @@
 {
     public enum WiredTriggerType
     {
+        DEFAULT = 0,
         SAY_SOMETHING = 0,
         WALKS_ON_FURNI = 1,
         WALKS_OFF_FURNI = 2,

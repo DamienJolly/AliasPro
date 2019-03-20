@@ -1,5 +1,4 @@
 ﻿using AliasPro.Item.Models;
-using AliasPro.Network.Protocol;
 using AliasPro.Room.Models.Entities;
 
 namespace AliasPro.Room.Models.Item.Interaction.Wired
@@ -8,48 +7,30 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
     {
         private readonly IItem _item;
         private readonly WiredTriggerType _type = WiredTriggerType.SAY_COMMAND;
-        
-        private WiredData _wiredData;
+
+        public IWiredData WiredData { get; set; }
 
         public WiredInteractionSaysSomething(IItem item)
         {
             _item = item;
-            _wiredData = 
-                new WiredData(_item);
+            WiredData =
+                new WiredData((int)_type, _item.ExtraData);
         }
 
-        public void Compose(ServerPacket message)
+        public void OnTrigger(params object[] args)
         {
-            message.WriteInt(_wiredData.Items.Count);
-            foreach (uint itemId in _wiredData.Items)
-            {
-                message.WriteInt(itemId);
-            }
-            message.WriteInt(_item.ItemData.SpriteId);
-            message.WriteInt(_item.Id);
-            message.WriteString(_wiredData.Message);
-            message.WriteInt(1);
-            message.WriteInt(0);
-            message.WriteInt(0);
-            message.WriteInt((int)_type);
-            message.WriteInt(0);
-        }
+            BaseEntity entity = (BaseEntity)args[0];
+            if (entity == null) return;
 
-        public void SaveData(IClientPacket clientPacket)
-        {
-            clientPacket.ReadInt();
-            _wiredData.OwnerOnly = clientPacket.ReadInt() == 1;
-            _wiredData.Message = clientPacket.ReadString();
+            string text = (string)args[1];
+            if (!text.Contains(" " + WiredData.Message) &&
+                !text.Contains(WiredData.Message + " ") &&
+                text != WiredData.Message)
+                return;
 
-            _item.ExtraData =
-                _wiredData.DataToString;
-        }
-
-        public void OnTrigger(BaseEntity entity)
-        {
             if (entity is UserEntity userEntity)
             {
-                if (_wiredData.OwnerOnly &&
+                if (OwnerOnly &&
                     !_item.CurrentRoom.RightHandler.IsOwner(userEntity.Player.Id)) return;
             }
 
@@ -64,7 +45,7 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
 
         }
 
-        public bool HasItem(uint itemId) =>
-           _wiredData.Items.Contains(itemId);
+        private bool OwnerOnly =>
+            (WiredData.Params.Count != 1) ? false : WiredData.Params[0] == 1;
     }
 }

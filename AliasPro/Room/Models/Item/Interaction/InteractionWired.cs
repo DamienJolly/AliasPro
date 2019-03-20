@@ -49,7 +49,7 @@
         {
             if (_item.ItemData.WiredInteractionType == WiredInteraction.REPEATER)
             {
-                _item.WiredInteraction.OnTrigger(null);
+                _item.WiredInteraction.OnTrigger();
             }
              
             _item.WiredInteraction.OnCycle();
