@@ -7,6 +7,7 @@ namespace AliasPro.Catalog
     using Database;
     using Models;
     using Item;
+    using AliasPro.Utilities;
 
     internal class CatalogDao : BaseDao
     {
@@ -49,7 +50,7 @@ namespace AliasPro.Catalog
                         {
                             item.LimitedNumbers = 
                                 await ReadLimited(item.Id, item.LimitedStack);
-                            //item.LimitedNumbers.Shuffle(); todo: random limited number
+                            item.LimitedNumbers.Shuffle();
                         }
                         
                         if (catalogRepostiory.TryGetCatalogPage(item.PageId, out ICatalogPage page))
