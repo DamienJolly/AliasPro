@@ -5,7 +5,6 @@ using System;
 namespace AliasPro.Room.Models.Item
 {
     using AliasPro.Item.Models;
-    using AliasPro.Room.Models.Entities;
 
     public class ItemHandler
     {

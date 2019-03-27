@@ -38,10 +38,13 @@ namespace AliasPro.Room.Gamemap
 
         public bool CanStackAt(int targertX, int targetY, IItem item)
         {
+            if (targertX >= MapSizeX ||
+                targetY >= MapSizeY) return false;
+
             bool canStack = true;
             IList<RoomTile> tiles =
                 GetTilesFromItem(targertX, targetY, item);
-
+            
             foreach (RoomTile tile in tiles)
             {
                 if (!tile.CanStack(item))

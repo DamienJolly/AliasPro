@@ -32,6 +32,8 @@
 
         public async void OnUserInteract(BaseEntity entity, int state)
         {
+            if (entity == null) return;
+
             if (entity is UserEntity userEntity)
             {
                 if (_item.ItemData.InteractionType == ItemInteraction.WIRED_TRIGGER)

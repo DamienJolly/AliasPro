@@ -38,6 +38,8 @@ namespace AliasPro.Room.Models.Item.Interaction
 
         public async void OnUserInteract(BaseEntity entity, int state)
         {
+            if (entity == null) return;
+
             if (!_item.CurrentRoom.RoomMap.TilesAdjecent(_item.Position, entity.Position))
             {
                 //todo: walk to item

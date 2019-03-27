@@ -42,7 +42,6 @@ namespace AliasPro.Item.Packets.Incoming
                             roomTile.Height);
                         item.Rotation = rot;
                         room.RoomMap.AddItem(item);
-                        room.ItemHandler.AddItem(item);
                     }
                 }
 

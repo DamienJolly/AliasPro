@@ -12,9 +12,13 @@
         SAY_SOMETHING = 6,
         GAME_STARTS = 7,
         GAME_ENDS = 8,
+        COLLISION = 12,
 
         // Effects
-        MESSAGE = 2
+        MESSAGE = 2,
+        TOGGLE_STATE = 9,
+        TELEPORT = 10,
+        MOVE_ROTATE = 11
 
         // Conditions
 

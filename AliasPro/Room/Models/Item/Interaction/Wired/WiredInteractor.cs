@@ -1,8 +1,6 @@
 ﻿namespace AliasPro.Room.Models.Item.Interaction.Wired
 {
     using AliasPro.Item.Models;
-    using Network.Protocol;
-    using AliasPro.Room.Models.Entities;
 
     public class WiredInteractor
     {
@@ -10,6 +8,10 @@
         {
             switch (interaction)
             {
+                case WiredInteraction.COLLISION: return new WiredInteractionCollision(item);
+                case WiredInteraction.MOVE_ROTATE: return new WiredInteractionMoveRotate(item);
+                case WiredInteraction.TELEPORT: return new WiredInteractionTeleport(item);
+                case WiredInteraction.TOGGLE_STATE: return new WiredInteractionToggleState(item);
                 case WiredInteraction.MESSAGE: return new WiredInteractionMessage(item);
                 case WiredInteraction.WALKS_ON_FURNI: return new WiredInteractionWalksOn(item);
                 case WiredInteraction.WALKS_OFF_FURNI: return new WiredInteractionWalksOff(item);

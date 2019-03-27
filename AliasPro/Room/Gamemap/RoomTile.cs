@@ -96,6 +96,9 @@ namespace AliasPro.Room.Gamemap
 
         public void RemoveEntity(int entityId) =>
             _entities.Remove(entityId);
+
+        public ICollection<BaseEntity> Entities =>
+            _entities.Values;
         
         public ICollection<IItem> WiredEffects
         {
