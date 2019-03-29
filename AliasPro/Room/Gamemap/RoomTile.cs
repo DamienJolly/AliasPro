@@ -24,7 +24,7 @@ namespace AliasPro.Room.Gamemap
         public bool IsValidTile(BaseEntity entity, bool final = false)
         {
             if (_entities.Count > 0)
-                return _entities.ContainsKey(entity.Id);
+                return entity == null ? false : _entities.ContainsKey(entity.Id);
             
             IItem topItem = TopItem;
             if (topItem != null)
@@ -57,6 +57,20 @@ namespace AliasPro.Room.Gamemap
 
                 return false;
             }
+
+            return true;
+        }
+
+        public bool CanRoll(IItem item)
+        {
+            IItem topItem = TopItem;
+
+            if (topItem == item) return true;
+
+            if (_entities.Count > 0) return false;
+
+            if (topItem != null)
+                return topItem.ItemData.CanWalk;
 
             return true;
         }

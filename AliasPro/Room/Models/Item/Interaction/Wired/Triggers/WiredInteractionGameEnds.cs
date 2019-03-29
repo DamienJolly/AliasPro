@@ -8,7 +8,7 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
         private readonly IItem _item;
         private readonly WiredTriggerType _type = WiredTriggerType.GAME_ENDS;
 
-        public IWiredData WiredData { get; set; }
+        public WiredData WiredData { get; set; }
 
         public WiredInteractionGameEnds(IItem item)
         {

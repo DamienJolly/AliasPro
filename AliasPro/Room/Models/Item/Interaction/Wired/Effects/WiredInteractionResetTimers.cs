@@ -1,31 +1,30 @@
 ﻿using AliasPro.Item.Models;
-using AliasPro.Room.Models.Entities;
 
 namespace AliasPro.Room.Models.Item.Interaction.Wired
 {
-    public class WiredInteractionRepeater : IWiredInteractor
+    public class WiredInteractionResetTimers : IWiredInteractor
     {
         private readonly IItem _item;
-        private readonly WiredTriggerType _type = WiredTriggerType.PERIODICALLY;
+        private readonly WiredEffectType _type = WiredEffectType.RESET_TIMERS;
 
         private bool _active = false;
         private int _tick = 0;
-        
+
         public WiredData WiredData { get; set; }
 
-        public WiredInteractionRepeater(IItem item)
+        public WiredInteractionResetTimers(IItem item)
         {
             _item = item;
-            WiredData = 
+            WiredData =
                 new WiredData((int)_type, _item.ExtraData);
         }
-
+        
         public void OnTrigger(params object[] args)
         {
-            if(!_active)
+            if (!_active)
             {
                 _active = true;
-                _tick = Timer;
+                _tick = WiredData.Delay;
             }
         }
 
@@ -33,19 +32,13 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
         {
             if (_active)
             {
-                _tick--;
                 if (_tick <= 0)
                 {
-                    foreach (IItem effect in _item.CurrentRoom.RoomMap.GetRoomTile(_item.Position.X, _item.Position.Y).WiredEffects)
-                    {
-                        effect.WiredInteraction.OnTrigger();
-                    }
+                    _item.CurrentRoom.GameHandler.GameStarted = false;
                     _active = false;
                 }
+                _tick--;
             }
         }
-
-        private int Timer =>
-            (WiredData.Params.Count != 1) ? 1 : WiredData.Params[0];
     }
 }

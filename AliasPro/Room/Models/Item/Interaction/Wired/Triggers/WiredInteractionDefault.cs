@@ -7,7 +7,7 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
         private readonly IItem _item;
         private readonly WiredTriggerType _type = WiredTriggerType.DEFAULT;
 
-        public IWiredData WiredData { get; set; }
+        public WiredData WiredData { get; set; }
 
         public WiredInteractionDefault(IItem item)
         {

@@ -5,12 +5,12 @@ namespace AliasPro.Room.Gamemap
     using AliasPro.Item.Models;
     using Models;
     using Models.Entities;
+    using System;
 
     public class RoomMap
     {
         public int MapSizeX { get; }
         public int MapSizeY { get; }
-        public bool[,] WalkableGrid { get; }
 
         private readonly IDictionary<int, RoomTile> _roomTiles;
 
@@ -20,13 +20,12 @@ namespace AliasPro.Room.Gamemap
             MapSizeY = roomModel.MapSizeY;
 
             _roomTiles = new Dictionary<int, RoomTile>();
-            WalkableGrid = new bool[MapSizeX, MapSizeY];
+
             for (int y = 0; y < MapSizeY; y++)
             {
                 for (int x = 0; x < MapSizeX; x++)
                 {
-                    //todo: tile states
-                    WalkableGrid[x, y] = roomModel.GetTileState(x, y);
+                    if (!roomModel.GetTileState(x, y)) continue;
 
                     double posZ = roomModel.GetHeight(x, y);
                     Position position = new Position(x, y, posZ);
@@ -38,9 +37,6 @@ namespace AliasPro.Room.Gamemap
 
         public bool CanStackAt(int targertX, int targetY, IItem item)
         {
-            if (targertX >= MapSizeX ||
-                targetY >= MapSizeY) return false;
-
             bool canStack = true;
             IList<RoomTile> tiles =
                 GetTilesFromItem(targertX, targetY, item);
@@ -53,6 +49,22 @@ namespace AliasPro.Room.Gamemap
                 }
             }
             return canStack;
+        }
+
+        public bool CanRollAt(int targertX, int targetY, IItem item)
+        {
+            bool canRoll = true;
+            IList<RoomTile> tiles =
+                GetTilesFromItem(targertX, targetY, item);
+
+            foreach (RoomTile tile in tiles)
+            {
+                if (!tile.CanRoll(item))
+                {
+                    canRoll = false;
+                }
+            }
+            return canRoll;
         }
 
         public IList<RoomTile> GetTilesFromItem(int targetX, int targetY, IItem item)
@@ -109,6 +121,9 @@ namespace AliasPro.Room.Gamemap
         public bool TilesAdjecent(Position pos1, Position pos2) =>
             ((pos1.X - pos2.X) * (pos1.X - pos2.X)) + ((pos1.Y - pos2.Y) * (pos1.Y - pos2.Y)) <= 2;
 
+        public double Distance(Position pos1, Position pos2) =>
+            Math.Sqrt(((pos1.X - pos2.X) * (pos1.X - pos2.X)) + ((pos1.Y - pos2.Y) * (pos1.Y - pos2.Y)));
+        
         public bool TryGetRoomTile(int x, int y, out RoomTile roomTile) =>
             _roomTiles.TryGetValue(ConvertTo1D(x, y), out roomTile);
 

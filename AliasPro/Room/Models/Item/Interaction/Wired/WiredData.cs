@@ -2,14 +2,14 @@
 
 namespace AliasPro.Room.Models.Item.Interaction.Wired
 {
-    internal class WiredData : IWiredData
+    public class WiredData
     {
-        internal WiredData(int wiredId, string extraData)
+        public WiredData(int wiredId, string extraData)
         {
             WiredId = wiredId;
             Params = new List<int>();
-            Message = "";
-            Items = new List<uint>();
+            Message = string.Empty;
+            Items = new Dictionary<uint, WiredItemData>();
             Delay = 0;
 
             LoadData(extraData);
@@ -18,47 +18,37 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
         private void LoadData(string extraData)
         {
             string[] parts = extraData.Split(";");
-
             if (parts.Length != 4) return;
 
             foreach (string param in parts[0].Split(","))
             {
-                if (!int.TryParse(param, out int paramId)) continue;
+                if (string.IsNullOrEmpty(param)) continue;
 
-                Params.Add(paramId);
+                Params.Add(int.Parse(param));
             }
 
             Message = parts[1]; //todo: filter
 
             foreach (string itemString in parts[2].Split(","))
             {
-                if (!uint.TryParse(itemString, out uint itemId)) continue;
+                string[] itemParts = itemString.Split(":");
+                if (itemParts.Length != 7) continue;
 
-                Items.Add(itemId);
+                Items.Add(uint.Parse(itemParts[0]), new WiredItemData(itemParts));
             }
 
-            if (int.TryParse(parts[3], out int delay))
-                Delay = delay;
+            Delay = int.Parse(parts[3]);
         }
 
-        public string DataToString =>
-            string.Join(",", Params) + ";" + Message + ";" + string.Join(",", Items) + ";" + Delay;
+        public override string ToString()
+        {
+            return string.Join(",", Params) + ";" + Message + ";" + string.Join(",", Items.Values) + ";" + Delay;
+        }
 
         public int WiredId { get; set; }
         public List<int> Params { get; set; }
         public string Message { get; set; }
-        public List<uint> Items { get; set; }
+        public IDictionary<uint, WiredItemData> Items { get; set; }
         public int Delay { get; set; }
-    }
-
-    public interface IWiredData
-    {
-        string DataToString { get; }
-
-        int WiredId { get; set; }
-        List<int> Params { get; set; }
-        string Message { get; set; }
-        List<uint> Items { get; set; }
-        int Delay { get; set; }
     }
 }

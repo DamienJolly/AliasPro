@@ -87,9 +87,6 @@ namespace AliasPro.Room.Gamemap.Pathfinding
                 position.Y >= roomGrid.MapSizeY || position.Y < 0)
                 return false;
             
-            if (!roomGrid.WalkableGrid[position.X, position.Y])
-                return false;
-            
             if (roomGrid.TryGetRoomTile(position.X, position.Y, out RoomTile roomTile))
                 return roomTile.IsValidTile(entity);
 

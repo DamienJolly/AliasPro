@@ -2,20 +2,22 @@
 using AliasPro.Item.Packets.Outgoing;
 using AliasPro.Room.Gamemap;
 using AliasPro.Utilities;
+using System.Collections.Generic;
 
 namespace AliasPro.Room.Models.Item.Interaction.Wired
 {
-    public class WiredInteractionMoveRotate: IWiredInteractor
+    public class WiredInteractionTriggerStacks : IWiredInteractor
     {
         private readonly IItem _item;
-        private readonly WiredEffectType _type = WiredEffectType.MOVE_ROTATE;
+        private readonly WiredEffectType _type = WiredEffectType.CALL_STACKS;
 
         private bool _active = false;
+        private object[] _args;
         private int _tick = 0;
 
         public WiredData WiredData { get; set; }
 
-        public WiredInteractionMoveRotate(IItem item)
+        public WiredInteractionTriggerStacks(IItem item)
         {
             _item = item;
             WiredData =
@@ -27,48 +29,38 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
             if (!_active)
             {
                 _active = true;
+                _args = args;
                 _tick = WiredData.Delay;
             }
         }
 
-        public async void OnCycle()
+        public void OnCycle()
         {
             if (_active)
             {
                 if (_tick <= 0)
                 {
+                    IList<RoomTile> stacks = new List<RoomTile>();
+
                     foreach (WiredItemData itemData in WiredData.Items.Values)
                     {
                         if (!_item.CurrentRoom.ItemHandler.TryGetItem(itemData.ItemId, out IItem item)) continue;
 
-                        int movementMode = 0;
-                        int rotationMode = 0;
+                        IList<RoomTile> roomTiles = _item.CurrentRoom.RoomMap.GetTilesFromItem(item.Position.X, item.Position.Y, item);
 
-                        if (WiredData.Params.Count >= 2)
+                        foreach(RoomTile roomTile in roomTiles)
                         {
-                            movementMode = WiredData.Params[0];
-                            rotationMode = WiredData.Params[1];
+                            if (!stacks.Contains(roomTile))
+                                stacks.Add(roomTile);
                         }
+                    }
 
-                        Position newPos = HandleMovement(movementMode, item.Position);
-                        int newRot = HandleRotation(rotationMode, item.Rotation);
-
-                        _item.CurrentRoom.ItemHandler.TriggerWired(WiredInteraction.COLLISION, newPos);
-                        
-                        // todo: roller effect?
-                        if (_item.CurrentRoom.RoomMap.TryGetRoomTile(newPos.X, newPos.Y, out RoomTile roomTile))
+                    foreach (RoomTile roomTile in stacks)
+                    {
+                        foreach (IItem effect in roomTile.WiredEffects)
                         {
-                            if (_item.CurrentRoom.RoomMap.CanRollAt(newPos.X, newPos.Y, item))
-                            {
-                                _item.CurrentRoom.RoomMap.RemoveItem(item);
-                                item.Position = newPos;
-                                item.Position.Z = roomTile.Height;
-                                item.Rotation = newRot;
-                                _item.CurrentRoom.RoomMap.AddItem(item);
-                            }
+                            effect.WiredInteraction.OnTrigger(_args);
                         }
-
-                        await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(item));
                     }
 
                     _active = false;

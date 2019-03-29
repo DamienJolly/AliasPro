@@ -88,14 +88,15 @@
         {
             if (_active)
             {
-                if (_tick <= 0)
+                if (_tick <= 0 ||
+                    !_item.CurrentRoom.GameHandler.GameStarted)
                 {
                     _active = false;
                     _tick = _timer * 2;
                     _item.CurrentRoom.GameHandler.EndGame();
                 }
-
                 _tick--;
+
                 await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(_item));
             }
         }

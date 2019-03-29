@@ -4,6 +4,7 @@ namespace AliasPro.Room.Models.Entities
 {
     using Network.Protocol;
     using Gamemap;
+    using AliasPro.Room.Models.Game;
 
     public abstract class BaseEntity
     {
@@ -53,6 +54,8 @@ namespace AliasPro.Room.Models.Entities
 
         public int HandItemId = 0;
         public int HandItemTimer = 0;
+
+        public GameTeamType Team = GameTeamType.NONE;
 
         public abstract void Compose(ServerPacket serverPacket);
     }

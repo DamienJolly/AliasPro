@@ -6,9 +6,9 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
     public class WiredInteractionSaysSomething : IWiredInteractor
     {
         private readonly IItem _item;
-        private readonly WiredTriggerType _type = WiredTriggerType.SAY_COMMAND;
+        private readonly WiredTriggerType _type = WiredTriggerType.SAY_SOMETHING;
 
-        public IWiredData WiredData { get; set; }
+        public WiredData WiredData { get; set; }
 
         public WiredInteractionSaysSomething(IItem item)
         {

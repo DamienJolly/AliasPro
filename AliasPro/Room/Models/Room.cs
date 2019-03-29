@@ -16,6 +16,7 @@ namespace AliasPro.Room.Models
     using Right;
     using Game;
     using AliasPro.Item.Models;
+    using AliasPro.Room.Gamemap.Pathfinding;
 
     internal class Room : IRoom
     {
@@ -79,6 +80,8 @@ namespace AliasPro.Room.Models
             EntityHandler.AddEntity(entity);
             RoomMap.AddEntity(entity);
 
+            ItemHandler.TriggerWired(WiredInteraction.ENTER_ROOM, entity);
+
             await SendAsync(new EntitiesComposer(entity));
             await SendAsync(new EntityUpdateComposer(entity));
         }
@@ -87,6 +90,7 @@ namespace AliasPro.Room.Models
         {
             EntityHandler.RemoveEntity(entity);
             RoomMap.RemoveEntity(entity);
+            GameHandler.LeaveTeam(entity);
 
             await SendAsync(new EntityRemoveComposer(entity.Id));
         }
@@ -108,7 +112,25 @@ namespace AliasPro.Room.Models
                 RightHandler.GiveRights(right.Key, right.Value);
             }
         }
-        
+
+        public Position GetPathToClosestEntity(Position position)
+        {
+            IList<Position> closestPath = new List<Position>();
+            
+            foreach (BaseEntity entity in EntityHandler.Entities)
+            {
+                IList<Position> pathToItem = PathFinder.FindPath(
+                    entity,
+                    RoomMap,
+                    entity.Position, position);
+
+                if (pathToItem.Count <= closestPath.Count)
+                    closestPath = pathToItem;
+            }
+
+            return closestPath[closestPath.Count - 1];
+        }
+
         public async Task SendAsync(IPacketComposer packet)
         {
             foreach (BaseEntity entity in EntityHandler.Entities)

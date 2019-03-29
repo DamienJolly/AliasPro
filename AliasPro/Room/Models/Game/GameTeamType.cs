@@ -2,6 +2,7 @@
 {
     public enum GameTeamType
     {
+        NONE,
         YELLOW,
         BLUE,
         RED,

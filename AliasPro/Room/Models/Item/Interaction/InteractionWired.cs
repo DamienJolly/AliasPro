@@ -49,7 +49,8 @@
 
         public void OnCycle()
         {
-            if (_item.ItemData.WiredInteractionType == WiredInteraction.REPEATER)
+            if (_item.ItemData.WiredInteractionType == WiredInteraction.REPEATER ||
+                _item.ItemData.WiredInteractionType == WiredInteraction.REPEATER_LONG)
             {
                 _item.WiredInteraction.OnTrigger();
             }

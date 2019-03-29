@@ -8,7 +8,7 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
         private readonly IItem _item;
         private readonly WiredTriggerType _type = WiredTriggerType.WALKS_OFF_FURNI;
 
-        public IWiredData WiredData { get; set; }
+        public WiredData WiredData { get; set; }
 
         public WiredInteractionWalksOff(IItem item)
         {
@@ -25,7 +25,7 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
             IItem item = (IItem)args[1];
             if (item == null) return;
 
-            if (!WiredData.Items.Contains(item.Id)) return;
+            if (!WiredData.Items.ContainsKey(item.Id)) return;
 
             foreach (IItem effect in _item.CurrentRoom.RoomMap.GetRoomTile(_item.Position.X, _item.Position.Y).WiredEffects)
             {

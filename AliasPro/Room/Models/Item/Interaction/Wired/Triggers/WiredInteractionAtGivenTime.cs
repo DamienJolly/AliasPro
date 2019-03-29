@@ -3,17 +3,17 @@ using AliasPro.Room.Models.Entities;
 
 namespace AliasPro.Room.Models.Item.Interaction.Wired
 {
-    public class WiredInteractionRepeater : IWiredInteractor
+    public class WiredInteractionAtGivenTime : IWiredInteractor
     {
         private readonly IItem _item;
-        private readonly WiredTriggerType _type = WiredTriggerType.PERIODICALLY;
+        private readonly WiredTriggerType _type = WiredTriggerType.AT_GIVEN_TIME;
 
         private bool _active = false;
         private int _tick = 0;
         
         public WiredData WiredData { get; set; }
 
-        public WiredInteractionRepeater(IItem item)
+        public WiredInteractionAtGivenTime(IItem item)
         {
             _item = item;
             WiredData = 
@@ -22,7 +22,7 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
 
         public void OnTrigger(params object[] args)
         {
-            if(!_active)
+            if (!_active)
             {
                 _active = true;
                 _tick = Timer;
@@ -46,6 +46,6 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
         }
 
         private int Timer =>
-            (WiredData.Params.Count != 1) ? 1 : WiredData.Params[0];
+            (WiredData.Params.Count != 1) ? 10 : WiredData.Params[0];
     }
 }

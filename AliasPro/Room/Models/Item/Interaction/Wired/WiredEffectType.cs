@@ -4,7 +4,7 @@
     {
         TOGGLE_STATE = 0,
         RESET_TIMERS = 1,
-        MATCH_SSHOT = 3,
+        MATCH_POSITION = 3,
         MOVE_ROTATE = 4,
         GIVE_SCORE = 6,
         SHOW_MESSAGE = 7,
@@ -21,6 +21,7 @@
         CALL_STACKS = 18,
         KICK_USER = 19,
         MUTE_TRIGGER = 20,
+
         BOT_TELEPORT = 21,
         BOT_MOVE = 22,
         BOT_TALK = 23,

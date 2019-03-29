@@ -13,7 +13,7 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
         private BaseEntity _target = null;
         private int _tick = 0;
 
-        public IWiredData WiredData { get; set; }
+        public WiredData WiredData { get; set; }
 
         public WiredInteractionMessage(IItem item)
         {

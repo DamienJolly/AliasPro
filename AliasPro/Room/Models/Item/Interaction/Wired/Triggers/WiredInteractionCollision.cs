@@ -9,7 +9,7 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
         private readonly IItem _item;
         private readonly WiredTriggerType _type = WiredTriggerType.COLLISION;
         
-        public IWiredData WiredData { get; set; }
+        public WiredData WiredData { get; set; }
 
         public WiredInteractionCollision(IItem item)
         {
@@ -22,9 +22,8 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
         {
             Position position = (Position)args[0];
 
-            RoomTile roomTile = _item.CurrentRoom.RoomMap.GetRoomTile(
-                    position.X,
-                    position.Y);
+            if (!_item.CurrentRoom.RoomMap.TryGetRoomTile(position.X, position.Y, out RoomTile roomTile))
+                return;
 
             foreach (IItem effect in _item.CurrentRoom.RoomMap.GetRoomTile(_item.Position.X, _item.Position.Y).WiredEffects)
             {

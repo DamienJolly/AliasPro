@@ -9,7 +9,7 @@
     public class WiredTriggerDataComposer : IPacketComposer
     {
         private readonly IItem _item;
-        private readonly IWiredData _wiredData;
+        private readonly WiredData _wiredData;
 
         public WiredTriggerDataComposer(IItem item)
         {
@@ -25,8 +25,8 @@
             message.WriteInt(5);
 
             message.WriteInt(_wiredData.Items.Count);
-            foreach (uint itemId in _wiredData.Items)
-                message.WriteInt(itemId);
+            foreach (WiredItemData itemData in _wiredData.Items.Values)
+                message.WriteInt(itemData.ItemId);
 
             message.WriteInt(_item.ItemData.SpriteId);
             message.WriteInt(_item.Id);
