@@ -105,18 +105,18 @@ namespace AliasPro.Room.Gamemap
 
         public void AddEntity(BaseEntity entity)
         {
-            RoomTile tiles =
-                GetRoomTile(entity.NextPosition.X, entity.NextPosition.Y);
-
-            tiles.AddEntity(entity);
+            if (TryGetRoomTile(entity.NextPosition.X, entity.NextPosition.Y, out RoomTile roomTile))
+            {
+                roomTile.AddEntity(entity);
+            }
         }
 
         public void RemoveEntity(BaseEntity entity)
         {
-            RoomTile tiles =
-                GetRoomTile(entity.Position.X, entity.Position.Y);
-
-            tiles.RemoveEntity(entity.Id);
+            if (TryGetRoomTile(entity.NextPosition.X, entity.NextPosition.Y, out RoomTile roomTile))
+            {
+                roomTile.RemoveEntity(entity.Id);
+            }
         }
 
         public bool TilesAdjecent(Position pos1, Position pos2) =>
@@ -127,9 +127,6 @@ namespace AliasPro.Room.Gamemap
         
         public bool TryGetRoomTile(int x, int y, out RoomTile roomTile) =>
             _roomTiles.TryGetValue(ConvertTo1D(x, y), out roomTile);
-
-        public RoomTile GetRoomTile(int x, int y) =>
-            _roomTiles[ConvertTo1D(x, y)];
         
         internal int ConvertTo1D(int x, int y) => MapSizeX * y + x;
     }

@@ -22,14 +22,11 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
         {
             Position position = (Position)args[0];
 
-            if (!_item.CurrentRoom.RoomMap.TryGetRoomTile(position.X, position.Y, out RoomTile roomTile))
-                return;
-
-            foreach (IItem effect in _item.CurrentRoom.RoomMap.GetRoomTile(_item.Position.X, _item.Position.Y).WiredEffects)
+            if (_item.CurrentRoom.RoomMap.TryGetRoomTile(position.X, position.Y, out RoomTile roomTile))
             {
                 foreach (BaseEntity entity in roomTile.Entities)
                 {
-                    effect.WiredInteraction.OnTrigger(entity);
+                    _item.CurrentRoom.ItemHandler.TriggerEffects(roomTile, entity);
                 }
             }
         }

@@ -1,4 +1,5 @@
 ﻿using AliasPro.Item.Models;
+using AliasPro.Room.Gamemap;
 
 namespace AliasPro.Room.Models.Item.Interaction.Wired
 {
@@ -35,9 +36,9 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
                 _tick--;
                 if (_tick <= 0)
                 {
-                    foreach (IItem effect in _item.CurrentRoom.RoomMap.GetRoomTile(_item.Position.X, _item.Position.Y).WiredEffects)
+                    if (_item.CurrentRoom.RoomMap.TryGetRoomTile(_item.Position.X, _item.Position.Y, out RoomTile roomTile))
                     {
-                        effect.WiredInteraction.OnTrigger();
+                        _item.CurrentRoom.ItemHandler.TriggerEffects(roomTile);
                     }
                     _active = false;
                 }

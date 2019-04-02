@@ -57,10 +57,7 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
 
                     foreach (RoomTile roomTile in stacks)
                     {
-                        foreach (IItem effect in roomTile.WiredEffects)
-                        {
-                            effect.WiredInteraction.OnTrigger(_args);
-                        }
+                        _item.CurrentRoom.ItemHandler.TriggerEffects(roomTile, _args);
                     }
 
                     _active = false;

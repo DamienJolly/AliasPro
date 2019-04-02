@@ -43,22 +43,26 @@ namespace AliasPro.Room.Models.Entities
                 Position nextStep = entity.PathToWalk[reversedIndex];
                 entity.PathToWalk.RemoveAt(reversedIndex);
 
-                RoomTile roomTile = _room.RoomMap.GetRoomTile(
-                    nextStep.X,
-                    nextStep.Y);
-
+                if (!_room.RoomMap.TryGetRoomTile(nextStep.X, nextStep.Y, out RoomTile roomTile))
+                {
+                    entity.PathToWalk = null;
+                    return;
+                }
+                
                 if (!roomTile.IsValidTile(entity, reversedIndex == 0))
                 {
                     entity.PathToWalk = null;
                     return;
                 }
 
+                if (!_room.RoomMap.TryGetRoomTile(entity.Position.X, entity.Position.Y, out RoomTile oldTile))
+                {
+                    entity.PathToWalk = null;
+                    return;
+                }
+
                 _room.RoomMap.RemoveEntity(entity);
-
-                RoomTile oldTile = _room.RoomMap.GetRoomTile(
-                    entity.Position.X,
-                    entity.Position.Y);
-
+                
                 IItem oldTopItem = oldTile.TopItem;
                 if (oldTopItem != null)
                 {
@@ -104,10 +108,8 @@ namespace AliasPro.Room.Models.Entities
             }
             else
             {
-                RoomTile roomTile = _room.RoomMap.GetRoomTile(
-                    entity.Position.X, 
-                    entity.Position.Y);
-
+                if (!_room.RoomMap.TryGetRoomTile(entity.Position.X, entity.Position.Y, out RoomTile roomTile)) return;
+                
                 IItem topItem = roomTile.TopItem;
                 
                 entity.Actions.RemoveStatus("mv");

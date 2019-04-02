@@ -5,6 +5,7 @@ using System;
 namespace AliasPro.Room.Models.Item
 {
     using AliasPro.Item.Models;
+    using AliasPro.Room.Gamemap;
 
     public class ItemHandler
     {
@@ -19,10 +20,18 @@ namespace AliasPro.Room.Models.Item
         
         public void TriggerWired(WiredInteraction interaction, params object[] args)
         {
-            foreach (IItem effect in WiredTriggers)
+            foreach (IItem trigger in WiredTriggers)
             {
-                if (effect.ItemData.WiredInteractionType != interaction) continue;
+                if (trigger.ItemData.WiredInteractionType != interaction) continue;
 
+                trigger.WiredInteraction.OnTrigger(args);
+            }
+        }
+
+        public void TriggerEffects(RoomTile roomTile, params object[] args)
+        {
+            foreach (IItem effect in roomTile.WiredEffects)
+            {
                 effect.WiredInteraction.OnTrigger(args);
             }
         }
