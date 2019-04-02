@@ -30,6 +30,12 @@ namespace AliasPro.Room.Models.Item
 
         public void TriggerEffects(RoomTile roomTile, params object[] args)
         {
+            foreach (IItem condition in roomTile.WiredConditions)
+            {
+                if (!condition.WiredInteraction.OnTrigger(args))
+                    return;
+            }
+
             foreach (IItem effect in roomTile.WiredEffects)
             {
                 effect.WiredInteraction.OnTrigger(args);

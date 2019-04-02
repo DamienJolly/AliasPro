@@ -1,6 +1,5 @@
 ﻿using AliasPro.Item.Models;
 using AliasPro.Room.Gamemap;
-using AliasPro.Room.Models.Entities;
 
 namespace AliasPro.Room.Models.Item.Interaction.Wired
 {
@@ -18,12 +17,13 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
                 new WiredData((int)_type, _item.ExtraData);
         }
 
-        public void OnTrigger(params object[] args)
+        public bool OnTrigger(params object[] args)
         {
             if (_item.CurrentRoom.RoomMap.TryGetRoomTile(_item.Position.X, _item.Position.Y, out RoomTile roomTile))
             {
                 _item.CurrentRoom.ItemHandler.TriggerEffects(roomTile, args);
             }
+            return true;
         }
 
         public void OnCycle()

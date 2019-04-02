@@ -16,9 +16,9 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
                 new WiredData((int)_type, _item.ExtraData);
         }
 
-        public void OnTrigger(params object[] args)
+        public bool OnTrigger(params object[] args)
         {
-
+            return true;
         }
 
         public void OnCycle()

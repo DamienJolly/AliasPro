@@ -48,7 +48,7 @@
     public interface IWiredInteractor
     {
         WiredData WiredData { get; set; }
-        void OnTrigger(params object[] args);
+        bool OnTrigger(params object[] args);
         void OnCycle();
     }
 }

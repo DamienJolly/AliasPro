@@ -18,7 +18,7 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
                 new WiredData((int)_type, _item.ExtraData);
         }
 
-        public void OnTrigger(params object[] args)
+        public bool OnTrigger(params object[] args)
         {
             Position position = (Position)args[0];
 
@@ -29,6 +29,7 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
                     _item.CurrentRoom.ItemHandler.TriggerEffects(roomTile, entity);
                 }
             }
+            return true;
         }
 
         public void OnCycle()

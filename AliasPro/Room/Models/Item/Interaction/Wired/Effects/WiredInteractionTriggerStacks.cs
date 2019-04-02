@@ -1,5 +1,4 @@
 ﻿using AliasPro.Item.Models;
-using AliasPro.Item.Packets.Outgoing;
 using AliasPro.Room.Gamemap;
 using AliasPro.Utilities;
 using System.Collections.Generic;
@@ -24,7 +23,7 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
                 new WiredData((int)_type, _item.ExtraData);
         }
         
-        public void OnTrigger(params object[] args)
+        public bool OnTrigger(params object[] args)
         {
             if (!_active)
             {
@@ -32,6 +31,7 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
                 _args = args;
                 _tick = WiredData.Delay;
             }
+            return true;
         }
 
         public void OnCycle()

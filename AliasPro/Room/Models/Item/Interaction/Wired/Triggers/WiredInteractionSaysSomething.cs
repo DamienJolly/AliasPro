@@ -18,27 +18,28 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
                 new WiredData((int)_type, _item.ExtraData);
         }
 
-        public void OnTrigger(params object[] args)
+        public bool OnTrigger(params object[] args)
         {
             BaseEntity entity = (BaseEntity)args[0];
-            if (entity == null) return;
+            if (entity == null) return false;
 
             string text = (string)args[1];
             if (!text.Contains(" " + WiredData.Message) &&
                 !text.Contains(WiredData.Message + " ") &&
                 text != WiredData.Message)
-                return;
+                return false;
 
             if (entity is UserEntity userEntity)
             {
                 if (OwnerOnly &&
-                    !_item.CurrentRoom.RightHandler.IsOwner(userEntity.Player.Id)) return;
+                    !_item.CurrentRoom.RightHandler.IsOwner(userEntity.Player.Id)) return false;
             }
 
             if (_item.CurrentRoom.RoomMap.TryGetRoomTile(_item.Position.X, _item.Position.Y, out RoomTile roomTile))
             {
                 _item.CurrentRoom.ItemHandler.TriggerEffects(roomTile, entity);
             }
+            return true;
         }
 
         public void OnCycle()

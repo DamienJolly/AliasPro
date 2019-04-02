@@ -89,6 +89,7 @@
         internal const short UserHandItemMessageComposer = 190;
         internal const short WiredTriggerDataMessageComposer = 1319;
         internal const short WiredEffectDataMessageComposer = 1330;
+        internal const short WiredConditionDataMessageComposer = 3049;
         internal const short WiredSavedMessageComposer = 2074;
 
         // Landing

@@ -18,17 +18,18 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
                 new WiredData((int)_type, _item.ExtraData);
         }
 
-        public void OnTrigger(params object[] args)
+        public bool OnTrigger(params object[] args)
         {
-            if (args.Length != 1) return;
+            if (args.Length != 1) return false;
 
             BaseEntity entity = (BaseEntity)args[0];
-            if (entity == null) return;
+            if (entity == null) return false;
 
             if (_item.CurrentRoom.RoomMap.TryGetRoomTile(_item.Position.X, _item.Position.Y, out RoomTile roomTile))
             {
                 _item.CurrentRoom.ItemHandler.TriggerEffects(roomTile, entity);
             }
+            return true;
         }
 
         public void OnCycle()

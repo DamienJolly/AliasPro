@@ -19,13 +19,14 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
                 new WiredData((int)_type, _item.ExtraData);
         }
         
-        public void OnTrigger(params object[] args)
+        public bool OnTrigger(params object[] args)
         {
             if (!_active)
             {
                 _active = true;
                 _tick = WiredData.Delay;
             }
+            return true;
         }
 
         public void OnCycle()

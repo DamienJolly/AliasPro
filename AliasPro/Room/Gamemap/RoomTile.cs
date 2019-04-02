@@ -129,6 +129,20 @@ namespace AliasPro.Room.Gamemap
             }
         }
 
+        public ICollection<IItem> WiredConditions
+        {
+            get
+            {
+                IList<IItem> conditions = new List<IItem>();
+                foreach (IItem item in _items.Values)
+                {
+                    if (item.ItemData.InteractionType == ItemInteraction.WIRED_CONDITION)
+                        conditions.Add(item);
+                }
+                return conditions;
+            }
+        }
+
         public IItem TopItem
         {
             get

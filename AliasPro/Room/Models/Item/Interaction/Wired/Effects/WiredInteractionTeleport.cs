@@ -24,16 +24,17 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
                 new WiredData((int)_type, _item.ExtraData);
         }
         
-        public void OnTrigger(params object[] args)
+        public bool OnTrigger(params object[] args)
         {
             if (!_active)
             {
-                if (args.Length == 0) return;
+                if (args.Length == 0) return false;
 
                 _active = true;
                 _target = (BaseEntity)args[0];
                 _tick = WiredData.Delay;
             }
+            return true;
         }
 
         public void OnCycle()

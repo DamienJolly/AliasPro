@@ -22,7 +22,7 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
                 new WiredData((int)_type, _item.ExtraData);
         }
         
-        public void OnTrigger(params object[] args)
+        public bool OnTrigger(params object[] args)
         {
             if (!_active)
             {
@@ -32,6 +32,7 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
                 if (args.Length != 0)
                     _target = (BaseEntity)args[0];
             }
+            return true;
         }
 
         public async void OnCycle()

@@ -73,6 +73,7 @@
         internal const short UserRemoveRightsMessageEvent = 404;
         internal const short WiredTriggerSaveDataMessageEvent = 3810;
         internal const short WiredEffectSaveDataMessageEvent = 2719;
+        internal const short WiredConditionSaveDataMessageEvent = 166;
 
         // Landing
         internal const short HotelViewDataMessageEvent = 1579;

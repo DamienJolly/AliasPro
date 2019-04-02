@@ -4,18 +4,14 @@ using AliasPro.Room.Models.Game;
 
 namespace AliasPro.Room.Models.Item.Interaction.Wired
 {
-    public class WiredInteractionJoinTeam : IWiredInteractor
+    public class WiredInteractionActorInTeam : IWiredInteractor
     {
         private readonly IItem _item;
-        private readonly WiredEffectType _type = WiredEffectType.JOIN_TEAM;
-
-        private bool _active = false;
-        private BaseEntity _target = null;
-        private int _tick = 0;
+        private readonly WiredConditionType _type = WiredConditionType.ACTOR_IN_TEAM;
 
         public WiredData WiredData { get; set; }
 
-        public WiredInteractionJoinTeam(IItem item)
+        public WiredInteractionActorInTeam(IItem item)
         {
             _item = item;
             WiredData =
@@ -24,35 +20,21 @@ namespace AliasPro.Room.Models.Item.Interaction.Wired
 
         public bool OnTrigger(params object[] args)
         {
-            if (!_active)
-            {
-                if (args.Length == 0) return false;
+            if (args.Length == 0) return false;
 
-                _active = true;
-                _target = (BaseEntity)args[0];
-                _tick = WiredData.Delay;
-            }
+            BaseEntity entity = (BaseEntity)args[0];
+            if (entity == null) return false;
+
+            if (entity.Team == GameTeamType.NONE) return false;
+
+            if (entity.Team != TeamType) return false;
+
             return true;
         }
 
         public void OnCycle()
         {
-            if (_active)
-            {
-                if (_tick <= 0)
-                {
-                    if (_target != null &&
-                        _target is UserEntity)
-                    {
-                        if (_target.Team != GameTeamType.NONE)
-                            _item.CurrentRoom.GameHandler.LeaveTeam(_target);
 
-                        _item.CurrentRoom.GameHandler.JoinTeam(_target, TeamType);
-                    }
-                    _active = false;
-                }
-                _tick--;
-            }
         }
 
         private GameTeamType TeamType
