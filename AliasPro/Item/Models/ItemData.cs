@@ -14,8 +14,6 @@ namespace AliasPro.Item.Models
             Length = reader.ReadData<int>("length");
             Width = reader.ReadData<int>("width");
             Height = reader.ReadData<double>("height");
-            CanSit = reader.ReadData<bool>("can_sit");
-            CanLay = reader.ReadData<bool>("can_lay");
             ExtraData = reader.ReadData<string>("extra_data");
             Type = reader.ReadData<string>("type");
             Modes = reader.ReadData<int>("modes");
@@ -39,6 +37,8 @@ namespace AliasPro.Item.Models
                 case "wired_condition": return ItemInteraction.WIRED_CONDITION;
                 case "game_timer": return ItemInteraction.GAME_TIMER;
                 case "vending": return ItemInteraction.VENDING_MACHINE;
+                case "bed": return ItemInteraction.BED;
+                case "chair": return ItemInteraction.CHAIR;
                 case "default": default: return ItemInteraction.DEFAULT;
             }
         }
@@ -49,8 +49,6 @@ namespace AliasPro.Item.Models
         public int Length { get; }
         public int Width { get; }
         public double Height { get; }
-        public bool CanSit { get; }
-        public bool CanLay { get; }
         public string ExtraData { get; }
         public string Type { get; }
         public int Modes { get; }
@@ -74,8 +72,6 @@ namespace AliasPro.Item.Models
         int Length { get; }
         int Width { get; }
         double Height { get; }
-        bool CanSit { get; }
-        bool CanLay { get; }
         string ExtraData { get; }
         string Type { get; }
         int Modes { get; }

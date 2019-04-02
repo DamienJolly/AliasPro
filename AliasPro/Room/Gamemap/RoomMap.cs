@@ -34,7 +34,7 @@ namespace AliasPro.Room.Gamemap
                 }
             }
         }
-
+        
         public bool CanStackAt(int targertX, int targetY, IItem item)
         {
             bool canStack = true;
@@ -74,7 +74,8 @@ namespace AliasPro.Room.Gamemap
             {
                 for (int y = targetY; y <= targetY + (item.Rotation == 0 || item.Rotation == 4 ? item.ItemData.Length : item.ItemData.Width) - 1; y++)
                 {
-                    tiles.Add(GetRoomTile(x, y));
+                    if (TryGetRoomTile(x, y, out RoomTile tile))
+                        tiles.Add(tile);
                 }
             }
             return tiles;

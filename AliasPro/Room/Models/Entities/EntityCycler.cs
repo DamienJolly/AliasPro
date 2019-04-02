@@ -72,8 +72,8 @@ namespace AliasPro.Room.Models.Entities
 
                 if (topItem != null)
                 {
-                    if (topItem.ItemData.CanLay ||
-                        topItem.ItemData.CanSit)
+                    if (topItem.ItemData.InteractionType == ItemInteraction.BED ||
+                        topItem.ItemData.InteractionType == ItemInteraction.CHAIR)
                         newZ -= topItem.ItemData.Height;
 
                     topItem.Interaction.OnUserWalkOn(entity);
@@ -116,27 +116,29 @@ namespace AliasPro.Room.Models.Entities
                 if (!entity.IsSitting)
                     entity.Actions.RemoveStatus("sit");
 
+                double z = roomTile.Height;
+
                 if (topItem != null)
                 {
-                    if (topItem.ItemData.CanSit)
+                    if (topItem.ItemData.InteractionType == ItemInteraction.CHAIR)
                     {
                         entity.Actions.AddStatus("sit", topItem.ItemData.Height + "");
                         entity.BodyRotation = 
                             entity.HeadRotation = 
                             topItem.Rotation;
+                        entity.Position.Z = roomTile.Height - topItem.ItemData.Height;
                         entity.IsSitting = false;
                     }
-                    else if (topItem.ItemData.CanLay)
+                    else if (topItem.ItemData.InteractionType == ItemInteraction.BED)
                     {
                         entity.Actions.AddStatus("lay", topItem.ItemData.Height + "");
                         entity.BodyRotation = 
                             entity.HeadRotation = 
                             topItem.Rotation;
+                        entity.Position.Z = roomTile.Height - topItem.ItemData.Height;
                         entity.IsSitting = false;
                     }
                 }
-
-                entity.Position.Z = roomTile.Height;
             }
 
             if (entity.HeadRotation != entity.BodyRotation)

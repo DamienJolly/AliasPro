@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace AliasPro.Room.Gamemap.Pathfinding
 {
+    using AliasPro.Item.Models;
     using Models.Entities;
 
     public static class PathFinder
@@ -20,12 +21,51 @@ namespace AliasPro.Room.Gamemap.Pathfinding
             new AstarPosition(-1, 0, 0)
         };
 
+        private static readonly AstarPosition[] NONDIAG = new AstarPosition[]
+        {
+            new AstarPosition(0, -1, 0),
+            new AstarPosition(1, 0, 0),
+            new AstarPosition(0, 1, 0),
+            new AstarPosition(-1, 0, 0)
+        };
+
+        private static Position GetBedPosition(IItem item, Position end)
+        {
+            Position newPos = new Position(item.Position.X, item.Position.Y, item.Position.Z);
+
+            if ((item.Rotation % 4) != 0)
+            {
+                if (end.Y != newPos.Y)
+                    newPos.Y++;
+            }
+            else
+            {
+                if (end.X != newPos.X)
+                    newPos.X++;
+            }
+
+            return newPos;
+        }
+
         public static IList<Position> FindPath(
             BaseEntity entity,
             RoomMap roomGrid,
             Position start,
             Position end)
         {
+            if (!roomGrid.TryGetRoomTile(end.X, end.Y, out RoomTile roomTile)) return null;
+
+            if (!roomTile.IsValidTile(entity, true)) return null;
+
+            IItem topItem = roomTile.TopItem;
+            if (topItem != null)
+            {
+                if (topItem.ItemData.InteractionType == ItemInteraction.BED)
+                {
+                    end = GetBedPosition(topItem, end);
+                }
+            }
+
             BinaryHeap openHeap = new BinaryHeap();
             openHeap.Add(new HeapNode(start, ManhattanDistance(start, end)));
 

@@ -3,6 +3,8 @@
     public enum ItemInteraction
     {
         DEFAULT,
+        BED,
+        CHAIR,
         VENDING_MACHINE,
         GAME_TIMER,
 

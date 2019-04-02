@@ -20,7 +20,7 @@ namespace AliasPro.Room.Gamemap
             _items = new Dictionary<uint, IItem>();
             _entities = new Dictionary<int, BaseEntity>();
         }
-
+        
         public bool IsValidTile(BaseEntity entity, bool final = false)
         {
             if (_entities.Count > 0)
@@ -31,10 +31,11 @@ namespace AliasPro.Room.Gamemap
             {
                 if (topItem.ItemData.CanWalk) return true;
 
-                if (topItem.ItemData.CanSit && final) return true;
+                if (topItem.ItemData.InteractionType == ItemInteraction.CHAIR && final) return true;
                 
-                if (topItem.ItemData.CanLay && final)
-                {
+                // todo: do some edits
+                if (topItem.ItemData.InteractionType == ItemInteraction.BED && final) return true;
+                /*{
                     if ((topItem.Rotation % 4) != 0)
                     {
                         for (int y = topItem.Position.Y; y <= topItem.Position.Y + topItem.ItemData.Width - 1; y++)
@@ -53,7 +54,7 @@ namespace AliasPro.Room.Gamemap
                     }
 
                     return false;
-                }
+                }*/
 
                 return false;
             }
