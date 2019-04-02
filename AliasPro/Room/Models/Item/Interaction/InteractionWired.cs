@@ -33,7 +33,7 @@
         public async void OnUserInteract(BaseEntity entity, int state)
         {
             if (entity == null) return;
-
+            
             if (entity is UserEntity userEntity)
             {
                 if (_item.ItemData.InteractionType == ItemInteraction.WIRED_TRIGGER)
@@ -43,6 +43,10 @@
                 else if (_item.ItemData.InteractionType == ItemInteraction.WIRED_EFFECT)
                 {
                     await userEntity.Session.SendPacketAsync(new WiredEffectDataComposer(_item));
+                }
+                else if (_item.ItemData.InteractionType == ItemInteraction.WIRED_CONDITION)
+                {
+                    await userEntity.Session.SendPacketAsync(new WiredConditionDataComposer(_item));
                 }
             }
         }

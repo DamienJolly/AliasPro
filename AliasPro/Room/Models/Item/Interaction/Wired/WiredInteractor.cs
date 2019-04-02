@@ -41,6 +41,7 @@
                 case WiredInteraction.CALL_STACKS: return new WiredInteractionTriggerStacks(item);
 
                     // Conditions
+                case WiredInteraction.ACTOR_IN_TEAM: return new WiredInteractionActorInTeam(item);
             }
         }
     }

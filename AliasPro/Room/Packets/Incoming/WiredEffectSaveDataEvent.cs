@@ -22,7 +22,7 @@ namespace AliasPro.Room.Packets.Incoming
             IRoom room = session.CurrentRoom;
 
             if (room == null) return;
-
+            
             if (!room.RightHandler.HasRights(session.Player.Id)) return;
 
             uint wiredItemId = (uint)clientPacket.ReadInt();

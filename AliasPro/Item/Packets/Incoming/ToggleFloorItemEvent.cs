@@ -29,14 +29,12 @@ namespace AliasPro.Item.Packets.Incoming
             uint itemId = (uint)clientPacket.ReadInt();
             if (room.ItemHandler.TryGetItem(itemId, out IItem item))
             {
-                if (item.ItemData.Modes <= 1) return;
-
                 if (item.ItemData.Type != "s") return;
 
                 int state = clientPacket.ReadInt();
                 
                 item.Interaction.OnUserInteract(session.Entity, state);
-
+                
                 room.ItemHandler.TriggerWired(WiredInteraction.STATE_CHANGED, session.Entity, item);
             }
         }

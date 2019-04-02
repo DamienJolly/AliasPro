@@ -20,21 +20,21 @@ namespace AliasPro.Room.Packets.Incoming
             IClientPacket clientPacket)
         {
             IRoom room = session.CurrentRoom;
-
+            
             if (room == null) return;
 
             if (!room.RightHandler.HasRights(session.Player.Id)) return;
-
+            
             uint wiredItemId = (uint)clientPacket.ReadInt();
             if (room.ItemHandler.TryGetItem(wiredItemId, out IItem wiredItem))
             {
                 if (!wiredItem.ItemData.IsWired) return;
-
+                
                 WiredData wiredData = wiredItem.WiredInteraction.WiredData;
 
                 wiredData.Params.Clear();
                 wiredData.Items.Clear();
-
+                
                 int paramCount = clientPacket.ReadInt();
 
                 for (int i = 0; i < paramCount; i++)
@@ -42,9 +42,9 @@ namespace AliasPro.Room.Packets.Incoming
                     int paramData = clientPacket.ReadInt();
                     wiredData.Params.Add(paramData);
                 }
-
+                
                 wiredData.Message = clientPacket.ReadString();
-
+                
                 int itemsCount = clientPacket.ReadInt();
 
                 for (int i = 0; i < itemsCount; i++)
@@ -56,10 +56,9 @@ namespace AliasPro.Room.Packets.Incoming
                             new WiredItemData(item.Id, item.Position, item.Mode, item.Rotation));
                     }
                 }
-
-                clientPacket.ReadInt();
+                
                 wiredItem.ExtraData = wiredData.ToString();
-
+                
                 await session.SendPacketAsync(new WiredSavedComposer());
             }
         }

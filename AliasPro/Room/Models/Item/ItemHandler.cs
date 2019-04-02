@@ -36,6 +36,8 @@ namespace AliasPro.Room.Models.Item
                     return;
             }
 
+            // todo: addons
+
             foreach (IItem effect in roomTile.WiredEffects)
             {
                 effect.WiredInteraction.OnTrigger(args);
