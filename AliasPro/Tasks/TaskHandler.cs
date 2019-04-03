@@ -25,22 +25,5 @@ namespace AliasPro.Tasks
                 await RunTaskAsyncWithDelay(task, delay);
             }
         }
-        
-        public static ActionBlock<DateTimeOffset> PeriodicTaskWithDelay(
-            Action<DateTimeOffset> action, CancellationToken cancellationToken, int delay)
-        {
-            ActionBlock<DateTimeOffset> block = null;
-            block = new ActionBlock<DateTimeOffset>(async now => {
-                action(now);
-                await Task.Delay(TimeSpan.FromMilliseconds(delay)).
-                    ConfigureAwait(false);
-                block.Post(DateTimeOffset.Now);
-            }, new ExecutionDataflowBlockOptions
-            {
-                CancellationToken = cancellationToken
-            });
-
-            return block;
-        }
     }
 }
