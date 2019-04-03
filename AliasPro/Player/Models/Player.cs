@@ -22,7 +22,7 @@ namespace AliasPro.Player.Models
             Motto = reader.ReadData<string>("motto");
             IsOnline = reader.ReadData<bool>("is_online");
         }
-        
+
         public uint Id { get; set; }
         public int Credits { get; set; }
         public int Rank { get; set; }
@@ -32,7 +32,7 @@ namespace AliasPro.Player.Models
         public string Gender { get; set; }
         public string Motto { get; set; }
         public bool IsOnline { get; set; }
-
+        
         public ISession Session { get; set; }
 
         public IPlayerSettings PlayerSettings { get; set; }

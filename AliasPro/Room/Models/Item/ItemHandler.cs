@@ -44,12 +44,14 @@ namespace AliasPro.Room.Models.Item
             }
         }
 
-        public void Cycle(DateTimeOffset timeOffset)
+        public void Cycle()
         {
             foreach (IItem item in Items)
             {
                 item.Interaction.OnCycle();
             }
+
+            //todo: wired seperate??
         }
 
         internal void AddItem(IItem item)

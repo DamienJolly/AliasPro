@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Threading.Tasks.Dataflow;
-
 
 namespace AliasPro.Room.Models
 {
@@ -18,11 +16,11 @@ namespace AliasPro.Room.Models
     using AliasPro.Item.Models;
     using AliasPro.Room.Gamemap.Pathfinding;
 
-    internal class Room : IRoom
+    internal class Room : IRoom, ITask
     {
         private readonly CancellationTokenSource _cancellationToken;
-        private ActionBlock<DateTimeOffset> _task;
-        
+        private readonly object _loadLock = new object();
+
         public bool isLoaded { get; set; } = false;
         public EntityHandler EntityHandler { get; set; }
         public ItemHandler ItemHandler { get; set; }
@@ -44,6 +42,38 @@ namespace AliasPro.Room.Models
             ItemHandler = new ItemHandler(this);
             GameHandler = new GameHandler(this);
             RightHandler = new RightHandler(this);
+        }
+
+        public async void SetupRoomCycle()
+        {
+            await TaskHandler.PeriodicAsyncTaskWithDelay(this, 500, _cancellationToken.Token);
+        }
+
+        private void StopRoomCycle()
+        {
+            using (_cancellationToken)
+            {
+                _cancellationToken.Cancel();
+            }
+        }
+
+        public void Run()
+        {
+            lock(_loadLock)
+            {
+                if (isLoaded)
+                {
+                    try
+                    {
+                        EntityHandler.Cycle();
+                        ItemHandler.Cycle();
+                    }
+                    catch
+                    {
+                        // room crashed
+                    }
+                }
+            }
         }
 
         public async void OnChat(string text, int colour, BaseEntity entity)
@@ -142,26 +172,14 @@ namespace AliasPro.Room.Models
             }
         }
 
-        public void SetupRoomCycle()
+        public void Dispose()
         {
-            _task = TaskHandler.PeriodicTaskWithDelay(time => Cycle(time), _cancellationToken.Token, 500);
-            _task.Post(DateTimeOffset.Now);
-        }
-
-        private void StopRoomCycle()
-        {
-            using (_cancellationToken)
+            lock (_loadLock)
             {
-                _cancellationToken.Cancel();
+                isLoaded = false;
+                StopRoomCycle();
+                //todo: do stuff
             }
-
-            _task = null;
-        }
-
-        private void Cycle(DateTimeOffset timeOffset)
-        {
-            EntityHandler.Cycle(timeOffset);
-            ItemHandler.Cycle(timeOffset);
         }
     }
 
@@ -183,5 +201,6 @@ namespace AliasPro.Room.Models
         void LoadRoomRights(IDictionary<uint, string> rights);
         void SetupRoomCycle();
         Task SendAsync(IPacketComposer packet);
+        void Dispose();
     }
 }

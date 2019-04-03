@@ -17,6 +17,14 @@ namespace AliasPro.Tasks
                 task.Run();
             });
         }
+
+        public static async Task PeriodicAsyncTaskWithDelay(ITask task, int delay, CancellationToken cancellationToken)
+        {
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                await RunTaskAsyncWithDelay(task, delay);
+            }
+        }
         
         public static ActionBlock<DateTimeOffset> PeriodicTaskWithDelay(
             Action<DateTimeOffset> action, CancellationToken cancellationToken, int delay)
@@ -24,7 +32,7 @@ namespace AliasPro.Tasks
             ActionBlock<DateTimeOffset> block = null;
             block = new ActionBlock<DateTimeOffset>(async now => {
                 action(now);
-                await Task.Delay(TimeSpan.FromMilliseconds(delay), cancellationToken).
+                await Task.Delay(TimeSpan.FromMilliseconds(delay)).
                     ConfigureAwait(false);
                 block.Post(DateTimeOffset.Now);
             }, new ExecutionDataflowBlockOptions

@@ -21,17 +21,14 @@ namespace AliasPro.Room.Models.Entities
             _entityCycler = new EntityCycler(_room);
         }
 
-        public async void Cycle(DateTimeOffset timeOffset)
+        public async void Cycle()
         {
             foreach (BaseEntity entity in Entities)
             {
                 _entityCycler.Cycle(entity);
             }
 
-            try
-            {
-                await _room.SendAsync(new EntityUpdateComposer(Entities));
-            } catch { }
+            await _room.SendAsync(new EntityUpdateComposer(Entities));
         }
 
         public async void Unidle(BaseEntity entity)

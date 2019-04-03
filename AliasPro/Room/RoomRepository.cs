@@ -109,7 +109,7 @@ namespace AliasPro.Room
             }
             if (!session.CurrentRoom.EntityHandler.HasUserEntities)
             {
-                //todo: update settings
+                session.CurrentRoom.Dispose();
                 await _roomDao.UpdateRoomItems(session.CurrentRoom.ItemHandler.Items);
                 _rooms.Remove(session.CurrentRoom.RoomData.Id);
             }

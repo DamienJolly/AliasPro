@@ -58,7 +58,7 @@ namespace AliasPro.Player.Packets.Incoming
                     await _playerController.GetPlayerBadgesByIdAsync(session.Player.Id));
 
                 await _playerController.UpdatePlayerByIdAsync(player);
-
+                
                 await session.SendPacketAsync(new SecureLoginOKComposer());
                 await session.SendPacketAsync(new HomeRoomComposer(0));
 
