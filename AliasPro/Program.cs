@@ -19,6 +19,7 @@ namespace AliasPro
     using Sessions;
     using Chat;
     using Figure;
+    using AliasPro.Messenger;
 
     public class Program
     {
@@ -30,6 +31,7 @@ namespace AliasPro
             {
                 new NetworkService(),
                 new SettingsService(),
+                new MessengerService(),
                 new PlayerService(),
                 new SessionService(),
                 new LandingService(),

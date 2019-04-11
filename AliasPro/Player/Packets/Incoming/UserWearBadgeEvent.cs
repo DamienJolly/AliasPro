@@ -7,7 +7,7 @@ namespace AliasPro.Player.Packets.Incoming
     using Network.Protocol;
     using Sessions;
     using Packets.Outgoing;
-    using Models.Badge;
+    using AliasPro.API.Player.Models;
 
     public class UserWearBadgeEvent : IAsyncPacket
     {
@@ -26,12 +26,8 @@ namespace AliasPro.Player.Packets.Incoming
         {
             if (session.Player.Badge == null) return;
 
-            foreach (IBadgeData badge in session.Player.Badge.WearableBadges)
-            {
-                badge.Slot = 0;
-            }
-            await _playerController.ResetPlayerWearableBadgesAsync(session.Player.Id);
-
+            session.Player.Badge.ResetBadges();
+            
             for (int i = 0; i < 5; i++)
             {
                 int slot = clientPacket.ReadInt();
@@ -39,26 +35,22 @@ namespace AliasPro.Player.Packets.Incoming
 
                 if (slot < 1 || slot > 5 || code.Length == 0) continue;
 
-                if (session.Player.Badge.TryGetBadge(code, out IBadgeData badge))
+                if (session.Player.Badge.TryGetBadge(code, out IPlayerBadge badge))
                 {
                     badge.Slot = slot;
-                    await _playerController.UpdatePlayerWearableBadgeAsync(
-                        session.Player.Id,
-                        badge.Code,
-                        badge.Slot);
                 }
             }
 
             if (session.CurrentRoom != null)
             {
                 await session.CurrentRoom.SendAsync(new UserBadgesComposer(
-                    session.Player.Badge.WearableBadges, 
+                    session.Player.Badge.WornBadges, 
                     session.Player.Id));
                 return;
             }
 
             await session.SendPacketAsync(new UserBadgesComposer(
-                    session.Player.Badge.WearableBadges,
+                    session.Player.Badge.WornBadges,
                     session.Player.Id));
         }
     }

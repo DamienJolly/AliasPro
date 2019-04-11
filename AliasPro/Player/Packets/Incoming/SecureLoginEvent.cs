@@ -9,8 +9,8 @@ namespace AliasPro.Player.Packets.Incoming
     using Packets.Outgoing;
     using Sessions;
     using Item;
-    using Models.Currency;
-    using Models.Badge;
+    using AliasPro.API.Player.Models;
+    using AliasPro.Player.Components;
 
     public class SecureLoginEvent : IAsyncPacket
     {
@@ -30,41 +30,54 @@ namespace AliasPro.Player.Packets.Incoming
             IClientPacket clientPacket)
         {
             string ssoTicket = clientPacket.ReadString();
-            IPlayer player = await _playerController.GetPlayerBySsoAsync(ssoTicket);
-            if (player != null)
+
+            IPlayerData playerData = await _playerController.GetPlayerDataAsync(ssoTicket);
+
+            if (_playerController.TryGetPlayer(playerData.Id, out IPlayer currentPlayer))
             {
-                player.IsOnline = true;
-                player.Session = session;
-                session.Player = player;
-                IPlayerSettings playerSettings =
-                    await _playerController.GetPlayerSettingsByIdAsync(player.Id);
-
-                if (playerSettings == null)
-                {
-                    await _playerController.AddPlayerSettingsAsync(player.Id);
-                    playerSettings =
-                        await _playerController.GetPlayerSettingsByIdAsync(player.Id);
-                }
-
-                session.Player.PlayerSettings = playerSettings;
-
-                session.Player.Currency = new PlayerCurrency(
-                    await _playerController.GetPlayerCurrenciesByIdAsync(player.Id));
-
-                session.Player.Inventory = new PlayerInventory(session,
-                    await _itemController.GetItemsForPlayerAsync(session.Player.Id));
-
-                session.Player.Badge = new BadgeHandler(
-                    await _playerController.GetPlayerBadgesByIdAsync(session.Player.Id));
-
-                await _playerController.UpdatePlayerByIdAsync(player);
-                
-                await session.SendPacketAsync(new SecureLoginOKComposer());
-                await session.SendPacketAsync(new HomeRoomComposer(0));
-
-                await session.SendPacketAsync(new UserRightsComposer(session.Player));
-                await session.SendPacketAsync(new AvailabilityStatusComposer());
+                currentPlayer.Session.Disconnect();
             }
+            
+            IPlayer player = new Player(session, playerData);
+            session.Player = player;
+
+            IPlayerSettings playerSettings =
+                    await _playerController.GetPlayerSettingsAsync(player.Id);
+
+            if (playerSettings == null)
+            {
+                await _playerController.AddPlayerSettingsAsync(player.Id);
+                playerSettings =
+                    await _playerController.GetPlayerSettingsAsync(player.Id);
+            }
+
+            player.PlayerSettings = playerSettings;
+
+            player.Currency = new CurrencyComponent(
+                await _playerController.GetPlayerCurrenciesAsync(player.Id));
+
+            player.Inventory = new InventoryComponent(
+                await _itemController.GetItemsForPlayerAsync(player.Id));
+
+            player.Badge = new BadgeComponent(
+                await _playerController.GetPlayerBadgesAsync(player.Id));
+            
+            if (!_playerController.TryAddPlayer(player))
+            {
+                session.Disconnect();
+                return;
+            }
+
+            await session.SendPacketAsync(new SecureLoginOKComposer());
+            await session.SendPacketAsync(new HomeRoomComposer(0));
+
+            await session.SendPacketAsync(new UserRightsComposer(player));
+            await session.SendPacketAsync(new AvailabilityStatusComposer());
+
+            //player.PlayerCycle = new PlayerCycle(_settingsController, player);
+            //player.PlayerCycle.SetupPlayerCycle();
+
+            await _playerController.UpdatePlayerAsync(player);
         }
     }
 }

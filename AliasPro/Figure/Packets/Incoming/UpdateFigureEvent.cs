@@ -8,6 +8,8 @@ namespace AliasPro.Figure.Packets.Incoming
     using Packets.Outgoing;
     using Sessions;
     using Player;
+    using AliasPro.Player.Models;
+    using AliasPro.API.Messenger;
 
     public class UpdateFigureEvent : IAsyncPacket
     {
@@ -15,20 +17,29 @@ namespace AliasPro.Figure.Packets.Incoming
        
         private readonly IPlayerController _playerController;
         private readonly IFigureController _figureController;
+        private readonly IMessengerController _messengerController;
 
-        public UpdateFigureEvent(IFigureController figureController, IPlayerController playerController)
+        public UpdateFigureEvent(
+            IFigureController figureController, 
+            IPlayerController playerController, 
+            IMessengerController messengerController)
         {
             _figureController = figureController;
             _playerController = playerController;
+            _messengerController = messengerController;
         }
 
         public async Task HandleAsync(
             ISession session,
             IClientPacket clientPacket)
         {
-            //todo: use enum instead
-            string gender = clientPacket.ReadString().ToUpper();
-            if (gender != "M" && gender != "F") return;
+            PlayerGender gender = PlayerGender.MALE;
+
+            switch (clientPacket.ReadString().ToLower())
+            {
+                case "m": gender = PlayerGender.MALE; break;
+                case "f": gender = PlayerGender.FEMALE; break;
+            }
 
             string figure = clientPacket.ReadString().ToLower();
 
@@ -50,7 +61,7 @@ namespace AliasPro.Figure.Packets.Incoming
             }
 
             if (session.Player.Messenger != null)
-                await _playerController.UpdateStatus(session.Player, session.Player.Messenger.Friends);
+                await _messengerController.UpdateStatusAsync(session.Player, session.Player.Messenger.Friends);
         }
     }
 }

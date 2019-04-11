@@ -8,6 +8,8 @@ namespace AliasPro.Network
     using Sessions;
     using Player;
     using Room;
+    using AliasPro.Item;
+    using AliasPro.API.Messenger;
 
     internal class NetworkInitializer : ChannelInitializer<ISocketChannel>
     {
@@ -15,17 +17,23 @@ namespace AliasPro.Network
         private readonly ISessionController _sessionController;
         private readonly IPlayerController _playerController;
         private readonly IRoomController _roomController;
+        private readonly IItemController _itemController;
+        private readonly IMessengerController _messengerController;
 
         public NetworkInitializer(
             IEventProvider provider,
             ISessionController sessionController,
             IPlayerController playerController,
-            IRoomController roomController)
+            IRoomController roomController,
+            IItemController itemController,
+            IMessengerController messengerController)
         {
             _eventProvider = provider;
             _sessionController = sessionController;
             _playerController = playerController;
             _roomController = roomController;
+            _itemController = itemController;
+            _messengerController = messengerController;
         }
 
         protected override void InitChannel(ISocketChannel channel)
@@ -33,7 +41,7 @@ namespace AliasPro.Network
             channel.Pipeline
                 .AddLast("encoder", new Encoder())
                 .AddLast("decoder", new Decoder())
-                .AddLast("handler", new NetworkHandler(_eventProvider, _sessionController, _playerController, _roomController));
+                .AddLast("handler", new NetworkHandler(_eventProvider, _sessionController, _playerController, _roomController, _itemController, _messengerController));
         }
     }
 }

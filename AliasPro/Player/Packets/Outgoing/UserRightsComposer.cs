@@ -1,6 +1,6 @@
 ﻿namespace AliasPro.Player.Packets.Outgoing
 {
-    using Models;
+    using AliasPro.API.Player.Models;
     using Network.Events;
     using Network.Events.Headers;
     using Network.Protocol;

@@ -1,6 +1,7 @@
 ﻿namespace AliasPro.Player.Packets.Outgoing
 {
-    using Models;
+    using AliasPro.API.Player.Models;
+    using AliasPro.Player.Models;
     using Network.Events;
     using Network.Events.Headers;
     using Network.Protocol;
@@ -20,7 +21,7 @@
             message.WriteInt(_player.Id);
             message.WriteString(_player.Username);
             message.WriteString(_player.Figure);
-            message.WriteString(_player.Gender);
+            message.WriteString(_player.Gender == PlayerGender.MALE ? "m" : "f");
             message.WriteString(_player.Motto);
             message.WriteString("");
             message.WriteBoolean(false);

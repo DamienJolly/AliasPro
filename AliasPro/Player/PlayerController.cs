@@ -1,12 +1,10 @@
 ﻿using System.Threading.Tasks;
 using System.Collections.Generic;
+using AliasPro.API.Player.Models;
 
 namespace AliasPro.Player
 {
     using Models;
-    using Models.Currency;
-    using Models.Messenger;
-    using Models.Badge;
 
     internal class PlayerController : IPlayerController
     {
@@ -16,101 +14,71 @@ namespace AliasPro.Player
         {
             _playerRepostiory = playerRepostiory;
         }
-        
-        public async Task UpdateStatus(IPlayer player, ICollection<IMessengerFriend> friends) =>
-            await _playerRepostiory.UpdateStatus(player, friends);
 
-        public async Task UpdatePlayerByIdAsync(IPlayer player) =>
-            await _playerRepostiory.UpdatePlayerById(player);
+        public ICollection<IPlayer> Players =>
+            _playerRepostiory.Players;
+
+        public async Task<IPlayerData> GetPlayerDataAsync(string SSO) =>
+            await _playerRepostiory.GetPlayerDataAsync(SSO);
+
+        public bool TryGetPlayer(uint playerId, out IPlayer player) =>
+            _playerRepostiory.TryGetPlayer(playerId, out player);
+
+        public bool TryGetPlayer(string playerUsername, out IPlayer player) =>
+            _playerRepostiory.TryGetPlayer(playerUsername, out player);
+
+        public bool TryAddPlayer(IPlayer player) =>
+            _playerRepostiory.TryAddPlayer(player);
+
+        public void RemovePlayer(IPlayer player) =>
+            _playerRepostiory.RemovePlayer(player);
+
+        public async Task UpdatePlayerAsync(IPlayer player) =>
+            await _playerRepostiory.UpdatePlayerAsync(player);
+
+
+        public async Task<IPlayerSettings> GetPlayerSettingsAsync(uint id) =>
+            await _playerRepostiory.GetPlayerSettingsAsync(id);
 
         public async Task AddPlayerSettingsAsync(uint id) =>
-            await _playerRepostiory.CreatePlayerSettings(id);
+            await _playerRepostiory.AddPlayerSettingsAsync(id);
 
-        public async Task AddFriendRequestAsync(uint playerId, uint targetId) =>
-            await _playerRepostiory.CreateFriendRequest(playerId, targetId);
-
-        public async Task AddFriendShipAsync(uint playerId, uint targetId) =>
-            await _playerRepostiory.CreateFriendShip(playerId, targetId);
-
-        public async Task AddOfflineMessageAsync(uint playerId, IMessengerMessage privateMessage) =>
-            await _playerRepostiory.CreateOfflineMessage(playerId, privateMessage);
-
-        public async Task<IPlayer> GetPlayerByIdAsync(uint id) =>
-            await _playerRepostiory.GetPlayerById(id);
-
-        public async Task<IPlayer> GetPlayerBySsoAsync(string sso) =>
-            await _playerRepostiory.GetPlayerBySso(sso);
-
-        public async Task<IPlayer> GetPlayerByUsernameAsync(string username) =>
-            await _playerRepostiory.GetPlayerByUsername(username);
+        public async Task UpdatePlayerSettingsAsync(IPlayer player) =>
+            await _playerRepostiory.UpdatePlayerSettingsAsync(player);
         
-        public async Task<IPlayerSettings> GetPlayerSettingsByIdAsync(uint id) =>
-            await _playerRepostiory.GetPlayerSettingsById(id);
 
-        public async Task<IDictionary<string, IBadgeData>> GetPlayerBadgesByIdAsync(uint id) =>
-            await _playerRepostiory.GetPlayerBadgesById(id);
-        
-        public async Task<IDictionary<int, ICurrencyType>> GetPlayerCurrenciesByIdAsync(uint id) =>
-            await _playerRepostiory.GetPlayerCurrenciesById(id);
+        public async Task<IDictionary<int, IPlayerCurrency>> GetPlayerCurrenciesAsync(uint id) =>
+            await _playerRepostiory.GetPlayerCurrenciesAsync(id);
 
-        public async Task<IDictionary<uint, IMessengerFriend>> GetPlayerFriendsByIdAsync(uint id) =>
-            await _playerRepostiory.GetPlayerFriendsById(id);
+        public async Task UpdatePlayerCurrenciesAsync(IPlayer player) =>
+            await _playerRepostiory.UpdatePlayerCurrenciesAsync(player);
 
-        public async Task<IDictionary<uint, IMessengerRequest>> GetPlayerRequestsByIdAsync(uint id) =>
-            await _playerRepostiory.GetPlayerRequestsById(id);
 
-        public async Task<IDictionary<uint, IPlayer>> GetPlayersByUsernameAsync(string username) =>
-            await _playerRepostiory.GetPlayersByUsername(username);
+        public async Task<IDictionary<string, IPlayerBadge>> GetPlayerBadgesAsync(uint id) =>
+            await _playerRepostiory.GetPlayerBadgesAsync(id);
 
-        public async Task<ICollection<IMessengerMessage>> GetOfflineMessagesAsync(uint playerId) =>
-            await _playerRepostiory.GetOfflineMessages(playerId);
-        
-        public async Task RemoveAllFriendRequestsAsync(uint playerId) =>
-            await _playerRepostiory.RemoveAllFriendRequests(playerId);
-
-        public async Task RemoveFriendRequestAsync(uint playerId, uint targetId) =>
-            await _playerRepostiory.RemoveFriendRequest(playerId, targetId);
-
-        public async Task RemoveFriendShipAsync(uint playerId, uint targetId) =>
-            await _playerRepostiory.RemoveFriendShip(playerId, targetId);
-
-        public async Task RemovePlayerByIdAsync(uint playerId) =>
-            await _playerRepostiory.RemovePlayerById(playerId);
-
-        public async Task ResetPlayerWearableBadgesAsync(uint playerId) =>
-           await _playerRepostiory.ResetPlayerWearableBadges(playerId);
-
-        public async Task UpdatePlayerWearableBadgeAsync(uint playerId, string code, int slot) =>
-           await _playerRepostiory.UpdatePlayerWearableBadge(playerId, code, slot);
-
-        public async Task UpdateFriendRelationAsync(uint playerId, IMessengerFriend friend) =>
-           await _playerRepostiory.UpdateFriendRelation(playerId, friend);
+        public async Task UpdatePlayerBadgesAsync(IPlayer player) =>
+            await _playerRepostiory.UpdatePlayerBadgesAsync(player);
     }
 
     public interface IPlayerController
     {
-        Task UpdateStatus(IPlayer player, ICollection<IMessengerFriend> friends);
-        Task UpdatePlayerByIdAsync(IPlayer player);
+        ICollection<IPlayer> Players { get; }
+        Task<IPlayerData> GetPlayerDataAsync(string SSO);
+        bool TryGetPlayer(string playerUsername, out IPlayer player);
+        bool TryGetPlayer(uint playerId, out IPlayer player);
+        bool TryAddPlayer(IPlayer player);
+        void RemovePlayer(IPlayer player);
+        Task UpdatePlayerAsync(IPlayer player);
+
+        Task<IDictionary<int, IPlayerCurrency>> GetPlayerCurrenciesAsync(uint id);
+        Task UpdatePlayerCurrenciesAsync(IPlayer player);
+
+        Task<IDictionary<string, IPlayerBadge>> GetPlayerBadgesAsync(uint id);
+        Task UpdatePlayerBadgesAsync(IPlayer player);
+
+        Task<IPlayerSettings> GetPlayerSettingsAsync(uint id);
         Task AddPlayerSettingsAsync(uint id);
-        Task AddFriendRequestAsync(uint playerId, uint targetId);
-        Task AddFriendShipAsync(uint playerId, uint targetId);
-        Task AddOfflineMessageAsync(uint playerId, IMessengerMessage privateMessage);
-        Task<IPlayer> GetPlayerByIdAsync(uint id);
-        Task<IPlayer> GetPlayerBySsoAsync(string sso);
-        Task<IPlayer> GetPlayerByUsernameAsync(string username);
-        Task<IPlayerSettings> GetPlayerSettingsByIdAsync(uint id);
-        Task<IDictionary<int, ICurrencyType>> GetPlayerCurrenciesByIdAsync(uint id);
-        Task<IDictionary<string, IBadgeData>> GetPlayerBadgesByIdAsync(uint id);
-        Task<IDictionary<uint, IMessengerFriend>> GetPlayerFriendsByIdAsync(uint id);
-        Task<IDictionary<uint, IMessengerRequest>> GetPlayerRequestsByIdAsync(uint id);
-        Task<IDictionary<uint, IPlayer>> GetPlayersByUsernameAsync(string username);
-        Task<ICollection<IMessengerMessage>> GetOfflineMessagesAsync(uint playerId);
-        Task RemoveAllFriendRequestsAsync(uint playerId);
-        Task RemoveFriendRequestAsync(uint playerId, uint targetId);
-        Task RemoveFriendShipAsync(uint playerId, uint targetId);
-        Task RemovePlayerByIdAsync(uint playerId);
-        Task ResetPlayerWearableBadgesAsync(uint playerId);
-        Task UpdatePlayerWearableBadgeAsync(uint playerId, string code, int slot);
-        Task UpdateFriendRelationAsync(uint playerId, IMessengerFriend friend);
+        Task UpdatePlayerSettingsAsync(IPlayer player);
     }
 }

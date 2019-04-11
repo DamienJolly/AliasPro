@@ -5,9 +5,9 @@ namespace AliasPro.Sessions
 {
     using Room.Models;
     using Room.Models.Entities;
-    using Player.Models;
     using Network.Events;
     using Network.Protocol;
+    using AliasPro.API.Player.Models;
 
     internal class SessionClient : ISession
     {
@@ -23,6 +23,11 @@ namespace AliasPro.Sessions
             _channel = context;
         }
 
+        public void Disconnect()
+        {
+            _channel.CloseAsync();
+        }
+
         public Task SendPacketAsync(IPacketComposer serverPacket) => WriteAndFlushAsync(serverPacket.Compose());
             
         private Task WriteAndFlushAsync(ServerPacket serverPacket) => _channel.WriteAndFlushAsync(serverPacket);
@@ -35,6 +40,7 @@ namespace AliasPro.Sessions
         BaseEntity Entity { get; set; }
         IRoom CurrentRoom { get; set; }
 
+        void Disconnect();
         Task SendPacketAsync(IPacketComposer serverPacket);
     }
 }

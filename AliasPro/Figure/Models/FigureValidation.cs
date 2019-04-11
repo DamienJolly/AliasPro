@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using AliasPro.Player.Models;
+using System.Collections.Generic;
 
 namespace AliasPro.Figure.Models
 {
@@ -9,7 +10,7 @@ namespace AliasPro.Figure.Models
             //todo: initilize
         }
 
-        public bool Validate(string figure, string gender)
+        public bool Validate(string figure, PlayerGender gender)
         {
             ICollection<string> usedParts = new List<string>();
             string[] sets = figure.Split('.');
@@ -34,7 +35,7 @@ namespace AliasPro.Figure.Models
 
             if (!usedParts.Contains("hd") || !usedParts.Contains("lg")) return false;
 
-            if (gender == "F" && !usedParts.Contains("ch")) return false;
+            if (gender == PlayerGender.FEMALE && !usedParts.Contains("ch")) return false;
 
             return true;
         }

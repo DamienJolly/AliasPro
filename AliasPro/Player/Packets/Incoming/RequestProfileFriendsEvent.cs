@@ -7,8 +7,7 @@ namespace AliasPro.Player.Packets.Incoming
     using Network.Protocol;
     using Sessions;
     using Packets.Outgoing;
-    using Models;
-    using Models.Messenger;
+    using AliasPro.API.Player.Models;
 
     public class RequestProfileFriendsEvent : IAsyncPacket
     {
@@ -25,11 +24,10 @@ namespace AliasPro.Player.Packets.Incoming
             ISession session,
             IClientPacket clientPacket)
         {
-            int playerId = clientPacket.ReadInt();
-            IPlayer targetPlayer =
-                    await _playerController.GetPlayerByIdAsync((uint)playerId);
+            uint playerId = (uint)clientPacket.ReadInt();
 
-            if (targetPlayer == null) return;
+            if (!_playerController.TryGetPlayer(playerId, out IPlayer targetPlayer))
+                return;
 
             //todo: remove/fix
             if (targetPlayer.Messenger == null) return;

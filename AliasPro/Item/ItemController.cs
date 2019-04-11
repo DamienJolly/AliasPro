@@ -24,6 +24,9 @@
 
         public async Task<int> AddNewItemAsync(IItem item) =>
             await _itemRepository.AddNewItemAsync(item);
+
+        public async Task UpdatePlayerItemsAsync(ICollection<IItem> items) =>
+            await _itemRepository.UpdatePlayerItemsAsync(items);
     }
 
     public interface IItemController
@@ -32,5 +35,6 @@
         Task<IDictionary<uint, IItem>> GetItemsForRoomAsync(uint id);
         bool TryGetItemDataById(uint itemId, out IItemData item);
         Task<int> AddNewItemAsync(IItem item);
+        Task UpdatePlayerItemsAsync(ICollection<IItem> items);
     }
 }

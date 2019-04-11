@@ -5,10 +5,11 @@ namespace AliasPro.Room.Models.Entities
     using Network.Protocol;
     using Gamemap;
     using AliasPro.Room.Models.Game;
+    using AliasPro.Player.Models;
 
     public abstract class BaseEntity
     {
-        protected BaseEntity(int id, int x, int y, int rotation, string name, string figure, string gender, string motto)
+        protected BaseEntity(int id, int x, int y, int rotation, string name, string figure, PlayerGender gender, string motto)
         {
             Id = id;
             BodyRotation = rotation;
@@ -40,7 +41,7 @@ namespace AliasPro.Room.Models.Entities
         public IList<Position> PathToWalk { get; set; }
         public string Name { get; set; }
         public string Figure { get; set; }
-        public string Gender { get; set; }
+        public PlayerGender Gender { get; set; }
         public string Motto { get; set; }
 
         public EntityAction Actions;

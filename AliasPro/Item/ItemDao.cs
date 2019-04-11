@@ -102,7 +102,7 @@ namespace AliasPro.Item
             });
         }
 
-        internal async Task UpdatePlayerItems(ICollection<IItem> items)
+        internal async Task UpdatePlayerItemsAsync(ICollection<IItem> items)
         {
             await CreateTransaction(async transaction =>
             {

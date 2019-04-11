@@ -1,4 +1,6 @@
-﻿namespace AliasPro.Figure
+﻿using AliasPro.Player.Models;
+
+namespace AliasPro.Figure
 {
     internal class FigureController : IFigureController
     {
@@ -9,12 +11,12 @@
             _figureRepostiory = figureRepostiory;
         }
 
-        public bool ValidateFigure(string figure, string gender) =>
+        public bool ValidateFigure(string figure, PlayerGender gender) =>
             _figureRepostiory.ValidateFigure(figure, gender);
     }
 
     public interface IFigureController
     {
-        bool ValidateFigure(string figure, string gender);
+        bool ValidateFigure(string figure, PlayerGender gender);
     }
 }

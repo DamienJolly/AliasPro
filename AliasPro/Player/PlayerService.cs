@@ -28,18 +28,7 @@ namespace AliasPro.Player
             collection.AddSingleton<IAsyncPacket, UserWearBadgeEvent>();
             collection.AddSingleton<IAsyncPacket, RequestUserCreditsEvent>();
             collection.AddSingleton<IAsyncPacket, RequestUserProfileEvent>();
-            collection.AddSingleton<IAsyncPacket, RequestInitFriendsEvent>();
-            collection.AddSingleton<IAsyncPacket, FriendRequestEvent>();
-            collection.AddSingleton<IAsyncPacket, RequestFriendsEvent>();
-            collection.AddSingleton<IAsyncPacket, RequestFriendRequestsEvent>();
-            collection.AddSingleton<IAsyncPacket, DeclineFriendRequestEvent>();
-            collection.AddSingleton<IAsyncPacket, AcceptFriendRequestEvent>();
-            collection.AddSingleton<IAsyncPacket, RemoveFriendEvent>();
-            collection.AddSingleton<IAsyncPacket, SearchUserEvent>();
-            collection.AddSingleton<IAsyncPacket, FriendPrivateMessageEvent>();
-            collection.AddSingleton<IAsyncPacket, RoomInviteEvent>();
             collection.AddSingleton<IAsyncPacket, RequestProfileFriendsEvent>();
-            collection.AddSingleton<IAsyncPacket, ChangeRelationEvent>();
             collection.AddSingleton<IAsyncPacket, SaveUserVolumesEvent>();
             collection.AddSingleton<IAsyncPacket, SavePreferOldChatEvent>();
             collection.AddSingleton<IAsyncPacket, SaveIgnoreRoomInvitesEvent>();

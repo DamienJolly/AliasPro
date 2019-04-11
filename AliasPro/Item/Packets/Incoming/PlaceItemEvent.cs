@@ -58,8 +58,9 @@ namespace AliasPro.Item.Packets.Incoming
                 item.CurrentRoom = room;
 
                 room.ItemHandler.AddItem(item);
-                
-                await session.Player.Inventory.RemoveItem(item);
+                session.Player.Inventory.RemoveItem(item.Id);
+
+                await session.SendPacketAsync(new RemovePlayerItemComposer(item.Id));
             }
         }
     }

@@ -2,16 +2,16 @@
 
 namespace AliasPro.Player.Packets.Outgoing
 {
-    using Models.Currency;
+    using AliasPro.API.Player.Models;
     using Network.Events;
     using Network.Events.Headers;
     using Network.Protocol;
 
     public class UserCurrencyComposer : IPacketComposer
     {
-        private readonly ICollection<ICurrencyType> _currencies;
+        private readonly ICollection<IPlayerCurrency> _currencies;
 
-        public UserCurrencyComposer(ICollection<ICurrencyType> currencies)
+        public UserCurrencyComposer(ICollection<IPlayerCurrency> currencies)
         {
             _currencies = currencies;
         }
@@ -20,7 +20,7 @@ namespace AliasPro.Player.Packets.Outgoing
         {
             ServerPacket message = new ServerPacket(Outgoing.UserCurrencyMessageComposer);
             message.WriteInt(_currencies.Count);
-            foreach (ICurrencyType currency in _currencies)
+            foreach (IPlayerCurrency currency in _currencies)
             {
                 message.WriteInt(currency.Type);
                 message.WriteInt(currency.Amount);

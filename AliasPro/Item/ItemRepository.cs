@@ -34,5 +34,8 @@ namespace AliasPro.Item
 
         public async Task<int> AddNewItemAsync(IItem item) =>
             await _itemDao.AddNewItemAsync(item);
+
+        public async Task UpdatePlayerItemsAsync(ICollection<IItem> items) =>
+            await _itemDao.UpdatePlayerItemsAsync(items);
     }
 }

@@ -7,6 +7,9 @@ namespace AliasPro.Network
     using Sessions;
     using Player;
     using Room;
+    using System.Threading.Tasks;
+    using AliasPro.Item;
+    using AliasPro.API.Messenger;
 
     internal class NetworkHandler : SimpleChannelInboundHandler<IClientPacket>
     {
@@ -14,32 +17,33 @@ namespace AliasPro.Network
         private readonly ISessionController _sessionController;
         private readonly IPlayerController _playerController;
         private readonly IRoomController _roomController;
+        private readonly IItemController _itemController;
+        private readonly IMessengerController _messengerController;
 
         internal NetworkHandler(
             IEventProvider provider,
             ISessionController sessionController,
             IPlayerController playerController,
-            IRoomController roomController)
+            IRoomController roomController,
+            IItemController itemController,
+            IMessengerController messengerController)
         {
             _eventProvider = provider;
             _sessionController = sessionController;
             _playerController = playerController;
             _roomController = roomController;
+            _itemController = itemController;
+            _messengerController = messengerController;
         }
 
         public override void ChannelRegistered(IChannelHandlerContext context) =>
             _sessionController.CacheSession(context);
 
-        public override async void ChannelUnregistered(IChannelHandlerContext context)
+        public override void ChannelUnregistered(IChannelHandlerContext context)
         {
-            if (_sessionController.TryGetSession(context.Channel.Id, out ISession session) &&
-                session.Player != null)
+            if (_sessionController.TryGetSession(context.Channel.Id, out ISession session))
             {
-                if (session.CurrentRoom != null)
-                {
-                    await _roomController.RemoveFromRoom(session);
-                }
-                await _playerController.RemovePlayerByIdAsync(session.Player.Id);
+                DisconnectPlayer(session);
             }
             _sessionController.RemoveFromCache(context.Channel.Id);
         }
@@ -50,6 +54,30 @@ namespace AliasPro.Network
             {
                 await _eventProvider.Handle(session, msg);
             }
+        }
+
+        private async void DisconnectPlayer(ISession session)
+        {
+            if (session.Player == null)
+                return;
+            
+            session.Player.Online = false;
+
+            await _playerController.UpdatePlayerAsync(session.Player);
+            await _playerController.UpdatePlayerSettingsAsync(session.Player);
+            await _playerController.UpdatePlayerCurrenciesAsync(session.Player);
+            await _playerController.UpdatePlayerBadgesAsync(session.Player);
+
+            if (session.Player.Inventory != null)
+                await _itemController.UpdatePlayerItemsAsync(session.Player.Inventory.Items);
+
+            if (session.Player.Messenger != null)
+                await _messengerController.UpdateStatusAsync(session.Player, session.Player.Messenger.Friends);
+
+            if (session.CurrentRoom != null)
+                await _roomController.RemoveFromRoom(session);
+
+            _playerController.RemovePlayer(session.Player);
         }
     }
 }

@@ -19,7 +19,6 @@ namespace AliasPro.Item.Packets.Incoming
             ISession session,
             IClientPacket clientPacket)
         {
-            System.Console.WriteLine(session.Player.Inventory.Items.Count);
             clientPacket.ReadInt(); //??
             uint itemId = (uint)clientPacket.ReadInt();
 
@@ -42,12 +41,13 @@ namespace AliasPro.Item.Packets.Incoming
                 item.RoomId = 0;
                 item.CurrentRoom = null;
 
-                await session.Player.Inventory.AddItem(item);
+                if(session.Player.Inventory.TryAddItem(item))
+                {
+                    room.ItemHandler.RemoveItem(item.Id);
 
-                room.ItemHandler.RemoveItem(item.Id);
-
-                await session.SendPacketAsync(new AddPlayerItemsComposer(item));
-                await session.SendPacketAsync(new InventoryRefreshComposer());
+                    await session.SendPacketAsync(new AddPlayerItemsComposer(item));
+                    await session.SendPacketAsync(new InventoryRefreshComposer());
+                }
             }
         }
     }

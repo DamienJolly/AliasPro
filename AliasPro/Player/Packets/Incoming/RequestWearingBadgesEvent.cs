@@ -8,6 +8,7 @@ namespace AliasPro.Player.Packets.Incoming
     using Packets.Outgoing;
     using Sessions;
     using Models;
+    using AliasPro.API.Player.Models;
 
     public class RequestWearingBadgesEvent : IAsyncPacket
     {
@@ -24,15 +25,14 @@ namespace AliasPro.Player.Packets.Incoming
             ISession session,
             IClientPacket clientPacket)
         {
-            int playerId = clientPacket.ReadInt();
+            uint playerId = (uint)clientPacket.ReadInt();
 
-            IPlayer targetPlayer =
-                await _playerController.GetPlayerByIdAsync((uint)playerId);
+            if (!_playerController.TryGetPlayer(playerId, out IPlayer targetPlayer))
+                return;
 
-            if (targetPlayer == null || 
-                targetPlayer.Badge == null) return;
+            if (targetPlayer.Badge == null) return;
 
-            await session.SendPacketAsync(new UserBadgesComposer(targetPlayer.Badge.WearableBadges, targetPlayer.Id));
+            await session.SendPacketAsync(new UserBadgesComposer(targetPlayer.Badge.WornBadges, targetPlayer.Id));
         }
     }
 }

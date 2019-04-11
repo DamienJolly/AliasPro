@@ -2,17 +2,17 @@
 
 namespace AliasPro.Player.Packets.Outgoing
 {
+    using AliasPro.API.Player.Models;
     using Network.Events;
     using Network.Events.Headers;
     using Network.Protocol;
-    using Models.Badge;
 
     public class InventoryBadgesComposer : IPacketComposer
     {
-        private readonly ICollection<IBadgeData> _badges;
-        private readonly ICollection<IBadgeData> _wearableBadges;
+        private readonly ICollection<IPlayerBadge> _badges;
+        private readonly ICollection<IPlayerBadge> _wearableBadges;
 
-        public InventoryBadgesComposer(ICollection<IBadgeData> badges, ICollection<IBadgeData> wearableBadges)
+        public InventoryBadgesComposer(ICollection<IPlayerBadge> badges, ICollection<IPlayerBadge> wearableBadges)
         {
             _badges = badges;
             _wearableBadges = wearableBadges;
@@ -22,14 +22,14 @@ namespace AliasPro.Player.Packets.Outgoing
         {
             ServerPacket message = new ServerPacket(Outgoing.InventoryBadgesMessageComposer);
             message.WriteInt(_badges.Count);
-            foreach (IBadgeData badge in _badges)
+            foreach (IPlayerBadge badge in _badges)
             {
                 message.WriteInt(badge.Slot);
                 message.WriteString(badge.Code);
             };
 
             message.WriteInt(_wearableBadges.Count);
-            foreach (IBadgeData badge in _wearableBadges)
+            foreach (IPlayerBadge badge in _wearableBadges)
             {
                 message.WriteInt(badge.Slot);
                 message.WriteString(badge.Code);

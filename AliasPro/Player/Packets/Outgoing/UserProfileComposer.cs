@@ -1,6 +1,6 @@
 ﻿namespace AliasPro.Player.Packets.Outgoing
 {
-    using Models;
+    using AliasPro.API.Player.Models;
     using Network.Events;
     using Network.Events.Headers;
     using Network.Protocol;
@@ -27,7 +27,7 @@
             message.WriteInt(0); ///Friend count
             message.WriteBoolean(false); //Is friend
             message.WriteBoolean(false); //Has requested
-            message.WriteBoolean(_player.IsOnline);
+            message.WriteBoolean(_player.Online);
             message.WriteInt(0); //Groups
             message.WriteInt(0); //Last online (seconds)
             message.WriteBoolean(true); //?

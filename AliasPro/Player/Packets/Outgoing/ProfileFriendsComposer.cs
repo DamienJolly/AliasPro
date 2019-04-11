@@ -6,7 +6,7 @@ namespace AliasPro.Player.Packets.Outgoing
     using Network.Events;
     using Network.Events.Headers;
     using Network.Protocol;
-    using Models.Messenger;
+    using AliasPro.API.Messenger.Models;
 
     public class ProfileFriendsComposer : IPacketComposer
     {

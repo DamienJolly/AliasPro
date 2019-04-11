@@ -1,5 +1,6 @@
 ﻿namespace AliasPro.Figure
 {
+    using AliasPro.Player.Models;
     using Models;
 
     internal class FigureRepostiory
@@ -13,7 +14,7 @@
             _antiMutant = new FigureValidation();
         }
 
-        internal bool ValidateFigure(string figure, string gender) =>
+        internal bool ValidateFigure(string figure, PlayerGender gender) =>
             _antiMutant.Validate(figure, gender);
     }
 }

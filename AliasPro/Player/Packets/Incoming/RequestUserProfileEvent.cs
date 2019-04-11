@@ -8,6 +8,7 @@ namespace AliasPro.Player.Packets.Incoming
     using Packets.Outgoing;
     using Sessions;
     using Models;
+    using AliasPro.API.Player.Models;
 
     public class RequestUserProfileEvent : IAsyncPacket
     {
@@ -24,14 +25,10 @@ namespace AliasPro.Player.Packets.Incoming
             ISession session,
             IClientPacket clientPacket)
         {
-            int playerId = clientPacket.ReadInt();
-
-            if (playerId <= 0) return;
-
-            IPlayer targetPlayer = 
-                await _playerController.GetPlayerByIdAsync((uint)playerId);
-
-            if (targetPlayer == null) return;
+            uint playerId = (uint)clientPacket.ReadInt();
+            
+            if (!_playerController.TryGetPlayer(playerId, out IPlayer targetPlayer))
+                return;
 
             await session.SendPacketAsync(new UserProfileComposer(targetPlayer));
         }

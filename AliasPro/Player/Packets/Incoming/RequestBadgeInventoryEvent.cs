@@ -18,7 +18,7 @@ namespace AliasPro.Player.Packets.Incoming
         {
             if (session.Player.Badge == null) return;
 
-            await session.SendPacketAsync(new InventoryBadgesComposer(session.Player.Badge.Badges, session.Player.Badge.WearableBadges));
+            await session.SendPacketAsync(new InventoryBadgesComposer(session.Player.Badge.Badges, session.Player.Badge.WornBadges));
         }
     }
 }

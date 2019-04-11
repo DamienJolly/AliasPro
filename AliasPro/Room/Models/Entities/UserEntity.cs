@@ -2,7 +2,8 @@
 {
     using Network.Protocol;
     using Sessions;
-    using Player.Models;
+    using AliasPro.API.Player.Models;
+    using AliasPro.Player.Models;
 
     internal class UserEntity : BaseEntity
     {
@@ -27,7 +28,7 @@
             serverPacket.WriteString(Position.Z.ToString());
             serverPacket.WriteInt(0);
             serverPacket.WriteInt(1);
-            serverPacket.WriteString(Player.Gender.ToLower());
+            serverPacket.WriteString(Player.Gender == PlayerGender.MALE ? "m" : "f");
 
             serverPacket.WriteInt(-1);
             serverPacket.WriteInt(-1);

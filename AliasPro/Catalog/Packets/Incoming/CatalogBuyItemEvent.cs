@@ -128,8 +128,13 @@ namespace AliasPro.Catalog.Packets.Incoming
 
             foreach (IItem item in itemsList)
             {
+                if(!session.Player.Inventory.TryAddItem(item))
+                {
+                    itemsList.Remove(item);
+                    continue;
+                }
+
                 item.Id = (uint)await _itemController.AddNewItemAsync(item);
-                await session.Player.Inventory.AddItem(item);
             }
 
             await session.SendPacketAsync(new AddPlayerItemsComposer(itemsList));
