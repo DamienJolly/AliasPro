@@ -1,8 +1,8 @@
-﻿namespace AliasPro.Figure
-{
-    using Configuration;
-    using Database;
+﻿using AliasPro.API.Configuration;
+using AliasPro.Database;
 
+namespace AliasPro.Figure
+{
     internal class FigureDao : BaseDao
     {
         public FigureDao(IConfigurationController configurationController)

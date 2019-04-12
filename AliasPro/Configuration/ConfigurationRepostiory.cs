@@ -1,4 +1,5 @@
-﻿using AliasPro.Configuration.Models;
+﻿using AliasPro.API.Configuration.Models;
+using AliasPro.Configuration.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;

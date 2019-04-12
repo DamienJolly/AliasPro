@@ -1,13 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using AliasPro.API.Configuration;
+using AliasPro.API.Player.Models;
+using AliasPro.Database;
+using AliasPro.Players.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AliasPro.Players
 {
-    using Configuration;
-    using Database;
-    using Models;
-    using AliasPro.API.Player.Models;
-
     internal class PlayerDao : BaseDao
     {
         public PlayerDao(IConfigurationController configurationController)

@@ -1,12 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using AliasPro.API.Configuration;
+using AliasPro.Database;
+using AliasPro.Items.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AliasPro.Items
 {
-    using Configuration;
-    using Database;
-    using Models;
-
     internal class ItemDao : BaseDao
     {
         public ItemDao(IConfigurationController configurationController)

@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using AliasPro.API.Configuration;
+using AliasPro.Database;
+using AliasPro.Landing.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AliasPro.Landing
 {
-    using Configuration;
-    using Database;
-    using Models;
-
     internal class LandingDao : BaseDao
     {
         public LandingDao(IConfigurationController configurationController)

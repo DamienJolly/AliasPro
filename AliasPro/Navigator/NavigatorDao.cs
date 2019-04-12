@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using AliasPro.API.Configuration;
+using AliasPro.Database;
+using AliasPro.Navigator.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AliasPro.Navigator
 {
-    using Configuration;
-    using Database;
-    using Models;
-
     internal class NavigatorDao : BaseDao
     {
         public NavigatorDao(IConfigurationController configurationController)

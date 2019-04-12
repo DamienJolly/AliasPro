@@ -1,10 +1,10 @@
-﻿namespace AliasPro.Settings
-{
-    using Configuration;
-    using Database;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+﻿using AliasPro.API.Configuration;
+using AliasPro.Database;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
+namespace AliasPro.Settings
+{
     internal class SettingsDao : BaseDao
     {
         public SettingsDao(IConfigurationController configurationController)

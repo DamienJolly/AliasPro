@@ -1,7 +1,8 @@
-﻿namespace AliasPro.Configuration
-{
-    using Models;
+﻿using AliasPro.API.Configuration;
+using AliasPro.API.Configuration.Models;
 
+namespace AliasPro.Configuration
+{
     internal class ConfigurationController : IConfigurationController
     {
         private readonly ConfigurationRepostiory _configurationRepostiory;
@@ -11,12 +12,7 @@
             _configurationRepostiory = configurationRepostiory;
         }
 
-        public IConfigurationData GetConfigurationData() =>
+        public IConfigurationData ConfigurationData =>
             _configurationRepostiory.ConfigurationData;
-    }
-
-    public interface IConfigurationController
-    {
-        IConfigurationData GetConfigurationData();
     }
 }

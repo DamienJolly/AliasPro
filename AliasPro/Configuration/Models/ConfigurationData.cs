@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using AliasPro.API.Configuration.Models;
+using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 
 namespace AliasPro.Configuration.Models
@@ -51,22 +52,5 @@ namespace AliasPro.Configuration.Models
         public string MySQLDatabase { get; }
         public uint MySQLMinimumPoolSize { get; }
         public uint MySQLMaximumPoolSize { get; }
-    }
-
-    public interface IConfigurationData
-    {
-        string ConnectionString { get; }
-
-        string ServerIPAddress { get; }
-        int ServerPort { get; }
-        int ServerMaxConnections { get; }
-        int ServerMaxConnectionsPerIP { get; }
-        string MySQLHostName { get; }
-        uint MySQLPort { get; }
-        string MySQLUsername { get; }
-        string MySQLPassword { get; }
-        string MySQLDatabase { get; }
-        uint MySQLMinimumPoolSize { get; }
-        uint MySQLMaximumPoolSize { get; }
     }
 }

@@ -1,13 +1,12 @@
-﻿using MySql.Data.MySqlClient;
+﻿using AliasPro.API.Configuration;
+using AliasPro.API.Configuration.Models;
+using MySql.Data.MySqlClient;
 using System;
 using System.Data.Common;
 using System.Threading.Tasks;
 
 namespace AliasPro.Database
 {
-    using Configuration;
-    using Configuration.Models;
-
     public abstract class BaseDao
     {
         private readonly string _connectionString;
@@ -22,7 +21,7 @@ namespace AliasPro.Database
                 Console.WriteLine("Caught error: " + text);
             };
 
-            IConfigurationData configData = _configurationController.GetConfigurationData();
+            IConfigurationData configData = _configurationController.ConfigurationData;
             _connectionString = configData.ConnectionString;
         }
 

@@ -1,5 +1,5 @@
-﻿using AliasPro.API.Messenger.Models;
-using AliasPro.Configuration;
+﻿using AliasPro.API.Configuration;
+using AliasPro.API.Messenger.Models;
 using AliasPro.Database;
 using AliasPro.Messenger.Models;
 using System.Collections.Generic;

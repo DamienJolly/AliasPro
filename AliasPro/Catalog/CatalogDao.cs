@@ -1,6 +1,6 @@
 ﻿using AliasPro.API.Catalog.Models;
+using AliasPro.API.Configuration;
 using AliasPro.Catalog.Models;
-using AliasPro.Configuration;
 using AliasPro.Database;
 using AliasPro.Items;
 using AliasPro.Utilities;
