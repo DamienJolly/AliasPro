@@ -1,15 +1,15 @@
-﻿using AliasPro.API.Network.Events;
+﻿using AliasPro.API.Items.Models;
+using AliasPro.API.Network.Events;
 using AliasPro.Items.Models;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Network.Protocol;
-using AliasPro.Room.Models.Item.Interaction.Wired;
 
 namespace AliasPro.Room.Packets.Composers
 {
     public class WiredEffectDataComposer : IPacketComposer
     {
         private readonly IItem _item;
-        private readonly WiredData _wiredData;
+        private readonly IWiredData _wiredData;
 
         public WiredEffectDataComposer(IItem item)
         {

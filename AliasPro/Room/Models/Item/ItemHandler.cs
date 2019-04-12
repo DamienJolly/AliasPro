@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System;
 
 namespace AliasPro.Room.Models.Item
 {
-    using AliasPro.Items.Models;
+    using AliasPro.API.Items.Models;
+    using AliasPro.Items.Types;
     using AliasPro.Room.Gamemap;
 
     public class ItemHandler
@@ -18,7 +18,7 @@ namespace AliasPro.Room.Models.Item
             _items = new Dictionary<uint, IItem>();
         }
         
-        public void TriggerWired(WiredInteraction interaction, params object[] args)
+        public void TriggerWired(WiredInteractionType interaction, params object[] args)
         {
             foreach (IItem trigger in WiredTriggers)
             {
@@ -78,10 +78,10 @@ namespace AliasPro.Room.Models.Item
             _items.Values.Where(item => item.ItemData.Type == "i").ToList();
 
         internal ICollection<IItem> WiredTriggers =>
-            _items.Values.Where(item => item.ItemData.InteractionType == ItemInteraction.WIRED_TRIGGER).ToList();
+            _items.Values.Where(item => item.ItemData.InteractionType == ItemInteractionType.WIRED_TRIGGER).ToList();
 
         internal ICollection<IItem> WiredEffects =>
-            _items.Values.Where(item => item.ItemData.InteractionType == ItemInteraction.WIRED_EFFECT).ToList();
+            _items.Values.Where(item => item.ItemData.InteractionType == ItemInteractionType.WIRED_EFFECT).ToList();
 
 
         internal IDictionary<uint, string> GetItemOwners

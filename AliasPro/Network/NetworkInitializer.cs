@@ -1,6 +1,6 @@
-﻿using AliasPro.API.Messenger;
+﻿using AliasPro.API.Items;
+using AliasPro.API.Messenger;
 using AliasPro.API.Network.Events;
-using AliasPro.Items;
 using AliasPro.Network.Codec;
 using AliasPro.Players;
 using AliasPro.Room;

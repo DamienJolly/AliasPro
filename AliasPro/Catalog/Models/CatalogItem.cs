@@ -1,7 +1,7 @@
 ﻿using AliasPro.API.Catalog.Models;
 using AliasPro.API.Database;
+using AliasPro.API.Items.Models;
 using AliasPro.Items;
-using AliasPro.Items.Models;
 using AliasPro.Network.Protocol;
 using System.Collections.Generic;
 using System.Data.Common;

@@ -2,7 +2,8 @@
 
 namespace AliasPro.Room.Models.Entities
 {
-    using AliasPro.Items.Models;
+    using AliasPro.API.Items.Models;
+    using AliasPro.Items.Types;
     using AliasPro.Room.Packets.Composers;
     using Gamemap;
     using Gamemap.Pathfinding;
@@ -67,7 +68,7 @@ namespace AliasPro.Room.Models.Entities
                 if (oldTopItem != null)
                 {
                     oldTopItem.Interaction.OnUserWalkOff(entity);
-                    _room.ItemHandler.TriggerWired(WiredInteraction.WALKS_OFF_FURNI, entity, oldTopItem);
+                    _room.ItemHandler.TriggerWired(WiredInteractionType.WALKS_OFF_FURNI, entity, oldTopItem);
                 }
 
                 IItem topItem = roomTile.TopItem;
@@ -76,12 +77,12 @@ namespace AliasPro.Room.Models.Entities
 
                 if (topItem != null)
                 {
-                    if (topItem.ItemData.InteractionType == ItemInteraction.BED ||
-                        topItem.ItemData.InteractionType == ItemInteraction.CHAIR)
+                    if (topItem.ItemData.InteractionType == ItemInteractionType.BED ||
+                        topItem.ItemData.InteractionType == ItemInteractionType.CHAIR)
                         newZ -= topItem.ItemData.Height;
 
                     topItem.Interaction.OnUserWalkOn(entity);
-                    _room.ItemHandler.TriggerWired(WiredInteraction.WALKS_ON_FURNI, entity, topItem);
+                    _room.ItemHandler.TriggerWired(WiredInteractionType.WALKS_ON_FURNI, entity, topItem);
                 }
 
                 entity.NextPosition = new Position(nextStep.X, nextStep.Y, newZ);
@@ -122,7 +123,7 @@ namespace AliasPro.Room.Models.Entities
 
                 if (topItem != null)
                 {
-                    if (topItem.ItemData.InteractionType == ItemInteraction.CHAIR)
+                    if (topItem.ItemData.InteractionType == ItemInteractionType.CHAIR)
                     {
                         entity.Actions.AddStatus("sit", topItem.ItemData.Height + "");
                         entity.BodyRotation = 
@@ -131,7 +132,7 @@ namespace AliasPro.Room.Models.Entities
                         entity.Position.Z = roomTile.Height - topItem.ItemData.Height;
                         entity.IsSitting = false;
                     }
-                    else if (topItem.ItemData.InteractionType == ItemInteraction.BED)
+                    else if (topItem.ItemData.InteractionType == ItemInteractionType.BED)
                     {
                         entity.Actions.AddStatus("lay", topItem.ItemData.Height + "");
                         entity.BodyRotation = 

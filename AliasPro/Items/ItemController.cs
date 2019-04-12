@@ -1,9 +1,10 @@
-﻿namespace AliasPro.Items
-{
-    using Models;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+﻿using AliasPro.API.Items;
+using AliasPro.API.Items.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
+namespace AliasPro.Items
+{
     internal class ItemController : IItemController
     {
         private readonly ItemRepository _itemRepository;
@@ -27,14 +28,5 @@
 
         public async Task UpdatePlayerItemsAsync(ICollection<IItem> items) =>
             await _itemRepository.UpdatePlayerItemsAsync(items);
-    }
-
-    public interface IItemController
-    {
-        Task<IDictionary<uint, IItem>> GetItemsForPlayerAsync(uint id);
-        Task<IDictionary<uint, IItem>> GetItemsForRoomAsync(uint id);
-        bool TryGetItemDataById(uint itemId, out IItemData item);
-        Task<int> AddNewItemAsync(IItem item);
-        Task UpdatePlayerItemsAsync(ICollection<IItem> items);
     }
 }

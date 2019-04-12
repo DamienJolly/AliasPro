@@ -1,4 +1,4 @@
-﻿using AliasPro.Items.Models;
+﻿using AliasPro.Items.Types;
 using AliasPro.Room.Models.Entities;
 using System.Collections.Generic;
 
@@ -45,15 +45,15 @@ namespace AliasPro.Room.Models.Game
         public void StartGame()
         {
             GameStarted = true;
-            _room.ItemHandler.TriggerWired(WiredInteraction.GAME_STARTS);
-            _room.ItemHandler.TriggerWired(WiredInteraction.AT_GIVEN_TIME);
+            _room.ItemHandler.TriggerWired(WiredInteractionType.GAME_STARTS);
+            _room.ItemHandler.TriggerWired(WiredInteractionType.AT_GIVEN_TIME);
         }
 
         public void EndGame()
         {
             ResetTeams();
             GameStarted = false;
-            _room.ItemHandler.TriggerWired(WiredInteraction.GAME_ENDS);
+            _room.ItemHandler.TriggerWired(WiredInteractionType.GAME_ENDS);
         }
         
         private void ResetTeams()
@@ -73,8 +73,7 @@ namespace AliasPro.Room.Models.Game
                 return;
 
             team.Points += amount;
-            System.Console.WriteLine("points added: " + amount);
-            _room.ItemHandler.TriggerWired(WiredInteraction.SCORE_ACHIEVED, team.Points);
+            _room.ItemHandler.TriggerWired(WiredInteractionType.SCORE_ACHIEVED, team.Points);
         }
 
         public void GiveTeamPoints(GameTeamType teamType, int amount, int maxAmount)
@@ -88,8 +87,7 @@ namespace AliasPro.Room.Models.Game
             {
                 team.MaxPoints++;
                 team.Points += amount;
-                System.Console.WriteLine("points added: " + amount);
-                _room.ItemHandler.TriggerWired(WiredInteraction.SCORE_ACHIEVED, team.Points);
+                _room.ItemHandler.TriggerWired(WiredInteractionType.SCORE_ACHIEVED, team.Points);
             }
         }
 

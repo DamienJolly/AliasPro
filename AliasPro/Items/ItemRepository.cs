@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using AliasPro.API.Items.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AliasPro.Items
 {
-    using Models;
-
     internal class ItemRepository
     {
         private readonly ItemDao _itemDao;

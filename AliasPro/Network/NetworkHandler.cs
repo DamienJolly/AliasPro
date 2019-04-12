@@ -1,7 +1,7 @@
-﻿using AliasPro.API.Messenger;
+﻿using AliasPro.API.Items;
+using AliasPro.API.Messenger;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
-using AliasPro.Items;
 using AliasPro.Players;
 using AliasPro.Room;
 using AliasPro.Sessions;

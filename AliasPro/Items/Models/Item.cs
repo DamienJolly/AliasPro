@@ -1,15 +1,15 @@
-﻿using System.Data.Common;
+﻿using AliasPro.API.Database;
+using AliasPro.API.Items.Interaction;
+using AliasPro.API.Items.Models;
+using AliasPro.Items.Utilities;
+using AliasPro.Network.Protocol;
+using AliasPro.Room.Gamemap;
+using AliasPro.Room.Models;
+using AliasPro.Room.Models.Entities;
+using System.Data.Common;
 
 namespace AliasPro.Items.Models
 {
-    using Network.Protocol;
-    using Room.Gamemap;
-    using Room.Models.Item.Interaction;
-    using Room.Models.Item.Interaction.Wired;
-    using Room.Models.Entities;
-    using AliasPro.Room.Models;
-    using AliasPro.API.Database;
-
     internal class Item : IItem
     {
         internal Item(DbDataReader reader)
@@ -91,7 +91,7 @@ namespace AliasPro.Items.Models
             get
             {
                 if (_interaction == null)
-                    _interaction = ItemInteractor.GetItemInteractor(ItemData.InteractionType, this);
+                    _interaction = ItemInteractorUtility.GetItemInteractor(ItemData.InteractionType, this);
 
                 return _interaction;
             }
@@ -102,33 +102,10 @@ namespace AliasPro.Items.Models
             get
             {
                 if (_wiredInteraction == null)
-                    _wiredInteraction = WiredInteractor.GetWiredInteractor(ItemData.WiredInteractionType, this);
+                    _wiredInteraction = WiredInteractorUtility.GetWiredInteractor(ItemData.WiredInteractionType, this);
 
                 return _wiredInteraction;
             }
         }
-    }
-
-    public interface IItem
-    {
-        void ComposeFloorItem(ServerPacket serverPacket);
-        void ComposeWallItem(ServerPacket serverPacket);
-
-        uint Id { get; set; }
-        uint ItemId { get; }
-        uint PlayerId { get; }
-        string PlayerUsername { get; }
-        uint RoomId { get; set; }
-        int Rotation { get; set; }
-        int Mode { get; set; }
-        string ExtraData { get; set; }
-        Position Position { get; set; }
-        IItemData ItemData { get; set; }
-        BaseEntity InteractingPlayer { get; set; }
-
-        IRoom CurrentRoom { get; set; }
-
-        IItemInteractor Interaction { get; }
-        IWiredInteractor WiredInteraction { get; }
     }
 }

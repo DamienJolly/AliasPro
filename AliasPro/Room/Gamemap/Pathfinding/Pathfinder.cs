@@ -4,7 +4,8 @@ using System.Runtime.CompilerServices;
 
 namespace AliasPro.Room.Gamemap.Pathfinding
 {
-    using AliasPro.Items.Models;
+    using AliasPro.API.Items.Models;
+    using AliasPro.Items.Types;
     using Models.Entities;
 
     public static class PathFinder
@@ -60,7 +61,7 @@ namespace AliasPro.Room.Gamemap.Pathfinding
             IItem topItem = roomTile.TopItem;
             if (topItem != null)
             {
-                if (topItem.ItemData.InteractionType == ItemInteraction.BED)
+                if (topItem.ItemData.InteractionType == ItemInteractionType.BED)
                 {
                     end = GetBedPosition(topItem, end);
                 }

@@ -1,5 +1,5 @@
 ﻿using AliasPro.API.Catalog.Models;
-using AliasPro.Items.Models;
+using AliasPro.API.Items.Models;
 using AliasPro.Network.Protocol;
 using AliasPro.Sessions;
 

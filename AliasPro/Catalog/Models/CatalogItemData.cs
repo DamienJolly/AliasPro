@@ -1,5 +1,5 @@
 ﻿using AliasPro.API.Catalog.Models;
-using AliasPro.Items.Models;
+using AliasPro.API.Items.Models;
 
 namespace AliasPro.Catalog.Models
 {

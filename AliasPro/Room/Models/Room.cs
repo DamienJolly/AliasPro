@@ -15,6 +15,8 @@ namespace AliasPro.Room.Models
     using AliasPro.Room.Gamemap.Pathfinding;
     using AliasPro.API.Network.Events;
     using AliasPro.Room.Packets.Composers;
+    using AliasPro.API.Items.Models;
+    using AliasPro.Items.Types;
 
     internal class Room : IRoom, ITask
     {
@@ -88,7 +90,7 @@ namespace AliasPro.Room.Models
                 text = text.Substring(0, 100);
             }
 
-            ItemHandler.TriggerWired(WiredInteraction.SAY_SOMETHING, entity, text);
+            ItemHandler.TriggerWired(WiredInteractionType.SAY_SOMETHING, entity, text);
 
             foreach (BaseEntity targetEntity in EntityHandler.Entities)
             {
@@ -110,7 +112,7 @@ namespace AliasPro.Room.Models
             EntityHandler.AddEntity(entity);
             RoomMap.AddEntity(entity);
 
-            ItemHandler.TriggerWired(WiredInteraction.ENTER_ROOM, entity);
+            ItemHandler.TriggerWired(WiredInteractionType.ENTER_ROOM, entity);
 
             await SendAsync(new EntitiesComposer(entity));
             await SendAsync(new EntityUpdateComposer(entity));

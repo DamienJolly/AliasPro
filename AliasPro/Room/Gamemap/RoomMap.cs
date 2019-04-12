@@ -2,7 +2,7 @@
 
 namespace AliasPro.Room.Gamemap
 {
-    using AliasPro.Items.Models;
+    using AliasPro.API.Items.Models;
     using Models;
     using Models.Entities;
     using System;

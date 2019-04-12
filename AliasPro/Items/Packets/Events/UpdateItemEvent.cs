@@ -1,6 +1,6 @@
-﻿using AliasPro.API.Network.Events;
+﻿using AliasPro.API.Items.Models;
+using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
-using AliasPro.Items.Models;
 using AliasPro.Items.Packets.Composers;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Room.Gamemap;

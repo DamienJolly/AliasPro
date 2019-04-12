@@ -1,7 +1,8 @@
-﻿using AliasPro.API.Network.Events;
+﻿using AliasPro.API.Items.Models;
+using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
-using AliasPro.Items.Models;
 using AliasPro.Items.Packets.Composers;
+using AliasPro.Items.Types;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Room.Models;
 using AliasPro.Sessions;
@@ -34,7 +35,7 @@ namespace AliasPro.Items.Packets.Events
                 int state = clientPacket.ReadInt();
                 
                 item.Interaction.OnUserInteract(session.Entity, state);
-                room.ItemHandler.TriggerWired(WiredInteraction.STATE_CHANGED, session.Entity, item);
+                room.ItemHandler.TriggerWired(WiredInteractionType.STATE_CHANGED, session.Entity, item);
 
                 await room.SendAsync(new WallItemUpdateComposer(item));
             }

@@ -1,4 +1,5 @@
-﻿using AliasPro.Items.Models;
+﻿using AliasPro.API.Items.Models;
+using AliasPro.Items.Types;
 using AliasPro.Room.Models;
 using AliasPro.Room.Models.Entities;
 using System.Collections.Generic;
@@ -30,30 +31,9 @@ namespace AliasPro.Room.Gamemap
             {
                 if (topItem.ItemData.CanWalk) return true;
 
-                if (topItem.ItemData.InteractionType == ItemInteraction.CHAIR && final) return true;
+                if (topItem.ItemData.InteractionType == ItemInteractionType.CHAIR && final) return true;
                 
-                // todo: do some edits
-                if (topItem.ItemData.InteractionType == ItemInteraction.BED && final) return true;
-                /*{
-                    if ((topItem.Rotation % 4) != 0)
-                    {
-                        for (int y = topItem.Position.Y; y <= topItem.Position.Y + topItem.ItemData.Width - 1; y++)
-                        {
-                            if (topItem.Position.X == _position.X && y == _position.Y)
-                                return true;
-                        }
-                    }
-                    else
-                    {
-                        for (int x = topItem.Position.X; x <= topItem.Position.X + topItem.ItemData.Width - 1; x++)
-                        {
-                            if (x == _position.X && topItem.Position.Y == _position.Y)
-                                return true;
-                        }
-                    }
-
-                    return false;
-                }*/
+                if (topItem.ItemData.InteractionType == ItemInteractionType.BED && final) return true;
 
                 return false;
             }
@@ -121,7 +101,7 @@ namespace AliasPro.Room.Gamemap
                 IList<IItem> effects = new List<IItem>();
                 foreach (IItem item in _items.Values)
                 {
-                    if (item.ItemData.InteractionType == ItemInteraction.WIRED_EFFECT)
+                    if (item.ItemData.InteractionType == ItemInteractionType.WIRED_EFFECT)
                         effects.Add(item);
                 }
                 return effects;
@@ -135,7 +115,7 @@ namespace AliasPro.Room.Gamemap
                 IList<IItem> conditions = new List<IItem>();
                 foreach (IItem item in _items.Values)
                 {
-                    if (item.ItemData.InteractionType == ItemInteraction.WIRED_CONDITION)
+                    if (item.ItemData.InteractionType == ItemInteractionType.WIRED_CONDITION)
                         conditions.Add(item);
                 }
                 return conditions;

@@ -1,7 +1,7 @@
-﻿using AliasPro.API.Network.Events;
+﻿using AliasPro.API.Items;
+using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
 using AliasPro.API.Player.Models;
-using AliasPro.Items;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Players.Components;
 using AliasPro.Players.Models;
