@@ -1,9 +1,8 @@
-﻿using System.Data.Common;
+﻿using AliasPro.API.Database;
+using System.Data.Common;
 
 namespace AliasPro.Players.Models
 {
-    using Database;
-
     internal class PlayerSettings : IPlayerSettings
     {
         internal PlayerSettings(DbDataReader reader)

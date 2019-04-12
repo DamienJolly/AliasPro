@@ -1,10 +1,9 @@
-﻿using System.Data.Common;
+﻿using AliasPro.API.Database;
+using AliasPro.Network.Protocol;
+using System.Data.Common;
 
 namespace AliasPro.Room.Models
 {
-    using Network.Protocol;
-    using Database;
-
     internal class RoomData : IRoomData
     {
         internal RoomData(DbDataReader reader)

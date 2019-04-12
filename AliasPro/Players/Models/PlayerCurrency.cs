@@ -1,5 +1,5 @@
-﻿using AliasPro.API.Player.Models;
-using AliasPro.Database;
+﻿using AliasPro.API.Database;
+using AliasPro.API.Player.Models;
 using System.Data.Common;
 
 namespace AliasPro.Players.Models

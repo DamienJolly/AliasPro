@@ -1,9 +1,8 @@
-﻿using System.Data.Common;
+﻿using AliasPro.API.Database;
+using System.Data.Common;
 
 namespace AliasPro.Room.Models
 {
-    using Database;
-
     internal class RoomSettings : IRoomSettings
     {
         public RoomSettings(DbDataReader reader)

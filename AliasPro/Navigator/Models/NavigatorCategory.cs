@@ -1,11 +1,9 @@
-﻿using System;
+﻿using AliasPro.API.Database;
+using AliasPro.Navigator.Models.Views;
 using System.Data.Common;
 
 namespace AliasPro.Navigator.Models
 {
-    using Database;
-    using Views;
-
     internal class NavigatorCategory : INavigatorCategory
     {
         internal NavigatorCategory(DbDataReader reader)

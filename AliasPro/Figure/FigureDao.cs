@@ -1,5 +1,5 @@
 ﻿using AliasPro.API.Configuration;
-using AliasPro.Database;
+using AliasPro.API.Database;
 
 namespace AliasPro.Figure
 {

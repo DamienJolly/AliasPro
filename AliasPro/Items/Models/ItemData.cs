@@ -1,9 +1,8 @@
-﻿using System.Data.Common;
+﻿using AliasPro.API.Database;
+using System.Data.Common;
 
 namespace AliasPro.Items.Models
 {
-    using Database;
-
     internal class ItemData : IItemData
     {
         internal ItemData(DbDataReader reader)

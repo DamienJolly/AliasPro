@@ -1,6 +1,6 @@
 ﻿using System.Data.Common;
 
-namespace AliasPro.Database
+namespace AliasPro.API.Database
 {
     public static class ReaderExtensions
     {

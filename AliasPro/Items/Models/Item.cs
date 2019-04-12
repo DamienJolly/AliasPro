@@ -4,11 +4,11 @@ namespace AliasPro.Items.Models
 {
     using Network.Protocol;
     using Room.Gamemap;
-    using Database;
     using Room.Models.Item.Interaction;
     using Room.Models.Item.Interaction.Wired;
     using Room.Models.Entities;
     using AliasPro.Room.Models;
+    using AliasPro.API.Database;
 
     internal class Item : IItem
     {

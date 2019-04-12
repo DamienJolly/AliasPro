@@ -5,7 +5,7 @@ using System;
 using System.Data.Common;
 using System.Threading.Tasks;
 
-namespace AliasPro.Database
+namespace AliasPro.API.Database
 {
     public abstract class BaseDao
     {

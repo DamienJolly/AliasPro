@@ -1,9 +1,8 @@
-﻿using System.Data.Common;
+﻿using AliasPro.API.Database;
+using System.Data.Common;
 
 namespace AliasPro.Landing.Models
 {
-    using Database;
-
     internal class HallOfFamer : IHallOfFamer
     {
         internal HallOfFamer(DbDataReader reader)

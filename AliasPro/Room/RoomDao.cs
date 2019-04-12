@@ -1,5 +1,5 @@
 ﻿using AliasPro.API.Configuration;
-using AliasPro.Database;
+using AliasPro.API.Database;
 using AliasPro.Items.Models;
 using AliasPro.Room.Models;
 using System.Collections.Generic;

@@ -1,7 +1,7 @@
 ﻿using AliasPro.API.Catalog.Layouts;
 using AliasPro.API.Catalog.Models;
+using AliasPro.API.Database;
 using AliasPro.Catalog.Layouts;
-using AliasPro.Database;
 using System.Collections.Generic;
 using System.Data.Common;
 

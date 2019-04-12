@@ -1,5 +1,5 @@
 ﻿using AliasPro.API.Configuration;
-using AliasPro.Database;
+using AliasPro.API.Database;
 using AliasPro.Landing.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;

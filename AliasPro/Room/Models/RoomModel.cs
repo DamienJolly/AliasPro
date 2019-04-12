@@ -1,12 +1,11 @@
-﻿using System;
+﻿using AliasPro.API.Database;
+using AliasPro.Room.Utils;
+using System;
 using System.Data.Common;
 using System.Text;
 
 namespace AliasPro.Room.Models
 {
-    using Utils;
-    using Database;
-
     internal class RoomModel : IRoomModel
     {
         private double[,] floorHeightMap;
