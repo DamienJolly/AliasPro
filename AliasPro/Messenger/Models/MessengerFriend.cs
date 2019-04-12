@@ -2,7 +2,7 @@
 using AliasPro.API.Player.Models;
 using AliasPro.Database;
 using AliasPro.Network.Protocol;
-using AliasPro.Player.Models;
+using AliasPro.Players.Models;
 using System.Data.Common;
 
 namespace AliasPro.Messenger.Models

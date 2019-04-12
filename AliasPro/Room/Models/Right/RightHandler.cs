@@ -1,12 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using AliasPro.Room.Packets.Composers;
+using AliasPro.Sessions;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AliasPro.Room.Models.Right
 {
-    using Player.Models;
-    using Sessions;
-    using Packets.Outgoing;
-
     public class RightHandler
     {
         private readonly IRoom _room;

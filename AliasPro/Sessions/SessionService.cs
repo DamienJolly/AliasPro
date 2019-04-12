@@ -1,9 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AliasPro.API.Network;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AliasPro.Sessions
 {
-    using Network;
-
     internal class SessionService : INetworkService
     {
         public void SetupService(IServiceCollection collection)

@@ -4,7 +4,7 @@ namespace AliasPro.Chat.Models.Commands
 {
     using Sessions;
     using Catalog;
-    using Catalog.Packets.Outgoing;
+    using AliasPro.Catalog.Packets.Composers;
 
     internal class UpdateCommand : IChatCommand
     {

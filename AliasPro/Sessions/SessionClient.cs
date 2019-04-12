@@ -8,6 +8,7 @@ namespace AliasPro.Sessions
     using Network.Events;
     using Network.Protocol;
     using AliasPro.API.Player.Models;
+    using AliasPro.API.Network.Events;
 
     internal class SessionClient : ISession
     {

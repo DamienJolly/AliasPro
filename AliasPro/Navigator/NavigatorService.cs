@@ -1,11 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AliasPro.API.Network;
+using AliasPro.API.Network.Events;
+using AliasPro.Navigator.Packets.Events;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AliasPro.Navigator
 {
-    using Network;
-    using Network.Events;
-    using Packets.Incoming;
-
     internal class NavigatorService : INetworkService
     {
         public void SetupService(IServiceCollection collection)

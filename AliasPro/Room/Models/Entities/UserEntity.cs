@@ -3,7 +3,7 @@
     using Network.Protocol;
     using Sessions;
     using AliasPro.API.Player.Models;
-    using AliasPro.Player.Models;
+    using AliasPro.Players.Models;
 
     internal class UserEntity : BaseEntity
     {

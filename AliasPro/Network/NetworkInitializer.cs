@@ -1,16 +1,15 @@
-﻿using DotNetty.Transport.Channels;
+﻿using AliasPro.API.Messenger;
+using AliasPro.API.Network.Events;
+using AliasPro.Items;
+using AliasPro.Network.Codec;
+using AliasPro.Players;
+using AliasPro.Room;
+using AliasPro.Sessions;
+using DotNetty.Transport.Channels;
 using DotNetty.Transport.Channels.Sockets;
 
 namespace AliasPro.Network
 {
-    using Codec;
-    using Events;
-    using Sessions;
-    using Player;
-    using Room;
-    using AliasPro.Item;
-    using AliasPro.API.Messenger;
-
     internal class NetworkInitializer : ChannelInitializer<ISocketChannel>
     {
         private readonly IEventProvider _eventProvider;
@@ -41,7 +40,13 @@ namespace AliasPro.Network
             channel.Pipeline
                 .AddLast("encoder", new Encoder())
                 .AddLast("decoder", new Decoder())
-                .AddLast("handler", new NetworkHandler(_eventProvider, _sessionController, _playerController, _roomController, _itemController, _messengerController));
+                .AddLast("handler", new NetworkHandler(
+                    _eventProvider,
+                    _sessionController, 
+                    _playerController, 
+                    _roomController, 
+                    _itemController, 
+                    _messengerController));
         }
     }
 }

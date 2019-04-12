@@ -5,7 +5,7 @@ namespace AliasPro.Room.Models.Entities
     using Network.Protocol;
     using Gamemap;
     using AliasPro.Room.Models.Game;
-    using AliasPro.Player.Models;
+    using AliasPro.Players.Models;
 
     public abstract class BaseEntity
     {

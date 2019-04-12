@@ -4,7 +4,7 @@ using System;
 
 namespace AliasPro.Room.Models.Item
 {
-    using AliasPro.Item.Models;
+    using AliasPro.Items.Models;
     using AliasPro.Room.Gamemap;
 
     public class ItemHandler

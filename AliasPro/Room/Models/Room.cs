@@ -8,13 +8,13 @@ namespace AliasPro.Room.Models
     using Entities;
     using Gamemap;
     using Tasks;
-    using Packets.Outgoing;
-    using Network.Events;
     using Item;
     using Right;
     using Game;
-    using AliasPro.Item.Models;
+    using AliasPro.Items.Models;
     using AliasPro.Room.Gamemap.Pathfinding;
+    using AliasPro.API.Network.Events;
+    using AliasPro.Room.Packets.Composers;
 
     internal class Room : IRoom, ITask
     {

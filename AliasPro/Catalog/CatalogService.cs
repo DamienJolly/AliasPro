@@ -1,11 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AliasPro.API.Network;
+using AliasPro.API.Network.Events;
+using AliasPro.Catalog.Packets.Events;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AliasPro.Catalog
 {
-    using Network;
-    using Network.Events;
-    using Packets.Incoming;
-
     internal class CatalogService : INetworkService
     {
         public void SetupService(IServiceCollection collection)

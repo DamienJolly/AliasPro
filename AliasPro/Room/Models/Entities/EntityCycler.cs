@@ -2,10 +2,10 @@
 
 namespace AliasPro.Room.Models.Entities
 {
-    using AliasPro.Item.Models;
+    using AliasPro.Items.Models;
+    using AliasPro.Room.Packets.Composers;
     using Gamemap;
     using Gamemap.Pathfinding;
-    using Packets.Outgoing;
 
     internal class EntityCycler
     {

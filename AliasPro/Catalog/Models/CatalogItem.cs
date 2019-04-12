@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace AliasPro.Catalog.Models
 {
-    using Item;
-    using Item.Models;
     using Database;
     using Network.Protocol;
+    using AliasPro.Items;
+    using AliasPro.Items.Models;
 
     internal class CatalogItem : ICatalogItem
     {

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AliasPro.API.Network;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AliasPro.Network
 {

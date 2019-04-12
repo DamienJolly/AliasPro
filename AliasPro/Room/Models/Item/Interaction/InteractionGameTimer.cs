@@ -1,10 +1,10 @@
 ﻿namespace AliasPro.Room.Models.Item.Interaction
 {
     using Network.Protocol;
-    using AliasPro.Item.Models;
-    using AliasPro.Item.Packets.Outgoing;
+    using AliasPro.Items.Models;
     using AliasPro.Room.Models.Entities;
     using System;
+    using AliasPro.Items.Packets.Composers;
 
     public class InteractionGameTimer : IItemInteractor
     {

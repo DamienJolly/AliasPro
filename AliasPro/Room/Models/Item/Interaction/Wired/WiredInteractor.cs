@@ -1,6 +1,6 @@
 ﻿namespace AliasPro.Room.Models.Item.Interaction.Wired
 {
-    using AliasPro.Item.Models;
+    using AliasPro.Items.Models;
 
     public class WiredInteractor
     {

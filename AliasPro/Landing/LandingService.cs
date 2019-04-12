@@ -1,11 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AliasPro.API.Network;
+using AliasPro.API.Network.Events;
+using AliasPro.Landing.Packets.Events;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AliasPro.Landing
 {
-    using Packets.Incoming;
-    using Network.Events;
-    using Network;
-
     internal class LandingService : INetworkService
     {
         public void SetupService(IServiceCollection collection)

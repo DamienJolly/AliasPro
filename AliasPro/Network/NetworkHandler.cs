@@ -1,16 +1,14 @@
-﻿using DotNetty.Transport.Channels;
+﻿using AliasPro.API.Messenger;
+using AliasPro.API.Network.Events;
+using AliasPro.API.Network.Protocol;
+using AliasPro.Items;
+using AliasPro.Players;
+using AliasPro.Room;
+using AliasPro.Sessions;
+using DotNetty.Transport.Channels;
 
 namespace AliasPro.Network
 {
-    using Events;
-    using Protocol;
-    using Sessions;
-    using Player;
-    using Room;
-    using System.Threading.Tasks;
-    using AliasPro.Item;
-    using AliasPro.API.Messenger;
-
     internal class NetworkHandler : SimpleChannelInboundHandler<IClientPacket>
     {
         private readonly IEventProvider _eventProvider;
@@ -48,11 +46,11 @@ namespace AliasPro.Network
             _sessionController.RemoveFromCache(context.Channel.Id);
         }
 
-        protected override async void ChannelRead0(IChannelHandlerContext context, IClientPacket msg)
+        protected override void ChannelRead0(IChannelHandlerContext context, IClientPacket msg)
         {
             if (_sessionController.TryGetSession(context.Channel.Id, out ISession session))
             {
-                await _eventProvider.Handle(session, msg);
+                _eventProvider.Handle(session, msg);
             }
         }
 

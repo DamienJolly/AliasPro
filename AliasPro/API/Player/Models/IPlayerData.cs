@@ -1,4 +1,4 @@
-﻿using AliasPro.Player.Models;
+﻿using AliasPro.Players.Models;
 
 namespace AliasPro.API.Player.Models
 {

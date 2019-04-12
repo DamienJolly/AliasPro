@@ -1,7 +1,7 @@
 ﻿using AliasPro.API.Messenger;
-using AliasPro.Messenger.Packets.Incoming;
-using AliasPro.Network;
-using AliasPro.Network.Events;
+using AliasPro.API.Network;
+using AliasPro.API.Network.Events;
+using AliasPro.Messenger.Packets.Events;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AliasPro.Messenger

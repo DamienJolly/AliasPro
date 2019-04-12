@@ -3,11 +3,11 @@
 namespace AliasPro.Room.Models.Item.Interaction
 {
     using Network.Protocol;
-    using AliasPro.Item.Models;
-    using AliasPro.Item.Packets.Outgoing;
-    using Packets.Outgoing;
+    using AliasPro.Items.Models;
     using Utilities;
     using AliasPro.Room.Models.Entities;
+    using AliasPro.Items.Packets.Composers;
+    using AliasPro.Room.Packets.Composers;
 
     public class InteractionVendingMachine : IItemInteractor
     {

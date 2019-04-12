@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using AliasPro.Catalog.Models;
+using AliasPro.Items;
+using System.Collections.Generic;
 
 namespace AliasPro.Catalog
 {
-    using Item;
-    using Models;
-
     internal class CatalogRepostiory
     {
         private readonly CatalogDao _catalogDao;

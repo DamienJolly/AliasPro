@@ -1,10 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AliasPro.API.Network;
+using AliasPro.Chat.Models.Commands;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AliasPro.Chat
 {
-    using Network;
-    using Models.Commands;
-
     internal class ChatService : INetworkService
     {
         public void SetupService(IServiceCollection collection)

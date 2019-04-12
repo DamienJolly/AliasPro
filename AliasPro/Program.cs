@@ -1,26 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using AliasPro.API.Network;
+using AliasPro.API.Network.Events;
+using AliasPro.Catalog;
+using AliasPro.Chat;
+using AliasPro.Configuration;
+using AliasPro.Figure;
+using AliasPro.Items;
+using AliasPro.Landing;
+using AliasPro.Messenger;
+using AliasPro.Navigator;
+using AliasPro.Network;
+using AliasPro.Network.Events;
+using AliasPro.Players;
+using AliasPro.Room;
+using AliasPro.Sessions;
+using AliasPro.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AliasPro
 {
-    using Configuration;
-    using Settings;
-    using Catalog;
-    using Item;
-    using Navigator;
-    using Room;
-    using Landing;
-    using Network;
-    using Network.Events;
-    using Player;
-    using Sessions;
-    using Chat;
-    using Figure;
-    using AliasPro.Messenger;
-
     public class Program
     {
         private readonly IServiceProvider _serviceProvider;

@@ -1,6 +1,6 @@
-﻿using AliasPro.Item.Models;
+﻿using AliasPro.Items.Models;
 using AliasPro.Room.Models.Entities;
-using AliasPro.Room.Packets.Outgoing;
+using AliasPro.Room.Packets.Composers;
 
 namespace AliasPro.Room.Models.Item.Interaction.Wired
 {

@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace AliasPro.Room.Gamemap.Pathfinding
 {
-    using AliasPro.Item.Models;
+    using AliasPro.Items.Models;
     using Models.Entities;
 
     public static class PathFinder

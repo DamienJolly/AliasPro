@@ -1,11 +1,9 @@
-﻿using System;
+﻿using AliasPro.Room.Packets.Composers;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace AliasPro.Room.Models.Entities
 {
-    using Packets.Outgoing;
-
     public class EntityHandler
     {
         private readonly IRoom _room;
@@ -23,12 +21,16 @@ namespace AliasPro.Room.Models.Entities
 
         public async void Cycle()
         {
-            foreach (BaseEntity entity in Entities)
+            try
             {
-                _entityCycler.Cycle(entity);
-            }
+                foreach (BaseEntity entity in Entities)
+                {
+                    _entityCycler.Cycle(entity);
+                }
 
-            await _room.SendAsync(new EntityUpdateComposer(Entities));
+                await _room.SendAsync(new EntityUpdateComposer(Entities));
+            }
+            catch { }
         }
 
         public async void Unidle(BaseEntity entity)

@@ -1,4 +1,4 @@
-﻿using AliasPro.Item.Models;
+﻿using AliasPro.Items.Models;
 using AliasPro.Room.Gamemap;
 
 namespace AliasPro.Room.Models.Item.Interaction.Wired

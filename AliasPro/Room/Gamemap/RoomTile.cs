@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using AliasPro.Items.Models;
+using AliasPro.Room.Models;
+using AliasPro.Room.Models.Entities;
+using System.Collections.Generic;
 
 namespace AliasPro.Room.Gamemap
 {
-    using Models;
-    using Item.Models;
-    using Models.Entities;
-
     public class RoomTile
     {
         private readonly IRoom _room;

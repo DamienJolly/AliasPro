@@ -1,10 +1,8 @@
-﻿using AliasPro.Item.Models;
-using AliasPro.Item.Packets.Outgoing;
+﻿using AliasPro.Items.Models;
+using AliasPro.Items.Packets.Composers;
 using AliasPro.Room.Gamemap;
-using AliasPro.Room.Gamemap.Pathfinding;
 using AliasPro.Room.Models.Entities;
 using AliasPro.Utilities;
-using System.Collections.Generic;
 
 namespace AliasPro.Room.Models.Item.Interaction.Wired
 {

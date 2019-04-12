@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using AliasPro.Catalog.Models;
+using AliasPro.Configuration;
+using AliasPro.Database;
+using AliasPro.Items;
+using AliasPro.Utilities;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AliasPro.Catalog
 {
-    using Configuration;
-    using Database;
-    using Models;
-    using Item;
-    using AliasPro.Utilities;
-
     internal class CatalogDao : BaseDao
     {
         public CatalogDao(IConfigurationController configurationController) 

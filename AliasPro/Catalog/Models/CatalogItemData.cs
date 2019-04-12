@@ -1,7 +1,7 @@
-﻿namespace AliasPro.Catalog.Models
-{
-    using Item.Models;
+﻿using AliasPro.Items.Models;
 
+namespace AliasPro.Catalog.Models
+{
     internal class CatalogItemData : ICatalogItemData
     {
         internal CatalogItemData(int id, int amount, IItemData itemData)

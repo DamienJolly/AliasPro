@@ -1,4 +1,5 @@
-﻿using DotNetty.Buffers;
+﻿using AliasPro.Network.Protocol;
+using DotNetty.Buffers;
 using DotNetty.Codecs;
 using DotNetty.Transport.Channels;
 using System.Collections.Generic;
@@ -6,8 +7,6 @@ using System.Text;
 
 namespace AliasPro.Network.Codec
 {
-    using Protocol;
-
     internal class Decoder : ByteToMessageDecoder
     {
         protected override void Decode(IChannelHandlerContext context, IByteBuffer input, List<object> output)
@@ -21,12 +20,7 @@ namespace AliasPro.Network.Codec
 
             if (delimeter == 60)
             {
-                string policy = "<?xml version=\"1.0\"?>\r\n"
-                                + "<!DOCTYPE cross-domain-policy SYSTEM \"/xml/dtds/cross-domain-policy.dtd\">\r\n"
-                                + "<cross-domain-policy>\r\n"
-                                + "<allow-access-from domain=\"*\" to-ports=\"*\" />\r\n"
-                                + "</cross-domain-policy>\0)";
-                context.WriteAndFlushAsync(Unpooled.CopiedBuffer(Encoding.Default.GetBytes(policy)));
+                context.WriteAndFlushAsync(Unpooled.CopiedBuffer(Encoding.Default.GetBytes(Policy)));
             }
             else
             {
@@ -44,5 +38,12 @@ namespace AliasPro.Network.Codec
                 output.Add(new ClientPacket(newBuf));
             }
         }
+
+        private string Policy =>
+            "<?xml version=\"1.0\"?>\r\n"
+                + "<!DOCTYPE cross-domain-policy SYSTEM \"/xml/dtds/cross-domain-policy.dtd\">\r\n"
+                + "<cross-domain-policy>\r\n"
+                + "<allow-access-from domain=\"*\" to-ports=\"*\" />\r\n"
+                + "</cross-domain-policy>\0)";
     }
 }

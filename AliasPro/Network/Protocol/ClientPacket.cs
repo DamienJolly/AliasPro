@@ -1,4 +1,5 @@
-﻿using DotNetty.Buffers;
+﻿using AliasPro.API.Network.Protocol;
+using DotNetty.Buffers;
 using System.Text;
 
 namespace AliasPro.Network.Protocol

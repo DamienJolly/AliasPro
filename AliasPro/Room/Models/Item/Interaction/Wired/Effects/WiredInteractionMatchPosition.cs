@@ -1,5 +1,5 @@
-﻿using AliasPro.Item.Models;
-using AliasPro.Item.Packets.Outgoing;
+﻿using AliasPro.Items.Models;
+using AliasPro.Items.Packets.Composers;
 
 namespace AliasPro.Room.Models.Item.Interaction.Wired
 {

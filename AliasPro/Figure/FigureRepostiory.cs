@@ -1,6 +1,6 @@
 ﻿namespace AliasPro.Figure
 {
-    using AliasPro.Player.Models;
+    using AliasPro.Players.Models;
     using Models;
 
     internal class FigureRepostiory

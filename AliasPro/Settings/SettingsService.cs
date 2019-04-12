@@ -1,9 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AliasPro.API.Network;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AliasPro.Settings
 {
-    using Network;
-
     internal class SettingsService : INetworkService
     {
         public void SetupService(IServiceCollection collection)

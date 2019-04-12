@@ -1,10 +1,10 @@
-﻿namespace AliasPro.Room.Models.Item.Interaction
-{
-    using Network.Protocol;
-    using AliasPro.Item.Models;
-    using AliasPro.Item.Packets.Outgoing;
-    using AliasPro.Room.Models.Entities;
+﻿using AliasPro.Items.Models;
+using AliasPro.Items.Packets.Composers;
+using AliasPro.Network.Protocol;
+using AliasPro.Room.Models.Entities;
 
+namespace AliasPro.Room.Models.Item.Interaction
+{
     public class InteractionDefault : IItemInteractor
     {
         private readonly IItem _item;

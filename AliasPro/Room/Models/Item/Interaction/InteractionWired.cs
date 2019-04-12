@@ -1,9 +1,9 @@
 ﻿namespace AliasPro.Room.Models.Item.Interaction
 {
     using Network.Protocol;
-    using Packets.Outgoing;
-    using AliasPro.Item.Models;
+    using AliasPro.Items.Models;
     using AliasPro.Room.Models.Entities;
+    using AliasPro.Room.Packets.Composers;
 
     public class InteractionWired : IItemInteractor
     {

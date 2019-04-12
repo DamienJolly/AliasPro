@@ -1,7 +1,7 @@
 ﻿using AliasPro.API.Messenger.Models;
 using AliasPro.API.Player.Models;
-using AliasPro.Messenger.Packets.Outgoing;
-using AliasPro.Player;
+using AliasPro.Messenger.Packets.Composers;
+using AliasPro.Players;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
