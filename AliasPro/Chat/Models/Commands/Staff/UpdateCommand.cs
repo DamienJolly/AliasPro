@@ -1,11 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using AliasPro.API.Catalog;
+using AliasPro.Catalog.Packets.Composers;
+using AliasPro.Sessions;
+using System.Threading.Tasks;
 
 namespace AliasPro.Chat.Models.Commands
 {
-    using Sessions;
-    using Catalog;
-    using AliasPro.Catalog.Packets.Composers;
-
     internal class UpdateCommand : IChatCommand
     {
         public string Name => "update";

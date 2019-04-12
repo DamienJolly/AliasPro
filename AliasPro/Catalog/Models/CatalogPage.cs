@@ -1,11 +1,12 @@
-﻿using System.Data.Common;
+﻿using AliasPro.API.Catalog.Layouts;
+using AliasPro.API.Catalog.Models;
+using AliasPro.Catalog.Layouts;
+using AliasPro.Database;
 using System.Collections.Generic;
+using System.Data.Common;
 
 namespace AliasPro.Catalog.Models
 {
-    using Database;
-    using Layouts;
-
     internal class CatalogPage : ICatalogPage
     {
         internal CatalogPage(DbDataReader reader)
@@ -34,8 +35,8 @@ namespace AliasPro.Catalog.Models
         {
             switch (layout)
             {
-                default: return new LayoutDefault();
-                case "frontpage": return new LayoutFrontpage();
+                default: return new LayoutDefault(this);
+                case "frontpage": return new LayoutFrontpage(this);
             }
         }
 
@@ -60,29 +61,5 @@ namespace AliasPro.Catalog.Models
         public ICatalogLayout Layout { get; }
         public bool Enabled { get; }
         public bool Visible { get; }
-    }
-
-    public interface ICatalogPage
-    {
-        int Id { get; }
-        int ParentId { get; }
-        string Name { get; }
-        string Caption { get; }
-        int Icon { get; }
-        int Rank { get; }
-        int Order { get; }
-        IDictionary<int, ICatalogItem> Items { get; set; }
-        string HeaderImage { get; }
-        string TeaserImage { get; }
-        string SpecialImage { get; }
-        string TextOne { get; }
-        string TextTwo { get; }
-        string TextDetails { get; }
-        string TextTeaser { get; }
-        ICatalogLayout Layout { get; }
-        bool Enabled { get; }
-        bool Visible { get; }
-
-        bool TryGetCatalogItem(int itemId, out ICatalogItem item);
     }
 }

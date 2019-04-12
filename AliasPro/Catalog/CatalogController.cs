@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using AliasPro.API.Catalog;
+using AliasPro.API.Catalog.Models;
+using System.Collections.Generic;
 
 namespace AliasPro.Catalog
 {
-    using Models;
-
     internal class CatalogController : ICatalogController
     {
         private readonly CatalogRepostiory _catalogRepostiory;
@@ -21,12 +21,5 @@ namespace AliasPro.Catalog
 
         public void ReloadCatalog() =>
             _catalogRepostiory.InitializeCatalog();
-    }
-
-    public interface ICatalogController
-    {
-        ICollection<ICatalogPage> GetCatalogPages(int pageId, int rank);
-        bool TryGetCatalogPage(int pageId, out ICatalogPage page);
-        void ReloadCatalog();
     }
 }

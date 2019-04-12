@@ -1,6 +1,7 @@
-﻿using AliasPro.API.Network.Events;
+﻿using AliasPro.API.Catalog;
+using AliasPro.API.Catalog.Models;
+using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
-using AliasPro.Catalog.Models;
 using AliasPro.Catalog.Packets.Composers;
 using AliasPro.Items;
 using AliasPro.Items.Models;
@@ -97,9 +98,11 @@ namespace AliasPro.Catalog.Packets.Events
                 {
                     for (int k = 0; k < item.Amount; k++)
                     {
-                        // todo: extradata
-                        IItem playerItem = new Item((uint)item.Id, session.Player.Id, "", item.ItemData);
-                        itemsList.Add(playerItem);
+                        IItem playerItem = page.Layout.HandlePurchase(item, session, extraData);
+                        if (playerItem != null)
+                        {
+                            itemsList.Add(playerItem);
+                        }
                     }
                 }
             }

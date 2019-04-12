@@ -1,5 +1,6 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Catalog.Models;
+﻿using AliasPro.API.Catalog;
+using AliasPro.API.Catalog.Models;
+using AliasPro.API.Network.Events;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Network.Protocol;
 using System.Collections.Generic;
@@ -33,7 +34,7 @@ namespace AliasPro.Catalog.Packets.Composers
             message.WriteInt(0);
 
             message.WriteInt(pages.Count);
-            foreach (CatalogPage page in pages)
+            foreach (ICatalogPage page in pages)
             {
                 Append(message, page);
             }
@@ -42,7 +43,7 @@ namespace AliasPro.Catalog.Packets.Composers
             return message;
         }
         
-        private void Append(ServerPacket message, CatalogPage catalogPage)
+        private void Append(ServerPacket message, ICatalogPage catalogPage)
         {
             ICollection<ICatalogPage> pages = _catalogController.GetCatalogPages(catalogPage.Id, _rank);
 
@@ -55,7 +56,7 @@ namespace AliasPro.Catalog.Packets.Composers
             message.WriteInt(0);
 
             message.WriteInt(pages.Count);
-            foreach (CatalogPage page in pages)
+            foreach (ICatalogPage page in pages)
             {
                 Append(message, page);
             }

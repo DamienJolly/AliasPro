@@ -1,6 +1,7 @@
-﻿using AliasPro.API.Network.Events;
+﻿using AliasPro.API.Catalog;
+using AliasPro.API.Catalog.Models;
+using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
-using AliasPro.Catalog.Models;
 using AliasPro.Catalog.Packets.Composers;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Sessions;

@@ -1,4 +1,5 @@
-﻿using AliasPro.Items.Models;
+﻿using AliasPro.API.Catalog.Models;
+using AliasPro.Items.Models;
 
 namespace AliasPro.Catalog.Models
 {
@@ -14,12 +15,5 @@ namespace AliasPro.Catalog.Models
         public int Id { get; }
         public int Amount { get; }
         public IItemData ItemData { get; }
-    }
-
-    public interface ICatalogItemData
-    {
-        int Id { get; }
-        int Amount { get; }
-        IItemData ItemData { get; }
     }
 }

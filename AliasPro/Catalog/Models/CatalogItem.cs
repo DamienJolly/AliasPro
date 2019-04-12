@@ -1,13 +1,13 @@
-﻿using System.Data.Common;
+﻿using AliasPro.API.Catalog.Models;
+using AliasPro.Database;
+using AliasPro.Items;
+using AliasPro.Items.Models;
+using AliasPro.Network.Protocol;
 using System.Collections.Generic;
+using System.Data.Common;
 
 namespace AliasPro.Catalog.Models
 {
-    using Database;
-    using Network.Protocol;
-    using AliasPro.Items;
-    using AliasPro.Items.Models;
-
     internal class CatalogItem : ICatalogItem
     {
         internal CatalogItem(DbDataReader reader, ItemRepository itemRepository)
@@ -111,27 +111,5 @@ namespace AliasPro.Catalog.Models
             message.WriteBoolean(false);
             message.WriteString(Name + ".png");
         }
-    }
-
-    public interface ICatalogItem
-    {
-        int Id { get; }
-        int PageId { get; }
-        IList<ICatalogItemData> Items { get; }
-        string Name { get; }
-        int Credits { get; }
-        int Points { get; }
-        int PointsType { get; }
-        int ClubLevel { get; }
-        bool CanGift { get; }
-        bool HasOffer { get; }
-        int OfferId { get; }
-        int LimitedStack { get; }
-        IList<int> LimitedNumbers { get; set; }
-        int LimitedSells { get; }
-        bool IsLimited { get; }
-        int GetNumber { get; }
-
-        void Compose(ServerPacket message);
     }
 }

@@ -1,4 +1,4 @@
-﻿using AliasPro.Catalog.Models;
+﻿using AliasPro.API.Catalog.Models;
 using AliasPro.Items;
 using System.Collections.Generic;
 
