@@ -1,20 +1,20 @@
 ﻿using AliasPro.Players.Models;
 using System.Collections.Generic;
 
-namespace AliasPro.Figure.Models
+namespace AliasPro.Figure.Components
 {
-    internal class FigureValidation
+    internal class FigureComponent
     {
-        public FigureValidation()
+        public FigureComponent()
         {
-            //todo: initilize
+            //todo: initilize something
         }
 
         public bool Validate(string figure, PlayerGender gender)
         {
             ICollection<string> usedParts = new List<string>();
             string[] sets = figure.Split('.');
-            
+
             foreach (string set in sets)
             {
                 string[] parts = set.Split('-');
@@ -39,7 +39,7 @@ namespace AliasPro.Figure.Models
 
             return true;
         }
-        
+
         private bool CheckPart(string i)
         {
             switch (i)

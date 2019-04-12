@@ -1,4 +1,5 @@
-﻿using AliasPro.Players.Models;
+﻿using AliasPro.API.Figure;
+using AliasPro.Players.Models;
 
 namespace AliasPro.Figure
 {
@@ -13,10 +14,5 @@ namespace AliasPro.Figure
 
         public bool ValidateFigure(string figure, PlayerGender gender) =>
             _figureRepostiory.ValidateFigure(figure, gender);
-    }
-
-    public interface IFigureController
-    {
-        bool ValidateFigure(string figure, PlayerGender gender);
     }
 }

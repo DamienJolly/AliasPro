@@ -1,4 +1,5 @@
-﻿using AliasPro.API.Messenger;
+﻿using AliasPro.API.Figure;
+using AliasPro.API.Messenger;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
 using AliasPro.Figure.Packets.Composers;

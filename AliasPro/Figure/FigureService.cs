@@ -1,4 +1,5 @@
-﻿using AliasPro.API.Network;
+﻿using AliasPro.API.Figure;
+using AliasPro.API.Network;
 using AliasPro.API.Network.Events;
 using AliasPro.Figure.Packets.Events;
 using Microsoft.Extensions.DependencyInjection;
