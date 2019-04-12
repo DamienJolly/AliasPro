@@ -21,7 +21,7 @@ namespace AliasPro.Catalog.Packets.Composers
             ServerPacket message = new ServerPacket(Outgoing.CatalogPageMessageComposer);
             message.WriteInt(_catalogPage.Id);
             message.WriteString(_mode);
-            _catalogPage.Layout.Compose(message, _catalogPage);
+            _catalogPage.Layout.Compose(message);
 
             message.WriteInt(_catalogPage.Items.Count);
             foreach (ICatalogItem catalogitem in _catalogPage.Items.Values)

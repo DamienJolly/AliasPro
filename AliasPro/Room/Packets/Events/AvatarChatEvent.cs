@@ -1,6 +1,6 @@
-﻿using AliasPro.API.Network.Events;
+﻿using AliasPro.API.Chat;
+using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
-using AliasPro.Chat;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Room.Models;
 using AliasPro.Sessions;
@@ -18,7 +18,7 @@ namespace AliasPro.Room.Packets.Events
             _chatController = chatController;
         }
 
-        public async void HandleAsync(
+        public void HandleAsync(
             ISession session,
             IClientPacket clientPacket)
         {
@@ -30,7 +30,7 @@ namespace AliasPro.Room.Packets.Events
 
             room.EntityHandler.Unidle(session.Entity);
 
-            if (!await _chatController.HandleCommandAsync(session, text))
+            if (!_chatController.HandleCommand(session, text))
             {
                 room.OnChat(text, colour, session.Entity);
             }

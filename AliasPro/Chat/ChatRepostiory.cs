@@ -1,24 +1,20 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using AliasPro.API.Chat.Commands;
+using AliasPro.Chat.Components;
+using AliasPro.Sessions;
+using System.Collections.Generic;
 
 namespace AliasPro.Chat
 {
-    using Sessions;
-    using Models;
-    using Models.Commands;
-
     internal class ChatRepostiory
     {
-        private readonly CommandHandler _commandHandler;
-        private readonly ChatDao _chatDao;
+        private readonly CommandComponent _commandComponent;
 
-        public ChatRepostiory(ChatDao chatDao, IEnumerable<IChatCommand> commands)
+        public ChatRepostiory(IEnumerable<IChatCommand> commands)
         {
-            _chatDao = chatDao;
-            _commandHandler = new CommandHandler(commands);
+            _commandComponent = new CommandComponent(commands);
         }
 
-        public async Task<bool> HandleCommandAsync(ISession session, string message) =>
-            await _commandHandler.Handle(session, message);
+        public bool HandleCommand(ISession session, string message) =>
+            _commandComponent.Handle(session, message);
     }
 }

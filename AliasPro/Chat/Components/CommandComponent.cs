@@ -1,23 +1,20 @@
-﻿using System;
+﻿using AliasPro.API.Chat.Commands;
+using AliasPro.Sessions;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
-namespace AliasPro.Chat.Models
+namespace AliasPro.Chat.Components
 {
-    using Sessions;
-    using Commands;
-
-    internal class CommandHandler
+    internal class CommandComponent
     {
         private readonly IDictionary<string, IChatCommand> _commands;
 
-        public CommandHandler(IEnumerable<IChatCommand> commands)
+        public CommandComponent(IEnumerable<IChatCommand> commands)
         {
             _commands = commands.ToDictionary(x => x.Name, x => x);
         }
 
-        public async Task<bool> Handle(ISession session, string message)
+        public bool Handle(ISession session, string message)
         {
             if (!message.StartsWith(":"))
                 return false;
@@ -31,14 +28,10 @@ namespace AliasPro.Chat.Models
             string commandName = messageData[0].ToLower();
             messageData = messageData.Skip(1).ToArray();
 
-            if (_commands.TryGetValue(commandName, out IChatCommand command))
-            {
+            if (!_commands.TryGetValue(commandName, out IChatCommand command))
+                return false;
 
-                await command.Handle(session, messageData);
-                return true;
-            }
-
-            return false;
+            return command.Handle(session, messageData);
         }
     }
 }

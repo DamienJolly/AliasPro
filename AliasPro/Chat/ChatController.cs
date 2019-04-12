@@ -1,9 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using AliasPro.API.Chat;
+using AliasPro.Sessions;
 
 namespace AliasPro.Chat
 {
-    using Sessions;
-
     internal class ChatController : IChatController
     {
         private readonly ChatRepostiory _chatRepostiory;
@@ -13,12 +12,7 @@ namespace AliasPro.Chat
             _chatRepostiory = chatRepostiory;
         }
 
-        public async Task<bool> HandleCommandAsync(ISession session, string message) =>
-            await _chatRepostiory.HandleCommandAsync(session, message);
-    }
-
-    public interface IChatController
-    {
-        Task<bool> HandleCommandAsync(ISession session, string message);
+        public bool HandleCommand(ISession session, string message) =>
+            _chatRepostiory.HandleCommand(session, message);
     }
 }
