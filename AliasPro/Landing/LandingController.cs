@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using AliasPro.API.Landing;
+using AliasPro.API.Landing.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AliasPro.Landing
 {
-    using Models;
-
     internal class LandingController : ILandingController
     {
         private readonly LandingRepository _landingRepository;
@@ -17,7 +17,7 @@ namespace AliasPro.Landing
         public async Task<IList<IHallOfFamer>> GetHallOfFamersAsync() =>
             await _landingRepository.GetHallOfFamersAsync();
 
-        public async Task<IList<IArticles>> GetNewsArticlesAsync() =>
+        public async Task<IList<IArticle>> GetNewsArticlesAsync() =>
             await _landingRepository.GetNewsArticlesAsync();
     }
 }

@@ -1,4 +1,5 @@
-﻿using AliasPro.API.Network;
+﻿using AliasPro.API.Landing;
+using AliasPro.API.Network;
 using AliasPro.API.Network.Events;
 using AliasPro.Landing.Packets.Events;
 using Microsoft.Extensions.DependencyInjection;

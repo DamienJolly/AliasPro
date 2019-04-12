@@ -1,4 +1,5 @@
 ﻿using AliasPro.API.Database;
+using AliasPro.API.Landing.Models;
 using System.Data.Common;
 
 namespace AliasPro.Landing.Models

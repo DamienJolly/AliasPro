@@ -1,15 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using AliasPro.API.Landing.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AliasPro.Landing
 {
-    using Models;
-
     internal class LandingRepository
     {
         private readonly LandingDao _landingDao;
         private IList<IHallOfFamer> _hallOfFamers;
-        private IList<IArticles> _articles;
+        private IList<IArticle> _articles;
 
         public LandingRepository(LandingDao dao)
         {
@@ -24,7 +23,7 @@ namespace AliasPro.Landing
             return _hallOfFamers;
         }
 
-        internal async Task<IList<IArticles>> GetNewsArticlesAsync()
+        internal async Task<IList<IArticle>> GetNewsArticlesAsync()
         {
             if (_articles != null) return _articles;
 

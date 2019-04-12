@@ -1,5 +1,6 @@
 ﻿using AliasPro.API.Configuration;
 using AliasPro.API.Database;
+using AliasPro.API.Landing.Models;
 using AliasPro.Landing.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -31,16 +32,16 @@ namespace AliasPro.Landing
             return hallOfFamers;
         }
 
-        internal async Task<IList<IArticles>> GetNewsArticles()
+        internal async Task<IList<IArticle>> GetNewsArticles()
         {
-            IList<IArticles> hallOfFamers = new List<IArticles>();
+            IList<IArticle> hallOfFamers = new List<IArticle>();
             await CreateTransaction(async transaction =>
             {
                 await Select(transaction, async reader =>
                 {
                     while (await reader.ReadAsync())
                     {
-                        hallOfFamers.Add(new Articles(reader));
+                        hallOfFamers.Add(new Article(reader));
                     }
                 }, "SELECT `id`, `title`, `text`, `caption`, `type`, `link`, `image` FROM `landing_articles` ORDER BY `id` DESC LIMIT 10;");
             });

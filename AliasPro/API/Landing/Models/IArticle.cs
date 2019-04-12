@@ -1,6 +1,6 @@
-﻿namespace AliasPro.Landing.Models
+﻿namespace AliasPro.API.Landing.Models
 {
-    public interface IArticles
+    public interface IArticle
     {
         uint Id { get; set; }
         string Title { get; set; }

@@ -1,4 +1,4 @@
-﻿namespace AliasPro.Landing.Models
+﻿namespace AliasPro.API.Landing.Models
 {
     public interface IHallOfFamer
     {

@@ -1,5 +1,5 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Landing.Models;
+﻿using AliasPro.API.Landing.Models;
+using AliasPro.API.Network.Events;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Network.Protocol;
 using System.Collections.Generic;
@@ -8,9 +8,9 @@ namespace AliasPro.Landing.Packets.Composers
 {
     public class NewsListComposer : IPacketComposer
     {
-        private readonly IList<IArticles> _articles;
+        private readonly IList<IArticle> _articles;
 
-        public NewsListComposer(IList<IArticles> articles)
+        public NewsListComposer(IList<IArticle> articles)
         {
             _articles = articles;
         }
@@ -19,7 +19,7 @@ namespace AliasPro.Landing.Packets.Composers
         {
             ServerPacket message = new ServerPacket(Outgoing.NewsListMessageComposer);
             message.WriteInt(_articles.Count);
-            foreach (IArticles article in _articles)
+            foreach (IArticle article in _articles)
             {
                 message.WriteInt(article.Id);
                 message.WriteString(article.Title);

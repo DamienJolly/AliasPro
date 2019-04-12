@@ -1,11 +1,12 @@
 ﻿using AliasPro.API.Database;
+using AliasPro.API.Landing.Models;
 using System.Data.Common;
 
 namespace AliasPro.Landing.Models
 {
-    internal class Articles : IArticles
+    internal class Article : IArticle
     {
-        internal Articles(DbDataReader reader)
+        internal Article(DbDataReader reader)
         {
             Id = reader.ReadData<uint>("id");
             Title = reader.ReadData<string>("title");
