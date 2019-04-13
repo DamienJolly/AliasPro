@@ -1,19 +1,21 @@
-﻿using AliasPro.API.Sessions.Models;
-using AliasPro.Room.Packets.Composers;
+﻿using AliasPro.API.Rooms.Models;
+using AliasPro.API.Sessions.Models;
+using AliasPro.Rooms.Packets.Composers;
+using AliasPro.Rooms.Types;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace AliasPro.Room.Models.Right
+namespace AliasPro.Rooms.Components
 {
-    public class RightHandler
+    public class RightsComponent
     {
         private readonly IRoom _room;
         private readonly IDictionary<uint, string> _rights;
 
-        public RightHandler(IRoom room)
+        public RightsComponent(IRoom room, IDictionary<uint, string> rights)
         {
             _room = room;
-            _rights = new Dictionary<uint, string>();
+            _rights = rights;
         }
 
         public async Task ReloadRights(ISession session)
@@ -32,7 +34,7 @@ namespace AliasPro.Room.Models.Right
             }
 
             await session.SendPacketAsync(new RoomRightsComposer((int)flatCtrl));
-            
+
             session.Entity.Actions.AddStatus("flatctrl", (int)flatCtrl + "");
         }
 
@@ -48,8 +50,8 @@ namespace AliasPro.Room.Models.Right
             _rights.Remove(playerId);
 
         public bool IsOwner(uint playerId) =>
-            _room.RoomData.OwnerId == playerId;
-        
+            _room.OwnerId == playerId;
+
         public bool HasRights(uint playerId) =>
             IsOwner(playerId) || _rights.ContainsKey(playerId);
     }

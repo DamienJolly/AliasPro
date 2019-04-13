@@ -1,9 +1,9 @@
 ﻿using AliasPro.API.Items.Interaction;
 using AliasPro.API.Items.Models;
+using AliasPro.API.Rooms.Entities;
+using AliasPro.API.Rooms.Models;
 using AliasPro.Items.Models;
 using AliasPro.Items.Types;
-using AliasPro.Room.Gamemap;
-using AliasPro.Room.Models.Entities;
 
 namespace AliasPro.Items.WiredInteraction
 {
@@ -31,9 +31,9 @@ namespace AliasPro.Items.WiredInteraction
 
             if (!WiredData.Items.ContainsKey(item.Id)) return false;
 
-            if (_item.CurrentRoom.RoomMap.TryGetRoomTile(_item.Position.X, _item.Position.Y, out RoomTile roomTile))
+            if (_item.CurrentRoom.Mapping.TryGetRoomTile(_item.Position.X, _item.Position.Y, out IRoomTile roomTile))
             {
-                _item.CurrentRoom.ItemHandler.TriggerEffects(roomTile, entity);
+                _item.CurrentRoom.Items.TriggerEffects(roomTile, entity);
             }
             return true;
         }

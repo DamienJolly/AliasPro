@@ -1,11 +1,12 @@
 ﻿using System.Text;
 
-namespace AliasPro.Room.Models.Entities
+namespace AliasPro.Rooms.Models.Entities
 {
     using AliasPro.API.Items.Models;
+    using AliasPro.API.Rooms.Entities;
+    using AliasPro.API.Rooms.Models;
     using AliasPro.Items.Types;
-    using AliasPro.Room.Packets.Composers;
-    using Gamemap;
+    using AliasPro.Rooms.Packets.Composers;
     using Gamemap.Pathfinding;
 
     internal class EntityCycler
@@ -30,7 +31,7 @@ namespace AliasPro.Room.Models.Entities
             {
                 entity.PathToWalk = PathFinder.FindPath(
                     entity,
-                    _room.RoomMap,
+                    _room.Mapping,
                     entity.Position, entity.PathToWalk[0]);
 
                 if (entity.PathToWalk == null) return;
@@ -41,10 +42,10 @@ namespace AliasPro.Room.Models.Entities
                 entity.IsSitting = false;
 
                 int reversedIndex = entity.PathToWalk.Count - 1;
-                Position nextStep = entity.PathToWalk[reversedIndex];
+                IRoomPosition nextStep = entity.PathToWalk[reversedIndex];
                 entity.PathToWalk.RemoveAt(reversedIndex);
 
-                if (!_room.RoomMap.TryGetRoomTile(nextStep.X, nextStep.Y, out RoomTile roomTile))
+                if (!_room.Mapping.TryGetRoomTile(nextStep.X, nextStep.Y, out IRoomTile roomTile))
                 {
                     entity.PathToWalk = null;
                     return;
@@ -56,19 +57,19 @@ namespace AliasPro.Room.Models.Entities
                     return;
                 }
 
-                if (!_room.RoomMap.TryGetRoomTile(entity.Position.X, entity.Position.Y, out RoomTile oldTile))
+                if (!_room.Mapping.TryGetRoomTile(entity.Position.X, entity.Position.Y, out IRoomTile oldTile))
                 {
                     entity.PathToWalk = null;
                     return;
                 }
 
-                _room.RoomMap.RemoveEntity(entity);
+                _room.Mapping.RemoveEntity(entity);
                 
                 IItem oldTopItem = oldTile.TopItem;
                 if (oldTopItem != null)
                 {
                     oldTopItem.Interaction.OnUserWalkOff(entity);
-                    _room.ItemHandler.TriggerWired(WiredInteractionType.WALKS_OFF_FURNI, entity, oldTopItem);
+                    _room.Items.TriggerWired(WiredInteractionType.WALKS_OFF_FURNI, entity, oldTopItem);
                 }
 
                 IItem topItem = roomTile.TopItem;
@@ -82,10 +83,10 @@ namespace AliasPro.Room.Models.Entities
                         newZ -= topItem.ItemData.Height;
 
                     topItem.Interaction.OnUserWalkOn(entity);
-                    _room.ItemHandler.TriggerWired(WiredInteractionType.WALKS_ON_FURNI, entity, topItem);
+                    _room.Items.TriggerWired(WiredInteractionType.WALKS_ON_FURNI, entity, topItem);
                 }
 
-                entity.NextPosition = new Position(nextStep.X, nextStep.Y, newZ);
+                entity.NextPosition = new RoomPosition(nextStep.X, nextStep.Y, newZ);
                 entity.BodyRotation = newDir;
                 entity.HeadRotation = newDir;
 
@@ -98,8 +99,8 @@ namespace AliasPro.Room.Models.Entities
                     .Append(newZ);
                 entity.Actions.AddStatus("mv", _moveStatus.ToString());
 
-                _room.RoomMap.AddEntity(entity);
-                _room.EntityHandler.Unidle(entity);
+                _room.Mapping.AddEntity(entity);
+                _room.Entities.Unidle(entity);
 
                 if (entity.PathToWalk.Count == 0)
                 {
@@ -109,7 +110,7 @@ namespace AliasPro.Room.Models.Entities
             }
             else
             {
-                if (!_room.RoomMap.TryGetRoomTile(entity.Position.X, entity.Position.Y, out RoomTile roomTile)) return;
+                if (!_room.Mapping.TryGetRoomTile(entity.Position.X, entity.Position.Y, out IRoomTile roomTile)) return;
                 
                 IItem topItem = roomTile.TopItem;
                 

@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace AliasPro.Room.Gamemap.Pathfinding
+namespace AliasPro.Rooms.Gamemap.Pathfinding
 {
     using AliasPro.API.Items.Models;
+    using AliasPro.API.Rooms.Entities;
+    using AliasPro.API.Rooms.Models;
     using AliasPro.Items.Types;
-    using Models.Entities;
+    using AliasPro.Rooms.Components;
+    using AliasPro.Rooms.Models;
 
     public static class PathFinder
     {
@@ -30,9 +33,9 @@ namespace AliasPro.Room.Gamemap.Pathfinding
             new AstarPosition(-1, 0, 0)
         };
 
-        private static Position GetBedPosition(IItem item, Position end)
+        private static IRoomPosition GetBedPosition(IItem item, IRoomPosition end)
         {
-            Position newPos = new Position(item.Position.X, item.Position.Y, item.Position.Z);
+            IRoomPosition newPos = new RoomPosition(item.Position.X, item.Position.Y, item.Position.Z);
 
             if ((item.Rotation % 4) != 0)
             {
@@ -48,13 +51,13 @@ namespace AliasPro.Room.Gamemap.Pathfinding
             return newPos;
         }
 
-        public static IList<Position> FindPath(
+        public static IList<IRoomPosition> FindPath(
             BaseEntity entity,
-            RoomMap roomGrid,
-            Position start,
-            Position end)
+            MappingComponent roomGrid,
+            IRoomPosition start,
+            IRoomPosition end)
         {
-            if (!roomGrid.TryGetRoomTile(end.X, end.Y, out RoomTile roomTile)) return null;
+            if (!roomGrid.TryGetRoomTile(end.X, end.Y, out IRoomTile roomTile)) return null;
 
             if (!roomTile.IsValidTile(entity, true)) return null;
 
@@ -71,15 +74,16 @@ namespace AliasPro.Room.Gamemap.Pathfinding
             openHeap.Add(new HeapNode(start, ManhattanDistance(start, end)));
 
             float[,] currentCost = new float[roomGrid.MapSizeX, roomGrid.MapSizeY];
-            Position[,] walkedPath = new Position[roomGrid.MapSizeX, roomGrid.MapSizeY];
+            IRoomPosition[,] walkedPath = new RoomPosition[roomGrid.MapSizeX, roomGrid.MapSizeY];
 
             while (openHeap.HasEntry)
             {
                 HeapNode curr = openHeap.Get();
 
-                if (curr.Position == end)
+                if (curr.Position.X == end.X &&
+                    curr.Position.Y == end.Y)
                 {
-                    IList<Position> path = BuildPath(start, end, walkedPath, roomGrid.MapSizeX);
+                    IList<IRoomPosition> path = BuildPath(start, end, walkedPath, roomGrid.MapSizeX);
 
                     if (path.Count == 0) return null;
                     return path;
@@ -88,19 +92,21 @@ namespace AliasPro.Room.Gamemap.Pathfinding
                 float cost = currentCost[curr.Position.X, curr.Position.Y];
                 foreach (AstarPosition option in DIAG)
                 {
-                    Position position = curr.Position + option;
+                    IRoomPosition position = new RoomPosition(
+                        curr.Position.X + option.X, 
+                        curr.Position.Y + option.Y, 0);
 
-                    if (position != end &&
+                    if (!(position.X == end.X && position.Y == end.Y) &&
                         !IsValidStep(entity, roomGrid, position)) continue;
-
+                    
                     // Can't walk diagonal between two non-walkable tiles.
                     if (curr.Position.X != position.X &&
                             curr.Position.Y != position.Y)
                     {
                         bool firstValidTile = 
-                            IsValidStep(entity, roomGrid, new Position(position.X, curr.Position.Y, 0));
+                            IsValidStep(entity, roomGrid, new RoomPosition(position.X, curr.Position.Y, 0));
                         bool secondValidTile = 
-                            IsValidStep(entity, roomGrid, new Position(curr.Position.X, position.Y, 0));
+                            IsValidStep(entity, roomGrid, new RoomPosition(curr.Position.X, position.Y, 0));
 
                         if (!firstValidTile && !secondValidTile) continue;
                     }
@@ -122,29 +128,29 @@ namespace AliasPro.Room.Gamemap.Pathfinding
             return null;
         }
 
-        private static bool IsValidStep(BaseEntity entity, RoomMap roomGrid, Position position)
+        private static bool IsValidStep(BaseEntity entity, MappingComponent roomGrid, IRoomPosition position)
         {
             if (position.X >= roomGrid.MapSizeX || position.X < 0 || 
                 position.Y >= roomGrid.MapSizeY || position.Y < 0)
                 return false;
             
-            if (roomGrid.TryGetRoomTile(position.X, position.Y, out RoomTile roomTile))
+            if (roomGrid.TryGetRoomTile(position.X, position.Y, out IRoomTile roomTile))
                 return roomTile.IsValidTile(entity);
-
+            
             return false;
         }
 
-        private static IList<Position> BuildPath(
-            Position start,
-            Position end,
-            Position[,] walkedPath,
+        private static IList<IRoomPosition> BuildPath(
+            IRoomPosition start,
+            IRoomPosition end,
+            IRoomPosition[,] walkedPath,
             int dimensionX)
         {
-            List<Position> path = new List<Position> { end };
-            Position current = end;
-            while (current != start)
+            List<IRoomPosition> path = new List<IRoomPosition> { end };
+            IRoomPosition current = end;
+            while (!(current.X == start.X && current.Y == start.Y))
             {
-                Position prev = walkedPath[current.X, current.Y];
+                IRoomPosition prev = walkedPath[current.X, current.Y];
                 current = prev;
                 path.Add(current);
             }
@@ -154,7 +160,7 @@ namespace AliasPro.Room.Gamemap.Pathfinding
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static float ManhattanDistance(Position start, Position end) =>
+        private static float ManhattanDistance(IRoomPosition start, IRoomPosition end) =>
             Math.Abs(start.X - end.X) + Math.Abs(start.Y - end.Y);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

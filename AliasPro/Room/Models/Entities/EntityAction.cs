@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 
-namespace AliasPro.Room.Models.Entities
+namespace AliasPro.Rooms.Models.Entities
 {
     public class EntityAction
     {

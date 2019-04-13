@@ -1,10 +1,10 @@
 ﻿using AliasPro.API.Network.Events;
+using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Network.Protocol;
-using AliasPro.Room.Models;
 
-namespace AliasPro.Room.Packets.Composers
+namespace AliasPro.Rooms.Packets.Composers
 {
     public class RoomDataComposer : IPacketComposer
     {
@@ -25,20 +25,20 @@ namespace AliasPro.Room.Packets.Composers
         {
             ServerPacket message = new ServerPacket(Outgoing.RoomDataMessageComposer);
             message.WriteBoolean(_loading);
-            _room.RoomData.Compose(message);
+            _room.Compose(message);
             message.WriteBoolean(_entry);
             message.WriteBoolean(false); //staff picked
             message.WriteBoolean(false); //public room
             message.WriteBoolean(false); //muted
-            message.WriteInt(_room.RoomData.Settings.WhoMutes);
-            message.WriteInt(_room.RoomData.Settings.WhoKicks);
-            message.WriteInt(_room.RoomData.Settings.WhoBans);
+            message.WriteInt(_room.Settings.WhoMutes);
+            message.WriteInt(_room.Settings.WhoKicks);
+            message.WriteInt(_room.Settings.WhoBans);
             message.WriteBoolean(true); //owner check
-            message.WriteInt(_room.RoomData.Settings.ChatMode);
-            message.WriteInt(_room.RoomData.Settings.ChatSize);
-            message.WriteInt(_room.RoomData.Settings.ChatSpeed);
-            message.WriteInt(_room.RoomData.Settings.ChatDistance);
-            message.WriteInt(_room.RoomData.Settings.ChatFlood);
+            message.WriteInt(_room.Settings.ChatMode);
+            message.WriteInt(_room.Settings.ChatSize);
+            message.WriteInt(_room.Settings.ChatSpeed);
+            message.WriteInt(_room.Settings.ChatDistance);
+            message.WriteInt(_room.Settings.ChatFlood);
             return message;
         }
     }

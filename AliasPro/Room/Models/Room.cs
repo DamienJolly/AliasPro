@@ -1,49 +1,36 @@
-﻿using System;
+﻿using AliasPro.API.Items.Models;
+using AliasPro.API.Network.Events;
+using AliasPro.API.Rooms.Entities;
+using AliasPro.API.Rooms.Models;
+using AliasPro.API.Tasks;
+using AliasPro.Items.Types;
+using AliasPro.Rooms.Components;
+using AliasPro.Rooms.Entities;
+using AliasPro.Rooms.Gamemap.Pathfinding;
+using AliasPro.Rooms.Packets.Composers;
+using AliasPro.Tasks;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AliasPro.Room.Models
+namespace AliasPro.Rooms.Models
 {
-    using Entities;
-    using Gamemap;
-    using Tasks;
-    using Item;
-    using Right;
-    using Game;
-    using AliasPro.Room.Gamemap.Pathfinding;
-    using AliasPro.API.Network.Events;
-    using AliasPro.Room.Packets.Composers;
-    using AliasPro.API.Items.Models;
-    using AliasPro.Items.Types;
-    using AliasPro.API.Tasks;
-
-    internal class Room : IRoom, ITask
+    internal class Room : RoomData, IRoom, ITask
     {
         private readonly CancellationTokenSource _cancellationToken;
         private readonly object _loadLock = new object();
 
-        public bool isLoaded { get; set; } = false;
-        public EntityHandler EntityHandler { get; set; }
-        public ItemHandler ItemHandler { get; set; }
-        public GameHandler GameHandler { get; set; }
-        public RightHandler RightHandler { get; set; }
-        public RoomMap RoomMap { get; set; }
-        public IRoomData RoomData { get; set; }
-        public IRoomModel RoomModel { get; set; }
-
-        internal Room(IRoomData roomData, IRoomModel model)
+        public EntitiesComponent Entities { get; set; }
+        public ItemsComponent Items { get; set; }
+        public RightsComponent Rights { get; set; }
+        public GameComponent Game { get; set; }
+        public MappingComponent Mapping { get; set; }
+        
+        internal Room(IRoomData roomData)
+            : base(roomData)
         {
-            RoomData = roomData;
-            RoomModel = model;
-
             _cancellationToken = new CancellationTokenSource();
-
-            RoomMap = new RoomMap(this, RoomModel);
-            EntityHandler = new EntityHandler(this);
-            ItemHandler = new ItemHandler(this);
-            GameHandler = new GameHandler(this);
-            RightHandler = new RightHandler(this);
         }
 
         public async void SetupRoomCycle()
@@ -63,17 +50,14 @@ namespace AliasPro.Room.Models
         {
             lock(_loadLock)
             {
-                if (isLoaded)
+                try
                 {
-                    try
-                    {
-                        EntityHandler.Cycle();
-                        ItemHandler.Cycle();
-                    }
-                    catch
-                    {
-                        // room crashed
-                    }
+                    Entities.Cycle();
+                    Items.Cycle();
+                }
+                catch
+                {
+                    // room crashed
                 }
             }
         }
@@ -90,9 +74,9 @@ namespace AliasPro.Room.Models
                 text = text.Substring(0, 100);
             }
 
-            ItemHandler.TriggerWired(WiredInteractionType.SAY_SOMETHING, entity, text);
+            Items.TriggerWired(WiredInteractionType.SAY_SOMETHING, entity, text);
 
-            foreach (BaseEntity targetEntity in EntityHandler.Entities)
+            foreach (BaseEntity targetEntity in Entities.Entities)
             {
                 if (targetEntity == entity) continue;
 
@@ -109,10 +93,10 @@ namespace AliasPro.Room.Models
 
         public async Task AddEntity(BaseEntity entity)
         {
-            EntityHandler.AddEntity(entity);
-            RoomMap.AddEntity(entity);
+            Entities.AddEntity(entity);
+            Mapping.AddEntity(entity);
 
-            ItemHandler.TriggerWired(WiredInteractionType.ENTER_ROOM, entity);
+            Items.TriggerWired(WiredInteractionType.ENTER_ROOM, entity);
 
             await SendAsync(new EntitiesComposer(entity));
             await SendAsync(new EntityUpdateComposer(entity));
@@ -120,9 +104,9 @@ namespace AliasPro.Room.Models
 
         public async Task RemoveEntity(BaseEntity entity)
         {
-            EntityHandler.RemoveEntity(entity);
-            RoomMap.RemoveEntity(entity);
-            GameHandler.LeaveTeam(entity);
+            Entities.RemoveEntity(entity);
+            Mapping.RemoveEntity(entity);
+            Game.LeaveTeam(entity);
 
             await SendAsync(new EntityRemoveComposer(entity.Id));
         }
@@ -131,9 +115,9 @@ namespace AliasPro.Room.Models
         {
             foreach (IItem item in items.Values)
             {
-                RoomMap.AddItem(item);
+                Mapping.AddItem(item);
                 item.CurrentRoom = this;
-                ItemHandler.AddItem(item);
+                Items.AddItem(item);
             }
         }
 
@@ -141,19 +125,19 @@ namespace AliasPro.Room.Models
         {
             foreach (var right in rights)
             {
-                RightHandler.GiveRights(right.Key, right.Value);
+                Rights.GiveRights(right.Key, right.Value);
             }
         }
 
-        public Position GetPathToClosestEntity(Position position)
+        public IRoomPosition GetPathToClosestEntity(IRoomPosition position)
         {
-            IList<Position> closestPath = new List<Position>();
+            IList<IRoomPosition> closestPath = new List<IRoomPosition>();
             
-            foreach (BaseEntity entity in EntityHandler.Entities)
+            foreach (BaseEntity entity in Entities.Entities)
             {
-                IList<Position> pathToItem = PathFinder.FindPath(
+                IList<IRoomPosition> pathToItem = PathFinder.FindPath(
                     entity,
-                    RoomMap,
+                    Mapping,
                     entity.Position, position);
 
                 if (pathToItem.Count <= closestPath.Count)
@@ -165,11 +149,11 @@ namespace AliasPro.Room.Models
 
         public async Task SendAsync(IPacketComposer packet)
         {
-            foreach (BaseEntity entity in EntityHandler.Entities)
+            foreach (BaseEntity entity in Entities.Entities)
             {
-                if (entity is UserEntity userEntity)
+                if (entity is PlayerEntity playerEntity)
                 {
-                    await userEntity.Session.SendPacketAsync(packet);
+                    await playerEntity.Session.SendPacketAsync(packet);
                 }
             }
         }
@@ -178,31 +162,9 @@ namespace AliasPro.Room.Models
         {
             lock (_loadLock)
             {
-                isLoaded = false;
                 StopRoomCycle();
                 //todo: do stuff
             }
         }
-    }
-
-    public interface IRoom
-    {
-        bool isLoaded { get; set; }
-        EntityHandler EntityHandler { get; set; }
-        ItemHandler ItemHandler { get; set; }
-        GameHandler GameHandler { get; set; }
-        RightHandler RightHandler { get; set; }
-        RoomMap RoomMap { get; set; }
-        IRoomData RoomData { get; set; }
-        IRoomModel RoomModel { get; set; }
-
-        Task AddEntity(BaseEntity entity);
-        Task RemoveEntity(BaseEntity entity);
-        void OnChat(string text, int colour, BaseEntity entity);
-        void LoadRoomItems(IDictionary<uint, IItem> items);
-        void LoadRoomRights(IDictionary<uint, string> rights);
-        void SetupRoomCycle();
-        Task SendAsync(IPacketComposer packet);
-        void Dispose();
     }
 }

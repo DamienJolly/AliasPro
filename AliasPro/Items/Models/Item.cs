@@ -1,11 +1,11 @@
 ﻿using AliasPro.API.Database;
 using AliasPro.API.Items.Interaction;
 using AliasPro.API.Items.Models;
+using AliasPro.API.Rooms.Entities;
+using AliasPro.API.Rooms.Models;
 using AliasPro.Items.Utilities;
 using AliasPro.Network.Protocol;
-using AliasPro.Room.Gamemap;
-using AliasPro.Room.Models;
-using AliasPro.Room.Models.Entities;
+using AliasPro.Rooms.Models;
 using System.Data.Common;
 
 namespace AliasPro.Items.Models
@@ -22,7 +22,7 @@ namespace AliasPro.Items.Models
             Rotation = reader.ReadData<int>("rot");
             Mode = reader.ReadData<int>("mode");
             ExtraData = reader.ReadData<string>("extra_data");
-            Position = new Position(
+            Position = new RoomPosition(
                 reader.ReadData<int>("x"),
                 reader.ReadData<int>("y"),
                 reader.ReadData<double>("z"));
@@ -38,7 +38,7 @@ namespace AliasPro.Items.Models
             Rotation = 0;
             Mode = 0;
             ExtraData = extraData;
-            Position = new Position(0, 0, 0.00);
+            Position = new RoomPosition(0, 0, 0.00);
             ItemData = itemData;
         }
 
@@ -77,7 +77,7 @@ namespace AliasPro.Items.Models
         public int Rotation { get; set; }
         public int Mode { get; set; }
         public string ExtraData { get; set; }
-        public Position Position { get; set; }
+        public IRoomPosition Position { get; set; }
         public IItemData ItemData { get; set; }
         public BaseEntity InteractingPlayer { get; set; }
 

@@ -1,4 +1,4 @@
-﻿namespace AliasPro.Room.Gamemap.Pathfinding
+﻿namespace AliasPro.Rooms.Gamemap.Pathfinding
 {
     internal class BinaryHeap
     {

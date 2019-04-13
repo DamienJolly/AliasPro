@@ -1,6 +1,6 @@
 ﻿using AliasPro.API.Navigator.Views;
-using AliasPro.Room;
-using AliasPro.Room.Models;
+using AliasPro.API.Rooms.Models;
+using AliasPro.Rooms;
 using System.Collections.Generic;
 
 namespace AliasPro.Navigator.Views
@@ -20,13 +20,13 @@ namespace AliasPro.Navigator.Views
             foreach (IRoomData roomData in _rooms)
             {
                 if (roomController.TryGetRoom(roomData.Id, out IRoom room))
-                    roomData.UsersNow = room.RoomData.UsersNow;
+                    roomData.UsersNow = room.UsersNow;
             }
 
             return _rooms;
         }
 
         private async void GetPlayerRooms(uint playerId) =>
-            _rooms = await _roomController.GetAllRoomDataById(playerId);
+            _rooms = await _roomController.GetPlayersRoomsAsync(playerId);
     }
 }

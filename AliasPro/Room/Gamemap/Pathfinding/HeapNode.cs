@@ -1,14 +1,16 @@
-﻿namespace AliasPro.Room.Gamemap.Pathfinding
+﻿using AliasPro.API.Rooms.Models;
+
+namespace AliasPro.Rooms.Gamemap.Pathfinding
 {
     internal class HeapNode
     {
-        internal HeapNode(Position position, float expectedCost)
+        internal HeapNode(IRoomPosition position, float expectedCost)
         {
             Position = position;
             ExpectedCost = expectedCost;
         }
         
-        public Position Position { get; }
+        public IRoomPosition Position { get; }
         public float ExpectedCost { get; set; }
         public HeapNode Next { get; set; }
     }

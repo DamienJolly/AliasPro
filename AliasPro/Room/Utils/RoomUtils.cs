@@ -1,4 +1,4 @@
-﻿namespace AliasPro.Room.Utils
+﻿namespace AliasPro.Rooms.Utils
 {
     public static class RoomUtils
     {

@@ -1,9 +1,9 @@
 ﻿using AliasPro.API.Items.Interaction;
 using AliasPro.API.Items.Models;
+using AliasPro.API.Rooms.Entities;
+using AliasPro.API.Rooms.Models;
 using AliasPro.Items.Models;
 using AliasPro.Items.Types;
-using AliasPro.Room.Gamemap;
-using AliasPro.Room.Models.Entities;
 
 namespace AliasPro.Items.WiredInteraction
 {
@@ -23,13 +23,13 @@ namespace AliasPro.Items.WiredInteraction
 
         public bool OnTrigger(params object[] args)
         {
-            Position position = (Position)args[0];
+            IRoomPosition position = (IRoomPosition)args[0];
 
-            if (_item.CurrentRoom.RoomMap.TryGetRoomTile(position.X, position.Y, out RoomTile roomTile))
+            if (_item.CurrentRoom.Mapping.TryGetRoomTile(position.X, position.Y, out IRoomTile roomTile))
             {
                 foreach (BaseEntity entity in roomTile.Entities)
                 {
-                    _item.CurrentRoom.ItemHandler.TriggerEffects(roomTile, entity);
+                    _item.CurrentRoom.Items.TriggerEffects(roomTile, entity);
                 }
             }
             return true;

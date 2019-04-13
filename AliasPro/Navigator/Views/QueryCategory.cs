@@ -1,6 +1,6 @@
 ﻿using AliasPro.API.Navigator.Views;
-using AliasPro.Room;
-using AliasPro.Room.Models;
+using AliasPro.API.Rooms.Models;
+using AliasPro.Rooms;
 using System.Collections.Generic;
 
 namespace AliasPro.Navigator.Views
@@ -10,11 +10,11 @@ namespace AliasPro.Navigator.Views
         public override ICollection<IRoomData> Search(IRoomController roomController, uint categoryId, string searchCode, uint playerId)
         {
             ICollection<IRoomData> roomsToGo = new List<IRoomData>();
-            ICollection<IRoom> rooms = roomController.GetAllRooms();
+            ICollection<IRoom> rooms = roomController.Rooms;
 
             foreach (IRoom room in rooms)
             {
-                roomsToGo.Add(room.RoomData);
+                roomsToGo.Add(room);
             }
 
             return roomsToGo;

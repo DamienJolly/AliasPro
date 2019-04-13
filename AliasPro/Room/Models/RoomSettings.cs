@@ -1,7 +1,7 @@
 ﻿using AliasPro.API.Database;
 using System.Data.Common;
 
-namespace AliasPro.Room.Models
+namespace AliasPro.Rooms.Models
 {
     internal class RoomSettings : IRoomSettings
     {

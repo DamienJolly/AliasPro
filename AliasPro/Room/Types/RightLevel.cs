@@ -1,4 +1,4 @@
-﻿namespace AliasPro.Room.Models.Right
+﻿namespace AliasPro.Rooms.Types
 {
     enum RightLevel
     {

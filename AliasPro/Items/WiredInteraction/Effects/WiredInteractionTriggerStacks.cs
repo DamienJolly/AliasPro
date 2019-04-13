@@ -1,8 +1,9 @@
 ﻿using AliasPro.API.Items.Interaction;
 using AliasPro.API.Items.Models;
+using AliasPro.API.Rooms.Models;
 using AliasPro.Items.Models;
 using AliasPro.Items.Types;
-using AliasPro.Room.Gamemap;
+using AliasPro.Rooms.Models;
 using AliasPro.Utilities;
 using System.Collections.Generic;
 
@@ -43,24 +44,24 @@ namespace AliasPro.Items.WiredInteraction
             {
                 if (_tick <= 0)
                 {
-                    IList<RoomTile> stacks = new List<RoomTile>();
+                    IList<IRoomTile> stacks = new List<IRoomTile>();
 
                     foreach (WiredItemData itemData in WiredData.Items.Values)
                     {
-                        if (!_item.CurrentRoom.ItemHandler.TryGetItem(itemData.ItemId, out IItem item)) continue;
+                        if (!_item.CurrentRoom.Items.TryGetItem(itemData.ItemId, out IItem item)) continue;
 
-                        IList<RoomTile> roomTiles = _item.CurrentRoom.RoomMap.GetTilesFromItem(item.Position.X, item.Position.Y, item);
+                        IList<IRoomTile> roomTiles = _item.CurrentRoom.Mapping.GetTilesFromItem(item.Position.X, item.Position.Y, item);
 
-                        foreach(RoomTile roomTile in roomTiles)
+                        foreach(IRoomTile roomTile in roomTiles)
                         {
                             if (!stacks.Contains(roomTile))
                                 stacks.Add(roomTile);
                         }
                     }
 
-                    foreach (RoomTile roomTile in stacks)
+                    foreach (IRoomTile roomTile in stacks)
                     {
-                        _item.CurrentRoom.ItemHandler.TriggerEffects(roomTile, _args);
+                        _item.CurrentRoom.Items.TriggerEffects(roomTile, _args);
                     }
 
                     _active = false;
@@ -93,10 +94,10 @@ namespace AliasPro.Items.WiredInteraction
             return rotation;
         }
 
-        private Position HandleMovement(int Mode, Position position)
+        private IRoomPosition HandleMovement(int Mode, IRoomPosition position)
         {
-            Position newPos = 
-                new Position(position.X, position.Y, position.Z);
+            IRoomPosition newPos = 
+                new RoomPosition(position.X, position.Y, position.Z);
             int randomNum = Randomness.RandomNumber(1, 4);
 
             switch (Mode)

@@ -1,5 +1,6 @@
 ﻿using AliasPro.API.Items.Models;
-using AliasPro.Room.Gamemap;
+using AliasPro.API.Rooms.Models;
+using AliasPro.Rooms.Models;
 
 namespace AliasPro.Items.Models
 {
@@ -12,14 +13,14 @@ namespace AliasPro.Items.Models
             int x = int.Parse(itemParts[1]);
             int y = int.Parse(itemParts[2]);
             double z = double.Parse(itemParts[3]);
-            Position = new Position(x, y, x);
+            Position = new RoomPosition(x, y, x);
 
             Mode = int.Parse(itemParts[4]);
             Rotation = int.Parse(itemParts[5]);
             MovementDirection = int.Parse(itemParts[6]);
         }
 
-        internal WiredItemData(uint itemId, Position position, int mode, int rotation)
+        internal WiredItemData(uint itemId, IRoomPosition position, int mode, int rotation)
         {
             ItemId = itemId;
             Position = position;
@@ -34,7 +35,7 @@ namespace AliasPro.Items.Models
         }
 
         public uint ItemId { get; set; }
-        public Position Position { get; set; }
+        public IRoomPosition Position { get; set; }
         public int Mode { get; set; }
         public int Rotation { get; set; }
         public int MovementDirection { get; set; }

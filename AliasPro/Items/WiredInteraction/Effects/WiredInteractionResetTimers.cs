@@ -38,7 +38,7 @@ namespace AliasPro.Items.WiredInteraction
             {
                 if (_tick <= 0)
                 {
-                    _item.CurrentRoom.GameHandler.GameStarted = false;
+                    _item.CurrentRoom.Game.GameStarted = false;
                     _active = false;
                 }
                 _tick--;

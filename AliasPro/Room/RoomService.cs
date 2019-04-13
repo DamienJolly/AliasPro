@@ -1,9 +1,9 @@
 ﻿using AliasPro.API.Network;
 using AliasPro.API.Network.Events;
-using AliasPro.Room.Packets.Events;
+using AliasPro.Rooms.Packets.Events;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AliasPro.Room
+namespace AliasPro.Rooms
 {
     internal class RoomService : INetworkService
     {

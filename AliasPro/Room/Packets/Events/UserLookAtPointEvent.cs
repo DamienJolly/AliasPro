@@ -1,11 +1,11 @@
 ﻿using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
+using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
-using AliasPro.Room.Models;
 using System;
 
-namespace AliasPro.Room.Packets.Events
+namespace AliasPro.Rooms.Packets.Events
 {
     public class UserLookAtPointEvent : IAsyncPacket
     {
@@ -42,7 +42,7 @@ namespace AliasPro.Room.Packets.Events
                 }
             }
 
-            room.EntityHandler.Unidle(session.Entity);
+            room.Entities.Unidle(session.Entity);
             session.Entity.DirOffsetTimer = 0;
         }
     }

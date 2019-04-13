@@ -1,11 +1,11 @@
 ﻿using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
+using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
-using AliasPro.Room.Models;
-using AliasPro.Room.Packets.Composers;
+using AliasPro.Rooms.Packets.Composers;
 
-namespace AliasPro.Room.Packets.Events
+namespace AliasPro.Rooms.Packets.Events
 {
     public class RoomSettingsSaveEvent : IAsyncPacket
     {
@@ -23,11 +23,10 @@ namespace AliasPro.Room.Packets.Events
             IClientPacket clientPacket)
         {
             uint roomId = (uint)clientPacket.ReadInt();
-            IRoom room = await _roomController.GetRoomByIdAsync(roomId);
+            if (!_roomController.TryGetRoom(roomId, out IRoom room))
+                return;
 
-            if (room == null) return;
-
-            if (!room.RightHandler.IsOwner(session.Player.Id)) return;
+            if (!room.Rights.IsOwner(session.Player.Id)) return;
 
             string name = clientPacket.ReadString();
             if (name.Length > 60)
@@ -35,14 +34,14 @@ namespace AliasPro.Room.Packets.Events
 
             if (name.Length <= 0)
             {
-                await session.SendPacketAsync(new RoomEditSettingsErrorComposer(room.RoomData.Id, RoomEditSettingsErrorComposer.ROOM_NAME_MISSING));
+                await session.SendPacketAsync(new RoomEditSettingsErrorComposer(room.Id, RoomEditSettingsErrorComposer.ROOM_NAME_MISSING));
             }
             else
             {
-                room.RoomData.Name = name;
+                room.Name = name;
             }
 
-            room.RoomData.Description = clientPacket.ReadString();
+            room.Description = clientPacket.ReadString();
             
             int doorState = clientPacket.ReadInt();
             if (doorState < 0 || doorState > 3) doorState = 0;
@@ -51,12 +50,12 @@ namespace AliasPro.Room.Packets.Events
 
             if (doorState == 2 && password.Length <= 0)
             {
-                await session.SendPacketAsync(new RoomEditSettingsErrorComposer(room.RoomData.Id, RoomEditSettingsErrorComposer.PASSWORD_REQUIRED));
+                await session.SendPacketAsync(new RoomEditSettingsErrorComposer(room.Id, RoomEditSettingsErrorComposer.PASSWORD_REQUIRED));
             }
             else
             {
-                room.RoomData.DoorState = doorState;
-                room.RoomData.Password = password;
+                room.DoorState = doorState;
+                room.Password = password;
             }
 
             int maxUsers = clientPacket.ReadInt();
@@ -65,10 +64,10 @@ namespace AliasPro.Room.Packets.Events
                 maxUsers > 50)
                 maxUsers = 10;
 
-            room.RoomData.MaxUsers = maxUsers;
+            room.MaxUsers = maxUsers;
 
             //todo: category check
-            room.RoomData.CategoryId = clientPacket.ReadInt();
+            room.CategoryId = clientPacket.ReadInt();
 
             //todo: tags
             int amount = clientPacket.ReadInt();
@@ -77,7 +76,7 @@ namespace AliasPro.Room.Packets.Events
                 string tag = clientPacket.ReadString();
                 if (tag.Length > 15)
                 {
-                    await session.SendPacketAsync(new RoomEditSettingsErrorComposer(room.RoomData.Id, RoomEditSettingsErrorComposer.TAGS_TOO_LONG));
+                    await session.SendPacketAsync(new RoomEditSettingsErrorComposer(room.Id, RoomEditSettingsErrorComposer.TAGS_TOO_LONG));
                     continue;
                 }
 
@@ -87,12 +86,12 @@ namespace AliasPro.Room.Packets.Events
             int tradeType = clientPacket.ReadInt();
             if (tradeType < 0 || tradeType > 2) tradeType = 0;
 
-            room.RoomData.TradeType = tradeType;
+            room.TradeType = tradeType;
 
-            room.RoomData.Settings.AllowPets = clientPacket.ReadBool();
-            room.RoomData.Settings.AllowPetsEat = clientPacket.ReadBool();
-            room.RoomData.Settings.RoomBlocking = clientPacket.ReadBool();
-            room.RoomData.Settings.HideWalls = clientPacket.ReadBool();
+            room.Settings.AllowPets = clientPacket.ReadBool();
+            room.Settings.AllowPetsEat = clientPacket.ReadBool();
+            room.Settings.RoomBlocking = clientPacket.ReadBool();
+            room.Settings.HideWalls = clientPacket.ReadBool();
 
             int wallThickness = clientPacket.ReadInt();
             if (wallThickness < -2 || wallThickness > 1) wallThickness = 0;
@@ -109,11 +108,11 @@ namespace AliasPro.Room.Packets.Events
             int whoBans = clientPacket.ReadInt();
             if (whoBans < 0 || whoBans > 1) whoBans = 0;
 
-            room.RoomData.Settings.WallThickness = wallThickness;
-            room.RoomData.Settings.FloorThickness = floorThickness;
-            room.RoomData.Settings.WhoMutes = whoMutes;
-            room.RoomData.Settings.WhoKicks = whoKicks;
-            room.RoomData.Settings.WhoBans = whoBans;
+            room.Settings.WallThickness = wallThickness;
+            room.Settings.FloorThickness = floorThickness;
+            room.Settings.WhoMutes = whoMutes;
+            room.Settings.WhoKicks = whoKicks;
+            room.Settings.WhoBans = whoBans;
 
             int chatMode = clientPacket.ReadInt();
             if (chatMode < 0 || chatMode > 1) chatMode = 0;
@@ -131,17 +130,17 @@ namespace AliasPro.Room.Packets.Events
             int chatFlood = clientPacket.ReadInt();
             if (chatFlood < 0 || chatFlood > 2) chatFlood = 1;
 
-            room.RoomData.Settings.ChatMode = chatMode;
-            room.RoomData.Settings.ChatSize = chatSize;
-            room.RoomData.Settings.ChatSpeed = chatSpeed;
-            room.RoomData.Settings.ChatDistance = chatDistance;
-            room.RoomData.Settings.ChatFlood = chatFlood;
+            room.Settings.ChatMode = chatMode;
+            room.Settings.ChatSize = chatSize;
+            room.Settings.ChatSpeed = chatSpeed;
+            room.Settings.ChatDistance = chatDistance;
+            room.Settings.ChatFlood = chatFlood;
 
-            await room.SendAsync(new RoomVisualizationSettingsComposer(room.RoomData.Settings));
-            await room.SendAsync(new RoomChatSettingsComposer(room.RoomData.Settings));
-            await room.SendAsync(new RoomSettingsUpdatedComposer(room.RoomData.Id));
+            await room.SendAsync(new RoomVisualizationSettingsComposer(room.Settings));
+            await room.SendAsync(new RoomChatSettingsComposer(room.Settings));
+            await room.SendAsync(new RoomSettingsUpdatedComposer(room.Id));
 
-            await session.SendPacketAsync(new RoomSettingsSavedComposer(room.RoomData.Id));
+            await session.SendPacketAsync(new RoomSettingsSavedComposer(room.Id));
         }
     }
 }

@@ -1,13 +1,13 @@
 ﻿using AliasPro.API.Items.Models;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
+using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Items.Models;
 using AliasPro.Network.Events.Headers;
-using AliasPro.Room.Models;
-using AliasPro.Room.Packets.Composers;
+using AliasPro.Rooms.Packets.Composers;
 
-namespace AliasPro.Room.Packets.Events
+namespace AliasPro.Rooms.Packets.Events
 {
     public class WiredTriggerSaveDataEvent : IAsyncPacket
     {
@@ -21,10 +21,10 @@ namespace AliasPro.Room.Packets.Events
 
             if (room == null) return;
 
-            if (!room.RightHandler.HasRights(session.Player.Id)) return;
+            if (!room.Rights.HasRights(session.Player.Id)) return;
 
             uint wiredItemId = (uint)clientPacket.ReadInt();
-            if (room.ItemHandler.TryGetItem(wiredItemId, out IItem wiredItem))
+            if (room.Items.TryGetItem(wiredItemId, out IItem wiredItem))
             {
                 if (!wiredItem.ItemData.IsWired) return;
 
@@ -48,7 +48,7 @@ namespace AliasPro.Room.Packets.Events
                 for (int i = 0; i < itemsCount; i++)
                 {
                     int itemId = clientPacket.ReadInt();
-                    if (room.ItemHandler.TryGetItem((uint)itemId, out IItem item))
+                    if (room.Items.TryGetItem((uint)itemId, out IItem item))
                     {
                         wiredData.Items.Add(item.Id,
                             new WiredItemData(item.Id, item.Position, item.Mode, item.Rotation));

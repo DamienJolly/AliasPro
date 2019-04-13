@@ -1,9 +1,9 @@
 ﻿using AliasPro.API.Items.Interaction;
 using AliasPro.API.Items.Models;
+using AliasPro.API.Rooms.Entities;
 using AliasPro.Items.Models;
 using AliasPro.Items.Types;
-using AliasPro.Room.Models.Entities;
-using AliasPro.Room.Models.Game;
+using AliasPro.Rooms.Types;
 
 namespace AliasPro.Items.WiredInteraction
 {

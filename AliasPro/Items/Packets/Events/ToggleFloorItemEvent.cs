@@ -1,10 +1,10 @@
 ﻿using AliasPro.API.Items.Models;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
+using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Items.Types;
 using AliasPro.Network.Events.Headers;
-using AliasPro.Room.Models;
 
 namespace AliasPro.Items.Packets.Events
 {
@@ -22,10 +22,10 @@ namespace AliasPro.Items.Packets.Events
 
             if (session.Entity == null) return;
 
-            if (!room.RightHandler.HasRights(session.Player.Id)) return;
+            if (!room.Rights.HasRights(session.Player.Id)) return;
 
             uint itemId = (uint)clientPacket.ReadInt();
-            if (room.ItemHandler.TryGetItem(itemId, out IItem item))
+            if (room.Items.TryGetItem(itemId, out IItem item))
             {
                 if (item.ItemData.Type != "s") return;
 
@@ -33,7 +33,7 @@ namespace AliasPro.Items.Packets.Events
                 
                 item.Interaction.OnUserInteract(session.Entity, state);
                 
-                room.ItemHandler.TriggerWired(WiredInteractionType.STATE_CHANGED, session.Entity, item);
+                room.Items.TriggerWired(WiredInteractionType.STATE_CHANGED, session.Entity, item);
             }
         }
     }

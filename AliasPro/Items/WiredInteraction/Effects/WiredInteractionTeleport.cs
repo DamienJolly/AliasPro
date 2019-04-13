@@ -1,9 +1,9 @@
 ﻿using AliasPro.API.Items.Interaction;
 using AliasPro.API.Items.Models;
+using AliasPro.API.Rooms.Entities;
 using AliasPro.Items.Models;
 using AliasPro.Items.Types;
-using AliasPro.Room.Gamemap;
-using AliasPro.Room.Models.Entities;
+using AliasPro.Rooms.Models;
 using AliasPro.Utilities;
 using System.Collections.Generic;
 
@@ -52,13 +52,13 @@ namespace AliasPro.Items.WiredInteraction
 
                         if (itemData != null)
                         {
-                            if (_item.CurrentRoom.ItemHandler.TryGetItem(itemData.ItemId, out IItem item))
+                            if (_item.CurrentRoom.Items.TryGetItem(itemData.ItemId, out IItem item))
                             {
                                 //todo: effect
-                                _item.CurrentRoom.RoomMap.RemoveEntity(_target);
+                                _item.CurrentRoom.Mapping.RemoveEntity(_target);
                                 _target.NextPosition =
-                                    new Position(item.Position.X, item.Position.Y, item.Position.Z);
-                                _item.CurrentRoom.RoomMap.AddEntity(_target);
+                                    new RoomPosition(item.Position.X, item.Position.Y, item.Position.Z);
+                                _item.CurrentRoom.Mapping.AddEntity(_target);
                             }
                         }
                     }

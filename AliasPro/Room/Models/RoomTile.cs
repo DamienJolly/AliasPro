@@ -1,38 +1,39 @@
 ﻿using AliasPro.API.Items.Models;
+using AliasPro.API.Rooms;
+using AliasPro.API.Rooms.Entities;
+using AliasPro.API.Rooms.Models;
 using AliasPro.Items.Types;
-using AliasPro.Room.Models;
-using AliasPro.Room.Models.Entities;
 using System.Collections.Generic;
 
-namespace AliasPro.Room.Gamemap
+namespace AliasPro.Rooms.Models
 {
-    public class RoomTile
+    internal class RoomTile : IRoomTile
     {
         private readonly IRoom _room;
-        private readonly Position _position;
+        private readonly IRoomPosition _position;
         private readonly IDictionary<uint, IItem> _items;
         private readonly IDictionary<int, BaseEntity> _entities;
 
-        internal RoomTile(IRoom room, Position position)
+        internal RoomTile(IRoom room, IRoomPosition position)
         {
             _room = room;
             _position = position;
             _items = new Dictionary<uint, IItem>();
             _entities = new Dictionary<int, BaseEntity>();
         }
-        
-        public bool IsValidTile(BaseEntity entity, bool final = false)
+
+        public bool IsValidTile(BaseEntity entity, bool final)
         {
             if (_entities.Count > 0)
                 return entity == null ? false : _entities.ContainsKey(entity.Id);
-            
+
             IItem topItem = TopItem;
             if (topItem != null)
             {
                 if (topItem.ItemData.CanWalk) return true;
 
                 if (topItem.ItemData.InteractionType == ItemInteractionType.CHAIR && final) return true;
-                
+
                 if (topItem.ItemData.InteractionType == ItemInteractionType.BED && final) return true;
 
                 return false;
@@ -68,7 +69,7 @@ namespace AliasPro.Room.Gamemap
 
             return true;
         }
-        
+
         public void AddItem(IItem item)
         {
             if (!_items.ContainsKey(item.Id))
@@ -93,7 +94,7 @@ namespace AliasPro.Room.Gamemap
 
         public ICollection<BaseEntity> Entities =>
             _entities.Values;
-        
+
         public ICollection<IItem> WiredEffects
         {
             get

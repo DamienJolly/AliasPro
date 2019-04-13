@@ -1,8 +1,7 @@
 ﻿using AliasPro.API.Items.Interaction;
+using AliasPro.API.Rooms.Entities;
+using AliasPro.API.Rooms.Models;
 using AliasPro.Network.Protocol;
-using AliasPro.Room.Gamemap;
-using AliasPro.Room.Models;
-using AliasPro.Room.Models.Entities;
 
 namespace AliasPro.API.Items.Models
 {
@@ -19,7 +18,7 @@ namespace AliasPro.API.Items.Models
         int Rotation { get; set; }
         int Mode { get; set; }
         string ExtraData { get; set; }
-        Position Position { get; set; }
+        IRoomPosition Position { get; set; }
         IItemData ItemData { get; set; }
         BaseEntity InteractingPlayer { get; set; }
 

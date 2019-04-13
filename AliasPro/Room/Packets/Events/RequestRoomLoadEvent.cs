@@ -1,12 +1,12 @@
 ﻿using AliasPro.API.Items;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
+using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
-using AliasPro.Room.Models;
-using AliasPro.Room.Packets.Composers;
+using AliasPro.Rooms.Packets.Composers;
 
-namespace AliasPro.Room.Packets.Events
+namespace AliasPro.Rooms.Packets.Events
 {
     public class RequestRoomLoadEvent : IAsyncPacket
     {
@@ -30,29 +30,28 @@ namespace AliasPro.Room.Packets.Events
 
             if (session.CurrentRoom != null)
             {
-                await _roomController.RemoveFromRoom(session);
+                await session.CurrentRoom.RemoveEntity(session.Entity);
+                session.Entity = null;
+                session.CurrentRoom = null;
             }
 
-            IRoom room = await _roomController.GetRoomByIdAndPassword(roomId, password);
-            if (room != null)
+            if (!_roomController.TryGetRoom(roomId, out IRoom room))
             {
-                await session.SendPacketAsync(new RoomOpenComposer());
-                await session.SendPacketAsync(new RoomModelComposer(room.RoomModel.Id, room.RoomData.Id));
-                await session.SendPacketAsync(new RoomScoreComposer(room.RoomData.Score));
-                if (!room.isLoaded)
-                {
-                    room.isLoaded = true;
-                    room.SetupRoomCycle();
-                    room.LoadRoomItems(await _itemController.GetItemsForRoomAsync(room.RoomData.Id));
-                    room.LoadRoomRights(await _roomController.GetRightsForRoomAsync(room.RoomData.Id));
-                }
-                
-                session.CurrentRoom = room;
+                // close connection
+                return;
             }
-            else
+
+            if (room.Password != password)
             {
-                //todo: close connection to room
+                // close connection
+                return;
             }
+
+            session.CurrentRoom = room;
+
+            await session.SendPacketAsync(new RoomOpenComposer());
+            await session.SendPacketAsync(new RoomModelComposer(room.RoomModel.Id, room.Id));
+            await session.SendPacketAsync(new RoomScoreComposer(room.Score));
         }
     }
 }

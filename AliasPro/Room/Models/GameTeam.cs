@@ -1,13 +1,14 @@
-﻿using AliasPro.Room.Models.Entities;
+﻿using AliasPro.API.Rooms.Entities;
+using AliasPro.API.Rooms.Models;
 using System.Collections.Generic;
 
-namespace AliasPro.Room.Models.Game
+namespace AliasPro.Rooms.Models
 {
-    public class GameTeam
+    internal class GameTeam : IGameTeam
     {
-        public int Points;
-        public int MaxPoints;
-        public IList<BaseEntity> Members;
+        public int Points { get; set; }
+        public int MaxPoints { get; set; }
+        public IList<BaseEntity> Members { get; set; }
 
         internal GameTeam()
         {

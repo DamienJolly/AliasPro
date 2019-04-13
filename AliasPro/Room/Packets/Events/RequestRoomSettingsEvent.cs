@@ -1,11 +1,11 @@
 ﻿using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
+using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
-using AliasPro.Room.Models;
-using AliasPro.Room.Packets.Composers;
+using AliasPro.Rooms.Packets.Composers;
 
-namespace AliasPro.Room.Packets.Events
+namespace AliasPro.Rooms.Packets.Events
 {
     public class RequestRoomSettingsEvent : IAsyncPacket
     {
@@ -18,9 +18,9 @@ namespace AliasPro.Room.Packets.Events
             IRoom room = session.CurrentRoom;
             if (room == null) return;
 
-            if (!room.RightHandler.IsOwner(session.Player.Id)) return;
+            if (!room.Rights.IsOwner(session.Player.Id)) return;
 
-            await session.SendPacketAsync(new RoomSettingsComposer(room.RoomData));
+            await session.SendPacketAsync(new RoomSettingsComposer(room));
         }
     }
 }

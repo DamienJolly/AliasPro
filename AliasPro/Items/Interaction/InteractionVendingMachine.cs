@@ -1,9 +1,9 @@
 ﻿using AliasPro.API.Items.Interaction;
 using AliasPro.API.Items.Models;
+using AliasPro.API.Rooms.Entities;
 using AliasPro.Items.Packets.Composers;
 using AliasPro.Network.Protocol;
-using AliasPro.Room.Models.Entities;
-using AliasPro.Room.Packets.Composers;
+using AliasPro.Rooms.Packets.Composers;
 using AliasPro.Utilities;
 using System.Collections.Generic;
 
@@ -40,7 +40,7 @@ namespace AliasPro.Items.Interaction
         {
             if (entity == null) return;
 
-            if (!_item.CurrentRoom.RoomMap.TilesAdjecent(_item.Position, entity.Position))
+            if (!_item.CurrentRoom.Mapping.TilesAdjecent(_item.Position, entity.Position))
             {
                 //todo: walk to item
                 return;

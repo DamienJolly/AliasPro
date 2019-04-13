@@ -5,7 +5,7 @@ using AliasPro.API.Network.Protocol;
 using AliasPro.API.Players;
 using AliasPro.API.Sessions;
 using AliasPro.API.Sessions.Models;
-using AliasPro.Room;
+using AliasPro.Rooms;
 using DotNetty.Transport.Channels;
 
 namespace AliasPro.Network
@@ -73,8 +73,9 @@ namespace AliasPro.Network
             if (session.Player.Messenger != null)
                 await _messengerController.UpdateStatusAsync(session.Player, session.Player.Messenger.Friends);
 
-            if (session.CurrentRoom != null)
-                await _roomController.RemoveFromRoom(session);
+            if (session.CurrentRoom != null &&
+                session.Entity != null)
+                await session.CurrentRoom.RemoveEntity(session.Entity);
 
             _playerController.RemovePlayer(session.Player);
         }

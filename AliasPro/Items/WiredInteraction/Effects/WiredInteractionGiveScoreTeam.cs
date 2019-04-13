@@ -2,7 +2,7 @@
 using AliasPro.API.Items.Models;
 using AliasPro.Items.Models;
 using AliasPro.Items.Types;
-using AliasPro.Room.Models.Game;
+using AliasPro.Rooms.Types;
 
 namespace AliasPro.Items.WiredInteraction
 {
@@ -41,7 +41,7 @@ namespace AliasPro.Items.WiredInteraction
                 {
                     if (TeamType != GameTeamType.NONE)
                     {
-                        _item.CurrentRoom.GameHandler.GiveTeamPoints(TeamType, TeamPoints, MaxPoints);
+                        _item.CurrentRoom.Game.GiveTeamPoints(TeamType, TeamPoints, MaxPoints);
                     }
                     _active = false;
                 }

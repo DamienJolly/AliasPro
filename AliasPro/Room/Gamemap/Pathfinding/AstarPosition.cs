@@ -1,6 +1,8 @@
-﻿namespace AliasPro.Room.Gamemap.Pathfinding
+﻿using AliasPro.Rooms.Models;
+
+namespace AliasPro.Rooms.Gamemap.Pathfinding
 {
-    internal class AstarPosition : Position
+    internal class AstarPosition : RoomPosition
     {
         private const float DiagonalCost = 1.4142135623730950488016887242097f;
         private const float LateralCost = 1.0f;

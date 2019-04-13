@@ -1,21 +1,24 @@
-﻿using AliasPro.Items.Types;
-using AliasPro.Room.Models.Entities;
+﻿using AliasPro.API.Rooms.Entities;
+using AliasPro.API.Rooms.Models;
+using AliasPro.Items.Types;
+using AliasPro.Rooms.Models;
+using AliasPro.Rooms.Types;
 using System.Collections.Generic;
 
-namespace AliasPro.Room.Models.Game
+namespace AliasPro.Rooms.Components
 {
-    public class GameHandler
+    public class GameComponent
     {
         private readonly IRoom _room;
-        private readonly IDictionary<GameTeamType, GameTeam> _teams;
+        private readonly IDictionary<GameTeamType, IGameTeam> _teams;
 
         public bool GameStarted = false;
-        
-        public GameHandler(IRoom room)
+
+        public GameComponent(IRoom room)
         {
             _room = room;
 
-            _teams = new Dictionary<GameTeamType, GameTeam>
+            _teams = new Dictionary<GameTeamType, IGameTeam>
             {
                 { GameTeamType.YELLOW, new GameTeam() },
                 { GameTeamType.BLUE, new GameTeam() },
@@ -26,7 +29,7 @@ namespace AliasPro.Room.Models.Game
 
         public void LeaveTeam(BaseEntity entity)
         {
-            if (!TryGetTeam(entity.Team, out GameTeam team))
+            if (!_teams.TryGetValue(entity.Team, out IGameTeam team))
                 return;
 
             entity.Team = GameTeamType.NONE;
@@ -35,7 +38,7 @@ namespace AliasPro.Room.Models.Game
 
         public void JoinTeam(BaseEntity entity, GameTeamType teamType)
         {
-            if (!TryGetTeam(teamType, out GameTeam team))
+            if (!_teams.TryGetValue(teamType, out IGameTeam team))
                 return;
 
             entity.Team = teamType;
@@ -45,17 +48,17 @@ namespace AliasPro.Room.Models.Game
         public void StartGame()
         {
             GameStarted = true;
-            _room.ItemHandler.TriggerWired(WiredInteractionType.GAME_STARTS);
-            _room.ItemHandler.TriggerWired(WiredInteractionType.AT_GIVEN_TIME);
+            _room.Items.TriggerWired(WiredInteractionType.GAME_STARTS);
+            _room.Items.TriggerWired(WiredInteractionType.AT_GIVEN_TIME);
         }
 
         public void EndGame()
         {
             ResetTeams();
             GameStarted = false;
-            _room.ItemHandler.TriggerWired(WiredInteractionType.GAME_ENDS);
+            _room.Items.TriggerWired(WiredInteractionType.GAME_ENDS);
         }
-        
+
         private void ResetTeams()
         {
             foreach (GameTeam team in _teams.Values)
@@ -69,29 +72,26 @@ namespace AliasPro.Room.Models.Game
         {
             if (!GameStarted) return;
 
-            if (!TryGetTeam(teamType, out GameTeam team))
+            if (!_teams.TryGetValue(teamType, out IGameTeam team))
                 return;
 
             team.Points += amount;
-            _room.ItemHandler.TriggerWired(WiredInteractionType.SCORE_ACHIEVED, team.Points);
+            _room.Items.TriggerWired(WiredInteractionType.SCORE_ACHIEVED, team.Points);
         }
 
         public void GiveTeamPoints(GameTeamType teamType, int amount, int maxAmount)
         {
             if (!GameStarted) return;
 
-            if (!TryGetTeam(teamType, out GameTeam team))
+            if (!_teams.TryGetValue(teamType, out IGameTeam team))
                 return;
 
             if (maxAmount > team.MaxPoints)
             {
                 team.MaxPoints++;
                 team.Points += amount;
-                _room.ItemHandler.TriggerWired(WiredInteractionType.SCORE_ACHIEVED, team.Points);
+                _room.Items.TriggerWired(WiredInteractionType.SCORE_ACHIEVED, team.Points);
             }
         }
-
-        public bool TryGetTeam(GameTeamType teamType, out GameTeam team) =>
-            _teams.TryGetValue(teamType, out team);
     }
 }

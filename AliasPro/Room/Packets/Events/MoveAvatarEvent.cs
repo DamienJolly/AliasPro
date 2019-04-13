@@ -1,13 +1,13 @@
 ﻿using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
+using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
-using AliasPro.Room.Gamemap;
-using AliasPro.Room.Gamemap.Pathfinding;
-using AliasPro.Room.Models;
+using AliasPro.Rooms.Gamemap.Pathfinding;
+using AliasPro.Rooms.Models;
 using System.Collections.Generic;
 
-namespace AliasPro.Room.Packets.Events
+namespace AliasPro.Rooms.Packets.Events
 {
     public class MoveAvatarEvent : IAsyncPacket
     {
@@ -27,10 +27,10 @@ namespace AliasPro.Room.Packets.Events
                 session.Entity.Position.Y == y) return;
             
             session.Entity.Position = session.Entity.NextPosition;
-            IList<Position> walkingPath = PathFinder.FindPath(
+            IList<IRoomPosition> walkingPath = PathFinder.FindPath(
                 session.Entity,
-                session.CurrentRoom.RoomMap,
-                session.Entity.Position, new Position(x, y, 0));
+                session.CurrentRoom.Mapping,
+                session.Entity.Position, new RoomPosition(x, y, 0));
             
             session.Entity.PathToWalk = walkingPath;
         }

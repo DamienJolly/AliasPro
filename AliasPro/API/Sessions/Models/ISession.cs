@@ -1,7 +1,7 @@
 ﻿using AliasPro.API.Network.Events;
 using AliasPro.API.Players.Models;
-using AliasPro.Room.Models;
-using AliasPro.Room.Models.Entities;
+using AliasPro.API.Rooms.Entities;
+using AliasPro.API.Rooms.Models;
 using System.Threading.Tasks;
 
 namespace AliasPro.API.Sessions.Models

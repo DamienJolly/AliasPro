@@ -1,8 +1,8 @@
 ﻿using AliasPro.API.Network.Events;
+using AliasPro.API.Rooms.Entities;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Network.Protocol;
 using AliasPro.Players.Types;
-using AliasPro.Room.Models.Entities;
 
 namespace AliasPro.Figure.Packets.Composers
 {

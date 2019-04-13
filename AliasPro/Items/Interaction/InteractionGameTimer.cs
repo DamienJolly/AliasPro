@@ -1,8 +1,8 @@
 ﻿using AliasPro.API.Items.Interaction;
 using AliasPro.API.Items.Models;
+using AliasPro.API.Rooms.Entities;
 using AliasPro.Items.Packets.Composers;
 using AliasPro.Network.Protocol;
-using AliasPro.Room.Models.Entities;
 using System;
 
 namespace AliasPro.Items.Interaction
@@ -52,14 +52,14 @@ namespace AliasPro.Items.Interaction
                         if (_active)
                         {
                             _active = false;
-                            _item.CurrentRoom.GameHandler.EndGame();
+                            _item.CurrentRoom.Game.EndGame();
                         }
                         else
                         {
-                            if (_item.CurrentRoom.GameHandler.GameStarted) return;
+                            if (_item.CurrentRoom.Game.GameStarted) return;
 
                             _active = true;
-                            _item.CurrentRoom.GameHandler.StartGame();
+                            _item.CurrentRoom.Game.StartGame();
                         }
 
                         _tick = _timer * 2;
@@ -90,11 +90,11 @@ namespace AliasPro.Items.Interaction
             if (_active)
             {
                 if (_tick <= 0 ||
-                    !_item.CurrentRoom.GameHandler.GameStarted)
+                    !_item.CurrentRoom.Game.GameStarted)
                 {
                     _active = false;
                     _tick = _timer * 2;
-                    _item.CurrentRoom.GameHandler.EndGame();
+                    _item.CurrentRoom.Game.EndGame();
                 }
                 _tick--;
 

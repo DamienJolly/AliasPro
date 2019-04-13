@@ -1,12 +1,13 @@
 ﻿using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
+using AliasPro.API.Rooms.Entities;
+using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
-using AliasPro.Room.Models;
-using AliasPro.Room.Models.Entities;
-using AliasPro.Room.Packets.Composers;
+using AliasPro.Rooms.Entities;
+using AliasPro.Rooms.Packets.Composers;
 
-namespace AliasPro.Room.Packets.Events
+namespace AliasPro.Rooms.Packets.Events
 {
     public class RequestRoomEntryDataEvent : IAsyncPacket
     {
@@ -31,8 +32,8 @@ namespace AliasPro.Room.Packets.Events
             
             if (session.Entity == null)
             {
-                int entityId = room.EntityHandler.NextEntitityId++;
-                UserEntity userEntity = new UserEntity(
+                int entityId = room.Entities.NextEntitityId++;
+                BaseEntity userEntity = new PlayerEntity(
                     entityId,
                     room.RoomModel.DoorX,
                     room.RoomModel.DoorY,
@@ -43,18 +44,18 @@ namespace AliasPro.Room.Packets.Events
                 await room.AddEntity(userEntity);
             }
             
-            await session.SendPacketAsync(new RoomEntryInfoComposer(room.RoomData.Id, 
-                room.RightHandler.HasRights(session.Player.Id)));
+            await session.SendPacketAsync(new RoomEntryInfoComposer(room.Id, 
+                room.Rights.HasRights(session.Player.Id)));
 
-            await session.SendPacketAsync(new EntitiesComposer(room.EntityHandler.Entities));
-            await session.SendPacketAsync(new EntityUpdateComposer(room.EntityHandler.Entities));
+            await session.SendPacketAsync(new EntitiesComposer(room.Entities.Entities));
+            await session.SendPacketAsync(new EntityUpdateComposer(room.Entities.Entities));
 
-            await session.SendPacketAsync(new RoomVisualizationSettingsComposer(room.RoomData.Settings));
+            await session.SendPacketAsync(new RoomVisualizationSettingsComposer(room.Settings));
 
-            await session.SendPacketAsync(new RoomFloorItemsComposer(room.ItemHandler.FloorItems, room.ItemHandler.GetItemOwners));
-            await session.SendPacketAsync(new RoomWallItemsComposer(room.ItemHandler.WallItems, room.ItemHandler.GetItemOwners));
+            await session.SendPacketAsync(new RoomFloorItemsComposer(room.Items.FloorItems, room.Items.GetItemOwners));
+            await session.SendPacketAsync(new RoomWallItemsComposer(room.Items.WallItems, room.Items.GetItemOwners));
 
-            await room.RightHandler.ReloadRights(session);
+            await room.Rights.ReloadRights(session);
         }
     }
 }

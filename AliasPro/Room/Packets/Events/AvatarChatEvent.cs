@@ -1,11 +1,11 @@
 ﻿using AliasPro.API.Chat;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
+using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
-using AliasPro.Room.Models;
 
-namespace AliasPro.Room.Packets.Events
+namespace AliasPro.Rooms.Packets.Events
 {
     public class AvatarChatEvent : IAsyncPacket
     {
@@ -28,7 +28,7 @@ namespace AliasPro.Room.Packets.Events
             string text = clientPacket.ReadString();
             int colour = clientPacket.ReadInt();
 
-            room.EntityHandler.Unidle(session.Entity);
+            room.Entities.Unidle(session.Entity);
 
             if (!_chatController.HandleCommand(session, text))
             {

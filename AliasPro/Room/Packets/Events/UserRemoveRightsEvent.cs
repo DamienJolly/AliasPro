@@ -1,12 +1,13 @@
 ﻿using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
 using AliasPro.API.Players;
+using AliasPro.API.Rooms.Entities;
+using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
-using AliasPro.Room.Models;
-using AliasPro.Room.Models.Entities;
+using AliasPro.Rooms.Entities;
 
-namespace AliasPro.Room.Packets.Events
+namespace AliasPro.Rooms.Packets.Events
 {
     public class UserRemoveRightsEvent : IAsyncPacket
     {
@@ -28,7 +29,7 @@ namespace AliasPro.Room.Packets.Events
             IRoom room = session.CurrentRoom;
             if (room == null || session.Entity == null) return;
 
-            if (!room.RightHandler.IsOwner(session.Player.Id)) return;
+            if (!room.Rights.IsOwner(session.Player.Id)) return;
 
             int amount = clientPacket.ReadInt();
 
@@ -36,15 +37,15 @@ namespace AliasPro.Room.Packets.Events
             {
                 int entityId = clientPacket.ReadInt();
 
-                if (!room.EntityHandler.TryGetEntityById(entityId, out BaseEntity entity)) return;
+                if (!room.Entities.TryGetEntityById(entityId, out BaseEntity entity)) return;
 
-                if (entity is UserEntity userEntity)
+                if (entity is PlayerEntity userEntity)
                 {
-                    if (!room.RightHandler.HasRights(userEntity.Player.Id)) return;
+                    if (!room.Rights.HasRights(userEntity.Player.Id)) return;
 
-                    room.RightHandler.RemoveRights(userEntity.Player.Id);
-                    await _roomController.TakeRoomRights(room.RoomData.Id, userEntity.Player.Id);
-                    await room.RightHandler.ReloadRights(userEntity.Session);
+                    room.Rights.RemoveRights(userEntity.Player.Id);
+                    await _roomController.TakeRoomRights(room.Id, userEntity.Player.Id);
+                    await room.Rights.ReloadRights(userEntity.Session);
                 }
             }
         }

@@ -1,13 +1,13 @@
 ﻿using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
+using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
-using AliasPro.Room.Models;
-using AliasPro.Room.Packets.Composers;
+using AliasPro.Rooms.Packets.Composers;
 using System;
 using System.Linq;
 
-namespace AliasPro.Room.Packets.Events
+namespace AliasPro.Rooms.Packets.Events
 {
     public class FindNewFriendsEvent : IAsyncPacket
     {
@@ -26,9 +26,9 @@ namespace AliasPro.Room.Packets.Events
         {
             //todo: make random util
             Random rnd = new Random();
-            IRoom room = _roomController.GetAllRooms().OrderBy(a => rnd.Next()).First();
+            IRoom room = _roomController.Rooms.OrderBy(a => rnd.Next()).First();
 
-            await session.SendPacketAsync(new ForwardToRoomComposer(room.RoomData.Id));
+            await session.SendPacketAsync(new ForwardToRoomComposer(room.Id));
         }
     }
 }

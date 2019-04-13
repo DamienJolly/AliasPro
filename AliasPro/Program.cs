@@ -12,7 +12,7 @@ using AliasPro.Navigator;
 using AliasPro.Network;
 using AliasPro.Network.Events;
 using AliasPro.Players;
-using AliasPro.Room;
+using AliasPro.Rooms;
 using AliasPro.Sessions;
 using AliasPro.Settings;
 using Microsoft.Extensions.DependencyInjection;

@@ -1,10 +1,10 @@
 ﻿using AliasPro.API.Database;
-using AliasPro.Room.Utils;
+using AliasPro.Rooms.Utils;
 using System;
 using System.Data.Common;
 using System.Text;
 
-namespace AliasPro.Room.Models
+namespace AliasPro.Rooms.Models
 {
     internal class RoomModel : IRoomModel
     {

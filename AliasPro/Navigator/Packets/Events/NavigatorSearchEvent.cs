@@ -5,7 +5,7 @@ using AliasPro.API.Network.Protocol;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Navigator.Packets.Composers;
 using AliasPro.Network.Events.Headers;
-using AliasPro.Room;
+using AliasPro.Rooms;
 using System.Collections.Generic;
 
 namespace AliasPro.Navigator.Packets.Events

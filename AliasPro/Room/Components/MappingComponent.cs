@@ -1,47 +1,50 @@
-﻿using System.Collections.Generic;
+﻿using AliasPro.API.Items.Models;
+using AliasPro.API.Rooms.Entities;
+using AliasPro.API.Rooms.Models;
+using AliasPro.Rooms.Models;
+using System;
+using System.Collections.Generic;
 
-namespace AliasPro.Room.Gamemap
+namespace AliasPro.Rooms.Components
 {
-    using AliasPro.API.Items.Models;
-    using Models;
-    using Models.Entities;
-    using System;
-
-    public class RoomMap
+    public class MappingComponent
     {
+        private readonly IRoom _room;
+        private readonly IDictionary<int, IRoomTile> _roomTiles;
+
         public int MapSizeX { get; }
         public int MapSizeY { get; }
-
-        private readonly IDictionary<int, RoomTile> _roomTiles;
-
-        public RoomMap(IRoom room, IRoomModel roomModel)
+        
+        public MappingComponent(IRoom room)
         {
-            MapSizeX = roomModel.MapSizeX;
-            MapSizeY = roomModel.MapSizeY;
+            _room = room;
 
-            _roomTiles = new Dictionary<int, RoomTile>();
+            MapSizeX = _room.RoomModel.MapSizeX;
+            MapSizeY = _room.RoomModel.MapSizeY;
+
+            _roomTiles = new Dictionary<int, IRoomTile>();
 
             for (int y = 0; y < MapSizeY; y++)
             {
                 for (int x = 0; x < MapSizeX; x++)
                 {
-                    if (!roomModel.GetTileState(x, y)) continue;
+                    if (!_room.RoomModel.GetTileState(x, y)) continue;
 
-                    double posZ = roomModel.GetHeight(x, y);
-                    Position position = new Position(x, y, posZ);
+                    double posZ = _room.RoomModel.GetHeight(x, y);
+                    IRoomPosition position = new RoomPosition(x, y, posZ);
 
-                    _roomTiles.Add(ConvertTo1D(x, y), new RoomTile(room, position));
+                    _roomTiles.Add(ConvertTo1D(x, y), new RoomTile(_room, position));
                 }
             }
         }
-        
+
         public bool CanStackAt(int targertX, int targetY, IItem item)
         {
             bool canStack = true;
-            IList<RoomTile> tiles =
+            IList<IRoomTile> tiles =
                 GetTilesFromItem(targertX, targetY, item);
-            
-            foreach (RoomTile tile in tiles)
+
+            foreach (IRoomTile tile in tiles)
             {
                 if (!tile.CanStack(item))
                 {
@@ -54,10 +57,10 @@ namespace AliasPro.Room.Gamemap
         public bool CanRollAt(int targertX, int targetY, IItem item)
         {
             bool canRoll = true;
-            IList<RoomTile> tiles =
+            IList<IRoomTile> tiles =
                 GetTilesFromItem(targertX, targetY, item);
 
-            foreach (RoomTile tile in tiles)
+            foreach (IRoomTile tile in tiles)
             {
                 if (!tile.CanRoll(item))
                 {
@@ -67,14 +70,14 @@ namespace AliasPro.Room.Gamemap
             return canRoll;
         }
 
-        public IList<RoomTile> GetTilesFromItem(int targetX, int targetY, IItem item)
+        public IList<IRoomTile> GetTilesFromItem(int targetX, int targetY, IItem item)
         {
-            IList<RoomTile> tiles = new List<RoomTile>();
+            IList<IRoomTile> tiles = new List<IRoomTile>();
             for (int x = targetX; x <= targetX + (item.Rotation == 0 || item.Rotation == 4 ? item.ItemData.Width : item.ItemData.Length) - 1; x++)
             {
                 for (int y = targetY; y <= targetY + (item.Rotation == 0 || item.Rotation == 4 ? item.ItemData.Length : item.ItemData.Width) - 1; y++)
                 {
-                    if (TryGetRoomTile(x, y, out RoomTile tile))
+                    if (TryGetRoomTile(x, y, out IRoomTile tile))
                         tiles.Add(tile);
                 }
             }
@@ -83,10 +86,10 @@ namespace AliasPro.Room.Gamemap
 
         public void AddItem(IItem item)
         {
-            IList<RoomTile> tiles = 
+            IList<IRoomTile> tiles =
                 GetTilesFromItem(item.Position.X, item.Position.Y, item);
 
-            foreach (RoomTile tile in tiles)
+            foreach (IRoomTile tile in tiles)
             {
                 tile.AddItem(item);
             }
@@ -94,10 +97,10 @@ namespace AliasPro.Room.Gamemap
 
         public void RemoveItem(IItem item)
         {
-            IList<RoomTile> tiles =
+            IList<IRoomTile> tiles =
                 GetTilesFromItem(item.Position.X, item.Position.Y, item);
 
-            foreach (RoomTile tile in tiles)
+            foreach (IRoomTile tile in tiles)
             {
                 tile.RemoveItem(item.Id);
             }
@@ -105,7 +108,7 @@ namespace AliasPro.Room.Gamemap
 
         public void AddEntity(BaseEntity entity)
         {
-            if (TryGetRoomTile(entity.NextPosition.X, entity.NextPosition.Y, out RoomTile roomTile))
+            if (TryGetRoomTile(entity.NextPosition.X, entity.NextPosition.Y, out IRoomTile roomTile))
             {
                 roomTile.AddEntity(entity);
             }
@@ -113,21 +116,22 @@ namespace AliasPro.Room.Gamemap
 
         public void RemoveEntity(BaseEntity entity)
         {
-            if (TryGetRoomTile(entity.NextPosition.X, entity.NextPosition.Y, out RoomTile roomTile))
+            if (TryGetRoomTile(entity.NextPosition.X, entity.NextPosition.Y, out IRoomTile roomTile))
             {
                 roomTile.RemoveEntity(entity.Id);
             }
         }
 
-        public bool TilesAdjecent(Position pos1, Position pos2) =>
+        //todo: move to position class
+        public bool TilesAdjecent(IRoomPosition pos1, IRoomPosition pos2) =>
             ((pos1.X - pos2.X) * (pos1.X - pos2.X)) + ((pos1.Y - pos2.Y) * (pos1.Y - pos2.Y)) <= 2;
 
-        public double Distance(Position pos1, Position pos2) =>
+        public double Distance(IRoomPosition pos1, IRoomPosition pos2) =>
             Math.Sqrt(((pos1.X - pos2.X) * (pos1.X - pos2.X)) + ((pos1.Y - pos2.Y) * (pos1.Y - pos2.Y)));
-        
-        public bool TryGetRoomTile(int x, int y, out RoomTile roomTile) =>
+
+        public bool TryGetRoomTile(int x, int y, out IRoomTile roomTile) =>
             _roomTiles.TryGetValue(ConvertTo1D(x, y), out roomTile);
-        
+
         internal int ConvertTo1D(int x, int y) => MapSizeX * y + x;
     }
 }

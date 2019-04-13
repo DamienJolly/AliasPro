@@ -1,29 +1,37 @@
-﻿using AliasPro.Room.Packets.Composers;
+﻿using AliasPro.API.Rooms.Entities;
+using AliasPro.API.Rooms.Models;
+using AliasPro.Rooms.Entities;
+using AliasPro.Rooms.Models.Entities;
+using AliasPro.Rooms.Packets.Composers;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AliasPro.Room.Models.Entities
+namespace AliasPro.Rooms.Components
 {
-    public class EntityHandler
+    public class EntitiesComponent
     {
         private readonly IRoom _room;
         private readonly EntityCycler _entityCycler;
         private readonly IDictionary<int, BaseEntity> _entities;
 
         public int NextEntitityId = 1;
-        
-        public EntityHandler(IRoom room)
+
+        public EntitiesComponent(IRoom room)
         {
-            _entities = new Dictionary<int, BaseEntity>();
             _room = room;
+
+            _entities = new Dictionary<int, BaseEntity>();
+
+            //todo: remove
             _entityCycler = new EntityCycler(_room);
         }
 
+        //todo: remove
         public async void Cycle()
         {
             try
             {
-                foreach (BaseEntity entity in Entities)
+                foreach (BaseEntity entity in _entities.Values)
                 {
                     _entityCycler.Cycle(entity);
                 }
@@ -39,13 +47,13 @@ namespace AliasPro.Room.Models.Entities
             entity.IsIdle = false;
             await _room.SendAsync(new UserSleepComposer(entity));
         }
-        
+
         public void AddEntity(BaseEntity entity)
         {
             if (!_entities.ContainsKey(entity.Id))
             {
-                if (entity is UserEntity)
-                    _room.RoomData.UsersNow++;
+                if (entity is PlayerEntity)
+                    _room.UsersNow++;
 
                 _entities.Add(entity.Id, entity);
             }
@@ -55,8 +63,8 @@ namespace AliasPro.Room.Models.Entities
         {
             if (_entities.ContainsKey(entity.Id))
             {
-                if (entity is UserEntity)
-                    _room.RoomData.UsersNow--;
+                if (entity is PlayerEntity)
+                    _room.UsersNow--;
 
                 _entities.Remove(entity.Id);
             }
@@ -69,6 +77,6 @@ namespace AliasPro.Room.Models.Entities
             _entities.Values;
 
         public bool HasUserEntities =>
-            _entities.Where(x => x.Value is UserEntity).Any();
+            _entities.Where(x => x.Value is PlayerEntity).Any();
     }
 }

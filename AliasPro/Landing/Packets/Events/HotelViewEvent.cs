@@ -2,7 +2,7 @@
 using AliasPro.API.Network.Protocol;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
-using AliasPro.Room;
+using AliasPro.Rooms;
 
 namespace AliasPro.Landing.Packets.Events
 {
@@ -21,10 +21,13 @@ namespace AliasPro.Landing.Packets.Events
             ISession session,
             IClientPacket clientPacket)
         {
-            if (session.CurrentRoom != null)
-            {
-                await _roomController.RemoveFromRoom(session);
-            }
+            if (session.CurrentRoom == null || 
+                session.Entity == null)
+                return;
+            
+            await session.CurrentRoom.RemoveEntity(session.Entity);
+            session.Entity = null;
+            session.CurrentRoom = null;
         }
     }
 }

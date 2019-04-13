@@ -1,9 +1,10 @@
 ﻿using AliasPro.API.Items.Interaction;
 using AliasPro.API.Items.Models;
+using AliasPro.API.Rooms.Entities;
 using AliasPro.Items.Types;
 using AliasPro.Network.Protocol;
-using AliasPro.Room.Models.Entities;
-using AliasPro.Room.Packets.Composers;
+using AliasPro.Rooms.Entities;
+using AliasPro.Rooms.Packets.Composers;
 
 namespace AliasPro.Items.Interaction
 {
@@ -36,7 +37,7 @@ namespace AliasPro.Items.Interaction
         {
             if (entity == null) return;
 
-            if (entity is UserEntity userEntity)
+            if (entity is PlayerEntity userEntity)
             {
                 if (_item.ItemData.InteractionType == ItemInteractionType.WIRED_TRIGGER)
                 {

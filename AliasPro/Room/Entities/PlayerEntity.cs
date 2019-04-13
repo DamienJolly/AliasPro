@@ -1,13 +1,14 @@
-﻿namespace AliasPro.Room.Models.Entities
-{
-    using Network.Protocol;
-    using AliasPro.API.Players.Models;
-    using AliasPro.API.Sessions.Models;
-    using AliasPro.Players.Types;
+﻿using AliasPro.API.Players.Models;
+using AliasPro.API.Rooms.Entities;
+using AliasPro.API.Sessions.Models;
+using AliasPro.Network.Protocol;
+using AliasPro.Players.Types;
 
-    internal class UserEntity : BaseEntity
+namespace AliasPro.Rooms.Entities
+{
+    internal class PlayerEntity : BaseEntity
     {
-        internal UserEntity(int id, int x, int y, int rotation, ISession session)
+        internal PlayerEntity(int id, int x, int y, int rotation, ISession session)
             : base(id, x, y, rotation, session.Player.Username, session.Player.Figure, session.Player.Gender, session.Player.Motto)
         {
             Session = session;

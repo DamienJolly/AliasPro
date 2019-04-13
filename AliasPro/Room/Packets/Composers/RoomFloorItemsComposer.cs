@@ -4,7 +4,7 @@ using AliasPro.Network.Events.Headers;
 using AliasPro.Network.Protocol;
 using System.Collections.Generic;
 
-namespace AliasPro.Room.Packets.Composers
+namespace AliasPro.Rooms.Packets.Composers
 {
     public class RoomFloorItemsComposer : IPacketComposer
     {

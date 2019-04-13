@@ -2,9 +2,9 @@
 using AliasPro.API.Network.Protocol;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
-using AliasPro.Room.Packets.Composers;
+using AliasPro.Rooms.Packets.Composers;
 
-namespace AliasPro.Room.Packets.Events
+namespace AliasPro.Rooms.Packets.Events
 {
     public class RequestFurnitureAliasesEvent : IAsyncPacket
     {

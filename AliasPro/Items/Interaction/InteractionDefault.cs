@@ -1,8 +1,8 @@
 ﻿using AliasPro.API.Items.Interaction;
 using AliasPro.API.Items.Models;
+using AliasPro.API.Rooms.Entities;
 using AliasPro.Items.Packets.Composers;
 using AliasPro.Network.Protocol;
-using AliasPro.Room.Models.Entities;
 
 namespace AliasPro.Items.Interaction
 {

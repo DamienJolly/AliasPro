@@ -1,10 +1,11 @@
 ﻿using AliasPro.API.Items.Interaction;
 using AliasPro.API.Items.Models;
+using AliasPro.API.Rooms.Entities;
+using AliasPro.API.Rooms.Models;
 using AliasPro.Items.Models;
 using AliasPro.Items.Packets.Composers;
 using AliasPro.Items.Types;
-using AliasPro.Room.Gamemap;
-using AliasPro.Room.Models.Entities;
+using AliasPro.Rooms.Models;
 using AliasPro.Utilities;
 
 namespace AliasPro.Items.WiredInteraction
@@ -44,21 +45,21 @@ namespace AliasPro.Items.WiredInteraction
                 {
                     foreach (WiredItemData itemData in WiredData.Items.Values)
                     {
-                        if (!_item.CurrentRoom.ItemHandler.TryGetItem(itemData.ItemId, out IItem item)) continue;
+                        if (!_item.CurrentRoom.Items.TryGetItem(itemData.ItemId, out IItem item)) continue;
+
+                        IRoomPosition newPos = HandlePosition(item.Position);
                         
-                        Position newPos = HandlePosition(item.Position);
-                        
-                        _item.CurrentRoom.ItemHandler.TriggerWired(WiredInteractionType.COLLISION, newPos);
+                        _item.CurrentRoom.Items.TriggerWired(WiredInteractionType.COLLISION, newPos);
                         
                         // todo: roller effect?
-                        if (_item.CurrentRoom.RoomMap.TryGetRoomTile(newPos.X, newPos.Y, out RoomTile roomTile))
+                        if (_item.CurrentRoom.Mapping.TryGetRoomTile(newPos.X, newPos.Y, out IRoomTile roomTile))
                         {
-                            if (_item.CurrentRoom.RoomMap.CanRollAt(newPos.X, newPos.Y, item))
+                            if (_item.CurrentRoom.Mapping.CanRollAt(newPos.X, newPos.Y, item))
                             {
-                                _item.CurrentRoom.RoomMap.RemoveItem(item);
+                                _item.CurrentRoom.Mapping.RemoveItem(item);
                                 item.Position = newPos;
                                 item.Position.Z = roomTile.Height;
-                                _item.CurrentRoom.RoomMap.AddItem(item);
+                                _item.CurrentRoom.Mapping.AddItem(item);
                             }
                         }
 
@@ -71,17 +72,17 @@ namespace AliasPro.Items.WiredInteraction
             }
         }
 
-        private Position HandlePosition(Position position)
+        private IRoomPosition HandlePosition(IRoomPosition position)
         {
-            Position newPos =
-                new Position(position.X, position.Y, position.Z);
+            IRoomPosition newPos =
+                new RoomPosition(position.X, position.Y, position.Z);
 
             BaseEntity target = null;
             double shortest = 100.0D;
 
-            foreach (BaseEntity entity in _item.CurrentRoom.EntityHandler.Entities)
+            foreach (BaseEntity entity in _item.CurrentRoom.Entities.Entities)
             {
-                double distance = _item.CurrentRoom.RoomMap.Distance(entity.Position, position);
+                double distance = _item.CurrentRoom.Mapping.Distance(entity.Position, position);
                 if (distance <= shortest)
                 {
                     target = entity;

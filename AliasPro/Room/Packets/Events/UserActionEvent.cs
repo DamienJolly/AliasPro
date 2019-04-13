@@ -1,11 +1,11 @@
 ﻿using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
+using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
-using AliasPro.Room.Models;
-using AliasPro.Room.Packets.Composers;
+using AliasPro.Rooms.Packets.Composers;
 
-namespace AliasPro.Room.Packets.Events
+namespace AliasPro.Rooms.Packets.Events
 {
     public class UserActionEvent : IAsyncPacket
     {
@@ -39,7 +39,7 @@ namespace AliasPro.Room.Packets.Events
             }
             else
             {
-                room.EntityHandler.Unidle(session.Entity);
+                room.Entities.Unidle(session.Entity);
             }
 
             await room.SendAsync(new UserActionComposer(session.Entity, action));

@@ -1,4 +1,4 @@
-﻿namespace AliasPro.Room.Models.Game
+﻿namespace AliasPro.Rooms.Types
 {
     public enum GameTeamType
     {

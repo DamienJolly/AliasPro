@@ -1,9 +1,9 @@
 ﻿using AliasPro.API.Network.Events;
 using AliasPro.API.Players.Models;
+using AliasPro.API.Rooms.Entities;
+using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Protocol;
-using AliasPro.Room.Models;
-using AliasPro.Room.Models.Entities;
 using DotNetty.Transport.Channels;
 using System.Threading.Tasks;
 

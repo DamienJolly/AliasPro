@@ -4,7 +4,7 @@ using AliasPro.API.Network.Events;
 using AliasPro.API.Players;
 using AliasPro.API.Sessions;
 using AliasPro.Network.Codec;
-using AliasPro.Room;
+using AliasPro.Rooms;
 using DotNetty.Transport.Channels;
 using DotNetty.Transport.Channels.Sockets;
 

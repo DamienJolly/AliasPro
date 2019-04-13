@@ -1,9 +1,9 @@
 ﻿using AliasPro.API.Navigator.Models;
 using AliasPro.API.Network.Events;
+using AliasPro.API.Rooms.Models;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Network.Protocol;
-using AliasPro.Room;
-using AliasPro.Room.Models;
+using AliasPro.Rooms;
 using System.Collections.Generic;
 using System.Linq;
 

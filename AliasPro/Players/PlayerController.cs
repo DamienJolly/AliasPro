@@ -1,6 +1,5 @@
 ﻿using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
-using AliasPro.Players.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

@@ -1,5 +1,5 @@
-﻿using AliasPro.Network.Protocol;
-using AliasPro.Room.Models.Entities;
+﻿using AliasPro.API.Rooms.Entities;
+using AliasPro.Network.Protocol;
 
 namespace AliasPro.API.Items.Interaction
 {

@@ -1,9 +1,9 @@
 ﻿using AliasPro.API.Network.Events;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Network.Protocol;
-using AliasPro.Room.Models;
+using AliasPro.Rooms.Models;
 
-namespace AliasPro.Room.Packets.Composers
+namespace AliasPro.Rooms.Packets.Composers
 {
     public class RoomVisualizationSettingsComposer : IPacketComposer
     {

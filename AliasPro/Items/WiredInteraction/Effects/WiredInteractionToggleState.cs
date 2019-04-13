@@ -40,7 +40,7 @@ namespace AliasPro.Items.WiredInteraction
                 {
                     foreach (WiredItemData itemData in WiredData.Items.Values)
                     {
-                        if (!_item.CurrentRoom.ItemHandler.TryGetItem(itemData.ItemId, out IItem item)) continue;
+                        if (!_item.CurrentRoom.Items.TryGetItem(itemData.ItemId, out IItem item)) continue;
 
                         item.Interaction.OnUserInteract(null);
                     }

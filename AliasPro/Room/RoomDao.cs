@@ -1,11 +1,12 @@
 ﻿using AliasPro.API.Configuration;
 using AliasPro.API.Database;
 using AliasPro.API.Items.Models;
-using AliasPro.Room.Models;
+using AliasPro.API.Rooms.Models;
+using AliasPro.Rooms.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace AliasPro.Room
+namespace AliasPro.Rooms
 {
     internal class RoomDao : BaseDao
     {

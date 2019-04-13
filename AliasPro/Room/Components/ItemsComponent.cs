@@ -1,23 +1,28 @@
-﻿using System.Collections.Generic;
+﻿using AliasPro.API.Items.Models;
+using AliasPro.API.Rooms.Models;
+using AliasPro.Items.Types;
+using System.Collections.Generic;
 using System.Linq;
 
-namespace AliasPro.Room.Models.Item
+namespace AliasPro.Rooms.Components
 {
-    using AliasPro.API.Items.Models;
-    using AliasPro.Items.Types;
-    using AliasPro.Room.Gamemap;
-
-    public class ItemHandler
+    public class ItemsComponent
     {
         private readonly IRoom _room;
         private readonly IDictionary<uint, IItem> _items;
-        
-        internal ItemHandler(IRoom room)
+
+        internal ItemsComponent(IRoom room, IDictionary<uint, IItem> items)
         {
             _room = room;
-            _items = new Dictionary<uint, IItem>();
+            _items = items;
+
+            foreach (IItem item in items.Values)
+            {
+                item.CurrentRoom = _room;
+                _room.Mapping.AddItem(item);
+            }
         }
-        
+
         public void TriggerWired(WiredInteractionType interaction, params object[] args)
         {
             foreach (IItem trigger in WiredTriggers)
@@ -28,7 +33,7 @@ namespace AliasPro.Room.Models.Item
             }
         }
 
-        public void TriggerEffects(RoomTile roomTile, params object[] args)
+        public void TriggerEffects(IRoomTile roomTile, params object[] args)
         {
             foreach (IItem condition in roomTile.WiredConditions)
             {

@@ -1,8 +1,9 @@
 ﻿using AliasPro.API.Database;
+using AliasPro.API.Rooms.Models;
 using AliasPro.Network.Protocol;
 using System.Data.Common;
 
-namespace AliasPro.Room.Models
+namespace AliasPro.Rooms.Models
 {
     internal class RoomData : IRoomData
     {
@@ -21,6 +22,22 @@ namespace AliasPro.Room.Models
             Score = reader.ReadData<int>("score");
         }
 
+        internal RoomData(IRoomData data)
+        {
+            Id = data.Id;
+            OwnerId = data.OwnerId;
+            OwnerName = data.OwnerName;
+            Name = data.Name;
+            Description = data.Description;
+            Password = data.Password;
+            ModelName = data.ModelName;
+            MaxUsers = data.MaxUsers;
+            TradeType = data.TradeType;
+            CategoryId = data.CategoryId;
+            Score = data.Score;
+        }
+
+        //todo: remove
         internal RoomData(uint ownerId, string ownerName, string name, string description, string modelName, int maxUsers, int tradeType, int categoryId)
         {
             Id = 0;
@@ -89,27 +106,7 @@ namespace AliasPro.Room.Models
             }
         }
 
+        public IRoomModel RoomModel { get; set; }
         public IRoomSettings Settings { get; set; }
-    }
-
-    public interface IRoomData
-    {
-        void Compose(ServerPacket serverPacket);
-
-        uint Id { get; set; }
-        int OwnerId { get; set; }
-        string OwnerName { get; set; }
-        string Name { get; set; }
-        string Description { get; set; }
-        string Password { get; set; }
-        string ModelName { get; set; }
-        int UsersNow { get; set; }
-        int MaxUsers { get; set; }
-        int CategoryId { get; set; }
-        int TradeType { get; set; }
-        int DoorState { get; set; }
-        int Score { get; set; }
-
-        IRoomSettings Settings { get; set; }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using AliasPro.API.Network.Events;
+using AliasPro.API.Rooms.Entities;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Network.Protocol;
-using AliasPro.Room.Models.Entities;
 
-namespace AliasPro.Room.Packets.Composers
+namespace AliasPro.Rooms.Packets.Composers
 {
     public class UserActionComposer : IPacketComposer
     {

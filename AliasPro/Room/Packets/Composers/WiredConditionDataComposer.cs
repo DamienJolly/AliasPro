@@ -4,7 +4,7 @@ using AliasPro.Items.Models;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Network.Protocol;
 
-namespace AliasPro.Room.Packets.Composers
+namespace AliasPro.Rooms.Packets.Composers
 {
     public class WiredConditionDataComposer : IPacketComposer
     {
