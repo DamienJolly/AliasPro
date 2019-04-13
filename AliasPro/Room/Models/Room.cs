@@ -11,12 +11,12 @@ namespace AliasPro.Room.Models
     using Item;
     using Right;
     using Game;
-    using AliasPro.Items.Models;
     using AliasPro.Room.Gamemap.Pathfinding;
     using AliasPro.API.Network.Events;
     using AliasPro.Room.Packets.Composers;
     using AliasPro.API.Items.Models;
     using AliasPro.Items.Types;
+    using AliasPro.API.Tasks;
 
     internal class Room : IRoom, ITask
     {

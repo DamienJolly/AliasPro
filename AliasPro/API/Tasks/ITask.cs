@@ -1,4 +1,4 @@
-﻿namespace AliasPro.Tasks
+﻿namespace AliasPro.API.Tasks
 {
     public interface ITask
     {

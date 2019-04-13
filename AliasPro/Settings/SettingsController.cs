@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using AliasPro.API.Settings;
+using System.Threading.Tasks;
 
 namespace AliasPro.Settings
 {
@@ -16,11 +17,5 @@ namespace AliasPro.Settings
 
         public async Task CleanupDatabase() =>
             await _settingsRepository.CleanupDatabase();
-    }
-
-    public interface ISettingsController
-    {
-        string GetSetting(string key);
-        Task CleanupDatabase();
     }
 }
