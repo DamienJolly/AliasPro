@@ -1,6 +1,7 @@
-﻿using AliasPro.API.Network.Events;
+﻿using AliasPro.API.Navigator;
+using AliasPro.API.Navigator.Models;
+using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
-using AliasPro.Navigator.Models;
 using AliasPro.Navigator.Packets.Composers;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Room;

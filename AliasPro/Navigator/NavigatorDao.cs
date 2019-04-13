@@ -1,5 +1,6 @@
 ﻿using AliasPro.API.Configuration;
 using AliasPro.API.Database;
+using AliasPro.API.Navigator.Models;
 using AliasPro.Navigator.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;

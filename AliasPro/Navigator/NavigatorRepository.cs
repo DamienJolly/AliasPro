@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using AliasPro.API.Navigator.Models;
+using System.Collections.Generic;
 
 namespace AliasPro.Navigator
 {
-    using Models;
-
     internal class NavigatorRepository
     {
         private readonly NavigatorDao _navigatorDao;

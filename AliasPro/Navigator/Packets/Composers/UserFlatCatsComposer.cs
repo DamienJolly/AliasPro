@@ -1,5 +1,5 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Navigator.Models;
+﻿using AliasPro.API.Navigator.Models;
+using AliasPro.API.Network.Events;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Network.Protocol;
 using System.Collections.Generic;

@@ -1,23 +1,24 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using AliasPro.API.Navigator.Views;
+using AliasPro.Room;
+using AliasPro.Room.Models;
+using System.Collections.Generic;
 
-namespace AliasPro.Navigator.Models.Views
+namespace AliasPro.Navigator.Views
 {
-    using Room;
-    using Room.Models;
-
     internal class DefaultCategory : ICategoryType
     {
-        public override Task<ICollection<IRoomData>> Search(IRoomController roomController, uint categoryId, string searchCode, uint playerId)
+        public override ICollection<IRoomData> Search(IRoomController roomController, uint categoryId, string searchCode, uint playerId)
         {
             ICollection<IRoomData> roomsToGo = new List<IRoomData>();
             ICollection<IRoom> rooms = roomController.GetAllRooms();
+
             foreach(IRoom room in rooms)
             {
                 if (room.RoomData.CategoryId == categoryId)
                     roomsToGo.Add(room.RoomData);
             }
-            return Task.FromResult(roomsToGo);
+
+            return roomsToGo;
         }
     }
 }

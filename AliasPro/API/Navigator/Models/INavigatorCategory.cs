@@ -1,7 +1,7 @@
-﻿namespace AliasPro.Navigator.Models
-{
-    using Views;
+﻿using AliasPro.API.Navigator.Views;
 
+namespace AliasPro.API.Navigator.Models
+{
     public interface INavigatorCategory
     {
         uint Id { get; set; }

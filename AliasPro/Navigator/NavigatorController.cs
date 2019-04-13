@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using AliasPro.API.Navigator;
+using AliasPro.API.Navigator.Models;
+using System.Collections.Generic;
 
 namespace AliasPro.Navigator
 {
-    using Models;
-
     internal class NavigatorController : INavigatorController
     {
         private readonly NavigatorRepository _navigatorRepository;
@@ -15,10 +15,5 @@ namespace AliasPro.Navigator
         
         public bool TryGetCategories(string type, out ICollection<INavigatorCategory> categories) =>
             _navigatorRepository.TryGetCategories(type, out categories);
-    }
-
-    public interface INavigatorController
-    {
-        bool TryGetCategories(string type, out ICollection<INavigatorCategory> categories);
     }
 }

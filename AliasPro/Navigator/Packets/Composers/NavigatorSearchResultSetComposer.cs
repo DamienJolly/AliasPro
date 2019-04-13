@@ -1,5 +1,5 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Navigator.Models;
+﻿using AliasPro.API.Navigator.Models;
+using AliasPro.API.Network.Events;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Network.Protocol;
 using AliasPro.Room;
@@ -38,9 +38,9 @@ namespace AliasPro.Navigator.Packets.Composers
                 if ((category.Identifier == "popular" && !string.IsNullOrEmpty(_data)) ||
                     (category.Identifier == "query" && string.IsNullOrEmpty(_data)))
                     continue;
-
+                
                 ICollection<IRoomData> rooms = 
-                   category.CategoryType.Search(_roomController, category.Id, _data, _playerId).Result;
+                   category.CategoryType.Search(_roomController, category.Id, _data, _playerId);
                 if (rooms.Count > 0)
                     tempCategories.Add(category);
             }
@@ -49,7 +49,7 @@ namespace AliasPro.Navigator.Packets.Composers
             foreach (INavigatorCategory category in tempCategories)
             {
                 ICollection<IRoomData> rooms = 
-                    category.CategoryType.Search(_roomController, category.Id, _data, _playerId).Result;
+                    category.CategoryType.Search(_roomController, category.Id, _data, _playerId);
                 message.WriteString(category.Identifier);
                 message.WriteString(category.PublicName);
                 message.WriteInt((rooms.Count > 12) ? 1 : 0);

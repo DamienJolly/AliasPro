@@ -1,5 +1,7 @@
 ﻿using AliasPro.API.Database;
-using AliasPro.Navigator.Models.Views;
+using AliasPro.API.Navigator.Models;
+using AliasPro.API.Navigator.Views;
+using AliasPro.Navigator.Utilites;
 using System.Data.Common;
 
 namespace AliasPro.Navigator.Models
@@ -13,7 +15,8 @@ namespace AliasPro.Navigator.Models
             PublicName = reader.ReadData<string>("public_name");
             Identifier = reader.ReadData<string>("identifier");
             Category = reader.ReadData<string>("category");
-            CategoryType = GetCategoryType(reader.ReadData<string>("category_type"));
+            CategoryType = NavigatorCategoryUtility.GetCategoryType(
+                reader.ReadData<string>("category_type"));
         }
 
         public uint Id { get; set; }
@@ -22,18 +25,5 @@ namespace AliasPro.Navigator.Models
         public string Identifier { get; set; }
         public string Category { get; set; }
         public ICategoryType CategoryType { get; set; }
-
-        private ICategoryType GetCategoryType(string categoryType)
-        {
-            switch (categoryType)
-            {
-                case "category": default: return new DefaultCategory();
-                case "query": return new QueryCategory();
-                case "popular": return new PopularCategory();
-                case "top_promotions": return new TopPromotionsCategory();
-                case "promotion_category": return new PromotionsCategory();
-                case "my_rooms": return new MyRoomsCategory();
-            }
-        }
     }
 }
