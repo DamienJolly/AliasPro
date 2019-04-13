@@ -1,8 +1,8 @@
 ﻿using AliasPro.API.Database;
 using AliasPro.API.Messenger.Models;
-using AliasPro.API.Player.Models;
+using AliasPro.API.Players.Models;
 using AliasPro.Network.Protocol;
-using AliasPro.Players.Models;
+using AliasPro.Players.Types;
 using System.Data.Common;
 
 namespace AliasPro.Messenger.Models

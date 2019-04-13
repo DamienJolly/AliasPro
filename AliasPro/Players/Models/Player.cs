@@ -1,6 +1,6 @@
-﻿using AliasPro.API.Player.Models;
+﻿using AliasPro.API.Players.Models;
+using AliasPro.API.Sessions.Models;
 using AliasPro.Players.Components;
-using AliasPro.Sessions;
 
 namespace AliasPro.Players.Models
 {

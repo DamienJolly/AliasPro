@@ -1,16 +1,15 @@
-﻿using DotNetty.Transport.Channels;
+﻿using AliasPro.API.Network.Events;
+using AliasPro.API.Players.Models;
+using AliasPro.API.Sessions.Models;
+using AliasPro.Network.Protocol;
+using AliasPro.Room.Models;
+using AliasPro.Room.Models.Entities;
+using DotNetty.Transport.Channels;
 using System.Threading.Tasks;
 
-namespace AliasPro.Sessions
+namespace AliasPro.Sessions.Models
 {
-    using Room.Models;
-    using Room.Models.Entities;
-    using Network.Events;
-    using Network.Protocol;
-    using AliasPro.API.Player.Models;
-    using AliasPro.API.Network.Events;
-
-    internal class SessionClient : ISession
+    internal class Session : ISession
     {
         public string UniqueId { get; set; }
         public IPlayer Player { get; set; }
@@ -19,7 +18,7 @@ namespace AliasPro.Sessions
 
         private readonly IChannelHandlerContext _channel;
 
-        internal SessionClient(IChannelHandlerContext context)
+        internal Session(IChannelHandlerContext context)
         {
             _channel = context;
         }
@@ -32,16 +31,5 @@ namespace AliasPro.Sessions
         public Task SendPacketAsync(IPacketComposer serverPacket) => WriteAndFlushAsync(serverPacket.Compose());
             
         private Task WriteAndFlushAsync(ServerPacket serverPacket) => _channel.WriteAndFlushAsync(serverPacket);
-    }
-
-    public interface ISession
-    {
-        string UniqueId { get; set; }
-        IPlayer Player { get; set; }
-        BaseEntity Entity { get; set; }
-        IRoom CurrentRoom { get; set; }
-
-        void Disconnect();
-        Task SendPacketAsync(IPacketComposer serverPacket);
     }
 }

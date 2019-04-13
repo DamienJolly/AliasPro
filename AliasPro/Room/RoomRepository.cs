@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Linq;
 
 namespace AliasPro.Room
 {
+    using AliasPro.API.Sessions.Models;
     using Models;
-    using Sessions;
     using System.Linq;
 
     internal class RoomRepository

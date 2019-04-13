@@ -1,5 +1,5 @@
 ﻿using AliasPro.Figure.Components;
-using AliasPro.Players.Models;
+using AliasPro.Players.Types;
 
 namespace AliasPro.Figure
 {

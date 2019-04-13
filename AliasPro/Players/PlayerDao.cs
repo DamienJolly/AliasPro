@@ -1,7 +1,8 @@
 ﻿using AliasPro.API.Configuration;
 using AliasPro.API.Database;
-using AliasPro.API.Player.Models;
+using AliasPro.API.Players.Models;
 using AliasPro.Players.Models;
+using AliasPro.Players.Types;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

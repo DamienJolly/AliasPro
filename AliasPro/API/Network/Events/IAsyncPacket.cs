@@ -1,5 +1,5 @@
 ﻿using AliasPro.API.Network.Protocol;
-using AliasPro.Sessions;
+using AliasPro.API.Sessions.Models;
 
 namespace AliasPro.API.Network.Events
 {

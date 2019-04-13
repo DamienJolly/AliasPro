@@ -1,4 +1,4 @@
-﻿using AliasPro.API.Player.Models;
+﻿using AliasPro.API.Players.Models;
 using AliasPro.API.Settings;
 using AliasPro.API.Tasks;
 using AliasPro.Tasks;

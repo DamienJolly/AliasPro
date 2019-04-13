@@ -1,10 +1,9 @@
 ﻿using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
-using AliasPro.Sessions;
+using AliasPro.API.Sessions.Models;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace AliasPro.Network.Events
 {

@@ -1,10 +1,10 @@
 ﻿using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
+using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Room.Gamemap;
 using AliasPro.Room.Gamemap.Pathfinding;
 using AliasPro.Room.Models;
-using AliasPro.Sessions;
 using System.Collections.Generic;
 
 namespace AliasPro.Room.Packets.Events

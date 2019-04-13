@@ -2,9 +2,9 @@
 using AliasPro.API.Navigator.Models;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
+using AliasPro.API.Sessions.Models;
 using AliasPro.Navigator.Packets.Composers;
 using AliasPro.Network.Events.Headers;
-using AliasPro.Sessions;
 using System.Collections.Generic;
 
 namespace AliasPro.Navigator.Packets.Events

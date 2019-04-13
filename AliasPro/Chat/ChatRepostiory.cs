@@ -1,5 +1,5 @@
 ﻿using AliasPro.API.Chat.Commands;
-using AliasPro.Sessions;
+using AliasPro.API.Sessions.Models;
 using System.Collections.Generic;
 using System.Linq;
 

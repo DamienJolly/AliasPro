@@ -1,10 +1,10 @@
 ﻿using AliasPro.API.Items.Models;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
+using AliasPro.API.Sessions.Models;
 using AliasPro.Items.Types;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Room.Models;
-using AliasPro.Sessions;
 
 namespace AliasPro.Items.Packets.Events
 {

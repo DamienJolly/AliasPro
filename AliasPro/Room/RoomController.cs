@@ -2,8 +2,8 @@
 
 namespace AliasPro.Room
 {
+    using AliasPro.API.Sessions.Models;
     using Models;
-    using Sessions;
     using System.Collections.Generic;
 
     internal class RoomController : IRoomController

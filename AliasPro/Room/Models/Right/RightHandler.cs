@@ -1,5 +1,5 @@
-﻿using AliasPro.Room.Packets.Composers;
-using AliasPro.Sessions;
+﻿using AliasPro.API.Sessions.Models;
+using AliasPro.Room.Packets.Composers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

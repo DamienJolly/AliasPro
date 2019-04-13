@@ -1,11 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using AliasPro.API.Players;
+using AliasPro.API.Players.Models;
+using AliasPro.Players.Models;
 using System.Collections.Generic;
-using AliasPro.API.Player.Models;
+using System.Threading.Tasks;
 
 namespace AliasPro.Players
 {
-    using Models;
-
     internal class PlayerController : IPlayerController
     {
         private readonly PlayerRepostiory _playerRepostiory;
@@ -59,26 +59,5 @@ namespace AliasPro.Players
 
         public async Task UpdatePlayerBadgesAsync(IPlayer player) =>
             await _playerRepostiory.UpdatePlayerBadgesAsync(player);
-    }
-
-    public interface IPlayerController
-    {
-        ICollection<IPlayer> Players { get; }
-        Task<IPlayerData> GetPlayerDataAsync(string SSO);
-        bool TryGetPlayer(string playerUsername, out IPlayer player);
-        bool TryGetPlayer(uint playerId, out IPlayer player);
-        bool TryAddPlayer(IPlayer player);
-        void RemovePlayer(IPlayer player);
-        Task UpdatePlayerAsync(IPlayer player);
-
-        Task<IDictionary<int, IPlayerCurrency>> GetPlayerCurrenciesAsync(uint id);
-        Task UpdatePlayerCurrenciesAsync(IPlayer player);
-
-        Task<IDictionary<string, IPlayerBadge>> GetPlayerBadgesAsync(uint id);
-        Task UpdatePlayerBadgesAsync(IPlayer player);
-
-        Task<IPlayerSettings> GetPlayerSettingsAsync(uint id);
-        Task AddPlayerSettingsAsync(uint id);
-        Task UpdatePlayerSettingsAsync(IPlayer player);
     }
 }

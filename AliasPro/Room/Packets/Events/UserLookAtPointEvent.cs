@@ -1,8 +1,8 @@
 ﻿using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
+using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Room.Models;
-using AliasPro.Sessions;
 using System;
 
 namespace AliasPro.Room.Packets.Events

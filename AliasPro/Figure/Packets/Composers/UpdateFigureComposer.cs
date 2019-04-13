@@ -1,7 +1,7 @@
 ﻿using AliasPro.API.Network.Events;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Network.Protocol;
-using AliasPro.Players.Models;
+using AliasPro.Players.Types;
 
 namespace AliasPro.Figure.Packets.Composers
 {

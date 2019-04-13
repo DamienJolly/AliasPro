@@ -1,10 +1,10 @@
 ﻿using AliasPro.API.Items;
 using AliasPro.API.Messenger;
 using AliasPro.API.Network.Events;
+using AliasPro.API.Players;
+using AliasPro.API.Sessions;
 using AliasPro.Network.Codec;
-using AliasPro.Players;
 using AliasPro.Room;
-using AliasPro.Sessions;
 using DotNetty.Transport.Channels;
 using DotNetty.Transport.Channels.Sockets;
 

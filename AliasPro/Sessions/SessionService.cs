@@ -1,4 +1,5 @@
 ﻿using AliasPro.API.Network;
+using AliasPro.API.Sessions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AliasPro.Sessions

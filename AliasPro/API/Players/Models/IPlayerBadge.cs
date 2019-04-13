@@ -1,4 +1,4 @@
-﻿namespace AliasPro.API.Player.Models
+﻿namespace AliasPro.API.Players.Models
 {
     public interface IPlayerBadge
     {

@@ -1,5 +1,5 @@
 ﻿using AliasPro.Network.Protocol;
-using AliasPro.Players.Models;
+using AliasPro.Players.Types;
 
 namespace AliasPro.API.Messenger.Models
 {

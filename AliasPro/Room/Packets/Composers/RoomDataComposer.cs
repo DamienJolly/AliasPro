@@ -1,8 +1,8 @@
 ﻿using AliasPro.API.Network.Events;
+using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Network.Protocol;
 using AliasPro.Room.Models;
-using AliasPro.Sessions;
 
 namespace AliasPro.Room.Packets.Composers
 {

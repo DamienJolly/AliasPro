@@ -1,4 +1,4 @@
-﻿namespace AliasPro.Players.Models
+﻿namespace AliasPro.Players.Types
 {
     public enum PlayerGender
     {

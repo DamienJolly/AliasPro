@@ -1,8 +1,7 @@
-﻿using AliasPro.Players.Components;
-using AliasPro.Players.Models;
-using AliasPro.Sessions;
+﻿using AliasPro.API.Sessions.Models;
+using AliasPro.Players.Components;
 
-namespace AliasPro.API.Player.Models
+namespace AliasPro.API.Players.Models
 {
     public interface IPlayer : IPlayerData
     {

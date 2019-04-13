@@ -1,4 +1,4 @@
-﻿using AliasPro.API.Player.Models;
+﻿using AliasPro.API.Players.Models;
 using AliasPro.Items;
 using AliasPro.Players.Models;
 using System.Collections.Generic;

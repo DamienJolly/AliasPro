@@ -1,5 +1,5 @@
 ﻿using AliasPro.API.Chat;
-using AliasPro.Sessions;
+using AliasPro.API.Sessions.Models;
 
 namespace AliasPro.Chat
 {

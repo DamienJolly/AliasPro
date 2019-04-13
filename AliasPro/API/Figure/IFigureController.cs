@@ -1,4 +1,4 @@
-﻿using AliasPro.Players.Models;
+﻿using AliasPro.Players.Types;
 
 namespace AliasPro.API.Figure
 {

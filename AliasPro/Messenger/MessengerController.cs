@@ -1,6 +1,6 @@
 ﻿using AliasPro.API.Messenger;
 using AliasPro.API.Messenger.Models;
-using AliasPro.API.Player.Models;
+using AliasPro.API.Players.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

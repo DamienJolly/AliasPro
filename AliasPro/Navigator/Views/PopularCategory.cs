@@ -3,7 +3,7 @@ using AliasPro.Room;
 using AliasPro.Room.Models;
 using System.Collections.Generic;
 
-namespace AliasPro.Navigator.Models.Views
+namespace AliasPro.Navigator.Views
 {
     internal class PopularCategory : ICategoryType
     {

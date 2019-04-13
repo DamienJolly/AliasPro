@@ -2,9 +2,10 @@
 using AliasPro.API.Messenger;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
-using AliasPro.Players;
+using AliasPro.API.Players;
+using AliasPro.API.Sessions;
+using AliasPro.API.Sessions.Models;
 using AliasPro.Room;
-using AliasPro.Sessions;
 using DotNetty.Transport.Channels;
 
 namespace AliasPro.Network

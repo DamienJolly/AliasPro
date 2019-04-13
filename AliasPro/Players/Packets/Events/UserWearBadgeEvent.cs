@@ -1,9 +1,10 @@
 ﻿using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
-using AliasPro.API.Player.Models;
+using AliasPro.API.Players;
+using AliasPro.API.Players.Models;
+using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Players.Packets.Composers;
-using AliasPro.Sessions;
 
 namespace AliasPro.Players.Packets.Events
 {

@@ -1,9 +1,9 @@
 ﻿namespace AliasPro.Room.Models.Entities
 {
     using Network.Protocol;
-    using Sessions;
-    using AliasPro.API.Player.Models;
-    using AliasPro.Players.Models;
+    using AliasPro.API.Players.Models;
+    using AliasPro.API.Sessions.Models;
+    using AliasPro.Players.Types;
 
     internal class UserEntity : BaseEntity
     {

@@ -2,11 +2,11 @@
 using AliasPro.API.Messenger;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
+using AliasPro.API.Players;
+using AliasPro.API.Sessions.Models;
 using AliasPro.Figure.Packets.Composers;
 using AliasPro.Network.Events.Headers;
-using AliasPro.Players;
-using AliasPro.Players.Models;
-using AliasPro.Sessions;
+using AliasPro.Players.Types;
 
 namespace AliasPro.Figure.Packets.Events
 {

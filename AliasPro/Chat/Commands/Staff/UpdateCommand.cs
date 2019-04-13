@@ -1,7 +1,7 @@
 ﻿using AliasPro.API.Catalog;
 using AliasPro.API.Chat.Commands;
+using AliasPro.API.Sessions.Models;
 using AliasPro.Catalog.Packets.Composers;
-using AliasPro.Sessions;
 
 namespace AliasPro.Chat.Commands
 {

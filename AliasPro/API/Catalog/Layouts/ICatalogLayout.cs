@@ -1,7 +1,7 @@
 ﻿using AliasPro.API.Catalog.Models;
 using AliasPro.API.Items.Models;
+using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Protocol;
-using AliasPro.Sessions;
 
 namespace AliasPro.API.Catalog.Layouts
 {

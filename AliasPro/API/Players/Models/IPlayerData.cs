@@ -1,6 +1,6 @@
-﻿using AliasPro.Players.Models;
+﻿using AliasPro.Players.Types;
 
-namespace AliasPro.API.Player.Models
+namespace AliasPro.API.Players.Models
 {
     public interface IPlayerData
     {
