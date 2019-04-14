@@ -1,5 +1,5 @@
-﻿using AliasPro.API.Rooms.Models;
-using AliasPro.Rooms;
+﻿using AliasPro.API.Rooms;
+using AliasPro.API.Rooms.Models;
 using System.Collections.Generic;
 
 namespace AliasPro.API.Navigator.Views

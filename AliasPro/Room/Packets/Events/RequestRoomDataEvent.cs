@@ -1,6 +1,7 @@
 ﻿using AliasPro.API.Items;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
+using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;

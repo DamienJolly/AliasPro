@@ -1,5 +1,6 @@
 ﻿using AliasPro.API.Network;
 using AliasPro.API.Network.Events;
+using AliasPro.API.Rooms;
 using AliasPro.Rooms.Packets.Events;
 using Microsoft.Extensions.DependencyInjection;
 
