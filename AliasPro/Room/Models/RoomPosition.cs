@@ -1,5 +1,4 @@
 ﻿using AliasPro.API.Rooms.Models;
-using System;
 
 namespace AliasPro.Rooms.Models
 {

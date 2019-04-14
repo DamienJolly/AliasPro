@@ -1,5 +1,4 @@
-﻿using AliasPro.API.Items.Models;
-using AliasPro.API.Network.Events;
+﻿using AliasPro.API.Network.Events;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Tasks;
@@ -111,24 +110,6 @@ namespace AliasPro.Rooms.Models
             await SendAsync(new EntityRemoveComposer(entity.Id));
         }
         
-        public void LoadRoomItems(IDictionary<uint, IItem> items)
-        {
-            foreach (IItem item in items.Values)
-            {
-                Mapping.AddItem(item);
-                item.CurrentRoom = this;
-                Items.AddItem(item);
-            }
-        }
-
-        public void LoadRoomRights(IDictionary<uint, string> rights)
-        {
-            foreach (var right in rights)
-            {
-                Rights.GiveRights(right.Key, right.Value);
-            }
-        }
-
         public IRoomPosition GetPathToClosestEntity(IRoomPosition position)
         {
             IList<IRoomPosition> closestPath = new List<IRoomPosition>();

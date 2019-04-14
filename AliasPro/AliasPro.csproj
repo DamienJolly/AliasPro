@@ -7,16 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Pathfinding\**" />
     <Compile Remove="Players\Models\Messenger\**" />
     <Compile Remove="Room\Models\Game\**" />
     <Compile Remove="Room\Models\Item\**" />
     <Compile Remove="Room\Models\Right\**" />
     <Compile Remove="Tasks\Libuv\**" />
+    <EmbeddedResource Remove="Pathfinding\**" />
     <EmbeddedResource Remove="Players\Models\Messenger\**" />
     <EmbeddedResource Remove="Room\Models\Game\**" />
     <EmbeddedResource Remove="Room\Models\Item\**" />
     <EmbeddedResource Remove="Room\Models\Right\**" />
     <EmbeddedResource Remove="Tasks\Libuv\**" />
+    <None Remove="Pathfinding\**" />
     <None Remove="Players\Models\Messenger\**" />
     <None Remove="Room\Models\Game\**" />
     <None Remove="Room\Models\Item\**" />

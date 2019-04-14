@@ -1,8 +1,6 @@
-﻿using AliasPro.API.Items.Models;
-using AliasPro.API.Network.Events;
+﻿using AliasPro.API.Network.Events;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.Rooms.Components;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AliasPro.API.Rooms.Models
@@ -18,8 +16,6 @@ namespace AliasPro.API.Rooms.Models
         Task AddEntity(BaseEntity entity);
         Task RemoveEntity(BaseEntity entity);
         void OnChat(string text, int colour, BaseEntity entity);
-        void LoadRoomItems(IDictionary<uint, IItem> items);
-        void LoadRoomRights(IDictionary<uint, string> rights);
         void SetupRoomCycle();
         Task SendAsync(IPacketComposer packet);
         void Dispose();

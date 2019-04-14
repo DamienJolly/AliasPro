@@ -80,8 +80,7 @@ namespace AliasPro.Rooms.Gamemap.Pathfinding
             {
                 HeapNode curr = openHeap.Get();
 
-                if (curr.Position.X == end.X &&
-                    curr.Position.Y == end.Y)
+                if (curr.Position.X == end.X && curr.Position.Y == end.Y)
                 {
                     IList<IRoomPosition> path = BuildPath(start, end, walkedPath, roomGrid.MapSizeX);
 
@@ -93,15 +92,14 @@ namespace AliasPro.Rooms.Gamemap.Pathfinding
                 foreach (AstarPosition option in DIAG)
                 {
                     IRoomPosition position = new RoomPosition(
-                        curr.Position.X + option.X, 
+                        curr.Position.X + option.X,
                         curr.Position.Y + option.Y, 0);
 
                     if (!(position.X == end.X && position.Y == end.Y) &&
                         !IsValidStep(entity, roomGrid, position)) continue;
                     
                     // Can't walk diagonal between two non-walkable tiles.
-                    if (curr.Position.X != position.X &&
-                            curr.Position.Y != position.Y)
+                    if (!(curr.Position.X == position.X && curr.Position.Y == position.Y))
                     {
                         bool firstValidTile = 
                             IsValidStep(entity, roomGrid, new RoomPosition(position.X, curr.Position.Y, 0));
@@ -130,10 +128,6 @@ namespace AliasPro.Rooms.Gamemap.Pathfinding
 
         private static bool IsValidStep(BaseEntity entity, MappingComponent roomGrid, IRoomPosition position)
         {
-            if (position.X >= roomGrid.MapSizeX || position.X < 0 || 
-                position.Y >= roomGrid.MapSizeY || position.Y < 0)
-                return false;
-            
             if (roomGrid.TryGetRoomTile(position.X, position.Y, out IRoomTile roomTile))
                 return roomTile.IsValidTile(entity);
             
