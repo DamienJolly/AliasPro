@@ -1,4 +1,5 @@
 ﻿using AliasPro.API.Database;
+using AliasPro.API.Rooms.Models;
 using AliasPro.Rooms.Utils;
 using System;
 using System.Data.Common;
@@ -109,20 +110,5 @@ namespace AliasPro.Rooms.Models
 
             RelativeHeightMap = relativeMap.ToString();
         }
-    }
-
-    public interface IRoomModel
-    {
-        int MapSizeX { get; set; }
-        int MapSizeY { get; set; }
-        int DoorDir { get; set; }
-        int DoorX { get; set; }
-        int DoorY { get; set; }
-        double DoorZ { get; set; }
-        string Id { get; set; }
-        string HeightMap { get; set; }
-        string RelativeHeightMap { get; set; }
-        double GetHeight(int x, int y);
-        bool GetTileState(int x, int y);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using AliasPro.API.Network.Events;
+using AliasPro.API.Rooms.Models;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Network.Protocol;
-using AliasPro.Rooms.Models;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
