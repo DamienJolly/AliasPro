@@ -2,7 +2,7 @@
 using AliasPro.Network.Protocol;
 using AliasPro.Players.Types;
 using AliasPro.Rooms.Models;
-using AliasPro.Rooms.Models.Entities;
+using AliasPro.Rooms.Tasks;
 using AliasPro.Rooms.Types;
 using System.Collections.Generic;
 
@@ -44,13 +44,13 @@ namespace AliasPro.API.Rooms.Entities
         public string Figure { get; set; }
         public PlayerGender Gender { get; set; }
         public string Motto { get; set; }
-
-        public EntityAction Actions;
+        
+        public IEntityAction Actions;
 
         public int DanceId { get; set; } = 0;
         public bool IsIdle { get; set; } = false;
         public bool IsSitting { get; set; } = false;
-
+        
         public int DirOffsetTimer = 0;
         public int IdleTimer = 0;
 
@@ -59,6 +59,13 @@ namespace AliasPro.API.Rooms.Entities
 
         public GameTeamType Team = GameTeamType.NONE;
 
+        public void Cycle()
+        {
+            System.Console.WriteLine("base cycle");
+            CycleEntity();
+        }
+
+        public abstract void CycleEntity();
         public abstract void Compose(ServerPacket serverPacket);
     }
 }

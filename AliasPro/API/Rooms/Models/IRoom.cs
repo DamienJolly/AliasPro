@@ -1,6 +1,7 @@
 ﻿using AliasPro.API.Network.Events;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.Rooms.Components;
+using AliasPro.Rooms.Tasks;
 using System.Threading.Tasks;
 
 namespace AliasPro.API.Rooms.Models
@@ -12,11 +13,12 @@ namespace AliasPro.API.Rooms.Models
         RightsComponent Rights { get; set; }
         GameComponent Game { get; set; }
         MappingComponent Mapping { get; set; }
-        
+
+        RoomCycle RoomCycle { get; set; }
+
         Task AddEntity(BaseEntity entity);
         Task RemoveEntity(BaseEntity entity);
         void OnChat(string text, int colour, BaseEntity entity);
-        void SetupRoomCycle();
         Task SendAsync(IPacketComposer packet);
         void Dispose();
     }

@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using AliasPro.API.Rooms.Models;
+using System.Collections.Generic;
 using System.Text;
 
-namespace AliasPro.Rooms.Models.Entities
+namespace AliasPro.Rooms.Models
 {
-    public class EntityAction
+    internal class EntityAction : IEntityAction
     {
         private readonly IDictionary<string, string> _activeStatuses;
 
-        public EntityAction()
+        internal EntityAction()
         {
             _activeStatuses = new Dictionary<string, string>();
         }

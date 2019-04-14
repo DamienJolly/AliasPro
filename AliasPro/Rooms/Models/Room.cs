@@ -1,64 +1,32 @@
 ﻿using AliasPro.API.Network.Events;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
-using AliasPro.API.Tasks;
 using AliasPro.Items.Types;
 using AliasPro.Rooms.Components;
 using AliasPro.Rooms.Entities;
 using AliasPro.Rooms.Gamemap.Pathfinding;
 using AliasPro.Rooms.Packets.Composers;
-using AliasPro.Tasks;
+using AliasPro.Rooms.Tasks;
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace AliasPro.Rooms.Models
 {
-    internal class Room : RoomData, IRoom, ITask
+    internal class Room : RoomData, IRoom
     {
-        private readonly CancellationTokenSource _cancellationToken;
-        private readonly object _loadLock = new object();
-
         public EntitiesComponent Entities { get; set; }
         public ItemsComponent Items { get; set; }
         public RightsComponent Rights { get; set; }
         public GameComponent Game { get; set; }
         public MappingComponent Mapping { get; set; }
-        
+
+        public RoomCycle RoomCycle { get; set; }
+
         internal Room(IRoomData roomData)
             : base(roomData)
         {
-            _cancellationToken = new CancellationTokenSource();
-        }
 
-        public async void SetupRoomCycle()
-        {
-            await TaskHandler.PeriodicAsyncTaskWithDelay(this, 500, _cancellationToken.Token);
-        }
-
-        private void StopRoomCycle()
-        {
-            using (_cancellationToken)
-            {
-                _cancellationToken.Cancel();
-            }
-        }
-
-        public void Run()
-        {
-            lock(_loadLock)
-            {
-                try
-                {
-                    Entities.Cycle();
-                    Items.Cycle();
-                }
-                catch
-                {
-                    // room crashed
-                }
-            }
         }
 
         public async void OnChat(string text, int colour, BaseEntity entity)
@@ -141,11 +109,7 @@ namespace AliasPro.Rooms.Models
 
         public void Dispose()
         {
-            lock (_loadLock)
-            {
-                StopRoomCycle();
-                //todo: do stuff
-            }
+            RoomCycle.StopRoomCycle();
         }
     }
 }

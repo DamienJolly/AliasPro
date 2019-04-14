@@ -3,6 +3,7 @@ using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Protocol;
 using AliasPro.Players.Types;
+using AliasPro.Rooms.Packets.Composers;
 
 namespace AliasPro.Rooms.Entities
 {
@@ -16,6 +17,33 @@ namespace AliasPro.Rooms.Entities
 
         public ISession Session { get; }
         public IPlayer Player => Session.Player;
+
+        public override async void CycleEntity()
+        {
+            System.Console.WriteLine("player cycle");
+            if (HandItemId != 0)
+            {
+                HandItemTimer--;
+                if (HandItemTimer <= 0)
+                {
+                    SetHandItem(0);
+                    await Session.CurrentRoom.SendAsync(new UserHandItemComposer(Id, HandItemId));
+                }
+            }
+
+            IdleTimer++;
+            if (IdleTimer >= 600 && !IsIdle)
+            {
+                IdleTimer = 0;
+                IsIdle = true;
+                await Session.CurrentRoom.SendAsync(new UserSleepComposer(this));
+            }
+
+            if (IdleTimer >= 1800 && IsIdle)
+            {
+                //todo: kickuser
+            }
+        }
 
         public override void Compose(ServerPacket serverPacket)
         {

@@ -9,31 +9,31 @@
   <ItemGroup>
     <Compile Remove="Pathfinding\**" />
     <Compile Remove="Players\Models\Messenger\**" />
-    <Compile Remove="Room\Models\Game\**" />
-    <Compile Remove="Room\Models\Item\**" />
-    <Compile Remove="Room\Models\Right\**" />
+    <Compile Remove="Rooms\Models\Game\**" />
+    <Compile Remove="Rooms\Models\Item\**" />
+    <Compile Remove="Rooms\Models\Right\**" />
     <Compile Remove="Tasks\Libuv\**" />
     <EmbeddedResource Remove="Pathfinding\**" />
     <EmbeddedResource Remove="Players\Models\Messenger\**" />
-    <EmbeddedResource Remove="Room\Models\Game\**" />
-    <EmbeddedResource Remove="Room\Models\Item\**" />
-    <EmbeddedResource Remove="Room\Models\Right\**" />
+    <EmbeddedResource Remove="Rooms\Models\Game\**" />
+    <EmbeddedResource Remove="Rooms\Models\Item\**" />
+    <EmbeddedResource Remove="Rooms\Models\Right\**" />
     <EmbeddedResource Remove="Tasks\Libuv\**" />
     <None Remove="Pathfinding\**" />
     <None Remove="Players\Models\Messenger\**" />
-    <None Remove="Room\Models\Game\**" />
-    <None Remove="Room\Models\Item\**" />
-    <None Remove="Room\Models\Right\**" />
+    <None Remove="Rooms\Models\Game\**" />
+    <None Remove="Rooms\Models\Item\**" />
+    <None Remove="Rooms\Models\Right\**" />
     <None Remove="Tasks\Libuv\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Room\Gamemap\Position.cs" />
-    <Compile Remove="Room\Gamemap\RoomMap.cs" />
-    <Compile Remove="Room\Gamemap\RoomTile.cs" />
-    <Compile Remove="Room\Models\Entities\BaseEntity.cs" />
-    <Compile Remove="Room\Models\Entities\EntityHandler.cs" />
-    <Compile Remove="Room\Models\Entities\UserEntity.cs" />
+    <Compile Remove="Rooms\Gamemap\Position.cs" />
+    <Compile Remove="Rooms\Gamemap\RoomMap.cs" />
+    <Compile Remove="Rooms\Gamemap\RoomTile.cs" />
+    <Compile Remove="Rooms\Models\Entities\BaseEntity.cs" />
+    <Compile Remove="Rooms\Models\Entities\EntityHandler.cs" />
+    <Compile Remove="Rooms\Models\Entities\UserEntity.cs" />
   </ItemGroup>
 
   <ItemGroup>

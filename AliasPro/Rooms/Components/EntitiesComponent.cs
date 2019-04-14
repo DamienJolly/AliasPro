@@ -3,6 +3,8 @@ using AliasPro.API.Rooms.Models;
 using AliasPro.Rooms.Entities;
 using AliasPro.Rooms.Models.Entities;
 using AliasPro.Rooms.Packets.Composers;
+using AliasPro.Rooms.Tasks;
+using AliasPro.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,7 +13,6 @@ namespace AliasPro.Rooms.Components
     public class EntitiesComponent
     {
         private readonly IRoom _room;
-        private readonly EntityCycler _entityCycler;
         private readonly IDictionary<int, BaseEntity> _entities;
 
         public int NextEntitityId = 1;
@@ -21,9 +22,6 @@ namespace AliasPro.Rooms.Components
             _room = room;
 
             _entities = new Dictionary<int, BaseEntity>();
-
-            //todo: remove
-            _entityCycler = new EntityCycler(_room);
         }
 
         //todo: remove
@@ -33,7 +31,7 @@ namespace AliasPro.Rooms.Components
             {
                 foreach (BaseEntity entity in _entities.Values)
                 {
-                    _entityCycler.Cycle(entity);
+                    entity.Cycle();
                 }
 
                 await _room.SendAsync(new EntityUpdateComposer(Entities));
