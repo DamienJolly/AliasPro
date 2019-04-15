@@ -94,6 +94,12 @@ namespace AliasPro.Catalog.Packets.Events
 
             for (int i = 0; i < amount; i++)
             {
+                if (catalogItem.Credits > session.Player.Credits - totalCredits)
+                    break;
+
+                if (catalogItem.Points > session.Player.Currency.GetCurrenyAmount(catalogItem.PointsType) - totalPoints)
+                    break;
+
                 if (((i + 1) % 6 != 0 && catalogItem.HasOffer) || !catalogItem.HasOffer)
                 {
                     totalCredits += catalogItem.Credits;
