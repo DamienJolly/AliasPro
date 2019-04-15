@@ -39,7 +39,7 @@ namespace AliasPro.Rooms.Packets.Events
             }
             else
             {
-                room.Entities.Unidle(session.Entity);
+                session.Entity.Unidle();
             }
 
             await room.SendAsync(new UserActionComposer(session.Entity, action));

@@ -10,7 +10,7 @@ namespace AliasPro.Rooms.Entities
     internal class PlayerEntity : BaseEntity
     {
         internal PlayerEntity(int id, int x, int y, int rotation, ISession session)
-            : base(id, x, y, rotation, session.Player.Username, session.Player.Figure, session.Player.Gender, session.Player.Motto)
+            : base(id, x, y, rotation, session.CurrentRoom, session.Player.Username, session.Player.Figure, session.Player.Gender, session.Player.Motto)
         {
             Session = session;
         }
@@ -18,9 +18,8 @@ namespace AliasPro.Rooms.Entities
         public ISession Session { get; }
         public IPlayer Player => Session.Player;
 
-        public override async void CycleEntity()
+        public override async void Cycle()
         {
-            System.Console.WriteLine("player cycle");
             if (HandItemId != 0)
             {
                 HandItemTimer--;

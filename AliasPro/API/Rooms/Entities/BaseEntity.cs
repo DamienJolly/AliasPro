@@ -2,7 +2,7 @@
 using AliasPro.Network.Protocol;
 using AliasPro.Players.Types;
 using AliasPro.Rooms.Models;
-using AliasPro.Rooms.Tasks;
+using AliasPro.Rooms.Packets.Composers;
 using AliasPro.Rooms.Types;
 using System.Collections.Generic;
 
@@ -10,9 +10,10 @@ namespace AliasPro.API.Rooms.Entities
 {
     public abstract class BaseEntity
     {
-        protected BaseEntity(int id, int x, int y, int rotation, string name, string figure, PlayerGender gender, string motto)
+        protected BaseEntity(int id, int x, int y, int rotation, IRoom room, string name, string figure, PlayerGender gender, string motto)
         {
             Id = id;
+            Room = room;
             BodyRotation = rotation;
             HeadRotation = rotation;
             Position = new RoomPosition(x, y, 0);
@@ -25,6 +26,13 @@ namespace AliasPro.API.Rooms.Entities
             Actions = new EntityAction();
         }
 
+        public async void Unidle()
+        {
+            IdleTimer = 0;
+            IsIdle = false;
+            await Room.SendAsync(new UserSleepComposer(this));
+        }
+
         public void SetHandItem(int handItemId)
         {
             HandItemTimer = 0;
@@ -35,6 +43,7 @@ namespace AliasPro.API.Rooms.Entities
         }
 
         public int Id { get; set; }
+        public IRoom Room { get; set; }
         public int BodyRotation { get; set; }
         public int HeadRotation { get; set; }
         public IRoomPosition Position { get; set; }
@@ -59,13 +68,7 @@ namespace AliasPro.API.Rooms.Entities
 
         public GameTeamType Team = GameTeamType.NONE;
 
-        public void Cycle()
-        {
-            System.Console.WriteLine("base cycle");
-            CycleEntity();
-        }
-
-        public abstract void CycleEntity();
+        public abstract void Cycle();
         public abstract void Compose(ServerPacket serverPacket);
     }
 }

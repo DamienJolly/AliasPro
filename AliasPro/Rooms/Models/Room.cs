@@ -21,7 +21,7 @@ namespace AliasPro.Rooms.Models
         public GameComponent Game { get; set; }
         public MappingComponent Mapping { get; set; }
 
-        public RoomCycle RoomCycle { get; set; }
+        public RoomTask RoomTask { get; set; }
 
         internal Room(IRoomData roomData)
             : base(roomData)

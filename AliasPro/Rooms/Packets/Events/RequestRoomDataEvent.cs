@@ -67,8 +67,8 @@ namespace AliasPro.Rooms.Packets.Events
                 if (!_roomController.TryAddRoom(room))
                     return;
 
-                room.RoomCycle = new RoomCycle(room);
-                room.RoomCycle.SetupRoomCycle();
+                room.RoomTask = new RoomTask(room);
+                room.RoomTask.SetupRoomCycle();
             }
 
             bool loading = !(clientPacket.ReadInt() == 0 && clientPacket.ReadInt() == 1);

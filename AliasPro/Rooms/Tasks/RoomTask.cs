@@ -5,12 +5,12 @@ using System.Threading;
 
 namespace AliasPro.Rooms.Tasks
 {
-    public class RoomCycle : ITask
+    public class RoomTask : ITask
     {
         private readonly IRoom _room;
         private readonly CancellationTokenSource _cancellationToken;
         
-        public RoomCycle(IRoom room)
+        public RoomTask(IRoom room)
         {
             _room = room;
             _cancellationToken = new CancellationTokenSource();
@@ -29,17 +29,10 @@ namespace AliasPro.Rooms.Tasks
             }
         }
 
-        public void Run()
+        public async void Run()
         {
-            try
-            {
-                _room.Entities.Cycle();
-                _room.Items.Cycle();
-            }
-            catch
-            {
-                // room crashed
-            }
+            await TaskHandler.RunTaskAsync(new EntitiesTask(_room));
+            await TaskHandler.RunTaskAsync(new ItemsTask(_room));
         }
     }
 }

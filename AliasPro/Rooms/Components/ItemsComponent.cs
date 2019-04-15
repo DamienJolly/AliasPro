@@ -49,16 +49,6 @@ namespace AliasPro.Rooms.Components
             }
         }
 
-        public void Cycle()
-        {
-            foreach (IItem item in Items)
-            {
-                item.Interaction.OnCycle();
-            }
-
-            //todo: wired seperate??
-        }
-
         internal void AddItem(IItem item)
         {
             if (!_items.ContainsKey(item.Id))

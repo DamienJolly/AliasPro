@@ -42,7 +42,7 @@ namespace AliasPro.Rooms.Packets.Events
                 }
             }
 
-            room.Entities.Unidle(session.Entity);
+            session.Entity.Unidle();
             session.Entity.DirOffsetTimer = 0;
         }
     }

@@ -21,7 +21,7 @@ namespace AliasPro.Rooms.Packets.Events
             int danceId = clientPacket.ReadInt();
             if (danceId < 0 || danceId > 5) return;
 
-            room.Entities.Unidle(session.Entity);
+            session.Entity.Unidle();
             session.Entity.DanceId = danceId;
             
             await room.SendAsync(new UserDanceComposer(session.Entity));

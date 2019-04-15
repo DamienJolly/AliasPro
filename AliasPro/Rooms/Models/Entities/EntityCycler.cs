@@ -100,7 +100,7 @@ namespace AliasPro.Rooms.Models.Entities
                 entity.Actions.AddStatus("mv", _moveStatus.ToString());
 
                 _room.Mapping.AddEntity(entity);
-                _room.Entities.Unidle(entity);
+                entity.Unidle();
 
                 if (entity.PathToWalk.Count == 0)
                 {

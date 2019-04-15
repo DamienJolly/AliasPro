@@ -28,7 +28,7 @@ namespace AliasPro.Rooms.Packets.Events
             string text = clientPacket.ReadString();
             int colour = clientPacket.ReadInt();
 
-            room.Entities.Unidle(session.Entity);
+            session.Entity.Unidle();
 
             if (!_chatController.HandleCommand(session, text))
             {

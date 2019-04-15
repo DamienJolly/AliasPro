@@ -1,10 +1,6 @@
 ﻿using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.Rooms.Entities;
-using AliasPro.Rooms.Models.Entities;
-using AliasPro.Rooms.Packets.Composers;
-using AliasPro.Rooms.Tasks;
-using AliasPro.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -23,29 +19,7 @@ namespace AliasPro.Rooms.Components
 
             _entities = new Dictionary<int, BaseEntity>();
         }
-
-        //todo: remove
-        public async void Cycle()
-        {
-            try
-            {
-                foreach (BaseEntity entity in _entities.Values)
-                {
-                    entity.Cycle();
-                }
-
-                await _room.SendAsync(new EntityUpdateComposer(Entities));
-            }
-            catch { }
-        }
-
-        public async void Unidle(BaseEntity entity)
-        {
-            entity.IdleTimer = 0;
-            entity.IsIdle = false;
-            await _room.SendAsync(new UserSleepComposer(entity));
-        }
-
+        
         public void AddEntity(BaseEntity entity)
         {
             if (!_entities.ContainsKey(entity.Id))
