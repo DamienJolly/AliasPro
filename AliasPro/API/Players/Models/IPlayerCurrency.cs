@@ -3,6 +3,6 @@
     public interface IPlayerCurrency
     {
         int Type { get; }
-        int Amount { get; }
+        int Amount { get; set; }
     }
 }

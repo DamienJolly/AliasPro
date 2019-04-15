@@ -13,6 +13,6 @@ namespace AliasPro.Players.Models
         }
 
         public int Type { get; }
-        public int Amount { get; }
+        public int Amount { get; set; }
     }
 }
