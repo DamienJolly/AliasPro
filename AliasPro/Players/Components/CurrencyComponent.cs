@@ -15,5 +15,11 @@ namespace AliasPro.Players.Components
 
         public ICollection<IPlayerCurrency> Currencies =>
             _currencies.Values;
+        
+        public bool TryGetCurrency(int type, out IPlayerCurrency currency) =>
+            _currencies.TryGetValue(type, out currency);
+
+        public int GetCurrenyAmount(int type) =>
+            _currencies.ContainsKey(type) ? _currencies[type].Amount : 0;
     }
 }
