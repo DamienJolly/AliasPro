@@ -1,6 +1,7 @@
 ﻿using AliasPro.API.Catalog;
 using AliasPro.API.Catalog.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AliasPro.Catalog
 {
@@ -21,5 +22,8 @@ namespace AliasPro.Catalog
 
         public void ReloadCatalog() =>
             _catalogRepostiory.InitializeCatalog();
+
+        public async Task AddLimitedAsync(uint itemId, uint playerId, int number) =>
+            await _catalogRepostiory.AddLimitedAsync(itemId, playerId, number);
     }
 }

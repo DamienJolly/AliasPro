@@ -133,14 +133,7 @@ namespace AliasPro.Catalog.Packets.Events
                     await session.SendPacketAsync(new UserPointsComposer(currency.Amount, -totalPoints, currency.Type));
                 }
             }
-
-            if (catalogItem.IsLimited)
-            {
-                //todo:
-                //item.AddLimited(catalogItem.GetNumber);
-                //await Alias.Server.CatalogManager.AddLimitedAsync(item.Id, catalogItem.GetNumber);
-            }
-
+            
             foreach (IItem item in itemsList)
             {
                 if(!session.Player.Inventory.TryAddItem(item))
@@ -150,6 +143,9 @@ namespace AliasPro.Catalog.Packets.Events
                 }
 
                 item.Id = (uint)await _itemController.AddNewItemAsync(item);
+
+                if (catalogItem.TryGetLimitedNumber(out int limitedNumber))
+                    await _catalogController.AddLimitedAsync(item.Id, session.Player.Id, limitedNumber);
             }
 
             await session.SendPacketAsync(new AddPlayerItemsComposer(itemsList));

@@ -1,6 +1,7 @@
 ﻿using AliasPro.API.Catalog.Models;
 using AliasPro.Items;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AliasPro.Catalog
 {
@@ -40,5 +41,8 @@ namespace AliasPro.Catalog
             }
             return pages;
         }
+
+        public async Task AddLimitedAsync(uint itemId, uint playerId, int number) =>
+            await _catalogDao.AddLimitedAsync(itemId, playerId, number);
     }
 }

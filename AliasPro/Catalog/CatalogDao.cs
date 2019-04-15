@@ -87,5 +87,14 @@ namespace AliasPro.Catalog
             }
             return availableNumbers;
         }
+
+        internal async Task AddLimitedAsync(uint itemId, uint playerId, int number)
+        {
+            await CreateTransaction(async transaction =>
+            {
+                await Insert(transaction, "INSERT INTO `catalog_limited_items` (`item_id`, `player_id`, `number`, `timestamp`) VALUES (@0, @1, @2, @3);", 
+                    itemId, playerId, number, (int)UnixTimestamp.Now);
+            });
+        }
     }
 }
