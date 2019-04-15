@@ -4,6 +4,7 @@ using AliasPro.API.Items;
 using AliasPro.API.Items.Models;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
+using AliasPro.API.Players.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Catalog.Packets.Composers;
 using AliasPro.Items.Packets.Composers;
@@ -126,9 +127,11 @@ namespace AliasPro.Catalog.Packets.Events
 
             if (totalPoints > 0)
             {
-                //todo:
-                //session.Player.Currency.GetCurrencyType(item.PointsType).Amount -= totalPoints; todo:
-                //session.Send(new UserPointsComposer(session.Player.Currency.GetCurrencyType(item.PointsType).Amount, -totalPoints, item.PointsType));
+                if (session.Player.Currency.TryGetCurrency(catalogItem.PointsType, out IPlayerCurrency currency))
+                {
+                    currency.Amount -= totalPoints;
+                    await session.SendPacketAsync(new UserPointsComposer(currency.Amount, -totalPoints, currency.Type));
+                }
             }
 
             if (catalogItem.IsLimited)
