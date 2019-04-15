@@ -109,7 +109,10 @@ namespace AliasPro.Rooms.Models
 
         public void Dispose()
         {
-            RoomCycle.StopRoomCycle();
+            if (RoomTask != null)
+            {
+                RoomTask.StopRoomCycle();
+            }
         }
     }
 }

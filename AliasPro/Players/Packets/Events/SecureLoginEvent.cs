@@ -8,6 +8,7 @@ using AliasPro.Network.Events.Headers;
 using AliasPro.Players.Components;
 using AliasPro.Players.Models;
 using AliasPro.Players.Packets.Composers;
+using AliasPro.Players.Tasks;
 
 namespace AliasPro.Players.Packets.Events
 {
@@ -72,9 +73,9 @@ namespace AliasPro.Players.Packets.Events
 
             await session.SendPacketAsync(new UserRightsComposer(player));
             await session.SendPacketAsync(new AvailabilityStatusComposer());
-
-            //player.PlayerCycle = new PlayerCycle(_settingsController, player);
-            //player.PlayerCycle.SetupPlayerCycle();
+            
+            player.PlayerTask = new PlayerTask(player);
+            player.PlayerTask.SetupPlayerCycle();
 
             await _playerController.UpdatePlayerAsync(player);
         }

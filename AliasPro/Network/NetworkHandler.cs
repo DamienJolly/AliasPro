@@ -62,6 +62,9 @@ namespace AliasPro.Network
             
             session.Player.Online = false;
 
+            if (session.Player.PlayerTask != null)
+                session.Player.PlayerTask.StopPlayerCycle();
+
             await _playerController.UpdatePlayerAsync(session.Player);
             await _playerController.UpdatePlayerSettingsAsync(session.Player);
             await _playerController.UpdatePlayerCurrenciesAsync(session.Player);
@@ -76,7 +79,7 @@ namespace AliasPro.Network
             if (session.CurrentRoom != null &&
                 session.Entity != null)
                 await session.CurrentRoom.RemoveEntity(session.Entity);
-
+            
             _playerController.RemovePlayer(session.Player);
         }
     }

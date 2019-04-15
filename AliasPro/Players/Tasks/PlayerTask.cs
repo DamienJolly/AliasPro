@@ -1,20 +1,17 @@
 ﻿using AliasPro.API.Players.Models;
-using AliasPro.API.Settings;
 using AliasPro.API.Tasks;
 using AliasPro.Tasks;
 using System.Threading;
 
 namespace AliasPro.Players.Tasks
 {
-    public class PlayerCycle : ITask
+    public class PlayerTask : ITask
     {
         private readonly CancellationTokenSource _cancellationToken;
-        private readonly ISettingsController _settingsController;
         private readonly IPlayer _player;
 
-        public PlayerCycle(ISettingsController settingsController, IPlayer player)
+        public PlayerTask(IPlayer player)
         {
-            _settingsController = settingsController;
             _player = player;
 
             _cancellationToken = new CancellationTokenSource();
@@ -35,14 +32,7 @@ namespace AliasPro.Players.Tasks
 
         public void Run()
         {
-            try
-            {
-                System.Console.WriteLine("Player: " + _player.Username);
-            }
-            catch
-            {
-
-            }
+            // todo: credits timers ext
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AliasPro.API.Players.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Players.Components;
+using AliasPro.Players.Tasks;
 
 namespace AliasPro.Players.Models
 {
@@ -13,6 +14,8 @@ namespace AliasPro.Players.Models
         public CurrencyComponent Currency { get; set; }
         public BadgeComponent Badge { get; set; }
         public InventoryComponent Inventory { get; set; }
+
+        public PlayerTask PlayerTask { get; set; }
 
         internal Player(ISession session, IPlayerData data)
             : base(data)
