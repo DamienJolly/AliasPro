@@ -80,6 +80,12 @@ namespace AliasPro.Catalog.Packets.Events
                     await session.SendPacketAsync(new AlertLimitedSoldOutComposer());
                     return;
                 }
+
+                if (catalogItem.Items.Count > 1)
+                {
+                    await session.SendPacketAsync(new AlertPurchaseFailedComposer(AlertPurchaseFailedComposer.SERVER_ERROR));
+                    return;
+                }
             }
 
             IList<IItem> itemsList = new List<IItem>();
