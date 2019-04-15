@@ -27,7 +27,7 @@ namespace AliasPro.Catalog.Layouts
             message.WriteString(_page.TextTeaser);
         }
 
-        public IItem HandlePurchase(ICatalogItemData catalogItem, ISession session, string extraData)
+        public IItem HandleItemPurchase(ISession session, ICatalogItemData itemData, string extraData)
         {
             return null;
         }

@@ -93,16 +93,15 @@ namespace AliasPro.Catalog.Packets.Events
                     totalCredits += catalogItem.Credits;
                     totalPoints += catalogItem.Points;
                 }
-
-                foreach (ICatalogItemData item in catalogItem.Items)
+                
+                foreach (ICatalogItemData itemData in catalogItem.Items)
                 {
-                    for (int k = 0; k < item.Amount; k++)
+                    for (int k = 0; k < itemData.Amount; k++)
                     {
-                        IItem playerItem = page.Layout.HandlePurchase(item, session, extraData);
+                        IItem playerItem = page.Layout.HandleItemPurchase(session, itemData, extraData);
+
                         if (playerItem != null)
-                        {
                             itemsList.Add(playerItem);
-                        }
                     }
                 }
             }

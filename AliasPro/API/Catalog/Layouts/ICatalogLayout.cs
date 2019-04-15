@@ -8,6 +8,6 @@ namespace AliasPro.API.Catalog.Layouts
     public interface ICatalogLayout
     {
         void Compose(ServerPacket message);
-        IItem HandlePurchase(ICatalogItemData catalogItem, ISession session, string extraData);
+        IItem HandleItemPurchase(ISession session, ICatalogItemData itemData, string extraData);
     }
 }

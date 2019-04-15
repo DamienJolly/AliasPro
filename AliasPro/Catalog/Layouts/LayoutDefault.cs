@@ -29,9 +29,9 @@ namespace AliasPro.Catalog.Layouts
             message.WriteString(_page.TextTeaser);
         }
 
-        public IItem HandlePurchase(ICatalogItemData catalogItem, ISession session, string extraData)
+        public IItem HandleItemPurchase(ISession session, ICatalogItemData itemData, string extraData)
         {
-            return new Item((uint)catalogItem.Id, session.Player.Id, "", catalogItem.ItemData);
+            return new Item((uint)itemData.Id, session.Player.Id, "", itemData.ItemData);
         }
     }
 }
