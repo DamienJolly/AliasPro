@@ -72,12 +72,17 @@ namespace AliasPro.Catalog.Models
             }
         }
 
-        public int GetNumber
+        public bool TryGetLimitedNumber(out int limitedNumber)
         {
-            get
+            if (IsLimited && LimitedNumbers.Count > 0)
             {
-                return LimitedNumbers[0];
+                limitedNumber = LimitedNumbers[0];
+                LimitedNumbers.Remove(limitedNumber);
+                return true;
             }
+
+            limitedNumber = -1;
+            return false;
         }
 
         public void Compose(ServerPacket message)

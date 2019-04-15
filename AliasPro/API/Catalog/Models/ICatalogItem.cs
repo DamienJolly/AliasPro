@@ -20,7 +20,7 @@ namespace AliasPro.API.Catalog.Models
         IList<int> LimitedNumbers { get; set; }
         int LimitedSells { get; }
         bool IsLimited { get; }
-        int GetNumber { get; }
+        bool TryGetLimitedNumber(out int limitedNumber);
 
         void Compose(ServerPacket message);
     }
