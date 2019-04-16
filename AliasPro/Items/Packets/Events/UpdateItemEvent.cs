@@ -28,18 +28,18 @@ namespace AliasPro.Items.Packets.Events
                 int y = clientPacket.ReadInt();
                 int rot = clientPacket.ReadInt();
                 
-                if (room.Mapping.TryGetRoomTile(x, y, out IRoomTile roomTile))
+                if (room.RoomGrid.TryGetRoomTile(x, y, out IRoomTile roomTile))
                 {
-                    if (room.Mapping.CanStackAt(x, y, item))
+                    if (room.RoomGrid.CanStackAt(x, y, item))
                     {
-                        room.Mapping.RemoveItem(item);
+                        room.RoomGrid.RemoveItem(item);
                         item.RoomId = room.Id;
                         item.Position = new RoomPosition(
                             x,
                             y,
                             roomTile.Height);
                         item.Rotation = rot;
-                        room.Mapping.AddItem(item);
+                        room.RoomGrid.AddItem(item);
                     }
                 }
 

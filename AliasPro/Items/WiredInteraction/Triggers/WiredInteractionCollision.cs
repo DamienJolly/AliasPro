@@ -25,7 +25,7 @@ namespace AliasPro.Items.WiredInteraction
         {
             IRoomPosition position = (IRoomPosition)args[0];
 
-            if (_item.CurrentRoom.Mapping.TryGetRoomTile(position.X, position.Y, out IRoomTile roomTile))
+            if (_item.CurrentRoom.RoomGrid.TryGetRoomTile(position.X, position.Y, out IRoomTile roomTile))
             {
                 foreach (BaseEntity entity in roomTile.Entities)
                 {

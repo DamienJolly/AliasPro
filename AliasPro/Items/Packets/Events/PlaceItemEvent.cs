@@ -5,7 +5,6 @@ using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Items.Packets.Composers;
 using AliasPro.Network.Events.Headers;
-using AliasPro.Rooms.Models;
 
 namespace AliasPro.Items.Packets.Events
 {
@@ -34,15 +33,15 @@ namespace AliasPro.Items.Packets.Events
                     int y = int.Parse(data[2]);
                     int rot = int.Parse(data[3]);
 
-                    if (!room.Mapping.TryGetRoomTile(x, y, out IRoomTile roomTile)) return;
+                    if (!room.RoomGrid.TryGetRoomTile(x, y, out IRoomTile roomTile)) return;
 
-                    if (!room.Mapping.CanStackAt(x, y, item)) return;
+                    if (!room.RoomGrid.CanStackAt(x, y, item)) return;
                     
                     item.Position.X = x;
                     item.Position.Y = y;
                     item.Position.Z = roomTile.Height;
                     item.Rotation = rot;
-                    room.Mapping.AddItem(item);
+                    room.RoomGrid.AddItem(item);
 
                     await room.SendAsync(new ObjectAddComposer(item));
                 }

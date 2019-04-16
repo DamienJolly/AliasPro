@@ -27,7 +27,7 @@ namespace AliasPro.Items.Packets.Events
             {
                 if (item.ItemData.Type == "s")
                 {
-                    room.Mapping.RemoveItem(item);
+                    room.RoomGrid.RemoveItem(item);
                     await room.SendAsync(new RemoveFloorItemComposer(item));
                 }
                 else

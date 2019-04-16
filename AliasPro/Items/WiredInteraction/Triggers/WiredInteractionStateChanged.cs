@@ -31,7 +31,7 @@ namespace AliasPro.Items.WiredInteraction
             
             if (!WiredData.Items.ContainsKey(item.Id)) return false;
 
-            if (_item.CurrentRoom.Mapping.TryGetRoomTile(_item.Position.X, _item.Position.Y, out IRoomTile roomTile))
+            if (_item.CurrentRoom.RoomGrid.TryGetRoomTile(_item.Position.X, _item.Position.Y, out IRoomTile roomTile))
             {
                 _item.CurrentRoom.Items.TriggerEffects(roomTile, entity);
             }

@@ -19,7 +19,7 @@ namespace AliasPro.Rooms.Components
             foreach (IItem item in items.Values)
             {
                 item.CurrentRoom = _room;
-                _room.Mapping.AddItem(item);
+                _room.RoomGrid.AddItem(item);
             }
         }
 

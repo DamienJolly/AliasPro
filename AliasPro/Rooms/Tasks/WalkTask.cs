@@ -3,8 +3,10 @@ using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Tasks;
 using AliasPro.Items.Types;
-using AliasPro.Rooms.Gamemap.Pathfinding;
 using AliasPro.Rooms.Models;
+using Pathfinding;
+using Pathfinding.Models;
+using Pathfinding.Types;
 using System.Text;
 
 namespace AliasPro.Rooms.Tasks
@@ -31,10 +33,14 @@ namespace AliasPro.Rooms.Tasks
 
             if (_entity.PathToWalk != null)
             {
-                _entity.PathToWalk = PathFinder.FindPath(
-                    _entity,
-                    _room.Mapping,
-                    _entity.Position, _entity.PathToWalk[0]);
+                _entity.PathToWalk = Pathfinder.FindPath(
+                _room.RoomGrid,
+                new Position(
+                    _entity.Position.X,
+                    _entity.Position.Y),
+                _entity.PathToWalk[0],
+                DiagonalMovement.ONE_WALKABLE,
+                _entity);
 
                 if (_entity.PathToWalk == null) return;
 
@@ -44,10 +50,10 @@ namespace AliasPro.Rooms.Tasks
                 _entity.IsSitting = false;
 
                 int reversedIndex = _entity.PathToWalk.Count - 1;
-                IRoomPosition nextStep = _entity.PathToWalk[reversedIndex];
+                Position nextStep = _entity.PathToWalk[reversedIndex];
                 _entity.PathToWalk.RemoveAt(reversedIndex);
 
-                if (!_room.Mapping.TryGetRoomTile(nextStep.X, nextStep.Y, out IRoomTile roomTile))
+                if (!_room.RoomGrid.TryGetRoomTile(nextStep.X, nextStep.Y, out IRoomTile roomTile))
                 {
                     _entity.PathToWalk = null;
                     return;
@@ -59,13 +65,13 @@ namespace AliasPro.Rooms.Tasks
                     return;
                 }
 
-                if (!_room.Mapping.TryGetRoomTile(_entity.Position.X, _entity.Position.Y, out IRoomTile oldTile))
+                if (!_room.RoomGrid.TryGetRoomTile(_entity.Position.X, _entity.Position.Y, out IRoomTile oldTile))
                 {
                     _entity.PathToWalk = null;
                     return;
                 }
 
-                _room.Mapping.RemoveEntity(_entity);
+                _room.RoomGrid.RemoveEntity(_entity);
 
                 IItem oldTopItem = oldTile.TopItem;
                 if (oldTopItem != null)
@@ -76,7 +82,7 @@ namespace AliasPro.Rooms.Tasks
 
                 IItem topItem = roomTile.TopItem;
                 double newZ = roomTile.Height;
-                int newDir = _entity.Position.CalculateDirection(nextStep);
+                int newDir = _entity.Position.CalculateDirection(nextStep.X, nextStep.Y);
 
                 if (topItem != null)
                 {
@@ -101,7 +107,7 @@ namespace AliasPro.Rooms.Tasks
                     .Append(newZ);
                 _entity.Actions.AddStatus("mv", _moveStatus.ToString());
 
-                _room.Mapping.AddEntity(_entity);
+                _room.RoomGrid.AddEntity(_entity);
                 _entity.Unidle();
 
                 if (_entity.PathToWalk.Count == 0)
@@ -112,7 +118,7 @@ namespace AliasPro.Rooms.Tasks
             }
             else
             {
-                if (!_room.Mapping.TryGetRoomTile(_entity.Position.X, _entity.Position.Y, out IRoomTile roomTile)) return;
+                if (!_room.RoomGrid.TryGetRoomTile(_entity.Position.X, _entity.Position.Y, out IRoomTile roomTile)) return;
 
                 IItem topItem = roomTile.TopItem;
 

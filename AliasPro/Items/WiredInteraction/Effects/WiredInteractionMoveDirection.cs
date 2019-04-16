@@ -4,7 +4,6 @@ using AliasPro.API.Rooms.Models;
 using AliasPro.Items.Models;
 using AliasPro.Items.Packets.Composers;
 using AliasPro.Items.Types;
-using AliasPro.Rooms.Gamemap;
 using AliasPro.Rooms.Models;
 using AliasPro.Utilities;
 
@@ -58,13 +57,13 @@ namespace AliasPro.Items.WiredInteraction
                         _item.CurrentRoom.Items.TriggerWired(WiredInteractionType.COLLISION, newPos);
 
                         // todo: roller effect?
-                        if (_item.CurrentRoom.Mapping.TryGetRoomTile(newPos.X, newPos.Y, out IRoomTile roomTile) &&
-                            _item.CurrentRoom.Mapping.CanRollAt(newPos.X, newPos.Y, item))
+                        if (_item.CurrentRoom.RoomGrid.TryGetRoomTile(newPos.X, newPos.Y, out IRoomTile roomTile) &&
+                            _item.CurrentRoom.RoomGrid.CanRollAt(newPos.X, newPos.Y, item))
                         {
-                            _item.CurrentRoom.Mapping.RemoveItem(item);
+                            _item.CurrentRoom.RoomGrid.RemoveItem(item);
                             item.Position = newPos;
                             item.Position.Z = roomTile.Height;
-                            _item.CurrentRoom.Mapping.AddItem(item);
+                            _item.CurrentRoom.RoomGrid.AddItem(item);
 
                             await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(item));
                         }

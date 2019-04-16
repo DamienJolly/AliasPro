@@ -4,11 +4,9 @@ using AliasPro.API.Rooms.Models;
 using AliasPro.Items.Types;
 using AliasPro.Rooms.Components;
 using AliasPro.Rooms.Entities;
-using AliasPro.Rooms.Gamemap.Pathfinding;
 using AliasPro.Rooms.Packets.Composers;
 using AliasPro.Rooms.Tasks;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AliasPro.Rooms.Models
@@ -19,8 +17,8 @@ namespace AliasPro.Rooms.Models
         public ItemsComponent Items { get; set; }
         public RightsComponent Rights { get; set; }
         public GameComponent Game { get; set; }
-        public MappingComponent Mapping { get; set; }
 
+        public RoomGrid RoomGrid { get; set; }
         public RoomTask RoomTask { get; set; }
 
         internal Room(IRoomData roomData)
@@ -47,7 +45,7 @@ namespace AliasPro.Rooms.Models
             {
                 if (targetEntity == entity) continue;
 
-                int newDir = targetEntity.Position.CalculateDirection(entity.Position);
+                int newDir = targetEntity.Position.CalculateDirection(entity.Position.X, entity.Position.Y);
 
                 if (Math.Abs(newDir - targetEntity.BodyRotation) <= 2)
                     targetEntity.HeadRotation = newDir;
@@ -61,7 +59,7 @@ namespace AliasPro.Rooms.Models
         public async Task AddEntity(BaseEntity entity)
         {
             Entities.AddEntity(entity);
-            Mapping.AddEntity(entity);
+            RoomGrid.AddEntity(entity);
 
             Items.TriggerWired(WiredInteractionType.ENTER_ROOM, entity);
 
@@ -72,7 +70,7 @@ namespace AliasPro.Rooms.Models
         public async Task RemoveEntity(BaseEntity entity)
         {
             Entities.RemoveEntity(entity);
-            Mapping.RemoveEntity(entity);
+            RoomGrid.RemoveEntity(entity);
             Game.LeaveTeam(entity);
 
             await SendAsync(new EntityRemoveComposer(entity.Id));
@@ -80,7 +78,7 @@ namespace AliasPro.Rooms.Models
         
         public IRoomPosition GetPathToClosestEntity(IRoomPosition position)
         {
-            IList<IRoomPosition> closestPath = new List<IRoomPosition>();
+            /*IList<IRoomPosition> closestPath = new List<IRoomPosition>();
             
             foreach (BaseEntity entity in Entities.Entities)
             {
@@ -93,7 +91,8 @@ namespace AliasPro.Rooms.Models
                     closestPath = pathToItem;
             }
 
-            return closestPath[closestPath.Count - 1];
+            return closestPath[closestPath.Count - 1];*/
+            return null;
         }
 
         public async Task SendAsync(IPacketComposer packet)

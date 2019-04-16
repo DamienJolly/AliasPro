@@ -43,7 +43,7 @@ namespace AliasPro.Items.WiredInteraction
                     {
                         if (!_item.CurrentRoom.Items.TryGetItem(itemData.ItemId, out IItem item)) continue;
 
-                        _item.CurrentRoom.Mapping.RemoveItem(item);
+                        _item.CurrentRoom.RoomGrid.RemoveItem(item);
                         
                         if (ChangeState)
                             item.Mode = itemData.Mode;
@@ -54,7 +54,7 @@ namespace AliasPro.Items.WiredInteraction
                         if (ChangePosition)
                             item.Position = itemData.Position;
 
-                        _item.CurrentRoom.Mapping.AddItem(item);
+                        _item.CurrentRoom.RoomGrid.AddItem(item);
 
                         await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(item));
                     }

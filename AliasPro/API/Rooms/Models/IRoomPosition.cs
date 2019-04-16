@@ -6,7 +6,6 @@
         int Y { get; set; }
         double Z { get; set; }
         
-        int CalculateDirection(IRoomPosition newPos);
         int CalculateDirection(int newX, int newY);
     }
 }

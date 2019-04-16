@@ -40,7 +40,7 @@ namespace AliasPro.Items.Interaction
         {
             if (entity == null) return;
 
-            if (!_item.CurrentRoom.Mapping.TilesAdjecent(_item.Position, entity.Position))
+            if (!_item.CurrentRoom.RoomGrid.TilesAdjecent(_item.Position, entity.Position))
             {
                 //todo: walk to item
                 return;
@@ -52,7 +52,7 @@ namespace AliasPro.Items.Interaction
                 !entity.Actions.HasStatus("lay"))
             {
                 entity.Actions.RemoveStatus("mv");
-                entity.Position.CalculateDirection(_item.Position);
+                entity.Position.CalculateDirection(_item.Position.X, _item.Position.Y);
             }
 
             _item.Mode = 1;

@@ -4,6 +4,7 @@ using AliasPro.Players.Types;
 using AliasPro.Rooms.Models;
 using AliasPro.Rooms.Packets.Composers;
 using AliasPro.Rooms.Types;
+using Pathfinding.Models;
 using System.Collections.Generic;
 
 namespace AliasPro.API.Rooms.Entities
@@ -48,7 +49,7 @@ namespace AliasPro.API.Rooms.Entities
         public int HeadRotation { get; set; }
         public IRoomPosition Position { get; set; }
         public IRoomPosition NextPosition { get; set; }
-        public IList<IRoomPosition> PathToWalk { get; set; }
+        public IList<Position> PathToWalk { get; set; }
         public string Name { get; set; }
         public string Figure { get; set; }
         public PlayerGender Gender { get; set; }

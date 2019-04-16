@@ -40,7 +40,7 @@ namespace AliasPro.Items.WiredInteraction
                 _tick--;
                 if (_tick <= 0)
                 {
-                    if (_item.CurrentRoom.Mapping.TryGetRoomTile(_item.Position.X, _item.Position.Y, out IRoomTile roomTile))
+                    if (_item.CurrentRoom.RoomGrid.TryGetRoomTile(_item.Position.X, _item.Position.Y, out IRoomTile roomTile))
                     {
                         _item.CurrentRoom.Items.TriggerEffects(roomTile);
                     }

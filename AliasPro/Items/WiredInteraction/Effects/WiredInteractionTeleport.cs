@@ -55,10 +55,10 @@ namespace AliasPro.Items.WiredInteraction
                             if (_item.CurrentRoom.Items.TryGetItem(itemData.ItemId, out IItem item))
                             {
                                 //todo: effect
-                                _item.CurrentRoom.Mapping.RemoveEntity(_target);
+                                _item.CurrentRoom.RoomGrid.RemoveEntity(_target);
                                 _target.NextPosition =
                                     new RoomPosition(item.Position.X, item.Position.Y, item.Position.Z);
-                                _item.CurrentRoom.Mapping.AddEntity(_target);
+                                _item.CurrentRoom.RoomGrid.AddEntity(_target);
                             }
                         }
                     }

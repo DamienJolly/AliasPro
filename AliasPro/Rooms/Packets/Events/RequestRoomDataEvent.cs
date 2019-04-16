@@ -55,7 +55,7 @@ namespace AliasPro.Rooms.Packets.Events
                 room.Settings = roomSettings;
                 room.Entities = new EntitiesComponent(room);
                 room.Game = new GameComponent(room);
-                room.Mapping = new MappingComponent(room);
+                room.RoomGrid = new RoomGrid(room);
 
                 room.Items = new ItemsComponent(
                     room,

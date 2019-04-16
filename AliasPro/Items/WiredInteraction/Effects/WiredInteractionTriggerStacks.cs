@@ -50,7 +50,7 @@ namespace AliasPro.Items.WiredInteraction
                     {
                         if (!_item.CurrentRoom.Items.TryGetItem(itemData.ItemId, out IItem item)) continue;
 
-                        IList<IRoomTile> roomTiles = _item.CurrentRoom.Mapping.GetTilesFromItem(item.Position.X, item.Position.Y, item);
+                        IList<IRoomTile> roomTiles = _item.CurrentRoom.RoomGrid.GetTilesFromItem(item.Position.X, item.Position.Y, item);
 
                         foreach(IRoomTile roomTile in roomTiles)
                         {

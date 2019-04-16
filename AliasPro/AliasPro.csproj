@@ -7,20 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Pathfinding\**" />
     <Compile Remove="Players\Models\Messenger\**" />
+    <Compile Remove="Rooms\Gamemap\**" />
     <Compile Remove="Rooms\Models\Game\**" />
     <Compile Remove="Rooms\Models\Item\**" />
     <Compile Remove="Rooms\Models\Right\**" />
     <Compile Remove="Tasks\Libuv\**" />
-    <EmbeddedResource Remove="Pathfinding\**" />
     <EmbeddedResource Remove="Players\Models\Messenger\**" />
+    <EmbeddedResource Remove="Rooms\Gamemap\**" />
     <EmbeddedResource Remove="Rooms\Models\Game\**" />
     <EmbeddedResource Remove="Rooms\Models\Item\**" />
     <EmbeddedResource Remove="Rooms\Models\Right\**" />
     <EmbeddedResource Remove="Tasks\Libuv\**" />
-    <None Remove="Pathfinding\**" />
     <None Remove="Players\Models\Messenger\**" />
+    <None Remove="Rooms\Gamemap\**" />
     <None Remove="Rooms\Models\Game\**" />
     <None Remove="Rooms\Models\Item\**" />
     <None Remove="Rooms\Models\Right\**" />
@@ -28,12 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Rooms\Gamemap\Position.cs" />
-    <Compile Remove="Rooms\Gamemap\RoomMap.cs" />
-    <Compile Remove="Rooms\Gamemap\RoomTile.cs" />
-    <Compile Remove="Rooms\Models\Entities\BaseEntity.cs" />
-    <Compile Remove="Rooms\Models\Entities\EntityHandler.cs" />
-    <Compile Remove="Rooms\Models\Entities\UserEntity.cs" />
+    <Compile Remove="Rooms\Components\MappingComponent.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,10 +39,17 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.2.0" />
     <PackageReference Include="MySql.Data" Version="8.0.14" />
+    <PackageReference Include="Pathfinding" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Chat\Commands\Player\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Pathfinding">
+      <HintPath>..\..\Pathfinding\Pathfinding\bin\Release\netcoreapp2.1\Pathfinding.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

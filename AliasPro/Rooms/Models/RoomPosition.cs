@@ -1,23 +1,20 @@
 ﻿using AliasPro.API.Rooms.Models;
+using Pathfinding.Models;
 
 namespace AliasPro.Rooms.Models
 {
-    internal class RoomPosition : IRoomPosition
+    public class RoomPosition : Position, IRoomPosition
     {
-        internal RoomPosition(int x, int y, double z)
+        public RoomPosition(int x, int y, double z)
+            : base (x, y)
         {
             X = x;
             Y = y;
             Z = z;
         }
-
-        public int X { get; set; }
-        public int Y { get; set; }
+        
         public double Z { get; set; }
-
-        public int CalculateDirection(IRoomPosition newPos) =>
-            CalculateDirection(newPos.X, newPos.Y);
-
+        
         public int CalculateDirection(int newX, int newY)
         {
             if (X > newX)

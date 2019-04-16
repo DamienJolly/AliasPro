@@ -1,27 +1,21 @@
 ﻿using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
-using AliasPro.Rooms.Models;
+using Pathfinding.Models;
 using System;
 using System.Collections.Generic;
 
-namespace AliasPro.Rooms.Components
+namespace AliasPro.Rooms.Models
 {
-    public class MappingComponent
+    public class RoomGrid : BaseGrid
     {
         private readonly IRoom _room;
         private readonly IDictionary<int, IRoomTile> _roomTiles;
 
-        public int MapSizeX { get; }
-        public int MapSizeY { get; }
-        
-        public MappingComponent(IRoom room)
+        public RoomGrid(IRoom room)
+            : base(room.RoomModel.MapSizeX, room.RoomModel.MapSizeY)
         {
             _room = room;
-
-            MapSizeX = _room.RoomModel.MapSizeX;
-            MapSizeY = _room.RoomModel.MapSizeY;
-
             _roomTiles = new Dictionary<int, IRoomTile>();
 
             for (int y = 0; y < MapSizeY; y++)
@@ -36,6 +30,18 @@ namespace AliasPro.Rooms.Components
                     _roomTiles.Add(ConvertTo1D(x, y), new RoomTile(_room, position));
                 }
             }
+        }
+
+        public override bool IsWalkableAt(Position p, bool final, params object[] args)
+        {
+            if (!TryGetRoomTile(p.X, p.Y, out IRoomTile tile))
+                return false;
+
+            BaseEntity entity = null;
+            if (args.Length != 0)
+                entity = (BaseEntity)args[0];
+
+            return tile.IsValidTile(entity, final);
         }
 
         public bool CanStackAt(int targertX, int targetY, IItem item)

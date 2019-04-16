@@ -5,7 +5,6 @@ using AliasPro.API.Rooms.Models;
 using AliasPro.Items.Models;
 using AliasPro.Items.Packets.Composers;
 using AliasPro.Items.Types;
-using AliasPro.Rooms.Gamemap.Pathfinding;
 using AliasPro.Rooms.Models;
 using AliasPro.Utilities;
 using System.Collections.Generic;
@@ -54,14 +53,14 @@ namespace AliasPro.Items.WiredInteraction
                         _item.CurrentRoom.Items.TriggerWired(WiredInteractionType.COLLISION, newPos);
                         
                         // todo: roller effect?
-                        if (_item.CurrentRoom.Mapping.TryGetRoomTile(newPos.X, newPos.Y, out IRoomTile roomTile))
+                        if (_item.CurrentRoom.RoomGrid.TryGetRoomTile(newPos.X, newPos.Y, out IRoomTile roomTile))
                         {
-                            if (_item.CurrentRoom.Mapping.CanRollAt(newPos.X, newPos.Y, item))
+                            if (_item.CurrentRoom.RoomGrid.CanRollAt(newPos.X, newPos.Y, item))
                             {
-                                _item.CurrentRoom.Mapping.RemoveItem(item);
+                                _item.CurrentRoom.RoomGrid.RemoveItem(item);
                                 item.Position = newPos;
                                 item.Position.Z = roomTile.Height;
-                                _item.CurrentRoom.Mapping.AddItem(item);
+                                _item.CurrentRoom.RoomGrid.AddItem(item);
                             }
                         }
 
@@ -82,10 +81,7 @@ namespace AliasPro.Items.WiredInteraction
 
             foreach (BaseEntity entity in _item.CurrentRoom.Entities.Entities)
             {
-                IList<IRoomPosition> pathToItem = PathFinder.FindPath(
-                    entity,
-                    _item.CurrentRoom.Mapping,
-                    position, entity.Position);
+                IList<IRoomPosition> pathToItem = null;
 
                 if (pathToItem == null) continue;
 
