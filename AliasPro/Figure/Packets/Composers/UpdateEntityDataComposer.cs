@@ -22,7 +22,7 @@ namespace AliasPro.Figure.Packets.Composers
             message.WriteString(_entity.Figure);
             message.WriteString(_entity.Gender == PlayerGender.MALE ? "m" : "f");
             message.WriteString(_entity.Motto);
-            message.WriteInt(0); //todo: ach. score
+            message.WriteInt(_entity.Score);
             return message;
         }
     }

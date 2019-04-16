@@ -10,7 +10,7 @@ namespace AliasPro.Rooms.Entities
     internal class PlayerEntity : BaseEntity
     {
         internal PlayerEntity(int id, int x, int y, int rotation, ISession session)
-            : base(id, x, y, rotation, session.CurrentRoom, session.Player.Username, session.Player.Figure, session.Player.Gender, session.Player.Motto)
+            : base(id, x, y, rotation, session.CurrentRoom, session.Player.Username, session.Player.Figure, session.Player.Gender, session.Player.Motto, session.Player.Score)
         {
             Session = session;
         }
@@ -61,7 +61,7 @@ namespace AliasPro.Rooms.Entities
             serverPacket.WriteInt(-1);
             serverPacket.WriteInt(-1);
             serverPacket.WriteInt(0);
-            serverPacket.WriteInt(1337); // achievement points
+            serverPacket.WriteInt(Score);
             serverPacket.WriteBoolean(false);
         }
     }

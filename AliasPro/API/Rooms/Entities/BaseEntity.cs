@@ -11,7 +11,7 @@ namespace AliasPro.API.Rooms.Entities
 {
     public abstract class BaseEntity
     {
-        protected BaseEntity(int id, int x, int y, int rotation, IRoom room, string name, string figure, PlayerGender gender, string motto)
+        protected BaseEntity(int id, int x, int y, int rotation, IRoom room, string name, string figure, PlayerGender gender, string motto, int score)
         {
             Id = id;
             Room = room;
@@ -23,6 +23,7 @@ namespace AliasPro.API.Rooms.Entities
             Figure = figure;
             Gender = gender;
             Motto = motto;
+            Score = score;
 
             Actions = new EntityAction();
         }
@@ -54,6 +55,7 @@ namespace AliasPro.API.Rooms.Entities
         public string Figure { get; set; }
         public PlayerGender Gender { get; set; }
         public string Motto { get; set; }
+        public int Score { get; set; }
         
         public IEntityAction Actions;
 

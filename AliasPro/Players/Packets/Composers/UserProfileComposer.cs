@@ -23,7 +23,7 @@ namespace AliasPro.Players.Packets.Composers
             message.WriteString(_player.Figure);
             message.WriteString(_player.Motto);
             message.WriteString("01.01.1970 00:00:00"); //Account created
-            message.WriteInt(1337); //Achievment Score
+            message.WriteInt(_player.Score);
             message.WriteInt(0); ///Friend count
             message.WriteBoolean(false); //Is friend
             message.WriteBoolean(false); //Has requested

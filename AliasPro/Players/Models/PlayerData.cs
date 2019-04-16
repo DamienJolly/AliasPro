@@ -23,6 +23,7 @@ namespace AliasPro.Players.Models
             
             Motto = reader.ReadData<string>("motto");
             Online = reader.ReadData<bool>("is_online");
+            Score = reader.ReadData<int>("score");
         }
 
         internal PlayerData(IPlayerData data)
@@ -34,7 +35,8 @@ namespace AliasPro.Players.Models
             Figure = data.Figure;
             Gender = data.Gender;
             Motto = data.Motto;
-            Online = true;
+            Online = data.Online;
+            Score = data.Score;
         }
 
         public uint Id { get; set; }
@@ -44,7 +46,7 @@ namespace AliasPro.Players.Models
         public string Figure { get; set; }
         public PlayerGender Gender { get; set; }
         public string Motto { get; set; }
-
         public bool Online { get; set; }
+        public int Score { get; set; }
     }
 }
