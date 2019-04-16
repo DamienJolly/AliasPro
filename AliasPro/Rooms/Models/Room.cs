@@ -101,7 +101,8 @@ namespace AliasPro.Rooms.Models
             {
                 if (entity is PlayerEntity playerEntity)
                 {
-                    await playerEntity.Session.SendPacketAsync(packet);
+                    if (playerEntity.Session != null)
+                        await playerEntity.Session.SendPacketAsync(packet);
                 }
             }
         }
