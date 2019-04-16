@@ -45,7 +45,7 @@ namespace AliasPro.Items.WiredInteraction
                     foreach (WiredItemData itemData in WiredData.Items.Values)
                     {
                         if (!_item.CurrentRoom.Items.TryGetItem(itemData.ItemId, out IItem item)) continue;
-                        
+
                         if (itemData.MovementDirection == -1)
                         {
                             itemData.MovementDirection = StartDirection;
@@ -56,22 +56,20 @@ namespace AliasPro.Items.WiredInteraction
 
                         _item.CurrentRoom.Items.TriggerWired(WiredInteractionType.COLLISION, newPos);
 
-                        // todo: roller effect?
-                        if (_item.CurrentRoom.RoomGrid.TryGetRoomTile(newPos.X, newPos.Y, out IRoomTile roomTile) &&
-                            _item.CurrentRoom.RoomGrid.CanRollAt(newPos.X, newPos.Y, item))
-                        {
-                            _item.CurrentRoom.RoomGrid.RemoveItem(item);
-                            item.Position = newPos;
-                            item.Position.Z = roomTile.Height;
-                            _item.CurrentRoom.RoomGrid.AddItem(item);
-
-                            await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(item));
-                        }
-                        else
+                        if (!_item.CurrentRoom.RoomGrid.TryGetRoomTile(newPos.X, newPos.Y, out IRoomTile roomTile) ||
+                            !_item.CurrentRoom.RoomGrid.CanRollAt(newPos.X, newPos.Y, item))
                         {
                             itemData.MovementDirection = HandleDirection(DirectionMode, itemData.MovementDirection);
                             _item.ExtraData = WiredData.ToString();
+                            continue;
                         }
+                        
+                        newPos.Z = roomTile.Height;
+                        await _item.CurrentRoom.SendAsync(new FloorItemOnRollerComposer(item, newPos, 0));
+
+                        _item.CurrentRoom.RoomGrid.RemoveItem(item);
+                        item.Position = newPos;
+                        _item.CurrentRoom.RoomGrid.AddItem(item);
                     }
                     _active = false;
                 }

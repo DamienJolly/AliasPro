@@ -46,6 +46,7 @@
         internal const short RemoveWallItemMessageComposer = 3320;
         internal const short WallItemUpdateMessageComposer = 2091;
         internal const short InventoryRefreshMessageComposer = 32;
+        internal const short SlideObjectMessageComposer = 3339;
 
         // Catalog
         internal const short DiscountMessageComposer = 1602;

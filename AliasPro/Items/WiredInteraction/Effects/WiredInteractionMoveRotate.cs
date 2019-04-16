@@ -59,21 +59,18 @@ namespace AliasPro.Items.WiredInteraction
                         int newRot = HandleRotation(rotationMode, item.Rotation);
 
                         _item.CurrentRoom.Items.TriggerWired(WiredInteractionType.COLLISION, newPos);
-                        
-                        // todo: roller effect?
-                        if (_item.CurrentRoom.RoomGrid.TryGetRoomTile(newPos.X, newPos.Y, out IRoomTile roomTile))
-                        {
-                            if (_item.CurrentRoom.RoomGrid.CanRollAt(newPos.X, newPos.Y, item))
-                            {
-                                _item.CurrentRoom.RoomGrid.RemoveItem(item);
-                                item.Position = newPos;
-                                item.Position.Z = roomTile.Height;
-                                item.Rotation = newRot;
-                                _item.CurrentRoom.RoomGrid.AddItem(item);
-                            }
-                        }
 
-                        await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(item));
+                        if (!_item.CurrentRoom.RoomGrid.TryGetRoomTile(newPos.X, newPos.Y, out IRoomTile roomTile) ||
+                            !_item.CurrentRoom.RoomGrid.CanRollAt(newPos.X, newPos.Y, item))
+                            continue;
+
+                        newPos.Z = roomTile.Height;
+                        await _item.CurrentRoom.SendAsync(new FloorItemOnRollerComposer(item, newPos, 0));
+                        
+                        _item.CurrentRoom.RoomGrid.RemoveItem(item);
+                        item.Position = newPos;
+                        item.Rotation = newRot;
+                        _item.CurrentRoom.RoomGrid.AddItem(item);
                     }
 
                     _active = false;
