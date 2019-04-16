@@ -28,7 +28,7 @@ namespace AliasPro.Items.Models
                 Params.Add(int.Parse(param));
             }
 
-            Message = parts[1]; //todo: filter
+            Message = parts[1];
 
             foreach (string itemString in parts[2].Split(","))
             {

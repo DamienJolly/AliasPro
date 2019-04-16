@@ -30,8 +30,7 @@ namespace AliasPro.Items.Interaction
         {
 
         }
-
-        //todo: make object
+        
         public async void OnUserInteract(BaseEntity entity, int state)
         {
             _item.Mode++;

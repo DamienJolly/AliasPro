@@ -75,7 +75,6 @@ namespace AliasPro
                 if (Console.ReadKey(true).Key == ConsoleKey.Enter)
                 {
                     string input = Console.ReadLine().ToLower();
-                    //todo: console commands.
                 }
             }
         }
