@@ -4,10 +4,6 @@ using AliasPro.Players.Types;
 using AliasPro.Rooms.Models;
 using AliasPro.Rooms.Packets.Composers;
 using AliasPro.Rooms.Types;
-using Pathfinding;
-using Pathfinding.Models;
-using Pathfinding.Types;
-using System.Collections.Generic;
 
 namespace AliasPro.API.Rooms.Entities
 {
@@ -20,7 +16,8 @@ namespace AliasPro.API.Rooms.Entities
             BodyRotation = rotation;
             HeadRotation = rotation;
             Position = new RoomPosition(x, y, 0);
-            NextPosition = new RoomPosition(x, y, 0);
+            NextPosition = Position;
+            GoalPosition = Position;
             Name = name;
             Figure = figure;
             Gender = gender;
@@ -29,17 +26,7 @@ namespace AliasPro.API.Rooms.Entities
 
             Actions = new EntityAction();
         }
-
-        public void FindPath(int targetX, int targetY)
-        {
-            PathToWalk = Pathfinder.FindPath(
-                Room.RoomGrid,
-                new Position(Position.X, Position.Y),
-                new Position(targetX, targetY),
-                DiagonalMovement.ONE_WALKABLE,
-                this);
-        }
-
+        
         public async void Unidle()
         {
             IdleTimer = 0;
@@ -70,7 +57,7 @@ namespace AliasPro.API.Rooms.Entities
         public int HeadRotation { get; set; }
         public IRoomPosition Position { get; set; }
         public IRoomPosition NextPosition { get; set; }
-        public IList<Position> PathToWalk { get; set; }
+        public IRoomPosition GoalPosition { get; set; }
         public string Name { get; set; }
         public string Figure { get; set; }
         public PlayerGender Gender { get; set; }

@@ -1,16 +1,19 @@
-﻿using AliasPro.API.Rooms.Models;
+﻿using AliasPro.API.Items.Models;
+using AliasPro.API.Rooms.Entities;
+using AliasPro.API.Rooms.Models;
 using AliasPro.API.Tasks;
+using AliasPro.Rooms.Packets.Composers;
 using AliasPro.Tasks;
 using System.Threading;
 
 namespace AliasPro.Rooms.Tasks
 {
-    public class RoomTask : ITask
+    public class RoomCycleTask : ITask
     {
         private readonly IRoom _room;
         private readonly CancellationTokenSource _cancellationToken;
         
-        public RoomTask(IRoom room)
+        public RoomCycleTask(IRoom room)
         {
             _room = room;
             _cancellationToken = new CancellationTokenSource();
@@ -31,8 +34,17 @@ namespace AliasPro.Rooms.Tasks
 
         public async void Run()
         {
-            await TaskHandler.RunTaskAsync(new EntitiesTask(_room));
-            await TaskHandler.RunTaskAsync(new ItemsTask(_room));
+            foreach (BaseEntity entity in _room.Entities.Entities)
+            {
+                entity.Cycle();
+                await TaskHandler.RunTaskAsync(new RoomEntityWalkTask(entity));
+            }
+            await _room.SendAsync(new EntityUpdateComposer(_room.Entities.Entities));
+
+            foreach (IItem item in _room.Items.Items)
+            {
+                item.Interaction.OnCycle();
+            }
         }
     }
 }

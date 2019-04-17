@@ -19,7 +19,7 @@ namespace AliasPro.Rooms.Models
         public GameComponent Game { get; set; }
 
         public RoomGrid RoomGrid { get; set; }
-        public RoomTask RoomTask { get; set; }
+        public RoomCycleTask RoomTask { get; set; }
 
         internal Room(IRoomData roomData)
             : base(roomData)

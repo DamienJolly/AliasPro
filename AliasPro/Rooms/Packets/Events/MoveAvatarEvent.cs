@@ -23,7 +23,13 @@ namespace AliasPro.Rooms.Packets.Events
             if (session.Entity.Position.X == x &&
                 session.Entity.Position.Y == y) return;
 
-            session.Entity.FindPath(x, y);
+            if (!room.RoomGrid.TryGetRoomTile(x, y, out IRoomTile roomTile))
+                return;
+
+            if (!roomTile.IsValidTile(session.Entity))
+                return;
+
+            session.Entity.GoalPosition = roomTile.Position;
         }
     }
 }

@@ -47,7 +47,7 @@ namespace AliasPro.Items.Interaction
             IRoomPosition position = tile.PositionInFront(_item.Rotation);
             if (!(position.X == entity.Position.X && position.Y == entity.Position.Y))
             {
-                entity.FindPath(position.X, position.Y);
+                entity.GoalPosition = position;
                 return;
             }
 

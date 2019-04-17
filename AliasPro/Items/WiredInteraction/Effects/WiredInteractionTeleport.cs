@@ -56,8 +56,8 @@ namespace AliasPro.Items.WiredInteraction
                             {
                                 //todo: effect
                                 _item.CurrentRoom.RoomGrid.RemoveEntity(_target);
-                                _target.NextPosition =
-                                    new RoomPosition(item.Position.X, item.Position.Y, item.Position.Z);
+                                _target.NextPosition = item.Position;
+                                _target.GoalPosition = item.Position;
                                 _item.CurrentRoom.RoomGrid.AddEntity(_target);
                             }
                         }
