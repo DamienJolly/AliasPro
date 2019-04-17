@@ -4,9 +4,7 @@ using AliasPro.API.Rooms.Models;
 using AliasPro.API.Tasks;
 using AliasPro.Items.Types;
 using AliasPro.Rooms.Models;
-using Pathfinding;
 using Pathfinding.Models;
-using Pathfinding.Types;
 using System.Text;
 
 namespace AliasPro.Rooms.Tasks
@@ -33,14 +31,9 @@ namespace AliasPro.Rooms.Tasks
 
             if (_entity.PathToWalk != null)
             {
-                _entity.PathToWalk = Pathfinder.FindPath(
-                _room.RoomGrid,
-                new Position(
-                    _entity.Position.X,
-                    _entity.Position.Y),
-                _entity.PathToWalk[0],
-                DiagonalMovement.ONE_WALKABLE,
-                _entity);
+                _entity.FindPath(
+                    _entity.PathToWalk[0].X, 
+                    _entity.PathToWalk[0].Y);
 
                 if (_entity.PathToWalk == null) return;
 

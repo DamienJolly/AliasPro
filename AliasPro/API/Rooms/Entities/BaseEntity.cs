@@ -4,7 +4,9 @@ using AliasPro.Players.Types;
 using AliasPro.Rooms.Models;
 using AliasPro.Rooms.Packets.Composers;
 using AliasPro.Rooms.Types;
+using Pathfinding;
 using Pathfinding.Models;
+using Pathfinding.Types;
 using System.Collections.Generic;
 
 namespace AliasPro.API.Rooms.Entities
@@ -26,6 +28,16 @@ namespace AliasPro.API.Rooms.Entities
             Score = score;
 
             Actions = new EntityAction();
+        }
+
+        public void FindPath(int targetX, int targetY)
+        {
+            PathToWalk = Pathfinder.FindPath(
+                Room.RoomGrid,
+                new Position(Position.X, Position.Y),
+                new Position(targetX, targetY),
+                DiagonalMovement.ONE_WALKABLE,
+                this);
         }
 
         public async void Unidle()

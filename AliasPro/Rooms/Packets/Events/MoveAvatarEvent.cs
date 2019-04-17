@@ -3,10 +3,6 @@ using AliasPro.API.Network.Protocol;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
-using Pathfinding;
-using Pathfinding.Models;
-using Pathfinding.Types;
-using System.Collections.Generic;
 
 namespace AliasPro.Rooms.Packets.Events
 {
@@ -26,17 +22,8 @@ namespace AliasPro.Rooms.Packets.Events
 
             if (session.Entity.Position.X == x &&
                 session.Entity.Position.Y == y) return;
-            
-            IList<Position> walkingPath = Pathfinder.FindPath(
-                session.CurrentRoom.RoomGrid,
-                new Position(
-                    session.Entity.Position.X, 
-                    session.Entity.Position.Y),
-                new Position(x, y),
-                DiagonalMovement.ONE_WALKABLE,
-                session.Entity);
 
-            session.Entity.PathToWalk = walkingPath;
+            session.Entity.FindPath(x, y);
         }
     }
 }
