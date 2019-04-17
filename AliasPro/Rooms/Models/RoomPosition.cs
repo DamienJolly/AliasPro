@@ -11,9 +11,13 @@ namespace AliasPro.Rooms.Models
         public RoomPosition(int x, int y, double z)
             : base (x, y)
         {
-            X = x;
-            Y = y;
             Z = z;
+        }
+
+        public RoomPosition(Position pos)
+            : base (pos.X, pos.Y)
+        {
+            Z = 0;
         }
         
         public int CalculateDirection(int newX, int newY)

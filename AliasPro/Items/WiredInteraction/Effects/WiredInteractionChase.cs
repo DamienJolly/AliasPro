@@ -7,6 +7,9 @@ using AliasPro.Items.Packets.Composers;
 using AliasPro.Items.Types;
 using AliasPro.Rooms.Models;
 using AliasPro.Utilities;
+using Pathfinding;
+using Pathfinding.Models;
+using Pathfinding.Types;
 using System.Collections.Generic;
 
 namespace AliasPro.Items.WiredInteraction
@@ -72,27 +75,9 @@ namespace AliasPro.Items.WiredInteraction
 
         private IRoomPosition HandlePosition(IRoomPosition position)
         {
-            IRoomPosition newPos =
-                new RoomPosition(position.X, position.Y, position.Z);
-            IList<IRoomPosition> closestPath = null;
-
-            foreach (BaseEntity entity in _item.CurrentRoom.Entities.Entities)
-            {
-                IList<IRoomPosition> pathToItem = null;
-
-                if (pathToItem == null) continue;
-
-                if (closestPath == null || 
-                    pathToItem.Count <= closestPath.Count)
-                    closestPath = pathToItem;
-            }
+            IRoomPosition newPos;
             
-            if (closestPath != null && 
-                closestPath.Count >= 1)
-            {
-                newPos = closestPath[closestPath.Count - 1];
-            }
-            else
+            if (!TryGetClosestPosition(position, out newPos))
             {
                 int randomNum = Randomness.RandomNumber(1, 4);
                 switch (randomNum)
@@ -105,6 +90,29 @@ namespace AliasPro.Items.WiredInteraction
             }
 
             return newPos;
+        }
+
+        private bool TryGetClosestPosition(IRoomPosition position, out IRoomPosition newPosition)
+        {
+            newPosition = new RoomPosition(position.X, position.Y, position.Z);
+            IList<Position> closestPath = null;
+            
+            foreach (BaseEntity entity in _item.CurrentRoom.Entities.Entities)
+            {
+                IList<Position> pathToItem = Pathfinder.FindPath(
+                    _item.CurrentRoom.RoomGrid,
+                    new Position(entity.Position.X, entity.Position.Y),
+                    new Position(position.X, position.Y),
+                    DiagonalMovement.ONE_WALKABLE);
+
+                if (pathToItem.Count <= closestPath.Count)
+                    closestPath = pathToItem;
+            }
+
+            if (closestPath != null)
+                newPosition = new RoomPosition(closestPath[closestPath.Count - 1]);
+
+            return closestPath == null ? false : true;
         }
     }
 }

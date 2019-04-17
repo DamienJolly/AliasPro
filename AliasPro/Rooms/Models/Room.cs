@@ -76,25 +76,6 @@ namespace AliasPro.Rooms.Models
             await SendAsync(new EntityRemoveComposer(entity.Id));
         }
         
-        public IRoomPosition GetPathToClosestEntity(IRoomPosition position)
-        {
-            /*IList<IRoomPosition> closestPath = new List<IRoomPosition>();
-            
-            foreach (BaseEntity entity in Entities.Entities)
-            {
-                IList<IRoomPosition> pathToItem = PathFinder.FindPath(
-                    entity,
-                    Mapping,
-                    entity.Position, position);
-
-                if (pathToItem.Count <= closestPath.Count)
-                    closestPath = pathToItem;
-            }
-
-            return closestPath[closestPath.Count - 1];*/
-            return null;
-        }
-
         public async Task SendAsync(IPacketComposer packet)
         {
             foreach (BaseEntity entity in Entities.Entities)
