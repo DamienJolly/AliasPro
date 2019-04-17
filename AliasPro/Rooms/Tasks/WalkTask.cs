@@ -88,8 +88,7 @@ namespace AliasPro.Rooms.Tasks
                 }
 
                 _entity.NextPosition = new RoomPosition(nextStep.X, nextStep.Y, newZ);
-                _entity.BodyRotation = newDir;
-                _entity.HeadRotation = newDir;
+                _entity.SetRotation(newDir);
 
                 _moveStatus
                     .Clear()
@@ -128,30 +127,27 @@ namespace AliasPro.Rooms.Tasks
                     if (topItem.ItemData.InteractionType == ItemInteractionType.CHAIR)
                     {
                         _entity.Actions.AddStatus("sit", topItem.ItemData.Height + "");
-                        _entity.BodyRotation =
-                            _entity.HeadRotation =
-                            topItem.Rotation;
+                        _entity.SetRotation(topItem.Rotation);
                         _entity.Position.Z = roomTile.Height - topItem.ItemData.Height;
                         _entity.IsSitting = false;
                     }
                     else if (topItem.ItemData.InteractionType == ItemInteractionType.BED)
                     {
                         _entity.Actions.AddStatus("lay", topItem.ItemData.Height + "");
-                        _entity.BodyRotation =
-                            _entity.HeadRotation =
-                            topItem.Rotation;
+                        _entity.SetRotation(topItem.Rotation);
                         _entity.Position.Z = roomTile.Height - topItem.ItemData.Height;
                         _entity.IsSitting = false;
                     }
                 }
             }
 
+            //todo: make task
             if (_entity.HeadRotation != _entity.BodyRotation)
             {
                 _entity.DirOffsetTimer++;
 
                 if (_entity.DirOffsetTimer >= 4)
-                    _entity.HeadRotation = _entity.BodyRotation;
+                    _entity.SetRotation(_entity.BodyRotation, true);
             }
         }
     }

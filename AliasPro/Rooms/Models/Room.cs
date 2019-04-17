@@ -48,7 +48,7 @@ namespace AliasPro.Rooms.Models
                 int newDir = targetEntity.Position.CalculateDirection(entity.Position.X, entity.Position.Y);
 
                 if (Math.Abs(newDir - targetEntity.BodyRotation) <= 2)
-                    targetEntity.HeadRotation = newDir;
+                    targetEntity.SetRotation(newDir, true);
 
                 targetEntity.DirOffsetTimer = 0;
             }

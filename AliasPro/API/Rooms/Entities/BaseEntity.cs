@@ -47,10 +47,12 @@ namespace AliasPro.API.Rooms.Entities
             await Room.SendAsync(new UserSleepComposer(this));
         }
 
-        public void SetRotation(int rotation)
+        public void SetRotation(int rotation, bool headOnly = false)
         {
             HeadRotation = rotation;
-            BodyRotation = rotation;
+
+            if (!headOnly)
+                BodyRotation = rotation;
         }
 
         public void SetHandItem(int handItemId)

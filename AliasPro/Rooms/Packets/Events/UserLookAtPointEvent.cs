@@ -28,20 +28,9 @@ namespace AliasPro.Rooms.Packets.Events
                 session.Entity.Actions.HasStatus("lay")) return;
 
             int newDir = session.Entity.Position.CalculateDirection(x, y);
+            bool headonly = Math.Abs(newDir - session.Entity.BodyRotation) <= 2;
 
-            if (Math.Abs(newDir - session.Entity.BodyRotation) <= 2)
-            {
-                session.Entity.HeadRotation = newDir;
-            }
-            else
-            {
-                if (session.Entity.Actions.HasStatus("sit"))
-                {
-                    session.Entity.BodyRotation = newDir;
-                    session.Entity.HeadRotation = newDir;
-                }
-            }
-
+            session.Entity.SetRotation(newDir, headonly);
             session.Entity.Unidle();
             session.Entity.DirOffsetTimer = 0;
         }

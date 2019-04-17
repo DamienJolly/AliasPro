@@ -23,11 +23,7 @@ namespace AliasPro.Rooms.Packets.Events
                 session.Entity.Actions.HasStatus("sit")) return;
             
             if ((session.Entity.BodyRotation % 2) != 0)
-            {
-                session.Entity.BodyRotation--;
-                session.Entity.HeadRotation =
-                    session.Entity.BodyRotation;
-            }
+                session.Entity.SetRotation(session.Entity.BodyRotation--);
 
             session.Entity.Actions.AddStatus("sit", 0.5 + "");
             session.Entity.IsSitting = true;
