@@ -3,6 +3,8 @@ using AliasPro.API.Network.Protocol;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
+using AliasPro.Rooms.Tasks;
+using AliasPro.Tasks;
 using System;
 
 namespace AliasPro.Rooms.Packets.Events
@@ -11,7 +13,7 @@ namespace AliasPro.Rooms.Packets.Events
     {
         public short Header { get; } = Incoming.UserLookAtPointMessageEvent;
 
-        public void HandleAsync(
+        public async void HandleAsync(
             ISession session,
             IClientPacket clientPacket)
         {
@@ -32,7 +34,7 @@ namespace AliasPro.Rooms.Packets.Events
 
             session.Entity.SetRotation(newDir, headonly);
             session.Entity.Unidle();
-            session.Entity.DirOffsetTimer = 0;
+            await TaskHandler.RunTaskAsyncWithDelay(new LookToTask(session.Entity), 2000);
         }
     }
 }

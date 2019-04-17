@@ -140,15 +140,6 @@ namespace AliasPro.Rooms.Tasks
                     }
                 }
             }
-
-            //todo: make task
-            if (_entity.HeadRotation != _entity.BodyRotation)
-            {
-                _entity.DirOffsetTimer++;
-
-                if (_entity.DirOffsetTimer >= 4)
-                    _entity.SetRotation(_entity.BodyRotation, true);
-            }
         }
     }
 }
