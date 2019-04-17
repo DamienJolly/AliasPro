@@ -93,7 +93,10 @@ namespace AliasPro.Items.Interaction
             int id = 0;
             IList<int> items = new List<int>();
             foreach (string item in extraData.Split(','))
-                items.Add(int.Parse(item));
+            {
+                if (int.TryParse(item, out int itemId))
+                    items.Add(itemId);
+            }
 
             if (items.Count != 0)
                 id = items[Randomness.RandomNumber(items.Count) - 1];
