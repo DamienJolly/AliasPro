@@ -8,12 +8,12 @@ using System.Threading;
 
 namespace AliasPro.Rooms.Tasks
 {
-    public class RoomCycleTask : ITask
+    public class RoomTask : ITask
     {
         private readonly IRoom _room;
         private readonly CancellationTokenSource _cancellationToken;
         
-        public RoomCycleTask(IRoom room)
+        public RoomTask(IRoom room)
         {
             _room = room;
             _cancellationToken = new CancellationTokenSource();
@@ -36,8 +36,16 @@ namespace AliasPro.Rooms.Tasks
         {
             foreach (BaseEntity entity in _room.Entities.Entities)
             {
-                entity.Cycle();
+                if (entity.HeadRotation != entity.BodyRotation)
+                {
+                    entity.DirOffsetTimer++;
+
+                    if (entity.DirOffsetTimer >= 4)
+                        entity.SetRotation(entity.BodyRotation);
+                }
+                
                 await TaskHandler.RunTaskAsync(new RoomEntityWalkTask(entity));
+                entity.Cycle();
             }
             await _room.SendAsync(new EntityUpdateComposer(_room.Entities.Entities));
 

@@ -1,6 +1,7 @@
 ﻿using AliasPro.API.Network.Events;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
+using AliasPro.API.Tasks;
 using AliasPro.Items.Types;
 using AliasPro.Rooms.Components;
 using AliasPro.Rooms.Entities;
@@ -19,7 +20,7 @@ namespace AliasPro.Rooms.Models
         public GameComponent Game { get; set; }
 
         public RoomGrid RoomGrid { get; set; }
-        public RoomCycleTask RoomTask { get; set; }
+        public RoomTask RoomTask { get; set; }
 
         internal Room(IRoomData roomData)
             : base(roomData)
@@ -49,6 +50,8 @@ namespace AliasPro.Rooms.Models
 
                 if (Math.Abs(newDir - targetEntity.BodyRotation) <= 2)
                     targetEntity.SetRotation(newDir, true);
+
+                targetEntity.DirOffsetTimer = 0;
             }
 
             await SendAsync(new AvatarChatComposer(entity.Id, text, 0, colour));

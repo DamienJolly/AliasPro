@@ -34,7 +34,7 @@ namespace AliasPro.Rooms.Packets.Events
 
             session.Entity.SetRotation(newDir, headonly);
             session.Entity.Unidle();
-            await TaskHandler.RunTaskAsyncWithDelay(new LookToTask(session.Entity), 2000);
+            session.Entity.DirOffsetTimer = 0;
         }
     }
 }

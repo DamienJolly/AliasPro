@@ -15,7 +15,7 @@ namespace AliasPro.API.Rooms.Models
         GameComponent Game { get; set; }
 
         RoomGrid RoomGrid { get; set; }
-        RoomCycleTask RoomTask { get; set; }
+        RoomTask RoomTask { get; set; }
 
         Task AddEntity(BaseEntity entity);
         Task RemoveEntity(BaseEntity entity);

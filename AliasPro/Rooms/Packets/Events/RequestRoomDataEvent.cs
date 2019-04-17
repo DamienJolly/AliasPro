@@ -67,7 +67,7 @@ namespace AliasPro.Rooms.Packets.Events
                 if (!_roomController.TryAddRoom(room))
                     return;
 
-                room.RoomTask = new RoomCycleTask(room);
+                room.RoomTask = new RoomTask(room);
                 room.RoomTask.SetupRoomCycle();
             }
 
