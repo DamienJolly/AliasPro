@@ -57,7 +57,7 @@ namespace AliasPro.Items.Interaction
                 !entity.Actions.HasStatus("lay"))
             {
                 entity.Actions.RemoveStatus("mv");
-                entity.Position.CalculateDirection(_item.Position.X, _item.Position.Y);
+                entity.SetRotation(entity.Position.CalculateDirection(_item.Position.X, _item.Position.Y));
             }
 
             _item.Mode = 1;
