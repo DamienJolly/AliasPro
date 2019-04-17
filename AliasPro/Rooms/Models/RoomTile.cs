@@ -9,21 +9,23 @@ namespace AliasPro.Rooms.Models
     internal class RoomTile : IRoomTile
     {
         private readonly IRoom _room;
-        private readonly IRoomPosition _position;
         private readonly IDictionary<uint, IItem> _items;
         private readonly IDictionary<int, BaseEntity> _entities;
+
+        public IRoomPosition Position { get; private set; }
 
         internal RoomTile(IRoom room, IRoomPosition position)
         {
             _room = room;
-            _position = position;
             _items = new Dictionary<uint, IItem>();
             _entities = new Dictionary<int, BaseEntity>();
+
+            Position = position;
         }
 
         public IRoomPosition PositionInFront(int rotation)
         {
-            IRoomPosition position = new RoomPosition(_position.X, _position.Y, _position.Z);
+            IRoomPosition position = new RoomPosition(Position.X, Position.Y, Position.Z);
 
             switch (rotation)
             {
@@ -163,7 +165,7 @@ namespace AliasPro.Rooms.Models
         {
             get
             {
-                double height = _position.Z;
+                double height = Position.Z;
                 IItem topItem = TopItem;
 
                 if (topItem != null)

@@ -6,6 +6,7 @@ namespace AliasPro.API.Rooms.Models
 {
     public interface IRoomTile
     {
+        IRoomPosition Position { get; }
         ICollection<BaseEntity> Entities { get; }
         ICollection<IItem> WiredEffects { get; }
         ICollection<IItem> WiredConditions { get; }
