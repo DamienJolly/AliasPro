@@ -75,18 +75,21 @@ namespace AliasPro.Rooms.Packets.Events
             if (_navigatorController.TryGetRoomCategory((uint)categoryId, out INavigatorCategory category))
                 room.CategoryId = categoryId;
 
-            //todo: tags
+            room.Tags.Clear();
             int amount = clientPacket.ReadInt();
             for (int i = 0; i < amount && i < 2; i++)
             {
                 string tag = clientPacket.ReadString();
+                if (string.IsNullOrWhiteSpace(tag))
+                    continue;
+
                 if (tag.Length > 15)
                 {
                     await session.SendPacketAsync(new RoomEditSettingsErrorComposer(room.Id, RoomEditSettingsErrorComposer.TAGS_TOO_LONG));
                     continue;
                 }
-
-                //add
+                
+                room.Tags.Add(tag);
             }
             
             int tradeType = clientPacket.ReadInt();

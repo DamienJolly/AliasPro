@@ -1,5 +1,5 @@
 ﻿using AliasPro.Network.Protocol;
-using AliasPro.Rooms.Models;
+using System.Collections.Generic;
 
 namespace AliasPro.API.Rooms.Models
 {
@@ -20,6 +20,7 @@ namespace AliasPro.API.Rooms.Models
         int TradeType { get; set; }
         int DoorState { get; set; }
         int Score { get; set; }
+        IList<string> Tags { get; set; }
 
         IRoomModel RoomModel { get; set; }
         IRoomSettings Settings { get; set; }

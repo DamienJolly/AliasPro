@@ -1,6 +1,7 @@
 ﻿using AliasPro.API.Database;
 using AliasPro.API.Rooms.Models;
 using AliasPro.Network.Protocol;
+using System.Collections.Generic;
 using System.Data.Common;
 
 namespace AliasPro.Rooms.Models
@@ -20,6 +21,16 @@ namespace AliasPro.Rooms.Models
             TradeType = reader.ReadData<int>("trade_type");
             CategoryId = reader.ReadData<int>("category_id");
             Score = reader.ReadData<int>("score");
+            Tags = new List<string>();
+
+            string tags = reader.ReadData<string>("tags");
+            foreach (string tag in tags.Split(";"))
+            {
+                if (string.IsNullOrWhiteSpace(tag))
+                    continue;
+
+                Tags.Add(tag);
+            }
         }
 
         internal RoomData(IRoomData data)
@@ -35,6 +46,7 @@ namespace AliasPro.Rooms.Models
             TradeType = data.TradeType;
             CategoryId = data.CategoryId;
             Score = data.Score;
+            Tags = data.Tags;
         }
 
         //todo: remove
@@ -51,6 +63,7 @@ namespace AliasPro.Rooms.Models
             TradeType = tradeType;
             CategoryId = categoryId;
             Score = 0;
+            Tags = new List<string>();
         }
 
         public void Compose(ServerPacket serverPacket)
@@ -67,7 +80,9 @@ namespace AliasPro.Rooms.Models
             serverPacket.WriteInt(Score);
             serverPacket.WriteInt(0); // dunno?
             serverPacket.WriteInt(CategoryId);
-            serverPacket.WriteInt(0); // tags
+            serverPacket.WriteInt(Tags.Count);
+            foreach (string tag in Tags)
+                serverPacket.WriteString(tag);
             serverPacket.WriteInt(EnumType);
         }
 
@@ -84,6 +99,7 @@ namespace AliasPro.Rooms.Models
         public int TradeType { get; set; }
         public int DoorState { get; set; } = 0;
         public int Score { get; set; }
+        public IList<string> Tags { get; set; }
 
         public int EnumType
         {

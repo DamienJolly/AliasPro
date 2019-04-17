@@ -24,7 +24,9 @@ namespace AliasPro.Rooms.Packets.Composers
             message.WriteInt(_roomData.CategoryId);
             message.WriteInt(_roomData.MaxUsers);
             message.WriteInt(50); //dunno?
-            message.WriteInt(0); //tags
+            message.WriteInt(_roomData.Tags.Count);
+            foreach (string tag in _roomData.Tags)
+                message.WriteString(tag);
             message.WriteInt(_roomData.TradeType);
             message.WriteInt(_roomData.Settings.AllowPets ? 1 : 0);
             message.WriteInt(_roomData.Settings.AllowPetsEat ? 1 : 0);
