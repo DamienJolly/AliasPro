@@ -1,4 +1,6 @@
-﻿using AliasPro.API.Network.Events;
+﻿using AliasPro.API.Navigator;
+using AliasPro.API.Navigator.Models;
+using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
 using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Models;
@@ -13,10 +15,12 @@ namespace AliasPro.Rooms.Packets.Events
         public short Header { get; } = Incoming.RoomSettingsSaveMessageEvent;
 
         private readonly IRoomController _roomController;
+        private readonly INavigatorController _navigatorController;
 
-        public RoomSettingsSaveEvent(IRoomController roomController)
+        public RoomSettingsSaveEvent(IRoomController roomController, INavigatorController navigatorController)
         {
             _roomController = roomController;
+            _navigatorController = navigatorController;
         }
 
         public async void HandleAsync(
@@ -67,8 +71,9 @@ namespace AliasPro.Rooms.Packets.Events
 
             room.MaxUsers = maxUsers;
 
-            //todo: category check
-            room.CategoryId = clientPacket.ReadInt();
+            int categoryId = clientPacket.ReadInt();
+            if (_navigatorController.TryGetRoomCategory((uint)categoryId, out INavigatorCategory category))
+                room.CategoryId = categoryId;
 
             //todo: tags
             int amount = clientPacket.ReadInt();

@@ -30,10 +30,11 @@ namespace AliasPro.Navigator.Packets.Events
             string category = clientPacket.ReadString();
             string data = clientPacket.ReadString();
 
-            if (!_navigatorController.TryGetCategories(category, out ICollection<INavigatorCategory> categories)) return;
+            if (!_navigatorController.TryGetCategories(category, out IDictionary<uint, INavigatorCategory> categories))
+                return;
 
             await session.SendPacketAsync(
-                new NavigatorSearchResultSetComposer(session.Player.Id, category, data, categories, _roomController));
+                new NavigatorSearchResultSetComposer(session.Player.Id, category, data, categories.Values, _roomController));
         }
     }
 }

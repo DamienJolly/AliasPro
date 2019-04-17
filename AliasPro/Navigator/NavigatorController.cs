@@ -13,7 +13,10 @@ namespace AliasPro.Navigator
             _navigatorRepository = navigatorRepository;
         }
         
-        public bool TryGetCategories(string type, out ICollection<INavigatorCategory> categories) =>
+        public bool TryGetCategories(string type, out IDictionary<uint, INavigatorCategory> categories) =>
             _navigatorRepository.TryGetCategories(type, out categories);
+
+        public bool TryGetRoomCategory(uint categoryId, out INavigatorCategory category) =>
+            _navigatorRepository.TryGetRoomCategory(categoryId, out category);
     }
 }

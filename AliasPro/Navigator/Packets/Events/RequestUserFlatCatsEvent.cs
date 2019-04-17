@@ -24,9 +24,10 @@ namespace AliasPro.Navigator.Packets.Events
             ISession session,
             IClientPacket clientPacket)
         {
-            if (!_navigatorController.TryGetCategories("hotel_view", out ICollection<INavigatorCategory> categories)) return;
+            if (!_navigatorController.TryGetCategories("hotel_view", out IDictionary<uint, INavigatorCategory> categories))
+                return;
 
-            await session.SendPacketAsync(new UserFlatCatsComposer(categories, session.Player.Rank));
+            await session.SendPacketAsync(new UserFlatCatsComposer(categories.Values, session.Player.Rank));
         }
     }
 }

@@ -15,9 +15,9 @@ namespace AliasPro.Navigator
 
         }
 
-        internal async Task<IDictionary<string, ICollection<INavigatorCategory>>> GetNavigatorCategoriesAsync()
+        internal async Task<IDictionary<string, IDictionary<uint, INavigatorCategory>>> GetNavigatorCategoriesAsync()
         {
-            IDictionary<string, ICollection<INavigatorCategory>> categories = new Dictionary<string, ICollection<INavigatorCategory>>();
+            IDictionary<string, IDictionary<uint, INavigatorCategory>> categories = new Dictionary<string, IDictionary<uint, INavigatorCategory>>();
 
             await CreateTransaction(async transaction =>
             {
@@ -28,9 +28,10 @@ namespace AliasPro.Navigator
                         INavigatorCategory category = new NavigatorCategory(reader);
 
                         if (!categories.ContainsKey(category.Category))
-                            categories.Add(category.Category, new List<INavigatorCategory>());
+                            categories.Add(category.Category, new Dictionary<uint, INavigatorCategory>());
 
-                        categories[category.Category].Add(category);
+                        if (!categories[category.Category].ContainsKey(category.Id))
+                            categories[category.Category].Add(category.Id, category);
                     }
                 }, "SELECT `id`, `min_rank`, `public_name`, `category_type`, `identifier`, `category` FROM `navigator_categories` ORDER BY `id`;");
             });
