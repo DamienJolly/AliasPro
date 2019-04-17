@@ -2,7 +2,6 @@
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using Pathfinding.Models;
-using System;
 using System.Collections.Generic;
 
 namespace AliasPro.Rooms.Models
@@ -90,6 +89,29 @@ namespace AliasPro.Rooms.Models
             return tiles;
         }
 
+        public bool TryGetTileInFrontOfItem(IItem item, out IRoomTile tile) =>
+            TryGetTileInFront(item.Position.X, item.Position.Y, item.Rotation, out tile);
+
+        public bool TryGetTileInFront(int x, int y, int rotation, out IRoomTile tile)
+        {
+            int posX = x;
+            int posY = y;
+
+            switch (rotation)
+            {
+                case 0: posY--; break;
+                case 1: posX++; posY--; break;
+                case 2: posX++; break;
+                case 3: posX++; posY++; break;
+                case 4: posY++; break;
+                case 5: posX--; posY++; break;
+                case 6: posX--; break;
+                case 7: posX--; posY--; break;
+            }
+
+            return TryGetRoomTile(posX, posY, out tile);
+        }
+        
         public void AddItem(IItem item)
         {
             IList<IRoomTile> tiles =

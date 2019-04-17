@@ -21,6 +21,25 @@ namespace AliasPro.Rooms.Models
             _entities = new Dictionary<int, BaseEntity>();
         }
 
+        public IRoomPosition PositionInFront(int rotation)
+        {
+            IRoomPosition position = new RoomPosition(_position.X, _position.Y, _position.Z);
+
+            switch (rotation)
+            {
+                case 0: position.Y--; break;
+                case 1: position.X++; position.Y--; break;
+                case 2: position.X++; break;
+                case 3: position.X++; position.Y++; break;
+                case 4: position.Y++; break;
+                case 5: position.X--; position.Y++; break;
+                case 6: position.X--; break;
+                case 7: position.X--; position.Y--; break;
+            }
+
+            return position;
+        }
+        
         public bool IsValidTile(BaseEntity entity, bool final)
         {
             if (_entities.Count > 0)

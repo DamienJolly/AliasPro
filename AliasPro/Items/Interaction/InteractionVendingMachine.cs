@@ -1,6 +1,7 @@
 ﻿using AliasPro.API.Items.Interaction;
 using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
+using AliasPro.API.Rooms.Models;
 using AliasPro.Items.Packets.Composers;
 using AliasPro.Network.Protocol;
 using AliasPro.Rooms.Packets.Composers;
@@ -40,9 +41,13 @@ namespace AliasPro.Items.Interaction
         {
             if (entity == null) return;
 
-            if (!_item.Position.IsAdjecent(entity.Position))
+            if (!_item.CurrentRoom.RoomGrid.TryGetRoomTile(_item.Position.X, _item.Position.Y, out IRoomTile tile))
+                return;
+
+            IRoomPosition position = tile.PositionInFront(_item.Rotation);
+            if (!(position.X == entity.Position.X && position.Y == entity.Position.Y))
             {
-                //todo: walk to item
+                entity.FindPath(position.X, position.Y);
                 return;
             }
 

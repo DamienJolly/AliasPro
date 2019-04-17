@@ -12,6 +12,7 @@ namespace AliasPro.API.Rooms.Models
         IItem TopItem { get; }
         double Height { get; }
 
+        IRoomPosition PositionInFront(int rotation);
         bool IsValidTile(BaseEntity entity, bool final = false);
         bool CanRoll(IItem item);
         bool CanStack(IItem item);

@@ -48,7 +48,7 @@ namespace AliasPro.Rooms.Models
                     return 0;
             }
         }
-
+        
         public bool IsAdjecent(IRoomPosition targetPos) =>
             Distance(targetPos) <= 1;
 
