@@ -1,10 +1,13 @@
 ﻿using AliasPro.API.Rooms.Models;
 using Pathfinding.Models;
+using System;
 
 namespace AliasPro.Rooms.Models
 {
     public class RoomPosition : Position, IRoomPosition
     {
+        public double Z { get; set; }
+
         public RoomPosition(int x, int y, double z)
             : base (x, y)
         {
@@ -12,8 +15,6 @@ namespace AliasPro.Rooms.Models
             Y = y;
             Z = z;
         }
-        
-        public double Z { get; set; }
         
         public int CalculateDirection(int newX, int newY)
         {
@@ -43,5 +44,11 @@ namespace AliasPro.Rooms.Models
                     return 0;
             }
         }
+
+        public bool IsAdjecent(IRoomPosition targetPos) =>
+            Distance(targetPos) <= 1;
+
+        public double Distance(IRoomPosition targetPos) =>
+            Math.Sqrt(((X - targetPos.X) * (X - targetPos.X)) + ((Y - targetPos.Y) * (Y - targetPos.Y)));
     }
 }

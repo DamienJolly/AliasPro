@@ -128,13 +128,6 @@ namespace AliasPro.Rooms.Models
             }
         }
 
-        //todo: move to position class
-        public bool TilesAdjecent(IRoomPosition pos1, IRoomPosition pos2) =>
-            ((pos1.X - pos2.X) * (pos1.X - pos2.X)) + ((pos1.Y - pos2.Y) * (pos1.Y - pos2.Y)) <= 2;
-
-        public double Distance(IRoomPosition pos1, IRoomPosition pos2) =>
-            Math.Sqrt(((pos1.X - pos2.X) * (pos1.X - pos2.X)) + ((pos1.Y - pos2.Y) * (pos1.Y - pos2.Y)));
-
         public bool TryGetRoomTile(int x, int y, out IRoomTile roomTile) =>
             _roomTiles.TryGetValue(ConvertTo1D(x, y), out roomTile);
 

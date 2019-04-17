@@ -79,7 +79,7 @@ namespace AliasPro.Items.WiredInteraction
 
             foreach (BaseEntity entity in _item.CurrentRoom.Entities.Entities)
             {
-                double distance = _item.CurrentRoom.RoomGrid.Distance(entity.Position, position);
+                double distance = entity.Position.Distance(position);
                 if (distance <= shortest)
                 {
                     target = entity;

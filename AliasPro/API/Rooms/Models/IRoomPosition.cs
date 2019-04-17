@@ -7,5 +7,7 @@
         double Z { get; set; }
         
         int CalculateDirection(int newX, int newY);
+        bool IsAdjecent(IRoomPosition targetPos);
+        double Distance(IRoomPosition targetPos);
     }
 }
