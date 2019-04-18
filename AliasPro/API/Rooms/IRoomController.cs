@@ -1,5 +1,4 @@
 ﻿using AliasPro.API.Rooms.Models;
-using AliasPro.Rooms.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -13,6 +12,7 @@ namespace AliasPro.API.Rooms
         bool TryAddRoom(IRoom room);
         void RemoveRoom(IRoom room);
         bool TryGetRoom(uint roomId, out IRoom room);
+        Task<int> CreateRoomAsync(uint playerId, string name, string description, string modelName, int categoryId, int maxUsers, int tradeType)
 
         bool TryGetRoomModel(string modelName, out IRoomModel model);
 

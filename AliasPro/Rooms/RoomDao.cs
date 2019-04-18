@@ -57,13 +57,13 @@ namespace AliasPro.Rooms
             return rights;
         }
 
-        internal async Task<int> CreateRoom(IRoomData roomData)
+        internal async Task<int> CreateRoomAsync(uint playerId, string name, string description, string modelName, int categoryId, int maxUsers, int tradeType)
         {
             int roomId = -1;
             await CreateTransaction(async transaction =>
             {
-                roomId = await Insert(transaction, "INSERT INTO `rooms` (`owner`, `name`, `model_name`) VALUES (@0, @1, @2)", 
-                    roomData.OwnerId, roomData.Name, roomData.ModelName);
+                roomId = await Insert(transaction, "INSERT INTO `rooms` (`owner`, `name`, `caption`, `model_name`, `category_id`, `max_users`, `trade_type`) VALUES (@0, @1, @2, @3, @4, @5, @6);",
+                    playerId, name, description, modelName, categoryId, maxUsers, tradeType);
             });
             return roomId;
         }

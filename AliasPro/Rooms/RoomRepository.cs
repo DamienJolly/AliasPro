@@ -50,6 +50,9 @@ namespace AliasPro.Rooms
         public bool TryGetRoom(uint roomId, out IRoom room) =>
             _rooms.TryGetValue(roomId, out room);
 
+        public async Task<int> CreateRoomAsync(uint playerId, string name, string description, string modelName, int categoryId, int maxUsers, int tradeType) =>
+            await _roomDao.CreateRoomAsync(playerId, name, description, modelName, categoryId, maxUsers, tradeType);
+
 
         public bool TryGetRoomModel(string modelName, out IRoomModel model) =>
             _roomModels.TryGetValue(modelName, out model);

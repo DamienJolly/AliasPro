@@ -49,23 +49,6 @@ namespace AliasPro.Rooms.Models
             Tags = data.Tags;
         }
 
-        //todo: remove
-        internal RoomData(uint ownerId, string ownerName, string name, string description, string modelName, int maxUsers, int tradeType, int categoryId)
-        {
-            Id = 0;
-            OwnerId = (int)ownerId;
-            OwnerName = ownerName;
-            Name = name;
-            Description = description;
-            Password = "";
-            ModelName = modelName;
-            MaxUsers = maxUsers;
-            TradeType = tradeType;
-            CategoryId = categoryId;
-            Score = 0;
-            Tags = new List<string>();
-        }
-
         public void Compose(ServerPacket serverPacket)
         {
             serverPacket.WriteInt(Id);
