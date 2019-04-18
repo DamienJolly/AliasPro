@@ -10,5 +10,6 @@ namespace AliasPro.API.Moderation
         void InitializeModeration();
         bool TryGetTicket(int ticketId, out IModerationTicket ticket);
         Task UpdateTicket(IModerationTicket ticket);
+        void RemoveTicket(int ticketId);
     }
 }

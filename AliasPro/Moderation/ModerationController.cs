@@ -31,5 +31,8 @@ namespace AliasPro.Moderation
 
         public Task UpdateTicket(IModerationTicket ticket) =>
             _moderationDao.UpdateTicket(ticket);
+
+        public void RemoveTicket(int ticketId) =>
+            _modTickets.Remove(ticketId);
     }
 }

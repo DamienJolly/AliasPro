@@ -90,5 +90,6 @@
         // Moderation
         internal const int ModerationPickTicketMessageEvent = 3388;
         internal const int ModerationReleaseTicketMessageEvent = 263;
+        internal const int ModerationCloseTicketMessageEvent = 1383;
     }
 }
