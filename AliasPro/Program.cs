@@ -8,6 +8,7 @@ using AliasPro.Figure;
 using AliasPro.Items;
 using AliasPro.Landing;
 using AliasPro.Messenger;
+using AliasPro.Moderation;
 using AliasPro.Navigator;
 using AliasPro.Network;
 using AliasPro.Network.Events;
@@ -33,6 +34,7 @@ namespace AliasPro
             {
                 new NetworkService(),
                 new SettingsService(),
+                new ModerationService(),
                 new MessengerService(),
                 new PlayerService(),
                 new SessionService(),

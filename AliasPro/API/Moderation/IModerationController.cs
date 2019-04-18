@@ -1,10 +1,11 @@
-﻿using System;
+﻿using AliasPro.API.Moderation.Models;
 using System.Collections.Generic;
-using System.Text;
 
 namespace AliasPro.API.Moderation
 {
-    class IModerationController
+    public interface IModerationController
     {
+        ICollection<IModerationTicket> Tickets { get; }
+        void InitializeModeration();
     }
 }

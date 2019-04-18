@@ -1,4 +1,5 @@
 ﻿using AliasPro.API.Items;
+using AliasPro.API.Moderation;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
 using AliasPro.API.Players;
@@ -19,11 +20,13 @@ namespace AliasPro.Players.Packets.Events
 
         private readonly IPlayerController _playerController;
         private readonly IItemController _itemController;
+        private readonly IModerationController _moderationController;
 
-        public SecureLoginEvent(IPlayerController playerController, IItemController itemController)
+        public SecureLoginEvent(IPlayerController playerController, IItemController itemController, IModerationController moderationController)
         {
             _playerController = playerController;
             _itemController = itemController;
+            _moderationController = moderationController;
         }
 
         public async void HandleAsync(
@@ -78,7 +81,7 @@ namespace AliasPro.Players.Packets.Events
             //todo: permissions
             if (player.Rank > 2)
             {
-                await session.SendPacketAsync(new ModerationToolComposer());
+                await session.SendPacketAsync(new ModerationToolComposer(_moderationController.Tickets));
             }
             
             player.PlayerTask = new PlayerTask(player);

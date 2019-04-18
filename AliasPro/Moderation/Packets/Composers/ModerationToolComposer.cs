@@ -1,37 +1,42 @@
-﻿using AliasPro.API.Network.Events;
+﻿using AliasPro.API.Moderation.Models;
+using AliasPro.API.Network.Events;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Network.Protocol;
+using System.Collections.Generic;
 
 namespace AliasPro.Moderation.Packets.Composers
 {
     public class ModerationToolComposer : IPacketComposer
     {
-        public ModerationToolComposer()
+        private readonly ICollection<IModerationTicket> _tickets;
+
+        public ModerationToolComposer(ICollection<IModerationTicket> tickets)
         {
+            _tickets = tickets;
         }
 
         public ServerPacket Compose()
         {
             ServerPacket message = new ServerPacket(Outgoing.ModerationToolMessageComposer);
-            // todo: tickets
-            message.WriteInt(0); // count
+            message.WriteInt(_tickets.Count);
+            foreach (IModerationTicket ticket in _tickets)
             {
-                // int:    ticketId
-                // int:    ticketState
-                // int:    ticketType
-                // int:    ticketCategory
-                // int:    ticketTime?
-                // int:    ticketPriority?
-                // int:    dunno?
-                // int:    senderId
-                // string: senderUsername
-                // int:    reportedId
-                // string: reportedUsername
-                // int:    modId
-                // string: modUsername
-                // string: ticketCaption
-                // int:    roomId
-                // int:    dunno?
+                message.WriteInt(ticket.Id);
+                message.WriteInt((int)ticket.State);
+                message.WriteInt((int)ticket.Type);
+                message.WriteInt(ticket.Category);
+                message.WriteInt(ticket.Timestamp);
+                message.WriteInt(ticket.Priority);
+                message.WriteInt(1); //dunno?
+                message.WriteInt(ticket.SenderId);
+                message.WriteString(ticket.SenderUsername);
+                message.WriteInt(ticket.ReportedId);
+                message.WriteString(ticket.ReportedUsername);
+                message.WriteInt(ticket.ModId);
+                message.WriteString(ticket.ModUsername);
+                message.WriteString(ticket.Caption);
+                message.WriteInt(ticket.RoomId);
+                message.WriteInt(0); //dunno?
             }
 
             // todo: user presets
