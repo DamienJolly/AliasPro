@@ -43,7 +43,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="API\Moderation\Models\" />
     <Folder Include="Chat\Commands\Player\" />
+    <Folder Include="Moderation\Models\" />
+    <Folder Include="Moderation\Packets\Events\" />
   </ItemGroup>
 
   <ItemGroup>

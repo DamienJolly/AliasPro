@@ -107,5 +107,8 @@
         internal const short UserFlatCatsMessageComposer = 1084;
         internal const short NavigatorFlatCatsMessageComposer = 3910;
         internal const short NavigatorSearchResultSetMessageComposer = 1388;
+
+        // Moderation
+        public const int ModerationToolMessageComposer = 258;
     }
 }

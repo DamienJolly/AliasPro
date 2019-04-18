@@ -4,6 +4,7 @@ using AliasPro.API.Network.Protocol;
 using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Moderation.Packets.Composers;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Players.Components;
 using AliasPro.Players.Models;
@@ -73,6 +74,12 @@ namespace AliasPro.Players.Packets.Events
 
             await session.SendPacketAsync(new UserRightsComposer(player));
             await session.SendPacketAsync(new AvailabilityStatusComposer());
+
+            //todo: permissions
+            if (player.Rank > 2)
+            {
+                await session.SendPacketAsync(new ModerationToolComposer());
+            }
             
             player.PlayerTask = new PlayerTask(player);
             player.PlayerTask.SetupPlayerCycle();
