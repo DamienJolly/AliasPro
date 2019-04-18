@@ -3,8 +3,6 @@ using AliasPro.API.Network.Protocol;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
-using AliasPro.Rooms.Tasks;
-using AliasPro.Tasks;
 using System;
 
 namespace AliasPro.Rooms.Packets.Events
@@ -13,7 +11,7 @@ namespace AliasPro.Rooms.Packets.Events
     {
         public short Header { get; } = Incoming.UserLookAtPointMessageEvent;
 
-        public async void HandleAsync(
+        public void HandleAsync(
             ISession session,
             IClientPacket clientPacket)
         {

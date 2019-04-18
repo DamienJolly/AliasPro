@@ -29,5 +29,10 @@ namespace AliasPro.Utilities
         {
             return rng.Next(min, max);
         }
+
+        public static int RandomNumber()
+        {
+            return rng.Next();
+        }
     }
 }

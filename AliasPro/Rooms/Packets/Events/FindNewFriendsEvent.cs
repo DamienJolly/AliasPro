@@ -5,7 +5,7 @@ using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Rooms.Packets.Composers;
-using System;
+using AliasPro.Utilities;
 using System.Linq;
 
 namespace AliasPro.Rooms.Packets.Events
@@ -25,10 +25,7 @@ namespace AliasPro.Rooms.Packets.Events
             ISession session,
             IClientPacket clientPacket)
         {
-            //todo: make random util
-            Random rnd = new Random();
-            IRoom room = _roomController.Rooms.OrderBy(a => rnd.Next()).First();
-
+            IRoom room = _roomController.Rooms.OrderBy(a => Randomness.RandomNumber()).First();
             await session.SendPacketAsync(new ForwardToRoomComposer(room.Id));
         }
     }

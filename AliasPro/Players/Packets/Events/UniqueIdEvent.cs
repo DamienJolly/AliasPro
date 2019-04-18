@@ -15,7 +15,6 @@ namespace AliasPro.Players.Packets.Events
         {
             clientPacket.ReadString();
             session.UniqueId = clientPacket.ReadString();
-            //todo: await send composer??
         }
     }
 }
