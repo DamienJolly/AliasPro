@@ -31,5 +31,14 @@ namespace AliasPro.Moderation
             });
             return tickets;
         }
+
+        public async Task UpdateTicket(IModerationTicket ticket)
+        {
+            await CreateTransaction(async transaction =>
+            {
+                await Insert(transaction, "UPDATE `modetation_tickets` SET `state` = @1, `mod_id` = @2 WHERE `id` = @0;",
+                    ticket.Id, (int)ticket.State, ticket.ModId);
+            });
+        }
     }
 }

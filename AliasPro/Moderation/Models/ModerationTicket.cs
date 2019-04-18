@@ -1,6 +1,7 @@
 ﻿using AliasPro.API.Database;
 using AliasPro.API.Moderation.Models;
 using AliasPro.Moderation.Types;
+using AliasPro.Network.Protocol;
 using System.Data.Common;
 
 namespace AliasPro.Moderation.Models
@@ -23,6 +24,31 @@ namespace AliasPro.Moderation.Models
             ModUsername = "Unknown";
             Caption = reader.ReadData<string>("caption");
             RoomId = reader.ReadData<int>("room_id");
+        }
+
+        public void Compose(ServerPacket message)
+        {
+            message.WriteInt(Id);
+            message.WriteInt((int)State);
+            message.WriteInt((int)Type);
+            message.WriteInt(Category);
+            message.WriteInt(Timestamp);
+            message.WriteInt(Priority);
+            message.WriteInt(1); //dunno?
+            message.WriteInt(SenderId);
+            message.WriteString(SenderUsername);
+            message.WriteInt(ReportedId);
+            message.WriteString(ReportedUsername);
+            message.WriteInt(ModId);
+            message.WriteString(ModUsername);
+            message.WriteString(Caption);
+            message.WriteInt(RoomId);
+            message.WriteInt(0); //count
+            {
+                //string: banned word?
+                //int:    dunno?
+                //int:    dunno?
+            }
         }
 
         public int Id { get; set; }

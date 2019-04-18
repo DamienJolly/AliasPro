@@ -86,5 +86,8 @@
         internal const short RequestNavigatorFlatsMessageEvent = 708;
         internal const short NavigatorSearchMessageEvent = 3612;
         internal const short UpdateNavigatorPreferencesMessageEvent = 107;
+
+        // Moderation
+        internal const int ModerationPickTicketMessageEvent = 3388;
     }
 }

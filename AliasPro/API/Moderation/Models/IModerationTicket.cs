@@ -1,9 +1,12 @@
 ﻿using AliasPro.Moderation.Types;
+using AliasPro.Network.Protocol;
 
 namespace AliasPro.API.Moderation.Models
 {
     public interface IModerationTicket
     {
+        void Compose(ServerPacket serverPacket);
+
         int Id { get; set; }
         ModerationTicketState State { get; set; }
         ModerationTicketType Type { get; set; }

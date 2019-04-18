@@ -20,24 +20,7 @@ namespace AliasPro.Moderation.Packets.Composers
             ServerPacket message = new ServerPacket(Outgoing.ModerationToolMessageComposer);
             message.WriteInt(_tickets.Count);
             foreach (IModerationTicket ticket in _tickets)
-            {
-                message.WriteInt(ticket.Id);
-                message.WriteInt((int)ticket.State);
-                message.WriteInt((int)ticket.Type);
-                message.WriteInt(ticket.Category);
-                message.WriteInt(ticket.Timestamp);
-                message.WriteInt(ticket.Priority);
-                message.WriteInt(1); //dunno?
-                message.WriteInt(ticket.SenderId);
-                message.WriteString(ticket.SenderUsername);
-                message.WriteInt(ticket.ReportedId);
-                message.WriteString(ticket.ReportedUsername);
-                message.WriteInt(ticket.ModId);
-                message.WriteString(ticket.ModUsername);
-                message.WriteString(ticket.Caption);
-                message.WriteInt(ticket.RoomId);
-                message.WriteInt(0); //dunno?
-            }
+                ticket.Compose(message);
 
             // todo: user presets
             message.WriteInt(0); // count

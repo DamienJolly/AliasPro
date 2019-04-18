@@ -1,6 +1,7 @@
 ﻿using AliasPro.API.Moderation;
 using AliasPro.API.Moderation.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AliasPro.Moderation
 {
@@ -24,5 +25,11 @@ namespace AliasPro.Moderation
 
         public ICollection<IModerationTicket> Tickets =>
             _modTickets.Values;
+
+        public bool TryGetTicket(int ticketId, out IModerationTicket ticket) =>
+            _modTickets.TryGetValue(ticketId, out ticket);
+
+        public Task UpdateTicket(IModerationTicket ticket) =>
+            _moderationDao.UpdateTicket(ticket);
     }
 }

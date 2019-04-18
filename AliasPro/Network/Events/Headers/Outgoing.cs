@@ -109,6 +109,7 @@
         internal const short NavigatorSearchResultSetMessageComposer = 1388;
 
         // Moderation
-        public const int ModerationToolMessageComposer = 258;
+        internal const int ModerationToolMessageComposer = 258;
+        internal const int ModerationIssueInfoMessageComposer = 414;
     }
 }
