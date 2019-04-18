@@ -1,6 +1,7 @@
 ﻿using AliasPro.API.Moderation;
 using AliasPro.API.Network;
 using AliasPro.API.Network.Events;
+using AliasPro.Moderation.Packets.Events;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AliasPro.Moderation
@@ -17,7 +18,9 @@ namespace AliasPro.Moderation
 
         private static void AddPackets(IServiceCollection collection)
         {
-
+            collection.AddSingleton<IAsyncPacket, ModerationPickTicketEvent>();
+            collection.AddSingleton<IAsyncPacket, ModerationReleaseTicketEvent>();
+            collection.AddSingleton<IAsyncPacket, ModerationCloseTicketEvent>();
         }
     }
 }
