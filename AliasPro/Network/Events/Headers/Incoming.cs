@@ -93,5 +93,6 @@
         internal const int ModerationCloseTicketMessageEvent = 1383;
         internal const int ModerationRequestRoomChatlogMessageEvent = 891;
         internal const int ModerationRequestIssueChatlogMessageEvent = 2986;
+        internal const int ModerationRequestRoomInfoMessageEvent = 306;
     }
 }
