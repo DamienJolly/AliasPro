@@ -9,5 +9,6 @@ namespace AliasPro.API.Chat
     {
         bool HandleCommand(ISession session, string message);
         Task<ICollection<IChatLog>> ReadRoomChatlogs(uint roomId);
+        Task<ICollection<IChatLog>> ReadUserChatlogs(uint playerId);
     }
 }

@@ -113,5 +113,6 @@
         internal const int ModerationIssueInfoMessageComposer = 414;
         internal const int ModerationIssueHandledMessageComposer = 3973;
         internal const int ModerationRoomChatlogMessageComposer = 3885;
+        internal const int ModerationIssueChatlogMessageComposer = 3999;
     }
 }

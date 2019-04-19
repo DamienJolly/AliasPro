@@ -41,5 +41,8 @@ namespace AliasPro.Chat
 
         public async Task<ICollection<IChatLog>> ReadRoomChatlogs(uint roomId) =>
             await _chatDao.ReadRoomChatlogs(roomId);
+
+        public async Task<ICollection<IChatLog>> ReadUserChatlogs(uint playerId) =>
+            await _chatDao.ReadUserChatlogs(playerId);
     }
 }
