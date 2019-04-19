@@ -94,5 +94,6 @@
         internal const int ModerationRequestRoomChatlogMessageEvent = 891;
         internal const int ModerationRequestIssueChatlogMessageEvent = 2986;
         internal const int ModerationRequestRoomInfoMessageEvent = 306;
+        internal const int ModerationRoomAlertMessageEvent = 557;
     }
 }
