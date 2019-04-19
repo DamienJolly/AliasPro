@@ -25,6 +25,7 @@ namespace AliasPro.Moderation
             collection.AddSingleton<IAsyncPacket, ModerationRequestIssueChatlogEvent>();
             collection.AddSingleton<IAsyncPacket, ModerationRequestRoomInfoEvent>();
             collection.AddSingleton<IAsyncPacket, ModerationRoomAlertEvent>();
+            collection.AddSingleton<IAsyncPacket, ModerationChangeRoomSettingsEvent>();
         }
     }
 }

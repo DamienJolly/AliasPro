@@ -16,14 +16,15 @@ namespace AliasPro.Moderation.Packets.Composers
 
         public ServerPacket Compose()
         {
+            bool publicRoom = true;
             ServerPacket message = new ServerPacket(Outgoing.ModerationRoomInfoMessageComposer);
             message.WriteInt(_roomData.Id);
             message.WriteInt(_roomData.UsersNow);
             message.WriteBoolean(true); //todo: owner online
             message.WriteInt(_roomData.OwnerId);
             message.WriteString(_roomData.OwnerName);
-            message.WriteBoolean(true); //todo: not public room
-            //if () //!= public room
+            message.WriteBoolean(publicRoom); //todo: not public room
+            if (publicRoom)
             {
                 message.WriteString(_roomData.Name);
                 message.WriteString(_roomData.Description);
