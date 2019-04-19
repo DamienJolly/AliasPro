@@ -8,7 +8,7 @@ namespace AliasPro.API.Rooms
     {
         ICollection<IRoom> Rooms { get; }
         Task<ICollection<IRoomData>> GetPlayersRoomsAsync(uint playerId);
-        Task<IRoomData> GetRoomDataAsync(uint roomId);
+        Task<IRoomData> ReadRoomDataAsync(uint roomId);
         bool TryAddRoom(IRoom room);
         void RemoveRoom(IRoom room);
         bool TryGetRoom(uint roomId, out IRoom room);

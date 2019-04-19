@@ -32,13 +32,16 @@ namespace AliasPro.Rooms.Packets.Events
             uint roomId = (uint)clientPacket.ReadInt();
             if (!_roomController.TryGetRoom(roomId, out IRoom room))
             {
-                IRoomData roomData = await _roomController.GetRoomDataAsync(roomId);
+                IRoomData roomData = await _roomController.ReadRoomDataAsync(roomId);
                 if (roomData == null)
                     return;
 
                 room = new Room(roomData);
 
                 if (!_roomController.TryGetRoomModel(room.ModelName, out IRoomModel model))
+                    return;
+
+                if (!_roomController.TryAddRoom(room))
                     return;
 
                 IRoomSettings roomSettings =
@@ -64,9 +67,6 @@ namespace AliasPro.Rooms.Packets.Events
                 room.Rights = new RightsComponent(room,
                     await _roomController.GetRightsForRoomAsync(room.Id));
                 
-                if (!_roomController.TryAddRoom(room))
-                    return;
-
                 room.RoomTask = new RoomTask(room);
                 room.RoomTask.SetupRoomCycle();
             }

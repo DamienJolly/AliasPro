@@ -20,9 +20,6 @@ namespace AliasPro.Rooms
         public async Task<ICollection<IRoomData>> GetPlayersRoomsAsync(uint playerId) =>
             await _roomRepository.GetPlayersRoomsAsync(playerId);
 
-        public async Task<IRoomData> GetRoomDataAsync(uint roomId) =>
-            await _roomRepository.GetRoomDataAsync(roomId);
-
         public bool TryAddRoom(IRoom room) =>
             _roomRepository.TryAddRoom(room);
 
@@ -31,6 +28,14 @@ namespace AliasPro.Rooms
 
         public bool TryGetRoom(uint roomId, out IRoom room) =>
             _roomRepository.TryGetRoom(roomId, out room);
+
+        public async Task<IRoomData> ReadRoomDataAsync(uint roomId)
+        {
+            if (TryGetRoom(roomId, out IRoom room))
+                return room;
+
+            return await _roomRepository.GetRoomDataAsync(roomId);
+        }
 
         public async Task<int> CreateRoomAsync(uint playerId, string name, string description, string modelName, int categoryId, int maxUsers, int tradeType) =>
             await _roomRepository.CreateRoomAsync(playerId, name, description, modelName, categoryId, maxUsers, tradeType);

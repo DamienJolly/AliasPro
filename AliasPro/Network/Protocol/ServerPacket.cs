@@ -23,8 +23,11 @@ namespace AliasPro.Network.Protocol
         public void WriteInt(uint i) =>
             ByteBuffer.WriteInt((int)i);
 
-        public void WriteShort(short s) =>
+        public void WriteShort(int s) =>
             ByteBuffer.WriteShort(s);
+
+        public void WriteByte(int b) =>
+            ByteBuffer.WriteByte((byte)b);
 
         public void WriteBoolean(bool b) =>
             ByteBuffer.WriteByte(b ? 1 : 0);

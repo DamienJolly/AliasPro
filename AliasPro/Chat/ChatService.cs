@@ -10,7 +10,7 @@ namespace AliasPro.Chat
     {
         public void SetupService(IServiceCollection collection)
         {
-            collection.AddSingleton<ChatRepostiory>();
+            collection.AddSingleton<ChatDao>();
             collection.AddSingleton<IChatController, ChatController>();
             
             AddCommands(collection);
