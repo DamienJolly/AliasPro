@@ -28,6 +28,9 @@ namespace AliasPro.Players
         public async Task<IPlayerData> GetPlayerDataAsync(string SSO) =>
             await _playerDao.GetPlayerDataAsync(SSO);
 
+        public async Task<IPlayerData> GetPlayerDataAsync(uint playerId) =>
+           await _playerDao.GetPlayerDataAsync(playerId);
+
         public bool TryAddPlayer(IPlayer player)
         {
             if (!_players.TryAdd(player.Id, player))
@@ -90,5 +93,9 @@ namespace AliasPro.Players
 
         public async Task UpdatePlayerBadgesAsync(IPlayer player) =>
             await _playerDao.UpdatePlayerBadgesAsync(player);
+
+
+        public async Task<ICollection<IPlayerRoomVisited>> GetPlayerRoomVisitsAsync(uint playerId) =>
+            await _playerDao.GetPlayerRoomVisitsAsync(playerId);
     }
 }

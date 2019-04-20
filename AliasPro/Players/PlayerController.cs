@@ -20,6 +20,9 @@ namespace AliasPro.Players
         public async Task<IPlayerData> GetPlayerDataAsync(string SSO) =>
             await _playerRepostiory.GetPlayerDataAsync(SSO);
 
+        public async Task<IPlayerData> GetPlayerDataAsync(uint playerId) =>
+            await _playerRepostiory.GetPlayerDataAsync(playerId);
+
         public bool TryGetPlayer(uint playerId, out IPlayer player) =>
             _playerRepostiory.TryGetPlayer(playerId, out player);
 
@@ -58,5 +61,9 @@ namespace AliasPro.Players
 
         public async Task UpdatePlayerBadgesAsync(IPlayer player) =>
             await _playerRepostiory.UpdatePlayerBadgesAsync(player);
+
+
+        public async Task<ICollection<IPlayerRoomVisited>> GetPlayerRoomVisitsAsync(uint playerId) =>
+            await _playerRepostiory.GetPlayerRoomVisitsAsync(playerId);
     }
 }

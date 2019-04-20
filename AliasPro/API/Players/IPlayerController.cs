@@ -1,5 +1,4 @@
 ﻿using AliasPro.API.Players.Models;
-using AliasPro.Players.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,6 +8,7 @@ namespace AliasPro.API.Players
     {
         ICollection<IPlayer> Players { get; }
         Task<IPlayerData> GetPlayerDataAsync(string SSO);
+        Task<IPlayerData> GetPlayerDataAsync(uint playerId);
         bool TryGetPlayer(string playerUsername, out IPlayer player);
         bool TryGetPlayer(uint playerId, out IPlayer player);
         bool TryAddPlayer(IPlayer player);
@@ -24,5 +24,7 @@ namespace AliasPro.API.Players
         Task<IPlayerSettings> GetPlayerSettingsAsync(uint id);
         Task AddPlayerSettingsAsync(uint id);
         Task UpdatePlayerSettingsAsync(IPlayer player);
+
+        Task<ICollection<IPlayerRoomVisited>> GetPlayerRoomVisitsAsync(uint playerId);
     }
 }

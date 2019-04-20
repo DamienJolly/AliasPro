@@ -33,6 +33,22 @@ namespace AliasPro.Players
             return data;
         }
 
+        internal async Task<PlayerData> GetPlayerDataAsync(uint playerId)
+        {
+            PlayerData data = null;
+            await CreateTransaction(async transaction =>
+            {
+                await Select(transaction, async reader =>
+                {
+                    if (await reader.ReadAsync())
+                    {
+                        data = new PlayerData(reader);
+                    }
+                }, "SELECT * FROM `players` WHERE `id` = @0 LIMIT 1;", playerId);
+            });
+            return data;
+        }
+
         internal async Task ClearSSOAsync(uint playerId)
         {
             await CreateTransaction(async transaction =>
@@ -154,6 +170,25 @@ namespace AliasPro.Players
                             player.Id, badge.Code, badge.Slot);
                 }
             });
+        }
+
+        public async Task<ICollection<IPlayerRoomVisited>> GetPlayerRoomVisitsAsync(uint playerId)
+        {
+            ICollection<IPlayerRoomVisited> roomsVisisted = new List<IPlayerRoomVisited>();
+            await CreateTransaction(async transaction =>
+            {
+                await Select(transaction, async reader =>
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        roomsVisisted.Add(new PlayerRoomVisited(reader));
+                    }
+                }, "SELECT `player_roomvisits`.*, `rooms`.`name` FROM `player_roomvisits` " +
+                "INNER JOIN `rooms` ON `rooms`.`id` = `player_roomvisits`.`room_id` " +
+                "WHERE `player_roomvisits`.`player_id` = @0 " +
+                "ORDER BY `player_roomvisits`.`timestamp` DESC LIMIT 50;", playerId);
+            });
+            return roomsVisisted;
         }
     }
 }
