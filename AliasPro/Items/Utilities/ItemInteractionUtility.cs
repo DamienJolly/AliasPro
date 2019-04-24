@@ -13,6 +13,7 @@ namespace AliasPro.Items.Utilities
                 case "wired_condition": return ItemInteractionType.WIRED_CONDITION;
                 case "game_timer": return ItemInteractionType.GAME_TIMER;
                 case "vending": return ItemInteractionType.VENDING_MACHINE;
+                case "roller": return ItemInteractionType.ROLLER;
                 case "bed": return ItemInteractionType.BED;
                 case "chair": return ItemInteractionType.CHAIR;
                 case "default": default: return ItemInteractionType.DEFAULT;

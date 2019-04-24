@@ -115,6 +115,9 @@ namespace AliasPro.Rooms.Models
         public ICollection<BaseEntity> Entities =>
             _entities.Values;
 
+        public ICollection<IItem> Items =>
+            _items.Values;
+
         public ICollection<IItem> WiredEffects
         {
             get

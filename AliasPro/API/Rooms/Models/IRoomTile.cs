@@ -8,6 +8,7 @@ namespace AliasPro.API.Rooms.Models
     {
         IRoomPosition Position { get; }
         ICollection<BaseEntity> Entities { get; }
+        ICollection<IItem> Items { get; }
         ICollection<IItem> WiredEffects { get; }
         ICollection<IItem> WiredConditions { get; }
         IItem TopItem { get; }

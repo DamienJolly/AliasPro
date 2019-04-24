@@ -7,6 +7,7 @@
         CHAIR,
         VENDING_MACHINE,
         GAME_TIMER,
+        ROLLER,
 
         WIRED_TRIGGER,
         WIRED_EFFECT,

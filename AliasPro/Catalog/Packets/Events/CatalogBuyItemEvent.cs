@@ -137,10 +137,7 @@ namespace AliasPro.Catalog.Packets.Events
             foreach (IItem item in itemsList)
             {
                 if(!session.Player.Inventory.TryAddItem(item))
-                {
-                    itemsList.Remove(item);
                     continue;
-                }
 
                 item.Id = (uint)await _itemController.AddNewItemAsync(item);
 
