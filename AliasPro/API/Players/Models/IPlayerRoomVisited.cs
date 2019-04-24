@@ -8,6 +8,7 @@ namespace AliasPro.API.Players.Models
 
         int RoomId { get; set; }
         string RoomName { get; set; }
-        int Timestamp { get; set; }
+        int EntryTimestamp { get; set; }
+        int ExitTimestamp { get; set; }
     }
 }

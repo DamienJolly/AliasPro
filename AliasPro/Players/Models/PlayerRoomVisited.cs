@@ -11,7 +11,8 @@ namespace AliasPro.Players.Models
         {
             RoomId = reader.ReadData<int>("room_id");
             RoomName = reader.ReadData<string>("name");
-            Timestamp = reader.ReadData<int>("timestamp");
+            EntryTimestamp = reader.ReadData<int>("entry_timestamp");
+            ExitTimestamp = reader.ReadData<int>("exit_timestamp");
         }
 
         public void Compose(ServerPacket message)
@@ -25,6 +26,7 @@ namespace AliasPro.Players.Models
 
         public int RoomId { get; set; }
         public string RoomName { get; set; }
-        public int Timestamp { get; set; }
+        public int EntryTimestamp { get; set; }
+        public int ExitTimestamp { get; set; }
     }
 }

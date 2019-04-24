@@ -186,7 +186,7 @@ namespace AliasPro.Players
                 }, "SELECT `player_roomvisits`.*, `rooms`.`name` FROM `player_roomvisits` " +
                 "INNER JOIN `rooms` ON `rooms`.`id` = `player_roomvisits`.`room_id` " +
                 "WHERE `player_roomvisits`.`player_id` = @0 " +
-                "ORDER BY `player_roomvisits`.`timestamp` DESC LIMIT 50;", playerId);
+                "ORDER BY `player_roomvisits`.`entry_timestamp` DESC LIMIT 50;", playerId);
             });
             return roomsVisisted;
         }

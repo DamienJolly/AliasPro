@@ -38,11 +38,11 @@ namespace AliasPro.Chat
 
             return command.Handle(session, messageData);
         }
-
-        public async Task<ICollection<IChatLog>> ReadRoomChatlogs(uint roomId) =>
-            await _chatDao.ReadRoomChatlogs(roomId);
-
+        
         public async Task<ICollection<IChatLog>> ReadUserChatlogs(uint playerId) =>
             await _chatDao.ReadUserChatlogs(playerId);
+
+        public async Task<ICollection<IChatLog>> ReadRoomChatlogs(uint roomId, int enterTimestamp, int exitTimestamp) =>
+            await _chatDao.ReadRoomChatlogs(roomId, enterTimestamp, exitTimestamp);
     }
 }

@@ -28,7 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Moderation\Packets\Events\ModerationRequestUserChatlogEvent.cs" />
     <Compile Remove="Rooms\Components\MappingComponent.cs" />
   </ItemGroup>
 

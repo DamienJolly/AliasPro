@@ -117,5 +117,6 @@
         internal const int ModerationRoomInfoMessageComposer = 1047;
         internal const int ModerationUserInfoMessageComposer = 556;
         internal const int ModerationUserRoomVisitsMessageComposer = 2748;
+        internal const int ModeratorUserChatlogMessageComposer = 1627;
     }
 }
