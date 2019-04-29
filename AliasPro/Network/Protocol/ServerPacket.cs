@@ -38,7 +38,10 @@ namespace AliasPro.Network.Protocol
             ByteBuffer.WriteBytes(Encoding.UTF8.GetBytes(s));
         }
 
+        //public void WriteDouble(double d) =>
+        //    ByteBuffer.WriteDouble(d);
+
         public void WriteDouble(double d) =>
-            ByteBuffer.WriteDouble(d);
+            WriteString(d.ToString());
     }
 }

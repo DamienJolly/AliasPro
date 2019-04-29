@@ -66,7 +66,8 @@ namespace AliasPro.Items.Interaction
                     if (!_item.CurrentRoom.RoomGrid.TryGetRoomTile(newPos.X, newPos.Y, out IRoomTile roomTile) ||
                         !_item.CurrentRoom.RoomGrid.CanRollAt(newPos.X, newPos.Y, item))
                         continue;
-                    
+
+                    newPos.Z = roomTile.Height;
                     await _item.CurrentRoom.SendAsync(new FloorItemOnRollerComposer(item, newPos, _item.Id));
 
                     _item.CurrentRoom.RoomGrid.RemoveItem(item);
