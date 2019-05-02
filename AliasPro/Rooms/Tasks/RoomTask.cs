@@ -34,25 +34,29 @@ namespace AliasPro.Rooms.Tasks
 
         public async void Run()
         {
-            foreach (BaseEntity entity in _room.Entities.Entities)
+            try
             {
-                if (entity.HeadRotation != entity.BodyRotation)
+                foreach (BaseEntity entity in _room.Entities.Entities)
                 {
-                    entity.DirOffsetTimer++;
+                    if (entity.HeadRotation != entity.BodyRotation)
+                    {
+                        entity.DirOffsetTimer++;
 
-                    if (entity.DirOffsetTimer >= 4)
-                        entity.SetRotation(entity.BodyRotation);
+                        if (entity.DirOffsetTimer >= 4)
+                            entity.SetRotation(entity.BodyRotation);
+                    }
+
+                    await TaskHandler.RunTaskAsync(new RoomEntityWalkTask(entity));
+                    entity.Cycle();
                 }
-                
-                await TaskHandler.RunTaskAsync(new RoomEntityWalkTask(entity));
-                entity.Cycle();
-            }
-            await _room.SendAsync(new EntityUpdateComposer(_room.Entities.Entities));
+                await _room.SendAsync(new EntityUpdateComposer(_room.Entities.Entities));
 
-            foreach (IItem item in _room.Items.Items)
-            {
-                item.Interaction.OnCycle();
+                foreach (IItem item in _room.Items.Items)
+                {
+                    item.Interaction.OnCycle();
+                }
             }
+            catch { }
         }
     }
 }

@@ -3,6 +3,7 @@ using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Tasks;
 using AliasPro.Items.Types;
+using AliasPro.Rooms.Models;
 using Pathfinding;
 using Pathfinding.Models;
 using Pathfinding.Types;
@@ -78,8 +79,10 @@ namespace AliasPro.Rooms.Tasks
                 }
 
                 _entity.SetRotation(newDir);
-                _entity.NextPosition = nextTile.Position;
-                _entity.NextPosition.Z = newZ;
+                _entity.NextPosition = new RoomPosition(
+                    nextTile.Position.X, 
+                    nextTile.Position.Y, 
+                    newZ);
 
                 _moveStatus
                     .Clear()

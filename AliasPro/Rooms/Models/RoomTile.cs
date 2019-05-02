@@ -64,28 +64,64 @@ namespace AliasPro.Rooms.Models
 
         public bool CanRoll(IItem item)
         {
-            IItem topItem = TopItem;
+            IItem topItem = null;
+            foreach (IItem tileItem in _items.Values)
+            {
+                if (tileItem.ItemData.InteractionType == ItemInteractionType.ROLLER &&
+                    item.ItemData.InteractionType == ItemInteractionType.ROLLER)
+                    return false;
+
+                if (topItem == null ||
+                    (tileItem.Position.Z + tileItem.ItemData.Height) >
+                    (topItem.Position.Z + topItem.ItemData.Height))
+                {
+                    topItem = tileItem;
+                }
+            }
 
             if (topItem == item) return true;
-
+            
             if (_entities.Count > 0) return false;
 
             if (topItem != null)
-                return topItem.ItemData.CanWalk;
+            {
+               if (item.ItemData.InteractionType == ItemInteractionType.ROLLER && 
+                    topItem.ItemData.Height > 0) return false;
+
+                return topItem.ItemData.CanStack;
+            }
 
             return true;
         }
 
         public bool CanStack(IItem item)
         {
-            IItem topItem = TopItem;
+            IItem topItem = null;
+            foreach (IItem tileItem in _items.Values)
+            {
+                if (tileItem.ItemData.InteractionType == ItemInteractionType.ROLLER &&
+                    item.ItemData.InteractionType == ItemInteractionType.ROLLER)
+                    return false;
+
+                if (topItem == null ||
+                    (tileItem.Position.Z + tileItem.ItemData.Height) >
+                    (topItem.Position.Z + topItem.ItemData.Height))
+                {
+                    topItem = tileItem;
+                }
+            }
 
             if (topItem == item) return true;
-
+            
             if (_entities.Count > 0) return false;
 
             if (topItem != null)
+            {
+               if (item.ItemData.InteractionType == ItemInteractionType.ROLLER && 
+                    topItem.ItemData.Height > 0) return false;
+
                 return topItem.ItemData.CanStack;
+            }
 
             return true;
         }

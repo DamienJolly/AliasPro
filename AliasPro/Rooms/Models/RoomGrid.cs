@@ -144,7 +144,7 @@ namespace AliasPro.Rooms.Models
 
         public void RemoveEntity(BaseEntity entity)
         {
-            if (TryGetRoomTile(entity.NextPosition.X, entity.NextPosition.Y, out IRoomTile roomTile))
+            if (TryGetRoomTile(entity.Position.X, entity.Position.Y, out IRoomTile roomTile))
             {
                 roomTile.RemoveEntity(entity.Id);
             }
