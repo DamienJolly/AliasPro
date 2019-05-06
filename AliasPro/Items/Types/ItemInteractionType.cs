@@ -8,6 +8,7 @@
         VENDING_MACHINE,
         GAME_TIMER,
         ROLLER,
+        DICE,
 
         WIRED_TRIGGER,
         WIRED_EFFECT,

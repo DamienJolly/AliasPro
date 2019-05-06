@@ -17,6 +17,7 @@ namespace AliasPro.Items.Utilities
                 case ItemInteractionType.WIRED_CONDITION: return new InteractionWired(item);
                 case ItemInteractionType.VENDING_MACHINE: return new InteractionVendingMachine(item);
                 case ItemInteractionType.ROLLER: return new InteractionRoller(item);
+                case ItemInteractionType.DICE: return new InteractionDice(item);
                 case ItemInteractionType.DEFAULT: default: return new InteractionDefault(item);
             }
         }

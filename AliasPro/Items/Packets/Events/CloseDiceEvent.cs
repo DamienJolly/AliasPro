@@ -8,9 +8,9 @@ using AliasPro.Network.Events.Headers;
 
 namespace AliasPro.Items.Packets.Events
 {
-    public class ToggleFloorItemEvent : IAsyncPacket
+    public class CloseDiceEvent : IAsyncPacket
     {
-        public short Header { get; } = Incoming.ToggleFloorItemMessageEvent;
+        public short Header { get; } = Incoming.CloseDiceMessageEvent;
         
         public void HandleAsync(
             ISession session,
@@ -22,19 +22,12 @@ namespace AliasPro.Items.Packets.Events
 
             if (session.Entity == null) return;
 
-            if (!room.Rights.HasRights(session.Player.Id)) return;
-
             uint itemId = (uint)clientPacket.ReadInt();
             if (room.Items.TryGetItem(itemId, out IItem item))
             {
-                if (item.ItemData.Type != "s") return;
+                if (item.ItemData.InteractionType != ItemInteractionType.DICE) return;
 
-                if (item.ItemData.InteractionType == ItemInteractionType.DICE) return;
-
-                int state = clientPacket.ReadInt();
-                
-                item.Interaction.OnUserInteract(session.Entity, state);
-                
+                item.Interaction.OnUserInteract(session.Entity, 0);
                 room.Items.TriggerWired(WiredInteractionType.STATE_CHANGED, session.Entity, item);
             }
         }

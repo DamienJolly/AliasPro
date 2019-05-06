@@ -14,6 +14,7 @@ namespace AliasPro.Items.Utilities
                 case "game_timer": return ItemInteractionType.GAME_TIMER;
                 case "vending": return ItemInteractionType.VENDING_MACHINE;
                 case "roller": return ItemInteractionType.ROLLER;
+                case "dice": return ItemInteractionType.DICE;
                 case "bed": return ItemInteractionType.BED;
                 case "chair": return ItemInteractionType.CHAIR;
                 case "default": default: return ItemInteractionType.DEFAULT;

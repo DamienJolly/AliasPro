@@ -44,6 +44,8 @@
         internal const short UpdateWallMessageEvent = 1132;
         internal const short ToggleFloorItemMessageEvent = 1699;
         internal const short ToggleWallItemMessageEvent = 2100;
+        internal const short TriggerDiceMessageEvent = 237;
+        internal const short CloseDiceMessageEvent = 1285;
 
         // Catalog
         internal const short RequestDiscountMessageEvent = 703;
