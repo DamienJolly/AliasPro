@@ -6,6 +6,7 @@ using AliasPro.Items.Packets.Composers;
 using AliasPro.Items.Types;
 using AliasPro.Network.Protocol;
 using AliasPro.Rooms.Models;
+using AliasPro.Rooms.Packets.Composers;
 using System.Linq;
 
 namespace AliasPro.Items.Interaction
@@ -55,12 +56,13 @@ namespace AliasPro.Items.Interaction
             {
                 if (!_item.CurrentRoom.RoomGrid.TryGetRoomTile(_item.Position.X, _item.Position.Y, out IRoomTile rollerTile))
                     return;
-                
+
+                IRoomPosition newPos = HandleMovement(_item.Rotation, _item.Position);
+
                 foreach (IItem item in rollerTile.Items.ToList())
                 {
                     if (item.Id == _item.Id) continue;
 
-                    IRoomPosition newPos = HandleMovement(_item.Rotation, item.Position);
                     _item.CurrentRoom.Items.TriggerWired(WiredInteractionType.COLLISION, newPos);
 
                     if (!_item.CurrentRoom.RoomGrid.TryGetRoomTile(newPos.X, newPos.Y, out IRoomTile roomTile) ||
@@ -75,9 +77,24 @@ namespace AliasPro.Items.Interaction
                     _item.CurrentRoom.RoomGrid.AddItem(item);
                 }
 
-                //todo: users
+                foreach (BaseEntity entity in rollerTile.Entities.ToList())
+                {
+                    if (entity.NextPosition != entity.Position) return;
 
-                _tick = 2;
+                    if (!_item.CurrentRoom.RoomGrid.TryGetRoomTile(newPos.X, newPos.Y, out IRoomTile roomTile) ||
+                        !roomTile.IsValidTile(entity, true))
+                        continue;
+
+                    newPos.Z = roomTile.Height;
+                    await _item.CurrentRoom.SendAsync(new EntityOnRollerComposer(entity, newPos, _item.Id));
+
+                    _item.CurrentRoom.RoomGrid.RemoveEntity(entity);
+                    entity.NextPosition = newPos;
+                    entity.GoalPosition = newPos;
+                    _item.CurrentRoom.RoomGrid.AddEntity(entity);
+                }
+
+                _tick = 4;
             }
         }
 
