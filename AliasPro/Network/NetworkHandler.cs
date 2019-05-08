@@ -62,9 +62,6 @@ namespace AliasPro.Network
             
             session.Player.Online = false;
 
-            if (session.Player.PlayerTask != null)
-                session.Player.PlayerTask.StopPlayerCycle();
-
             await _playerController.UpdatePlayerAsync(session.Player);
             await _playerController.UpdatePlayerSettingsAsync(session.Player);
             await _playerController.UpdatePlayerCurrenciesAsync(session.Player);

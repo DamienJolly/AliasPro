@@ -8,7 +8,7 @@ using AliasPro.Network.Events.Headers;
 using AliasPro.Rooms.Components;
 using AliasPro.Rooms.Models;
 using AliasPro.Rooms.Packets.Composers;
-using AliasPro.Rooms.Tasks;
+using AliasPro.Rooms.Cycles;
 
 namespace AliasPro.Rooms.Packets.Events
 {
@@ -66,9 +66,8 @@ namespace AliasPro.Rooms.Packets.Events
 
                 room.Rights = new RightsComponent(room,
                     await _roomController.GetRightsForRoomAsync(room.Id));
-                
-                room.RoomTask = new RoomTask(room);
-                room.RoomTask.SetupRoomCycle();
+
+                room.RoomCycle = new RoomCycle(room);
             }
 
             bool loading = !(clientPacket.ReadInt() == 0 && clientPacket.ReadInt() == 1);

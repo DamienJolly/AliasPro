@@ -10,7 +10,6 @@ using AliasPro.Network.Events.Headers;
 using AliasPro.Players.Components;
 using AliasPro.Players.Models;
 using AliasPro.Players.Packets.Composers;
-using AliasPro.Players.Tasks;
 
 namespace AliasPro.Players.Packets.Events
 {
@@ -83,9 +82,6 @@ namespace AliasPro.Players.Packets.Events
             {
                 await session.SendPacketAsync(new ModerationToolComposer(_moderationController.Tickets));
             }
-            
-            player.PlayerTask = new PlayerTask(player);
-            player.PlayerTask.SetupPlayerCycle();
 
             await _playerController.UpdatePlayerAsync(player);
         }

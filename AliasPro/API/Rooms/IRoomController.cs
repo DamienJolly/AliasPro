@@ -6,6 +6,7 @@ namespace AliasPro.API.Rooms
 {
     public interface IRoomController
     {
+        void Cycle();
         ICollection<IRoom> Rooms { get; }
         Task<ICollection<IRoomData>> GetPlayersRoomsAsync(uint playerId);
         Task<IRoomData> ReadRoomDataAsync(uint roomId);

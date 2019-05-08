@@ -1,6 +1,7 @@
 ﻿using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AliasPro.Rooms
@@ -12,6 +13,24 @@ namespace AliasPro.Rooms
         public RoomController(RoomRepository roomRepository)
         {
             _roomRepository = roomRepository;
+        }
+
+        public void Cycle()
+        {
+            foreach(IRoom room in Rooms.ToList())
+            {
+                if (room.RoomCycle != null)
+                {
+                    room.RoomCycle.Cycle();
+                    if (room.IdleTimer > 60)
+                    {
+                        // todo: save room.
+                        room.Dispose();
+                        RemoveRoom(room);
+                    }
+                }
+            }
+            System.Console.WriteLine(Rooms.Count + " room(s) loaded!");
         }
 
         public ICollection<IRoom> Rooms =>

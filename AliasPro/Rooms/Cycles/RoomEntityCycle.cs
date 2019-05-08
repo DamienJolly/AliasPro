@@ -9,20 +9,20 @@ using Pathfinding.Types;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AliasPro.Rooms.Tasks
+namespace AliasPro.Rooms.Cycles
 {
-    public class RoomEntityTask
+    public class RoomEntityCycle
     {
         private readonly BaseEntity _entity;
         private readonly StringBuilder _moveStatus;
 
-        public RoomEntityTask(BaseEntity entity)
+        public RoomEntityCycle(BaseEntity entity)
         {
             _entity = entity;
             _moveStatus = new StringBuilder();
         }
 
-        public void Run()
+        public void Cycle()
         {
             if (_entity.HeadRotation != _entity.BodyRotation)
             {

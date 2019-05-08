@@ -1,30 +1,49 @@
-﻿using AliasPro.API.Network.Events;
+﻿using AliasPro.API.Items.Models;
+using AliasPro.API.Network.Events;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.Items.Types;
 using AliasPro.Rooms.Components;
 using AliasPro.Rooms.Entities;
 using AliasPro.Rooms.Packets.Composers;
-using AliasPro.Rooms.Tasks;
+using AliasPro.Rooms.Cycles;
 using System;
 using System.Threading.Tasks;
 
 namespace AliasPro.Rooms.Models
 {
-    internal class Room : RoomData, IRoom
+    internal class Room : RoomData, IRoom, IDisposable
     {
         public EntitiesComponent Entities { get; set; }
         public ItemsComponent Items { get; set; }
         public RightsComponent Rights { get; set; }
         public GameComponent Game { get; set; }
-
         public RoomGrid RoomGrid { get; set; }
-        public RoomTask RoomTask { get; set; }
+        public RoomCycle RoomCycle { get; set; }
+        public int IdleTimer { get; set; } = 0;
 
         internal Room(IRoomData roomData)
             : base(roomData)
         {
 
+        }
+
+        public async void Cycle()
+        {
+            try
+            {
+                foreach (BaseEntity entity in Entities.Entities)
+                    entity.RoomEntityCycle.Cycle();
+
+                foreach (IItem item in Items.Items)
+                    item.Interaction.OnCycle();
+
+                if (Entities.Entities.Count <= 0)
+                    IdleTimer++;
+                else
+                    await SendAsync(new EntityUpdateComposer(Entities.Entities));
+            }
+            catch { }
         }
 
         public async void OnChat(string text, int colour, BaseEntity entity)
@@ -90,10 +109,7 @@ namespace AliasPro.Rooms.Models
 
         public void Dispose()
         {
-            if (RoomTask != null)
-            {
-                RoomTask.Dispose();
-            }
+            // todo:
         }
     }
 }

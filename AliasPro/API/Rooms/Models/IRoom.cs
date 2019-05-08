@@ -2,7 +2,7 @@
 using AliasPro.API.Rooms.Entities;
 using AliasPro.Rooms.Components;
 using AliasPro.Rooms.Models;
-using AliasPro.Rooms.Tasks;
+using AliasPro.Rooms.Cycles;
 using System.Threading.Tasks;
 
 namespace AliasPro.API.Rooms.Models
@@ -13,10 +13,11 @@ namespace AliasPro.API.Rooms.Models
         ItemsComponent Items { get; set; }
         RightsComponent Rights { get; set; }
         GameComponent Game { get; set; }
-
         RoomGrid RoomGrid { get; set; }
-        RoomTask RoomTask { get; set; }
+        RoomCycle RoomCycle { get; set; }
+        int IdleTimer { get; set; }
 
+        void Cycle();
         Task AddEntity(BaseEntity entity);
         Task RemoveEntity(BaseEntity entity);
         void OnChat(string text, int colour, BaseEntity entity);

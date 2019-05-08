@@ -8,23 +8,29 @@
 
   <ItemGroup>
     <Compile Remove="Players\Models\Messenger\**" />
+    <Compile Remove="Players\Tasks\**" />
     <Compile Remove="Rooms\Gamemap\**" />
     <Compile Remove="Rooms\Models\Game\**" />
     <Compile Remove="Rooms\Models\Item\**" />
     <Compile Remove="Rooms\Models\Right\**" />
-    <Compile Remove="Tasks\Libuv\**" />
+    <Compile Remove="Rooms\Tasks\**" />
+    <Compile Remove="Tasks\**" />
     <EmbeddedResource Remove="Players\Models\Messenger\**" />
+    <EmbeddedResource Remove="Players\Tasks\**" />
     <EmbeddedResource Remove="Rooms\Gamemap\**" />
     <EmbeddedResource Remove="Rooms\Models\Game\**" />
     <EmbeddedResource Remove="Rooms\Models\Item\**" />
     <EmbeddedResource Remove="Rooms\Models\Right\**" />
-    <EmbeddedResource Remove="Tasks\Libuv\**" />
+    <EmbeddedResource Remove="Rooms\Tasks\**" />
+    <EmbeddedResource Remove="Tasks\**" />
     <None Remove="Players\Models\Messenger\**" />
+    <None Remove="Players\Tasks\**" />
     <None Remove="Rooms\Gamemap\**" />
     <None Remove="Rooms\Models\Game\**" />
     <None Remove="Rooms\Models\Item\**" />
     <None Remove="Rooms\Models\Right\**" />
-    <None Remove="Tasks\Libuv\**" />
+    <None Remove="Rooms\Tasks\**" />
+    <None Remove="Tasks\**" />
   </ItemGroup>
 
   <ItemGroup>
