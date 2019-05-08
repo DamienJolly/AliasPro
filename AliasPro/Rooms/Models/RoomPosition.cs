@@ -4,7 +4,7 @@ using System;
 
 namespace AliasPro.Rooms.Models
 {
-    public class RoomPosition : Position, IRoomPosition
+    public class RoomPosition : Position, IEquatable<RoomPosition>, IRoomPosition
     {
         public double Z { get; set; }
 
@@ -19,7 +19,39 @@ namespace AliasPro.Rooms.Models
         {
             Z = 0;
         }
-        
+        public override bool Equals(object other)
+        {
+            if (other is RoomPosition position)
+            {
+                return position.Equals(this);
+            }
+
+            return false;
+        }
+
+        public bool Equals(RoomPosition other)
+        {
+            return (X == other.X && Y == other.Y);
+        }
+
+        public static bool operator ==(RoomPosition first, RoomPosition compare)
+        {
+            return first.Equals(compare);
+        }
+
+        public static bool operator !=(RoomPosition first, RoomPosition compare)
+        {
+            return !first.Equals(compare);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (X * 397) ^ Y;
+            }
+        }
+
         public int CalculateDirection(int newX, int newY)
         {
             if (X > newX)

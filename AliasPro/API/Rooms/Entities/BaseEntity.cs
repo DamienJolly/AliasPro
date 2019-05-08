@@ -3,6 +3,7 @@ using AliasPro.Network.Protocol;
 using AliasPro.Players.Types;
 using AliasPro.Rooms.Models;
 using AliasPro.Rooms.Packets.Composers;
+using AliasPro.Rooms.Tasks;
 using AliasPro.Rooms.Types;
 
 namespace AliasPro.API.Rooms.Entities
@@ -25,6 +26,7 @@ namespace AliasPro.API.Rooms.Entities
             Score = score;
 
             Actions = new EntityAction();
+            RoomEntityTask = new RoomEntityTask(this);
         }
         
         public async void Unidle()
@@ -65,6 +67,7 @@ namespace AliasPro.API.Rooms.Entities
         public int Score { get; set; }
         
         public IEntityAction Actions;
+        public RoomEntityTask RoomEntityTask;
 
         public int DanceId { get; set; } = 0;
         public bool IsIdle { get; set; } = false;

@@ -17,17 +17,14 @@ namespace AliasPro.Players.Tasks
             _cancellationToken = new CancellationTokenSource();
         }
 
-        public async void SetupPlayerCycle()
+        public void SetupPlayerCycle()
         {
-            await TaskHandler.PeriodicAsyncTaskWithDelay(this, 900000, _cancellationToken.Token);
+
         }
 
         public void StopPlayerCycle()
         {
-            using (_cancellationToken)
-            {
-                _cancellationToken.Cancel();
-            }
+
         }
 
         public void Run()

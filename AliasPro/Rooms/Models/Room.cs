@@ -1,7 +1,6 @@
 ﻿using AliasPro.API.Network.Events;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
-using AliasPro.API.Tasks;
 using AliasPro.Items.Types;
 using AliasPro.Rooms.Components;
 using AliasPro.Rooms.Entities;
@@ -93,7 +92,7 @@ namespace AliasPro.Rooms.Models
         {
             if (RoomTask != null)
             {
-                RoomTask.StopRoomCycle();
+                RoomTask.Dispose();
             }
         }
     }

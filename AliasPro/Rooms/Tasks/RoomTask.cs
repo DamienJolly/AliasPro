@@ -1,35 +1,31 @@
 ﻿using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
-using AliasPro.API.Tasks;
 using AliasPro.Rooms.Packets.Composers;
 using AliasPro.Tasks;
+using System;
 using System.Threading;
+using System.Threading.Tasks.Dataflow;
 
 namespace AliasPro.Rooms.Tasks
 {
-    public class RoomTask : ITask
+    public class RoomTask: IDisposable
     {
         private readonly IRoom _room;
-        private readonly CancellationTokenSource _cancellationToken;
-        
+        private CancellationTokenSource _cancellationToken;
+        private ActionBlock<DateTimeOffset> _task;
+
         public RoomTask(IRoom room)
         {
             _room = room;
+        }
+
+        public void SetupRoomCycle()
+        {
             _cancellationToken = new CancellationTokenSource();
-        }
 
-        public async void SetupRoomCycle()
-        {
-            await TaskHandler.PeriodicAsyncTaskWithDelay(this, 500, _cancellationToken.Token);
-        }
-
-        public void StopRoomCycle()
-        {
-            using (_cancellationToken)
-            {
-                _cancellationToken.Cancel();
-            }
+            _task = TaskHandler.PeriodicTaskWithDelay(now => Run(), _cancellationToken.Token, 500);
+            _task.Post(DateTimeOffset.Now);
         }
 
         public async void Run()
@@ -37,26 +33,21 @@ namespace AliasPro.Rooms.Tasks
             try
             {
                 foreach (BaseEntity entity in _room.Entities.Entities)
-                {
-                    if (entity.HeadRotation != entity.BodyRotation)
-                    {
-                        entity.DirOffsetTimer++;
-
-                        if (entity.DirOffsetTimer >= 4)
-                            entity.SetRotation(entity.BodyRotation);
-                    }
-
-                    await TaskHandler.RunTaskAsync(new RoomEntityWalkTask(entity));
-                    entity.Cycle();
-                }
-                await _room.SendAsync(new EntityUpdateComposer(_room.Entities.Entities));
+                    entity.RoomEntityTask.Run();
 
                 foreach (IItem item in _room.Items.Items)
-                {
                     item.Interaction.OnCycle();
-                }
+
+                await _room.SendAsync(new EntityUpdateComposer(_room.Entities.Entities));
             }
             catch { }
+        }
+
+        public void Dispose()
+        {
+            _cancellationToken.Cancel();
+            _task = null;
+            _cancellationToken = null;
         }
     }
 }

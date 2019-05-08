@@ -1,7 +1,6 @@
 ﻿using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
-using AliasPro.API.Tasks;
 using AliasPro.Items.Types;
 using AliasPro.Rooms.Models;
 using Pathfinding;
@@ -12,12 +11,12 @@ using System.Text;
 
 namespace AliasPro.Rooms.Tasks
 {
-    public class RoomEntityWalkTask : ITask
+    public class RoomEntityTask
     {
         private readonly BaseEntity _entity;
         private readonly StringBuilder _moveStatus;
 
-        public RoomEntityWalkTask(BaseEntity entity)
+        public RoomEntityTask(BaseEntity entity)
         {
             _entity = entity;
             _moveStatus = new StringBuilder();
@@ -25,11 +24,26 @@ namespace AliasPro.Rooms.Tasks
 
         public void Run()
         {
+            if (_entity.HeadRotation != _entity.BodyRotation)
+            {
+                _entity.DirOffsetTimer++;
+
+                if (_entity.DirOffsetTimer >= 4)
+                    _entity.SetRotation(_entity.BodyRotation);
+            }
+
             if (_entity.Position != _entity.NextPosition)
                 _entity.Position = _entity.NextPosition;
 
             if (_entity.Position != _entity.GoalPosition)
             {
+                System.Console.WriteLine(_entity.Position.X + " " + _entity.Position.Y);
+                System.Console.WriteLine(_entity.GoalPosition.X + " " + _entity.GoalPosition.Y);
+                _entity.Actions.RemoveStatus("mv");
+                _entity.Actions.RemoveStatus("sit");
+                _entity.Actions.RemoveStatus("lay");
+                _entity.IsSitting = false;
+
                 IList<Position> path = Pathfinder.FindPath(
                     _entity.Room.RoomGrid,
                     new Position(_entity.Position.X, _entity.Position.Y),
@@ -38,12 +52,6 @@ namespace AliasPro.Rooms.Tasks
                     _entity);
 
                 if (path == null) return;
-
-                _entity.Actions.RemoveStatus("mv");
-                _entity.Actions.RemoveStatus("sit");
-                _entity.Actions.RemoveStatus("lay");
-                _entity.IsSitting = false;
-
                 Position nextStep = path[path.Count - 1];
 
                 if (!_entity.Room.RoomGrid.TryGetRoomTile(nextStep.X, nextStep.Y, out IRoomTile nextTile))
@@ -80,8 +88,8 @@ namespace AliasPro.Rooms.Tasks
 
                 _entity.SetRotation(newDir);
                 _entity.NextPosition = new RoomPosition(
-                    nextTile.Position.X, 
-                    nextTile.Position.Y, 
+                    nextTile.Position.X,
+                    nextTile.Position.Y,
                     newZ);
 
                 _moveStatus
@@ -124,6 +132,8 @@ namespace AliasPro.Rooms.Tasks
                     }
                 }
             }
+
+            _entity.Cycle();
         }
     }
 }
