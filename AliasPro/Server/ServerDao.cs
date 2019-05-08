@@ -3,11 +3,11 @@ using AliasPro.API.Database;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace AliasPro.Settings
+namespace AliasPro.Server
 {
-    internal class SettingsDao : BaseDao
+    internal class ServerDao : BaseDao
     {
-        public SettingsDao(IConfigurationController configurationController)
+        public ServerDao(IConfigurationController configurationController)
            : base(configurationController)
         {
 

@@ -1,7 +1,11 @@
-﻿namespace AliasPro.API.Server
+﻿using System.Threading.Tasks;
+
+namespace AliasPro.API.Server
 {
     public interface IServerController
     {
-        void Initialize();
+        void LoadEmulatorSettings();
+        string GetSetting(string key);
+        Task CleanupDatabase();
     }
 }

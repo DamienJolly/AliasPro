@@ -1,7 +1,6 @@
 ﻿using AliasPro.API.Network;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Server;
-using AliasPro.API.Settings;
 using AliasPro.Catalog;
 using AliasPro.Chat;
 using AliasPro.Configuration;
@@ -17,7 +16,6 @@ using AliasPro.Players;
 using AliasPro.Rooms;
 using AliasPro.Server;
 using AliasPro.Sessions;
-using AliasPro.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
@@ -36,7 +34,6 @@ namespace AliasPro
             {
                 new ServerService(),
                 new NetworkService(),
-                new SettingsService(),
                 new ModerationService(),
                 new MessengerService(),
                 new PlayerService(),
@@ -73,11 +70,7 @@ namespace AliasPro
             await listener.Listen(30000);
 
             IServerController server = _serviceProvider.GetService<IServerController>();
-            server.Initialize();
-
-            // move to server controller
-            ISettingsController settings = _serviceProvider.GetService<ISettingsController>();
-            await settings.CleanupDatabase();
+            await server.CleanupDatabase();
 
             while (true)
             {

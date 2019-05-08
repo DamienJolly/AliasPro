@@ -8,6 +8,7 @@ namespace AliasPro.Server
     {
         public void SetupService(IServiceCollection collection)
         {
+            collection.AddSingleton<ServerDao>();
             collection.AddSingleton<IServerController, ServerController>();
         }
     }
