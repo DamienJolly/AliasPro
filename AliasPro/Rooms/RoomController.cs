@@ -30,7 +30,6 @@ namespace AliasPro.Rooms
                     }
                 }
             }
-            System.Console.WriteLine(Rooms.Count + " room(s) loaded!");
         }
 
         public ICollection<IRoom> Rooms =>

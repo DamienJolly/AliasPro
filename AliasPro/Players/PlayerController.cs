@@ -1,6 +1,7 @@
 ﻿using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AliasPro.Players
@@ -12,6 +13,15 @@ namespace AliasPro.Players
         public PlayerController(PlayerRepostiory playerRepostiory)
         {
             _playerRepostiory = playerRepostiory;
+        }
+
+        public void Cycle()
+        {
+            foreach (IPlayer player in Players.ToList())
+            {
+                if (player.PlayerCycle != null)
+                    player.PlayerCycle.Cycle();
+            }
         }
 
         public ICollection<IPlayer> Players =>
