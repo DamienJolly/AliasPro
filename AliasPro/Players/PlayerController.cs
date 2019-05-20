@@ -9,10 +9,22 @@ namespace AliasPro.Players
     internal class PlayerController : IPlayerController
     {
         private readonly PlayerRepostiory _playerRepostiory;
+        private IDictionary<int, ICurrencySetting> _currencySettings;
 
         public PlayerController(PlayerRepostiory playerRepostiory)
         {
             _playerRepostiory = playerRepostiory;
+            _currencySettings = new Dictionary<int, ICurrencySetting>();
+
+            LoadCurrencySettings();
+        }
+
+        public async void LoadCurrencySettings()
+        {
+            if (_currencySettings.Count > 0) _currencySettings.Clear();
+
+            _currencySettings =
+                await _playerRepostiory.GetCurrencySettings();
         }
 
         public void Cycle()
@@ -20,7 +32,7 @@ namespace AliasPro.Players
             foreach (IPlayer player in Players.ToList())
             {
                 if (player.PlayerCycle != null)
-                    player.PlayerCycle.Cycle();
+                    player.PlayerCycle.Cycle(_currencySettings);
             }
         }
 

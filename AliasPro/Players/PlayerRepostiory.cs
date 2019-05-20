@@ -24,6 +24,9 @@ namespace AliasPro.Players
         public ICollection<IPlayer> Players => _players.Values;
         
         public int Count => _players.Count;
+
+        public async Task<IDictionary<int, ICurrencySetting>> GetCurrencySettings() =>
+            await _playerDao.GetCurrencySettings();
         
         public async Task<IPlayerData> GetPlayerDataAsync(string SSO) =>
             await _playerDao.GetPlayerDataAsync(SSO);

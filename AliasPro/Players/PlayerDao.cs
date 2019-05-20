@@ -16,6 +16,25 @@ namespace AliasPro.Players
 
         }
 
+        internal async Task<IDictionary<int, ICurrencySetting>> GetCurrencySettings()
+        {
+            IDictionary<int, ICurrencySetting> settings = new Dictionary<int, ICurrencySetting>();
+            await CreateTransaction(async transaction =>
+            {
+                await Select(transaction, async reader =>
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        ICurrencySetting setting = new CurrencySetting(reader);
+
+                        if (!settings.ContainsKey(setting.Id))
+                            settings.Add(setting.Id, setting);
+                    }
+                }, "SELECT * FROM `currency_settings`;");
+            });
+            return settings;
+        }
+
         internal async Task<PlayerData> GetPlayerDataAsync(string SSO)
         {
             PlayerData data = null;
