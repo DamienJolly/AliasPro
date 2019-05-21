@@ -50,5 +50,8 @@ namespace AliasPro.Moderation
         public void RemoveTicket(int ticketId) =>
             _modTickets.Remove(ticketId);
 
+		public Task AddPlayerSanction(uint playerId, string reason, int duration, int topicId) =>
+			_moderationDao.AddPlayerSanction(playerId, reason, duration, topicId);
+
 	}
 }

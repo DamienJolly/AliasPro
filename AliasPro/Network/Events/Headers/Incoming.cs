@@ -94,6 +94,7 @@
 		internal const int ModerationAlertMessageEvent = 2026;
 		internal const int ModerationTradeLockMessageEvent = 57;
 		internal const int ModerationMuteMessageEvent = 1034;
+		internal const int ModerationBanMessageEvent = 2429;
 		internal const int ModerationPickTicketMessageEvent = 3388;
         internal const int ModerationReleaseTicketMessageEvent = 263;
         internal const int ModerationCloseTicketMessageEvent = 1383;

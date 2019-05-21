@@ -2,6 +2,7 @@
 using AliasPro.API.Database;
 using AliasPro.API.Moderation.Models;
 using AliasPro.Moderation.Models;
+using AliasPro.Utilities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -56,5 +57,14 @@ namespace AliasPro.Moderation
                     ticket.Id, (int)ticket.State, ticket.ModId);
             });
         }
-    }
+
+		public async Task AddPlayerSanction(uint playerId, string reason, int duration, int topicId)
+		{
+			await CreateTransaction(async transaction =>
+			{
+				await Insert(transaction, "INSERT INTO `player_sanctions` (`player_id`, `reason`, `timestamp`, `expires`, `topic_id`) VALUES (@0, @1, @2, @3, @4);",
+					playerId, reason, (int)UnixTimestamp.Now, (int)UnixTimestamp.Now + duration, topicId);
+			});
+		}
+	}
 }

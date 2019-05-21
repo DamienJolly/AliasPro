@@ -22,6 +22,7 @@ namespace AliasPro.Moderation
 			collection.AddSingleton<IAsyncPacket, ModerationAlertEvent>();
 			collection.AddSingleton<IAsyncPacket, ModerationTradeLockEvent>();
 			collection.AddSingleton<IAsyncPacket, ModerationMuteEvent>();
+			collection.AddSingleton<IAsyncPacket, ModerationBanEvent>();
 			collection.AddSingleton<IAsyncPacket, ModerationPickTicketEvent>();
             collection.AddSingleton<IAsyncPacket, ModerationReleaseTicketEvent>();
             collection.AddSingleton<IAsyncPacket, ModerationCloseTicketEvent>();
