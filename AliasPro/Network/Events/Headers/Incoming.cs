@@ -89,8 +89,9 @@
         internal const short NavigatorSearchMessageEvent = 3612;
         internal const short UpdateNavigatorPreferencesMessageEvent = 107;
 
-        // Moderation
-        internal const int ModerationPickTicketMessageEvent = 3388;
+		// Moderation
+		internal const int ModerationAlertMessageEvent = 1932;
+		internal const int ModerationPickTicketMessageEvent = 3388;
         internal const int ModerationReleaseTicketMessageEvent = 263;
         internal const int ModerationCloseTicketMessageEvent = 1383;
         internal const int ModerationRequestRoomChatlogMessageEvent = 891;

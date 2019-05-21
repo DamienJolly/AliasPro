@@ -6,16 +6,20 @@ namespace AliasPro.Moderation.Packets.Composers
 {
     public class ModerationIssueHandledComposer : IPacketComposer
     {
-        private readonly int _code;
-        private readonly string _message;
+        private readonly int _code = 0;
+        private readonly string _message = "";
         
-        public ModerationIssueHandledComposer(int code, string message = "")
+        public ModerationIssueHandledComposer(int code)
         {
             _code = code;
-            _message = message;
         }
 
-        public ServerPacket Compose()
+		public ModerationIssueHandledComposer(string message)
+		{
+			_message = message;
+		}
+
+		public ServerPacket Compose()
         {
             ServerPacket message = new ServerPacket(Outgoing.ModerationIssueHandledMessageComposer);
             message.WriteInt(_code);

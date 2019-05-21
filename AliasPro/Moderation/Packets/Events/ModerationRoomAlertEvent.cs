@@ -31,10 +31,10 @@ namespace AliasPro.Moderation.Packets.Events
             if (session.CurrentRoom == null)
                 return;
 
-            int type = clientPacket.ReadInt();
+            clientPacket.ReadInt();
             string message = clientPacket.ReadString();
 
-            await session.CurrentRoom.SendAsync(new ModerationIssueHandledComposer(type, message));
+            await session.CurrentRoom.SendAsync(new ModerationIssueHandledComposer(message));
         }
     }
 }
