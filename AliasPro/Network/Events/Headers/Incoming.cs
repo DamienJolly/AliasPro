@@ -94,7 +94,8 @@
 		internal const int ModerationPickTicketMessageEvent = 3388;
         internal const int ModerationReleaseTicketMessageEvent = 263;
         internal const int ModerationCloseTicketMessageEvent = 1383;
-        internal const int ModerationRequestRoomChatlogMessageEvent = 891;
+		internal const int ModerationKickMessageEvent = 472;
+		internal const int ModerationRequestRoomChatlogMessageEvent = 891;
         internal const int ModerationRequestIssueChatlogMessageEvent = 2986;
         internal const int ModerationRequestRoomInfoMessageEvent = 306;
         internal const int ModerationRoomAlertMessageEvent = 557;
