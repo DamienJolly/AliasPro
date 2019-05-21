@@ -8,11 +8,21 @@ namespace AliasPro.Moderation.Packets.Composers
 {
     public class ModerationToolComposer : IPacketComposer
     {
-        private readonly ICollection<IModerationTicket> _tickets;
+		private readonly ICollection<IModerationPreset> _userPresets;
+		private readonly ICollection<IModerationPreset> _categoryPresets;
+		private readonly ICollection<IModerationPreset> _roomPresets;
+		private readonly ICollection<IModerationTicket> _tickets;
 
-        public ModerationToolComposer(ICollection<IModerationTicket> tickets)
+        public ModerationToolComposer(
+			ICollection<IModerationPreset> userPresets,
+			ICollection<IModerationPreset> categoryPresets,
+			ICollection<IModerationPreset> roomPresets,
+			ICollection<IModerationTicket> tickets)
         {
-            _tickets = tickets;
+			_userPresets = userPresets;
+			_categoryPresets = categoryPresets;
+			_roomPresets = roomPresets;
+			_tickets = tickets;
         }
 
         public ServerPacket Compose()
@@ -22,17 +32,13 @@ namespace AliasPro.Moderation.Packets.Composers
             foreach (IModerationTicket ticket in _tickets)
                 ticket.Compose(message);
 
-            // todo: user presets
-            message.WriteInt(0); // count
-            {
-                // string: presetCaption
-            }
+			message.WriteInt(_userPresets.Count);
+			foreach (IModerationPreset preset in _userPresets)
+				message.WriteString(preset.Data);
 
-            // todo: category presets
-            message.WriteInt(0); // count
-            {
-                // string: presetCaption
-            }
+			message.WriteInt(_categoryPresets.Count);
+			foreach (IModerationPreset preset in _categoryPresets)
+				message.WriteString(preset.Data);
 
             // todo: permissions
             message.WriteBoolean(true); // view tickets
@@ -43,12 +49,11 @@ namespace AliasPro.Moderation.Packets.Composers
             message.WriteBoolean(true); // view room info?
             message.WriteBoolean(true); // room chatlogs?
 
-            // todo: room presets
-            message.WriteInt(0); // count
-            {
-                // string: presetCaption
-            }
-            return message;
+			message.WriteInt(_roomPresets.Count);
+			foreach (IModerationPreset preset in _roomPresets)
+				message.WriteString(preset.Data);
+
+			return message;
         }
-    }
+	}
 }

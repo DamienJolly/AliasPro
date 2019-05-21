@@ -15,7 +15,23 @@ namespace AliasPro.Moderation
 
         }
 
-        public async Task<IDictionary<int, IModerationTicket>> ReadTickets()
+		public async Task<IList<IModerationPreset>> ReadPresets()
+		{
+			IList<IModerationPreset> presets = new List<IModerationPreset>();
+			await CreateTransaction(async transaction =>
+			{
+				await Select(transaction, async reader =>
+				{
+					while (await reader.ReadAsync())
+					{
+						presets.Add(new ModerationPreset(reader));
+					}
+				}, "SELECT `type`, `preset` FROM `moderation_presets`;");
+			});
+			return presets;
+		}
+
+		public async Task<IDictionary<int, IModerationTicket>> ReadTickets()
         {
             IDictionary<int, IModerationTicket> tickets = new Dictionary<int, IModerationTicket>();
             await CreateTransaction(async transaction =>
@@ -27,7 +43,7 @@ namespace AliasPro.Moderation
                         IModerationTicket ticket = new ModerationTicket(reader);
                         tickets.TryAdd(ticket.Id, ticket);
                     }
-                }, "SELECT * FROM `modetation_tickets` WHERE `state` != 0;");
+                }, "SELECT * FROM `moderation_tickets` WHERE `state` != 0;");
             });
             return tickets;
         }

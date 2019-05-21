@@ -6,9 +6,10 @@ namespace AliasPro.API.Moderation
 {
     public interface IModerationController
     {
-        ICollection<IModerationTicket> Tickets { get; }
         void InitializeModeration();
-        bool TryGetTicket(int ticketId, out IModerationTicket ticket);
+		ICollection<IModerationTicket> Tickets { get; }
+		ICollection<IModerationPreset> GetPresets(string type);
+		bool TryGetTicket(int ticketId, out IModerationTicket ticket);
         Task UpdateTicket(IModerationTicket ticket);
         void RemoveTicket(int ticketId);
     }

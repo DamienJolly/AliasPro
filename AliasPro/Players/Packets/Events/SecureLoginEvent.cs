@@ -81,7 +81,11 @@ namespace AliasPro.Players.Packets.Events
             //todo: permissions
             if (player.Rank > 2)
             {
-                await session.SendPacketAsync(new ModerationToolComposer(_moderationController.Tickets));
+                await session.SendPacketAsync(new ModerationToolComposer(
+					_moderationController.GetPresets("user"),
+					_moderationController.GetPresets("category"),
+					_moderationController.GetPresets("room"),
+					_moderationController.Tickets));
             }
 
             player.PlayerCycle = new PlayerCycle(player);
