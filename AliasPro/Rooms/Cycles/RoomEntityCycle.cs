@@ -35,10 +35,9 @@ namespace AliasPro.Rooms.Cycles
             if (_entity.Position != _entity.NextPosition)
                 _entity.Position = _entity.NextPosition;
 
-            if (_entity.Position != _entity.GoalPosition)
+            if (_entity.Position.X != _entity.GoalPosition.X ||
+				_entity.Position.Y != _entity.GoalPosition.Y)
             {
-                System.Console.WriteLine(_entity.Position.X + " " + _entity.Position.Y);
-                System.Console.WriteLine(_entity.GoalPosition.X + " " + _entity.GoalPosition.Y);
                 _entity.Actions.RemoveStatus("mv");
                 _entity.Actions.RemoveStatus("sit");
                 _entity.Actions.RemoveStatus("lay");
@@ -51,8 +50,8 @@ namespace AliasPro.Rooms.Cycles
                     DiagonalMovement.ONE_WALKABLE,
                     _entity);
 
-                if (path == null) return;
-                Position nextStep = path[path.Count - 1];
+				if (path == null) return;
+				Position nextStep = path[path.Count - 1];
 
                 if (!_entity.Room.RoomGrid.TryGetRoomTile(nextStep.X, nextStep.Y, out IRoomTile nextTile))
                     return;
