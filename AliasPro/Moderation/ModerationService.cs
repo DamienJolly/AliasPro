@@ -18,7 +18,7 @@ namespace AliasPro.Moderation
 
         private static void AddPackets(IServiceCollection collection)
         {
-			collection.AddSingleton<IAsyncPacket, ModerationAlertEvent>();
+			collection.AddSingleton<IAsyncPacket, ModerationMessageEvent>();
 			collection.AddSingleton<IAsyncPacket, ModerationPickTicketEvent>();
             collection.AddSingleton<IAsyncPacket, ModerationReleaseTicketEvent>();
             collection.AddSingleton<IAsyncPacket, ModerationCloseTicketEvent>();

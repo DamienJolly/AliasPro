@@ -8,13 +8,13 @@ using AliasPro.Network.Events.Headers;
 
 namespace AliasPro.Moderation.Packets.Events
 {
-    public class ModerationAlertEvent : IAsyncPacket
+    public class ModerationMessageEvent : IAsyncPacket
     {
-        public short Header { get; } = Incoming.ModerationAlertMessageEvent;
+        public short Header { get; } = Incoming.ModerationMessageMessageEvent;
         
         private readonly IPlayerController _playerController;
 
-        public ModerationAlertEvent(
+        public ModerationMessageEvent(
             IPlayerController playerController)
         {
             _playerController = playerController;
