@@ -38,9 +38,6 @@ namespace AliasPro.Moderation.Packets.Events
                 return;
 
 			await player.Session.CurrentRoom.RemoveEntity(session.Entity);
-			player.Session.Entity = null;
-			player.Session.CurrentRoom = null;
-
 			await player.Session.SendPacketAsync(new ModerationIssueHandledComposer(message));
         }
     }

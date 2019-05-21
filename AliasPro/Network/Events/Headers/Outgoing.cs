@@ -94,8 +94,9 @@
         internal const short WiredConditionDataMessageComposer = 3049;
         internal const short WiredSavedMessageComposer = 2074;
 
-        // Landing
-        internal const short HotelViewDataMessageComposer = 730;
+		// Landing
+		internal const short HotelViewMessageComposer = 2484;
+		internal const short HotelViewDataMessageComposer = 730;
         internal const short HallOfFameMessageComposer = 1243;
         internal const short NewsListMessageComposer = 811;
 

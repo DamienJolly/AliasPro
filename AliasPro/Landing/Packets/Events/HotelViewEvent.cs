@@ -26,8 +26,6 @@ namespace AliasPro.Landing.Packets.Events
                 return;
             
             await session.CurrentRoom.RemoveEntity(session.Entity);
-            session.Entity = null;
-            session.CurrentRoom = null;
         }
     }
 }

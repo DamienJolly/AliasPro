@@ -9,6 +9,7 @@ using AliasPro.Rooms.Packets.Composers;
 using AliasPro.Rooms.Cycles;
 using System;
 using System.Threading.Tasks;
+using AliasPro.Landing.Packets.Composers;
 
 namespace AliasPro.Rooms.Models
 {
@@ -93,7 +94,16 @@ namespace AliasPro.Rooms.Models
             Game.LeaveTeam(entity);
 
             await SendAsync(new EntityRemoveComposer(entity.Id));
-        }
+
+			if (entity is PlayerEntity playerEntity)
+			{
+				if (playerEntity.Session == null) return;
+
+				playerEntity.Session.Entity = null;
+				playerEntity.Session.CurrentRoom = null;
+				await playerEntity.Session.SendPacketAsync(new HotelViewComposer());
+			}
+		}
         
         public async Task SendAsync(IPacketComposer packet)
         {
