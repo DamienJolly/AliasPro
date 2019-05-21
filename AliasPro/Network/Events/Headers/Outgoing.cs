@@ -108,8 +108,9 @@
         internal const short NavigatorFlatCatsMessageComposer = 3910;
         internal const short NavigatorSearchResultSetMessageComposer = 1388;
 
-        // Moderation
-        internal const int ModerationToolMessageComposer = 258;
+		// Moderation
+		internal const int ModerationTopicsMessageComposer = 463;
+		internal const int ModerationToolMessageComposer = 258;
         internal const int ModerationIssueInfoMessageComposer = 414;
         internal const int ModerationIssueHandledMessageComposer = 3973;
         internal const int ModerationRoomChatlogMessageComposer = 3885;

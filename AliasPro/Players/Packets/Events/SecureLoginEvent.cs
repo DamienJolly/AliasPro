@@ -78,8 +78,10 @@ namespace AliasPro.Players.Packets.Events
             await session.SendPacketAsync(new UserRightsComposer(player));
             await session.SendPacketAsync(new AvailabilityStatusComposer());
 
-            //todo: permissions
-            if (player.Rank > 2)
+			await session.SendPacketAsync(new ModerationTopicsComposer());
+
+			//todo: permissions
+			if (player.Rank > 2)
             {
                 await session.SendPacketAsync(new ModerationToolComposer(
 					_moderationController.GetPresets("user"),
