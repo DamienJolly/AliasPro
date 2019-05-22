@@ -2,6 +2,7 @@
 using AliasPro.API.Moderation.Models;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
+using AliasPro.API.Permissions;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Moderation.Packets.Composers;
 using AliasPro.Moderation.Types;
@@ -14,21 +15,24 @@ namespace AliasPro.Moderation.Packets.Events
         public short Header { get; } = Incoming.ModerationReleaseTicketMessageEvent;
 
         private readonly IModerationController _moderationController;
+		private readonly IPermissionsController _permissionsController;
 
-        public ModerationReleaseTicketEvent(IModerationController moderationController)
-        {
-            _moderationController = moderationController;
-        }
+		public ModerationReleaseTicketEvent(
+			IModerationController moderationController,
+			IPermissionsController permissionsController)
+		{
+			_moderationController = moderationController;
+			_permissionsController = permissionsController;
+		}
 
-        public async void HandleAsync(
-            ISession session,
-            IClientPacket clientPacket)
-        {
-            //todo: permissions
-            if (session.Player.Rank <= 2)
-                return;
+		public async void HandleAsync(
+			ISession session,
+			IClientPacket clientPacket)
+		{
+			if (!_permissionsController.HasPermission(session.Player, "acc_modtool_ticket_queue"))
+				return;
 
-            int count = clientPacket.ReadInt();
+			int count = clientPacket.ReadInt();
             for (int i = 0; i < count; i++)
             {
                 int ticketId = clientPacket.ReadInt();

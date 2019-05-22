@@ -2,6 +2,7 @@
 using AliasPro.API.Chat.Models;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
+using AliasPro.API.Permissions;
 using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
 using AliasPro.API.Sessions.Models;
@@ -15,27 +16,28 @@ namespace AliasPro.Moderation.Packets.Events
     {
         public short Header { get; } = Incoming.ModerationRequestUserChatlogMessageEvent;
 
-        private readonly IPlayerController _playerController;
-        private readonly IChatController _chatController;
+		private readonly IPlayerController _playerController;
+		private readonly IChatController _chatController;
+		private readonly IPermissionsController _permissionsController;
 
-        public ModerationRequestUserChatlogEvent(
-            IPlayerController playerController,
-            IChatController chatController
-            )
-        {
-            _playerController = playerController;
-            _chatController = chatController;
-        }
+		public ModerationRequestUserChatlogEvent(
+			IPlayerController playerController,
+			IChatController chatController,
+			IPermissionsController permissionsController)
+		{
+			_playerController = playerController;
+			_chatController = chatController;
+			_permissionsController = permissionsController;
+		}
 
-        public async void HandleAsync(
-            ISession session,
-            IClientPacket clientPacket)
-        {
-            //todo: permissions
-            if (session.Player.Rank <= 2)
-                return;
+		public async void HandleAsync(
+			ISession session,
+			IClientPacket clientPacket)
+		{
+			if (!_permissionsController.HasPermission(session.Player, "acc_modtool_player_logs"))
+				return;
 
-            int playerId = clientPacket.ReadInt();
+			int playerId = clientPacket.ReadInt();
 
             IPlayerData player = await _playerController.GetPlayerDataAsync((uint)playerId);
             if (player == null)

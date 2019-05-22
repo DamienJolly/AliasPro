@@ -12,6 +12,7 @@ using AliasPro.Moderation;
 using AliasPro.Navigator;
 using AliasPro.Network;
 using AliasPro.Network.Events;
+using AliasPro.Permissions;
 using AliasPro.Players;
 using AliasPro.Rooms;
 using AliasPro.Server;
@@ -45,7 +46,8 @@ namespace AliasPro
                 new CatalogService(),
                 new ChatService(),
                 new FigureService(),
-                new ConfigurationService()
+                new ConfigurationService(),
+				new PermissionsService()
             };
 
             IServiceCollection serviceCollection = new ServiceCollection();

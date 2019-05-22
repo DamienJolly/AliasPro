@@ -2,6 +2,7 @@
 using AliasPro.API.Moderation;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
+using AliasPro.API.Permissions;
 using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
 using AliasPro.API.Sessions.Models;
@@ -21,13 +22,19 @@ namespace AliasPro.Players.Packets.Events
         private readonly IPlayerController _playerController;
         private readonly IItemController _itemController;
         private readonly IModerationController _moderationController;
+		private readonly IPermissionsController _permissionsController;
 
-        public SecureLoginEvent(IPlayerController playerController, IItemController itemController, IModerationController moderationController)
+        public SecureLoginEvent(
+			IPlayerController playerController, 
+			IItemController itemController, 
+			IModerationController moderationController,
+			IPermissionsController permissionsController)
         {
             _playerController = playerController;
             _itemController = itemController;
             _moderationController = moderationController;
-        }
+			_permissionsController = permissionsController;
+		}
 
         public async void HandleAsync(
             ISession session,
@@ -80,10 +87,11 @@ namespace AliasPro.Players.Packets.Events
 
 			await session.SendPacketAsync(new ModerationTopicsComposer());
 
-			//todo: permissions
-			if (player.Rank > 2)
+			if (_permissionsController.HasPermission(session.Player, "acc_modtool"))
             {
                 await session.SendPacketAsync(new ModerationToolComposer(
+					_permissionsController,
+					 player,
 					_moderationController.GetPresets("user"),
 					_moderationController.GetPresets("category"),
 					_moderationController.GetPresets("room"),

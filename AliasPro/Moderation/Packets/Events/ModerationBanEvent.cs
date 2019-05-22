@@ -1,10 +1,10 @@
 ﻿using AliasPro.API.Moderation;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
+using AliasPro.API.Permissions;
 using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
 using AliasPro.API.Sessions.Models;
-using AliasPro.Moderation.Packets.Composers;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Utilities;
 
@@ -13,9 +13,6 @@ namespace AliasPro.Moderation.Packets.Events
     public class ModerationBanEvent : IAsyncPacket
     {
         public short Header { get; } = Incoming.ModerationBanMessageEvent;
-        
-        private readonly IPlayerController _playerController;
-		private readonly IModerationController _moderationController;
 
 		private const int BAN_18_HOURS = 3;
 		private const int BAN_7_DAYS = 4;
@@ -24,23 +21,28 @@ namespace AliasPro.Moderation.Packets.Events
 		private const int BAN_100_YEARS = 6;
 		private const int BAN_AVATAR_ONLY_100_YEARS = 106;
 
+		private readonly IModerationController _moderationController;
+		private readonly IPlayerController _playerController;
+		private readonly IPermissionsController _permissionsController;
+
 		public ModerationBanEvent(
-            IPlayerController playerController,
-			IModerationController moderationController)
-        {
-            _playerController = playerController;
+			IModerationController moderationController,
+			IPlayerController playerController,
+			IPermissionsController permissionsController)
+		{
 			_moderationController = moderationController;
+			_playerController = playerController;
+			_permissionsController = permissionsController;
 		}
 
-        public async void HandleAsync(
-            ISession session,
-            IClientPacket clientPacket)
-        {
-            //todo: permissions
-            if (session.Player.Rank <= 2)
-                return;
-            
-            int playerId = clientPacket.ReadInt();
+		public async void HandleAsync(
+			ISession session,
+			IClientPacket clientPacket)
+		{
+			if (!_permissionsController.HasPermission(session.Player, "acc_modtool_player_ban"))
+				return;
+
+			int playerId = clientPacket.ReadInt();
 			if (!_playerController.TryGetPlayer((uint)playerId, out IPlayer player))
 				return;
 

@@ -1,10 +1,13 @@
 ﻿using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
+using AliasPro.API.Permissions;
 using AliasPro.API.Rooms;
+using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
-using AliasPro.Moderation.Packets.Composers;
 using AliasPro.Network.Events.Headers;
+using AliasPro.Rooms.Entities;
+using System.Linq;
 
 namespace AliasPro.Moderation.Packets.Events
 {
@@ -13,32 +16,44 @@ namespace AliasPro.Moderation.Packets.Events
         public short Header { get; } = Incoming.ModerationChangeRoomSettingsMessageEvent;
         
         private readonly IRoomController _roomController;
+		private readonly IPermissionsController _permissionsController;
 
-        public ModerationChangeRoomSettingsEvent(
-            IRoomController roomController)
-        {
-            _roomController = roomController;
-        }
+		public ModerationChangeRoomSettingsEvent(
+			IRoomController roomController,
+			IPermissionsController permissionsController)
+		{
+			_roomController = roomController;
+			_permissionsController = permissionsController;
+		}
 
-        public async void HandleAsync(
-            ISession session,
-            IClientPacket clientPacket)
-        {
-            //todo: permissions
-            if (session.Player.Rank <= 2)
-                return;
-            
-            int roomId = clientPacket.ReadInt();
+		public async void HandleAsync(
+			ISession session,
+			IClientPacket clientPacket)
+		{
+			if (!_permissionsController.HasPermission(session.Player, "acc_modtool_room_settings"))
+				return;
 
-            IRoomData roomData = await _roomController.ReadRoomDataAsync((uint)roomId);
-            if (roomData == null)
+			int roomId = clientPacket.ReadInt();
+			if(!_roomController.TryGetRoom((uint)roomId, out IRoom room))
                 return;
 
             bool lockDoor = clientPacket.ReadInt() == 1;
-            bool changeTitle = clientPacket.ReadInt() == 1;
-            bool kickUsers = clientPacket.ReadInt() == 1;
+			if (lockDoor)
+				room.DoorState = 2;
 
-            //todo:
-        }
+			bool changeTitle = clientPacket.ReadInt() == 1;
+			if (changeTitle)
+				room.Name = "Inappropriate to hotel management!";
+
+			bool kickUsers = clientPacket.ReadInt() == 1;
+			if (kickUsers)
+			{
+				foreach (BaseEntity entity in room.Entities.Entities.ToList())
+				{
+					if (entity is PlayerEntity playerEntity)
+						await playerEntity.Session.CurrentRoom.RemoveEntity(entity);
+				}
+			}
+		}
     }
 }

@@ -1,7 +1,9 @@
-﻿using AliasPro.API.Players.Models;
+﻿using AliasPro.API.Permissions;
+using AliasPro.API.Players.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Players.Components;
 using AliasPro.Players.Cycles;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AliasPro.Players.Models
 {
@@ -22,5 +24,5 @@ namespace AliasPro.Players.Models
         {
             Session = session;
         }
-    }
+	}
 }
