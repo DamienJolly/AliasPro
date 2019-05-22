@@ -120,5 +120,8 @@
         internal const int ModerationUserInfoMessageComposer = 556;
         internal const int ModerationUserRoomVisitsMessageComposer = 2748;
         internal const int ModeratorUserChatlogMessageComposer = 1627;
-    }
+
+		// Achievements
+		internal const int AchievementListMessageComposer = 2034;
+	}
 }

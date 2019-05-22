@@ -1,4 +1,5 @@
-﻿using AliasPro.API.Network;
+﻿using AliasPro.Achievements;
+using AliasPro.API.Network;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Server;
 using AliasPro.Catalog;
@@ -47,8 +48,9 @@ namespace AliasPro
                 new ChatService(),
                 new FigureService(),
                 new ConfigurationService(),
-				new PermissionsService()
-            };
+				new PermissionsService(),
+				new AchievementService()
+			};
 
             IServiceCollection serviceCollection = new ServiceCollection();
             serviceCollection.AddLogging(logging =>
