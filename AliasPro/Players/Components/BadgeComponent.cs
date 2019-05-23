@@ -25,7 +25,10 @@ namespace AliasPro.Players.Components
         public bool TryGetBadge(string code, out IPlayerBadge badge) =>
             _badges.TryGetValue(code, out badge);
 
-        public ICollection<IPlayerBadge> WornBadges =>
+		public void AddBadge(IPlayerBadge badge) =>
+			_badges.Add(badge.Code, badge);
+
+		public ICollection<IPlayerBadge> WornBadges =>
             _badges.Values.Where(badge => badge.Slot > 0).OrderBy(badge => badge.Slot).ToList();
 
         public ICollection<IPlayerBadge> Badges =>

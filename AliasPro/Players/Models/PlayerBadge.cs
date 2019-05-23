@@ -12,7 +12,13 @@ namespace AliasPro.Players.Models
             Slot = reader.ReadData<int>("slot");
         }
 
-        public string Code { get; set; }
+		public PlayerBadge(string code, int slot = 0)
+		{
+			Code = code;
+			Slot = slot;
+		}
+
+		public string Code { get; set; }
         public int Slot { get; set; }
     }
 }

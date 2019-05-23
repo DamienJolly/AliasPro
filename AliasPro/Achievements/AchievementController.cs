@@ -1,6 +1,7 @@
 ﻿using AliasPro.Achievements.Packets.Composers;
 using AliasPro.API.Achievements;
 using AliasPro.API.Achievements.Models;
+using AliasPro.API.Badge;
 using AliasPro.API.Players.Models;
 using AliasPro.Players.Models;
 using AliasPro.Players.Packets.Composers;
@@ -10,12 +11,16 @@ namespace AliasPro.Achievements
 {
     internal class AchievementController : IAchievementController
 	{
+		private readonly IBadgeController _badgeController;
 		private readonly AchievementDao _achievementDao;
 
 		private IDictionary<string, IAchievement> _achievements;
 
-		public AchievementController(AchievementDao achievementDao)
+		public AchievementController(
+			IBadgeController badgeController,
+			AchievementDao achievementDao)
         {
+			_badgeController = badgeController;
 			_achievementDao = achievementDao;
 
 			_achievements = new Dictionary<string, IAchievement>();
@@ -41,17 +46,14 @@ namespace AliasPro.Achievements
 
 			if (!player.Achievement.GetAchievementProgress(achievement.Id, out IPlayerAchievement playerAchievement))
 			{
-				playerAchievement = new PlayerAchievement(achievement.Id, amount);
+				playerAchievement = new PlayerAchievement(achievement.Id, 0);
 				player.Achievement.AddAchievement(playerAchievement);
-				await _achievementDao.AddPlayerAchievementAsync(achievement.Id, amount, player.Id);
+				await _achievementDao.AddPlayerAchievementAsync(playerAchievement.Id, playerAchievement.Progress, player.Id);
 			}
 
 			IAchievementLevel oldLevel = achievement.GetLevelForProgress(playerAchievement.Progress);
 
-			if (oldLevel == null)
-				return;
-
-			if (oldLevel.Level == achievement.Levels.Count && amount == oldLevel.Progress) //Maximum achievement reached.
+			if (oldLevel != null && oldLevel.Level == achievement.Levels.Count && amount >= oldLevel.Progress) //Maximum achievement gotten.
 				return;
 
 			playerAchievement.Progress += amount;
@@ -59,8 +61,6 @@ namespace AliasPro.Achievements
 			await player.Session.SendPacketAsync(new AchievementProgressComposer(player, achievement));
 
 			IAchievementLevel newLevel = achievement.GetLevelForProgress(playerAchievement.Progress + amount);
-			if (!(oldLevel.Level != newLevel.Level && newLevel.Level >= achievement.Levels.Count))
-				return;
 
 			if (newLevel == null ||
 				(oldLevel != null && oldLevel.Level == newLevel.Level && newLevel.Level < achievement.Levels.Count))
@@ -68,34 +68,30 @@ namespace AliasPro.Achievements
 
 			await player.Session.SendPacketAsync(new AchievementUnlockedComposer(player, achievement));
 
-			if (!player.Badge.TryGetBadge("ACH_" + achievement.Name + oldLevel.Level, out IPlayerBadge badge))
+			IPlayerBadge badge = null;
+
+			if (oldLevel != null)
 			{
-				//todo: code
-				//await player.Badge.AddBadgeAsync("ACH_" + achievement.Name + newLevel.Level);
-			}
-			else
-			{
-				// todo: code
-				badge.Code = "ACH_" + achievement.Name + newLevel.Level;
-				//await _player.Badges.UpdateBadgeAsync(badge, "ACH_" + achievement.Name + oldLevel.Level);
+				if (player.Badge.TryGetBadge("ACH_" + achievement.Name + oldLevel.Level, out badge))
+				{
+					_badgeController.UpdatePlayerBadge(player, badge, "ACH_" + achievement.Name + newLevel.Level);
+
+					if (badge.Slot > 0)
+					{
+						if (player.Session.CurrentRoom != null)
+							await player.Session.CurrentRoom.SendAsync(new UserBadgesComposer(
+								player.Badge.WornBadges, player.Id));
+					}
+				}
 			}
 
-			if (badge.Slot > 0)
-			{
-				if (player.Session.CurrentRoom != null)
-					await player.Session.CurrentRoom.SendAsync(new UserBadgesComposer(
-						player.Badge.WornBadges, player.Id));
-				else
-					await player.Session.SendPacketAsync(new UserBadgesComposer(
-						player.Badge.WornBadges, player.Id));
-			}
+			if (badge == null)
+				_badgeController.AddPlayerBadge(player, "ACH_" + achievement.Name + newLevel.Level);
 
 			player.Score += newLevel.RewardPoints;
 
 			//if (player.Session.CurrentRoom != null)
 				//await player.Session.SendPacketAsync(new RoomUserDataComposer(_player.Entity));
-
-			//todo: talent track shit
 		}
 	}
 }

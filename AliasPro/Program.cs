@@ -2,6 +2,7 @@
 using AliasPro.API.Network;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Server;
+using AliasPro.Badges;
 using AliasPro.Catalog;
 using AliasPro.Chat;
 using AliasPro.Configuration;
@@ -32,24 +33,25 @@ namespace AliasPro
 
         private Program()
         {
-            IList<INetworkService> services = new List<INetworkService>
-            {
-                new ServerService(),
-                new NetworkService(),
-                new ModerationService(),
-                new MessengerService(),
-                new PlayerService(),
-                new SessionService(),
-                new LandingService(),
-                new RoomService(),
-                new NavigatorService(),
-                new ItemService(),
-                new CatalogService(),
-                new ChatService(),
-                new FigureService(),
-                new ConfigurationService(),
+			IList<INetworkService> services = new List<INetworkService>
+			{
+				new ServerService(),
+				new NetworkService(),
+				new ModerationService(),
+				new MessengerService(),
+				new PlayerService(),
+				new SessionService(),
+				new LandingService(),
+				new RoomService(),
+				new NavigatorService(),
+				new ItemService(),
+				new CatalogService(),
+				new ChatService(),
+				new FigureService(),
+				new ConfigurationService(),
 				new PermissionsService(),
-				new AchievementService()
+				new AchievementService(),
+				new BadgeService()
 			};
 
             IServiceCollection serviceCollection = new ServiceCollection();
