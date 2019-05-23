@@ -94,7 +94,10 @@ namespace AliasPro.Players
         internal async Task<IDictionary<string, IPlayerBadge>> GetPlayerBadgesAsync(uint id) =>
             await _playerDao.GetPlayerBadgesAsync(id);
 
-        public async Task UpdatePlayerBadgesAsync(IPlayer player) =>
+		internal async Task<IDictionary<int, IPlayerAchievement>> GetPlayerAchievementsAsync(uint id) =>
+			await _playerDao.GetPlayerAchievementsAsync(id);
+
+		public async Task UpdatePlayerBadgesAsync(IPlayer player) =>
             await _playerDao.UpdatePlayerBadgesAsync(player);
 
 

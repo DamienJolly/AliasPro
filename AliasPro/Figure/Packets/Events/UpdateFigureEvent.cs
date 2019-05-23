@@ -1,4 +1,5 @@
-﻿using AliasPro.API.Figure;
+﻿using AliasPro.API.Achievements;
+using AliasPro.API.Figure;
 using AliasPro.API.Messenger;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
@@ -17,16 +18,19 @@ namespace AliasPro.Figure.Packets.Events
         private readonly IPlayerController _playerController;
         private readonly IFigureController _figureController;
         private readonly IMessengerController _messengerController;
+		private readonly IAchievementController _achievementController;
 
         public UpdateFigureEvent(
             IFigureController figureController, 
             IPlayerController playerController, 
-            IMessengerController messengerController)
+            IMessengerController messengerController,
+			IAchievementController achievementController)
         {
             _figureController = figureController;
             _playerController = playerController;
             _messengerController = messengerController;
-        }
+			_achievementController = achievementController;
+		}
 
         public async void HandleAsync(
             ISession session,
@@ -61,6 +65,8 @@ namespace AliasPro.Figure.Packets.Events
 
             if (session.Player.Messenger != null)
                 await _messengerController.UpdateStatusAsync(session.Player, session.Player.Messenger.Friends);
-        }
+
+			_achievementController.ProgressAchievement(session.Player, "AvatarLooks");
+		}
     }
 }

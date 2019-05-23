@@ -23,6 +23,9 @@ namespace AliasPro.Achievements.Packets.Events
             ISession session,
             IClientPacket clientPacket)
         {
+			if (session.Player == null)
+				return;
+
 			await session.SendPacketAsync(new AchievementListComposer(
 				session.Player, 
 				_achievementController.Achievements));

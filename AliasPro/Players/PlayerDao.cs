@@ -179,7 +179,27 @@ namespace AliasPro.Players
             return badges;
         }
 
-        internal async Task UpdatePlayerBadgesAsync(IPlayer player)
+		internal async Task<IDictionary<int, IPlayerAchievement>> GetPlayerAchievementsAsync(uint id)
+		{
+			IDictionary<int, IPlayerAchievement> achievements = new Dictionary<int, IPlayerAchievement>();
+			await CreateTransaction(async transaction =>
+			{
+				await Select(transaction, async reader =>
+				{
+					while (await reader.ReadAsync())
+					{
+						IPlayerAchievement achievement = new PlayerAchievement(reader);
+
+						if (!achievements.ContainsKey(achievement.Id))
+							achievements.Add(achievement.Id, achievement);
+					}
+				}, "SELECT `id`, `progress` FROM `player_achievements` WHERE `player_id` = @0;", id);
+			});
+
+			return achievements;
+		}
+
+		internal async Task UpdatePlayerBadgesAsync(IPlayer player)
         {
             await CreateTransaction(async transaction =>
             {

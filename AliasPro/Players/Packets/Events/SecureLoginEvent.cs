@@ -72,8 +72,11 @@ namespace AliasPro.Players.Packets.Events
 
             player.Badge = new BadgeComponent(
                 await _playerController.GetPlayerBadgesAsync(player.Id));
-            
-            if (!_playerController.TryAddPlayer(player))
+
+			player.Achievement = new AchievementComponent(
+				await _playerController.GetPlayerAchievementsAsync(player.Id));
+
+			if (!_playerController.TryAddPlayer(player))
             {
                 session.Disconnect();
                 return;

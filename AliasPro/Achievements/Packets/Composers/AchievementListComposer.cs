@@ -24,31 +24,11 @@ namespace AliasPro.Achievements.Packets.Composers
         {
             ServerPacket message = new ServerPacket(Outgoing.AchievementListMessageComposer);
 			message.WriteInt(_achievements.Count);
+
 			foreach (IAchievement achievement in _achievements)
-			{
-				int amount = 0;
-				//if (!player.Achievements.GetAchievementProgress(achievement.Id, out int amount))
-				//	amount = 0;
+				achievement.Compose(message, _player);
 
-				int targetLevel = 1;
-				IAchievementLevel currentLevel = achievement.GetLevelForProgress(amount);
-				IAchievementLevel nextLevel = achievement.GetNextLevel(currentLevel != null ? currentLevel.Level : 0);
-
-				message.WriteInt(achievement.Id);
-				message.WriteInt(targetLevel);
-				message.WriteString("ACH_" + achievement.Name + targetLevel);
-				message.WriteInt(currentLevel != null ? currentLevel.Progress : 0);
-				message.WriteInt(nextLevel != null ? nextLevel.Progress : 0);
-				message.WriteInt(nextLevel != null ? nextLevel.RewardAmount : 0);
-				message.WriteInt(nextLevel != null ? nextLevel.RewardType : 0);
-				message.WriteInt(amount);
-				message.WriteBoolean(false); //has achieved
-				message.WriteString(achievement.Category.ToString().ToLower());
-				message.WriteString(string.Empty); //dunno?
-				message.WriteInt(achievement.Levels.Count);
-				message.WriteInt(0); //1 = Progressbar visible if the achievement is completed
-			}
-			message.WriteString(string.Empty);
+			message.WriteString(string.Empty); //dunno?
 			return message;
         }
     }

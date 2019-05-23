@@ -12,6 +12,7 @@ namespace AliasPro.API.Players.Models
         MessengerComponent Messenger { get; set; }
         CurrencyComponent Currency { get; set; }
         BadgeComponent Badge { get; set; }
+		AchievementComponent Achievement { get; set; }
         InventoryComponent Inventory { get; set; }
         PlayerCycle PlayerCycle { get; set; }
     }

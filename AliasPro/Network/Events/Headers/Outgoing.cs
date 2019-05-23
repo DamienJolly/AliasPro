@@ -123,5 +123,7 @@
 
 		// Achievements
 		internal const int AchievementListMessageComposer = 2034;
+		internal const int AchievementUnlockedMessageComposer = 2603;
+		internal const int AchievementProgressMessageComposer = 220;
 	}
 }
