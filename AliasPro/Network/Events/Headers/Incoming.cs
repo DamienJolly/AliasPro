@@ -116,6 +116,7 @@
 		internal const int RequestGroupBuyRoomsMessageEvent = 2627;
 		internal const int RequestGroupPartsMessageEvent = 1252;
 		internal const int RequestGroupBuyMessageEvent = 730;
+		internal const int RequestGroupManageMessageEvent = 601;
 		internal const int RequestGroupMembersMessageEvent = 3272;
 
 		// Subscription
