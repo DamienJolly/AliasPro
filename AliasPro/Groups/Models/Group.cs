@@ -1,6 +1,8 @@
 ﻿using AliasPro.API.Groups.Models;
 using AliasPro.API.Database;
 using System.Data.Common;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AliasPro.Groups.Models
 {
@@ -17,6 +19,7 @@ namespace AliasPro.Groups.Models
 			Badge = reader.ReadData<string>("badge");
 			ColourOne = reader.ReadData<int>("colour1");
 			ColourTwo = reader.ReadData<int>("colour2");
+			Members = new Dictionary<int, IGroupMember>();
 		}
 
 		internal Group(int id, string name, string desc, int createdAt, int ownerId, int roomId, string badge, int colourOne, int colourTwo)
@@ -30,7 +33,17 @@ namespace AliasPro.Groups.Models
 			Badge = badge;
 			ColourOne = colourOne;
 			ColourTwo = colourTwo;
+			Members = new Dictionary<int, IGroupMember>();
 		}
+
+		public bool TryGetMember(int playerId, out IGroupMember member) =>
+			Members.TryGetValue(playerId, out member);
+
+		public int GetMembers =>
+			Members.Values.Where(member => (int)member.Rank <= 2).Count();
+
+		public int GetRequests =>
+			Members.Values.Where(member => (int)member.Rank == 3).Count();
 
 		public int Id { get; set; }
 		public string Name { get; set; }
@@ -41,5 +54,6 @@ namespace AliasPro.Groups.Models
 		public string Badge { get; set; }
 		public int ColourOne { get; set; }
 		public int ColourTwo { get; set; }
+		public IDictionary<int, IGroupMember> Members { get; set; }
 	}
 }

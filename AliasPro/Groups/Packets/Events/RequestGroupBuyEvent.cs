@@ -53,6 +53,8 @@ namespace AliasPro.Groups.Packets.Events
 				await _roomController.ReadRoomDataAsync((uint)roomId);
 			if (room == null) return;
 
+			if (room.Group != null) return;
+
 			if (room.OwnerId != session.Player.Id) return;
 
 			int colourOne = clientPacket.ReadInt();

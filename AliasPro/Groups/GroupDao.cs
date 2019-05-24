@@ -41,10 +41,31 @@ namespace AliasPro.Groups
 					if (await reader.ReadAsync())
 					{
 						group = new Group(reader);
+						group.Members = await ReadGroupMembers(group.Id);
 					}
 				}, "SELECT * FROM `groups` WHERE `id` = @0 LIMIT 1;", groupId);
 			});
 			return group;
+		}
+
+		public async Task<IDictionary<int, IGroupMember>> ReadGroupMembers(int groupId)
+		{
+			IDictionary<int, IGroupMember> members = new Dictionary<int, IGroupMember>();
+			await CreateTransaction(async transaction =>
+			{
+				await Select(transaction, async reader =>
+				{
+					while (await reader.ReadAsync())
+					{
+						IGroupMember member = new GroupMember(reader);
+
+						if (!members.ContainsKey(member.PlayerId))
+							members.Add(member.PlayerId, member);
+					}
+				}, "SELECT `group_members`.* , `players`.`username`, `players`.`figure` FROM `group_members` " +
+					"INNER JOIN `players` ON `players`.`id` = `group_members`.`player_id` WHERE `group_members`.`id` = @0;", groupId);
+			});
+			return members;
 		}
 
 		internal async Task<int> CreateGroup(string name, string desc, uint playerId, int roomId, string badge, int colourOne, int colourTwo)

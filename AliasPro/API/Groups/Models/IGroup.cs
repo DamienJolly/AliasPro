@@ -1,7 +1,13 @@
-﻿namespace AliasPro.API.Groups.Models
+﻿using System.Collections.Generic;
+
+namespace AliasPro.API.Groups.Models
 {
 	public interface IGroup
 	{
+		bool TryGetMember(int playerId, out IGroupMember member);
+		int GetMembers { get; }
+		int GetRequests { get; }
+
 		int Id { get; set; }
 		string Name { get; set; }
 		string Description { get; set; }
@@ -11,5 +17,6 @@
 		string Badge { get; set; }
 		int ColourOne { get; set; }
 		int ColourTwo { get; set; }
+		IDictionary<int, IGroupMember> Members { get; set; }
 	}
 }
