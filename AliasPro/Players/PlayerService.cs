@@ -28,7 +28,8 @@ namespace AliasPro.Players
             collection.AddSingleton<IAsyncPacket, UserWearBadgeEvent>();
             collection.AddSingleton<IAsyncPacket, RequestUserCreditsEvent>();
             collection.AddSingleton<IAsyncPacket, RequestUserProfileEvent>();
-            collection.AddSingleton<IAsyncPacket, RequestProfileFriendsEvent>();
+			collection.AddSingleton<IAsyncPacket, RequestUserClubEvent>();
+			collection.AddSingleton<IAsyncPacket, RequestProfileFriendsEvent>();
             collection.AddSingleton<IAsyncPacket, SaveUserVolumesEvent>();
             collection.AddSingleton<IAsyncPacket, SavePreferOldChatEvent>();
             collection.AddSingleton<IAsyncPacket, SaveIgnoreRoomInvitesEvent>();

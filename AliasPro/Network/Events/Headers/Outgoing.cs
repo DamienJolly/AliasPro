@@ -133,5 +133,8 @@
 		internal const int GroupInfoMessageComposer = 102;
 		internal const int GroupBuyRoomsMessageComposer = 2601;
 		internal const int GroupPartsMessageComposer = 2770;
+
+		// Subscription
+		internal const int UserClubMessageComposer = 2984;
 	}
 }
