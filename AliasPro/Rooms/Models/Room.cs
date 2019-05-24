@@ -97,7 +97,8 @@ namespace AliasPro.Rooms.Models
 
 			if (entity is PlayerEntity playerEntity)
 			{
-				if (playerEntity.Session == null) return;
+				if (playerEntity.Session == null ||
+					!playerEntity.Session.Player.Online) return;
 
 				playerEntity.Session.Entity = null;
 				playerEntity.Session.CurrentRoom = null;
