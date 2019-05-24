@@ -26,9 +26,25 @@ namespace AliasPro.Groups
 					{
 						badgeParts.Add(new GroupBadgePart(reader));
 					}
-				}, "SELECT * FROM `groups_badges_parts`;");
+				}, "SELECT * FROM `group_badge_parts`;");
 			});
 			return badgeParts;
+		}
+
+		public async Task<IGroup> ReadGroupData(int groupId)
+		{
+			IGroup group = null;
+			await CreateTransaction(async transaction =>
+			{
+				await Select(transaction, async reader =>
+				{
+					if (await reader.ReadAsync())
+					{
+						group = new Group(reader);
+					}
+				}, "SELECT * FROM `groups` WHERE `id` = @0 LIMIT 1;", groupId);
+			});
+			return group;
 		}
 	}
 }

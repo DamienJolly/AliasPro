@@ -110,5 +110,8 @@
 
 		// Achievements
 		internal const int RequestAchievementsMessageEvent = 3280;
+
+		// Groups
+		internal const int RequestGroupInfoMessageEvent = 2873;
 	}
 }

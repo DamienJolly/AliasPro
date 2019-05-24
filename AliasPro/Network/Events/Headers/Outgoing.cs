@@ -128,5 +128,8 @@
 
 		// Badges
 		internal const int AddPlayerBadgeMessageComposer = 1441;
+
+		// Groups
+		internal const int GroupInfoMessageComposer = 102;
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using AliasPro.API.Groups;
 using AliasPro.API.Network;
 using AliasPro.API.Network.Events;
+using AliasPro.Groups.Packets.Events;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AliasPro.Groups
@@ -17,7 +18,7 @@ namespace AliasPro.Groups
 
 		private static void AddPackets(IServiceCollection collection)
 		{
-
+			collection.AddSingleton<IAsyncPacket, RequestGroupInfoEvent>();
 		}
 	}
 }

@@ -28,8 +28,21 @@ namespace AliasPro.Players.Packets.Composers
             message.WriteBoolean(false); //Is friend
             message.WriteBoolean(false); //Has requested
             message.WriteBoolean(_player.Online);
-            message.WriteInt(0); //Groups
-            message.WriteInt(0); //Last online (seconds)
+
+            message.WriteInt(1); //Groups
+			{
+				message.WriteInt(1); // group id
+				message.WriteString("Testing"); // group name
+				message.WriteString(""); // group badge
+				message.WriteString(""); // group colour1
+				message.WriteString(""); // group colour2
+				message.WriteBoolean(true); // Fav. group
+				message.WriteInt(1); // group owner id
+				message.WriteBoolean(true); // is owner
+			}
+
+
+			message.WriteInt(0); //Last online (seconds)
             message.WriteBoolean(true); //?
             return message;
         }
