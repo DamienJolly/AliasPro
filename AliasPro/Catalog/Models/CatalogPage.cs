@@ -37,7 +37,8 @@ namespace AliasPro.Catalog.Models
             {
                 default: return new LayoutDefault(this);
                 case "frontpage": return new LayoutFrontpage(this);
-            }
+				case "guilds": return new LayoutGroup(this);
+			}
         }
 
         public bool TryGetCatalogItem(int itemId, out ICatalogItem item) =>

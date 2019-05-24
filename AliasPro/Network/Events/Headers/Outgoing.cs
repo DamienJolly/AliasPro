@@ -131,5 +131,7 @@
 
 		// Groups
 		internal const int GroupInfoMessageComposer = 102;
+		internal const int GroupBuyRoomsMessageComposer = 2601;
+		internal const int GroupPartsMessageComposer = 2770;
 	}
 }
