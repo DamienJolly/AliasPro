@@ -14,6 +14,22 @@ namespace AliasPro.Groups.Models
 			CreatedAt = reader.ReadData<int>("created_at");
 			OwnerId = reader.ReadData<int>("owner_id");
 			RoomId = reader.ReadData<int>("room_id");
+			Badge = reader.ReadData<string>("badge");
+			ColourOne = reader.ReadData<int>("colour1");
+			ColourTwo = reader.ReadData<int>("colour2");
+		}
+
+		internal Group(int id, string name, string desc, int createdAt, int ownerId, int roomId, string badge, int colourOne, int colourTwo)
+		{
+			Id = id;
+			Name = name;
+			Description = desc;
+			CreatedAt = createdAt;
+			OwnerId = ownerId;
+			RoomId = roomId;
+			Badge = badge;
+			ColourOne = colourOne;
+			ColourTwo = colourTwo;
 		}
 
 		public int Id { get; set; }
@@ -22,5 +38,8 @@ namespace AliasPro.Groups.Models
 		public int OwnerId { get; set; }
 		public int CreatedAt { get; set; }
 		public int RoomId { get; set; }
+		public string Badge { get; set; }
+		public int ColourOne { get; set; }
+		public int ColourTwo { get; set; }
 	}
 }

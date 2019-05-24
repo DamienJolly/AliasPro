@@ -46,5 +46,19 @@ namespace AliasPro.Groups
 			});
 			return group;
 		}
+
+		internal async Task<int> CreateGroup(string name, string desc, uint playerId, int roomId, string badge, int colourOne, int colourTwo)
+		{
+			int groupId = -1;
+			await CreateTransaction(async transaction =>
+			{
+				groupId = await Insert(transaction, "INSERT INTO `groups` (`name`, `desc`, `owner_id`, `room_id`, `created_at`, `badge`, `colour1`, `colour2`) VALUES (@0, @1, @2, @3, UNIX_TIMESTAMP(), @4, @5, @6);",
+					name, desc, playerId, roomId, badge, colourOne, colourTwo);
+
+				await Insert(transaction, "UPDATE `rooms` SET `group_id` = @0 WHERE `id` = @1;",
+					groupId, roomId);
+			});
+			return groupId;
+		}
 	}
 }

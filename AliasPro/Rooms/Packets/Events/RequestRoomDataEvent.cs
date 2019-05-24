@@ -9,6 +9,8 @@ using AliasPro.Rooms.Components;
 using AliasPro.Rooms.Models;
 using AliasPro.Rooms.Packets.Composers;
 using AliasPro.Rooms.Cycles;
+using AliasPro.API.Groups;
+using AliasPro.API.Groups.Models;
 
 namespace AliasPro.Rooms.Packets.Events
 {
@@ -17,12 +19,17 @@ namespace AliasPro.Rooms.Packets.Events
         public short Header { get; } = Incoming.RequestRoomDataMessageEvent;
 
         private readonly IRoomController _roomController;
-        private readonly IItemController _itemController;
+		private readonly IGroupController _groupController;
+		private readonly IItemController _itemController;
 
-        public RequestRoomDataEvent(IRoomController roomController, IItemController itemController)
+        public RequestRoomDataEvent(
+			IRoomController roomController,
+			IGroupController groupController,
+			IItemController itemController)
         {
             _roomController = roomController;
-            _itemController = itemController;
+			_groupController = groupController;
+			_itemController = itemController;
         }
 
         public async void HandleAsync(
@@ -67,11 +74,11 @@ namespace AliasPro.Rooms.Packets.Events
                 room.Rights = new RightsComponent(room,
                     await _roomController.GetRightsForRoomAsync(room.Id));
 
-                room.RoomCycle = new RoomCycle(room);
+				room.RoomCycle = new RoomCycle(room);
             }
 
             bool loading = !(clientPacket.ReadInt() == 0 && clientPacket.ReadInt() == 1);
-            await session.SendPacketAsync(new RoomDataComposer(room, loading, true, session));
+			await session.SendPacketAsync(new RoomDataComposer(room, loading, true, session));
         }
     }
 }

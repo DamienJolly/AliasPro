@@ -17,7 +17,9 @@ namespace AliasPro.Navigator.Packets.Events
         private readonly INavigatorController _navigatorController;
         private readonly IRoomController _roomController;
 
-        public NavigatorSearchEvent(INavigatorController navigatorController, IRoomController roomController)
+        public NavigatorSearchEvent(
+			INavigatorController navigatorController, 
+			IRoomController roomController)
         {
             _navigatorController = navigatorController;
             _roomController = roomController;

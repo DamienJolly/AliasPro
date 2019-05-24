@@ -8,5 +8,8 @@
 		int OwnerId { get; set; }
 		int CreatedAt { get; set; }
 		int RoomId { get; set; }
+		string Badge { get; set; }
+		int ColourOne { get; set; }
+		int ColourTwo { get; set; }
 	}
 }

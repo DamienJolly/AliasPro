@@ -19,14 +19,14 @@ namespace AliasPro.Rooms.Packets.Composers
             _loading = loading;
             _entry = entry;
             _session = session;
-        }
+		}
 
         public ServerPacket Compose()
         {
             ServerPacket message = new ServerPacket(Outgoing.RoomDataMessageComposer);
             message.WriteBoolean(_loading);
             _room.Compose(message);
-            message.WriteBoolean(_entry);
+			message.WriteBoolean(_entry);
             message.WriteBoolean(false); //staff picked
             message.WriteBoolean(false); //public room
             message.WriteBoolean(false); //muted

@@ -1,6 +1,8 @@
 ﻿using AliasPro.API.Groups;
 using AliasPro.API.Groups.Models;
+using AliasPro.Groups.Models;
 using AliasPro.Groups.Types;
+using AliasPro.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -32,14 +34,19 @@ namespace AliasPro.Groups
 
 		public async Task<IGroup> ReadGroupData(int groupId)
 		{
-			IGroup group;
-			if (_groups.TryGetValue(groupId, out group))
+			if (_groups.TryGetValue(groupId, out IGroup group))
 				return group;
 
 			group = await _groupDao.ReadGroupData(groupId);
 			_groups.TryAdd(group.Id, group);
 
 			return group;
+		}
+
+		public async Task<IGroup> CreateGroup(string name, string desc, uint playerId, int roomId, string badge, int colourOne, int colourTwo)
+		{
+			return await ReadGroupData(
+				await _groupDao.CreateGroup(name, desc, playerId, roomId, badge, colourOne, colourTwo));
 		}
 
 		public ICollection<IGroupBadgePart> GetBases => 

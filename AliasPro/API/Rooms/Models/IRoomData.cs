@@ -1,4 +1,5 @@
-﻿using AliasPro.Network.Protocol;
+﻿using AliasPro.API.Groups.Models;
+using AliasPro.Network.Protocol;
 using System.Collections.Generic;
 
 namespace AliasPro.API.Rooms.Models
@@ -21,6 +22,7 @@ namespace AliasPro.API.Rooms.Models
         int DoorState { get; set; }
         int Score { get; set; }
         IList<string> Tags { get; set; }
+		IGroup Group { get; set; }
 
         IRoomModel RoomModel { get; set; }
         IRoomSettings Settings { get; set; }

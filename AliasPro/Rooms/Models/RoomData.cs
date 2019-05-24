@@ -1,4 +1,5 @@
 ﻿using AliasPro.API.Database;
+using AliasPro.API.Groups.Models;
 using AliasPro.API.Rooms.Models;
 using AliasPro.Network.Protocol;
 using System.Collections.Generic;
@@ -47,27 +48,35 @@ namespace AliasPro.Rooms.Models
             CategoryId = data.CategoryId;
             Score = data.Score;
             Tags = data.Tags;
+			Group = data.Group;
         }
 
-        public void Compose(ServerPacket serverPacket)
+        public void Compose(ServerPacket message)
         {
-            serverPacket.WriteInt(Id);
-            serverPacket.WriteString(Name);
-            serverPacket.WriteInt(OwnerId);
-            serverPacket.WriteString(OwnerName);
-            serverPacket.WriteInt(DoorState);
-            serverPacket.WriteInt(UsersNow);
-            serverPacket.WriteInt(MaxUsers);
-            serverPacket.WriteString(Description);
-            serverPacket.WriteInt(TradeType);
-            serverPacket.WriteInt(Score);
-            serverPacket.WriteInt(0); // dunno?
-            serverPacket.WriteInt(CategoryId);
-            serverPacket.WriteInt(Tags.Count);
+			message.WriteInt(Id);
+			message.WriteString(Name);
+			message.WriteInt(OwnerId);
+			message.WriteString(OwnerName);
+			message.WriteInt(DoorState);
+			message.WriteInt(UsersNow);
+			message.WriteInt(MaxUsers);
+			message.WriteString(Description);
+			message.WriteInt(TradeType);
+			message.WriteInt(Score);
+			message.WriteInt(0); // dunno?
+			message.WriteInt(CategoryId);
+			message.WriteInt(Tags.Count);
             foreach (string tag in Tags)
-                serverPacket.WriteString(tag);
-            serverPacket.WriteInt(EnumType);
-        }
+				message.WriteString(tag);
+			message.WriteInt(EnumType);
+
+			if (Group != null)
+			{
+				message.WriteInt(Group.Id);
+				message.WriteString(Group.Name);
+				message.WriteString(Group.Badge);
+			}
+		}
 
         public uint Id { get; set; }
         public int OwnerId { get; set; }
@@ -83,26 +92,25 @@ namespace AliasPro.Rooms.Models
         public int DoorState { get; set; } = 0;
         public int Score { get; set; }
         public IList<string> Tags { get; set; }
+		public IGroup Group { get; set; }
 
         public int EnumType
         {
             get
             {
-                int type = 8;
-                return type;
-                /*  int RoomType = 0;
-               if (Data.Image != null)
-                   RoomType += 1;
-			   if (Data.Group != null)
-				   RoomType += 2;
-			   if (Data.Promotion != null)
-				   RoomType += 4;
-			   if (Data.Type == "private")
-				   RoomType += 8;
-               if (Data.Allowpets)
-				   RoomType += 16;
-				   */
-            }
+				int type = 0;
+				//if (Data.Image != null)
+				//	RoomType += 1;
+				if (Group != null)
+					type += 2;
+				//if (Data.Promotion != null)
+				//	RoomType += 4;
+				//if (Data.Type == "private")
+					type += 8;
+				//if (Data.Allowpets)
+				//	RoomType += 16;
+				return type;
+			}
         }
 
         public IRoomModel RoomModel { get; set; }

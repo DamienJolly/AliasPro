@@ -1,7 +1,10 @@
 ﻿using AliasPro.API.Configuration;
 using AliasPro.API.Database;
+using AliasPro.API.Groups;
+using AliasPro.API.Groups.Models;
 using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Models;
+using AliasPro.Groups.Models;
 using AliasPro.Rooms.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,11 +13,12 @@ namespace AliasPro.Rooms
 {
     internal class RoomDao : BaseDao
     {
-        public RoomDao(IConfigurationController configurationController)
-            : base(configurationController)
+		public RoomDao(
+			IConfigurationController configurationController)
+			: base(configurationController)
         {
 
-        }
+		}
 
         internal async Task CreateRoomRights(uint roomId, uint playerId)
         {
@@ -77,13 +81,33 @@ namespace AliasPro.Rooms
                 {
                     if (await reader.ReadAsync())
                     {
-                        roomData = new RoomData(reader);
-                    }
+						roomData = new RoomData(reader)
+						{
+							Group = await GetRoomGroup(reader.ReadData<int>("group_id"))
+						};
+					}
                 }, "SELECT `rooms`.* , `players`.`username` FROM `rooms` INNER JOIN `players` ON `players`.`id` = `rooms`.`owner` WHERE `rooms`.`id` = @0 LIMIT 1", id);
             });
 
             return roomData;
         }
+
+		internal async Task<IGroup> GetRoomGroup(int groupId)
+		{
+			IGroup group = null;
+			await CreateTransaction(async transaction =>
+			{
+				await Select(transaction, async reader =>
+				{
+					if (await reader.ReadAsync())
+					{
+						group = new Group(reader);
+					}
+				}, "SELECT * FROM `groups` WHERE `id` = @0 LIMIT 1;", groupId);
+			});
+
+			return group;
+		}
 
         internal async Task<ICollection<IRoomData>> GetAllRoomDataById(uint playerId)
         {
@@ -94,7 +118,11 @@ namespace AliasPro.Rooms
                 {
                     while (await reader.ReadAsync())
                     {
-                        roomData.Add(new RoomData(reader));
+						IRoomData data = new RoomData(reader)
+						{
+							Group = await GetRoomGroup(reader.ReadData<int>("group_id"))
+						};
+						roomData.Add(data);
                     }
                 }, "SELECT `rooms`.* , `players`.`username` FROM `rooms` INNER JOIN `players` ON `players`.`id` = `rooms`.`owner` WHERE `rooms`.`owner` = @0;", playerId);
             });

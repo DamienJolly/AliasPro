@@ -14,10 +14,34 @@ namespace AliasPro.Catalog.Packets.Composers
             _item = item;
         }
 
-        public ServerPacket Compose()
+		public PurchaseOKComposer()
+		{
+			_item = null;
+		}
+
+		public ServerPacket Compose()
         {
             ServerPacket message = new ServerPacket(Outgoing.PurchaseOKMessageComposer);
-            _item.Compose(message);
+			if (_item != null)
+				_item.Compose(message);
+			else
+			{
+				message.WriteInt(0);
+				message.WriteString("");
+				message.WriteBoolean(false);
+				message.WriteInt(0);
+				message.WriteInt(0);
+				message.WriteInt(0);
+				message.WriteBoolean(true);
+				message.WriteInt(1);
+				message.WriteString("s");
+				message.WriteInt(0);
+				message.WriteString("");
+				message.WriteInt(1);
+				message.WriteInt(0);
+				message.WriteString("");
+				message.WriteInt(1);
+			}
             return message;
         }
     }
