@@ -7,6 +7,7 @@ using AliasPro.Catalog;
 using AliasPro.Chat;
 using AliasPro.Configuration;
 using AliasPro.Figure;
+using AliasPro.Groups;
 using AliasPro.Items;
 using AliasPro.Landing;
 using AliasPro.Messenger;
@@ -51,7 +52,8 @@ namespace AliasPro
 				new ConfigurationService(),
 				new PermissionsService(),
 				new AchievementService(),
-				new BadgeService()
+				new BadgeService(),
+				new GroupService()
 			};
 
             IServiceCollection serviceCollection = new ServiceCollection();
