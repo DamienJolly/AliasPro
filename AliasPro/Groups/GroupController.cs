@@ -1,5 +1,6 @@
 ﻿using AliasPro.API.Groups;
 using AliasPro.API.Groups.Models;
+using AliasPro.API.Groups.Types;
 using AliasPro.Groups.Models;
 using AliasPro.Groups.Types;
 using AliasPro.Utilities;
@@ -47,6 +48,12 @@ namespace AliasPro.Groups
 		{
 			return await ReadGroupData(
 				await _groupDao.CreateGroup(name, desc, playerId, roomId, badge, colourOne, colourTwo));
+		}
+
+		public async Task UpdateGroupMember(IGroup group, IGroupMember member)
+		{
+			//todo: remove
+			await _groupDao.UpdateGroupMember(group.Id, member);
 		}
 
 		public ICollection<IGroupBadgePart> GetBases => 

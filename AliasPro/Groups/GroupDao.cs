@@ -81,5 +81,14 @@ namespace AliasPro.Groups
 			});
 			return groupId;
 		}
+
+		internal async Task UpdateGroupMember(int groupId, IGroupMember member)
+		{
+			await CreateTransaction(async transaction =>
+			{
+				await Insert(transaction, "UPDATE `group_members` SET `rank` = @1 WHERE `id` = @0 AND `player_id` = @2;",
+					groupId, (int)member.Rank, member.PlayerId);
+			});
+		}
 	}
 }

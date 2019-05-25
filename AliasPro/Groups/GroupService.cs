@@ -24,6 +24,7 @@ namespace AliasPro.Groups
 			collection.AddSingleton<IAsyncPacket, RequestGroupBuyEvent>();
 			collection.AddSingleton<IAsyncPacket, RequestGroupMembersEvent>();
 			collection.AddSingleton<IAsyncPacket, RequestGroupManageEvent>();
+			collection.AddSingleton<IAsyncPacket, GroupSetAdminEvent>();
 		}
 	}
 }
