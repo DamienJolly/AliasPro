@@ -43,7 +43,7 @@ namespace AliasPro.Groups.Packets.Composers
 			foreach (IGroupMember member in members)
 				member.Compose(message);
 
-			message.WriteBoolean(_group.OwnerId == _player.Id);
+			message.WriteBoolean(_group.IsOwner((int)_player.Id));
 			message.WriteInt(14);
 			message.WriteInt(_pageId);
 			message.WriteInt(_levelId);

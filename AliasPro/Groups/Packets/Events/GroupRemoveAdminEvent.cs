@@ -31,7 +31,7 @@ namespace AliasPro.Groups.Packets.Events
 			IGroup group = await _groupController.ReadGroupData(groupId);
 			if (group == null) return;
 
-			if (group.OwnerId != session.Player.Id) return;
+			if (group.IsOwner((int)session.Player.Id)) return;
 
 			if (!group.TryGetMember(userId, out IGroupMember member))
 				return;
