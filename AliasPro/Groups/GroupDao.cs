@@ -99,5 +99,14 @@ namespace AliasPro.Groups
 					groupId, (int)member.Rank, member.PlayerId);
 			});
 		}
+
+		internal async Task RemoveGroupMember(int groupId, int playerId)
+		{
+			await CreateTransaction(async transaction =>
+			{
+				await Insert(transaction, "DELETE FROM `group_members` WHERE `group_id` = @0 AND `player_id` = @1;",
+					groupId, playerId);
+			});
+		}
 	}
 }

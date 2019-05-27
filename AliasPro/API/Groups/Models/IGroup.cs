@@ -7,6 +7,10 @@ namespace AliasPro.API.Groups.Models
 	{
 		bool TryGetMember(int playerId, out IGroupMember member);
 		bool TryAddMember(IGroupMember member);
+		bool RemoveMember(int playerId);
+		bool IsOwner(int playerId);
+		bool IsAdmin(int playerId);
+		bool IsMember(int playerId);
 		int GetMembers { get; }
 		int GetRequests { get; }
 

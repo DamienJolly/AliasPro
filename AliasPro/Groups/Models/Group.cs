@@ -30,6 +30,33 @@ namespace AliasPro.Groups.Models
 		public bool TryAddMember(IGroupMember member) =>
 			Members.TryAdd(member.PlayerId, member);
 
+		public bool RemoveMember(int playerId) =>
+			Members.Remove(playerId);
+
+		public bool IsOwner(int playerId)
+		{
+			if (!TryGetMember(playerId, out IGroupMember member))
+				return false;
+
+			return (int)member.Rank == 0;
+		}
+
+		public bool IsAdmin(int playerId)
+		{
+			if (!TryGetMember(playerId, out IGroupMember member))
+				return false;
+
+			return (int)member.Rank <= 1;
+		}
+
+		public bool IsMember(int playerId)
+		{
+			if (!TryGetMember(playerId, out IGroupMember member))
+				return false;
+
+			return (int)member.Rank <= 2;
+		}
+
 		public int GetMembers =>
 			Members.Values.Where(member => (int)member.Rank <= 2).Count();
 

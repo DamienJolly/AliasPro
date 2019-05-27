@@ -2,8 +2,8 @@
 {
 	public enum GroupRank
 	{
+		OWNER,
 		ADMIN,
-		MOD,
 		MEMBER,
 		REQUESTED,
 		DELETED

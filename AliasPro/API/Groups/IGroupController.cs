@@ -11,6 +11,7 @@ namespace AliasPro.API.Groups
 		Task<IGroup> CreateGroup(string name, string desc, uint playerId, int roomId, string badge, int colourOne, int colourTwo);
 		Task AddGroupMember(int groupId, IGroupMember member);
 		Task UpdateGroupMember(IGroup group, IGroupMember member);
+		Task RemoveGroupMember(int groupId, int playerId);
 		ICollection<IGroupBadgePart> GetBases { get; }
 		ICollection<IGroupBadgePart> GetSymbols { get; }
 		ICollection<IGroupBadgePart> GetBaseColours { get; }

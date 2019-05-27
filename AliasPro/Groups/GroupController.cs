@@ -59,6 +59,9 @@ namespace AliasPro.Groups
 		public async Task AddGroupMember(int groupId, IGroupMember member) =>
 			await _groupDao.AddGroupMember(groupId, member);
 
+		public async Task RemoveGroupMember(int groupId, int playerId) =>
+			await _groupDao.RemoveGroupMember(groupId, playerId);
+
 		public ICollection<IGroupBadgePart> GetBases => 
 			_badgeParts.Where(part => part.Type == BadgePartType.BASE).ToList();
 

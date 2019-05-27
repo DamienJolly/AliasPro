@@ -36,7 +36,7 @@ namespace AliasPro.Groups.Packets.Events
 			if (!group.TryGetMember(userId, out IGroupMember member))
 				return;
 
-			member.Rank = GroupRank.MOD;
+			member.Rank = GroupRank.ADMIN;
 			await _groupController.UpdateGroupMember(group, member);
 			await session.SendPacketAsync(new GroupMemberUpdateComposer(group, member));
 		}

@@ -27,19 +27,6 @@ namespace AliasPro.Groups.Packets.Composers
 		public ServerPacket Compose()
 		{
 			DateTime created = new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds(_group.CreatedAt);
-			int playerRank = 0;
-			if (_group.TryGetMember((int)_player.Id, out IGroupMember member))
-			{
-				switch (member.Rank)
-				{
-					case GroupRank.ADMIN: playerRank = 4; break;
-					case GroupRank.MOD: playerRank = 3; break;
-					case GroupRank.REQUESTED: playerRank = 2; break;
-					case GroupRank.MEMBER: playerRank = 1; break;
-				}
-			}
-
-			int lol = playerRank;
 
 			ServerPacket message = new ServerPacket(Outgoing.GroupInfoMessageComposer);
 			message.WriteInt(_group.Id);
@@ -50,18 +37,38 @@ namespace AliasPro.Groups.Packets.Composers
 			message.WriteString(_group.Badge);
 			message.WriteInt(_group.RoomId);
 			message.WriteString("unknown"); // room name
-			message.WriteInt(playerRank);
+			message.WriteInt(PlayerRank);
 			message.WriteInt(_group.GetMembers);
 			message.WriteBoolean(false); // fav group
 			message.WriteString(created.Day + "-" + created.Month + "-" + created.Year);
-			message.WriteBoolean(playerRank >= 4);
-			message.WriteBoolean(playerRank >= 3);
+			message.WriteBoolean(_group.IsOwner((int)_player.Id));
+			message.WriteBoolean(_group.IsAdmin((int)_player.Id));
 			message.WriteString("unknown"); // owner name
 			message.WriteBoolean(_newWindow);
 			message.WriteBoolean(false); // user can furni
-			message.WriteInt(playerRank >= 4 ? _group.GetRequests : 0);
+			message.WriteInt(_group.IsAdmin((int)_player.Id) ? _group.GetRequests : 0);
 			message.WriteBoolean(true); // forum
 			return message;
+		}
+
+		private int PlayerRank
+		{
+			get
+			{
+				int playerRank = 0;
+				if (_group.TryGetMember((int)_player.Id, out IGroupMember member))
+				{
+					switch (member.Rank)
+					{
+						case GroupRank.OWNER: playerRank = 4; break;
+						case GroupRank.ADMIN: playerRank = 3; break;
+						case GroupRank.REQUESTED: playerRank = 2; break;
+						case GroupRank.MEMBER: playerRank = 1; break;
+					}
+				}
+
+				return playerRank;
+			}
 		}
 	}
 }
