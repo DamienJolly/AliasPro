@@ -63,7 +63,7 @@ namespace AliasPro.Groups
 							members.Add(member.PlayerId, member);
 					}
 				}, "SELECT `group_members`.* , `players`.`username`, `players`.`figure` FROM `group_members` " +
-					"INNER JOIN `players` ON `players`.`id` = `group_members`.`player_id` WHERE `group_members`.`id` = @0;", groupId);
+					"INNER JOIN `players` ON `players`.`id` = `group_members`.`player_id` WHERE `group_members`.`group_id` = @0;", groupId);
 			});
 			return members;
 		}
@@ -82,11 +82,20 @@ namespace AliasPro.Groups
 			return groupId;
 		}
 
+		public async Task AddGroupMember(int groupId, IGroupMember member)
+		{
+			await CreateTransaction(async transaction =>
+			{
+				await Insert(transaction, "INSERT INTO `group_members` (`player_id`, `group_id`, `join_date`, `rank`) VALUES (@1, @0, @3, @2);",
+					groupId, member.PlayerId, (int)member.Rank, member.JoinData);
+			});
+		}
+
 		internal async Task UpdateGroupMember(int groupId, IGroupMember member)
 		{
 			await CreateTransaction(async transaction =>
 			{
-				await Insert(transaction, "UPDATE `group_members` SET `rank` = @1 WHERE `id` = @0 AND `player_id` = @2;",
+				await Insert(transaction, "UPDATE `group_members` SET `rank` = @1 WHERE `group_id` = @0 AND `player_id` = @2;",
 					groupId, (int)member.Rank, member.PlayerId);
 			});
 		}

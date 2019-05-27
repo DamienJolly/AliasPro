@@ -120,6 +120,7 @@
 		internal const int RequestGroupMembersMessageEvent = 3272;
 		internal const int GroupSetAdminMessageEvent = 3830;
 		internal const int GroupRemoveAdminMessageEvent = 438;
+		internal const int RequestGroupJoinMessageEvent = 3314;
 
 		// Subscription
 		internal const int RequestUserClubMessageEvent = 3796;

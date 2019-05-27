@@ -56,6 +56,9 @@ namespace AliasPro.Groups
 			await _groupDao.UpdateGroupMember(group.Id, member);
 		}
 
+		public async Task AddGroupMember(int groupId, IGroupMember member) =>
+			await _groupDao.AddGroupMember(groupId, member);
+
 		public ICollection<IGroupBadgePart> GetBases => 
 			_badgeParts.Where(part => part.Type == BadgePartType.BASE).ToList();
 

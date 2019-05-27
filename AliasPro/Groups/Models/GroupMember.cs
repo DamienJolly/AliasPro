@@ -18,6 +18,15 @@ namespace AliasPro.Groups.Models
 			Rank = (GroupRank)reader.ReadData<int>("rank");
 		}
 
+		internal GroupMember(int playerId, string username, string figure, int joinData, GroupRank rank)
+		{
+			PlayerId = playerId;
+			Username = username;
+			Figure = figure;
+			JoinData = joinData;
+			Rank = rank;
+		}
+
 		public void Compose(ServerPacket message)
 		{
 			DateTime created = new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds(JoinData);

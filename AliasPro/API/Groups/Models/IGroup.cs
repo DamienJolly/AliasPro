@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using AliasPro.Groups.Types;
+using System.Collections.Generic;
 
 namespace AliasPro.API.Groups.Models
 {
 	public interface IGroup
 	{
 		bool TryGetMember(int playerId, out IGroupMember member);
+		bool TryAddMember(IGroupMember member);
 		int GetMembers { get; }
 		int GetRequests { get; }
 
@@ -14,6 +16,7 @@ namespace AliasPro.API.Groups.Models
 		int OwnerId { get; set; }
 		int CreatedAt { get; set; }
 		int RoomId { get; set; }
+		GroupState State { get; set; }
 		string Badge { get; set; }
 		int ColourOne { get; set; }
 		int ColourTwo { get; set; }
