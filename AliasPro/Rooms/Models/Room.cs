@@ -10,6 +10,8 @@ using AliasPro.Rooms.Cycles;
 using System;
 using System.Threading.Tasks;
 using AliasPro.Landing.Packets.Composers;
+using AliasPro.API.Groups.Models;
+using AliasPro.Groups.Packets.Composers;
 
 namespace AliasPro.Rooms.Models
 {
@@ -47,7 +49,7 @@ namespace AliasPro.Rooms.Models
             catch { }
         }
 
-        public async void OnChat(string text, int colour, BaseEntity entity)
+		public async void OnChat(string text, int colour, BaseEntity entity)
         {
             if (colour == 1 || colour == -1 || colour == 2)
             {
@@ -76,7 +78,7 @@ namespace AliasPro.Rooms.Models
             await SendAsync(new AvatarChatComposer(entity.Id, text, 0, colour));
         }
 
-        public async Task AddEntity(BaseEntity entity)
+		public async Task AddEntity(BaseEntity entity)
         {
             Entities.AddEntity(entity);
             RoomGrid.AddEntity(entity);
@@ -105,8 +107,21 @@ namespace AliasPro.Rooms.Models
 				await playerEntity.Session.SendPacketAsync(new HotelViewComposer());
 			}
 		}
-        
-        public async Task SendAsync(IPacketComposer packet)
+
+		public async Task UpdateRoomGroup(IGroup group)
+		{
+			Group = group;
+			foreach (BaseEntity entity in Entities.Entities)
+			{
+				if (entity is PlayerEntity playerEntity)
+				{
+					if (playerEntity.Session != null)
+						await playerEntity.Session.SendPacketAsync(new GroupInfoComposer(group, playerEntity.Player, false));
+				}
+			}
+		}
+
+		public async Task SendAsync(IPacketComposer packet)
         {
             foreach (BaseEntity entity in Entities.Entities)
             {
