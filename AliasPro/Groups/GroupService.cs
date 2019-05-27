@@ -28,6 +28,7 @@ namespace AliasPro.Groups
 			collection.AddSingleton<IAsyncPacket, GroupRemoveAdminEvent>();
 			collection.AddSingleton<IAsyncPacket, RequestGroupJoinEvent>();
 			collection.AddSingleton<IAsyncPacket, GroupRemoveMemberEvent>();
+			collection.AddSingleton<IAsyncPacket, GroupAcceptMembershipEvent>();
 		}
 	}
 }
