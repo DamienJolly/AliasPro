@@ -32,7 +32,7 @@ namespace AliasPro.Groups.Packets.Events
 
 			if (!group.IsAdmin((int)session.Player.Id)) return;
 
-			if (!group.TryGetMember(playerId, out IGroupMember member))
+			if (!group.TryGetMember(playerId, out _))
 			{
 				await session.SendPacketAsync(new GroupAcceptMemberErrorComposer(group.Id, GroupAcceptMemberErrorComposer.NO_LONGER_MEMBER));
 				return;

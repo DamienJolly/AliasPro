@@ -2,6 +2,8 @@
 using AliasPro.API.Groups.Models;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
+using AliasPro.API.Players;
+using AliasPro.API.Players.Models;
 using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
@@ -16,13 +18,16 @@ namespace AliasPro.Groups.Packets.Events
 
 		private readonly IGroupController _groupController;
 		private readonly IRoomController _roomController;
+		private readonly IPlayerController _playerController;
 
 		public GroupDeleteEvent(
 			IGroupController groupController,
-			IRoomController roomController)
+			IRoomController roomController,
+			IPlayerController playerController)
 		{
 			_groupController = groupController;
 			_roomController = roomController;
+			_playerController = playerController;
 		}
 
 		public async void HandleAsync(
@@ -42,6 +47,12 @@ namespace AliasPro.Groups.Packets.Events
 			{
 				room.Group = null;
 				await room.SendAsync(new RemoveGroupFromRoomComposer(group.Id));
+
+				foreach (IGroupMember member in group.Members.Values)
+				{
+					if (_playerController.TryGetPlayer((uint)member.PlayerId, out IPlayer player))
+						await room.Rights.ReloadRights(player.Session);
+				}
 			}
 		}
 	}
