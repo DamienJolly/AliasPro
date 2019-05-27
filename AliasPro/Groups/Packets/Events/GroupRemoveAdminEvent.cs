@@ -9,13 +9,13 @@ using AliasPro.Network.Events.Headers;
 
 namespace AliasPro.Groups.Packets.Events
 {
-	public class GroupSetAdminEvent : IAsyncPacket
+	public class GroupRemoveAdminEvent : IAsyncPacket
 	{
-		public short Header { get; } = Incoming.GroupSetAdminMessageEvent;
+		public short Header { get; } = Incoming.GroupRemoveAdminMessageEvent;
 
 		private readonly IGroupController _groupController;
 
-		public GroupSetAdminEvent(
+		public GroupRemoveAdminEvent(
 			IGroupController groupController)
 		{
 			_groupController = groupController;
@@ -36,7 +36,7 @@ namespace AliasPro.Groups.Packets.Events
 			if (!group.TryGetMember(userId, out IGroupMember member))
 				return;
 
-			member.Rank = GroupRank.MOD;
+			member.Rank = GroupRank.MEMBER;
 			await _groupController.UpdateGroupMember(group, member);
 			await session.SendPacketAsync(new GroupMemberUpdateComposer(group, member));
 		}
