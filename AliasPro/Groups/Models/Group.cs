@@ -74,5 +74,7 @@ namespace AliasPro.Groups.Models
 		public int ColourOne { get; set; }
 		public int ColourTwo { get; set; }
 		public IDictionary<int, IGroupMember> Members { get; set; }
+
+		public int IdleTime { get; set; } = 0;
 	}
 }

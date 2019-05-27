@@ -25,5 +25,7 @@ namespace AliasPro.API.Groups.Models
 		int ColourOne { get; set; }
 		int ColourTwo { get; set; }
 		IDictionary<int, IGroupMember> Members { get; set; }
+
+		int IdleTime { get; set; }
 	}
 }

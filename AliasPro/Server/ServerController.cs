@@ -1,4 +1,5 @@
-﻿using AliasPro.API.Players;
+﻿using AliasPro.API.Groups;
+using AliasPro.API.Players;
 using AliasPro.API.Rooms;
 using AliasPro.API.Server;
 using System.Collections.Generic;
@@ -11,17 +12,22 @@ namespace AliasPro.Server
     {
         private readonly IRoomController _roomController;
         private readonly IPlayerController _playerController;
-        private readonly ServerDao _serverDao;
+		private readonly IGroupController _groupController;
+
+		private readonly ServerDao _serverDao;
         private readonly Timer _serverCycleTimer;
         private IDictionary<string, string> _settings;
 
         public ServerController(ServerDao serverDao, 
             IRoomController roomController,
-            IPlayerController playerController)
+            IPlayerController playerController,
+			IGroupController groupController)
         {
             _roomController = roomController;
             _playerController = playerController;
-            _serverDao = serverDao;
+			_groupController = groupController;
+
+			_serverDao = serverDao;
             _settings = new Dictionary<string, string>();
 
             _serverCycleTimer = new Timer();
@@ -39,7 +45,8 @@ namespace AliasPro.Server
             {
                 _roomController.Cycle();
                 _playerController.Cycle();
-            }
+				_groupController.Cycle();
+			}
             catch { }
         }
 

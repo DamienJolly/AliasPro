@@ -46,7 +46,6 @@ namespace AliasPro.Groups.Packets.Events
 			}
 
 			member.Rank = GroupRank.MEMBER;
-			await _groupController.UpdateGroupMember(group, member);
 			await session.SendPacketAsync(new GroupRefreshMembersListComposer(group));
 		}
 	}

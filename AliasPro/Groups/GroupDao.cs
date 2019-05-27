@@ -82,6 +82,21 @@ namespace AliasPro.Groups
 			return groupId;
 		}
 
+		internal async Task UpdateGroup(IGroup group)
+		{
+			await CreateTransaction(async transaction =>
+			{
+				await Insert(transaction, "UPDATE `groups` SET `name` = @1, `desc` = @2, `badge` = @3, `state` = @4, `colour1` = @5, `colour2` = @6 WHERE `id` = @0;",
+					group.Id, group.Name, group.Description, group.Badge, (int)group.State, group.ColourOne, group.ColourTwo);
+
+				foreach (IGroupMember member in group.Members.Values)
+				{
+					await Insert(transaction, "UPDATE `group_members` SET `rank` = @1 WHERE `group_id` = @0 AND `player_id` = @2;",
+						group.Id, (int)member.Rank, member.PlayerId);
+				}
+			});
+		}
+
 		public async Task AddGroupMember(int groupId, IGroupMember member)
 		{
 			await CreateTransaction(async transaction =>
@@ -91,21 +106,24 @@ namespace AliasPro.Groups
 			});
 		}
 
-		internal async Task UpdateGroupMember(int groupId, IGroupMember member)
-		{
-			await CreateTransaction(async transaction =>
-			{
-				await Insert(transaction, "UPDATE `group_members` SET `rank` = @1 WHERE `group_id` = @0 AND `player_id` = @2;",
-					groupId, (int)member.Rank, member.PlayerId);
-			});
-		}
-
 		internal async Task RemoveGroupMember(int groupId, int playerId)
 		{
 			await CreateTransaction(async transaction =>
 			{
 				await Insert(transaction, "DELETE FROM `group_members` WHERE `group_id` = @0 AND `player_id` = @1;",
 					groupId, playerId);
+			});
+		}
+
+		internal async Task RemoveGroup(int groupId)
+		{
+			await CreateTransaction(async transaction =>
+			{
+				await Insert(transaction, "DELETE FROM `groups` WHERE `id` = @0;",
+					groupId);
+
+				await Insert(transaction, "DELETE FROM `group_members` WHERE `group_id` = @0;",
+					groupId);
 			});
 		}
 	}

@@ -1,9 +1,6 @@
 ﻿using AliasPro.API.Groups;
 using AliasPro.API.Groups.Models;
-using AliasPro.API.Groups.Types;
-using AliasPro.Groups.Models;
 using AliasPro.Groups.Types;
-using AliasPro.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,7 +11,7 @@ namespace AliasPro.Groups
 	{
 		private readonly GroupDao _groupDao;
 
-		private IDictionary<int, IGroup> _groups;
+		private readonly IDictionary<int, IGroup> _groups;
 		private IList<IGroupBadgePart> _badgeParts;
 
 		public GroupController(
@@ -33,13 +30,31 @@ namespace AliasPro.Groups
 			_badgeParts = await _groupDao.ReadBadgeParts();
 		}
 
+		public async void Cycle()
+		{
+			foreach (IGroup group in _groups.Values.ToList())
+			{
+				if (group.IdleTime >= 120)
+				{
+					_groups.Remove(group.Id);
+					await UpdateGroup(group);
+					System.Console.WriteLine("Unloaded group!!! group count: " + _groups.Count);
+					continue;
+				}
+				group.IdleTime++;
+			}
+		}
+
 		public async Task<IGroup> ReadGroupData(int groupId)
 		{
-			if (_groups.TryGetValue(groupId, out IGroup group))
-				return group;
+			if (!_groups.TryGetValue(groupId, out IGroup group))
+			{
+				group = await _groupDao.ReadGroupData(groupId);
+				_groups.TryAdd(group.Id, group);
+			}
 
-			group = await _groupDao.ReadGroupData(groupId);
-			_groups.TryAdd(group.Id, group);
+			group.IdleTime = 0;
+			System.Console.WriteLine("Loaded group!!! group count: " + _groups.Count);
 
 			return group;
 		}
@@ -50,16 +65,13 @@ namespace AliasPro.Groups
 				await _groupDao.CreateGroup(name, desc, playerId, roomId, badge, colourOne, colourTwo));
 		}
 
+		public async Task UpdateGroup(IGroup group) =>
+			await _groupDao.UpdateGroup(group);
+
 		public async Task RemoveGroup(int groupId)
 		{
 			_groups.Remove(groupId);
 			await _groupDao.RemoveGroup(groupId);
-		}
-
-		public async Task UpdateGroupMember(IGroup group, IGroupMember member)
-		{
-			//todo: remove
-			await _groupDao.UpdateGroupMember(group.Id, member);
 		}
 
 		public async Task AddGroupMember(int groupId, IGroupMember member) =>

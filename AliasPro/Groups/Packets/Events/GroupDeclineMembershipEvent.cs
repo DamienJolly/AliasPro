@@ -25,14 +25,14 @@ namespace AliasPro.Groups.Packets.Events
 			IClientPacket clientPacket)
 		{
 			int groupId = clientPacket.ReadInt();
-			int userId = clientPacket.ReadInt();
+			int playerId = clientPacket.ReadInt();
 
 			IGroup group = await _groupController.ReadGroupData(groupId);
 			if (group == null) return;
 
 			if (!group.IsAdmin((int)session.Player.Id)) return;
 
-			if (!group.TryGetMember(userId, out IGroupMember member))
+			if (!group.TryGetMember(playerId, out IGroupMember member))
 			{
 				await session.SendPacketAsync(new GroupAcceptMemberErrorComposer(group.Id, GroupAcceptMemberErrorComposer.NO_LONGER_MEMBER));
 				return;
