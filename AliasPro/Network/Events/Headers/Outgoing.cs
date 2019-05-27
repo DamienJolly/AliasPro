@@ -140,6 +140,7 @@
 		internal const int GroupRefreshMembersListMessageComposer = 651;
 		internal const int GroupAcceptMemberErrorMessageComposer = 1694;
 		internal const int GroupManageMessageComposer = 2434;
+		internal const int RemoveGroupFromRoomMessageComposer = 2310;
 
 		// Subscription
 		internal const int UserClubMessageComposer = 2984;

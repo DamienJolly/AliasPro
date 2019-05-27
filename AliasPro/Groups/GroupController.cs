@@ -50,6 +50,12 @@ namespace AliasPro.Groups
 				await _groupDao.CreateGroup(name, desc, playerId, roomId, badge, colourOne, colourTwo));
 		}
 
+		public async Task RemoveGroup(int groupId)
+		{
+			_groups.Remove(groupId);
+			await _groupDao.RemoveGroup(groupId);
+		}
+
 		public async Task UpdateGroupMember(IGroup group, IGroupMember member)
 		{
 			//todo: remove

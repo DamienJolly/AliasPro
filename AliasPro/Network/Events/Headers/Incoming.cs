@@ -128,6 +128,7 @@
 		internal const int GroupChangeColorsMessageEvent = 175;
 		internal const int GroupChangeNameDescMessageEvent = 629;
 		internal const int GroupChangeSettingsMessageEvent = 332;
+		internal const int GroupDeleteMessageEvent = 3492;
 
 		// Subscription
 		internal const int RequestUserClubMessageEvent = 3796;
