@@ -31,8 +31,9 @@ namespace AliasPro.Groups.Packets.Events
 			int groupId = clientPacket.ReadInt();
 			IGroup group = await _groupController.ReadGroupData(groupId);
 
-			if (group == null)
-				return;
+			if (group == null) return;
+
+			if (!group.IsOwner((int)session.Player.Id)) return;
 
 			int count = clientPacket.ReadInt();
 
