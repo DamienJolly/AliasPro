@@ -1,6 +1,5 @@
 ﻿using AliasPro.API.Groups;
 using AliasPro.API.Groups.Models;
-using AliasPro.API.Groups.Types;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
 using AliasPro.API.Sessions.Models;
@@ -9,13 +8,13 @@ using AliasPro.Network.Events.Headers;
 
 namespace AliasPro.Groups.Packets.Events
 {
-	public class GroupAcceptMembershipEvent : IAsyncPacket
+	public class GroupDeclineMembershipEvent : IAsyncPacket
 	{
-		public short Header { get; } = Incoming.GroupAcceptMembershipMessageEvent;
+		public short Header { get; } = Incoming.GroupDeclineMembershipMessageEvent;
 
 		private readonly IGroupController _groupController;
 
-		public GroupAcceptMembershipEvent(
+		public GroupDeclineMembershipEvent(
 			IGroupController groupController)
 		{
 			_groupController = groupController;
@@ -39,14 +38,9 @@ namespace AliasPro.Groups.Packets.Events
 				return;
 			}
 
-			if (member.Rank != GroupRank.REQUESTED)
-			{
-				await session.SendPacketAsync(new GroupAcceptMemberErrorComposer(group.Id, GroupAcceptMemberErrorComposer.ALREADY_ACCEPTED));
-				return;
-			}
-
-			member.Rank = GroupRank.MEMBER;
-			await _groupController.UpdateGroupMember(group, member);
+			group.RemoveMember(playerId);
+			await _groupController.RemoveGroupMember(group.Id, playerId);
+			// todo: eject furni
 			await session.SendPacketAsync(new GroupRefreshMembersListComposer(group));
 		}
 	}

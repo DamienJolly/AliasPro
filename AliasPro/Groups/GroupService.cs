@@ -23,12 +23,13 @@ namespace AliasPro.Groups
 			collection.AddSingleton<IAsyncPacket, RequestGroupPartsEvent>();
 			collection.AddSingleton<IAsyncPacket, RequestGroupBuyEvent>();
 			collection.AddSingleton<IAsyncPacket, RequestGroupMembersEvent>();
-			collection.AddSingleton<IAsyncPacket, RequestGroupManageEvent>();
 			collection.AddSingleton<IAsyncPacket, GroupSetAdminEvent>();
 			collection.AddSingleton<IAsyncPacket, GroupRemoveAdminEvent>();
 			collection.AddSingleton<IAsyncPacket, RequestGroupJoinEvent>();
 			collection.AddSingleton<IAsyncPacket, GroupRemoveMemberEvent>();
 			collection.AddSingleton<IAsyncPacket, GroupAcceptMembershipEvent>();
+			collection.AddSingleton<IAsyncPacket, GroupDeclineMembershipEvent>();
+			collection.AddSingleton<IAsyncPacket, RequestGroupManageEvent>();
 		}
 	}
 }

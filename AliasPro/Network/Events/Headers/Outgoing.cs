@@ -134,12 +134,12 @@
 		internal const int GroupBuyRoomsMessageComposer = 2601;
 		internal const int GroupPartsMessageComposer = 2770;
 		internal const int GroupBoughtMessageComposer = 3656;
-		internal const int GroupManageMessageComposer = 2434;
 		internal const int GroupMembersMessageComposer = 1735;
 		internal const int GroupMemberUpdateMessageComposer = 956;
 		internal const int GroupJoinErrorMessageComposer = 2973;
 		internal const int GroupRefreshMembersListMessageComposer = 651;
 		internal const int GroupAcceptMemberErrorMessageComposer = 1694;
+		internal const int GroupManageMessageComposer = 2434;
 
 		// Subscription
 		internal const int UserClubMessageComposer = 2984;

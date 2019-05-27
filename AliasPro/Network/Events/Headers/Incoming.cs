@@ -116,13 +116,14 @@
 		internal const int RequestGroupBuyRoomsMessageEvent = 2627;
 		internal const int RequestGroupPartsMessageEvent = 1252;
 		internal const int RequestGroupBuyMessageEvent = 730;
-		internal const int RequestGroupManageMessageEvent = 601;
 		internal const int RequestGroupMembersMessageEvent = 3272;
 		internal const int GroupSetAdminMessageEvent = 3830;
 		internal const int GroupRemoveAdminMessageEvent = 438;
 		internal const int RequestGroupJoinMessageEvent = 3314;
 		internal const int GroupRemoveMemberMessageEvent = 489;
 		internal const int GroupAcceptMembershipMessageEvent = 1624;
+		internal const int GroupDeclineMembershipMessageEvent = 670;
+		internal const int RequestGroupManageMessageEvent = 601;
 
 		// Subscription
 		internal const int RequestUserClubMessageEvent = 3796;
