@@ -34,14 +34,12 @@ namespace AliasPro.Groups
 		{
 			foreach (IGroup group in _groups.Values.ToList())
 			{
+				group.IdleTime++;
 				if (group.IdleTime >= 120)
 				{
-					_groups.Remove(group.Id);
 					await UpdateGroup(group);
-					System.Console.WriteLine("Unloaded group!!! group count: " + _groups.Count);
-					continue;
+					_groups.Remove(group.Id);
 				}
-				group.IdleTime++;
 			}
 		}
 
@@ -54,8 +52,6 @@ namespace AliasPro.Groups
 			}
 
 			group.IdleTime = 0;
-			System.Console.WriteLine("Loaded group!!! group count: " + _groups.Count);
-
 			return group;
 		}
 

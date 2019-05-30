@@ -19,65 +19,50 @@ namespace AliasPro.Rooms.Packets.Events
         public short Header { get; } = Incoming.RequestRoomDataMessageEvent;
 
         private readonly IRoomController _roomController;
-		private readonly IGroupController _groupController;
 		private readonly IItemController _itemController;
 
         public RequestRoomDataEvent(
 			IRoomController roomController,
-			IGroupController groupController,
 			IItemController itemController)
         {
             _roomController = roomController;
-			_groupController = groupController;
 			_itemController = itemController;
         }
 
-        public async void HandleAsync(
-            ISession session,
-            IClientPacket clientPacket)
-        {
-            uint roomId = (uint)clientPacket.ReadInt();
-            if (!_roomController.TryGetRoom(roomId, out IRoom room))
-            {
-                IRoomData roomData = await _roomController.ReadRoomDataAsync(roomId);
-                if (roomData == null)
-                    return;
+		public async void HandleAsync(
+			ISession session,
+			IClientPacket clientPacket)
+		{
+			int roomId = clientPacket.ReadInt();
+			IRoom room = await _roomController.LoadRoom((uint)roomId);
 
-                room = new Room(roomData);
+			if (room == null)
+				return;
 
-                if (!_roomController.TryGetRoomModel(room.ModelName, out IRoomModel model))
-                    return;
+			if (!room.Loaded)
+			{
+				if (!_roomController.TryGetRoomModel(room.ModelName, out IRoomModel model))
+					return;
 
-                if (!_roomController.TryAddRoom(room))
-                    return;
+				room.RoomModel = model;
+				room.Settings =
+					await _roomController.GetRoomSettingsAsync(room.Id);
+				room.Entities = new EntitiesComponent(room);
+				room.Game = new GameComponent(room);
+				room.RoomGrid = new RoomGrid(room);
 
-                IRoomSettings roomSettings =
-                        await _roomController.GetRoomSettingsAsync(room.Id);
+				room.Items = new ItemsComponent(
+					room,
+					await _itemController.GetItemsForRoomAsync(room.Id));
 
-                if (roomSettings == null)
-                {
-                    await _roomController.CreateRoomSettingsAsync(room.Id);
-                    roomSettings =
-                        await _roomController.GetRoomSettingsAsync(room.Id);
-                }
-
-                room.RoomModel = model;
-                room.Settings = roomSettings;
-                room.Entities = new EntitiesComponent(room);
-                room.Game = new GameComponent(room);
-                room.RoomGrid = new RoomGrid(room);
-
-                room.Items = new ItemsComponent(
-                    room,
-                    await _itemController.GetItemsForRoomAsync(room.Id));
-
-                room.Rights = new RightsComponent(room,
-                    await _roomController.GetRightsForRoomAsync(room.Id));
+				room.Rights = new RightsComponent(room,
+					await _roomController.GetRightsForRoomAsync(room.Id));
 
 				room.RoomCycle = new RoomCycle(room);
-            }
+				room.Loaded = true;
+			}
 
-            bool loading = !(clientPacket.ReadInt() == 0 && clientPacket.ReadInt() == 1);
+			bool loading = !(clientPacket.ReadInt() == 0 && clientPacket.ReadInt() == 1);
 			await session.SendPacketAsync(new RoomDataComposer(room, loading, true, session));
         }
     }

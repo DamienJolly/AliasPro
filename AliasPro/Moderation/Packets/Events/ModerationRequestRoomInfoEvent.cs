@@ -33,11 +33,11 @@ namespace AliasPro.Moderation.Packets.Events
 
 			int roomId = clientPacket.ReadInt();
 
-            IRoomData roomData = await _roomController.ReadRoomDataAsync((uint)roomId);
-            if (roomData == null)
-                return;
+			IRoom room = await _roomController.LoadRoom((uint)roomId);
+			if (room == null)
+				return;
 
-            await session.SendPacketAsync(new ModerationRoomInfoComposer(roomData));
+            await session.SendPacketAsync(new ModerationRoomInfoComposer(room));
         }
     }
 }

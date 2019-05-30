@@ -1,6 +1,5 @@
 ﻿using AliasPro.API.Configuration;
 using AliasPro.API.Database;
-using AliasPro.API.Groups;
 using AliasPro.API.Groups.Models;
 using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Models;

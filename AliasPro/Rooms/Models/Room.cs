@@ -24,6 +24,7 @@ namespace AliasPro.Rooms.Models
         public RoomGrid RoomGrid { get; set; }
         public RoomCycle RoomCycle { get; set; }
         public int IdleTimer { get; set; } = 0;
+		public bool Loaded { get; set; } = false;
 
         internal Room(IRoomData roomData)
             : base(roomData)
@@ -41,9 +42,7 @@ namespace AliasPro.Rooms.Models
                 foreach (IItem item in Items.Items)
                     item.Interaction.OnCycle();
 
-                if (Entities.Entities.Count <= 0)
-                    IdleTimer++;
-                else
+                if (Entities.Entities.Count > 0)
                     await SendAsync(new EntityUpdateComposer(Entities.Entities));
             }
             catch { }

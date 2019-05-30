@@ -4,7 +4,6 @@ using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
 using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
-using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Groups.Packets.Composers;
@@ -17,16 +16,13 @@ namespace AliasPro.Groups.Packets.Events
 		public short Header { get; } = Incoming.GroupRemoveMemberMessageEvent;
 
 		private readonly IGroupController _groupController;
-		private readonly IRoomController _roomController;
 		private readonly IPlayerController _playerController;
 
 		public GroupRemoveMemberEvent(
 			IGroupController groupController,
-			IRoomController roomController,
 			IPlayerController playerController)
 		{
 			_groupController = groupController;
-			_roomController = roomController;
 			_playerController = playerController;
 		}
 
@@ -59,19 +55,23 @@ namespace AliasPro.Groups.Packets.Events
 			if (playerId == session.Player.Id)
 			{
 				await session.SendPacketAsync(new GroupInfoComposer(group, session.Player, false));
+
+				IRoom room = session.Player.Session.CurrentRoom;
+				if (room != null && room.Group.Id == groupId)
+					await room.Rights.ReloadRights(session);
 			}
 			else
 			{
 				if (_playerController.TryGetPlayer((uint)playerId, out IPlayer player))
+				{
 					await player.Session.SendPacketAsync(new GroupInfoComposer(group, player, false));
 
-				await session.SendPacketAsync(new GroupRefreshMembersListComposer(group));
-			}
+					IRoom room = player.Session.CurrentRoom;
+					if (room != null && room.Group.Id == groupId)
+						await room.Rights.ReloadRights(player.Session);
+				}
 
-			if (_roomController.TryGetRoom((uint)group.RoomId, out IRoom room))
-			{
-				if (_playerController.TryGetPlayer((uint)playerId, out IPlayer player))
-					await room.Rights.ReloadRights(player.Session);
+				await session.SendPacketAsync(new GroupRefreshMembersListComposer(group));
 			}
 		}
 	}

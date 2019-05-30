@@ -1,5 +1,6 @@
 ﻿using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Models;
+using AliasPro.Rooms.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,75 +9,102 @@ namespace AliasPro.Rooms
 {
     internal class RoomController : IRoomController
     {
-        private readonly RoomRepository _roomRepository;
+		private readonly RoomDao _roomDao;
 
-        public RoomController(RoomRepository roomRepository)
-        {
-            _roomRepository = roomRepository;
-        }
+		private readonly IDictionary<uint, IRoom> _rooms;
+		private readonly IDictionary<string, IRoomModel> _roomModels;
 
-        public void Cycle()
-        {
-            foreach(IRoom room in Rooms.ToList())
-            {
-                if (room.RoomCycle != null)
-                {
-                    room.RoomCycle.Cycle();
-                    if (room.IdleTimer > 60)
-                    {
-                        // todo: save room.
-                        room.Dispose();
-                        RemoveRoom(room);
-                    }
-                }
-            }
-        }
+		public RoomController(RoomDao roomDao)
+		{
+			_roomDao = roomDao;
 
-        public ICollection<IRoom> Rooms =>
-            _roomRepository.Rooms;
+			_rooms = new Dictionary<uint, IRoom>();
+			_roomModels = new Dictionary<string, IRoomModel>();
+
+			LoadRoomModels();
+		}
+
+		private async void LoadRoomModels()
+		{
+			IEnumerable<IRoomModel> roomModels = await _roomDao.GetRoomModels();
+			foreach (IRoomModel roomModel in roomModels)
+			{
+				_roomModels.Add(roomModel.Id, roomModel);
+			}
+		}
+
+		public void Cycle()
+		{
+			foreach (IRoom room in Rooms.ToList())
+			{
+				if (room.Loaded)
+					room.RoomCycle.Cycle();
+
+				if (!room.Loaded || !room.Entities.HasUserEntities)
+					room.IdleTimer++;
+
+				if (room.IdleTimer >= 60)
+				{
+					// todo: save room.
+					room.Dispose();
+					_rooms.Remove(room.Id);
+				}
+			}
+		}
+
+		public ICollection<IRoom> Rooms =>
+            _rooms.Values;
 
         public async Task<ICollection<IRoomData>> GetPlayersRoomsAsync(uint playerId) =>
-            await _roomRepository.GetPlayersRoomsAsync(playerId);
+			await _roomDao.GetAllRoomDataById(playerId);
 
-        public bool TryAddRoom(IRoom room) =>
-            _roomRepository.TryAddRoom(room);
+		public bool TryGetRoom(uint roomId, out IRoom room) =>
+			_rooms.TryGetValue(roomId, out room);
 
-        public void RemoveRoom(IRoom room) =>
-            _roomRepository.RemoveRoom(room);
+		public async Task<IRoom> LoadRoom(uint roomId)
+		{
+			if (!TryGetRoom(roomId, out IRoom room))
+			{
+				IRoomData roomData = await _roomDao.GetRoomData(roomId);
+				if (roomData == null)
+					return null;
 
-        public bool TryGetRoom(uint roomId, out IRoom room) =>
-            _roomRepository.TryGetRoom(roomId, out room);
+				room = new Room(roomData);
+				_rooms.TryAdd(room.Id, room);
+			}
 
-        public async Task<IRoomData> ReadRoomDataAsync(uint roomId)
-        {
-            if (TryGetRoom(roomId, out IRoom room))
-                return room;
-
-            return await _roomRepository.GetRoomDataAsync(roomId);
-        }
+			return room;
+		}
 
         public async Task<int> CreateRoomAsync(uint playerId, string name, string description, string modelName, int categoryId, int maxUsers, int tradeType) =>
-            await _roomRepository.CreateRoomAsync(playerId, name, description, modelName, categoryId, maxUsers, tradeType);
+            await _roomDao.CreateRoomAsync(playerId, name, description, modelName, categoryId, maxUsers, tradeType);
 
 
         public bool TryGetRoomModel(string modelName, out IRoomModel model) =>
-            _roomRepository.TryGetRoomModel(modelName, out model);
+			_roomModels.TryGetValue(modelName, out model);
 
 
-        public async Task<IRoomSettings> GetRoomSettingsAsync(uint roomId) =>
-            await _roomRepository.GetRoomSettingsAsync(roomId);
+		public async Task<IRoomSettings> GetRoomSettingsAsync(uint roomId)
+		{
+			IRoomSettings roomSettings =
+						await _roomDao.GetRoomSettingsId(roomId);
 
-        public async Task CreateRoomSettingsAsync(uint roomId) =>
-            await _roomRepository.CreateRoomSettingsAsync(roomId);
+			if (roomSettings == null)
+			{
+				await _roomDao.CreateRoomSettings(roomId);
+				roomSettings =
+					await _roomDao.GetRoomSettingsId(roomId);
+			}
+			return roomSettings;
+		}
 
+		public async Task<IDictionary<uint, string>> GetRightsForRoomAsync(uint roomId) =>
+			await _roomDao.GetRightsForRoom(roomId);
 
-        public Task<IDictionary<uint, string>> GetRightsForRoomAsync(uint roomId) =>
-           _roomRepository.GetRightsForRoomAsync(roomId);
+		public async Task GiveRoomRights(uint roomId, uint playerId) =>
+			await _roomDao.CreateRoomRights(roomId, playerId);
 
-        public Task GiveRoomRights(uint roomId, uint playerId) =>
-            _roomRepository.CreateRoomRights(roomId, playerId);
-
-        public Task TakeRoomRights(uint roomId, uint playerId) =>
-            _roomRepository.RemoveRoomRights(roomId, playerId);
-    }
+		public async Task TakeRoomRights(uint roomId, uint playerId) =>
+			await _roomDao.RemoveRoomRights(roomId, playerId);
+	}
 }

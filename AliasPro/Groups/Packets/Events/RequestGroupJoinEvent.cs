@@ -3,7 +3,6 @@ using AliasPro.API.Groups.Models;
 using AliasPro.API.Groups.Types;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
-using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Groups.Models;
@@ -19,14 +18,11 @@ namespace AliasPro.Groups.Packets.Events
 		public short Header { get; } = Incoming.RequestGroupJoinMessageEvent;
 
 		private readonly IGroupController _groupController;
-		private readonly IRoomController _roomController;
 
 		public RequestGroupJoinEvent(
-			IGroupController groupController,
-			IRoomController roomController)
+			IGroupController groupController)
 		{
 			_groupController = groupController;
-			_roomController = roomController;
 		}
 
 		public async void HandleAsync(
@@ -75,8 +71,12 @@ namespace AliasPro.Groups.Packets.Events
 			await _groupController.AddGroupMember(group.Id, member);
 			await session.SendPacketAsync(new GroupInfoComposer(group, session.Player, false));
 
-			if (_roomController.TryGetRoom((uint)group.RoomId, out IRoom room))
-				await room.Rights.ReloadRights(session);
+			if (group.State == GroupState.OPEN)
+			{
+				IRoom room = session.CurrentRoom;
+				if (room != null && room.Group.Id == groupId)
+					await room.Rights.ReloadRights(session);
+			}
 		}
 	}
 }

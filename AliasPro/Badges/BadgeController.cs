@@ -38,16 +38,20 @@ namespace AliasPro.Badges
 			if (player.Badge.TryGetBadge(code, out _))
 				return;
 
-			if (!TryGetBadge(code, out _))
+			if (!TryGetBadge(code, out IBadge badge))
 				return;
-			//todo: check rights
 
-			IPlayerBadge badge = new PlayerBadge(code);
-			player.Badge.AddBadge(badge);
-			await _badgeDao.AddPlayerBadge(player.Id, badge.Code);
+			if (!string.IsNullOrEmpty(badge.RequiredRight))
+			{
+				//todo: check rights
+			}
+
+			IPlayerBadge playerBadge = new PlayerBadge(code);
+			player.Badge.AddBadge(playerBadge);
+			await _badgeDao.AddPlayerBadge(player.Id, playerBadge.Code);
 
 			if (player.Session != null)
-				await player.Session.SendPacketAsync(new AddPlayerBadgeComposer(badge));
+				await player.Session.SendPacketAsync(new AddPlayerBadgeComposer(playerBadge));
 		}
 
 		public async void RemovePlayerBadge(IPlayer player, IPlayerBadge badge)

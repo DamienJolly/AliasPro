@@ -17,8 +17,10 @@ namespace AliasPro.API.Rooms.Models
         RoomGrid RoomGrid { get; set; }
         RoomCycle RoomCycle { get; set; }
         int IdleTimer { get; set; }
+		bool Loaded { get; set; }
 
-        void Cycle();
+
+		void Cycle();
         Task AddEntity(BaseEntity entity);
         Task RemoveEntity(BaseEntity entity);
         void OnChat(string text, int colour, BaseEntity entity);

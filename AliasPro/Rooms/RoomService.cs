@@ -11,7 +11,6 @@ namespace AliasPro.Rooms
         public void SetupService(IServiceCollection collection)
         {
             collection.AddSingleton<RoomDao>();
-            collection.AddSingleton<RoomRepository>();
             collection.AddSingleton<IRoomController, RoomController>();
 
             AddPackets(collection);

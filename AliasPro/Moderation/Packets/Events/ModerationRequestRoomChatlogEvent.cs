@@ -40,12 +40,12 @@ namespace AliasPro.Moderation.Packets.Events
 			clientPacket.ReadInt(); //dunno?
             int roomId = clientPacket.ReadInt();
 
-            IRoomData roomData = await _roomController.ReadRoomDataAsync((uint)roomId);
-            if (roomData == null)
+            IRoom room = await _roomController.LoadRoom((uint)roomId);
+            if (room == null)
                 return;
 
-            await session.SendPacketAsync(new ModerationRoomChatlogComposer(roomData, 
-                await _chatController.ReadRoomChatlogs(roomData.Id)));
+            await session.SendPacketAsync(new ModerationRoomChatlogComposer(room, 
+                await _chatController.ReadRoomChatlogs(room.Id)));
         }
     }
 }

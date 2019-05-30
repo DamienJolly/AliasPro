@@ -40,7 +40,6 @@ namespace AliasPro.Groups.Packets.Events
 
 			group.RemoveMember(playerId);
 			await _groupController.RemoveGroupMember(group.Id, playerId);
-			// todo: eject furni
 			await session.SendPacketAsync(new GroupRefreshMembersListComposer(group));
 		}
 	}

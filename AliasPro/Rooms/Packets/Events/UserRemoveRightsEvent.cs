@@ -17,7 +17,9 @@ namespace AliasPro.Rooms.Packets.Events
         private readonly IPlayerController _playerController;
         private readonly IRoomController _roomController;
 
-        public UserRemoveRightsEvent(IPlayerController playerController, IRoomController roomController)
+        public UserRemoveRightsEvent(
+			IPlayerController playerController, 
+			IRoomController roomController)
         {
             _playerController = playerController;
             _roomController = roomController;

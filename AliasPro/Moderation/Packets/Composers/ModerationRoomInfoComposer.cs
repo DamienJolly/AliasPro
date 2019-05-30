@@ -7,29 +7,30 @@ namespace AliasPro.Moderation.Packets.Composers
 {
     public class ModerationRoomInfoComposer : IPacketComposer
     {
-        private readonly IRoomData _roomData;
+        private readonly IRoom _room;
         
-        public ModerationRoomInfoComposer(IRoomData roomData)
+        public ModerationRoomInfoComposer(
+			IRoom room)
         {
-            _roomData = roomData;
+            _room = room;
         }
 
         public ServerPacket Compose()
         {
             bool publicRoom = true;
             ServerPacket message = new ServerPacket(Outgoing.ModerationRoomInfoMessageComposer);
-            message.WriteInt(_roomData.Id);
-            message.WriteInt(_roomData.UsersNow);
+            message.WriteInt(_room.Id);
+            message.WriteInt(_room.UsersNow);
             message.WriteBoolean(true); //todo: owner online
-            message.WriteInt(_roomData.OwnerId);
-            message.WriteString(_roomData.OwnerName);
+            message.WriteInt(_room.OwnerId);
+            message.WriteString(_room.OwnerName);
             message.WriteBoolean(publicRoom); //todo: not public room
             if (publicRoom)
             {
-                message.WriteString(_roomData.Name);
-                message.WriteString(_roomData.Description);
-                message.WriteInt(_roomData.Tags.Count);
-                foreach (string tag in _roomData.Tags)
+                message.WriteString(_room.Name);
+                message.WriteString(_room.Description);
+                message.WriteInt(_room.Tags.Count);
+                foreach (string tag in _room.Tags)
                     message.WriteString(tag);
             }
             return message;

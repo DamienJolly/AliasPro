@@ -8,17 +8,15 @@ namespace AliasPro.API.Rooms
     {
         void Cycle();
         ICollection<IRoom> Rooms { get; }
-        Task<ICollection<IRoomData>> GetPlayersRoomsAsync(uint playerId);
-        Task<IRoomData> ReadRoomDataAsync(uint roomId);
-        bool TryAddRoom(IRoom room);
-        void RemoveRoom(IRoom room);
+
+		Task<ICollection<IRoomData>> GetPlayersRoomsAsync(uint playerId);
         bool TryGetRoom(uint roomId, out IRoom room);
-        Task<int> CreateRoomAsync(uint playerId, string name, string description, string modelName, int categoryId, int maxUsers, int tradeType);
+		Task<IRoom> LoadRoom(uint roomId);
+		Task<int> CreateRoomAsync(uint playerId, string name, string description, string modelName, int categoryId, int maxUsers, int tradeType);
 
         bool TryGetRoomModel(string modelName, out IRoomModel model);
 
         Task<IRoomSettings> GetRoomSettingsAsync(uint roomId);
-        Task CreateRoomSettingsAsync(uint roomId);
 
         Task<IDictionary<uint, string>> GetRightsForRoomAsync(uint roomId);
         Task GiveRoomRights(uint roomId, uint playerId);

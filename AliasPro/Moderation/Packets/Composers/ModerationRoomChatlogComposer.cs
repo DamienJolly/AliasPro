@@ -9,12 +9,14 @@ namespace AliasPro.Moderation.Packets.Composers
 {
     public class ModerationRoomChatlogComposer : IPacketComposer
     {
-        private readonly IRoomData _roomData;
+        private readonly IRoom _room;
         private readonly ICollection<IChatLog> _chatLogs;
         
-        public ModerationRoomChatlogComposer(IRoomData roomData, ICollection<IChatLog> chatLogs)
+        public ModerationRoomChatlogComposer(
+			IRoom room, 
+			ICollection<IChatLog> chatLogs)
         {
-            _roomData = roomData;
+			_room = room;
             _chatLogs = chatLogs;
         }
 
@@ -25,10 +27,10 @@ namespace AliasPro.Moderation.Packets.Composers
             message.WriteShort(2);
             message.WriteString("roomName");
             message.WriteByte(2);
-            message.WriteString(_roomData.Name);
+            message.WriteString(_room.Name);
             message.WriteString("roomId");
             message.WriteByte(1);
-            message.WriteInt(_roomData.Id);
+            message.WriteInt(_room.Id);
 
             message.WriteShort(_chatLogs.Count);
             foreach (IChatLog chatlog in _chatLogs)

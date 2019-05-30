@@ -38,8 +38,6 @@ namespace AliasPro.Groups.Packets.Events
 			int colourOne = clientPacket.ReadInt();
 			int colourTwo = clientPacket.ReadInt();
 
-			//todo: maybe a check
-
 			group.ColourOne = colourOne;
 			group.ColourTwo = colourTwo;
 

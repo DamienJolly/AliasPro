@@ -49,9 +49,9 @@ namespace AliasPro.Groups.Packets.Events
 			string description = clientPacket.ReadString();
 			int roomId = clientPacket.ReadInt();
 
-			IRoomData room = 
-				await _roomController.ReadRoomDataAsync((uint)roomId);
-			if (room == null) return;
+			IRoom room = await _roomController.LoadRoom((uint)roomId);
+			if (room == null)
+				return;
 
 			if (room.Group != null) return;
 
@@ -73,8 +73,6 @@ namespace AliasPro.Groups.Packets.Events
 
 				badge += (id < 100 ? "0" : "") + (id < 10 ? "0" : "") + id + (colour < 10 ? "0" : "") + colour + "" + pos;
 			}
-
-			//todo: server generate badge??
 
 			IGroup group = await _groupController.CreateGroup(
 				name, description, session.Player.Id, roomId, badge, colourOne, colourTwo);

@@ -50,7 +50,6 @@ namespace AliasPro.Groups.Packets.Events
 				badge += (id < 100 ? "0" : "") + (id < 10 ? "0" : "") + id + (colour < 10 ? "0" : "") + colour + "" + pos;
 			}
 
-			//todo: server generate badge??
 			group.Badge = badge;
 
 			if (_roomController.TryGetRoom((uint)group.RoomId, out IRoom room))
