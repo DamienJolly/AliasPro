@@ -44,8 +44,10 @@ namespace AliasPro.Rooms.Packets.Events
                 session.Entity = userEntity;
                 await room.AddEntity(userEntity);
             }
-            
-            await session.SendPacketAsync(new RoomEntryInfoComposer(room.Id, 
+
+			System.Console.WriteLine("3");
+
+			await session.SendPacketAsync(new RoomEntryInfoComposer(room.Id, 
                 room.Rights.HasRights(session.Player.Id)));
 
             await session.SendPacketAsync(new EntitiesComposer(room.Entities.Entities));

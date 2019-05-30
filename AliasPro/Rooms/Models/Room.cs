@@ -88,7 +88,7 @@ namespace AliasPro.Rooms.Models
             await SendAsync(new EntityUpdateComposer(entity));
         }
 
-        public async Task RemoveEntity(BaseEntity entity)
+		public async Task RemoveEntity(BaseEntity entity, bool notifyUser)
         {
             Entities.RemoveEntity(entity);
             RoomGrid.RemoveEntity(entity);
@@ -98,12 +98,13 @@ namespace AliasPro.Rooms.Models
 
 			if (entity is PlayerEntity playerEntity)
 			{
-				if (playerEntity.Session == null ||
-					!playerEntity.Session.Player.Online) return;
+				if (playerEntity.Session == null) return;
 
 				playerEntity.Session.Entity = null;
 				playerEntity.Session.CurrentRoom = null;
-				await playerEntity.Session.SendPacketAsync(new HotelViewComposer());
+
+				if (notifyUser)
+					await playerEntity.Session.SendPacketAsync(new HotelViewComposer());
 			}
 		}
 

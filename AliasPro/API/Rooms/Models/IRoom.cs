@@ -22,8 +22,9 @@ namespace AliasPro.API.Rooms.Models
 
 		void Cycle();
         Task AddEntity(BaseEntity entity);
-        Task RemoveEntity(BaseEntity entity);
-        void OnChat(string text, int colour, BaseEntity entity);
+		Task RemoveEntity(BaseEntity entity, bool notifyUser = true);
+
+		void OnChat(string text, int colour, BaseEntity entity);
 		Task UpdateRoomGroup(IGroup group);
 		Task SendAsync(IPacketComposer packet);
         void Dispose();

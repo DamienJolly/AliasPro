@@ -25,11 +25,11 @@ namespace AliasPro.Sessions.Models
 
         public void Disconnect()
         {
-            _channel.CloseAsync();
+			_channel.CloseAsync();
         }
 
-        public Task SendPacketAsync(IPacketComposer serverPacket) => WriteAndFlushAsync(serverPacket.Compose());
-            
-        private Task WriteAndFlushAsync(ServerPacket serverPacket) => _channel.WriteAndFlushAsync(serverPacket);
+		public Task SendPacketAsync(IPacketComposer serverPacket) => WriteAndFlushAsync(serverPacket.Compose());
+
+		private Task WriteAndFlushAsync(ServerPacket serverPacket) => _channel.WriteAndFlushAsync(serverPacket);
     }
 }

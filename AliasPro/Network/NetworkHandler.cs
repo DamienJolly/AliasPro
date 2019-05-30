@@ -75,7 +75,7 @@ namespace AliasPro.Network
 
             if (session.CurrentRoom != null &&
                 session.Entity != null)
-                await session.CurrentRoom.RemoveEntity(session.Entity);
+                await session.CurrentRoom.RemoveEntity(session.Entity, false);
             
             _playerController.RemovePlayer(session.Player);
         }

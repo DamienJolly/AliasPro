@@ -62,6 +62,8 @@ namespace AliasPro.Rooms.Packets.Events
 				room.Loaded = true;
 			}
 
+			System.Console.WriteLine("1");
+
 			bool loading = !(clientPacket.ReadInt() == 0 && clientPacket.ReadInt() == 1);
 			await session.SendPacketAsync(new RoomDataComposer(room, loading, true, session));
         }
