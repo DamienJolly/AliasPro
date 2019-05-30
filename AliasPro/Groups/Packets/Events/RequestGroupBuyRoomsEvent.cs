@@ -1,9 +1,11 @@
 ﻿using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
 using AliasPro.API.Rooms;
+using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Groups.Packets.Composers;
 using AliasPro.Network.Events.Headers;
+using System.Collections.Generic;
 
 namespace AliasPro.Groups.Packets.Events
 {
@@ -26,8 +28,17 @@ namespace AliasPro.Groups.Packets.Events
 			if (session.Player == null)
 				return;
 
-			await session.SendPacketAsync(new GroupBuyRoomsComposer(
-				await _roomController.GetPlayersRoomsAsync(session.Player.Id)));
+			//todo: store in player class
+			_roomController.LoadPlayersRooms(session.Player.Id);
+			ICollection<IRoom> rooms = new List<IRoom>();
+
+			foreach (IRoom room in _roomController.Rooms)
+			{
+				if (room.OwnerId == session.Player.Id && room.Group == null)
+					rooms.Add(room);
+			}
+
+			await session.SendPacketAsync(new GroupBuyRoomsComposer(rooms));
 		}
 	}
 }

@@ -16,7 +16,7 @@ namespace AliasPro.Navigator.Models
             Identifier = reader.ReadData<string>("identifier");
             Category = reader.ReadData<string>("category");
             CategoryType = NavigatorCategoryUtility.GetCategoryType(
-                reader.ReadData<string>("category_type"));
+                reader.ReadData<string>("category_type"), this);
         }
 
         public uint Id { get; set; }

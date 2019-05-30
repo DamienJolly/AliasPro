@@ -1,24 +1,37 @@
-﻿using AliasPro.API.Navigator.Views;
+﻿using AliasPro.API.Navigator.Models;
+using AliasPro.API.Navigator.Views;
+using AliasPro.API.Players.Models;
 using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Models;
 using System.Collections.Generic;
 
 namespace AliasPro.Navigator.Views
 {
-    internal class DefaultCategory : ICategoryType
+    public class DefaultCategory : ICategoryType
     {
-        public override ICollection<IRoomData> Search(IRoomController roomController, uint categoryId, string searchCode, uint playerId)
-        {
-            ICollection<IRoomData> roomsToGo = new List<IRoomData>();
-            ICollection<IRoom> rooms = roomController.Rooms;
+		private readonly INavigatorCategory _category;
 
-            foreach(IRoom room in rooms)
-            {
-                if (room.CategoryId == categoryId)
-                    roomsToGo.Add(room);
-            }
+		public DefaultCategory(INavigatorCategory category)
+		{
+			_category = category;
+		}
 
-            return roomsToGo;
-        }
+		public ICollection<IRoom> Search(IRoomController roomController, IPlayer player, string searchCode)
+		{
+			ICollection<IRoom> rooms = new List<IRoom>();
+
+			foreach (IRoom room in roomController.Rooms)
+			{
+				if (!room.Name.ToLower().Contains(searchCode.ToLower()))
+					continue;
+
+				if (room.CategoryId != _category.Id)
+					continue;
+
+				rooms.Add(room);
+			}
+
+			return rooms;
+		}
     }
 }

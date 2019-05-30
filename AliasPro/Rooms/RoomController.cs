@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace AliasPro.Rooms
 {
-    internal class RoomController : IRoomController
-    {
+	internal class RoomController : IRoomController
+	{
 		private readonly RoomDao _roomDao;
 
 		private readonly IDictionary<uint, IRoom> _rooms;
@@ -53,10 +53,17 @@ namespace AliasPro.Rooms
 		}
 
 		public ICollection<IRoom> Rooms =>
-            _rooms.Values;
+			_rooms.Values;
 
-        public async Task<ICollection<IRoomData>> GetPlayersRoomsAsync(uint playerId) =>
-			await _roomDao.GetAllRoomDataById(playerId);
+		public async void LoadPlayersRooms(uint playerId)
+		{
+			ICollection<IRoomData> roomDatas = await _roomDao.GetAllRoomDataById(playerId);
+			foreach (IRoomData roomData in roomDatas)
+			{
+				IRoom room = new Room(roomData);
+				_rooms.TryAdd(room.Id, room);
+			}
+		}
 
 		public bool TryGetRoom(uint roomId, out IRoom room) =>
 			_rooms.TryGetValue(roomId, out room);

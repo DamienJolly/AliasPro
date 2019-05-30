@@ -8,10 +8,10 @@ namespace AliasPro.Groups.Packets.Composers
 {
 	public class GroupBuyRoomsComposer : IPacketComposer
 	{
-		private readonly ICollection<IRoomData> _rooms;
+		private readonly ICollection<IRoom> _rooms;
 
 		public GroupBuyRoomsComposer(
-			ICollection<IRoomData> rooms)
+			ICollection<IRoom> rooms)
 		{
 			_rooms = rooms;
 		}
@@ -22,7 +22,7 @@ namespace AliasPro.Groups.Packets.Composers
 			message.WriteInt(10); // price
 
 			message.WriteInt(_rooms.Count);
-			foreach (IRoomData room in _rooms)
+			foreach (IRoom room in _rooms)
 			{
 				message.WriteInt(room.Id);
 				message.WriteString(room.Name);
