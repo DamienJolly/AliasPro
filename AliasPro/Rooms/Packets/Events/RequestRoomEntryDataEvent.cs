@@ -45,8 +45,6 @@ namespace AliasPro.Rooms.Packets.Events
                 await room.AddEntity(userEntity);
             }
 
-			System.Console.WriteLine("3");
-
 			await session.SendPacketAsync(new RoomEntryInfoComposer(room.Id, 
                 room.Rights.HasRights(session.Player.Id)));
 

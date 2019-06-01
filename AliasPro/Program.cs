@@ -20,6 +20,7 @@ using AliasPro.Players;
 using AliasPro.Rooms;
 using AliasPro.Server;
 using AliasPro.Sessions;
+using AliasPro.Trading;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
@@ -53,7 +54,8 @@ namespace AliasPro
 				new PermissionsService(),
 				new AchievementService(),
 				new BadgeService(),
-				new GroupService()
+				new GroupService(),
+				new TradingService()
 			};
 
             IServiceCollection serviceCollection = new ServiceCollection();

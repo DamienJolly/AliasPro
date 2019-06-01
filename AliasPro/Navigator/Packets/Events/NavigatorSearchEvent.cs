@@ -36,7 +36,7 @@ namespace AliasPro.Navigator.Packets.Events
                 return;
 
             await session.SendPacketAsync(
-                new NavigatorSearchResultSetComposer(session.Player.Id, category, data, categories.Values, _roomController));
+                new NavigatorSearchResultSetComposer(session.Player, category, data, categories.Values, _roomController));
         }
     }
 }

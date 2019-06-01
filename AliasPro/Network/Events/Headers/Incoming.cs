@@ -132,5 +132,8 @@
 
 		// Subscription
 		internal const int RequestUserClubMessageEvent = 3796;
+
+		// Trading
+		internal const int TradeStartMessageEvent = 3586;
 	}
 }

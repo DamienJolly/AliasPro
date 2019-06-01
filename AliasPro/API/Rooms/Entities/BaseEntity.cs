@@ -1,4 +1,5 @@
 ﻿using AliasPro.API.Rooms.Models;
+using AliasPro.API.Trading.Models;
 using AliasPro.Network.Protocol;
 using AliasPro.Players.Types;
 using AliasPro.Rooms.Cycles;
@@ -81,7 +82,9 @@ namespace AliasPro.API.Rooms.Entities
 
         public GameTeamType Team = GameTeamType.NONE;
 
-        public abstract void Cycle();
+		public ITrade Trade = null;
+
+		public abstract void Cycle();
         public abstract void Compose(ServerPacket serverPacket);
     }
 }

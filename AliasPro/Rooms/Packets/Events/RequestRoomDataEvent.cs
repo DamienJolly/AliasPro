@@ -9,8 +9,6 @@ using AliasPro.Rooms.Components;
 using AliasPro.Rooms.Models;
 using AliasPro.Rooms.Packets.Composers;
 using AliasPro.Rooms.Cycles;
-using AliasPro.API.Groups;
-using AliasPro.API.Groups.Models;
 
 namespace AliasPro.Rooms.Packets.Events
 {
@@ -61,8 +59,6 @@ namespace AliasPro.Rooms.Packets.Events
 				room.RoomCycle = new RoomCycle(room);
 				room.Loaded = true;
 			}
-
-			System.Console.WriteLine("1");
 
 			bool loading = !(clientPacket.ReadInt() == 0 && clientPacket.ReadInt() == 1);
 			await session.SendPacketAsync(new RoomDataComposer(room, loading, true, session));

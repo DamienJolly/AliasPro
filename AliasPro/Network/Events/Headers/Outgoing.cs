@@ -144,5 +144,9 @@
 
 		// Subscription
 		internal const int UserClubMessageComposer = 2984;
+
+		// Trading 
+		internal const int TradeStartFailMessageComposer = 1608;
+		internal const int TradeStartMessageComposer = 2786;
 	}
 }

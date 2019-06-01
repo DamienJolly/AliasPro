@@ -44,8 +44,6 @@ namespace AliasPro.Rooms.Packets.Events
                 return;
             }
 
-			System.Console.WriteLine("2");
-
             session.CurrentRoom = room;
 
             await session.SendPacketAsync(new RoomOpenComposer());

@@ -29,7 +29,7 @@ namespace AliasPro.Navigator.Packets.Composers
 
         public ServerPacket Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.NavigatorSearchResultSetMessageComposer);
+			ServerPacket message = new ServerPacket(Outgoing.NavigatorSearchResultSetMessageComposer);
             message.WriteString(_category);
             message.WriteString(_data);
 
