@@ -5,13 +5,13 @@ using AliasPro.Trading.Models;
 
 namespace AliasPro.Trading
 {
-    internal class TradingController : ITradingController
+	internal class TradingController : ITradingController
 	{
 		private readonly TradingDao _tradingDao;
 
 		public TradingController(
 			TradingDao tradingDao)
-        {
+		{
 			_tradingDao = tradingDao;
 		}
 

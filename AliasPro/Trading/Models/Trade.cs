@@ -1,8 +1,8 @@
-﻿using AliasPro.API.Items.Models;
-using AliasPro.API.Network.Events;
+﻿using AliasPro.API.Network.Events;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Trading.Models;
 using AliasPro.Rooms.Entities;
+using AliasPro.Trading.Packets.Composers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,6 +23,17 @@ namespace AliasPro.Trading.Models
 
 		public bool TryAddPlayer(BaseEntity entity) =>
 			_players.TryAdd(entity.Id, new TradePlayer(entity));
+
+		public async Task StopTrade(uint playerId)
+		{
+			foreach (ITradePlayer target in _players.Values)
+			{
+				target.Entity.Actions.RemoveStatus("trd");
+				target.Entity.Trade = null;
+			}
+
+			await SendAsync(new TradeClosedComposer(TradeClosedComposer.USER_CANCEL_TRADE, playerId));
+		}
 
 		public async Task SendAsync(IPacketComposer packet)
 		{

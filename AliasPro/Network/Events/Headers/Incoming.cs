@@ -140,5 +140,6 @@
 		internal const int TradeCancelOfferItemMessageEvent = 2177;
 		internal const int TradeAcceptMessageEvent = 999;
 		internal const int TradeUnAcceptMessageEvent = 2851;
+		internal const int TradeCloseMessageEvent = 3602;
 	}
 }

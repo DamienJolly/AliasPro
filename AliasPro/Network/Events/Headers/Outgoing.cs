@@ -151,5 +151,7 @@
 		internal const int TradeUpdateMessageComposer = 2275;
 		internal const int TradeAcceptedMessageComposer = 3479;
 		internal const int TradingWaitingConfirmMessageComposer = 2009;
+
+		internal const int TradeClosedMessageComposer = 1147;
 	}
 }

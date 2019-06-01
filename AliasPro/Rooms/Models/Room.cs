@@ -94,11 +94,14 @@ namespace AliasPro.Rooms.Models
             RoomGrid.RemoveEntity(entity);
             Game.LeaveTeam(entity);
 
-            await SendAsync(new EntityRemoveComposer(entity.Id));
+			await SendAsync(new EntityRemoveComposer(entity.Id));
 
 			if (entity is PlayerEntity playerEntity)
 			{
 				if (playerEntity.Session == null) return;
+
+				if (playerEntity.Trade != null)
+					await playerEntity.Trade.StopTrade(playerEntity.Player.Id);
 
 				playerEntity.Session.Entity = null;
 				playerEntity.Session.CurrentRoom = null;

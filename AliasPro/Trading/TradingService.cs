@@ -24,6 +24,8 @@ namespace AliasPro.Trading
 			collection.AddSingleton<IAsyncPacket, TradeCancelOfferItemEvent>();
 			collection.AddSingleton<IAsyncPacket, TradeAcceptEvent>();
 			collection.AddSingleton<IAsyncPacket, TradeUnAcceptEvent>();
+
+			collection.AddSingleton<IAsyncPacket, TradeCloseEvent>();
 		}
 	}
 }

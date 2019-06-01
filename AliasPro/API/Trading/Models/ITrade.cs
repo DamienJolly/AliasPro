@@ -9,6 +9,7 @@ namespace AliasPro.API.Trading.Models
 	{
 		bool TryGetPlayer(int playerId, out ITradePlayer player);
 		bool TryAddPlayer(BaseEntity entity);
+		Task StopTrade(uint playerId);
 		Task SendAsync(IPacketComposer packet);
 
 		ICollection<ITradePlayer> Players { get; }
