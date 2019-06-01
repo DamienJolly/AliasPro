@@ -10,5 +10,6 @@ namespace AliasPro.API.Trading.Models
 		IDictionary<uint, IItem> OfferedItems { get; set; }
 
 		bool TryAddItem(IItem item);
+		void RemoveItem(uint itemId);
 	}
 }

@@ -18,5 +18,8 @@ namespace AliasPro.Trading.Models
 
 		public bool TryAddItem(IItem item) =>
 			OfferedItems.TryAdd(item.Id, item);
+
+		public void RemoveItem(uint itemId) =>
+			OfferedItems.Remove(itemId);
 	}
 }
