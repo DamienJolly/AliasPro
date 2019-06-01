@@ -20,7 +20,7 @@ namespace AliasPro.Trading.Packets.Composers
             ServerPacket message = new ServerPacket(Outgoing.TradeUpdateMessageComposer);
 			foreach (ITradePlayer player in _trade.Players)
 			{
-				message.WriteInt(player.Entity.Id);
+				message.WriteInt(player.playerId);
 				message.WriteInt(player.OfferedItems.Count);
 
 				foreach (IItem item in player.OfferedItems.Values)

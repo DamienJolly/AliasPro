@@ -4,6 +4,7 @@ using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Trading.Models;
 using AliasPro.Rooms.Entities;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AliasPro.Trading.Models
@@ -16,9 +17,6 @@ namespace AliasPro.Trading.Models
 		{
 			_players = new Dictionary<int, ITradePlayer>();
 		}
-
-		public ICollection<ITradePlayer> Players =>
-			_players.Values;
 
 		public bool TryGetPlayer(int playerId, out ITradePlayer player) =>
 			_players.TryGetValue(playerId, out player);
@@ -37,5 +35,14 @@ namespace AliasPro.Trading.Models
 				}
 			}
 		}
+
+		public ICollection<ITradePlayer> Players =>
+			_players.Values;
+
+		public bool Accepted =>
+			Players.Where(tradeUser => tradeUser.Accepted).Count() >= Players.Count;
+
+		public bool Confirmed =>
+			Players.Where(tradeUser => tradeUser.Confirmed).Count() >= Players.Count;
 	}
 }
