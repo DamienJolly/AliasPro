@@ -19,6 +19,8 @@ namespace AliasPro.Trading
 		private static void AddPackets(IServiceCollection collection)
 		{
 			collection.AddSingleton<IAsyncPacket, TradeStartEvent>();
+			collection.AddSingleton<IAsyncPacket, TradeOfferItemEvent>();
+			collection.AddSingleton<IAsyncPacket, TradeOfferMultipleItemsEvent>();
 		}
 	}
 }

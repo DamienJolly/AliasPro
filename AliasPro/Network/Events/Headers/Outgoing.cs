@@ -148,5 +148,6 @@
 		// Trading 
 		internal const int TradeStartFailMessageComposer = 1608;
 		internal const int TradeStartMessageComposer = 2786;
+		internal const int TradeUpdateMessageComposer = 2275;
 	}
 }

@@ -135,5 +135,7 @@
 
 		// Trading
 		internal const int TradeStartMessageEvent = 3586;
+		internal const int TradeOfferItemMessageEvent = 2175;
+		internal const int TradeOfferMultipleItemsMessageEvent = 1725;
 	}
 }

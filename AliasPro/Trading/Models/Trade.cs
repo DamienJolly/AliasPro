@@ -1,4 +1,5 @@
-﻿using AliasPro.API.Network.Events;
+﻿using AliasPro.API.Items.Models;
+using AliasPro.API.Network.Events;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Trading.Models;
 using AliasPro.Rooms.Entities;
@@ -18,6 +19,9 @@ namespace AliasPro.Trading.Models
 
 		public ICollection<ITradePlayer> Players =>
 			_players.Values;
+
+		public bool TryGetPlayer(int playerId, out ITradePlayer player) =>
+			_players.TryGetValue(playerId, out player);
 
 		public bool TryAddPlayer(BaseEntity entity) =>
 			_players.TryAdd(entity.Id, new TradePlayer(entity));
