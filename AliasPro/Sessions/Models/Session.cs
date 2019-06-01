@@ -15,6 +15,7 @@ namespace AliasPro.Sessions.Models
         public IPlayer Player { get; set; }
         public BaseEntity Entity { get; set; }
         public IRoom CurrentRoom { get; set; }
+		public bool Disconnecting { get; set; } = false;
 
         private readonly IChannelHandlerContext _channel;
 
@@ -28,7 +29,13 @@ namespace AliasPro.Sessions.Models
 			_channel.CloseAsync();
         }
 
-		public Task SendPacketAsync(IPacketComposer serverPacket) => WriteAndFlushAsync(serverPacket.Compose());
+		public Task SendPacketAsync(IPacketComposer serverPacket)
+		{
+			if (_channel.Channel.IsWritable)
+				return WriteAndFlushAsync(serverPacket.Compose());
+
+			return Task.CompletedTask;
+		}
 
 		private Task WriteAndFlushAsync(ServerPacket serverPacket) => _channel.WriteAndFlushAsync(serverPacket);
     }
