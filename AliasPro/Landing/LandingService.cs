@@ -21,6 +21,8 @@ namespace AliasPro.Landing
         {
             collection.AddSingleton<IAsyncPacket, RequestNewsListEvent>();
             collection.AddSingleton<IAsyncPacket, HotelViewEvent>();
-        }
+			collection.AddSingleton<IAsyncPacket, HotelViewDataEvent>();
+
+		}
     }
 }
