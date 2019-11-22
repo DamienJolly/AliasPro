@@ -62,7 +62,7 @@ namespace AliasPro.Items.Interaction
 			{
 				if (_tickCount >= 6)
 				{
-					_item.Mode = Randomness.RandomNumber(_item.ItemData.Modes);
+					_item.Mode = Randomness.RandomNumber(0, _item.ItemData.Modes);
 					await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(_item));
 				}
 				_tickCount++;
