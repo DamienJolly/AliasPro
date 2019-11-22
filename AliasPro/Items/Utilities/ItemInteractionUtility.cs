@@ -17,7 +17,8 @@ namespace AliasPro.Items.Utilities
                 case "dice": return ItemInteractionType.DICE;
 				case "exchange": return ItemInteractionType.EXCHANGE;
 				case "bed": return ItemInteractionType.BED;
-                case "chair": return ItemInteractionType.CHAIR;
+				case "gate": return ItemInteractionType.GATE;
+				case "chair": return ItemInteractionType.CHAIR;
                 case "default": default: return ItemInteractionType.DEFAULT;
             }
         }

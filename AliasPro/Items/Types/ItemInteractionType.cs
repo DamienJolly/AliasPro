@@ -4,6 +4,7 @@
     {
         DEFAULT,
         BED,
+		GATE,
         CHAIR,
         VENDING_MACHINE,
         GAME_TIMER,

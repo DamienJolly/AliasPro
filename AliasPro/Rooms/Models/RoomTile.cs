@@ -52,7 +52,9 @@ namespace AliasPro.Rooms.Models
             {
                 if (topItem.ItemData.CanWalk) return true;
 
-                if (topItem.ItemData.InteractionType == ItemInteractionType.CHAIR && final) return true;
+				if (topItem.ItemData.InteractionType == ItemInteractionType.GATE && topItem.Mode >= (topItem.ItemData.Modes - 1)) return true;
+
+				if (topItem.ItemData.InteractionType == ItemInteractionType.CHAIR && final) return true;
 
                 if (topItem.ItemData.InteractionType == ItemInteractionType.BED && final) return true;
 
