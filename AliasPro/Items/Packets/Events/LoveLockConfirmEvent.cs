@@ -8,6 +8,7 @@ using AliasPro.Items.Packets.Composers;
 using AliasPro.Items.Types;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Rooms.Entities;
+using System;
 
 namespace AliasPro.Items.Packets.Events
 {
@@ -62,12 +63,12 @@ namespace AliasPro.Items.Packets.Events
 
 				await session.SendPacketAsync(new LoveLockFinishedComposer(item));
 
-				item.ExtraData = 
-					session.Entity.Name + ";" + 
-					targetEntity.Name + ";" + 
-					session.Entity.Figure + ";" + 
-					targetEntity.Figure + ";" + 
-					"30-1-2019";
+				item.ExtraData =
+					session.Entity.Name + ";" +
+					targetEntity.Name + ";" +
+					session.Entity.Figure + ";" +
+					targetEntity.Figure + ";" +
+					DateTime.Now.Day + "-" + DateTime.Now.Month + "-" + DateTime.Now.Year;
 
 				await room.SendAsync(new FloorItemUpdateComposer(item));
 			}
