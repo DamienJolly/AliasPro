@@ -146,7 +146,28 @@ namespace AliasPro.Rooms
             return roomSettings;
         }
 
-        internal async Task CreateRoomSettings(uint id)
+		internal async Task UpdateRoomSettins(IRoom room)
+		{
+			await CreateTransaction(async transaction =>
+			{
+				await Insert(transaction, "UPDATE `room_settings` SET `allow_pets` = @1, `allow_pets_eat` = @2, `room_blocking` = @3, `hide_walls` = @4, `wall_thickness` = @5, `floor_thickness` = @6, " +
+					"`who_mutes` = @7, `who_kicks` = @8, `who_bans` = @9, `chat_mode` = @10, `chat_size` = @11, `chat_speed` = @12, `chat_distance` = @13, `chat_flood` = @14 WHERE `id` = @0;",
+					room.Id, room.Settings.AllowPets, room.Settings.AllowPetsEat, room.Settings.RoomBlocking, room.Settings.HideWalls, room.Settings.WallThickness, room.Settings.FloorThickness, 
+					room.Settings.WhoMutes, room.Settings.WhoKicks, room.Settings.WhoBans, 
+					room.Settings.ChatMode, room.Settings.ChatSize, room.Settings.ChatSpeed, room.Settings.ChatDistance, room.Settings.ChatFlood);
+			});
+		}
+
+		internal async Task UpdateRoom(IRoom room)
+		{
+			await CreateTransaction(async transaction =>
+			{
+				await Insert(transaction, "UPDATE `rooms` SET `score` = @1, `name` = @2, `caption` = @3, `password` = @4, `max_users` = @5, `trade_type` = @6, `category_id` = @7, `tags` = @8 WHERE `id` = @0;",
+					room.Id, room.Score, room.Name, room.Description, room.Password, room.MaxUsers, room.TradeType, room.CategoryId, /*tags*/"");
+			});
+		}
+
+		internal async Task CreateRoomSettings(uint id)
         {
             await CreateTransaction(async transaction =>
             {
@@ -172,16 +193,16 @@ namespace AliasPro.Rooms
             return roomModels;
         }
 
-        internal async Task UpdateRoomItems(ICollection<IItem> items)
-        {
-            await CreateTransaction(async transaction =>
-            {
-                foreach (IItem item in items)
-                {
-                    await Insert(transaction, "UPDATE `items` SET `room_id` = @1, `rot` = @2, `x` = @3, `y` = @4, `z` = @5, `extra_data` = @6, `mode` = @7 WHERE `id` = @0;",
-                       item.Id, item.RoomId, item.Rotation, item.Position.X, item.Position.Y, item.Position.Z, item.ExtraData, item.Mode);
-                }
-            });
-        }
+		internal async Task UpdateRoomItems(ICollection<IItem> items)
+		{
+			await CreateTransaction(async transaction =>
+			{
+				foreach (IItem item in items)
+				{
+					await Insert(transaction, "UPDATE `items` SET `room_id` = @1, `rot` = @2, `x` = @3, `y` = @4, `z` = @5, `extra_data` = @6, `mode` = @7 WHERE `id` = @0;",
+					   item.Id, item.RoomId, item.Rotation, item.Position.X, item.Position.Y, item.Position.Z, item.ExtraData, item.Mode);
+				}
+			});
+		}
     }
 }

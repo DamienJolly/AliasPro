@@ -100,8 +100,8 @@ namespace AliasPro.Rooms.Models
 			{
 				if (playerEntity.Session == null) return;
 
-				if (playerEntity.Trade != null)
-					await playerEntity.Trade.StopTrade(playerEntity.Player.Id);
+				//if (playerEntity.Trade != null)
+					//await playerEntity.Trade.StopTrade(playerEntity.Player.Id);
 
 				playerEntity.Session.Entity = null;
 				playerEntity.Session.CurrentRoom = null;
@@ -138,7 +138,12 @@ namespace AliasPro.Rooms.Models
 
         public void Dispose()
         {
-            // todo:
-        }
+			Entities = null;
+			Items = null;
+			Rights = null;
+			Game = null;
+			RoomCycle = null;
+			Entities = null;
+		}
     }
 }

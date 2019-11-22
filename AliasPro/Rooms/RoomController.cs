@@ -33,7 +33,7 @@ namespace AliasPro.Rooms
 			}
 		}
 
-		public void Cycle()
+		public async void Cycle()
 		{
 			foreach (IRoom room in Rooms.ToList())
 			{
@@ -45,7 +45,14 @@ namespace AliasPro.Rooms
 
 				if (room.IdleTimer >= 60)
 				{
-					// todo: save room.
+					if (room.Settings != null)
+						await _roomDao.UpdateRoomSettins(room);
+
+					if (room.Items != null)
+						await _roomDao.UpdateRoomItems(room.Items.Items);
+
+					await _roomDao.UpdateRoom(room);
+
 					room.Dispose();
 					_rooms.Remove(room.Id);
 				}
