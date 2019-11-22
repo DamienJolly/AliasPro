@@ -90,7 +90,15 @@ namespace AliasPro.Items
             return itemId;
         }
 
-        internal async Task UpdateRoomItems(ICollection<IItem> items)
+		internal async Task RemoveItemAsync(IItem item)
+		{
+			await CreateTransaction(async transaction =>
+			{
+				await Insert(transaction, "DELETE FROM `items` WHERE `id` = @0 AND `player_id` = @1;", item.Id, item.PlayerId);
+			});
+		}
+
+		internal async Task UpdateRoomItems(ICollection<IItem> items)
         {
             await CreateTransaction(async transaction =>
             {

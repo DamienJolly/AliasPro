@@ -9,6 +9,7 @@
         GAME_TIMER,
         ROLLER,
         DICE,
+		EXCHANGE,
 
         WIRED_TRIGGER,
         WIRED_EFFECT,

@@ -18,8 +18,9 @@ namespace AliasPro.Items.Utilities
                 case ItemInteractionType.VENDING_MACHINE: return new InteractionVendingMachine(item);
                 case ItemInteractionType.ROLLER: return new InteractionRoller(item);
                 case ItemInteractionType.DICE: return new InteractionDice(item);
-                case ItemInteractionType.DEFAULT: default: return new InteractionDefault(item);
-            }
+				case ItemInteractionType.EXCHANGE: return new InteractionExchange(item);
+				case ItemInteractionType.DEFAULT: default: return new InteractionDefault(item);
+			}
         }
     }
 }

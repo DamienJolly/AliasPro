@@ -26,7 +26,10 @@ namespace AliasPro.Items
         public async Task<int> AddNewItemAsync(IItem item) =>
             await _itemRepository.AddNewItemAsync(item);
 
-        public async Task UpdatePlayerItemsAsync(ICollection<IItem> items) =>
+		public async Task RemoveItemAsync(IItem item) =>
+			await _itemRepository.RemoveItemAsync(item);
+
+		public async Task UpdatePlayerItemsAsync(ICollection<IItem> items) =>
             await _itemRepository.UpdatePlayerItemsAsync(items);
     }
 }

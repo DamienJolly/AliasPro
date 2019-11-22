@@ -27,6 +27,8 @@ namespace AliasPro.Items
             collection.AddSingleton<IAsyncPacket, ToggleWallItemEvent>();
             collection.AddSingleton<IAsyncPacket, ToggleDiceEvent>();
             collection.AddSingleton<IAsyncPacket, CloseDiceEvent>();
-        }
+			collection.AddSingleton<IAsyncPacket, RedeemItemEvent>();
+
+		}
     }
 }

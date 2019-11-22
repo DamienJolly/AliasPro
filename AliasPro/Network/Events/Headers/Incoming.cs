@@ -46,9 +46,10 @@
         internal const short ToggleWallItemMessageEvent = 2100;
         internal const short TriggerDiceMessageEvent = 237;
         internal const short CloseDiceMessageEvent = 1285;
+		internal const short RedeemItemMessageEvent = 1018;
 
-        // Catalog
-        internal const short RequestDiscountMessageEvent = 703;
+		// Catalog
+		internal const short RequestDiscountMessageEvent = 703;
         internal const short RequestCatalogIndexMessageEvent = 1191;
         internal const short RequestCatalogModeMessageEvent = 2565;
         internal const short RequestCatalogPageMessageEvent = 3547;
