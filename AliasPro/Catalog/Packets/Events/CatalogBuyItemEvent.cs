@@ -136,10 +136,10 @@ namespace AliasPro.Catalog.Packets.Events
             
             foreach (IItem item in itemsList)
             {
-                if(!session.Player.Inventory.TryAddItem(item))
-                    continue;
+				item.Id = (uint)await _itemController.AddNewItemAsync(item);
 
-                item.Id = (uint)await _itemController.AddNewItemAsync(item);
+				if (!session.Player.Inventory.TryAddItem(item))
+                    continue;
 
                 if (catalogItem.TryGetLimitedNumber(out int limitedNumber))
                     await _catalogController.AddLimitedAsync(item.Id, session.Player.Id, limitedNumber);
