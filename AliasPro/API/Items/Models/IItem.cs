@@ -21,8 +21,9 @@ namespace AliasPro.API.Items.Models
         IRoomPosition Position { get; set; }
         IItemData ItemData { get; set; }
         BaseEntity InteractingPlayer { get; set; }
+		BaseEntity InteractingPlayerTwo { get; set; }
 
-        IRoom CurrentRoom { get; set; }
+		IRoom CurrentRoom { get; set; }
 
         IItemInteractor Interaction { get; }
         IWiredInteractor WiredInteraction { get; }

@@ -3,6 +3,7 @@ using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.Items.Packets.Composers;
 using AliasPro.Network.Protocol;
+using AliasPro.Rooms.Entities;
 
 namespace AliasPro.Items.Interaction
 {
@@ -33,7 +34,10 @@ namespace AliasPro.Items.Interaction
         
         public async void OnUserInteract(BaseEntity entity, int state)
         {
-            _item.Mode++;
+			if (entity is PlayerEntity playerEntity)
+				if (!_item.CurrentRoom.Rights.HasRights(playerEntity.Player.Id)) return;
+
+			_item.Mode++;
             if (_item.Mode >= _item.ItemData.Modes)
             {
                 _item.Mode = 0;

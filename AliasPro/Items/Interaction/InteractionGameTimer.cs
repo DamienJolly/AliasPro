@@ -3,6 +3,7 @@ using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.Items.Packets.Composers;
 using AliasPro.Network.Protocol;
+using AliasPro.Rooms.Entities;
 using System;
 
 namespace AliasPro.Items.Interaction
@@ -45,7 +46,10 @@ namespace AliasPro.Items.Interaction
 
         public async void OnUserInteract(BaseEntity entity, int state)
         {
-            switch (state)
+			if (entity is PlayerEntity playerEntity)
+				if (!_item.CurrentRoom.Rights.HasRights(playerEntity.Player.Id)) return;
+
+			switch (state)
             {
                 case 1:
                     {

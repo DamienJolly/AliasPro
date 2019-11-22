@@ -35,6 +35,9 @@ namespace AliasPro.Items.Interaction
         
         public async void OnUserInteract(BaseEntity entity, int state)
         {
+			if (entity is PlayerEntity playerEntity)
+				if (!_item.CurrentRoom.Rights.IsOwner(playerEntity.Player.Id)) return;
+
 			if (!int.TryParse(_item.ItemData.ExtraData, out int amount))
 			{
 				return;

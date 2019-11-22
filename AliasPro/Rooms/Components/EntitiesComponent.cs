@@ -45,6 +45,9 @@ namespace AliasPro.Rooms.Components
         public bool TryGetEntityById(int entityId, out BaseEntity entity) =>
             _entities.TryGetValue(entityId, out entity);
 
+		public bool HasEntity(int entityId) =>
+			_entities.ContainsKey(entityId);
+
         public ICollection<BaseEntity> Entities =>
             _entities.Values;
 

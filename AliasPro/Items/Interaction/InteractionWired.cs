@@ -35,21 +35,21 @@ namespace AliasPro.Items.Interaction
 
         public async void OnUserInteract(BaseEntity entity, int state)
         {
-            if (entity == null) return;
+			if (entity is PlayerEntity playerEntity)
+			{
+				if (!_item.CurrentRoom.Rights.HasRights(playerEntity.Player.Id)) return;
 
-            if (entity is PlayerEntity userEntity)
-            {
                 if (_item.ItemData.InteractionType == ItemInteractionType.WIRED_TRIGGER)
                 {
-                    await userEntity.Session.SendPacketAsync(new WiredTriggerDataComposer(_item));
+                    await playerEntity.Session.SendPacketAsync(new WiredTriggerDataComposer(_item));
                 }
                 else if (_item.ItemData.InteractionType == ItemInteractionType.WIRED_EFFECT)
                 {
-                    await userEntity.Session.SendPacketAsync(new WiredEffectDataComposer(_item));
+                    await playerEntity.Session.SendPacketAsync(new WiredEffectDataComposer(_item));
                 }
                 else if (_item.ItemData.InteractionType == ItemInteractionType.WIRED_CONDITION)
                 {
-                    await userEntity.Session.SendPacketAsync(new WiredConditionDataComposer(_item));
+                    await playerEntity.Session.SendPacketAsync(new WiredConditionDataComposer(_item));
                 }
             }
         }

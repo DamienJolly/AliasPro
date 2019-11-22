@@ -22,8 +22,6 @@ namespace AliasPro.Items.Packets.Events
 
             if (session.Entity == null) return;
 
-            if (!room.Rights.HasRights(session.Player.Id)) return;
-
             uint itemId = (uint)clientPacket.ReadInt();
             if (room.Items.TryGetItem(itemId, out IItem item))
             {

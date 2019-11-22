@@ -80,8 +80,9 @@ namespace AliasPro.Items.Models
         public IRoomPosition Position { get; set; }
         public IItemData ItemData { get; set; }
         public BaseEntity InteractingPlayer { get; set; }
+		public BaseEntity InteractingPlayerTwo { get; set; }
 
-        public IRoom CurrentRoom { get; set; } = null;
+		public IRoom CurrentRoom { get; set; } = null;
 
         private IItemInteractor _interaction { get; set; }
         private IWiredInteractor _wiredInteraction { get; set; }

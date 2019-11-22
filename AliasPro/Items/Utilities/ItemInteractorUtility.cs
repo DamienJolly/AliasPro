@@ -19,6 +19,7 @@ namespace AliasPro.Items.Utilities
                 case ItemInteractionType.ROLLER: return new InteractionRoller(item);
                 case ItemInteractionType.DICE: return new InteractionDice(item);
 				case ItemInteractionType.EXCHANGE: return new InteractionExchange(item);
+				case ItemInteractionType.LOVE_LOCK: return new InteractionLoveLock(item);
 				case ItemInteractionType.DEFAULT: default: return new InteractionDefault(item);
 			}
         }

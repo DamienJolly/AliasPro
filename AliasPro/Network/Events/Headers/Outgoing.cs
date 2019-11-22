@@ -47,9 +47,12 @@
         internal const short WallItemUpdateMessageComposer = 2091;
         internal const short InventoryRefreshMessageComposer = 32;
         internal const short SlideObjectMessageComposer = 3339;
+		internal const short LoveLockStartMessageComposer = 1470;
+		internal const short LoveLockFriendConfirmedMessageComposer = 210;
+		internal const short LoveLockFinishedMessageComposer = 3873;
 
-        // Catalog
-        internal const short DiscountMessageComposer = 1602;
+		// Catalog
+		internal const short DiscountMessageComposer = 1602;
         internal const short CatalogUpdatedMessageComposer = 1592;
         internal const short CatalogModeMessageComposer = 1103;
         internal const short CatalogPagesListMessageComposer = 267;

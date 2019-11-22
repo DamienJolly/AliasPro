@@ -28,7 +28,7 @@ namespace AliasPro.Items
             collection.AddSingleton<IAsyncPacket, ToggleDiceEvent>();
             collection.AddSingleton<IAsyncPacket, CloseDiceEvent>();
 			collection.AddSingleton<IAsyncPacket, RedeemItemEvent>();
-
+			collection.AddSingleton<IAsyncPacket, LoveLockConfirmEvent>();
 		}
     }
 }

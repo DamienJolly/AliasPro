@@ -11,6 +11,7 @@
         ROLLER,
         DICE,
 		EXCHANGE,
+		LOVE_LOCK,
 
         WIRED_TRIGGER,
         WIRED_EFFECT,
