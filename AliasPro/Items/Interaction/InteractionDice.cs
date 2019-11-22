@@ -37,26 +37,24 @@ namespace AliasPro.Items.Interaction
 
         public async void OnUserInteract(BaseEntity entity, int state)
         {
-            if (entity == null) return;
+			if (entity == null) return;
 
-            if (_item.Mode == -1) return;
+			if (_item.Mode == -1) return;
 
-            if (_item.Mode == 0 && state == 0) return;
+			if (!_item.CurrentRoom.RoomGrid.TryGetRoomTile(_item.Position.X, _item.Position.Y, out IRoomTile tile))
+				return;
 
-            if (!_item.CurrentRoom.RoomGrid.TryGetRoomTile(_item.Position.X, _item.Position.Y, out IRoomTile tile))
-                return;
+			if (!tile.TilesAdjecent(entity.Position))
+			{
+				IRoomPosition position = tile.PositionInFront(_item.Rotation);
+				entity.GoalPosition = position;
+				return;
+			}
 
-            IRoomPosition position = tile.PositionInFront(_item.Rotation);
-            if (!(position.X == entity.Position.X && position.Y == entity.Position.Y))
-            {
-                entity.GoalPosition = position;
-                return;
-            }
-
-            _item.Mode = state;
-            _tickCount = 0;
-            await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(_item));
-        }
+			_item.Mode = -1;
+			_tickCount = 0;
+			await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(_item));
+		}
 
         public async void OnCycle()
         {
