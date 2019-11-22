@@ -38,6 +38,7 @@ namespace AliasPro.Catalog.Models
                 default: return new LayoutDefault(this);
                 case "frontpage": return new LayoutFrontpage(this);
 				case "guilds": return new LayoutGroup(this);
+				case "badge_display": return new LayoutBadgeDisplay(this);
 			}
         }
 

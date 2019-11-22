@@ -14,6 +14,7 @@ namespace AliasPro.Items.Utilities
                 case "game_timer": return ItemInteractionType.GAME_TIMER;
                 case "vending": return ItemInteractionType.VENDING_MACHINE;
 				case "love_lock": return ItemInteractionType.LOVE_LOCK;
+				case "badge_display": return ItemInteractionType.BADGE_DISPLAY;
 				case "roller": return ItemInteractionType.ROLLER;
                 case "dice": return ItemInteractionType.DICE;
 				case "exchange": return ItemInteractionType.EXCHANGE;

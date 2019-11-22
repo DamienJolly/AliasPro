@@ -25,6 +25,9 @@ namespace AliasPro.Players.Components
         public bool TryGetBadge(string code, out IPlayerBadge badge) =>
             _badges.TryGetValue(code, out badge);
 
+		public bool HasBadge(string code) =>
+			_badges.ContainsKey(code);
+
 		public void AddBadge(IPlayerBadge badge) =>
 			_badges.Add(badge.Code, badge);
 

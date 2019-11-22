@@ -12,8 +12,10 @@
         DICE,
 		EXCHANGE,
 		LOVE_LOCK,
+		BADGE_DISPLAY,
 
-        WIRED_TRIGGER,
+
+		WIRED_TRIGGER,
         WIRED_EFFECT,
         WIRED_CONDITION
     }

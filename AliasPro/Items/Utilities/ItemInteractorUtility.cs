@@ -20,6 +20,7 @@ namespace AliasPro.Items.Utilities
                 case ItemInteractionType.DICE: return new InteractionDice(item);
 				case ItemInteractionType.EXCHANGE: return new InteractionExchange(item);
 				case ItemInteractionType.LOVE_LOCK: return new InteractionLoveLock(item);
+				case ItemInteractionType.BADGE_DISPLAY: return new InteractionBadgeDisplay(item);
 				case ItemInteractionType.DEFAULT: default: return new InteractionDefault(item);
 			}
         }
