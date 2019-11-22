@@ -70,9 +70,9 @@ namespace AliasPro.Items.Models
         }
 
         public uint Id { get; set; }
-        public uint ItemId { get; }
-        public uint PlayerId { get; }
-        public string PlayerUsername { get; }
+        public uint ItemId { get; set; }
+        public uint PlayerId { get; set; }
+        public string PlayerUsername { get; set; }
         public uint RoomId { get; set; }
         public int Rotation { get; set; }
         public int Mode { get; set; }

@@ -11,9 +11,9 @@ namespace AliasPro.API.Items.Models
         void ComposeWallItem(ServerPacket serverPacket);
 
         uint Id { get; set; }
-        uint ItemId { get; }
-        uint PlayerId { get; }
-        string PlayerUsername { get; }
+        uint ItemId { get; set; }
+        uint PlayerId { get; set; }
+        string PlayerUsername { get; set; }
         uint RoomId { get; set; }
         int Rotation { get; set; }
         int Mode { get; set; }

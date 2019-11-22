@@ -1,7 +1,11 @@
-﻿using AliasPro.API.Rooms.Entities;
+﻿using AliasPro.API.Items.Models;
+using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Trading;
 using AliasPro.API.Trading.Models;
+using AliasPro.Rooms.Entities;
 using AliasPro.Trading.Models;
+using AliasPro.Trading.Packets.Composers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Trading
 {

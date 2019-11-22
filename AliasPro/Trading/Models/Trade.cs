@@ -24,15 +24,18 @@ namespace AliasPro.Trading.Models
 		public bool TryAddPlayer(BaseEntity entity) =>
 			_players.TryAdd(entity.Id, new TradePlayer(entity));
 
-		public async Task StopTrade(uint playerId)
+		public async Task EndTrade(bool confirmed, uint playerId)
 		{
 			foreach (ITradePlayer target in _players.Values)
 			{
 				target.Entity.Actions.RemoveStatus("trd");
 				target.Entity.Trade = null;
 			}
-
-			await SendAsync(new TradeClosedComposer(TradeClosedComposer.USER_CANCEL_TRADE, playerId));
+			
+			if (!confirmed)
+				await SendAsync(new TradeClosedComposer(TradeClosedComposer.USER_CANCEL_TRADE, playerId));
+			else
+				await SendAsync(new TradeCompleteComposer());
 		}
 
 		public async Task SendAsync(IPacketComposer packet)

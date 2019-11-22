@@ -22,8 +22,12 @@ namespace AliasPro.Trading.Packets.Events
 			ITrade trade = session.Entity.Trade;
 			if (trade == null) return;
 
+			if (trade.Accepted) return;
+
 			if (!trade.TryGetPlayer(session.Entity.Id, out ITradePlayer player))
 				return;
+
+			if (!player.Accepted) return;
 
 			player.Accepted = false;
 			await trade.SendAsync(new TradeAcceptedComposer(player));

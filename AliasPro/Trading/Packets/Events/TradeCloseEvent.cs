@@ -21,7 +21,7 @@ namespace AliasPro.Trading.Packets.Events
 			ITrade trade = session.Entity.Trade;
 			if (trade == null) return;
 
-			await trade.StopTrade(session.Player.Id);
+			await trade.EndTrade(false, session.Player.Id);
 		}
 	}
 }
