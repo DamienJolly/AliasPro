@@ -37,6 +37,9 @@ namespace AliasPro.Items.Packets.Events
 
 				if (item.ItemData.InteractionType != ItemInteractionType.LOVE_LOCK) return;
 
+				if(item.InteractingPlayer == null || item.InteractingPlayerTwo == null)
+					return;
+
 				if (item.InteractingPlayer.Id != session.Entity.Id && item.InteractingPlayerTwo.Id != session.Entity.Id)
 					return;
 

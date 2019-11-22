@@ -60,30 +60,21 @@ namespace AliasPro.Items.Interaction
 			if (!string.IsNullOrEmpty(_item.ExtraData))
 				return;
 
-			if (!_item.CurrentRoom.RoomGrid.TryGetRoomTile(_item.Position.X, _item.Position.Y, out IRoomTile tile))
+			if (!(entity is PlayerEntity playerEntity))
 				return;
 
-			//adjacent check
+			if (!CanLoveLock(entity))
+				return;
 
-			if (_item.InteractingPlayer == null || !_item.CurrentRoom.Entities.HasEntity(_item.InteractingPlayer.Id))
+			if (_item.PlayerId == playerEntity.Player.Id)
 			{
-				if (_item.InteractingPlayerTwo != null && entity.Id == _item.InteractingPlayerTwo.Id)
-					return;
-
-				_item.InteractingPlayer = entity;
-
-				if (entity is PlayerEntity playerEntity)
-					await playerEntity.Player.Session.SendPacketAsync(new LoveLockStartComposer(_item));
+				_item.InteractingPlayer = playerEntity;
+				await playerEntity.Player.Session.SendPacketAsync(new LoveLockStartComposer(_item));
 			}
 			else
 			{
-				if (_item.InteractingPlayer != null && entity.Id == _item.InteractingPlayer.Id)
-					return;
-
-				_item.InteractingPlayerTwo = entity;
-
-				if (entity is PlayerEntity playerEntity)
-					await playerEntity.Player.Session.SendPacketAsync(new LoveLockStartComposer(_item));
+				_item.InteractingPlayerTwo = playerEntity;
+				await playerEntity.Player.Session.SendPacketAsync(new LoveLockStartComposer(_item));
 			}
         }
 
@@ -91,5 +82,34 @@ namespace AliasPro.Items.Interaction
         {
 
         }
+
+		private bool CanLoveLock(BaseEntity entity)
+		{
+			int leftRot = _item.Rotation - 2;
+			int rightRot = _item.Rotation + 2;
+
+			if (leftRot < 0) leftRot = 6;
+			if (rightRot > 6) rightRot = 0;
+
+			if (!_item.CurrentRoom.RoomGrid.TryGetRoomTile(_item.Position.X, _item.Position.Y, out IRoomTile tile))
+				return false;
+
+			if (!_item.CurrentRoom.RoomGrid.TryGetRoomTile(tile.PositionInFront(leftRot).X, tile.PositionInFront(leftRot).Y, out IRoomTile leftTile))
+				return false;
+
+			if (!_item.CurrentRoom.RoomGrid.TryGetRoomTile(tile.PositionInFront(rightRot).X, tile.PositionInFront(rightRot).Y, out IRoomTile rightTile))
+				return false;
+
+			if ((leftTile.Position.X == entity.Position.X && leftTile.Position.Y == entity.Position.Y) ||
+				(rightTile.Position.X == entity.Position.X && rightTile.Position.Y == entity.Position.Y))
+				return true;
+			
+			if (!(leftTile.Position.X == entity.Position.X && leftTile.Position.Y == entity.Position.Y) && leftTile.Entities.Count == 0)
+				entity.GoalPosition = leftTile.Position;
+			else if (!(rightTile.Position.X == entity.Position.X && rightTile.Position.Y == entity.Position.Y) && rightTile.Entities.Count == 0)
+				entity.GoalPosition = rightTile.Position;
+
+			return false;
+		}
     }
 }
