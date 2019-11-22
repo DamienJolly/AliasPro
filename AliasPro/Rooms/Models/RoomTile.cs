@@ -2,6 +2,7 @@
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.Items.Types;
+using System;
 using System.Collections.Generic;
 
 namespace AliasPro.Rooms.Models
@@ -41,8 +42,14 @@ namespace AliasPro.Rooms.Models
 
             return position;
         }
-        
-        public bool IsValidTile(BaseEntity entity, bool final)
+
+		public bool TilesAdjecent(IRoomPosition targetPos)
+		{
+			return !(Math.Abs(Position.X - targetPos.X) > 1) && !(Math.Abs(Position.Y - targetPos.Y) > 1);
+		}
+
+
+		public bool IsValidTile(BaseEntity entity, bool final)
         {
             if (_entities.Count > 0)
                 return entity == null ? false : _entities.ContainsKey(entity.Id);
