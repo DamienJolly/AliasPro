@@ -80,6 +80,7 @@
         internal const short WiredConditionSaveDataMessageEvent = 166;
 		internal const short RoomUserPlaceBotMessageEvent = 3978;
 		internal const short RoomBotSettingsMessageEvent = 2714;
+		internal const short RoomBotSaveSettingsMessageEvent = 1676;
 
 		// Landing
 		internal const short HotelViewDataMessageEvent = 1579;

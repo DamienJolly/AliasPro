@@ -47,7 +47,9 @@ namespace AliasPro.Rooms
 				if (room.IdleTimer >= 60)
 				{
 					if (room.Entities != null)
+					{
 						await _roomDao.UpdateBotSettings(room.Entities.BotEntities, room.Id);
+					}
 
 					if (room.Settings != null)
 						await _roomDao.UpdateRoomSettins(room);
@@ -94,7 +96,7 @@ namespace AliasPro.Rooms
 			return room;
 		}
 
-        public async Task<int> CreateRoomAsync(uint playerId, string name, string description, string modelName, int categoryId, int maxUsers, int tradeType) =>
+		public async Task<int> CreateRoomAsync(uint playerId, string name, string description, string modelName, int categoryId, int maxUsers, int tradeType) =>
             await _roomDao.CreateRoomAsync(playerId, name, description, modelName, categoryId, maxUsers, tradeType);
 
 
