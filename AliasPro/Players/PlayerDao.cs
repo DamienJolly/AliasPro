@@ -179,6 +179,27 @@ namespace AliasPro.Players
             return badges;
         }
 
+		internal async Task<IDictionary<int, IPlayerBot>> GetPlayerBotsAsync(uint id)
+		{
+			IDictionary<int, IPlayerBot> bots = new Dictionary<int, IPlayerBot>();
+			await CreateTransaction(async transaction =>
+			{
+				await Select(transaction, async reader =>
+				{
+					while (await reader.ReadAsync())
+					{
+						IPlayerBot bot = new PlayerBot(reader);
+						if (!bots.ContainsKey(bot.Id))
+						{
+							bots.Add(bot.Id, bot);
+						}
+					}
+				}, "SELECT `id`, `name`, `motto`, `gender`, `figure` FROM `bots` WHERE `player_id` = @0;", id);
+			});
+
+			return bots;
+		}
+
 		internal async Task<IDictionary<int, IPlayerAchievement>> GetPlayerAchievementsAsync(uint id)
 		{
 			IDictionary<int, IPlayerAchievement> achievements = new Dictionary<int, IPlayerAchievement>();

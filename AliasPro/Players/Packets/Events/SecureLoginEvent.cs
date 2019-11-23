@@ -68,7 +68,8 @@ namespace AliasPro.Players.Packets.Events
                 await _playerController.GetPlayerCurrenciesAsync(player.Id));
 
             player.Inventory = new InventoryComponent(
-                await _itemController.GetItemsForPlayerAsync(player.Id));
+                await _itemController.GetItemsForPlayerAsync(player.Id),
+				await _playerController.GetPlayerBotsAsync(player.Id));
 
             player.Badge = new BadgeComponent(
                 await _playerController.GetPlayerBadgesAsync(player.Id));

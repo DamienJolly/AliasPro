@@ -144,5 +144,8 @@
 		internal const int TradeUnAcceptMessageEvent = 2851;
 		internal const int TradeCloseMessageEvent = 3602;
 		internal const int TradeConfirmMessageEvent = 727;
+
+		// Bots
+		internal const int RequestBotInventoryMessageEvent = 1278;
 	}
 }

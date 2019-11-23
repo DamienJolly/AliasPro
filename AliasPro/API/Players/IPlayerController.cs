@@ -21,7 +21,7 @@ namespace AliasPro.API.Players
         Task UpdatePlayerCurrenciesAsync(IPlayer player);
 
         Task<IDictionary<string, IPlayerBadge>> GetPlayerBadgesAsync(uint id);
-
+		Task<IDictionary<int, IPlayerBot>> GetPlayerBotsAsync(uint id);
 		Task<IDictionary<int, IPlayerAchievement>> GetPlayerAchievementsAsync(uint id);
 		Task UpdatePlayerBadgesAsync(IPlayer player);
 

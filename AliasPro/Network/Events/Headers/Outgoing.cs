@@ -156,5 +156,8 @@
 		internal const int TradingWaitingConfirmMessageComposer = 2009;
 		internal const int TradeCompleteMessageComposer = 468;
 		internal const int TradeClosedMessageComposer = 1147;
+
+		// Bots
+		internal const int InventoryBotsMessageComposer = 953;
 	}
 }
