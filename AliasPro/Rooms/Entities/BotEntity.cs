@@ -29,7 +29,7 @@ namespace AliasPro.Rooms.Entities
 
         public override void Compose(ServerPacket serverPacket)
         {
-            serverPacket.WriteInt(0 - BotId);
+            serverPacket.WriteInt(Id); //botId?
             serverPacket.WriteString(Name);
             serverPacket.WriteString(Motto);
             serverPacket.WriteString(Figure);
