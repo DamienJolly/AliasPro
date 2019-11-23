@@ -100,6 +100,18 @@ namespace AliasPro.Rooms
 			return bots;
 		}
 
+		internal async Task UpdateBotSettings(ICollection<BaseEntity> bots, uint roomId)
+		{
+			await CreateTransaction(async transaction =>
+			{
+				foreach (BotEntity bot in bots)
+				{
+					await Insert(transaction, "UPDATE `bots` SET `name` = @1, `motto` = @2, `figure` = @3, `gender` = @4, `x` = @5, `y` = @6, `z` = @7, `rot` = @8, `room_id` = @9 WHERE `id` = @0;",
+					   bot.BotId, bot.Name, bot.Motto, bot.Figure, bot.Gender == PlayerGender.MALE ? "m" : "f", bot.Position.X, bot.Position.Y, bot.Position.Z, bot.BodyRotation, (int)roomId);
+				}
+			});
+		}
+
 		internal async Task<int> CreateRoomAsync(uint playerId, string name, string description, string modelName, int categoryId, int maxUsers, int tradeType)
         {
             int roomId = -1;

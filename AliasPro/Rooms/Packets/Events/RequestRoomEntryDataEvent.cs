@@ -49,7 +49,7 @@ namespace AliasPro.Rooms.Packets.Events
                 room.Rights.HasRights(session.Player.Id)));
 
             await session.SendPacketAsync(new EntitiesComposer(room.Entities.Entities));
-            //await session.SendPacketAsync(new EntityUpdateComposer(room.Entities.Entities));
+            await session.SendPacketAsync(new EntityUpdateComposer(room.Entities.Entities));
 
             await session.SendPacketAsync(new RoomVisualizationSettingsComposer(room.Settings));
 

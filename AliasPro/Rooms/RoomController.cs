@@ -46,6 +46,9 @@ namespace AliasPro.Rooms
 
 				if (room.IdleTimer >= 60)
 				{
+					if (room.Entities != null)
+						await _roomDao.UpdateBotSettings(room.Entities.BotEntities, room.Id);
+
 					if (room.Settings != null)
 						await _roomDao.UpdateRoomSettins(room);
 
