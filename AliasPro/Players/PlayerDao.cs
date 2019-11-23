@@ -194,7 +194,7 @@ namespace AliasPro.Players
 							bots.Add(bot.Id, bot);
 						}
 					}
-				}, "SELECT `id`, `name`, `motto`, `gender`, `figure` FROM `bots` WHERE `player_id` = @0 AND `room_id` != '0';", id);
+				}, "SELECT `id`, `name`, `motto`, `gender`, `figure` FROM `bots` WHERE `player_id` = @0 AND `room_id` = '0';", id);
 			});
 
 			return bots;
