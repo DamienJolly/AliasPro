@@ -1,4 +1,5 @@
-﻿using AliasPro.API.Rooms.Models;
+﻿using AliasPro.API.Rooms.Entities;
+using AliasPro.API.Rooms.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -18,7 +19,9 @@ namespace AliasPro.API.Rooms
 
         Task<IRoomSettings> GetRoomSettingsAsync(uint roomId);
 
-        Task<IDictionary<uint, string>> GetRightsForRoomAsync(uint roomId);
+		Task<IDictionary<int, BaseEntity>> GetBotsForRoomAsync(IRoom room);
+
+		Task<IDictionary<uint, string>> GetRightsForRoomAsync(uint roomId);
         Task GiveRoomRights(uint roomId, uint playerId);
         Task TakeRoomRights(uint roomId, uint playerId);
     }

@@ -29,7 +29,7 @@ namespace AliasPro.Rooms.Entities
 
         public override void Compose(ServerPacket serverPacket)
         {
-            serverPacket.WriteInt(BotId);
+            serverPacket.WriteInt(0 - BotId);
             serverPacket.WriteString(Name);
             serverPacket.WriteString(Motto);
             serverPacket.WriteString(Figure);
@@ -37,15 +37,14 @@ namespace AliasPro.Rooms.Entities
             serverPacket.WriteInt(Position.X);
             serverPacket.WriteInt(Position.Y);
             serverPacket.WriteString(Position.Z.ToString());
+			serverPacket.WriteInt(BodyRotation);
 
-			serverPacket.WriteInt(0);
 			serverPacket.WriteInt(4);
 			serverPacket.WriteString(Gender == PlayerGender.MALE ? "m" : "f"); // ?
 			serverPacket.WriteInt(OwnerId);
 			serverPacket.WriteString(OwnerUsername); // Owner name
 			serverPacket.WriteInt(5);
 			{
-				serverPacket.WriteInt(5);//Action Count
 				serverPacket.WriteShort(1);//Copy looks
 				serverPacket.WriteShort(2);//Setup speech
 				serverPacket.WriteShort(3);//Relax

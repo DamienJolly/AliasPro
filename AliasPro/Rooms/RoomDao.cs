@@ -2,8 +2,11 @@
 using AliasPro.API.Database;
 using AliasPro.API.Groups.Models;
 using AliasPro.API.Items.Models;
+using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.Groups.Models;
+using AliasPro.Players.Types;
+using AliasPro.Rooms.Entities;
 using AliasPro.Rooms.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -60,7 +63,44 @@ namespace AliasPro.Rooms
             return rights;
         }
 
-        internal async Task<int> CreateRoomAsync(uint playerId, string name, string description, string modelName, int categoryId, int maxUsers, int tradeType)
+		internal async Task<IDictionary<int, BaseEntity>> GetBotsForRoomAsync(IRoom room)
+		{
+			IDictionary<int, BaseEntity> bots = new Dictionary<int, BaseEntity>();
+			await CreateTransaction(async transaction =>
+			{
+				await Select(transaction, async reader =>
+				{
+					while (await reader.ReadAsync())
+					{
+						if (!bots.ContainsKey(reader.ReadData<int>("id")))
+						{
+							BaseEntity botEntity = new BotEntity(
+								reader.ReadData<int>("id"),
+								(uint)reader.ReadData<int>("player_id"),
+								reader.ReadData<string>("username"),
+								0,
+								reader.ReadData<int>("x"),
+								reader.ReadData<int>("y"),
+								reader.ReadData<int>("rot"),
+								room,
+								reader.ReadData<string>("name"),
+								reader.ReadData<string>("figure"),
+								reader.ReadData<string>("gender") == "m" ? PlayerGender.MALE : PlayerGender.FEMALE,
+								reader.ReadData<string>("motto"),
+								0);
+
+							bots.Add(botEntity.Id, botEntity);
+						}
+					}
+				}, "SELECT `players`.`username`, `bots`.* FROM `bots` " +
+				"INNER JOIN `players` ON `players`.`id` = `bots`.`player_id` WHERE `bots`.`room_id` = @0;",
+				room.Id);
+			});
+
+			return bots;
+		}
+
+		internal async Task<int> CreateRoomAsync(uint playerId, string name, string description, string modelName, int categoryId, int maxUsers, int tradeType)
         {
             int roomId = -1;
             await CreateTransaction(async transaction =>

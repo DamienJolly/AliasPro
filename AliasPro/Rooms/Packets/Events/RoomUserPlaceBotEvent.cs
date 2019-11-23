@@ -50,7 +50,7 @@ namespace AliasPro.Rooms.Packets.Events
 				entityId,
 				posX,
 				posY,
-				room.RoomModel.DoorDir,
+				4,
 				room,
 				bot.Name,
 				bot.Figure,

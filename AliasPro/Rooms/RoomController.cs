@@ -1,4 +1,5 @@
 ﻿using AliasPro.API.Rooms;
+using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.Rooms.Models;
 using System.Collections.Generic;
@@ -111,6 +112,9 @@ namespace AliasPro.Rooms
 			}
 			return roomSettings;
 		}
+
+		public async Task<IDictionary<int, BaseEntity>> GetBotsForRoomAsync(IRoom room) =>
+			await _roomDao.GetBotsForRoomAsync(room);
 
 		public async Task<IDictionary<uint, string>> GetRightsForRoomAsync(uint roomId) =>
 			await _roomDao.GetRightsForRoom(roomId);

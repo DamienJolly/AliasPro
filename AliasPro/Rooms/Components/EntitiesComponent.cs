@@ -13,12 +13,18 @@ namespace AliasPro.Rooms.Components
 
         public int NextEntitityId = 1;
 
-        public EntitiesComponent(IRoom room)
+        public EntitiesComponent(IRoom room, IDictionary<int, BaseEntity> bots)
         {
             _room = room;
-
             _entities = new Dictionary<int, BaseEntity>();
-        }
+
+			foreach (BaseEntity bot in bots.Values)
+			{
+				int entityId = NextEntitityId++;
+				bot.Id = entityId;
+				AddEntity(bot);
+			}
+		}
         
         public void AddEntity(BaseEntity entity)
         {
