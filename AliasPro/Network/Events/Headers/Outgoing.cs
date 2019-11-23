@@ -96,6 +96,7 @@
         internal const short WiredEffectDataMessageComposer = 1330;
         internal const short WiredConditionDataMessageComposer = 3049;
         internal const short WiredSavedMessageComposer = 2074;
+		internal const short RoomBotSettingsMessageComposer = 1171;
 
 		// Landing
 		internal const short HotelViewMessageComposer = 2484;
