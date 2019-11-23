@@ -78,9 +78,10 @@
         internal const short WiredTriggerSaveDataMessageEvent = 3810;
         internal const short WiredEffectSaveDataMessageEvent = 2719;
         internal const short WiredConditionSaveDataMessageEvent = 166;
+		internal const short RoomUserPlaceBotMessageEvent = 3978;
 
-        // Landing
-        internal const short HotelViewDataMessageEvent = 1579;
+		// Landing
+		internal const short HotelViewDataMessageEvent = 1579;
         internal const short RequestNewsListMessageEvent = 1156;
         internal const short HotelViewMessageEvent = 3119;
 

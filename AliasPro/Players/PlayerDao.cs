@@ -200,6 +200,15 @@ namespace AliasPro.Players
 			return bots;
 		}
 
+		internal async Task RemoveBotAsync(int botId, uint roomId)
+		{
+			await CreateTransaction(async transaction =>
+			{
+				await Insert(transaction, "UPDATE `bots` SET `room_id` = @1 WHERE `id` = @0;",
+					botId, roomId);
+			});
+		}
+
 		internal async Task<IDictionary<int, IPlayerAchievement>> GetPlayerAchievementsAsync(uint id)
 		{
 			IDictionary<int, IPlayerAchievement> achievements = new Dictionary<int, IPlayerAchievement>();
