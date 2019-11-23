@@ -29,7 +29,7 @@ namespace AliasPro.Rooms.Packets.Events
             if (!roomTile.IsValidTile(session.Entity))
                 return;
 
-            session.Entity.GoalPosition = roomTile.Position;
+			session.Entity.GoalPosition = roomTile.Position;
         }
     }
 }

@@ -82,7 +82,8 @@ namespace AliasPro.Rooms.Models
             Entities.AddEntity(entity);
             RoomGrid.AddEntity(entity);
 
-            Items.TriggerWired(WiredInteractionType.ENTER_ROOM, entity);
+			entity.OnEntityJoin();
+			Items.TriggerWired(WiredInteractionType.ENTER_ROOM, entity);
 
             await SendAsync(new EntitiesComposer(entity));
             await SendAsync(new EntityUpdateComposer(entity));
@@ -90,7 +91,8 @@ namespace AliasPro.Rooms.Models
 
 		public async Task RemoveEntity(BaseEntity entity, bool notifyUser)
         {
-            Entities.RemoveEntity(entity);
+			entity.OnEntityLeave();
+			Entities.RemoveEntity(entity);
             RoomGrid.RemoveEntity(entity);
             Game.LeaveTeam(entity);
 

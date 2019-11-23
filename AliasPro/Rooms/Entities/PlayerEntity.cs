@@ -18,7 +18,17 @@ namespace AliasPro.Rooms.Entities
         public ISession Session { get; }
         public IPlayer Player => Session.Player;
 
-        public override async void Cycle()
+		public override void OnEntityJoin()
+		{
+
+		}
+
+		public override void OnEntityLeave()
+		{
+
+		}
+
+		public override async void Cycle()
         {
             if (HandItemId != 0)
             {

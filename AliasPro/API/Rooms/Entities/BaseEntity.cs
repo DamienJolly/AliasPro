@@ -84,7 +84,9 @@ namespace AliasPro.API.Rooms.Entities
 
 		public ITrade Trade = null;
 
+		public abstract void OnEntityJoin();
+		public abstract void OnEntityLeave();
 		public abstract void Cycle();
-        public abstract void Compose(ServerPacket serverPacket);
+		public abstract void Compose(ServerPacket serverPacket);
     }
 }

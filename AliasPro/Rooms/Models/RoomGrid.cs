@@ -1,6 +1,7 @@
 ﻿using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
+using AliasPro.Utilities;
 using Pathfinding.Models;
 using System.Collections.Generic;
 
@@ -89,7 +90,25 @@ namespace AliasPro.Rooms.Models
             return tiles;
         }
 
-        public bool TryGetTileInFrontOfItem(IItem item, out IRoomTile tile) =>
+		public bool TryGetRandomWalkableTile(out IRoomTile tile)
+		{
+			tile = null;
+			for (int i = 0; i < 10; i++)
+			{
+				if (!TryGetRoomTile(Randomness.RandomNumber(MapSizeX), Randomness.RandomNumber(MapSizeY), out IRoomTile randomTile))
+					continue;
+
+				if (randomTile.IsValidTile(null, true))
+				{
+					tile = randomTile;
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		public bool TryGetTileInFrontOfItem(IItem item, out IRoomTile tile) =>
             TryGetTileInFront(item.Position.X, item.Position.Y, item.Rotation, out tile);
 
         public bool TryGetTileInFront(int x, int y, int rotation, out IRoomTile tile)

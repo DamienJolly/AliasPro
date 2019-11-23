@@ -56,7 +56,9 @@ namespace AliasPro.Rooms.Packets.Events
 				bot.Figure,
 				bot.Gender,
 				bot.Motto,
-				0);
+				0,
+				0,
+				true);
 
 			session.Player.Inventory.RemoveBot(bot.Id);
 

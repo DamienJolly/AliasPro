@@ -55,7 +55,7 @@ namespace AliasPro.Rooms.Packets.Events
 					break;
 
 				case 3:
-					//botEntity.CanWalk = !botEntity.CanWalk;
+						botEntity.CanWalk = !botEntity.CanWalk;
 					break;
 
 				case 4:

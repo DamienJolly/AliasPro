@@ -51,7 +51,13 @@ namespace AliasPro.Rooms.Packets.Events
             await session.SendPacketAsync(new EntitiesComposer(room.Entities.Entities));
             await session.SendPacketAsync(new EntityUpdateComposer(room.Entities.Entities));
 
-            await session.SendPacketAsync(new RoomVisualizationSettingsComposer(room.Settings));
+			foreach (BaseEntity botEntity in room.Entities.BotEntities)
+			{
+				if (botEntity.DanceId != 0)
+					await session.SendPacketAsync(new UserDanceComposer(botEntity));
+			}
+
+			await session.SendPacketAsync(new RoomVisualizationSettingsComposer(room.Settings));
 
             await session.SendPacketAsync(new RoomFloorItemsComposer(room.Items.FloorItems, room.Items.GetItemOwners));
             await session.SendPacketAsync(new RoomWallItemsComposer(room.Items.WallItems, room.Items.GetItemOwners));

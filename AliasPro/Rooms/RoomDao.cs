@@ -87,7 +87,9 @@ namespace AliasPro.Rooms
 								reader.ReadData<string>("figure"),
 								reader.ReadData<string>("gender") == "m" ? PlayerGender.MALE : PlayerGender.FEMALE,
 								reader.ReadData<string>("motto"),
-								0);
+								0,
+								reader.ReadData<int>("dance_id"),
+								reader.ReadData<bool>("can_walk"));
 
 							bots.Add(botEntity.Id, botEntity);
 						}
@@ -109,8 +111,10 @@ namespace AliasPro.Rooms
 					if (!(entity is BotEntity botEntity))
 						continue;
 
-					await Insert(transaction, "UPDATE `bots` SET `name` = @1, `motto` = @2, `figure` = @3, `gender` = @4, `x` = @5, `y` = @6, `z` = @7, `rot` = @8, `room_id` = @9 WHERE `id` = @0;",
-					   botEntity.BotId, botEntity.Name, botEntity.Motto, botEntity.Figure, botEntity.Gender == PlayerGender.MALE ? "m" : "f", botEntity.Position.X, botEntity.Position.Y, botEntity.Position.Z, botEntity.BodyRotation, (int)roomId);
+					await Insert(transaction, "UPDATE `bots` SET `name` = @1, `motto` = @2, `figure` = @3, `gender` = @4, `x` = @5, `y` = @6, " +
+						"`z` = @7, `rot` = @8, `room_id` = @9,	`dance_id` = @10, `can_walk` = @11 WHERE `id` = @0;",
+					   botEntity.BotId, botEntity.Name, botEntity.Motto, botEntity.Figure, botEntity.Gender == PlayerGender.MALE ? "m" : "f", 
+					   botEntity.Position.X, botEntity.Position.Y, botEntity.Position.Z, botEntity.BodyRotation, (int)roomId, botEntity.DanceId, botEntity.CanWalk ? "1" : "0");
 				}
 			});
 		}
