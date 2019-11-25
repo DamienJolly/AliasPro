@@ -44,7 +44,7 @@ namespace AliasPro.Rooms.Entities
         {
 			if (SpeechTimer <= 0)
 			{
-				Room.OnChat("testing", 1, this);
+				//Room.OnChat("testing", 1, this);
 				SpeechTimer = 20;
 			}
 			else
@@ -84,10 +84,10 @@ namespace AliasPro.Rooms.Entities
 			serverPacket.WriteString(Gender == PlayerGender.MALE ? "m" : "f"); // ?
 			serverPacket.WriteInt(OwnerId);
 			serverPacket.WriteString(OwnerUsername);
-			serverPacket.WriteInt(5);
+			serverPacket.WriteInt(4);
 			{
 				serverPacket.WriteShort(1); //Copy looks
-				serverPacket.WriteShort(2); //Setup speech
+				//serverPacket.WriteShort(2); //Setup speech
 				serverPacket.WriteShort(3); //Relax
 				serverPacket.WriteShort(4); //Dance
 				serverPacket.WriteShort(5); //Change name
