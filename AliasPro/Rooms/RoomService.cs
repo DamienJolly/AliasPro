@@ -41,6 +41,7 @@ namespace AliasPro.Rooms
 			collection.AddSingleton<IAsyncPacket, RoomUserPlaceBotEvent>();
 			collection.AddSingleton<IAsyncPacket, RoomBotSettingsEvent>();
 			collection.AddSingleton<IAsyncPacket, RoomBotSaveSettingsEvent>();
+			collection.AddSingleton<IAsyncPacket, RoomUserPickupBotEvent>();
 		}
     }
 }

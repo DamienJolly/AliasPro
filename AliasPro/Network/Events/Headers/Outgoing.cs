@@ -160,5 +160,6 @@
 
 		// Bots
 		internal const int InventoryBotsMessageComposer = 953;
+		internal const int AddBotMessageCompoer = 1996;
 	}
 }

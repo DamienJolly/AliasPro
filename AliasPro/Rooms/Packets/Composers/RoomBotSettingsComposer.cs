@@ -2,6 +2,7 @@
 using AliasPro.API.Rooms.Entities;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Network.Protocol;
+using System.Text;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
@@ -24,7 +25,7 @@ namespace AliasPro.Rooms.Packets.Composers
 			switch (_settingId)
 			{
 				case 2:
-					//to-do
+					message.WriteString(string.Empty); //speech
 					break;
 				case 5:
 					message.WriteString(_entity.Name);

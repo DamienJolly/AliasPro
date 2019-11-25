@@ -1,7 +1,7 @@
 ﻿using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
-using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
+using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
@@ -15,11 +15,11 @@ namespace AliasPro.Rooms.Packets.Events
     {
         public short Header { get; } = Incoming.RoomUserPlaceBotMessageEvent;
 
-        private readonly IPlayerController _playerController;
+        private readonly IRoomController _roomController;
 
-        public RoomUserPlaceBotEvent(IPlayerController playerController)
+        public RoomUserPlaceBotEvent(IRoomController roomController)
         {
-			_playerController = playerController;
+			_roomController = roomController;
         }
 
         public async void HandleAsync(
@@ -63,8 +63,7 @@ namespace AliasPro.Rooms.Packets.Events
 			session.Player.Inventory.RemoveBot(bot.Id);
 
 			await room.AddEntity(botEntity);
-			await _playerController.RemoveBotAsync(bot.Id, room.Id);
-
+			await _roomController.UpdateBotSettings(botEntity, room.Id);
 			await session.SendPacketAsync(new InventoryBotsComposer(session.Player.Inventory.Bots));
 		}
     }

@@ -102,20 +102,17 @@ namespace AliasPro.Rooms
 			return bots;
 		}
 
-		internal async Task UpdateBotSettings(ICollection<BaseEntity> entities, uint roomId)
+		internal async Task UpdateBotSettings(BaseEntity entity, uint roomId)
 		{
 			await CreateTransaction(async transaction =>
 			{
-				foreach (BotEntity entity in entities)
-				{
-					if (!(entity is BotEntity botEntity))
-						continue;
+				if (!(entity is BotEntity botEntity))
+					return;
 
-					await Insert(transaction, "UPDATE `bots` SET `name` = @1, `motto` = @2, `figure` = @3, `gender` = @4, `x` = @5, `y` = @6, " +
-						"`z` = @7, `rot` = @8, `room_id` = @9,	`dance_id` = @10, `can_walk` = @11 WHERE `id` = @0;",
-					   botEntity.BotId, botEntity.Name, botEntity.Motto, botEntity.Figure, botEntity.Gender == PlayerGender.MALE ? "m" : "f", 
-					   botEntity.Position.X, botEntity.Position.Y, botEntity.Position.Z, botEntity.BodyRotation, (int)roomId, botEntity.DanceId, botEntity.CanWalk ? "1" : "0");
-				}
+				await Insert(transaction, "UPDATE `bots` SET `name` = @1, `motto` = @2, `figure` = @3, `gender` = @4, `x` = @5, `y` = @6, " +
+					"`z` = @7, `rot` = @8, `room_id` = @9,	`dance_id` = @10, `can_walk` = @11 WHERE `id` = @0;",
+				   botEntity.BotId, botEntity.Name, botEntity.Motto, botEntity.Figure, botEntity.Gender == PlayerGender.MALE ? "m" : "f",
+				   botEntity.Position.X, botEntity.Position.Y, botEntity.Position.Z, botEntity.BodyRotation, (int)roomId, botEntity.DanceId, botEntity.CanWalk ? "1" : "0");
 			});
 		}
 

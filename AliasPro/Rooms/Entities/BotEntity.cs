@@ -83,15 +83,15 @@ namespace AliasPro.Rooms.Entities
 			serverPacket.WriteInt(4);
 			serverPacket.WriteString(Gender == PlayerGender.MALE ? "m" : "f"); // ?
 			serverPacket.WriteInt(OwnerId);
-			serverPacket.WriteString(OwnerUsername); // Owner name
+			serverPacket.WriteString(OwnerUsername);
 			serverPacket.WriteInt(5);
 			{
-				serverPacket.WriteShort(1);//Copy looks
-				serverPacket.WriteShort(2);//Setup speech
-				serverPacket.WriteShort(3);//Relax
-				serverPacket.WriteShort(4);//Dance
-				serverPacket.WriteShort(5);//Change name
+				serverPacket.WriteShort(1); //Copy looks
+				serverPacket.WriteShort(2); //Setup speech
+				serverPacket.WriteShort(3); //Relax
+				serverPacket.WriteShort(4); //Dance
+				serverPacket.WriteShort(5); //Change name
 			}
-        }
-    }
+		}
+	}
 }

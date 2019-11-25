@@ -20,6 +20,7 @@ namespace AliasPro.API.Rooms
         Task<IRoomSettings> GetRoomSettingsAsync(uint roomId);
 
 		Task<IDictionary<int, BaseEntity>> GetBotsForRoomAsync(IRoom room);
+		Task UpdateBotSettings(BaseEntity entity, uint roomId);
 
 		Task<IDictionary<uint, string>> GetRightsForRoomAsync(uint roomId);
         Task GiveRoomRights(uint roomId, uint playerId);

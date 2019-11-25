@@ -48,7 +48,8 @@ namespace AliasPro.Rooms
 				{
 					if (room.Entities != null)
 					{
-						await _roomDao.UpdateBotSettings(room.Entities.BotEntities, room.Id);
+						foreach (BaseEntity entity in room.Entities.BotEntities)
+							await UpdateBotSettings(entity, room.Id);
 					}
 
 					if (room.Settings != null)
@@ -120,6 +121,9 @@ namespace AliasPro.Rooms
 
 		public async Task<IDictionary<int, BaseEntity>> GetBotsForRoomAsync(IRoom room) =>
 			await _roomDao.GetBotsForRoomAsync(room);
+
+		public async Task UpdateBotSettings(BaseEntity entity, uint roomId) =>
+			await _roomDao.UpdateBotSettings(entity, roomId);
 
 		public async Task<IDictionary<uint, string>> GetRightsForRoomAsync(uint roomId) =>
 			await _roomDao.GetRightsForRoom(roomId);

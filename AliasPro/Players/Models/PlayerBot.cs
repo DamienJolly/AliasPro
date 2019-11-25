@@ -22,11 +22,14 @@ namespace AliasPro.Players.Models
 			Figure = reader.ReadData<string>("figure");
 		}
 
-		/*public PlayerBot(string code, int slot = 0)
+		public PlayerBot(int id, string name, string motto, PlayerGender gender, string figure)
 		{
-			Code = code;
-			Slot = slot;
-		}*/
+			Id = id;
+			Name = name;
+			Motto = motto;
+			Gender = gender;
+			Figure = figure;
+		}
 
 		public int Id { get; set; }
 		public string Name { get; set; }
