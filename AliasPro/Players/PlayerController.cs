@@ -84,9 +84,6 @@ namespace AliasPro.Players
 		public async Task<IDictionary<int, IPlayerBot>> GetPlayerBotsAsync(uint id) =>
 			await _playerRepostiory.GetPlayerBotsAsync(id);
 
-		public async Task RemoveBotAsync(int botId, uint roomId) =>
-			await _playerRepostiory.RemoveBotAsync(botId, roomId);
-
 		public async Task<IDictionary<int, IPlayerAchievement>> GetPlayerAchievementsAsync(uint id) =>
 			await _playerRepostiory.GetPlayerAchievementsAsync(id);
 

@@ -22,7 +22,6 @@ namespace AliasPro.API.Players
 
         Task<IDictionary<string, IPlayerBadge>> GetPlayerBadgesAsync(uint id);
 		Task<IDictionary<int, IPlayerBot>> GetPlayerBotsAsync(uint id);
-		Task RemoveBotAsync(int botId, uint roomId);
 		Task<IDictionary<int, IPlayerAchievement>> GetPlayerAchievementsAsync(uint id);
 		Task UpdatePlayerBadgesAsync(IPlayer player);
 
