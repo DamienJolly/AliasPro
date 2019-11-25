@@ -10,10 +10,12 @@ namespace AliasPro.Catalog.Models
             Id = id;
             Amount = amount;
             ItemData = itemData;
-        }
+			BotData = null;
+		}
 
         public int Id { get; }
         public int Amount { get; }
         public IItemData ItemData { get; }
+		public ICatalogBot BotData { get; set; }
     }
 }

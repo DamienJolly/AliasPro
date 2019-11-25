@@ -19,7 +19,7 @@ namespace AliasPro.Catalog.Models
             Rank = reader.ReadData<int>("rank");
             Order = reader.ReadData<int>("order_num");
             Items = new Dictionary<int, ICatalogItem>();
-            HeaderImage = reader.ReadData<string>("header_image");
+			HeaderImage = reader.ReadData<string>("header_image");
             TeaserImage = reader.ReadData<string>("teaser_image");
             SpecialImage = reader.ReadData<string>("special_image");
             TextOne = reader.ReadData<string>("text_one");
@@ -39,13 +39,14 @@ namespace AliasPro.Catalog.Models
                 case "frontpage": return new LayoutFrontpage(this);
 				case "guilds": return new LayoutGroup(this);
 				case "badge_display": return new LayoutBadgeDisplay(this);
+				case "bot": return new LayoutBot(this);
 			}
         }
 
         public bool TryGetCatalogItem(int itemId, out ICatalogItem item) =>
             Items.TryGetValue(itemId, out item);
 
-        public int Id { get; }
+		public int Id { get; }
         public int ParentId { get; }
         public string Name { get; }
         public string Caption { get; }
@@ -53,7 +54,7 @@ namespace AliasPro.Catalog.Models
         public int Rank { get; }
         public int Order { get; }
         public IDictionary<int, ICatalogItem> Items { get; set; }
-        public string HeaderImage { get; }
+		public string HeaderImage { get; }
         public string TeaserImage { get; }
         public string SpecialImage { get; }
         public string TextOne { get; }

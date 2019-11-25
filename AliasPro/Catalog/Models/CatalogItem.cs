@@ -10,7 +10,7 @@ namespace AliasPro.Catalog.Models
 {
     internal class CatalogItem : ICatalogItem
     {
-        internal CatalogItem(DbDataReader reader, ItemRepository itemRepository)
+        internal CatalogItem(DbDataReader reader)
         {
             Id = reader.ReadData<int>("id");
             PageId = reader.ReadData<int>("page_Id");
@@ -25,21 +25,6 @@ namespace AliasPro.Catalog.Models
             OfferId = reader.ReadData<int>("offer_id");
             LimitedStack = reader.ReadData<int>("limited_stack");
             LimitedNumbers = new List<int>();
-            
-            string itemData = reader.ReadData<string>("item_ids");
-            foreach(string items in itemData.Split(':'))
-            {
-                string[] data = items.Split('*');
-                int amount = 1;
-
-                if (itemRepository.TryGetItemDataById(uint.Parse(data[0]), out IItemData item))
-                {
-                    if (data.Length >= 2)
-                        amount = int.Parse(data[1]);
-
-                    Items.Add(new CatalogItemData((int)item.Id, amount, item));
-                }
-            }
         }
 
         public int Id { get; }
@@ -95,23 +80,23 @@ namespace AliasPro.Catalog.Models
             message.WriteInt(PointsType);
             message.WriteBoolean(CanGift);
 
-            message.WriteInt(Items.Count);
-            foreach (ICatalogItemData item in Items)
-            {
-                message.WriteString(item.ItemData.Type);
-                message.WriteInt(item.ItemData.SpriteId);
-                message.WriteString(item.ItemData.ExtraData);
-                message.WriteInt(item.Amount);
+			message.WriteInt(Items.Count);
+			foreach (ICatalogItemData item in Items)
+			{
+				message.WriteString(item.ItemData.Type);
+				message.WriteInt(item.ItemData.SpriteId);
+				message.WriteString(item.BotData != null ? item.BotData.Figure : item.ItemData.ExtraData);
+				message.WriteInt(item.Amount);
 
-                message.WriteBoolean(IsLimited && item.Amount <= 1);
-                if (IsLimited && item.Amount <= 1)
-                {
-                    message.WriteInt(LimitedStack);
-                    message.WriteInt(LimitedStack - LimitedSells);
-                }
-            }
+				message.WriteBoolean(IsLimited && item.Amount <= 1);
+				if (IsLimited && item.Amount <= 1)
+				{
+					message.WriteInt(LimitedStack);
+					message.WriteInt(LimitedStack - LimitedSells);
+				}
+			}
 
-            message.WriteInt(ClubLevel);
+			message.WriteInt(ClubLevel);
             message.WriteBoolean(HasOffer);
             message.WriteBoolean(false);
             message.WriteString(Name + ".png");

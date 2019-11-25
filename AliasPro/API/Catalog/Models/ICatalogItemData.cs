@@ -7,5 +7,6 @@ namespace AliasPro.API.Catalog.Models
         int Id { get; }
         int Amount { get; }
         IItemData ItemData { get; }
-    }
+		ICatalogBot BotData { get; set; }
+	}
 }

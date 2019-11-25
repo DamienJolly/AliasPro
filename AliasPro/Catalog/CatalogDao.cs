@@ -1,6 +1,7 @@
 ﻿using AliasPro.API.Catalog.Models;
 using AliasPro.API.Configuration;
 using AliasPro.API.Database;
+using AliasPro.API.Items.Models;
 using AliasPro.Catalog.Models;
 using AliasPro.Items;
 using AliasPro.Utilities;
@@ -44,25 +45,64 @@ namespace AliasPro.Catalog
                 {
                     while (await reader.ReadAsync())
                     {
-                        ICatalogItem item = new CatalogItem(reader, itemRepository);
+                        ICatalogItem catalogItem = new CatalogItem(reader);
 
-                        if (item.IsLimited)
+						string itemIds = reader.ReadData<string>("item_ids");
+						foreach (string items in itemIds.Split(':'))
+						{
+							string[] data = items.Split('*');
+							int amount = 1;
+
+							if (itemRepository.TryGetItemDataById(uint.Parse(data[0]), out IItemData itemData))
+							{
+								if (data.Length >= 2)
+									amount = int.Parse(data[1]);
+
+								ICatalogItemData catalogItemData = new CatalogItemData((int)itemData.Id, amount, itemData);
+
+								if (itemData.Type == "r" && catalogRepostiory.TryGetCatalogBot((int)itemData.Id, out ICatalogBot botData))
+									catalogItemData.BotData = botData;
+
+								catalogItem.Items.Add(catalogItemData);
+							}
+						}
+
+						if (catalogItem.IsLimited)
                         {
-                            item.LimitedNumbers = 
-                                await ReadLimited(item.Id, item.LimitedStack);
-                            item.LimitedNumbers.Shuffle();
+							catalogItem.LimitedNumbers = 
+                                await ReadLimited(catalogItem.Id, catalogItem.LimitedStack);
+							catalogItem.LimitedNumbers.Shuffle();
                         }
-                        
-                        if (catalogRepostiory.TryGetCatalogPage(item.PageId, out ICatalogPage page))
-                        {
-                            page.Items.Add(item.Id, item);
-                        }
-                    }
+
+						if (catalogRepostiory.TryGetCatalogPage(catalogItem.PageId, out ICatalogPage page))
+							page.Items.Add(catalogItem.Id, catalogItem);
+					}
                 }, "SELECT * FROM `catalog_items`;");
             });
         }
 
-        internal async Task<List<int>> ReadLimited(int itemId, int size)
+		internal async Task<IDictionary<int, ICatalogBot>> GetCatalogBots()
+		{
+			IDictionary<int, ICatalogBot> bots = new Dictionary<int, ICatalogBot>();
+
+			await CreateTransaction(async transaction =>
+			{
+				await Select(transaction, async reader =>
+				{
+					while (await reader.ReadAsync())
+					{
+						ICatalogBot bot = new CatalogBot(reader);
+
+						if (!bots.ContainsKey(bot.ItemId))
+							bots.Add(bot.ItemId, bot);
+					}
+				}, "SELECT * FROM `catalog_bots`;");
+			});
+
+			return bots;
+		}
+
+		internal async Task<List<int>> ReadLimited(int itemId, int size)
         {
             List<int> availableNumbers = new List<int>();
             List<int> takenNumbers = new List<int>();

@@ -8,7 +8,7 @@ namespace AliasPro.API.Catalog.Models
         int Id { get; }
         int PageId { get; }
         IList<ICatalogItemData> Items { get; }
-        string Name { get; }
+		string Name { get; }
         int Credits { get; }
         int Points { get; }
         int PointsType { get; }

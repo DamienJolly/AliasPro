@@ -13,7 +13,7 @@ namespace AliasPro.API.Catalog.Models
         int Rank { get; }
         int Order { get; }
         IDictionary<int, ICatalogItem> Items { get; set; }
-        string HeaderImage { get; }
+		string HeaderImage { get; }
         string TeaserImage { get; }
         string SpecialImage { get; }
         string TextOne { get; }
@@ -25,5 +25,6 @@ namespace AliasPro.API.Catalog.Models
         bool Visible { get; }
 
         bool TryGetCatalogItem(int itemId, out ICatalogItem item);
-    }
+
+	}
 }
