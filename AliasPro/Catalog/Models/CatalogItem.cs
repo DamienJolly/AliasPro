@@ -84,15 +84,22 @@ namespace AliasPro.Catalog.Models
 			foreach (ICatalogItemData item in Items)
 			{
 				message.WriteString(item.ItemData.Type);
-				message.WriteInt(item.ItemData.SpriteId);
-				message.WriteString(item.BotData != null ? item.BotData.Figure : item.ItemData.ExtraData);
-				message.WriteInt(item.Amount);
-
-				message.WriteBoolean(IsLimited && item.Amount <= 1);
-				if (IsLimited && item.Amount <= 1)
+				if (item.ItemData.Type == "b")
 				{
-					message.WriteInt(LimitedStack);
-					message.WriteInt(LimitedStack - LimitedSells);
+					message.WriteString(item.ItemData.ExtraData);
+				}
+				else
+				{
+					message.WriteInt(item.ItemData.SpriteId);
+					message.WriteString(item.BotData != null ? item.BotData.Figure : item.ItemData.ExtraData);
+					message.WriteInt(item.Amount);
+
+					message.WriteBoolean(IsLimited && item.Amount <= 1);
+					if (IsLimited && item.Amount <= 1)
+					{
+						message.WriteInt(LimitedStack);
+						message.WriteInt(LimitedStack - LimitedSells);
+					}
 				}
 			}
 

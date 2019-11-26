@@ -1,4 +1,6 @@
-﻿using AliasPro.API.Catalog;
+﻿using AliasPro.API.Badge;
+using AliasPro.API.Badges.Models;
+using AliasPro.API.Catalog;
 using AliasPro.API.Catalog.Models;
 using AliasPro.API.Items;
 using AliasPro.API.Items.Models;
@@ -25,14 +27,18 @@ namespace AliasPro.Catalog.Packets.Events
 
         private readonly ICatalogController _catalogController;
         private readonly IItemController _itemController;
+        private readonly IBadgeController _badgeController;
 
 		public CatalogBuyItemEvent(
 			ICatalogController catalogController, 
-			IItemController itemController)
+			IItemController itemController,
+			IBadgeController badgeController)
         {
             _catalogController = catalogController;
             _itemController = itemController;
-        }
+			_badgeController = badgeController;
+
+		}
 
         public async void HandleAsync(
             ISession session,
@@ -128,6 +134,22 @@ namespace AliasPro.Catalog.Packets.Events
 
 							extraData = extraData + ";" + session.Player.Username + ";" + DateTime.Now.Day + "-" + DateTime.Now.Month + "-" + DateTime.Now.Year;
 							playerItem = new Item((uint)itemData.Id, session.Player.Id, extraData, itemData.ItemData);
+						}
+						else if (itemData.ItemData.Type == "b")
+						{
+							if (!_badgeController.TryGetBadge(itemData.ItemData.ExtraData, out IBadge badge))
+								continue;
+
+							if (session.Player.Badge.HasBadge(badge.Code))
+								continue;
+
+							_badgeController.AddPlayerBadge(session.Player, badge.Code);
+
+							if (!itemsToAdd.ContainsKey(4))
+								itemsToAdd.Add(4, new List<int>());
+
+							itemsToAdd[4].Add(badge.Id);
+
 						}
 						else if (itemData.ItemData.Type == "r")
 						{

@@ -51,7 +51,7 @@ namespace AliasPro.Badges
 			await _badgeDao.AddPlayerBadge(player.Id, playerBadge.Code);
 
 			if (player.Session != null)
-				await player.Session.SendPacketAsync(new AddPlayerBadgeComposer(playerBadge));
+				await player.Session.SendPacketAsync(new AddPlayerBadgeComposer(badge.Id, badge.Code));
 		}
 
 		public async void RemovePlayerBadge(IPlayer player, IPlayerBadge badge)
