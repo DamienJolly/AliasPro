@@ -71,12 +71,12 @@ namespace AliasPro.Rooms.Cycles
 				}
 
 				if (!_entity.Room.RoomGrid.TryGetRoomTile(_entity.Position.X, _entity.Position.Y, out IRoomTile oldTile))
-				{
+					{
 					_entity.GoalPosition = _entity.Position;
 					return;
 				}
 
-				_entity.Room.RoomGrid.RemoveEntity(_entity);
+                _entity.Room.RoomGrid.RemoveEntity(_entity);
 
                 IItem nexTopItem = nextTile.TopItem;
                 IItem oldTopItem = oldTile.TopItem;
@@ -129,7 +129,7 @@ namespace AliasPro.Rooms.Cycles
                     return;
 
                 IItem topItem = roomTile.TopItem;
-                double z = roomTile.Height;
+                double newZ = roomTile.Height;
 
                 if (topItem != null)
                 {
@@ -140,10 +140,12 @@ namespace AliasPro.Rooms.Cycles
 
                         _entity.Actions.AddStatus(type, topItem.ItemData.Height + "");
                         _entity.SetRotation(topItem.Rotation);
-                        _entity.Position.Z = roomTile.Height - topItem.ItemData.Height;
+						newZ -= topItem.ItemData.Height;
                         _entity.IsSitting = false;
                     }
-                }
+
+					_entity.Position.Z = newZ;
+				}
             }
 
             _entity.Cycle();
