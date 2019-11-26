@@ -8,28 +8,47 @@ namespace AliasPro.Items.Packets.Composers
 {
     public class AddPlayerItemsComposer : IPacketComposer
     {
-        private readonly ICollection<IItem> _items;
+        private readonly IDictionary<int, IList<int>> _itemsToAdd;
 
-        public AddPlayerItemsComposer(IItem item)
+        public AddPlayerItemsComposer(int type, int itemId)
         {
-            _items = new List<IItem> { item };
-        }
+			_itemsToAdd = new Dictionary<int, IList<int>>
+			{
+				{ type, new List<int> { itemId } }
+			};
+		}
 
-        public AddPlayerItemsComposer(ICollection<IItem> items)
+		public AddPlayerItemsComposer(int type, ICollection<int> itemIds)
+		{
+			_itemsToAdd = new Dictionary<int, IList<int>>
+			{
+				{ type, new List<int>() }
+			};
+
+			foreach (int itemId in itemIds)
+			{
+				_itemsToAdd[type].Add(itemId);
+			}
+		}
+
+		public AddPlayerItemsComposer(IDictionary<int, IList<int>> itemsToAdd)
         {
-            _items = items;
+			_itemsToAdd = itemsToAdd;
         }
 
         public ServerPacket Compose()
         {
             ServerPacket message = new ServerPacket(Outgoing.AddPlayerItemsMessageComposer);
-            message.WriteInt(1); //??
-            message.WriteInt(1); //??
-            message.WriteInt(_items.Count);
-            foreach (IItem item in _items)
-            {
-                message.WriteInt(item.Id);
-            }
+            message.WriteInt(_itemsToAdd.Count);
+			foreach (var type in _itemsToAdd)
+			{
+				message.WriteInt(type.Key);
+				message.WriteInt(type.Value.Count);
+				foreach (int itemId in type.Value)
+				{
+					message.WriteInt(itemId);
+				}
+			}
             return message;
         }
     }

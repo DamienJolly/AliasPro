@@ -1,4 +1,5 @@
 ﻿using AliasPro.API.Catalog.Models;
+using AliasPro.API.Players.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,5 +12,6 @@ namespace AliasPro.API.Catalog
         bool TryGetCatalogPage(int pageId, out ICatalogPage page);
         void ReloadCatalog();
         Task AddLimitedAsync(uint itemId, uint playerId, int number);
-    }
+		Task<int> AddNewBotAsync(IPlayerBot playerBot, int playerId);
+	}
 }

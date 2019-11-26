@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using AliasPro.Rooms.Entities;
 using AliasPro.API.Items.Models;
 using AliasPro.Items.Packets.Composers;
+using System.Collections.Generic;
 
 namespace AliasPro.Trading.Packets.Events
 {
@@ -73,6 +74,8 @@ namespace AliasPro.Trading.Packets.Events
 				if (!(userOne.Entity is PlayerEntity playerEntity))
 					continue;
 
+				IList<int> itemIds = new List<int>();
+
 				//RoomTradingDatabase.LogTradeItem(logId, userOne.User.Player.Id, item.Id);
 				item.PlayerId = playerEntity.Player.Id;
 				item.PlayerUsername = playerEntity.Player.Username;
@@ -83,7 +86,7 @@ namespace AliasPro.Trading.Packets.Events
 				targetEntity.Player.Inventory.TryAddItem(item);
 				playerEntity.Player.Inventory.RemoveItem(item.Id);
 
-				await targetEntity.Player.Session.SendPacketAsync(new AddPlayerItemsComposer(userOne.OfferedItems.Values));
+				//await targetEntity.Player.Session.SendPacketAsync(new AddPlayerItemsComposer(1, userOne.OfferedItems.Values));
 			}
 
 			foreach (IItem item in userTwo.OfferedItems.Values)
@@ -101,7 +104,7 @@ namespace AliasPro.Trading.Packets.Events
 				targetEntity.Player.Inventory.TryAddItem(item);
 				playerEntity.Player.Inventory.RemoveItem(item.Id);
 
-				await targetEntity.Player.Session.SendPacketAsync(new AddPlayerItemsComposer(userTwo.OfferedItems.Values));
+				//await targetEntity.Player.Session.SendPacketAsync(new AddPlayerItemsComposer(1, userTwo.OfferedItems.Values));
 			}
 
 			await trade.SendAsync(new InventoryRefreshComposer());

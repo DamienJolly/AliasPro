@@ -1,5 +1,6 @@
 ﻿using AliasPro.API.Catalog;
 using AliasPro.API.Catalog.Models;
+using AliasPro.API.Players.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -25,5 +26,9 @@ namespace AliasPro.Catalog
 
         public async Task AddLimitedAsync(uint itemId, uint playerId, int number) =>
             await _catalogRepostiory.AddLimitedAsync(itemId, playerId, number);
-    }
+
+		public async Task<int> AddNewBotAsync(IPlayerBot playerBot, int playerId) =>
+			await _catalogRepostiory.AddNewBotAsync(playerBot, playerId);
+
+	}
 }

@@ -42,7 +42,7 @@ namespace AliasPro.Items.Packets.Events
                 {
                     room.Items.RemoveItem(item.Id);
 
-                    await session.SendPacketAsync(new AddPlayerItemsComposer(item));
+                    await session.SendPacketAsync(new AddPlayerItemsComposer(1, (int)item.Id));
                     await session.SendPacketAsync(new InventoryRefreshComposer());
                 }
             }

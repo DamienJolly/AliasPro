@@ -5,6 +5,7 @@ using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Items.Packets.Composers;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Players.Models;
 using AliasPro.Players.Packets.Composers;
@@ -53,6 +54,7 @@ namespace AliasPro.Rooms.Packets.Events
 
 			await room.RemoveEntity(botEntity, false);
 			await _roomController.UpdateBotSettings(botEntity, 0);
+			await session.SendPacketAsync(new AddPlayerItemsComposer(5, botEntity.BotId));
 			await session.SendPacketAsync(new AddBotCompoer(playerBot));
 		}
     }

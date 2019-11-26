@@ -2,8 +2,10 @@
 using AliasPro.API.Configuration;
 using AliasPro.API.Database;
 using AliasPro.API.Items.Models;
+using AliasPro.API.Players.Models;
 using AliasPro.Catalog.Models;
 using AliasPro.Items;
+using AliasPro.Players.Types;
 using AliasPro.Utilities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -136,5 +138,17 @@ namespace AliasPro.Catalog
                     itemId, playerId, number, (int)UnixTimestamp.Now);
             });
         }
-    }
+
+		public async Task<int> AddNewBotAsync(IPlayerBot playerBot, int playerId)
+		{
+			System.Console.WriteLine(playerBot.Name + " " + playerBot.Motto + " " + playerBot.Figure + " " + (playerBot.Gender == PlayerGender.MALE ? "m" : "f"));
+			int botId = -1;
+			await CreateTransaction(async transaction =>
+			{
+				botId = await Insert(transaction, "INSERT INTO `bots` (`player_id`, `name`, `motto`, `figure`, `gender`) VALUES (@0, @1, @2, @3, @4);",
+					playerId, playerBot.Name, playerBot.Motto, playerBot.Figure, playerBot.Gender == PlayerGender.MALE ? "m" : "f");
+			});
+			return botId;
+		}
+	}
 }
