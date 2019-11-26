@@ -95,7 +95,7 @@ namespace AliasPro.Rooms.Models
 			tile = null;
 			for (int i = 0; i < 10; i++)
 			{
-				if (!TryGetRoomTile(Randomness.RandomNumber(MapSizeX), Randomness.RandomNumber(MapSizeY), out IRoomTile randomTile))
+				if (!TryGetRoomTile(Randomness.RandomNumber(MapSizeX - 1), Randomness.RandomNumber(MapSizeY - 1), out IRoomTile randomTile))
 					continue;
 
 				if (randomTile.IsValidTile(null, true))

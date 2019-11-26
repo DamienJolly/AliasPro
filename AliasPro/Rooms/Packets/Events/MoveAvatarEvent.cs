@@ -20,9 +20,6 @@ namespace AliasPro.Rooms.Packets.Events
             int x = clientPacket.ReadInt();
             int y = clientPacket.ReadInt();
 
-            if (session.Entity.Position.X == x &&
-                session.Entity.Position.Y == y) return;
-
             if (!room.RoomGrid.TryGetRoomTile(x, y, out IRoomTile roomTile))
                 return;
 

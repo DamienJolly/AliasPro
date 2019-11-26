@@ -50,19 +50,33 @@ namespace AliasPro.Rooms.Cycles
                     DiagonalMovement.ONE_WALKABLE,
                     _entity);
 
-				if (path == null) return;
+				if (path == null || path.Count <= 0)
+				{
+					_entity.GoalPosition = _entity.Position;
+					return;
+				}
+
 				Position nextStep = path[path.Count - 1];
 
                 if (!_entity.Room.RoomGrid.TryGetRoomTile(nextStep.X, nextStep.Y, out IRoomTile nextTile))
-                    return;
+				{
+					_entity.GoalPosition = _entity.Position;
+					return;
+				}
 
-                if (!nextTile.IsValidTile(_entity, path.Count > 1))
-                    return;
+				if (!nextTile.IsValidTile(_entity, path.Count > 1))
+				{
+					_entity.GoalPosition = _entity.Position;
+					return;
+				}
 
-                if (!_entity.Room.RoomGrid.TryGetRoomTile(_entity.Position.X, _entity.Position.Y, out IRoomTile oldTile))
-                    return;
+				if (!_entity.Room.RoomGrid.TryGetRoomTile(_entity.Position.X, _entity.Position.Y, out IRoomTile oldTile))
+				{
+					_entity.GoalPosition = _entity.Position;
+					return;
+				}
 
-                _entity.Room.RoomGrid.RemoveEntity(_entity);
+				_entity.Room.RoomGrid.RemoveEntity(_entity);
 
                 IItem nexTopItem = nextTile.TopItem;
                 IItem oldTopItem = oldTile.TopItem;
