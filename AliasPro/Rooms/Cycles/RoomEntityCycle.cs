@@ -143,10 +143,10 @@ namespace AliasPro.Rooms.Cycles
 						newZ -= topItem.ItemData.Height;
                         _entity.IsSitting = false;
                     }
-
-					_entity.Position.Z = newZ;
 				}
-            }
+
+				_entity.Position.Z = newZ;
+			}
 
             _entity.Cycle();
         }
