@@ -79,7 +79,7 @@ namespace AliasPro.Items.Interaction
 
             _item.Mode = 0;
             int handItemId =
-                GetRandomVendingMachineId(_item.ExtraData);
+                GetRandomVendingMachineId(_item.ItemData.ExtraData);
             _item.InteractingPlayer.SetHandItem(handItemId);
 
             await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(_item));
