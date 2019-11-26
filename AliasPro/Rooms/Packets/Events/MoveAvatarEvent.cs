@@ -20,10 +20,30 @@ namespace AliasPro.Rooms.Packets.Events
             int x = clientPacket.ReadInt();
             int y = clientPacket.ReadInt();
 
-            if (!room.RoomGrid.TryGetRoomTile(x, y, out IRoomTile roomTile))
+			IRoomTile roomTile;
+            if (!room.RoomGrid.TryGetRoomTile(x, y, out roomTile))
                 return;
 
-            if (!roomTile.IsValidTile(session.Entity, true))
+			var topItem = roomTile.TopItem;
+
+			if (topItem != null && topItem.ItemData.InteractionType == Items.Types.ItemInteractionType.BED)
+			{
+				if ((topItem.Rotation % 4) != 0)
+				{
+					if (x != topItem.Position.X)
+						x = topItem.Position.X;
+				}
+				else
+				{
+					if (y != topItem.Position.Y)
+						y = topItem.Position.Y;
+				}
+
+				if (!room.RoomGrid.TryGetRoomTile(x, y, out roomTile))
+					return;
+			}
+
+			if (!roomTile.IsValidTile(session.Entity, true))
                 return;
 
 			session.Entity.GoalPosition = roomTile.Position;

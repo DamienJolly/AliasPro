@@ -63,7 +63,26 @@ namespace AliasPro.Rooms.Models
 
 				if (topItem.ItemData.InteractionType == ItemInteractionType.CHAIR && final) return true;
 
-                if (topItem.ItemData.InteractionType == ItemInteractionType.BED && final) return true;
+				if (topItem.ItemData.InteractionType == ItemInteractionType.BED && final)
+				{
+					if ((topItem.Rotation % 4) != 0)
+					{
+						for (int y = topItem.Position.Y; y <= topItem.Position.Y + topItem.ItemData.Width - 1; y++)
+						{
+							if (topItem.Position.X == Position.X && y == Position.Y)
+								return true;
+						}
+					}
+					else
+					{
+						for (int x = topItem.Position.X; x <= topItem.Position.X + topItem.ItemData.Width - 1; x++)
+						{
+							if (x == Position.X && topItem.Position.Y == Position.Y)
+								return true;
+						}
+					}
+					return false;
+				}
 
 				if (topItem.ItemData.CanWalk) return true;
 
