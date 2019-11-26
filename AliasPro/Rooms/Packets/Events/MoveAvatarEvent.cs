@@ -23,7 +23,7 @@ namespace AliasPro.Rooms.Packets.Events
             if (!room.RoomGrid.TryGetRoomTile(x, y, out IRoomTile roomTile))
                 return;
 
-            if (!roomTile.IsValidTile(session.Entity))
+            if (!roomTile.IsValidTile(session.Entity, true))
                 return;
 
 			session.Entity.GoalPosition = roomTile.Position;

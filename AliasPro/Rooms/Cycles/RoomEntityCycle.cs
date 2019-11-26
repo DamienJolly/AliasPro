@@ -64,7 +64,7 @@ namespace AliasPro.Rooms.Cycles
 					return;
 				}
 
-				if (!nextTile.IsValidTile(_entity, path.Count > 1))
+				if (!nextTile.IsValidTile(_entity, path.Count <= 1))
 				{
 					_entity.GoalPosition = _entity.Position;
 					return;
