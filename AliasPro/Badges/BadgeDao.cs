@@ -1,6 +1,7 @@
 ﻿using AliasPro.API.Badges.Models;
 using AliasPro.API.Configuration;
 using AliasPro.API.Database;
+using AliasPro.API.Players.Models;
 using AliasPro.Badges.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -34,12 +35,12 @@ namespace AliasPro.Badges
 			return badges;
 		}
 
-		public async Task AddPlayerBadge(uint playerId, string code)
+		public async Task AddPlayerBadge(uint playerId, IPlayerBadge badge)
 		{
 			await CreateTransaction(async transaction =>
 			{
-				await Insert(transaction, "INSERT INTO `player_badges` (`player_id`, `code`) VALUES (@0, @1);",
-					playerId, code);
+				await Insert(transaction, "INSERT INTO `player_badges` (`player_id`, `badge_id`, `code`) VALUES (@0, @1, @2);",
+					playerId, badge.BadgeId, badge.Code);
 			});
 		}
 

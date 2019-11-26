@@ -23,7 +23,7 @@ namespace AliasPro.Players.Packets.Composers
             message.WriteInt(_badges.Count);
             foreach (IPlayerBadge badge in _badges)
             {
-                message.WriteInt(badge.Slot);
+                message.WriteInt(badge.BadgeId);
                 message.WriteString(badge.Code);
             };
 

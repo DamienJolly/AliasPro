@@ -7,22 +7,20 @@ namespace AliasPro.Badges.Packets.Composers
 {
     public class AddPlayerBadgeComposer : IPacketComposer
     {
-		private readonly int _badgeId;
+		private readonly IPlayerBadge _playerBadge;
 		private readonly string _badgeCode;
 
 		public AddPlayerBadgeComposer(
-			int badgeId,
-			string badgeCode)
+			IPlayerBadge playerBadge)
         {
-			_badgeId = badgeId;
-			_badgeCode = badgeCode;
+			_playerBadge = playerBadge;
 		}
 
         public ServerPacket Compose()
         {
             ServerPacket message = new ServerPacket(Outgoing.AddPlayerBadgeMessageComposer);
-			message.WriteInt(_badgeId);
-			message.WriteString(_badgeCode);
+			message.WriteInt(_playerBadge.BadgeId);
+			message.WriteString(_playerBadge.Code);
 			return message;
         }
     }

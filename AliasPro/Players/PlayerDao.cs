@@ -173,7 +173,7 @@ namespace AliasPro.Players
                             badges.Add(badge.Code, badge);
                         }
                     }
-                }, "SELECT `code`, `slot` FROM `player_badges` WHERE `player_id` = @0;", id);
+                }, "SELECT `badge_id`, `code`, `slot` FROM `player_badges` WHERE `player_id` = @0;", id);
             });
 
             return badges;

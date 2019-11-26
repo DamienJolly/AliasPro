@@ -46,12 +46,12 @@ namespace AliasPro.Badges
 				//todo: check rights
 			}
 
-			IPlayerBadge playerBadge = new PlayerBadge(code);
+			IPlayerBadge playerBadge = new PlayerBadge(badge.Id, badge.Code);
 			player.Badge.AddBadge(playerBadge);
-			await _badgeDao.AddPlayerBadge(player.Id, playerBadge.Code);
+			await _badgeDao.AddPlayerBadge(player.Id, playerBadge);
 
 			if (player.Session != null)
-				await player.Session.SendPacketAsync(new AddPlayerBadgeComposer(badge.Id, badge.Code));
+				await player.Session.SendPacketAsync(new AddPlayerBadgeComposer(playerBadge));
 		}
 
 		public async void RemovePlayerBadge(IPlayer player, IPlayerBadge badge)
