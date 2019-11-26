@@ -57,7 +57,7 @@ namespace AliasPro.Rooms.Models
             IItem topItem = TopItem;
             if (topItem != null)
             {
-                if (topItem.ItemData.CanWalk) return true;
+				if (entity != null && topItem.ItemData.InteractionType == ItemInteractionType.ONE_WAY_GATE && topItem.InteractingPlayer == entity) return true;
 
 				if (topItem.ItemData.InteractionType == ItemInteractionType.GATE && topItem.Mode >= (topItem.ItemData.Modes - 1)) return true;
 
@@ -65,7 +65,9 @@ namespace AliasPro.Rooms.Models
 
                 if (topItem.ItemData.InteractionType == ItemInteractionType.BED && final) return true;
 
-                return false;
+				if (topItem.ItemData.CanWalk) return true;
+
+				return false;
             }
 
             return true;

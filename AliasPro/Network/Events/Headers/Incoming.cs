@@ -45,7 +45,8 @@
         internal const short ToggleFloorItemMessageEvent = 1699;
         internal const short ToggleWallItemMessageEvent = 2100;
         internal const short TriggerDiceMessageEvent = 237;
-        internal const short CloseDiceMessageEvent = 1285;
+		internal const short ToggleOneWayMessageEvent = 2192;
+		internal const short CloseDiceMessageEvent = 1285;
 		internal const short RedeemItemMessageEvent = 1018;
 		internal const short LoveLockConfirmMessageEvent = 1600;
 

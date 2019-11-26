@@ -8,9 +8,9 @@ using AliasPro.Network.Events.Headers;
 
 namespace AliasPro.Items.Packets.Events
 {
-    public class ToggleFloorItemEvent : IAsyncPacket
+    public class ToggleOneWayEvent : IAsyncPacket
     {
-        public short Header { get; } = Incoming.ToggleFloorItemMessageEvent;
+        public short Header { get; } = Incoming.ToggleOneWayMessageEvent;
         
         public void HandleAsync(
             ISession session,
@@ -25,14 +25,9 @@ namespace AliasPro.Items.Packets.Events
             uint itemId = (uint)clientPacket.ReadInt();
             if (room.Items.TryGetItem(itemId, out IItem item))
             {
-                if (item.ItemData.Type != "s") return;
+                if (item.ItemData.InteractionType != ItemInteractionType.ONE_WAY_GATE) return;
 
-                if (item.ItemData.InteractionType == ItemInteractionType.DICE) return;
-
-                int state = clientPacket.ReadInt();
-
-                item.Interaction.OnUserInteract(session.Entity, state);
-                
+                item.Interaction.OnUserInteract(session.Entity, 1);
                 room.Items.TriggerWired(WiredInteractionType.STATE_CHANGED, session.Entity, item);
             }
         }
