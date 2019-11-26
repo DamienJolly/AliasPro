@@ -54,7 +54,7 @@ namespace AliasPro.Items.Models
             message.WriteInt(1);
             Interaction.Compose(message);
             message.WriteInt(-1);
-            message.WriteInt(ItemData.Modes > 0 ? 1 : 0);
+            message.WriteInt(ItemData.Modes > 1 ? 1 : 0);
             message.WriteInt(PlayerId);
         }
 

@@ -51,7 +51,7 @@ namespace AliasPro.Items.Interaction
 				return;
 			}
 
-			_item.Mode = -1;
+			_item.Mode = state;
 			_tickCount = 0;
 			await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(_item));
 		}
