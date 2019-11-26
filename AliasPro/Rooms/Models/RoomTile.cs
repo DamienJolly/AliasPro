@@ -216,11 +216,26 @@ namespace AliasPro.Rooms.Models
                 double height = Position.Z;
                 IItem topItem = TopItem;
 
-                if (topItem != null)
-                    height += topItem.ItemData.Height + topItem.Position.Z;
+				if (topItem != null)
+				{
+					if (topItem.ItemData.InteractionType == ItemInteractionType.MULTIHEIGHT)
+					{
+						IList<double> heights = new List<double>();
+						foreach (string data in topItem.ItemData.ExtraData.Split(','))
+						{
+							if (double.TryParse(data, out double heightData))
+								heights.Add(heightData);
+						}
+
+						if (topItem.Mode <= heights.Count)
+							return heights[topItem.Mode] + topItem.Position.Z;
+					}
+
+					height += topItem.ItemData.Height + topItem.Position.Z;
+				}
 
                 return height;
             }
         }
-    }
+	}
 }

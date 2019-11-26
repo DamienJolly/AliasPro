@@ -15,6 +15,7 @@ namespace AliasPro.Items.Utilities
                 case "vending": return ItemInteractionType.VENDING_MACHINE;
 				case "love_lock": return ItemInteractionType.LOVE_LOCK;
 				case "badge_display": return ItemInteractionType.BADGE_DISPLAY;
+				case "multiheight": return ItemInteractionType.MULTIHEIGHT;
 				case "bottle": return ItemInteractionType.BOTTLE;
 				case "roller": return ItemInteractionType.ROLLER;
                 case "dice": return ItemInteractionType.DICE;
