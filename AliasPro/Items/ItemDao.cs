@@ -116,7 +116,7 @@ namespace AliasPro.Items
             {
                 foreach (IItem item in items)
                 {
-                    await Insert(transaction, "UPDATE `items` SET `room_id` = 0, `extra_data` = @1, `player_id` = @2 WHERE `id` = @0;", item.Id, item.ExtraData, item.PlayerId);
+                    await Insert(transaction, "UPDATE `items` SET `room_id` = 0, `extra_data` = @1, `player_id` = @2, `mode` = @3 WHERE `id` = @0;", item.Id, item.ExtraData, item.PlayerId, item.Mode);
                 }
             });
         }

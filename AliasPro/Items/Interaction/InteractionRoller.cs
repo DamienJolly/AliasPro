@@ -28,7 +28,17 @@ namespace AliasPro.Items.Interaction
             message.WriteString(_item.Mode.ToString());
         }
 
-        public void OnUserWalkOn(BaseEntity entity)
+		public void OnPlaceItem()
+		{
+
+		}
+
+		public void OnPickupItem()
+		{
+
+		}
+
+		public void OnUserWalkOn(BaseEntity entity)
         {
 
         }
@@ -38,15 +48,9 @@ namespace AliasPro.Items.Interaction
 
         }
         
-        public async void OnUserInteract(BaseEntity entity, int state)
+        public void OnUserInteract(BaseEntity entity, int state)
         {
-            _item.Mode++;
-            if (_item.Mode >= _item.ItemData.Modes)
-            {
-                _item.Mode = 0;
-            }
 
-            await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(_item));
         }
 
         public async void OnCycle()

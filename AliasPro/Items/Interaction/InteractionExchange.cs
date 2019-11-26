@@ -1,7 +1,6 @@
 ﻿using AliasPro.API.Items.Interaction;
 using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
-using AliasPro.Items.Packets.Composers;
 using AliasPro.Network.Protocol;
 using AliasPro.Players.Packets.Composers;
 using AliasPro.Rooms.Entities;
@@ -23,7 +22,17 @@ namespace AliasPro.Items.Interaction
             message.WriteString(_item.Mode.ToString());
         }
 
-        public void OnUserWalkOn(BaseEntity entity)
+		public void OnPlaceItem()
+		{
+
+		}
+
+		public void OnPickupItem()
+		{
+
+		}
+
+		public void OnUserWalkOn(BaseEntity entity)
         {
 
         }

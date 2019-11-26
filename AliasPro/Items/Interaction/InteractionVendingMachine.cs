@@ -27,7 +27,17 @@ namespace AliasPro.Items.Interaction
             message.WriteString(_item.Mode.ToString());
         }
 
-        public void OnUserWalkOn(BaseEntity entity)
+		public void OnPlaceItem()
+		{
+
+		}
+
+		public void OnPickupItem()
+		{
+			_item.Mode = 0;
+		}
+
+		public void OnUserWalkOn(BaseEntity entity)
         {
 
         }

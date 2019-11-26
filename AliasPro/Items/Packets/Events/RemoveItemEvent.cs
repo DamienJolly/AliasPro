@@ -37,6 +37,7 @@ namespace AliasPro.Items.Packets.Events
 
                 item.RoomId = 0;
                 item.CurrentRoom = null;
+				item.Interaction.OnPickupItem();
 
                 if(session.Player.Inventory.TryAddItem(item))
                 {

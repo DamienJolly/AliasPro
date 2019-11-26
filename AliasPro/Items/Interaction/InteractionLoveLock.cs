@@ -45,6 +45,16 @@ namespace AliasPro.Items.Interaction
 
 		}
 
+		public void OnPlaceItem()
+		{
+
+		}
+
+		public void OnPickupItem()
+		{
+
+		}
+
 		public void OnUserWalkOn(BaseEntity entity)
         {
 

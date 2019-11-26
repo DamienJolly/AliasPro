@@ -5,6 +5,7 @@ using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.Groups.Models;
+using AliasPro.Items.Types;
 using AliasPro.Players.Types;
 using AliasPro.Rooms.Entities;
 using AliasPro.Rooms.Models;
