@@ -11,9 +11,6 @@ namespace AliasPro.Items.Interaction
     {
         private readonly IItem _item;
 
-		private int _tickCount = 0;
-		private int _step = 0;
-
 		public InteractionOneWayGate(IItem item)
         {
             _item = item;

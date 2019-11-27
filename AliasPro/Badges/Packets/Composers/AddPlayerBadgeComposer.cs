@@ -8,7 +8,6 @@ namespace AliasPro.Badges.Packets.Composers
     public class AddPlayerBadgeComposer : IPacketComposer
     {
 		private readonly IPlayerBadge _playerBadge;
-		private readonly string _badgeCode;
 
 		public AddPlayerBadgeComposer(
 			IPlayerBadge playerBadge)
