@@ -129,7 +129,14 @@ namespace AliasPro.Rooms.Models
             IItem topItem = null;
             foreach (IItem tileItem in _items.Values)
             {
-                if (tileItem.ItemData.InteractionType == ItemInteractionType.ROLLER &&
+				if (tileItem.ItemData.InteractionType == ItemInteractionType.STACK_TOOL &&
+					item.ItemData.InteractionType != ItemInteractionType.STACK_TOOL)
+				{
+					topItem = tileItem;
+					break;
+				}
+
+				if (tileItem.ItemData.InteractionType == ItemInteractionType.ROLLER &&
                     item.ItemData.InteractionType == ItemInteractionType.ROLLER)
                     return false;
 
@@ -219,7 +226,10 @@ namespace AliasPro.Rooms.Models
                 IItem topItem = null;
                 foreach (IItem item in _items.Values)
                 {
-                    if (topItem == null ||
+					if (item.ItemData.InteractionType == ItemInteractionType.STACK_TOOL)
+						return item;
+
+					if (topItem == null ||
                         (item.Position.Z + item.ItemData.Height) >
                         (topItem.Position.Z + topItem.ItemData.Height))
                     {

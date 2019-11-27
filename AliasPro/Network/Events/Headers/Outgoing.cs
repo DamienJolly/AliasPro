@@ -50,6 +50,7 @@
 		internal const short LoveLockStartMessageComposer = 1470;
 		internal const short LoveLockFriendConfirmedMessageComposer = 210;
 		internal const short LoveLockFinishedMessageComposer = 3873;
+		internal const short UpdateStackToolHeightMessageComposer = 1521;
 
 		// Catalog
 		internal const short DiscountMessageComposer = 1602;

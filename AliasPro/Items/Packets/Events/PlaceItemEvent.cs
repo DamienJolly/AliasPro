@@ -36,10 +36,10 @@ namespace AliasPro.Items.Packets.Events
                     if (!room.RoomGrid.TryGetRoomTile(x, y, out IRoomTile roomTile)) return;
 
                     if (!room.RoomGrid.CanStackAt(x, y, item)) return;
-                    
+
                     item.Position.X = x;
                     item.Position.Y = y;
-                    item.Position.Z = roomTile.Height;
+                    item.Position.Z = item.ItemData.InteractionType == Types.ItemInteractionType.STACK_TOOL ? roomTile.Position.Z : roomTile.Height;
                     item.Rotation = rot;
                     room.RoomGrid.AddItem(item);
 

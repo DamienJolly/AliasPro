@@ -12,8 +12,9 @@ namespace AliasPro.Items.Utilities
                 case "wired_effect": return ItemInteractionType.WIRED_EFFECT;
                 case "wired_condition": return ItemInteractionType.WIRED_CONDITION;
                 case "game_timer": return ItemInteractionType.GAME_TIMER;
-                case "vending": return ItemInteractionType.VENDING_MACHINE;
-				case "love_lock": return ItemInteractionType.LOVE_LOCK;
+                case "vendingmachine": return ItemInteractionType.VENDING_MACHINE;
+				case "lovelock": return ItemInteractionType.LOVE_LOCK;
+				case "stacktool": return ItemInteractionType.STACK_TOOL;
 				case "badge_display": return ItemInteractionType.BADGE_DISPLAY;
 				case "multiheight": return ItemInteractionType.MULTIHEIGHT;
 				case "onewaygate": return ItemInteractionType.ONE_WAY_GATE;
@@ -24,8 +25,10 @@ namespace AliasPro.Items.Utilities
 				case "bed": return ItemInteractionType.BED;
 				case "gate": return ItemInteractionType.GATE;
 				case "chair": return ItemInteractionType.CHAIR;
-                case "default": default: return ItemInteractionType.DEFAULT;
-            }
+                case "default": return ItemInteractionType.DEFAULT;
+				default: System.Console.WriteLine(interaction + " doesn't exist"); return ItemInteractionType.DEFAULT;
+
+			}
         }
     }
 }

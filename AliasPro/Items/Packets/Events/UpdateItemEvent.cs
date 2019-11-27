@@ -37,7 +37,7 @@ namespace AliasPro.Items.Packets.Events
                         item.Position = new RoomPosition(
                             x,
                             y,
-                            roomTile.Height);
+							item.Position.Z = item.ItemData.InteractionType == Types.ItemInteractionType.STACK_TOOL ? item.Position.Z : roomTile.Height);
                         item.Rotation = rot;
                         room.RoomGrid.AddItem(item);
                     }
