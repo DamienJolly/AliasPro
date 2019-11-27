@@ -23,6 +23,7 @@ namespace AliasPro.Items.Utilities
 				case ItemInteractionType.BADGE_DISPLAY: return new InteractionBadgeDisplay(item);
 				case ItemInteractionType.ONE_WAY_GATE: return new InteractionOneWayGate(item);
 				case ItemInteractionType.BOTTLE: return new InteractionSpinningBottle(item);
+				case ItemInteractionType.TROPHY: return new InteractionTrophy(item);
 				case ItemInteractionType.DEFAULT: default: return new InteractionDefault(item);
 			}
         }

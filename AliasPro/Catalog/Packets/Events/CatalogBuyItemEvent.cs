@@ -132,7 +132,15 @@ namespace AliasPro.Catalog.Packets.Events
 							if (!session.Player.Badge.HasBadge(extraData))
 								continue;
 
+							if (extraData.Length > 150)
+								extraData = extraData.Substring(0, 150);
+
 							extraData = extraData + ";" + session.Player.Username + ";" + DateTime.Now.Day + "-" + DateTime.Now.Month + "-" + DateTime.Now.Year;
+							playerItem = new Item((uint)itemData.Id, session.Player.Id, extraData, itemData.ItemData);
+						}
+						else if (itemData.ItemData.InteractionType == ItemInteractionType.TROPHY)
+						{
+							extraData = session.Player.Username + ";" + DateTime.Now.Day + "-" + DateTime.Now.Month + "-" + DateTime.Now.Year + ";" + extraData;
 							playerItem = new Item((uint)itemData.Id, session.Player.Id, extraData, itemData.ItemData);
 						}
 						else if (itemData.ItemData.Type == "b")

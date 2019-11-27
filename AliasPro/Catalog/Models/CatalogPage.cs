@@ -39,6 +39,7 @@ namespace AliasPro.Catalog.Models
                 case "frontpage": return new LayoutFrontpage(this);
 				case "guilds": return new LayoutGroup(this);
 				case "badge_display": return new LayoutBadgeDisplay(this);
+				case "trophies": return new LayoutTrophies(this);
 				case "bot": return new LayoutBot(this);
 			}
         }
