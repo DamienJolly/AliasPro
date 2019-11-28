@@ -23,6 +23,7 @@
         // Figure
         internal const short UpdateFigureMessageComposer = 757;
         internal const short UpdateEntityDataMessageComposer = 3314;
+        internal const short UserWardrobeMessageComposer = 1954;
 
         // Messenger
         internal const short MessengerInitMessageComposer = 2871;

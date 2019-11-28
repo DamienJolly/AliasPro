@@ -15,6 +15,7 @@ namespace AliasPro.Players.Models
         public BadgeComponent Badge { get; set; }
 		public AchievementComponent Achievement { get; set; }
 		public InventoryComponent Inventory { get; set; }
+		public WardrobeComponent Wardrobe { get; set; }
 
         public PlayerCycle PlayerCycle { get; set; }
 

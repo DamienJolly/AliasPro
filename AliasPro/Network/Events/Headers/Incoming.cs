@@ -21,6 +21,7 @@
 
         // Figure
         internal const short UpdateFigureMessageEvent = 1588;
+        internal const short RequestUserWardrobeMessengerEvent = 3960;
 
         // Messenger
         internal const short RequestInitFriendsMessageEvent = 1405;

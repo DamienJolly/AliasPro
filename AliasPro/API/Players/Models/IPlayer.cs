@@ -14,6 +14,7 @@ namespace AliasPro.API.Players.Models
         BadgeComponent Badge { get; set; }
 		AchievementComponent Achievement { get; set; }
         InventoryComponent Inventory { get; set; }
+		WardrobeComponent Wardrobe { get; set; }
         PlayerCycle PlayerCycle { get; set; }
     }
 }

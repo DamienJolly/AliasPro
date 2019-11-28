@@ -11,7 +11,6 @@ namespace AliasPro.Figure
         public void SetupService(IServiceCollection collection)
         {
             collection.AddSingleton<FigureDao>();
-            collection.AddSingleton<FigureRepostiory>();
             collection.AddSingleton<IFigureController, FigureController>();
 
             AddPackets(collection);
@@ -20,6 +19,7 @@ namespace AliasPro.Figure
         private static void AddPackets(IServiceCollection collection)
         {
             collection.AddSingleton<IAsyncPacket, UpdateFigureEvent>();
+            collection.AddSingleton<IAsyncPacket, RequestUserWardrobeEvent>();
         }
     }
 }
