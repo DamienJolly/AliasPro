@@ -8,10 +8,12 @@ namespace AliasPro.Messenger.Packets.Composers
 {
     public class UserSearchResultComposer : IPacketComposer
     {
-        private readonly ICollection<IPlayer> _friends;
-        private readonly ICollection<IPlayer> _notFriends;
+        private readonly ICollection<IPlayerData> _friends;
+        private readonly ICollection<IPlayerData> _notFriends;
 
-        public UserSearchResultComposer(ICollection<IPlayer> friends, ICollection<IPlayer> notFriends)
+        public UserSearchResultComposer(
+			ICollection<IPlayerData> friends, 
+			ICollection<IPlayerData> notFriends)
         {
             _friends = friends;
             _notFriends = notFriends;
@@ -21,7 +23,7 @@ namespace AliasPro.Messenger.Packets.Composers
         {
             ServerPacket message = new ServerPacket(Outgoing.UserSearchResultMessageComposer);
             message.WriteInt(_friends.Count);
-            foreach (IPlayer player in _friends)
+            foreach (IPlayerData player in _friends)
             {
                 message.WriteInt(player.Id);
                 message.WriteString(player.Username);
@@ -34,7 +36,7 @@ namespace AliasPro.Messenger.Packets.Composers
                 message.WriteString("01.01.1970 00:00:00"); //LastOnline
             }
             message.WriteInt(_notFriends.Count);
-            foreach (IPlayer player in _notFriends)
+            foreach (IPlayerData player in _notFriends)
             {
                 message.WriteInt(player.Id);
                 message.WriteString(player.Username);

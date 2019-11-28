@@ -30,12 +30,12 @@ namespace AliasPro.Messenger.Packets.Events
             if (string.IsNullOrEmpty(username))
                 return;
 
-            ICollection<IPlayer> friends = new List<IPlayer>();
-            ICollection<IPlayer> notFriends = new List<IPlayer>();
-            IDictionary<uint, IPlayer> players = new Dictionary<uint, IPlayer>();
-                //todo: await _playerController.GetPlayersByUsernameAsync(username);
+            ICollection<IPlayerData> friends = new List<IPlayerData>();
+            ICollection<IPlayerData> notFriends = new List<IPlayerData>();
+            IDictionary<uint, IPlayerData> players = 
+				await _playerController.GetPlayersByUsernameAsync(username);
 
-            foreach (IPlayer player in players.Values)
+            foreach (IPlayerData player in players.Values)
             {
                 if (!session.Player.Messenger.TryGetFriend(player.Id, out IMessengerFriend friend))
                 {

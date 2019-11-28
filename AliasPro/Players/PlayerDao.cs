@@ -250,5 +250,25 @@ namespace AliasPro.Players
             });
             return roomsVisisted;
         }
-    }
+
+		internal async Task<IDictionary<uint, IPlayerData>> GetPlayersByUsernameAsync(string playerName)
+		{
+			IDictionary<uint, IPlayerData> players = new Dictionary<uint, IPlayerData>();
+			await CreateTransaction(async transaction =>
+			{
+				await Select(transaction, async reader =>
+				{
+					while (await reader.ReadAsync())
+					{
+						IPlayerData player = new PlayerData(reader);
+
+						if (!players.ContainsKey(player.Id))
+							players.Add(player.Id, player);
+					}
+				}, "SELECT * FROM `players` WHERE `username` LIKE @0;", 
+				"%" + playerName + "%");
+			});
+			return players;
+		}
+	}
 }

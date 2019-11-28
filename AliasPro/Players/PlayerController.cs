@@ -93,5 +93,8 @@ namespace AliasPro.Players
 
         public async Task<ICollection<IPlayerRoomVisited>> GetPlayerRoomVisitsAsync(uint playerId) =>
             await _playerRepostiory.GetPlayerRoomVisitsAsync(playerId);
-    }
+
+		public async Task<IDictionary<uint, IPlayerData>> GetPlayersByUsernameAsync(string playerName) =>
+			 await _playerRepostiory.GetPlayersByUsernameAsync(playerName);
+	}
 }

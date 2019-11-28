@@ -30,5 +30,6 @@ namespace AliasPro.API.Players
         Task UpdatePlayerSettingsAsync(IPlayer player);
 
         Task<ICollection<IPlayerRoomVisited>> GetPlayerRoomVisitsAsync(uint playerId);
-    }
+		Task<IDictionary<uint, IPlayerData>> GetPlayersByUsernameAsync(string playerName);
+	}
 }
