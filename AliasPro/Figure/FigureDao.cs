@@ -16,6 +16,26 @@ namespace AliasPro.Figure
 
         }
 
+		internal async Task<IDictionary<int, IClothingItem>> GetClothingItemsAsync()
+		{
+			IDictionary<int, IClothingItem> items = new Dictionary<int, IClothingItem>();
+			await CreateTransaction(async transaction =>
+			{
+				await Select(transaction, async reader =>
+				{
+					while (await reader.ReadAsync())
+					{
+						IClothingItem item = new ClothingItem(reader);
+						if (!items.TryAdd(item.Id, item))
+						{
+							// failed
+						}
+					}
+				}, "SELECT * FROM `clothing`;");
+			});
+			return items;
+		}
+
 		internal async Task<IDictionary<int, IWardrobeItem>> GetPlayerWardrobeAsync(uint id)
 		{
 			IDictionary<int, IWardrobeItem> items = new Dictionary<int, IWardrobeItem>();
@@ -65,12 +85,12 @@ namespace AliasPro.Figure
 					while (await reader.ReadAsync())
 					{
 						IClothingItem item = new ClothingItem(reader);
-						if (!items.TryAdd(item.ClothingId, item))
+						if (!items.TryAdd(item.Id, item))
 						{
 							// failed
 						}
 					}
-				}, "SELECT * FROM `player_clothing` WHERE `player_id` = @0;", id);
+				}, "SELECT `clothing`.* FROM `player_clothing` INNER JOIN `clothing` ON `clothing`.`id` = `player_clothing`.`id` WHERE `player_clothing`.`player_id` = @0;", id);
 			});
 			return items;
 		}

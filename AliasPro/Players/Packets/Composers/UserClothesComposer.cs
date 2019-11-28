@@ -18,8 +18,11 @@ namespace AliasPro.Players.Packets.Composers
 
 			foreach (IClothingItem item in items)
 			{
-				if (!_itemIds.Contains(item.ClothingId))
-					_itemIds.Add(item.ClothingId);
+				foreach (int itemId in item.ClothingIds)
+				{
+					if (!_itemIds.Contains(itemId))
+						_itemIds.Add(itemId);
+				}
 
 				if (!_itemNames.Contains(item.Name))
 					_itemNames.Add(item.Name);

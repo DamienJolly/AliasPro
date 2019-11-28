@@ -52,7 +52,7 @@
 		internal const short RedeemItemMessageEvent = 1018;
 		internal const short LoveLockConfirmMessageEvent = 1600;
 		internal const short SetStackToolHeightMessageEvent = 2169;
-		internal const short RedeemClothingEvent = 687;
+		internal const short RedeemClothingMessageEvent = 687;
 
 		// Catalog
 		internal const short RequestDiscountMessageEvent = 703;

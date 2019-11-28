@@ -1,8 +1,11 @@
-﻿namespace AliasPro.API.Figure.Models
+﻿using System.Collections.Generic;
+
+namespace AliasPro.API.Figure.Models
 {
 	public interface IClothingItem
 	{
-		int ClothingId { get; set; }
+		int Id { get; set; }
 		string Name { get; set; }
+		IList<int> ClothingIds { get; set; }
 	}
 }

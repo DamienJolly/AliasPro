@@ -11,12 +11,21 @@ namespace AliasPro.Figure
     {
         private readonly FigureDao _figureDao;
 		private readonly FigureComponent _figureComponent;
+		private IDictionary<int, IClothingItem> _clothingItems;
 
 		public FigureController(FigureDao figureDao)
         {
 			_figureDao = figureDao;
 			_figureComponent = new FigureComponent();
+
+			InitializeClothing();
 		}
+
+		public async void InitializeClothing()
+		{
+			_clothingItems = await _figureDao.GetClothingItemsAsync();
+		}
+
 		public bool ValidateFigure(string figure, PlayerGender gender) =>
 			_figureComponent.Validate(figure, gender);
 
