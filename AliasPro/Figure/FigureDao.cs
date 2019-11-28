@@ -90,9 +90,18 @@ namespace AliasPro.Figure
 							// failed
 						}
 					}
-				}, "SELECT `clothing`.* FROM `player_clothing` INNER JOIN `clothing` ON `clothing`.`id` = `player_clothing`.`id` WHERE `player_clothing`.`player_id` = @0;", id);
+				}, "SELECT `clothing`.* FROM `player_clothing` INNER JOIN `clothing` ON `clothing`.`id` = `player_clothing`.`clothing_id` WHERE `player_clothing`.`player_id` = @0;", id);
 			});
 			return items;
+		}
+
+		internal async Task AddClothingItemAsync(uint playerId, IClothingItem item)
+		{
+			await CreateTransaction(async transaction =>
+			{
+				await Insert(transaction, "INSERT INTO `player_clothing` (`player_id`, `clothing_id`) VALUES (@0, @1);",
+					playerId, item.Id);
+			});
 		}
 	}
 }

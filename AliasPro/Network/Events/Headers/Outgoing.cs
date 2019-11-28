@@ -164,5 +164,8 @@
 		// Bots
 		internal const int InventoryBotsMessageComposer = 953;
 		internal const int AddBotMessageCompoer = 1996;
+
+		// Misc
+		internal const int BubbleAlertMessageComposer = 1469;
 	}
 }

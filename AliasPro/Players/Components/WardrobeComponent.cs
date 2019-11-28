@@ -29,5 +29,11 @@ namespace AliasPro.Players.Components
 
 		public ICollection<IClothingItem> ClothingItems =>
 			_clothingItems.Values;
+
+		public bool TryGetClothingItem(int clothingId, out IClothingItem item) =>
+			_clothingItems.TryGetValue(clothingId, out item);
+
+		public bool TryAddClothingItem(IClothingItem item) =>
+		   _clothingItems.TryAdd(item.Id, item);
 	}
 }

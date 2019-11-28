@@ -44,6 +44,7 @@ namespace AliasPro.Items.Packets.Events
 				room.Items.TriggerWired(WiredInteractionType.STATE_CHANGED, session.Entity, item);
 
 				room.RoomGrid.RemoveItem(item);
+				room.Items.RemoveItem(item.Id);
 				await room.SendAsync(new RemoveFloorItemComposer(item));
 				await _itemController.RemoveItemAsync(item);
             }

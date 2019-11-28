@@ -17,6 +17,7 @@ namespace AliasPro.Figure
         {
 			_figureDao = figureDao;
 			_figureComponent = new FigureComponent();
+			_clothingItems = new Dictionary<int, IClothingItem>();
 
 			InitializeClothing();
 		}
@@ -25,6 +26,9 @@ namespace AliasPro.Figure
 		{
 			_clothingItems = await _figureDao.GetClothingItemsAsync();
 		}
+
+		public bool TryGetClothingItem(int clothingId, out IClothingItem item) =>
+			_clothingItems.TryGetValue(clothingId, out item);
 
 		public bool ValidateFigure(string figure, PlayerGender gender) =>
 			_figureComponent.Validate(figure, gender);
@@ -41,5 +45,8 @@ namespace AliasPro.Figure
 
 		public async Task<IDictionary<int, IClothingItem>> GetPlayerClothingAsync(uint id) =>
 			await _figureDao.GetPlayerClothingAsync(id);
+
+		public async Task AddClothingItemAsync(uint playerId, IClothingItem item) =>
+			await _figureDao.AddClothingItemAsync(playerId, item);
 	}
 }
