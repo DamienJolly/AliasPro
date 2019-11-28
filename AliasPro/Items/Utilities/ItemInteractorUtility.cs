@@ -22,6 +22,7 @@ namespace AliasPro.Items.Utilities
 				case ItemInteractionType.LOVE_LOCK: return new InteractionLoveLock(item);
 				case ItemInteractionType.BADGE_DISPLAY: return new InteractionBadgeDisplay(item);
 				case ItemInteractionType.ONE_WAY_GATE: return new InteractionOneWayGate(item);
+				case ItemInteractionType.CLOTHING: return new InteractionClothing(item);
 				case ItemInteractionType.BOTTLE: return new InteractionSpinningBottle(item);
 				case ItemInteractionType.TROPHY: return new InteractionTrophy(item);
 				case ItemInteractionType.TELEPORT: return new InteractionTeleport(item);
