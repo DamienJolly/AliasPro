@@ -1,4 +1,5 @@
-﻿using AliasPro.API.Items;
+﻿using AliasPro.API.Figure;
+using AliasPro.API.Items;
 using AliasPro.API.Messenger;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Players;
@@ -18,21 +19,24 @@ namespace AliasPro.Network
         private readonly IRoomController _roomController;
         private readonly IItemController _itemController;
         private readonly IMessengerController _messengerController;
+		private readonly IFigureController _figureController;
 
-        public NetworkInitializer(
+		public NetworkInitializer(
             IEventProvider provider,
             ISessionController sessionController,
             IPlayerController playerController,
             IRoomController roomController,
             IItemController itemController,
-            IMessengerController messengerController)
+            IMessengerController messengerController,
+			IFigureController figureController)
         {
             _eventProvider = provider;
             _sessionController = sessionController;
             _playerController = playerController;
             _roomController = roomController;
             _itemController = itemController;
-            _messengerController = messengerController;
+			_messengerController = messengerController;
+			_figureController = figureController;
         }
 
         protected override void InitChannel(ISocketChannel channel)
@@ -46,7 +50,8 @@ namespace AliasPro.Network
                     _playerController, 
                     _roomController, 
                     _itemController, 
-                    _messengerController));
+                    _messengerController,
+					_figureController));
         }
     }
 }

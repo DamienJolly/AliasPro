@@ -1,4 +1,5 @@
-﻿using AliasPro.API.Items;
+﻿using AliasPro.API.Figure;
+using AliasPro.API.Items;
 using AliasPro.API.Messenger;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
@@ -18,6 +19,7 @@ namespace AliasPro.Network
         private readonly IRoomController _roomController;
         private readonly IItemController _itemController;
         private readonly IMessengerController _messengerController;
+        private readonly IFigureController _figureController;
 
         internal NetworkHandler(
             IEventProvider provider,
@@ -25,7 +27,8 @@ namespace AliasPro.Network
             IPlayerController playerController,
             IRoomController roomController,
             IItemController itemController,
-            IMessengerController messengerController)
+            IMessengerController messengerController,
+			IFigureController figureController)
         {
             _eventProvider = provider;
             _sessionController = sessionController;
@@ -33,6 +36,7 @@ namespace AliasPro.Network
             _roomController = roomController;
             _itemController = itemController;
             _messengerController = messengerController;
+			_figureController = figureController;
         }
 
         public override void ChannelRegistered(IChannelHandlerContext context) =>
@@ -73,7 +77,10 @@ namespace AliasPro.Network
             if (session.Player.Messenger != null)
                 await _messengerController.UpdateStatusAsync(session.Player, session.Player.Messenger.Friends);
 
-            if (session.CurrentRoom != null &&
+			if (session.Player.Wardrobe != null)
+				await _figureController.UpdateWardrobeItemsAsync(session.Player.Id, session.Player.Wardrobe.WardobeItems);
+
+			if (session.CurrentRoom != null &&
                 session.Entity != null)
                 await session.CurrentRoom.RemoveEntity(session.Entity, false);
             

@@ -15,7 +15,13 @@ namespace AliasPro.Players.Components
 			_wardobeItems = wardobeItems;
         }
 
-        public ICollection<IWardrobeItem> WardobeItems =>
+		public bool TryGetWardrobeItem(int slotId, out IWardrobeItem item) =>
+			_wardobeItems.TryGetValue(slotId, out item);
+
+		public bool TryAddWardrobeItem(IWardrobeItem item) =>
+		   _wardobeItems.TryAdd(item.SlotId, item);
+
+		public ICollection<IWardrobeItem> WardobeItems =>
 			_wardobeItems.Values;
     }
 }

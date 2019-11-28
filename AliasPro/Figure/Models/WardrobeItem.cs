@@ -1,6 +1,5 @@
 ﻿using AliasPro.API.Database;
 using AliasPro.API.Figure.Models;
-using AliasPro.Network.Protocol;
 using AliasPro.Players.Types;
 using System.Data.Common;
 
@@ -20,11 +19,6 @@ namespace AliasPro.Figure.Models
 			SlotId = slotId;
 			Figure = figure;
 			Gender = gender;
-        }
-
-        public void Compose(ServerPacket message)
-        {
-
         }
 
         public int SlotId { get; set; }

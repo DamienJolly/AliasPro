@@ -20,6 +20,7 @@ namespace AliasPro.Figure
         {
             collection.AddSingleton<IAsyncPacket, UpdateFigureEvent>();
             collection.AddSingleton<IAsyncPacket, RequestUserWardrobeEvent>();
+            collection.AddSingleton<IAsyncPacket, SaveWardrobeEvent>();
         }
     }
 }

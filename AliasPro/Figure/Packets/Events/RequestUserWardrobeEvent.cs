@@ -31,7 +31,7 @@ namespace AliasPro.Figure.Packets.Events
 				session.Player.Wardrobe = new WardrobeComponent(
 					await _figureController.GetPlayerWardrobeAsync(session.Player.Id));
 			}
-   
+
 			int slotsAvailable = session.Player.Wardrobe.SlotsAvailable;
 			if (slotsAvailable == 0) return;
 
