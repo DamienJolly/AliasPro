@@ -2,9 +2,12 @@
 using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
+using AliasPro.API.Tasks;
 using AliasPro.Items.Packets.Composers;
+using AliasPro.Items.Tasks;
 using AliasPro.Network.Protocol;
 using AliasPro.Rooms.Entities;
+using AliasPro.Tasks;
 
 namespace AliasPro.Items.Interaction
 {
@@ -34,8 +37,6 @@ namespace AliasPro.Items.Interaction
 		public void OnPickupItem()
 		{
 			_item.Mode = 0;
-			_step = 0;
-			_item.InteractingPlayer = null;
 		}
 
 		public void OnUserWalkOn(BaseEntity entity)
@@ -46,13 +47,13 @@ namespace AliasPro.Items.Interaction
         public void OnUserWalkOff(BaseEntity entity)
         {
 
-        }
+		}
         
         public async void OnUserInteract(BaseEntity entity, int state)
         {
 			if (entity == null) return;
 
-			if (_item.InteractingPlayer != null) return;
+			if (_item.ItemData.CanWalk) return;
 
 			if (!_item.CurrentRoom.RoomGrid.TryGetRoomTile(_item.Position.X, _item.Position.Y, out IRoomTile tile))
 				return;
@@ -64,130 +65,16 @@ namespace AliasPro.Items.Interaction
 				return;
 			}
 
-			entity.GoalPosition = _item.Position;
-
+			_item.ItemData.CanWalk = true;
 			_item.Mode = 1;
-			_cycle = 0;
-			_step = 1;
-			_item.InteractingPlayer = entity;
-
+			entity.GoalPosition = _item.Position;
 			await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(_item));
+			await TaskManager.ExecuteTask(new TeleportTaskOne(_item, entity), 1500);
 		}
 
-        public async void OnCycle()
+        public void OnCycle()
         {
-			if (_item.InteractingPlayer == null) return;
 
-			switch (_step)
-			{
-				case 0:
-					{
-						_item.Mode = 2;
-						await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(_item));
-						_step = 6;
-						_cycle = 2;
-						break;
-					}
-				case 1:
-					{
-						if (_item.Position.X == _item.InteractingPlayer.Position.X && _item.Position.Y == _item.InteractingPlayer.Position.Y)
-						{
-							_step = 2;
-							_cycle = 1;
-						}
-						break;
-					}
-				case 2:
-					{
-						if (_cycle <= 0)
-						{
-							_item.Mode = 0;
-							await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(_item));
-							_step = 3;
-							_cycle = 2;
-						}
-						break;
-					}
-				case 3:
-					{
-						if (_cycle <= 0)
-						{
-							_item.Mode = 2;
-							await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(_item));
-							_step = 4;
-							_cycle = 1;
-						}
-						break;
-					}
-				case 4:
-					{
-						if (_cycle <= 0)
-						{
-							if (_item.CurrentRoom.Items.TryGetItem(uint.Parse(_item.ExtraData), out IItem otherItem))
-							{
-								otherItem.InteractingPlayer = _item.InteractingPlayer;
-								_item.InteractingPlayer.Position = 
-									_item.InteractingPlayer.NextPosition =
-									_item.InteractingPlayer.GoalPosition = otherItem.Position;
-							}
-							_step = 5;
-							_cycle = 2;
-						}
-						break;
-					}
-				case 5:
-					{
-						if (_cycle <= 0)
-						{
-							_item.InteractingPlayer = null;
-							_item.Mode = 0;
-							_step = 0;
-							await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(_item));
-						}
-						break;
-					}
-				case 6:
-					{
-						if (_cycle <= 0)
-						{
-							if (!_item.CurrentRoom.RoomGrid.TryGetRoomTile(_item.Position.X, _item.Position.Y, out IRoomTile tile))
-								return;
-
-							_item.InteractingPlayer.SetRotation(_item.Rotation);
-							_item.InteractingPlayer.GoalPosition = tile.PositionInFront(_item.Rotation);
-
-							_item.Mode = 1;
-							_step = 7;
-							_cycle = 3;
-							await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(_item));
-						}
-						break;
-					}
-				case 7:
-					{
-						if (_cycle <= 0)
-						{
-							_item.Mode = 0;
-							_step = 0;
-							_item.InteractingPlayer = null;
-							await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(_item));
-						}
-						break;
-					}
-				case 8:
-					{
-						if (_cycle <= 0)
-						{
-							_item.Mode = 0;
-							_step = 0;
-							_item.InteractingPlayer = null;
-							await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(_item));
-						}
-						break;
-					}
-			}
-
-			_cycle--;
 		}
     }
 }

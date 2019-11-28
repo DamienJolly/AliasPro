@@ -33,7 +33,7 @@ namespace AliasPro
     {
         private readonly IServiceProvider _serviceProvider;
 
-        private Program()
+		private Program()
         {
 			IList<INetworkService> services = new List<INetworkService>
 			{

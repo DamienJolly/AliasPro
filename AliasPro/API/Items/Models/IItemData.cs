@@ -13,7 +13,7 @@ namespace AliasPro.API.Items.Models
         string ExtraData { get; }
         string Type { get; }
         int Modes { get; }
-        bool CanWalk { get; }
+        bool CanWalk { get; set; }
         bool CanStack { get; }
 
         ItemInteractionType InteractionType { get; }

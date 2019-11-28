@@ -39,7 +39,7 @@ namespace AliasPro.Items.Models
         public string ExtraData { get; }
         public string Type { get; }
         public int Modes { get; }
-        public bool CanWalk { get; }
+        public bool CanWalk { get; set; }
         public bool CanStack { get; }
         
         public ItemInteractionType InteractionType { get; }

@@ -15,7 +15,6 @@
     <Compile Remove="Rooms\Models\Right\**" />
     <Compile Remove="Rooms\Tasks\**" />
     <Compile Remove="Settings\**" />
-    <Compile Remove="Tasks\**" />
     <EmbeddedResource Remove="Players\Models\Messenger\**" />
     <EmbeddedResource Remove="Players\Tasks\**" />
     <EmbeddedResource Remove="Rooms\Gamemap\**" />
@@ -24,7 +23,6 @@
     <EmbeddedResource Remove="Rooms\Models\Right\**" />
     <EmbeddedResource Remove="Rooms\Tasks\**" />
     <EmbeddedResource Remove="Settings\**" />
-    <EmbeddedResource Remove="Tasks\**" />
     <None Remove="Players\Models\Messenger\**" />
     <None Remove="Players\Tasks\**" />
     <None Remove="Rooms\Gamemap\**" />
@@ -33,7 +31,6 @@
     <None Remove="Rooms\Models\Right\**" />
     <None Remove="Rooms\Tasks\**" />
     <None Remove="Settings\**" />
-    <None Remove="Tasks\**" />
   </ItemGroup>
 
   <ItemGroup>
