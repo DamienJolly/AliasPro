@@ -19,6 +19,7 @@ namespace AliasPro.Items.Utilities
 				case "multiheight": return ItemInteractionType.MULTIHEIGHT;
 				case "onewaygate": return ItemInteractionType.ONE_WAY_GATE;
 				case "trophy": return ItemInteractionType.TROPHY;
+				case "teleport": return ItemInteractionType.TELEPORT;
 				case "bottle": return ItemInteractionType.BOTTLE;
 				case "roller": return ItemInteractionType.ROLLER;
                 case "dice": return ItemInteractionType.DICE;

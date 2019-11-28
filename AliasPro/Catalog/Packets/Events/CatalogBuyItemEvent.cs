@@ -37,7 +37,6 @@ namespace AliasPro.Catalog.Packets.Events
             _catalogController = catalogController;
             _itemController = itemController;
 			_badgeController = badgeController;
-
 		}
 
         public async void HandleAsync(
@@ -103,8 +102,7 @@ namespace AliasPro.Catalog.Packets.Events
             }
 
 			IDictionary<int, IList<int>> itemsToAdd = new Dictionary<int, IList<int>>();
-			//IList<IItem> itemsList = new List<IItem>();
-            int totalCredits = 0;
+			int totalCredits = 0;
             int totalPoints = 0;
 
             for (int i = 0; i < amount; i++)
@@ -125,8 +123,6 @@ namespace AliasPro.Catalog.Packets.Events
                 {
                     for (int k = 0; k < itemData.Amount; k++)
                     {
-						IItem playerItem = null;
-
 						if (itemData.ItemData.InteractionType == ItemInteractionType.BADGE_DISPLAY)
 						{
 							if (!session.Player.Badge.HasBadge(extraData))
@@ -136,12 +132,50 @@ namespace AliasPro.Catalog.Packets.Events
 								extraData = extraData.Substring(0, 150);
 
 							extraData = extraData + ";" + session.Player.Username + ";" + DateTime.Now.Day + "-" + DateTime.Now.Month + "-" + DateTime.Now.Year;
-							playerItem = new Item((uint)itemData.Id, session.Player.Id, extraData, itemData.ItemData);
+							IItem playerItem = new Item((uint)itemData.Id, session.Player.Id, extraData, itemData.ItemData); 
+							playerItem.Id = (uint)await _itemController.AddNewItemAsync(playerItem);
+
+							if (!session.Player.Inventory.TryAddItem(playerItem))
+								continue;
+
+							if (!itemsToAdd.ContainsKey(1))
+								itemsToAdd.Add(1, new List<int>());
+
+							itemsToAdd[1].Add((int)playerItem.Id);
 						}
 						else if (itemData.ItemData.InteractionType == ItemInteractionType.TROPHY)
 						{
 							extraData = session.Player.Username + ";" + DateTime.Now.Day + "-" + DateTime.Now.Month + "-" + DateTime.Now.Year + ";" + extraData;
-							playerItem = new Item((uint)itemData.Id, session.Player.Id, extraData, itemData.ItemData);
+							IItem playerItem = new Item((uint)itemData.Id, session.Player.Id, extraData, itemData.ItemData);
+							playerItem.Id = (uint)await _itemController.AddNewItemAsync(playerItem);
+
+							if (!session.Player.Inventory.TryAddItem(playerItem))
+								continue;
+
+							if (!itemsToAdd.ContainsKey(1))
+								itemsToAdd.Add(1, new List<int>());
+
+							itemsToAdd[1].Add((int)playerItem.Id);
+						}
+						else if (itemData.ItemData.InteractionType == ItemInteractionType.TELEPORT)
+						{
+							IItem playerItem = new Item((uint)itemData.Id, session.Player.Id, "", itemData.ItemData);
+							IItem playerItemTwo = new Item((uint)itemData.Id, session.Player.Id, "", itemData.ItemData);
+
+							playerItem.Id = (uint)await _itemController.AddNewItemAsync(playerItem);
+							playerItemTwo.Id = (uint)await _itemController.AddNewItemAsync(playerItemTwo);
+							playerItem.ExtraData = playerItemTwo.Id.ToString();
+							playerItemTwo.ExtraData = playerItem.Id.ToString();
+
+							if (!session.Player.Inventory.TryAddItem(playerItem) ||
+								!session.Player.Inventory.TryAddItem(playerItemTwo))
+								continue;
+
+							if (!itemsToAdd.ContainsKey(1))
+								itemsToAdd.Add(1, new List<int>());
+
+							itemsToAdd[1].Add((int)playerItem.Id);
+							itemsToAdd[1].Add((int)playerItemTwo.Id);
 						}
 						else if (itemData.ItemData.Type == "b")
 						{
@@ -157,7 +191,6 @@ namespace AliasPro.Catalog.Packets.Events
 								itemsToAdd.Add(4, new List<int>());
 
 							itemsToAdd[4].Add(badge.Id);
-
 						}
 						else if (itemData.ItemData.Type == "r")
 						{
@@ -181,15 +214,10 @@ namespace AliasPro.Catalog.Packets.Events
 								itemsToAdd.Add(5, new List<int>());
 
 							itemsToAdd[5].Add(playerBot.Id);
-
 						}
 						else
 						{
-							playerItem = new Item((uint)itemData.Id, session.Player.Id, "", itemData.ItemData);
-						}
-
-						if (playerItem != null)
-						{
+							IItem playerItem = new Item((uint)itemData.Id, session.Player.Id, "", itemData.ItemData);
 							playerItem.Id = (uint)await _itemController.AddNewItemAsync(playerItem);
 
 							if (!session.Player.Inventory.TryAddItem(playerItem))
@@ -203,7 +231,7 @@ namespace AliasPro.Catalog.Packets.Events
 
 							itemsToAdd[1].Add((int)playerItem.Id);
 						}
-                    }
+					}
                 }
             }
 

@@ -57,7 +57,9 @@ namespace AliasPro.Rooms.Models
             IItem topItem = TopItem;
             if (topItem != null)
             {
-				if (entity != null && topItem.ItemData.InteractionType == ItemInteractionType.ONE_WAY_GATE && topItem.InteractingPlayer == entity) return true;
+				if (entity != null && topItem.InteractingPlayer == entity && 
+					(topItem.ItemData.InteractionType == ItemInteractionType.ONE_WAY_GATE || 
+					topItem.ItemData.InteractionType == ItemInteractionType.TELEPORT)) return true;
 
 				if (topItem.ItemData.InteractionType == ItemInteractionType.GATE && topItem.Mode >= (topItem.ItemData.Modes - 1)) return true;
 

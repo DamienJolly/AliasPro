@@ -44,7 +44,6 @@ namespace AliasPro.Items.Interaction
         
         public async void OnUserInteract(BaseEntity entity, int state)
         {
-			System.Console.WriteLine("works");
 			if(entity == null) return;
 
 			if (_item.Mode == 1) return;
