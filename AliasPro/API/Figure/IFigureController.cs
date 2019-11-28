@@ -9,7 +9,8 @@ namespace AliasPro.API.Figure
     {
         bool ValidateFigure(string figure, PlayerGender gender);
 		Task AddWardrobeItemAsync(uint playerId, IWardrobeItem item);
-		Task UpdateWardrobeItemsAsync(uint playerId, ICollection<IWardrobeItem> items);
+		Task UpdateWardrobeItemAsync(uint playerId, IWardrobeItem item);
 		Task<IDictionary<int, IWardrobeItem>> GetPlayerWardrobeAsync(uint id);
+		Task<IDictionary<int, IClothingItem>> GetPlayerClothingAsync(uint id);
 	}
 }

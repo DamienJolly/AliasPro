@@ -5,7 +5,6 @@ using AliasPro.API.Network.Protocol;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Figure.Packets.Composers;
 using AliasPro.Network.Events.Headers;
-using AliasPro.Players.Components;
 using System.Collections.Generic;
 
 namespace AliasPro.Figure.Packets.Events
@@ -26,11 +25,7 @@ namespace AliasPro.Figure.Packets.Events
             ISession session,
             IClientPacket clientPacket)
         {
-			if (session.Player.Wardrobe == null)
-			{
-				session.Player.Wardrobe = new WardrobeComponent(
-					await _figureController.GetPlayerWardrobeAsync(session.Player.Id));
-			}
+			if (session.Player.Wardrobe == null) return;
 
 			int slotsAvailable = session.Player.Wardrobe.SlotsAvailable;
 			if (slotsAvailable == 0) return;

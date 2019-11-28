@@ -41,6 +41,8 @@ namespace AliasPro.Figure.Packets.Events
 			{
 				item.Figure = look;
 				item.Gender = gender;
+
+				await _figureController.UpdateWardrobeItemAsync(session.Player.Id, item);
 			}
 			else
 			{

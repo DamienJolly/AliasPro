@@ -23,10 +23,14 @@ namespace AliasPro.Figure
 		public async Task AddWardrobeItemAsync(uint playerId, IWardrobeItem item) =>
 			await _figureDao.AddWardrobeItemAsync(playerId, item);
 
-		public async Task UpdateWardrobeItemsAsync(uint playerId, ICollection<IWardrobeItem> items) =>
-			await _figureDao.UpdateWardrobeItemAsync(playerId, items);
+		public async Task UpdateWardrobeItemAsync(uint playerId, IWardrobeItem item) =>
+			await _figureDao.UpdateWardrobeItemAsync(playerId, item);
 
 		public async Task<IDictionary<int, IWardrobeItem>> GetPlayerWardrobeAsync(uint id) =>
 			await _figureDao.GetPlayerWardrobeAsync(id);
+
+
+		public async Task<IDictionary<int, IClothingItem>> GetPlayerClothingAsync(uint id) =>
+			await _figureDao.GetPlayerClothingAsync(id);
 	}
 }

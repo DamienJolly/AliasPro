@@ -1,4 +1,5 @@
-﻿using AliasPro.API.Items;
+﻿using AliasPro.API.Figure;
+using AliasPro.API.Items;
 using AliasPro.API.Moderation;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
@@ -22,17 +23,20 @@ namespace AliasPro.Players.Packets.Events
         private readonly IPlayerController _playerController;
         private readonly IItemController _itemController;
         private readonly IModerationController _moderationController;
+		private readonly IFigureController _figureController;
 		private readonly IPermissionsController _permissionsController;
 
         public SecureLoginEvent(
 			IPlayerController playerController, 
 			IItemController itemController, 
 			IModerationController moderationController,
+			IFigureController figureController,
 			IPermissionsController permissionsController)
         {
             _playerController = playerController;
             _itemController = itemController;
             _moderationController = moderationController;
+			_figureController = figureController;
 			_permissionsController = permissionsController;
 		}
 
@@ -77,6 +81,10 @@ namespace AliasPro.Players.Packets.Events
 			player.Achievement = new AchievementComponent(
 				await _playerController.GetPlayerAchievementsAsync(player.Id));
 
+			player.Wardrobe = new WardrobeComponent(
+				await _figureController.GetPlayerWardrobeAsync(player.Id),
+				await _figureController.GetPlayerClothingAsync(player.Id));
+
 			if (!_playerController.TryAddPlayer(player))
             {
                 session.Disconnect();
@@ -86,7 +94,8 @@ namespace AliasPro.Players.Packets.Events
             await session.SendPacketAsync(new SecureLoginOKComposer());
             await session.SendPacketAsync(new HomeRoomComposer(0));
 
-            await session.SendPacketAsync(new UserRightsComposer(player));
+			await session.SendPacketAsync(new UserClothesComposer(player.Wardrobe.ClothingItems));
+			await session.SendPacketAsync(new UserRightsComposer(player));
             await session.SendPacketAsync(new AvailabilityStatusComposer());
 
 			await session.SendPacketAsync(new ModerationTopicsComposer());

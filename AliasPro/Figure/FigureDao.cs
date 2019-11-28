@@ -45,16 +45,34 @@ namespace AliasPro.Figure
 			});
 		}
 
-		internal async Task UpdateWardrobeItemAsync(uint playerId, ICollection<IWardrobeItem> items)
+		internal async Task UpdateWardrobeItemAsync(uint playerId, IWardrobeItem item)
 		{
 			await CreateTransaction(async transaction =>
 			{
-				foreach (IWardrobeItem item in items)
-				{
-					await Insert(transaction, "UPDATE `player_wardrobe` SET `figure` = @2, `gender` = @3 WHERE `player_id` = @0 AND `slot_id` = @1;",
-						playerId, item.SlotId, item.Figure, item.Gender == PlayerGender.MALE ? "m" : "f");
-				}
+				await Insert(transaction, "UPDATE `player_wardrobe` SET `figure` = @2, `gender` = @3 WHERE `player_id` = @0 AND `slot_id` = @1;",
+					playerId, item.SlotId, item.Figure, item.Gender == PlayerGender.MALE ? "m" : "f");
 			});
+		}
+
+
+		internal async Task<IDictionary<int, IClothingItem>> GetPlayerClothingAsync(uint id)
+		{
+			IDictionary<int, IClothingItem> items = new Dictionary<int, IClothingItem>();
+			await CreateTransaction(async transaction =>
+			{
+				await Select(transaction, async reader =>
+				{
+					while (await reader.ReadAsync())
+					{
+						IClothingItem item = new ClothingItem(reader);
+						if (!items.TryAdd(item.ClothingId, item))
+						{
+							// failed
+						}
+					}
+				}, "SELECT * FROM `player_clothing` WHERE `player_id` = @0;", id);
+			});
+			return items;
 		}
 	}
 }

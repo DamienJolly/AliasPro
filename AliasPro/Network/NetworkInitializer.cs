@@ -19,7 +19,6 @@ namespace AliasPro.Network
         private readonly IRoomController _roomController;
         private readonly IItemController _itemController;
         private readonly IMessengerController _messengerController;
-		private readonly IFigureController _figureController;
 
 		public NetworkInitializer(
             IEventProvider provider,
@@ -36,7 +35,6 @@ namespace AliasPro.Network
             _roomController = roomController;
             _itemController = itemController;
 			_messengerController = messengerController;
-			_figureController = figureController;
         }
 
         protected override void InitChannel(ISocketChannel channel)
@@ -50,8 +48,7 @@ namespace AliasPro.Network
                     _playerController, 
                     _roomController, 
                     _itemController, 
-                    _messengerController,
-					_figureController));
+                    _messengerController));
         }
     }
 }
