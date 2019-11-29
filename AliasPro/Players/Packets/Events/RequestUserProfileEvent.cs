@@ -24,9 +24,10 @@ namespace AliasPro.Players.Packets.Events
             IClientPacket clientPacket)
         {
             uint playerId = (uint)clientPacket.ReadInt();
-            
-            if (!_playerController.TryGetPlayer(playerId, out IPlayer targetPlayer))
-                return;
+
+			IPlayerData targetPlayer = await _playerController.GetPlayerDataAsync((uint)playerId);
+			if (targetPlayer == null)
+				return;
 
             await session.SendPacketAsync(new UserProfileComposer(targetPlayer));
         }

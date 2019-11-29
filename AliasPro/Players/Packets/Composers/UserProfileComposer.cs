@@ -7,9 +7,9 @@ namespace AliasPro.Players.Packets.Composers
 {
     public class UserProfileComposer : IPacketComposer
     {
-        private readonly IPlayer _player;
+        private readonly IPlayerData _player;
 
-        public UserProfileComposer(IPlayer player)
+        public UserProfileComposer(IPlayerData player)
         {
             _player = player;
         }
