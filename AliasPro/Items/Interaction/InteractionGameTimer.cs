@@ -26,11 +26,12 @@ namespace AliasPro.Items.Interaction
             _tick = _timer * 2;
         }
 
-        public void Compose(ServerPacket message)
-        {
-            double timeLeft = Math.Ceiling(_tick / 2.0);
+		public void Compose(ServerPacket message, bool tradeItem)
+		{
+			double timeLeft = Math.Ceiling(_tick / 2.0);
 
-			message.WriteInt(1);
+			if (!tradeItem)
+				message.WriteInt(1);
 			message.WriteInt(0);
             message.WriteString(timeLeft.ToString());
         }

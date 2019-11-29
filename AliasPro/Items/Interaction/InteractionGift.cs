@@ -1,9 +1,7 @@
 ﻿using AliasPro.API.Items.Interaction;
 using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
-using AliasPro.Items.Packets.Composers;
 using AliasPro.Network.Protocol;
-using AliasPro.Rooms.Entities;
 using System.Collections.Generic;
 
 namespace AliasPro.Items.Interaction
@@ -12,13 +10,14 @@ namespace AliasPro.Items.Interaction
     {
         private readonly IItem _item;
 
-		private readonly IList<int> _itemIds = new List<int>();
-		private readonly int _colorId = 0;
-		private readonly int _ribbonId = 0;
-		private readonly bool _showSender = false;
-		private readonly string _message = "Please delete this present. Thanks!";
-		private readonly string _sender = "Uknown";
-		private readonly string _figure = "";
+		public readonly IList<int> ItemIds = new List<int>();
+		public readonly int ColorId = 0;
+		public readonly int RibbonId = 0;
+		public readonly bool ShowSender = false;
+		public readonly string Message = "Please delete this present. Thanks!";
+		public readonly string Sender = "Uknown";
+		public readonly string Figure = "";
+		public bool Exploaded = false;
 
 		public InteractionGift(IItem item)
         {
@@ -31,36 +30,38 @@ namespace AliasPro.Items.Interaction
 				int count = int.Parse(data[0]);
 				for (int i = 0; i < count; i++)
 				{
-					_itemIds.Add(int.Parse(data[i + 1]));
+					ItemIds.Add(int.Parse(data[i + 1]));
 				}
 
-				_colorId = int.Parse(data[count + 1]);
-				_ribbonId = int.Parse(data[count + 2]);
-				_showSender = data[count + 3] == "1";
-				_message = data[count + 4];
-				_sender = data[count + 5];
-				_figure = data[count + 6];
+				ColorId = int.Parse(data[count + 1]);
+				RibbonId = int.Parse(data[count + 2]);
+				ShowSender = data[count + 3] == "1";
+				Message = data[count + 4];
+				Sender = data[count + 5];
+				Figure = data[count + 6];
 			}
 
 		}
 
-		public void Compose(ServerPacket message)
-        {
-			message.WriteInt(_colorId * 1000 + _ribbonId);
+		public void Compose(ServerPacket message, bool tradeItem)
+		{
+			System.Console.WriteLine(_item.ItemData.Name);
+			if (!tradeItem)
+				message.WriteInt(ColorId * 1000 + RibbonId);
 			message.WriteInt(1);
 			message.WriteInt(6);
 			message.WriteString("EXTRA_PARAM");
 			message.WriteString("");
 			message.WriteString("MESSAGE");
-			message.WriteString(_message);
+			message.WriteString(Message);
 			message.WriteString("PURCHASER_NAME");
-			message.WriteString(_showSender ? _sender : "");
+			message.WriteString(ShowSender ? Sender : "");
 			message.WriteString("PURCHASER_FIGURE");
-			message.WriteString(_showSender ? _figure : "");
+			message.WriteString(ShowSender ? Figure : "");
 			message.WriteString("PRODUCT_CODE");
 			message.WriteString("");
 			message.WriteString("state");
-			message.WriteString("0");
+			message.WriteString(Exploaded ? "1" : "0");
 
 		}
 

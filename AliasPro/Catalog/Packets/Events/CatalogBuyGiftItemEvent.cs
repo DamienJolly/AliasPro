@@ -153,7 +153,7 @@ namespace AliasPro.Catalog.Packets.Events
 						else if (itemData.ItemData.InteractionType == ItemInteractionType.TROPHY)
 						{
 							extraData = session.Player.Username + "\t" + DateTime.Now.Day + "\t" + DateTime.Now.Month + "\t" + DateTime.Now.Year + "\t" + extraData;
-							itemsToAdd.Add(new Item((uint)itemData.Id, session.Player.Id, extraData, itemData.ItemData));
+							itemsToAdd.Add(new Item((uint)itemData.Id, 0, extraData, itemData.ItemData));
 						}
 						else if (itemData.ItemData.InteractionType == ItemInteractionType.TELEPORT)
 						{
@@ -216,7 +216,7 @@ namespace AliasPro.Catalog.Packets.Events
 						}
 						else
 						{
-							itemsToAdd.Add(new Item((uint)itemData.Id, userId, "", itemData.ItemData));
+							itemsToAdd.Add(new Item((uint)itemData.Id, 0, "", itemData.ItemData));
 						}
 					}
 				}
@@ -228,9 +228,6 @@ namespace AliasPro.Catalog.Packets.Events
 			{
 				item.Id = (uint)await _itemController.AddNewItemAsync(item);
 				giftData.Append(item.Id).Append("\t");
-
-				if (!session.Player.Inventory.TryAddItem(item))
-					continue;
 			}
 
 			giftData.Append(color).Append("\t").Append(ribbonId).Append("\t").Append(showName ? "1" : "0").Append("\t").Append(message.Replace("\t", "")).Append("\t").Append(session.Player.Username).Append("\t").Append(session.Player.Figure);

@@ -17,7 +17,10 @@ namespace AliasPro.Items
         public async Task<IDictionary<uint, IItem>> GetItemsForPlayerAsync(uint id) =>
             await _itemRepository.GetItemsForPlayerAsync(id);
 
-        public async Task<IDictionary<uint, IItem>> GetItemsForRoomAsync(uint id) =>
+		public async Task<IItem> GetPlayerItemByIdAsync(uint itemId) =>
+			await _itemRepository.GetPlayerItemByIdAsync(itemId);
+
+		public async Task<IDictionary<uint, IItem>> GetItemsForRoomAsync(uint id) =>
             await _itemRepository.GetItemsForRoomAsync(id);
 
         public bool TryGetItemDataById(uint itemId, out IItemData item) =>

@@ -32,6 +32,7 @@ namespace AliasPro.Items
 			collection.AddSingleton<IAsyncPacket, LoveLockConfirmEvent>();
 			collection.AddSingleton<IAsyncPacket, SetStackToolHeightEvent>();
 			collection.AddSingleton<IAsyncPacket, RedeemClothingEvent>();
+			collection.AddSingleton<IAsyncPacket, RedeemGiftEvent>();
 		}
     }
 }

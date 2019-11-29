@@ -57,7 +57,30 @@ namespace AliasPro.Items
             return items;
         }
 
-        internal async Task<IDictionary<uint, IItem>> GetItemsForRoomAsync(uint id, IDictionary<uint, IItemData> itemDatas)
+		internal async Task<IItem> GetPlayerItemByIdAsync(uint itemId, IDictionary<uint, IItemData> itemDatas)
+		{
+			IItem item = null;
+			await CreateTransaction(async transaction =>
+			{
+				await Select(transaction, async reader =>
+				{
+					if (await reader.ReadAsync())
+					{
+						IItem itemToGo = new Item(reader);
+						if (itemDatas.ContainsKey(itemToGo.ItemId))
+						{
+							itemToGo.ItemData = itemDatas[itemToGo.ItemId];
+							item = itemToGo;
+						}
+
+					}
+				}, "SELECT * FROM `items` WHERE `id` = @0;", itemId);
+			});
+
+			return item;
+		}
+
+		internal async Task<IDictionary<uint, IItem>> GetItemsForRoomAsync(uint id, IDictionary<uint, IItemData> itemDatas)
         {
             IDictionary<uint, IItem> items = new Dictionary<uint, IItem>();
             await CreateTransaction(async transaction =>

@@ -16,9 +16,10 @@ namespace AliasPro.Items.Interaction
             _item = item;
         }
 
-        public void Compose(ServerPacket message)
-        {
-			message.WriteInt(1);
+		public void Compose(ServerPacket message, bool tradeItem)
+		{
+			if (!tradeItem)
+				message.WriteInt(1);
 			message.WriteInt(0);
 
 			if (!string.IsNullOrEmpty(_item.ExtraData))

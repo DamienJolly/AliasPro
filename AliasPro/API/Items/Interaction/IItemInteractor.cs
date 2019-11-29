@@ -5,7 +5,7 @@ namespace AliasPro.API.Items.Interaction
 {
     public interface IItemInteractor
     {
-        void Compose(ServerPacket message);
+        void Compose(ServerPacket message, bool tradeItem = false);
 		void OnPlaceItem();
 		void OnPickupItem();
 		void OnUserWalkOn(BaseEntity entity);

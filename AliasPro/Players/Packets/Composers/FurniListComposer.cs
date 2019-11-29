@@ -28,12 +28,8 @@ namespace AliasPro.Players.Packets.Composers
                 message.WriteString(item.ItemData.Type.ToUpper());
                 message.WriteInt(item.Id);
                 message.WriteInt(item.ItemData.SpriteId);
-
-                message.WriteInt(1);
-                message.WriteInt(0);
-                message.WriteString(item.ItemData.ExtraData);
-
-                message.WriteBoolean(false); //Allow ecotron.
+				item.Interaction.Compose(message);
+				message.WriteBoolean(false); //Allow ecotron.
                 message.WriteBoolean(true); //Allow trade
                 message.WriteBoolean(true); //Allow inventory stack
                 message.WriteBoolean(true); //Allow the item to be sold on the market place.
