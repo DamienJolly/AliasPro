@@ -28,6 +28,7 @@ namespace AliasPro.Items.Utilities
 				case "bed": return ItemInteractionType.BED;
 				case "gate": return ItemInteractionType.GATE;
 				case "chair": return ItemInteractionType.CHAIR;
+				case "gift": return ItemInteractionType.GIFT;
                 case "default": return ItemInteractionType.DEFAULT;
 				default: System.Console.WriteLine(interaction + " doesn't exist"); return ItemInteractionType.DEFAULT;
 

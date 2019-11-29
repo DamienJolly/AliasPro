@@ -104,6 +104,25 @@ namespace AliasPro.Catalog
 			return bots;
 		}
 
+		public async Task<IDictionary<int, ICatalogGiftPart>> GetGiftParts()
+		{
+			IDictionary<int, ICatalogGiftPart> giftParts = new Dictionary<int, ICatalogGiftPart>();
+			await CreateTransaction(async transaction =>
+			{
+				await Select(transaction, async reader =>
+				{
+					while (await reader.ReadAsync())
+					{
+						ICatalogGiftPart giftPart = new CatalogGiftPart(reader);
+
+						if (!giftParts.ContainsKey(giftPart.SpriteId))
+							giftParts.Add(giftPart.SpriteId, giftPart);
+					}
+				}, "SELECT * FROM `catalog_gift_parts`;");
+			});
+			return giftParts;
+		}
+
 		internal async Task<List<int>> ReadLimited(int itemId, int size)
         {
             List<int> availableNumbers = new List<int>();

@@ -13,7 +13,9 @@ namespace AliasPro.API.Players
         Task<IPlayerData> GetPlayerDataAsync(uint playerId);
         bool TryGetPlayer(string playerUsername, out IPlayer player);
         bool TryGetPlayer(uint playerId, out IPlayer player);
-        bool TryAddPlayer(IPlayer player);
+		Task<uint> TryGetPlayerIdByUsername(string username);
+
+		bool TryAddPlayer(IPlayer player);
         void RemovePlayer(IPlayer player);
         Task UpdatePlayerAsync(IPlayer player);
 

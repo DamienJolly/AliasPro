@@ -70,7 +70,10 @@ namespace AliasPro.Players
             }
         }
 
-        public async Task UpdatePlayerAsync(IPlayer player) =>
+		public async Task<uint> TryGetPlayerIdByUsername(string username) =>
+			await _playerDao.GetPlayerIdByUsername(username);
+
+		public async Task UpdatePlayerAsync(IPlayer player) =>
             await _playerDao.UpdatePlayerAsync(player);
 
 

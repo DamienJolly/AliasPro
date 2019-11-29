@@ -85,7 +85,7 @@ namespace AliasPro.Items
             int itemId = -1;
             await CreateTransaction(async transaction =>
             {
-                itemId = await Insert(transaction, "INSERT INTO `items` (`item_id`, `player_id`) VALUES (@0, @1)", item.ItemId, item.PlayerId);
+                itemId = await Insert(transaction, "INSERT INTO `items` (`item_id`, `player_id`, `extra_data`) VALUES (@0, @1, @2)", item.ItemId, item.PlayerId, item.ExtraData);
             });
             return itemId;
         }

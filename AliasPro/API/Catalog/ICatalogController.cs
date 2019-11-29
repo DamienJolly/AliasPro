@@ -13,5 +13,9 @@ namespace AliasPro.API.Catalog
         void ReloadCatalog();
         Task AddLimitedAsync(uint itemId, uint playerId, int number);
 		Task<int> AddNewBotAsync(IPlayerBot playerBot, int playerId);
+
+		bool TryGetGift(int spriteId, out ICatalogGiftPart item);
+		ICollection<ICatalogGiftPart> GetGifts { get; }
+		ICollection<ICatalogGiftPart> GetWrappers { get; }
 	}
 }

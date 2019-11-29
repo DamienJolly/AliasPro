@@ -1,7 +1,9 @@
 ﻿using AliasPro.API.Catalog.Models;
 using AliasPro.API.Players.Models;
+using AliasPro.Groups.Types;
 using AliasPro.Items;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AliasPro.Catalog
@@ -12,6 +14,7 @@ namespace AliasPro.Catalog
         private readonly ItemRepository _itemRepository;
         private IDictionary<int, ICatalogPage> _catalogPages;
 		private IDictionary<int, ICatalogBot> _catalogBots;
+		private IDictionary<int, ICatalogGiftPart> _giftParts;
 
 		public CatalogRepostiory(CatalogDao catalogDao, ItemRepository itemRepository)
         {
@@ -19,6 +22,7 @@ namespace AliasPro.Catalog
             _itemRepository = itemRepository;
             _catalogPages = new Dictionary<int, ICatalogPage>();
 			_catalogBots = new Dictionary<int, ICatalogBot>();
+			_giftParts = new Dictionary<int, ICatalogGiftPart>();
 
 			InitializeCatalog();
         }
@@ -27,6 +31,7 @@ namespace AliasPro.Catalog
         {
             _catalogPages = await _catalogDao.GetCatalogPages();
 			_catalogBots = await _catalogDao.GetCatalogBots();
+			_giftParts = await _catalogDao.GetGiftParts();
 			await _catalogDao.GetCatalogItems(this, _itemRepository);
 		}
 
@@ -54,5 +59,14 @@ namespace AliasPro.Catalog
 
 		public async Task<int> AddNewBotAsync(IPlayerBot playerBot, int playerId) =>
 			await _catalogDao.AddNewBotAsync(playerBot, playerId);
+
+		public bool TryGetGift(int spriteId, out ICatalogGiftPart item) =>
+			_giftParts.TryGetValue(spriteId, out item);
+
+		public ICollection<ICatalogGiftPart> GetGifts =>
+			_giftParts.Values.Where(part => part.Type == GiftPartType.GIFT).ToList();
+
+		public ICollection<ICatalogGiftPart> GetWrappers =>
+			_giftParts.Values.Where(part => part.Type == GiftPartType.WRAPPER).ToList();
 	}
 }

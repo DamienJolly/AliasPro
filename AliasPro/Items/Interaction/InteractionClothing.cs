@@ -16,6 +16,7 @@ namespace AliasPro.Items.Interaction
 
         public void Compose(ServerPacket message)
         {
+			message.WriteInt(1);
 			message.WriteInt(2);
 			message.WriteInt(1);
 			message.WriteString("");

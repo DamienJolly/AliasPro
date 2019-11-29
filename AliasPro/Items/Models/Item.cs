@@ -51,7 +51,6 @@ namespace AliasPro.Items.Models
             message.WriteInt(Rotation);
             message.WriteString(string.Format("{0:0.00}", Position.Z.ToString()));
             message.WriteString("");
-            message.WriteInt(1);
             Interaction.Compose(message);
             message.WriteInt(-1);
             message.WriteInt(ItemData.Modes > 1 ? 1 : 0);

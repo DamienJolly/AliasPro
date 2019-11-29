@@ -2,11 +2,9 @@
 using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
-using AliasPro.API.Tasks;
 using AliasPro.Items.Packets.Composers;
 using AliasPro.Items.Tasks;
 using AliasPro.Network.Protocol;
-using AliasPro.Rooms.Entities;
 using AliasPro.Tasks;
 
 namespace AliasPro.Items.Interaction
@@ -15,9 +13,6 @@ namespace AliasPro.Items.Interaction
     {
         private readonly IItem _item;
 
-		private int _cycle = 0;
-		private int _step = 0;
-
 		public InteractionTeleport(IItem item)
         {
             _item = item;
@@ -25,7 +20,8 @@ namespace AliasPro.Items.Interaction
 
         public void Compose(ServerPacket message)
         {
-            message.WriteInt(0);
+			message.WriteInt(1);
+			message.WriteInt(0);
             message.WriteString(_item.Mode.ToString());
         }
 

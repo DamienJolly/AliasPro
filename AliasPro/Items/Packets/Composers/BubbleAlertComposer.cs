@@ -49,7 +49,13 @@ namespace AliasPro.Items.Packets.Composers
 			_keys = new Dictionary<string, string>();
 		}
 
-        public ServerPacket Compose()
+		public BubbleAlertComposer(string errorkey, IDictionary<string, string> keys)
+		{
+			_errorkey = errorkey;
+			_keys = keys;
+		}
+
+		public ServerPacket Compose()
         {
             ServerPacket message = new ServerPacket(Outgoing.BubbleAlertMessageComposer);
 			message.WriteString(_errorkey);

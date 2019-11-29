@@ -103,7 +103,23 @@ namespace AliasPro.Players
             return playerSettings;
         }
 
-        internal async Task AddPlayerSettingsAsync(uint id)
+		public async Task<uint> GetPlayerIdByUsername(string username)
+		{
+			uint userId = 0;
+			await CreateTransaction(async transaction =>
+			{
+				await Select(transaction, async reader =>
+				{
+					if (await reader.ReadAsync())
+					{
+						userId = reader.ReadData<uint>("id");
+					}
+				}, "SELECT `id` FROM `players` WHERE `username` = @0 LIMIT 1;", username);
+			});
+			return userId;
+		}
+
+		internal async Task AddPlayerSettingsAsync(uint id)
         {
             await CreateTransaction(async transaction =>
             {

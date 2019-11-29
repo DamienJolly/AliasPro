@@ -30,7 +30,8 @@ namespace AliasPro.Items.Interaction
         {
             double timeLeft = Math.Ceiling(_tick / 2.0);
 
-            message.WriteInt(0);
+			message.WriteInt(1);
+			message.WriteInt(0);
             message.WriteString(timeLeft.ToString());
         }
 

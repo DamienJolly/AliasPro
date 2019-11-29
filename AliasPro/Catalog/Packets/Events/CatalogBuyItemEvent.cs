@@ -81,7 +81,7 @@ namespace AliasPro.Catalog.Packets.Events
 
             if (amount > 1 && !catalogItem.HasOffer)
             {
-                await session.SendPacketAsync(new AlertPurchaseFailedComposer(AlertPurchaseUnavailableComposer.ILLEGAL));
+                await session.SendPacketAsync(new AlertPurchaseUnavailableComposer(AlertPurchaseUnavailableComposer.ILLEGAL));
                 return;
             }
 
@@ -101,7 +101,8 @@ namespace AliasPro.Catalog.Packets.Events
                 }
             }
 
-			IDictionary<int, IList<int>> itemsToAdd = new Dictionary<int, IList<int>>();
+			IDictionary<int, IList<int>> itemsData = new Dictionary<int, IList<int>>();
+			IList<IItem> itemsToAdd = new List<IItem>();
 			int totalCredits = 0;
             int totalPoints = 0;
 
@@ -126,76 +127,59 @@ namespace AliasPro.Catalog.Packets.Events
 						if (itemData.ItemData.InteractionType == ItemInteractionType.BADGE_DISPLAY)
 						{
 							if (!session.Player.Badge.HasBadge(extraData))
-								continue;
+							{
+								await session.SendPacketAsync(new AlertPurchaseFailedComposer(AlertPurchaseFailedComposer.SERVER_ERROR));
+								return;
+							}
 
 							if (extraData.Length > 150)
 								extraData = extraData.Substring(0, 150);
 
 							extraData = extraData + ";" + session.Player.Username + ";" + DateTime.Now.Day + "-" + DateTime.Now.Month + "-" + DateTime.Now.Year;
-							IItem playerItem = new Item((uint)itemData.Id, session.Player.Id, extraData, itemData.ItemData); 
-							playerItem.Id = (uint)await _itemController.AddNewItemAsync(playerItem);
-
-							if (!session.Player.Inventory.TryAddItem(playerItem))
-								continue;
-
-							if (!itemsToAdd.ContainsKey(1))
-								itemsToAdd.Add(1, new List<int>());
-
-							itemsToAdd[1].Add((int)playerItem.Id);
+							itemsToAdd.Add(new Item((uint)itemData.Id, session.Player.Id, extraData, itemData.ItemData));
 						}
 						else if (itemData.ItemData.InteractionType == ItemInteractionType.TROPHY)
 						{
-							extraData = session.Player.Username + ";" + DateTime.Now.Day + "-" + DateTime.Now.Month + "-" + DateTime.Now.Year + ";" + extraData;
-							IItem playerItem = new Item((uint)itemData.Id, session.Player.Id, extraData, itemData.ItemData);
-							playerItem.Id = (uint)await _itemController.AddNewItemAsync(playerItem);
-
-							if (!session.Player.Inventory.TryAddItem(playerItem))
-								continue;
-
-							if (!itemsToAdd.ContainsKey(1))
-								itemsToAdd.Add(1, new List<int>());
-
-							itemsToAdd[1].Add((int)playerItem.Id);
+							extraData = session.Player.Username + "\t" + DateTime.Now.Day + "\t" + DateTime.Now.Month + "\t" + DateTime.Now.Year + "\t" + extraData;
+							itemsToAdd.Add(new Item((uint)itemData.Id, session.Player.Id, extraData, itemData.ItemData));
 						}
 						else if (itemData.ItemData.InteractionType == ItemInteractionType.TELEPORT)
 						{
-							IItem playerItem = new Item((uint)itemData.Id, session.Player.Id, "", itemData.ItemData);
-							IItem playerItemTwo = new Item((uint)itemData.Id, session.Player.Id, "", itemData.ItemData);
+							itemsToAdd.Add(new Item((uint)itemData.Id, session.Player.Id, "", itemData.ItemData));
+							itemsToAdd.Add(new Item((uint)itemData.Id, session.Player.Id, "", itemData.ItemData));
 
-							playerItem.Id = (uint)await _itemController.AddNewItemAsync(playerItem);
-							playerItemTwo.Id = (uint)await _itemController.AddNewItemAsync(playerItemTwo);
-							playerItem.ExtraData = playerItemTwo.Id.ToString();
-							playerItemTwo.ExtraData = playerItem.Id.ToString();
-
-							if (!session.Player.Inventory.TryAddItem(playerItem) ||
-								!session.Player.Inventory.TryAddItem(playerItemTwo))
-								continue;
-
-							if (!itemsToAdd.ContainsKey(1))
-								itemsToAdd.Add(1, new List<int>());
-
-							itemsToAdd[1].Add((int)playerItem.Id);
-							itemsToAdd[1].Add((int)playerItemTwo.Id);
+							//todo: re-do teleport links
+							//playerItem.ExtraData = playerItemTwo.Id.ToString();
+							//playerItemTwo.ExtraData = playerItem.Id.ToString();
 						}
 						else if (itemData.ItemData.Type == "b")
 						{
 							if (!_badgeController.TryGetBadge(itemData.ItemData.ExtraData, out IBadge badge))
-								continue;
+							{
+								await session.SendPacketAsync(new AlertPurchaseFailedComposer(AlertPurchaseFailedComposer.SERVER_ERROR));
+								return;
+							}
 
 							if (session.Player.Badge.HasBadge(badge.Code))
-								continue;
+							{
+								await session.SendPacketAsync(new AlertPurchaseFailedComposer(AlertPurchaseFailedComposer.ALREADY_HAVE_BADGE));
+								return;
+							}
 
 							_badgeController.AddPlayerBadge(session.Player, badge.Code);
 
-							if (!itemsToAdd.ContainsKey(4))
-								itemsToAdd.Add(4, new List<int>());
+							if (!itemsData.ContainsKey(4))
+								itemsData.Add(4, new List<int>());
 
-							itemsToAdd[4].Add(badge.Id);
+							itemsData[4].Add(badge.Id);
 						}
 						else if (itemData.ItemData.Type == "r")
 						{
 							if (itemData.BotData == null)
-								continue;
+							{
+								await session.SendPacketAsync(new AlertPurchaseFailedComposer(AlertPurchaseFailedComposer.SERVER_ERROR));
+								return;
+							}
 
 							IPlayerBot playerBot = new PlayerBot(
 								0,
@@ -208,32 +192,36 @@ namespace AliasPro.Catalog.Packets.Events
 							playerBot.Id = await _catalogController.AddNewBotAsync(playerBot, (int)session.Player.Id);
 
 							if (!session.Player.Inventory.TryAddBot(playerBot))
-								continue;
+							{
+								await session.SendPacketAsync(new AlertPurchaseFailedComposer(AlertPurchaseFailedComposer.SERVER_ERROR));
+								return;
+							}
 
-							if (!itemsToAdd.ContainsKey(5))
-								itemsToAdd.Add(5, new List<int>());
+							if (!itemsData.ContainsKey(5))
+								itemsData.Add(5, new List<int>());
 
-							itemsToAdd[5].Add(playerBot.Id);
+							itemsData[5].Add(playerBot.Id);
 						}
 						else
 						{
-							IItem playerItem = new Item((uint)itemData.Id, session.Player.Id, "", itemData.ItemData);
-							playerItem.Id = (uint)await _itemController.AddNewItemAsync(playerItem);
-
-							if (!session.Player.Inventory.TryAddItem(playerItem))
-								continue;
-
-							if (catalogItem.TryGetLimitedNumber(out int limitedNumber))
-								await _catalogController.AddLimitedAsync(playerItem.Id, session.Player.Id, limitedNumber);
-
-							if (!itemsToAdd.ContainsKey(1))
-								itemsToAdd.Add(1, new List<int>());
-
-							itemsToAdd[1].Add((int)playerItem.Id);
+							itemsToAdd.Add(new Item((uint)itemData.Id, session.Player.Id, "", itemData.ItemData));
 						}
 					}
                 }
             }
+
+			foreach (IItem item in itemsToAdd)
+			{
+				item.Id = (uint)await _itemController.AddNewItemAsync(item);
+
+				if (!session.Player.Inventory.TryAddItem(item))
+					continue;
+
+				if (!itemsData.ContainsKey(1))
+					itemsData.Add(1, new List<int>());
+
+				itemsData[1].Add((int)item.Id);
+			}
 
             if (totalCredits > 0)
             {
@@ -250,7 +238,7 @@ namespace AliasPro.Catalog.Packets.Events
                 }
             }
 
-			await session.SendPacketAsync(new AddPlayerItemsComposer(itemsToAdd));
+			await session.SendPacketAsync(new AddPlayerItemsComposer(itemsData));
             await session.SendPacketAsync(new InventoryRefreshComposer());
 			await session.SendPacketAsync(new InventoryBotsComposer(session.Player.Inventory.Bots));
 			await session.SendPacketAsync(new PurchaseOKComposer(catalogItem));

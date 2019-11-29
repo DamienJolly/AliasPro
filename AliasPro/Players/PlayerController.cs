@@ -51,7 +51,10 @@ namespace AliasPro.Players
         public bool TryGetPlayer(string playerUsername, out IPlayer player) =>
             _playerRepostiory.TryGetPlayer(playerUsername, out player);
 
-        public bool TryAddPlayer(IPlayer player) =>
+		public async Task<uint> TryGetPlayerIdByUsername(string username) =>
+			await _playerRepostiory.TryGetPlayerIdByUsername(username);
+
+		public bool TryAddPlayer(IPlayer player) =>
             _playerRepostiory.TryAddPlayer(player);
 
         public void RemovePlayer(IPlayer player) =>
