@@ -36,6 +36,11 @@ namespace AliasPro.Items.Interaction
 			_item.Mode = 0;
 		}
 
+		public void OnMoveItem()
+		{
+			_item.Mode = 0;
+		}
+
 		public void OnUserWalkOn(BaseEntity entity)
         {
 

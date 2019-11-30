@@ -40,7 +40,8 @@ namespace AliasPro.Items.Packets.Events
 							item.Position.Z = item.ItemData.InteractionType == Types.ItemInteractionType.STACK_TOOL ? item.Position.Z : roomTile.Height);
                         item.Rotation = rot;
                         room.RoomGrid.AddItem(item);
-                    }
+						item.Interaction.OnMoveItem();
+					}
                 }
 
                 await room.SendAsync(new FloorItemUpdateComposer(item));

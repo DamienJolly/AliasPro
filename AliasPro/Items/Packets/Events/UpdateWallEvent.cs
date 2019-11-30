@@ -25,7 +25,8 @@ namespace AliasPro.Items.Packets.Events
             {
                 string wallPosition = clientPacket.ReadString();
                 item.ExtraData = wallPosition;
-                await room.SendAsync(new WallItemUpdateComposer(item));
+				item.Interaction.OnMoveItem();
+				await room.SendAsync(new WallItemUpdateComposer(item));
             }
         }
     }

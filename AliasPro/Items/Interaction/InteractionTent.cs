@@ -37,6 +37,11 @@ namespace AliasPro.Items.Interaction
 
 		}
 
+		public void OnMoveItem()
+		{
+
+		}
+
 		public void OnUserWalkOn(BaseEntity entity)
         {
 			TentEntities.Add(entity);
