@@ -176,7 +176,7 @@ namespace AliasPro.Catalog.Packets.Events
 									{
 										await session.SendPacketAsync(new AlertPurchaseFailedComposer(AlertPurchaseFailedComposer.ALREADY_HAVE_BADGE));
 
-										if (catalogItem.Items.Count != 1)
+										if (catalogItem.Items.Count == 1)
 											return;
 									}
 									else

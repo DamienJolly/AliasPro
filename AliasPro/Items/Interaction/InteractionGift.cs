@@ -41,7 +41,6 @@ namespace AliasPro.Items.Interaction
 
 		public void Compose(ServerPacket message, bool tradeItem)
 		{
-			System.Console.WriteLine(_item.ItemData.Name);
 			if (!tradeItem)
 				message.WriteInt(ColorId * 1000 + RibbonId);
 			message.WriteInt(1);

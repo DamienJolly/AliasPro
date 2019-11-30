@@ -27,6 +27,7 @@ namespace AliasPro.Items.Utilities
 				case ItemInteractionType.TROPHY: return new InteractionTrophy(item);
 				case ItemInteractionType.TELEPORT: return new InteractionTeleport(item);
 				case ItemInteractionType.GIFT: return new InteractionGift(item);
+				case ItemInteractionType.PRESSURE_TILE: return new InteractionPressureTile(item);
 				case ItemInteractionType.DEFAULT: default: return new InteractionDefault(item);
 			}
         }

@@ -29,6 +29,8 @@ namespace AliasPro.Items.Utilities
 				case "gate": return ItemInteractionType.GATE;
 				case "chair": return ItemInteractionType.CHAIR;
 				case "gift": return ItemInteractionType.GIFT;
+				case "pressure_tile": return ItemInteractionType.PRESSURE_TILE;
+				case "pressure_pad": return ItemInteractionType.PRESSURE_TILE;
                 case "default": return ItemInteractionType.DEFAULT;
 				default: System.Console.WriteLine(interaction + " doesn't exist"); return ItemInteractionType.DEFAULT;
 
