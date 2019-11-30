@@ -108,11 +108,15 @@ namespace AliasPro.Catalog.Packets.Events
 
             for (int i = 0; i < amount; i++)
             {
-                if (catalogItem.Credits > session.Player.Credits - totalCredits)
-                    break;
+				if (catalogItem.Credits > session.Player.Credits - totalCredits)
+				{
+					return;
+				}
 
-                if (catalogItem.Points > session.Player.Currency.GetCurrenyAmount(catalogItem.PointsType) - totalPoints)
-                    break;
+				if (catalogItem.Points > session.Player.Currency.GetCurrenyAmount(catalogItem.PointsType) - totalPoints)
+				{
+					return;
+				}
 
                 if (((i + 1) % 6 != 0 && catalogItem.HasOffer) || !catalogItem.HasOffer)
                 {
@@ -171,15 +175,19 @@ namespace AliasPro.Catalog.Packets.Events
 									if (session.Player.Badge.HasBadge(badge.Code))
 									{
 										await session.SendPacketAsync(new AlertPurchaseFailedComposer(AlertPurchaseFailedComposer.ALREADY_HAVE_BADGE));
-										return;
+
+										if (catalogItem.Items.Count != 1)
+											return;
 									}
+									else
+									{
+										_badgeController.AddPlayerBadge(session.Player, badge.Code);
 
-									_badgeController.AddPlayerBadge(session.Player, badge.Code);
+										if (!itemsData.ContainsKey(4))
+											itemsData.Add(4, new List<int>());
 
-									if (!itemsData.ContainsKey(4))
-										itemsData.Add(4, new List<int>());
-
-									itemsData[4].Add(badge.Id);
+										itemsData[4].Add(badge.Id);
+									}
 									break;
 								}
 							case "r":
