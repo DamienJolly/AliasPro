@@ -1,9 +1,13 @@
 ﻿using AliasPro.API.Chat;
+using AliasPro.API.Items.Models;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
+using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Items.Interaction;
 using AliasPro.Network.Events.Headers;
+using System.Collections.Generic;
 
 namespace AliasPro.Rooms.Packets.Events
 {
@@ -32,7 +36,19 @@ namespace AliasPro.Rooms.Packets.Events
 
             if (!_chatController.HandleCommand(session, text))
             {
-                room.OnChat(text, colour, session.Entity);
+				IList<BaseEntity> targetEntities = null;
+				if (session.Entity.Room.RoomGrid.TryGetRoomTile(session.Entity.Position.X, session.Entity.Position.Y, out IRoomTile tile))
+				{
+					IItem topItem = tile.TopItem;
+
+					if (topItem != null && topItem.Interaction is InteractionTent interaction)
+					{
+						System.Console.WriteLine("in tent");
+						targetEntities = interaction.TentEntities;
+					}
+				}
+
+				room.OnChat(text, colour, session.Entity, targetEntities);
             }
         }
     }

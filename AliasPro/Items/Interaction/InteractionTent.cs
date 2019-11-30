@@ -4,17 +4,20 @@ using AliasPro.API.Rooms.Entities;
 using AliasPro.Items.Packets.Composers;
 using AliasPro.Network.Protocol;
 using AliasPro.Rooms.Entities;
+using System.Collections.Generic;
 
 namespace AliasPro.Items.Interaction
 {
-    public class InteractionPressureTile : IItemInteractor
+    public class InteractionTent : IItemInteractor
     {
         private readonly IItem _item;
+		public IList<BaseEntity> TentEntities;
 
-        public InteractionPressureTile(IItem item)
+        public InteractionTent(IItem item)
         {
             _item = item;
-        }
+			TentEntities = new List<BaseEntity>();
+		}
 
 		public void Compose(ServerPacket message, bool tradeItem)
 		{
@@ -26,24 +29,22 @@ namespace AliasPro.Items.Interaction
 
 		public void OnPlaceItem()
 		{
-			_item.Mode = 0;
+
 		}
 
 		public void OnPickupItem()
 		{
-			_item.Mode = 0;
+
 		}
 
-		public async void OnUserWalkOn(BaseEntity entity)
+		public void OnUserWalkOn(BaseEntity entity)
         {
-			_item.Mode = 1;
-			await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(_item));
+			TentEntities.Add(entity);
 		}
 
-        public async void OnUserWalkOff(BaseEntity entity)
+        public void OnUserWalkOff(BaseEntity entity)
         {
-			_item.Mode = 0;
-			await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(_item));
+			TentEntities.Remove(entity);
 		}
         
         public void OnUserInteract(BaseEntity entity, int state)

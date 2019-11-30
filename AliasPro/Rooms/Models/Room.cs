@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using AliasPro.Landing.Packets.Composers;
 using AliasPro.API.Groups.Models;
 using AliasPro.Groups.Packets.Composers;
+using System.Collections.Generic;
 
 namespace AliasPro.Rooms.Models
 {
@@ -48,7 +49,7 @@ namespace AliasPro.Rooms.Models
             catch { }
         }
 
-		public async void OnChat(string text, int colour, BaseEntity entity)
+		public async void OnChat(string text, int colour, BaseEntity entity, ICollection<BaseEntity> targetEntities)
         {
             if (colour == 1 || colour == -1 || colour == 2)
             {
@@ -62,19 +63,26 @@ namespace AliasPro.Rooms.Models
 
             Items.TriggerWired(WiredInteractionType.SAY_SOMETHING, entity, text);
 
-            foreach (BaseEntity targetEntity in Entities.Entities)
+			if (targetEntities == null)
+				targetEntities = Entities.Entities;
+
+			foreach (BaseEntity targetEntity in targetEntities)
             {
-                if (targetEntity == entity) continue;
+				if (targetEntity != entity)
+				{
+					int newDir = targetEntity.Position.CalculateDirection(entity.Position.X, entity.Position.Y);
 
-                int newDir = targetEntity.Position.CalculateDirection(entity.Position.X, entity.Position.Y);
+					if (Math.Abs(newDir - targetEntity.BodyRotation) <= 2)
+						targetEntity.SetRotation(newDir, true);
 
-                if (Math.Abs(newDir - targetEntity.BodyRotation) <= 2)
-                    targetEntity.SetRotation(newDir, true);
+					targetEntity.DirOffsetTimer = 0;
+				}
 
-                targetEntity.DirOffsetTimer = 0;
-            }
-
-            await SendAsync(new AvatarChatComposer(entity.Id, text, 0, colour));
+				if (targetEntity is PlayerEntity playerEntity)
+				{
+					await playerEntity.Session.SendPacketAsync(new AvatarChatComposer(entity.Id, text, 0, colour));
+				}
+			}
         }
 
 		public async Task AddEntity(BaseEntity entity)

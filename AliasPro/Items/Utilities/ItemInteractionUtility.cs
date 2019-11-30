@@ -31,6 +31,7 @@ namespace AliasPro.Items.Utilities
 				case "gift": return ItemInteractionType.GIFT;
 				case "pressure_tile": return ItemInteractionType.PRESSURE_TILE;
 				case "pressure_pad": return ItemInteractionType.PRESSURE_TILE;
+				case "tent": return ItemInteractionType.TENT;
                 case "default": return ItemInteractionType.DEFAULT;
 				default: System.Console.WriteLine(interaction + " doesn't exist"); return ItemInteractionType.DEFAULT;
 
