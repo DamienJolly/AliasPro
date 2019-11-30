@@ -7,32 +7,41 @@ namespace AliasPro.Items
 {
     internal class ItemController : IItemController
     {
-        private readonly ItemRepository _itemRepository;
+		private readonly ItemDao _itemDao;
+		private IDictionary<uint, IItemData> _itemDatas;
 
-        public ItemController(ItemRepository itemRepository)
-        {
-            _itemRepository = itemRepository;
-        }
+		public ItemController(ItemDao itemDao)
+		{
+			_itemDao = itemDao;
+			_itemDatas = new Dictionary<uint, IItemData>();
 
-        public async Task<IDictionary<uint, IItem>> GetItemsForPlayerAsync(uint id) =>
-            await _itemRepository.GetItemsForPlayerAsync(id);
+			InitializeItem();
+		}
+
+		private async void InitializeItem()
+		{
+			_itemDatas = await _itemDao.GetItemData();
+		}
+
+		public async Task<IDictionary<uint, IItem>> GetItemsForPlayerAsync(uint id) =>
+			await _itemDao.GetItemsForPlayerAsync(id, _itemDatas);
 
 		public async Task<IItem> GetPlayerItemByIdAsync(uint itemId) =>
-			await _itemRepository.GetPlayerItemByIdAsync(itemId);
+			await _itemDao.GetPlayerItemByIdAsync(itemId, _itemDatas);
 
 		public async Task<IDictionary<uint, IItem>> GetItemsForRoomAsync(uint id) =>
-            await _itemRepository.GetItemsForRoomAsync(id);
+			await _itemDao.GetItemsForRoomAsync(id, _itemDatas);
 
-        public bool TryGetItemDataById(uint itemId, out IItemData item) =>
-            _itemRepository.TryGetItemDataById(itemId, out item);
+		public bool TryGetItemDataById(uint itemId, out IItemData item) =>
+			_itemDatas.TryGetValue(itemId, out item);
 
-        public async Task<int> AddNewItemAsync(IItem item) =>
-            await _itemRepository.AddNewItemAsync(item);
+		public async Task<int> AddNewItemAsync(IItem item) =>
+			await _itemDao.AddNewItemAsync(item);
 
 		public async Task RemoveItemAsync(IItem item) =>
-			await _itemRepository.RemoveItemAsync(item);
+		   await _itemDao.RemoveItemAsync(item);
 
 		public async Task UpdatePlayerItemsAsync(ICollection<IItem> items) =>
-            await _itemRepository.UpdatePlayerItemsAsync(items);
-    }
+			await _itemDao.UpdatePlayerItemsAsync(items);
+	}
 }

@@ -25,7 +25,7 @@ namespace AliasPro.API.Items.Models
 
 		IRoom CurrentRoom { get; set; }
 
-        IItemInteractor Interaction { get; }
-        IWiredInteractor WiredInteraction { get; }
+        IItemInteractor Interaction { get; set; }
+        IWiredInteractor WiredInteraction { get; set; }
     }
 }

@@ -8,14 +8,14 @@ namespace AliasPro.Items.Packets.Composers
     public class PresentItemOpenedComposer : IPacketComposer
     {
         private readonly IItem _item;
-        private readonly string _text;
-        private readonly bool _unknown;
+        private readonly string _extraData;
+        private readonly bool _itemIsInRoom;
 
-        public PresentItemOpenedComposer(IItem item, string text, bool unknown)
+        public PresentItemOpenedComposer(IItem item, string extraData, bool itemIsInRoom)
         {
             _item = item;
-			_text = text;
-			_unknown = unknown;
+			_extraData = extraData;
+			_itemIsInRoom = itemIsInRoom;
         }
 
         public ServerPacket Compose()
@@ -26,8 +26,8 @@ namespace AliasPro.Items.Packets.Composers
 			message.WriteString(_item.ItemData.Name);
 			message.WriteInt(_item.Id);
 			message.WriteString(_item.ItemData.Type.ToLower());
-			message.WriteBoolean(_unknown);
-			message.WriteString(_text);
+			message.WriteBoolean(_itemIsInRoom);
+			message.WriteString(_extraData);
 			return message;
         }
 	}

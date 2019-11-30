@@ -256,8 +256,8 @@ namespace AliasPro.Rooms
 			{
 				foreach (IItem item in items)
 				{
-					await Insert(transaction, "UPDATE `items` SET `room_id` = @1, `rot` = @2, `x` = @3, `y` = @4, `z` = @5, `extra_data` = @6, `mode` = @7 WHERE `id` = @0;",
-					   item.Id, item.RoomId, item.Rotation, item.Position.X, item.Position.Y, item.Position.Z, item.ExtraData, item.Mode);
+					await Insert(transaction, "UPDATE `items` SET `room_id` = @1, `rot` = @2, `x` = @3, `y` = @4, `z` = @5, `extra_data` = @6, `mode` = @7, `item_id` = @8 WHERE `id` = @0;",
+					   item.Id, item.RoomId, item.Rotation, item.Position.X, item.Position.Y, item.Position.Z, item.ExtraData, item.Mode, item.ItemId);
 				}
 			});
 		}

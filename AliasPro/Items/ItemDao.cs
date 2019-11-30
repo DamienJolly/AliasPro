@@ -121,25 +121,13 @@ namespace AliasPro.Items
 			});
 		}
 
-		internal async Task UpdateRoomItems(ICollection<IItem> items)
-        {
-            await CreateTransaction(async transaction =>
-            {
-                foreach (IItem item in items)
-                {
-                    await Insert(transaction, "UPDATE `items` SET `room_id` = @1, `rot` = @2, `x` = @3, `y` = @4, `z` = @5 WHERE `id` = @0;",
-                       item.Id, item.RoomId, item.Rotation, item.Position.X, item.Position.Y, item.Position.Z);
-                }
-            });
-        }
-
         internal async Task UpdatePlayerItemsAsync(ICollection<IItem> items)
         {
             await CreateTransaction(async transaction =>
             {
                 foreach (IItem item in items)
                 {
-                    await Insert(transaction, "UPDATE `items` SET `room_id` = 0, `extra_data` = @1, `player_id` = @2, `mode` = @3 WHERE `id` = @0;", item.Id, item.ExtraData, item.PlayerId, item.Mode);
+                    await Insert(transaction, "UPDATE `items` SET `room_id` = 0, `extra_data` = @1, `player_id` = @2, `mode` = @3, `item_id` = @4 WHERE `id` = @0;", item.Id, item.ExtraData, item.PlayerId, item.Mode, item.ItemId);
                 }
             });
         }

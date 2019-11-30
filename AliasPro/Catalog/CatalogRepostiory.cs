@@ -1,7 +1,7 @@
 ﻿using AliasPro.API.Catalog.Models;
+using AliasPro.API.Items;
 using AliasPro.API.Players.Models;
 using AliasPro.Groups.Types;
-using AliasPro.Items;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,15 +11,15 @@ namespace AliasPro.Catalog
     internal class CatalogRepostiory
     {
         private readonly CatalogDao _catalogDao;
-        private readonly ItemRepository _itemRepository;
+        private readonly IItemController _itemController;
         private IDictionary<int, ICatalogPage> _catalogPages;
 		private IDictionary<int, ICatalogBot> _catalogBots;
 		private IDictionary<int, ICatalogGiftPart> _giftParts;
 
-		public CatalogRepostiory(CatalogDao catalogDao, ItemRepository itemRepository)
+		public CatalogRepostiory(CatalogDao catalogDao, IItemController itemController)
         {
             _catalogDao = catalogDao;
-            _itemRepository = itemRepository;
+			_itemController = itemController;
             _catalogPages = new Dictionary<int, ICatalogPage>();
 			_catalogBots = new Dictionary<int, ICatalogBot>();
 			_giftParts = new Dictionary<int, ICatalogGiftPart>();
@@ -32,7 +32,7 @@ namespace AliasPro.Catalog
             _catalogPages = await _catalogDao.GetCatalogPages();
 			_catalogBots = await _catalogDao.GetCatalogBots();
 			_giftParts = await _catalogDao.GetGiftParts();
-			await _catalogDao.GetCatalogItems(this, _itemRepository);
+			await _catalogDao.GetCatalogItems(this, _itemController);
 		}
 
 		public bool TryGetCatalogBot(int itemId, out ICatalogBot bot) =>

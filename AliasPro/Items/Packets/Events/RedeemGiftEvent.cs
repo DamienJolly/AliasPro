@@ -48,7 +48,10 @@ namespace AliasPro.Items.Packets.Events
 					await room.SendAsync(new FloorItemUpdateComposer(item));
 				}
 
-				await TaskManager.ExecuteTask(new OpenGiftTask(_itemController, item, session), interaction.Exploaded ? 1500 : 0);
+				if (!_itemController.TryGetItemDataById((uint)interaction.itemId, out IItemData giftData))
+					return;
+
+				await TaskManager.ExecuteTask(new OpenGiftTask(giftData, interaction.ExtraData, item, session), interaction.Exploaded ? 1500 : 0);
 			}
 		}
     }

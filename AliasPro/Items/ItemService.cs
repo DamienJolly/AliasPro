@@ -11,7 +11,6 @@ namespace AliasPro.Items
         public void SetupService(IServiceCollection collection)
         {
             collection.AddSingleton<ItemDao>();
-            collection.AddSingleton<ItemRepository>();
             collection.AddSingleton<IItemController, ItemController>();
 
             AddPackets(collection);

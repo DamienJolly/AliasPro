@@ -1,6 +1,7 @@
 ﻿using AliasPro.API.Catalog.Models;
 using AliasPro.API.Configuration;
 using AliasPro.API.Database;
+using AliasPro.API.Items;
 using AliasPro.API.Items.Models;
 using AliasPro.API.Players.Models;
 using AliasPro.Catalog.Models;
@@ -39,7 +40,7 @@ namespace AliasPro.Catalog
             return pages;
         }
 
-        internal async Task GetCatalogItems(CatalogRepostiory catalogRepostiory, ItemRepository itemRepository)
+        internal async Task GetCatalogItems(CatalogRepostiory catalogRepostiory, IItemController itemRepository)
         {
             await CreateTransaction(async transaction =>
             {

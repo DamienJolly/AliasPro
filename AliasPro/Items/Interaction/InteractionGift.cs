@@ -2,7 +2,6 @@
 using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.Network.Protocol;
-using System.Collections.Generic;
 
 namespace AliasPro.Items.Interaction
 {
@@ -10,7 +9,8 @@ namespace AliasPro.Items.Interaction
     {
         private readonly IItem _item;
 
-		public readonly IList<int> ItemIds = new List<int>();
+		public readonly int itemId = -1;
+		public readonly string ExtraData = "";
 		public readonly int ColorId = 0;
 		public readonly int RibbonId = 0;
 		public readonly bool ShowSender = false;
@@ -27,18 +27,14 @@ namespace AliasPro.Items.Interaction
 			{
 				string[] data = _item.ExtraData.Split("\t");
 
-				int count = int.Parse(data[0]);
-				for (int i = 0; i < count; i++)
-				{
-					ItemIds.Add(int.Parse(data[i + 1]));
-				}
-
-				ColorId = int.Parse(data[count + 1]);
-				RibbonId = int.Parse(data[count + 2]);
-				ShowSender = data[count + 3] == "1";
-				Message = data[count + 4];
-				Sender = data[count + 5];
-				Figure = data[count + 6];
+				itemId = int.Parse(data[0]);
+				ExtraData = data[1];
+				ColorId = int.Parse(data[2]);
+				RibbonId = int.Parse(data[3]);
+				ShowSender = data[4] == "1";
+				Message = data[5];
+				Sender = data[6];
+				Figure = data[7];
 			}
 
 		}

@@ -86,16 +86,17 @@ namespace AliasPro.Items.Models
         private IItemInteractor _interaction { get; set; }
         private IWiredInteractor _wiredInteraction { get; set; }
 
-        public IItemInteractor Interaction
-        {
-            get
-            {
-                if (_interaction == null)
-                    _interaction = ItemInteractorUtility.GetItemInteractor(ItemData.InteractionType, this);
+		public IItemInteractor Interaction
+		{
+			get
+			{
+				if (_interaction == null)
+					_interaction = ItemInteractorUtility.GetItemInteractor(ItemData.InteractionType, this);
 
-                return _interaction;
-            }
-        }
+				return _interaction;
+			}
+			set { }
+		}
 
         public IWiredInteractor WiredInteraction
         {
@@ -106,6 +107,7 @@ namespace AliasPro.Items.Models
 
                 return _wiredInteraction;
             }
-        }
+			set { }
+		}
     }
 }
