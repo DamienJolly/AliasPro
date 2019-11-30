@@ -53,10 +53,9 @@ namespace AliasPro.Items.Packets.Events
                 
                 item.RoomId = room.Id;
                 item.CurrentRoom = room;
-				item.Interaction.OnPlaceItem();
-
 				room.Items.AddItem(item);
-                session.Player.Inventory.RemoveItem(item.Id);
+				item.Interaction.OnPlaceItem();
+				session.Player.Inventory.RemoveItem(item.Id);
 
                 await session.SendPacketAsync(new RemovePlayerItemComposer(item.Id));
             }

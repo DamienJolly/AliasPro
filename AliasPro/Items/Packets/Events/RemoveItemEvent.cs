@@ -35,9 +35,10 @@ namespace AliasPro.Items.Packets.Events
                     await room.SendAsync(new RemoveWallItemComposer(item));
                 }
 
-                item.RoomId = 0;
-                item.CurrentRoom = null;
 				item.Interaction.OnPickupItem();
+
+				item.RoomId = 0;
+                item.CurrentRoom = null;
 
                 if(session.Player.Inventory.TryAddItem(item))
                 {

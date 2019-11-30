@@ -29,6 +29,7 @@ namespace AliasPro.Items.Utilities
 				case ItemInteractionType.GIFT: return new InteractionGift(item);
 				case ItemInteractionType.PRESSURE_TILE: return new InteractionPressureTile(item);
 				case ItemInteractionType.TENT: return new InteractionTent(item);
+				case ItemInteractionType.WATER: return new InteractionWater(item);
 				case ItemInteractionType.DEFAULT: default: return new InteractionDefault(item);
 			}
         }
