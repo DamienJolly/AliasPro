@@ -7,19 +7,23 @@ namespace AliasPro.Rooms.Entities
 {
     internal class PetEntity : BaseEntity
     {
-        internal PetEntity(int petId, int type, uint ownerId, string ownerUsername, int id, int x, int y, int rotation, IRoom room, string name, string figure, PlayerGender gender, string motto, int score)
-            : base(id, x, y, rotation, room, name, figure, gender, motto, score)
+        internal PetEntity(int petId, int type, int race, string colour, uint ownerId, string ownerUsername, int id, int x, int y, int rotation, IRoom room, string name, PlayerGender gender, string motto)
+            : base(id, x, y, rotation, room, name, "", gender, motto, 0)
         {
 			PetId = petId;
-			Type = type;
 			OwnerId = ownerId;
 			OwnerUsername = ownerUsername;
+			Type = type;
+			Race = race;
+			Colour = colour;
 		}
 
 		public int PetId { get; set; }
 		public uint OwnerId { get; set; }
 		public string OwnerUsername { get; set; }
 		public int Type { get; set; }
+		public int Race { get; set; }
+		public string Colour { get; set; }
 
 		public override void OnEntityJoin()
 		{
@@ -41,7 +45,7 @@ namespace AliasPro.Rooms.Entities
             serverPacket.WriteInt(PetId); //petId?
             serverPacket.WriteString(Name);
             serverPacket.WriteString(Motto);
-            serverPacket.WriteString(Figure);
+            serverPacket.WriteString(Type + " " + Race + " " + Colour);
 			serverPacket.WriteInt(Id);
             serverPacket.WriteInt(Position.X);
             serverPacket.WriteInt(Position.Y);

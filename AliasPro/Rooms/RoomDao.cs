@@ -117,6 +117,8 @@ namespace AliasPro.Rooms
 							BaseEntity petEntity = new PetEntity(
 								reader.ReadData<int>("id"),
 								reader.ReadData<int>("type"),
+								reader.ReadData<int>("race"),
+								reader.ReadData<string>("colour"),
 								(uint)reader.ReadData<int>("player_id"),
 								reader.ReadData<string>("username"),
 								0,
@@ -125,10 +127,8 @@ namespace AliasPro.Rooms
 								reader.ReadData<int>("rot"),
 								room,
 								reader.ReadData<string>("name"),
-								reader.ReadData<int>("type") + " " + reader.ReadData<int>("race") + " " + reader.ReadData<string>("colour"),
 								reader.ReadData<string>("gender") == "m" ? PlayerGender.MALE : PlayerGender.FEMALE,
-								reader.ReadData<string>("motto"),
-								0);
+								reader.ReadData<string>("motto"));
 
 							pets.Add(reader.ReadData<int>("id"), petEntity);
 						}

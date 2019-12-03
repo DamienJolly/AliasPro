@@ -20,18 +20,13 @@ namespace AliasPro.Players.Packets.Composers
             ServerPacket message = new ServerPacket(Outgoing.InventoryPetsMessageComposer);
             message.WriteInt(1); // ??
             message.WriteInt(1); // ??
+
             message.WriteInt(_pets.Count);
             foreach (IPlayerPet pet in _pets)
             {
-				message.WriteInt(pet.Id);
-				message.WriteString(pet.Name);
-				message.WriteInt(pet.Type);
-				message.WriteInt(pet.Race);
-				message.WriteString(pet.Colour);
-				message.WriteInt(0);
-				message.WriteInt(0);
-				message.WriteInt(0);
-			};
+				pet.Serialize(message);
+			}
+
 			return message;
         }
     }

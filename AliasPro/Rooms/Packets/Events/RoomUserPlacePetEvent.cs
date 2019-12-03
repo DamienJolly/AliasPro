@@ -46,6 +46,8 @@ namespace AliasPro.Rooms.Packets.Events
 			BaseEntity petEntity = new PetEntity(
 				pet.Id,
 				pet.Type,
+				pet.Race,
+				pet.Colour,
 				session.Player.Id,
 				session.Player.Username,
 				entityId,
@@ -54,10 +56,8 @@ namespace AliasPro.Rooms.Packets.Events
 				4,
 				room,
 				pet.Name,
-				pet.Type + " " + pet.Race + " " + pet.Colour,
 				pet.Gender,
-				pet.Motto,
-				0);
+				pet.Motto);
 
 			session.Player.Inventory.RemovePet(pet.Id);
 

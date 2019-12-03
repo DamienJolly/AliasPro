@@ -167,6 +167,7 @@
 		internal const int InventoryBotsMessageComposer = 953;
 		internal const int InventoryPetsMessageComposer = 77;
 		internal const int AddBotMessageCompoer = 1996;
+		internal const int AddPetMessageComposer = 2970;
 
 		// Misc
 		internal const int BubbleAlertMessageComposer = 1469;

@@ -91,6 +91,7 @@
 		internal const short RoomBotSaveSettingsMessageEvent = 1676;
 		internal const short RoomUserPickupBotMessageEvent = 389;
 		internal const short RoomUserPlacePetMessageEvent = 1061;
+		internal const short RoomUserPickupPetMessageEvent = 1946;
 
 		// Landing
 		internal const short HotelViewDataMessageEvent = 1579;

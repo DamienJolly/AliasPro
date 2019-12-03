@@ -1,5 +1,6 @@
 ﻿using AliasPro.API.Database;
 using AliasPro.API.Players.Models;
+using AliasPro.Network.Protocol;
 using AliasPro.Players.Types;
 using System.Data.Common;
 
@@ -24,7 +25,7 @@ namespace AliasPro.Players.Models
 			Colour = reader.ReadData<string>("colour");
 		}
 
-		public PlayerPet(int id, string name, string motto, PlayerGender gender, string figure, int type, int race, string colour)
+		public PlayerPet(int id, string name, string motto, PlayerGender gender, int type, int race, string colour)
 		{
 			Id = id;
 			Name = name;
@@ -33,6 +34,18 @@ namespace AliasPro.Players.Models
 			Type = type;
 			Race = race;
 			Colour = colour;
+		}
+
+		public void Serialize(ServerPacket message)
+		{
+			message.WriteInt(Id);
+			message.WriteString(Name);
+			message.WriteInt(Type);
+			message.WriteInt(Race);
+			message.WriteString(Colour);
+			message.WriteInt(0);
+			message.WriteInt(0);
+			message.WriteInt(0);
 		}
 
 		public int Id { get; set; }
