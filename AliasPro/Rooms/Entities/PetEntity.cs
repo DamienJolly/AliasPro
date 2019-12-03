@@ -2,6 +2,7 @@
 using AliasPro.API.Rooms.Models;
 using AliasPro.Network.Protocol;
 using AliasPro.Players.Types;
+using AliasPro.Utilities;
 
 namespace AliasPro.Rooms.Entities
 {
@@ -25,6 +26,8 @@ namespace AliasPro.Rooms.Entities
 		public int Race { get; set; }
 		public string Colour { get; set; }
 
+		private int ActionTimer = 0;
+
 		public override void OnEntityJoin()
 		{
 
@@ -37,7 +40,17 @@ namespace AliasPro.Rooms.Entities
 
 		public override void Cycle()
         {
+			if (ActionTimer <= 0)
+			{
+				if (Room.RoomGrid.TryGetRandomWalkableTile(out IRoomTile tile))
+					GoalPosition = tile.Position;
 
+				ActionTimer = Randomness.RandomNumber(5, 20);
+			}
+			else
+			{
+				ActionTimer--;
+			}
 		}
 
         public override void Compose(ServerPacket serverPacket)
