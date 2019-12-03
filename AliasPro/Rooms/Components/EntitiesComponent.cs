@@ -69,6 +69,9 @@ namespace AliasPro.Rooms.Components
 		public ICollection<BaseEntity> BotEntities =>
 			_entities.Values.Where(x => x is BotEntity).ToList();
 
+		public ICollection<BaseEntity> PetEntities =>
+			_entities.Values.Where(x => x is PetEntity).ToList();
+
 		public bool HasUserEntities =>
             _entities.Where(x => x.Value is PlayerEntity).Any();
     }

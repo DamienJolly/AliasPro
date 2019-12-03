@@ -50,6 +50,9 @@ namespace AliasPro.Rooms
 					{
 						foreach (BaseEntity entity in room.Entities.BotEntities)
 							await UpdateBotSettings(entity, room.Id);
+
+						foreach (BaseEntity entity in room.Entities.PetEntities)
+							await UpdatePetSettings(entity, room.Id);
 					}
 
 					if (room.Settings != null)
