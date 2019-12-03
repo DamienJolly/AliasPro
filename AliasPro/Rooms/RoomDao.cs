@@ -117,6 +117,20 @@ namespace AliasPro.Rooms
 			});
 		}
 
+		internal async Task UpdatePetSettings(BaseEntity entity, uint roomId)
+		{
+			await CreateTransaction(async transaction =>
+			{
+				if (!(entity is PetEntity petEntity))
+					return;
+
+				await Insert(transaction, "UPDATE `player_pets` SET `name` = @1, `motto` = @2, `figure` = @3, `gender` = @4, `x` = @5, `y` = @6, " +
+					"`z` = @7, `rot` = @8, `room_id` = @9 WHERE `id` = @0;",
+				   petEntity.PetId, petEntity.Name, petEntity.Motto, petEntity.Figure, petEntity.Gender == PlayerGender.MALE ? "m" : "f",
+				   petEntity.Position.X, petEntity.Position.Y, petEntity.Position.Z, petEntity.BodyRotation, (int)roomId);
+			});
+		}
+
 		internal async Task<int> CreateRoomAsync(uint playerId, string name, string description, string modelName, int categoryId, int maxUsers, int tradeType)
         {
             int roomId = -1;

@@ -53,7 +53,7 @@ namespace AliasPro.Players.Components
 		public bool TryGetBot(int botId, out IPlayerBot bot) =>
 			_bots.TryGetValue(botId, out bot);
 
-		public bool TryGetBot(int petId, out IPlayerPet pet) =>
+		public bool TryGetPet(int petId, out IPlayerPet pet) =>
 			_pets.TryGetValue(petId, out pet);
 	}
 }

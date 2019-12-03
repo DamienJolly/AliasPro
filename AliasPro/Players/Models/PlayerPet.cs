@@ -1,5 +1,6 @@
 ﻿using AliasPro.API.Database;
 using AliasPro.API.Players.Models;
+using AliasPro.Players.Types;
 using System.Data.Common;
 
 namespace AliasPro.Players.Models
@@ -10,15 +11,25 @@ namespace AliasPro.Players.Models
         {
             Id = reader.ReadData<int>("id");
 			Name = reader.ReadData<string>("name");
+			Motto = reader.ReadData<string>("motto");
+
+			switch (reader.ReadData<string>("gender").ToLower())
+			{
+				case "m": default: Gender = PlayerGender.MALE; break;
+				case "f": Gender = PlayerGender.FEMALE; break;
+			}
+
 			Type = reader.ReadData<int>("type");
 			Race = reader.ReadData<int>("race");
 			Colour = reader.ReadData<string>("colour");
 		}
 
-		public PlayerPet(int id, string name, int type, int race, string colour)
+		public PlayerPet(int id, string name, string motto, PlayerGender gender, string figure, int type, int race, string colour)
 		{
 			Id = id;
 			Name = name;
+			Motto = motto;
+			Gender = gender;
 			Type = type;
 			Race = race;
 			Colour = colour;
@@ -26,6 +37,8 @@ namespace AliasPro.Players.Models
 
 		public int Id { get; set; }
 		public string Name { get; set; }
+		public string Motto { get; set; }
+		public PlayerGender Gender { get; set; }
 		public int Type { get; set; }
 		public int Race { get; set; }
 		public string Colour { get; set; }

@@ -14,7 +14,6 @@ namespace AliasPro.Players.Packets.Events
             ISession session,
             IClientPacket clientPacket)
         {
-            
             await session.SendPacketAsync(new InventoryPetsComposer(session.Player.Inventory.Pets));
         }
     }
