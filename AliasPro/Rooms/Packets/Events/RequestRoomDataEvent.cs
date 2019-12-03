@@ -48,7 +48,8 @@ namespace AliasPro.Rooms.Packets.Events
 
 				room.Entities = new EntitiesComponent(
 					room,
-					await _roomController.GetBotsForRoomAsync(room));
+					await _roomController.GetBotsForRoomAsync(room),
+					await _roomController.GetPetsForRoomAsync(room));
 
 				room.Game = new GameComponent(room);
 

@@ -103,6 +103,44 @@ namespace AliasPro.Rooms
 			return bots;
 		}
 
+		internal async Task<IDictionary<int, BaseEntity>> GetPetsForRoomAsync(IRoom room)
+		{
+			IDictionary<int, BaseEntity> pets = new Dictionary<int, BaseEntity>();
+			await CreateTransaction(async transaction =>
+			{
+				await Select(transaction, async reader =>
+				{
+					while (await reader.ReadAsync())
+					{
+						if (!pets.ContainsKey(reader.ReadData<int>("id")))
+						{
+							BaseEntity petEntity = new PetEntity(
+								reader.ReadData<int>("id"),
+								reader.ReadData<int>("type"),
+								(uint)reader.ReadData<int>("player_id"),
+								reader.ReadData<string>("username"),
+								0,
+								reader.ReadData<int>("x"),
+								reader.ReadData<int>("y"),
+								reader.ReadData<int>("rot"),
+								room,
+								reader.ReadData<string>("name"),
+								reader.ReadData<int>("type") + " " + reader.ReadData<int>("race") + " " + reader.ReadData<string>("colour"),
+								reader.ReadData<string>("gender") == "m" ? PlayerGender.MALE : PlayerGender.FEMALE,
+								reader.ReadData<string>("motto"),
+								0);
+
+							pets.Add(reader.ReadData<int>("id"), petEntity);
+						}
+					}
+				}, "SELECT `players`.`username`, `player_pets`.* FROM `player_pets` " +
+				"INNER JOIN `players` ON `players`.`id` = `player_pets`.`player_id` WHERE `player_pets`.`room_id` = @0;",
+				room.Id);
+			});
+
+			return pets;
+		}
+
 		internal async Task UpdateBotSettings(BaseEntity entity, uint roomId)
 		{
 			await CreateTransaction(async transaction =>

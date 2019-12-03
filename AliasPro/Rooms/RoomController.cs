@@ -122,6 +122,9 @@ namespace AliasPro.Rooms
 		public async Task<IDictionary<int, BaseEntity>> GetBotsForRoomAsync(IRoom room) =>
 			await _roomDao.GetBotsForRoomAsync(room);
 
+		public async Task<IDictionary<int, BaseEntity>> GetPetsForRoomAsync(IRoom room) =>
+			await _roomDao.GetPetsForRoomAsync(room);
+
 		public async Task UpdateBotSettings(BaseEntity entity, uint roomId) =>
 			await _roomDao.UpdateBotSettings(entity, roomId);
 
