@@ -5,7 +5,7 @@ using AliasPro.Players.Types;
 
 namespace AliasPro.Rooms.Entities
 {
-    internal class PetEntity : BaseEntity
+    public class PetEntity : BaseEntity
     {
         internal PetEntity(int petId, int type, int race, string colour, uint ownerId, string ownerUsername, int id, int x, int y, int rotation, IRoom room, string name, PlayerGender gender, string motto)
             : base(id, x, y, rotation, room, name, "", gender, motto, 0)
@@ -42,7 +42,7 @@ namespace AliasPro.Rooms.Entities
 
         public override void Compose(ServerPacket serverPacket)
         {
-            serverPacket.WriteInt(PetId); //petId?
+			serverPacket.WriteInt(Id); //petId?
             serverPacket.WriteString(Name);
             serverPacket.WriteString(Motto);
             serverPacket.WriteString(Type + " " + Race + " " + Colour);

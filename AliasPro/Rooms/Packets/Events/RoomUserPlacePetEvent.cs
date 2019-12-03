@@ -43,6 +43,7 @@ namespace AliasPro.Rooms.Packets.Events
 				return;
 
 			int entityId = room.Entities.NextEntitityId++;
+			System.Console.WriteLine(entityId);
 			BaseEntity petEntity = new PetEntity(
 				pet.Id,
 				pet.Type,
