@@ -159,5 +159,6 @@
 
 		// Bots
 		internal const int RequestBotInventoryMessageEvent = 1278;
+		internal const int RequestPetInventoryMessageEvent = 86;
 	}
 }

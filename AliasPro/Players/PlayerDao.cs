@@ -216,6 +216,27 @@ namespace AliasPro.Players
 			return bots;
 		}
 
+		internal async Task<IDictionary<int, IPlayerPet>> GetPlayerPetsAsync(uint id)
+		{
+			IDictionary<int, IPlayerPet> pets = new Dictionary<int, IPlayerPet>();
+			await CreateTransaction(async transaction =>
+			{
+				await Select(transaction, async reader =>
+				{
+					while (await reader.ReadAsync())
+					{
+						IPlayerPet pet = new PlayerPet(reader);
+						if (!pets.ContainsKey(pet.Id))
+						{
+							pets.Add(pet.Id, pet);
+						}
+					}
+				}, "SELECT `id`, `name`, `type`, `race`, `colour` FROM `player_pets` WHERE `player_id` = @0 AND `room_id` = '0';", id);
+			});
+
+			return pets;
+		}
+
 		internal async Task<IDictionary<int, IPlayerAchievement>> GetPlayerAchievementsAsync(uint id)
 		{
 			IDictionary<int, IPlayerAchievement> achievements = new Dictionary<int, IPlayerAchievement>();
