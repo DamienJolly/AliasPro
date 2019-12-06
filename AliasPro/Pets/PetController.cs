@@ -28,5 +28,11 @@ namespace AliasPro.Pets
 
 		public bool TryGetPetData(int type, out IPetData pet) =>
 			_petData.TryGetValue(type, out pet);
+
+		public bool TryGetPetData(string name, out IPetData pet)
+		{
+			int type = int.Parse(name.Replace("a0 pet", ""));
+			return TryGetPetData(type, out pet);
+		}
 	}
 }

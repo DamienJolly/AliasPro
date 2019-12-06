@@ -170,6 +170,9 @@
 		internal const int AddBotMessageCompoer = 1996;
 		internal const int AddPetMessageComposer = 2970;
 
+		// Pets
+		internal const int PetBreedsMessageComposer = 1260;
+
 		// Misc
 		internal const int BubbleAlertMessageComposer = 1469;
 	}
