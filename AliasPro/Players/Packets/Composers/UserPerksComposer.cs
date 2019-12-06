@@ -50,7 +50,7 @@ namespace AliasPro.Players.Packets.Composers
             message.WriteBoolean(false);
             message.WriteString("CAMERA");
             message.WriteString("");
-            message.WriteBoolean(true);
+            message.WriteBoolean(false);
             message.WriteString("NAVIGATOR_PHASE_TWO_2014");
             message.WriteString("");
             message.WriteBoolean(true);

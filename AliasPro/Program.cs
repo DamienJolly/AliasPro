@@ -16,6 +16,7 @@ using AliasPro.Navigator;
 using AliasPro.Network;
 using AliasPro.Network.Events;
 using AliasPro.Permissions;
+using AliasPro.Pets;
 using AliasPro.Players;
 using AliasPro.Rooms;
 using AliasPro.Server;
@@ -55,7 +56,8 @@ namespace AliasPro
 				new AchievementService(),
 				new BadgeService(),
 				new GroupService(),
-				new TradingService()
+				new TradingService(),
+				new PetService()
 			};
 
             IServiceCollection serviceCollection = new ServiceCollection();
