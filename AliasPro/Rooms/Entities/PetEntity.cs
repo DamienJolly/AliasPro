@@ -119,6 +119,10 @@ namespace AliasPro.Rooms.Entities
 			}
 		}
 
+		public int ExperienceLeft =>
+			PetLevel >= _experiences.Length + 1 ? Experience : _experiences[PetLevel - 1];
+
+
 		public int DaysOld =>
 			(int)Math.Floor((UnixTimestamp.Now - Created) / (3600 * 24)) + 1;
 

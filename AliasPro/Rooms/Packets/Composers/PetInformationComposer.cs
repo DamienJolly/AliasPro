@@ -22,7 +22,7 @@ namespace AliasPro.Rooms.Packets.Composers
 			message.WriteInt(_petEntity.PetLevel);
 			message.WriteInt(20); //max level, config?
 			message.WriteInt(_petEntity.Experience);
-			message.WriteInt(20); //xp goal
+			message.WriteInt(_petEntity.ExperienceLeft);
 			message.WriteInt(_petEntity.Energy);
 			message.WriteInt(100); //max energy, config?
 			message.WriteInt(_petEntity.Happyness);
