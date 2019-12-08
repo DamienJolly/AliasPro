@@ -2,6 +2,7 @@
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.Items.Types;
+using AliasPro.Rooms.Entities;
 using AliasPro.Rooms.Models;
 using Pathfinding;
 using Pathfinding.Models;
@@ -42,6 +43,7 @@ namespace AliasPro.Rooms.Cycles
                 _entity.Actions.RemoveStatus("sit");
                 _entity.Actions.RemoveStatus("lay");
                 _entity.IsSitting = false;
+                _entity.IsLaying = false;
 
                 IList<Position> path = Pathfinder.FindPath(
                     _entity.Room.RoomGrid,
@@ -120,7 +122,9 @@ namespace AliasPro.Rooms.Cycles
             else
             {
                 _entity.Actions.RemoveStatus("mv");
-                _entity.Actions.RemoveStatus("lay");
+
+                if (!_entity.IsLaying)
+                    _entity.Actions.RemoveStatus("lay");
 
                 if (!_entity.IsSitting)
                     _entity.Actions.RemoveStatus("sit");
@@ -142,6 +146,7 @@ namespace AliasPro.Rooms.Cycles
                         _entity.SetRotation(topItem.Rotation);
 						newZ -= topItem.ItemData.Height;
                         _entity.IsSitting = false;
+                        _entity.IsLaying = false;
                     }
 				}
 

@@ -73,6 +73,7 @@ namespace AliasPro.API.Rooms.Entities
         public int DanceId { get; set; } = 0;
         public bool IsIdle { get; set; } = false;
         public bool IsSitting { get; set; } = false;
+        public bool IsLaying { get; set; } = false;
 
         public int DirOffsetTimer = 0;
         public int IdleTimer = 0;

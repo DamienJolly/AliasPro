@@ -1,5 +1,6 @@
 ﻿using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
+using AliasPro.Groups.Types;
 using AliasPro.Network.Protocol;
 using AliasPro.Players.Types;
 using AliasPro.Utilities;
@@ -41,7 +42,11 @@ namespace AliasPro.Rooms.Entities
 		public int Respect { get; set; }
 		public int Created { get; set; }
 
-		private int ActionTimer = 0;
+        private int WalkTimer = 0;
+        private int ActionTimer = 0;
+        private int DecayTimer = 0;
+        private int HappynessTimer = 0;
+        private int GestureTime = 0;
 
 		private readonly int[] _experiences = new int[]
 		{
@@ -60,18 +65,148 @@ namespace AliasPro.Rooms.Entities
 
 		public override void Cycle()
         {
-			if (ActionTimer <= 0)
-			{
-				if (Room.RoomGrid.TryGetRandomWalkableTile(out IRoomTile tile))
-					GoalPosition = tile.Position;
+            if (GestureTime <= 0)
+            {
+                Actions.RemoveStatus("gst");
+            }
+            else
+            {
+                GestureTime--;
+            }
 
-				ActionTimer = Randomness.RandomNumber(5, 20);
-			}
-			else
-			{
-				ActionTimer--;
-			}
-		}
+            if (Actions.HasStatus("lay"))
+            {
+                Energy += 5;
+                Happyness++;
+
+                if (Energy > 100)
+                    Energy = 100;
+
+                if (Happyness > 100)
+                    Happyness = 100;
+
+                if (Energy >= 100)
+                {
+                    if (Room.RoomGrid.TryGetRandomWalkableTile(out IRoomTile tile))
+                    {
+                        GoalPosition = tile.Position;
+                        Actions.RemoveStatus("lay");
+                        WalkTimer = Randomness.RandomNumber(5, 20);
+                    }
+                }
+            }
+            else
+            {
+                if (DecayTimer <= 0)
+                {
+                    if (Hunger < 100)
+                        Hunger++;
+
+                    if (Thirst < 100)
+                        Thirst++;
+
+                    if (Energy > 0)
+                        Energy--;
+
+                    DecayTimer = 10;
+                }
+                else
+                {
+                    DecayTimer--;
+                }
+
+                if (HappynessTimer <= 0)
+                {
+                    if (Happyness > 0)
+                        Happyness--;
+
+                    HappynessTimer = 30;
+                }
+                else
+                {
+                    HappynessTimer--;
+                }
+
+                if (!Actions.HasStatus("mv"))
+                {
+                    if (ActionTimer <= 0)
+                    {
+                        if (Energy <= 30)
+                        {
+                            Room.OnChat("I'm tired", 0, this);
+                            Actions.AddStatus("gst", "trd");
+                            FindNest();
+                        }
+                        else if (Happyness >= 100)
+                        {
+                            Room.OnChat("I'm in love", 0, this);
+                            Actions.AddStatus("gst", "lov");
+                        }
+                        else if (Happyness >= 85)
+                        {
+                            Room.OnChat("I'm happy", 0, this);
+                            Actions.AddStatus("gst", "sml");
+                        }
+                        else if (Happyness <= 15)
+                        {
+                            Room.OnChat("I'm sad", 0, this);
+                            Actions.AddStatus("gst", "sad");
+                        }
+                        else if (Hunger >= 50)
+                        {
+                            Room.OnChat("I'm hungry", 0, this);
+                            Actions.AddStatus("gst", "hng");
+                            FindFood();
+                        }
+                        else if (Thirst >= 50)
+                        {
+                            Room.OnChat("I'm thirsty", 0, this);
+                            Actions.AddStatus("gst", "thr");
+                            FindDrink();
+                        }
+
+                        GestureTime = 15;
+                        ActionTimer = Randomness.RandomNumber(9, 60);
+                        return;
+                    }
+                    else
+                    {
+                        ActionTimer--;
+                    }
+
+                    if (WalkTimer <= 0)
+                    {
+                        if (Room.RoomGrid.TryGetRandomWalkableTile(out IRoomTile tile))
+                        {
+                            GoalPosition = tile.Position;
+                            WalkTimer = Randomness.RandomNumber(5, 20);
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        WalkTimer--;
+                    }
+                }
+            }
+        }
+
+        public void FindNest()
+        {
+            //find nest types
+            Actions.AddStatus("lay", 0.00 + "");
+            IsLaying = true;
+        }
+
+        public void FindFood()
+        {
+            //find food types
+        }
+
+        public void FindDrink()
+        {
+            //find drink types
+        }
 
         public override void Compose(ServerPacket serverPacket)
         {

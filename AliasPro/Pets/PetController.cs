@@ -23,8 +23,6 @@ namespace AliasPro.Pets
 		public async void InitializePets()
 		{
 			_petData = await _petDao.ReadPetData();
-
-			System.Console.WriteLine(_petData.Count);
 		}
 
 		public bool CheckPetName(string petName)
