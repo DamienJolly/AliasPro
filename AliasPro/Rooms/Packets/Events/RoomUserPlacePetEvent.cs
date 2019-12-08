@@ -49,6 +49,12 @@ namespace AliasPro.Rooms.Packets.Events
 				pet.Type,
 				pet.Race,
 				pet.Colour,
+				pet.Experience,
+				pet.Happyness,
+				pet.Energy,
+				pet.Hunger,
+				pet.Thirst,
+				pet.Respect,
 				session.Player.Id,
 				session.Player.Username,
 				entityId,
@@ -56,9 +62,7 @@ namespace AliasPro.Rooms.Packets.Events
 				posY,
 				4,
 				room,
-				pet.Name,
-				pet.Gender,
-				pet.Motto);
+				pet.Name);
 
 			session.Player.Inventory.RemovePet(pet.Id);
 

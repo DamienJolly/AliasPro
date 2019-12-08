@@ -172,6 +172,7 @@
 
 		// Pets
 		internal const int PetBreedsMessageComposer = 1260;
+		internal const int PetNameErrorMessageComposer = 470;
 
 		// Misc
 		internal const int BubbleAlertMessageComposer = 1469;

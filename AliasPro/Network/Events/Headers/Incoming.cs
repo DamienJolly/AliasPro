@@ -166,5 +166,6 @@
 
 		// Pets
 		internal const int RequestPetBreedsMessageEvent = 3072;
+		internal const int CheckPetNameMessageEvent = 2330;
 	}
 }

@@ -19,6 +19,7 @@ namespace AliasPro.Pets
 		private static void AddPackets(IServiceCollection collection)
 		{
 			collection.AddSingleton<IAsyncPacket, RequestPetBreedsEvent>();
+			collection.AddSingleton<IAsyncPacket, CheckPetNameEvent>();
 		}
 	}
 }

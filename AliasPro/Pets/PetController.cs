@@ -1,5 +1,6 @@
 ﻿using AliasPro.API.Pets;
 using AliasPro.API.Pets.Models;
+using AliasPro.Utilities;
 using System.Collections.Generic;
 
 namespace AliasPro.Pets
@@ -24,6 +25,23 @@ namespace AliasPro.Pets
 			_petData = await _petDao.ReadPetData();
 
 			System.Console.WriteLine(_petData.Count);
+		}
+
+		public bool CheckPetName(string petName)
+		{
+			int minLength = 2; //add to config
+			int maxLength = 15;
+
+			if (petName.Length < minLength)
+				return false;
+
+			if (petName.Length > maxLength)
+				return false;
+
+			if (!StringUtils.IsAlphanumeric(petName))
+				return false;
+
+			return true;
 		}
 
 		public bool TryGetPetData(int type, out IPetData pet) =>

@@ -19,18 +19,18 @@ namespace AliasPro.Rooms.Packets.Composers
 			ServerPacket message = new ServerPacket(Outgoing.PetInformationMessageComposer);
 			message.WriteInt(_petEntity.Id);
 			message.WriteString(_petEntity.Name);
-			message.WriteInt(0); //level
-			message.WriteInt(20); //max level
-			message.WriteInt(0); //exp
+			message.WriteInt(_petEntity.PetLevel);
+			message.WriteInt(20); //max level, config?
+			message.WriteInt(_petEntity.Experience);
 			message.WriteInt(20); //xp goal
-			message.WriteInt(80); //energy
-			message.WriteInt(100); //max energy
-			message.WriteInt(70); //happyness
-			message.WriteInt(100); //max happyness
-			message.WriteInt(10); //respects
+			message.WriteInt(_petEntity.Energy);
+			message.WriteInt(100); //max energy, config?
+			message.WriteInt(_petEntity.Happyness);
+			message.WriteInt(100); //max happyness, config?
+			message.WriteInt(_petEntity.Respect);
 			message.WriteInt(_petEntity.OwnerId);
 			message.WriteInt(10); //days old
-			message.WriteString(_petEntity.OwnerUsername); //owner name
+			message.WriteString(_petEntity.OwnerUsername);
 			message.WriteInt(0); //rarity
 			message.WriteBoolean(false); //sadle
 			message.WriteBoolean(false); //riding horse

@@ -231,7 +231,7 @@ namespace AliasPro.Players
 							pets.Add(pet.Id, pet);
 						}
 					}
-				}, "SELECT `id`, `name`, `motto`, `gender`, `type`, `race`, `colour` FROM `player_pets` WHERE `player_id` = @0 AND `room_id` = '0';", id);
+				}, "SELECT * FROM `player_pets` WHERE `player_id` = @0 AND `room_id` = '0';", id);
 			});
 
 			return pets;

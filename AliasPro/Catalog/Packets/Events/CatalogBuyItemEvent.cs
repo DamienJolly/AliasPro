@@ -6,6 +6,8 @@ using AliasPro.API.Items;
 using AliasPro.API.Items.Models;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
+using AliasPro.API.Pets;
+using AliasPro.API.Pets.Models;
 using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
 using AliasPro.API.Sessions.Models;
@@ -16,6 +18,7 @@ using AliasPro.Items.Types;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Players.Models;
 using AliasPro.Players.Packets.Composers;
+using AliasPro.Players.Types;
 using System;
 using System.Collections.Generic;
 
@@ -28,15 +31,18 @@ namespace AliasPro.Catalog.Packets.Events
         private readonly ICatalogController _catalogController;
         private readonly IItemController _itemController;
         private readonly IBadgeController _badgeController;
+        private readonly IPetController _petController;
 
 		public CatalogBuyItemEvent(
 			ICatalogController catalogController, 
 			IItemController itemController,
-			IBadgeController badgeController)
+			IBadgeController badgeController,
+			IPetController petController)
         {
             _catalogController = catalogController;
             _itemController = itemController;
 			_badgeController = badgeController;
+			_petController = petController;
 		}
 
         public async void HandleAsync(
@@ -190,6 +196,45 @@ namespace AliasPro.Catalog.Packets.Events
 									}
 									break;
 								}
+							case "p":
+								{
+									string[] data = extraData.Split("\n");
+
+									if (data.Length < 3)
+									{
+										await session.SendPacketAsync(new AlertPurchaseFailedComposer(AlertPurchaseFailedComposer.SERVER_ERROR));
+										return;
+									}
+
+									if (!_petController.CheckPetName(data[0]))
+									{
+										await session.SendPacketAsync(new AlertPurchaseFailedComposer(AlertPurchaseFailedComposer.SERVER_ERROR));
+										return;
+									}
+
+									if (!_petController.TryGetPetData(itemData.ItemData.Name, out IPetData petData))
+									{
+										await session.SendPacketAsync(new AlertPurchaseFailedComposer(AlertPurchaseFailedComposer.SERVER_ERROR));
+										return;
+									}
+
+									IPlayerPet playerPet = new PlayerPet(
+										0,
+										data[0],
+										petData.Type,
+										int.Parse(data[1]),
+										data[2]
+									);
+
+									playerPet.Id = await _catalogController.AddNewPetAsync(playerPet, (int)session.Player.Id);
+									session.Player.Inventory.TryAddPet(playerPet);
+
+									if (!itemsData.ContainsKey(3))
+										itemsData.Add(3, new List<int>());
+
+									itemsData[3].Add(playerPet.Id);
+									break;
+								}
 							case "r":
 								{
 									if (itemData.BotData == null)
@@ -207,12 +252,7 @@ namespace AliasPro.Catalog.Packets.Events
 									);
 
 									playerBot.Id = await _catalogController.AddNewBotAsync(playerBot, (int)session.Player.Id);
-
-									if (!session.Player.Inventory.TryAddBot(playerBot))
-									{
-										await session.SendPacketAsync(new AlertPurchaseFailedComposer(AlertPurchaseFailedComposer.SERVER_ERROR));
-										return;
-									}
+									session.Player.Inventory.TryAddBot(playerBot);
 
 									if (!itemsData.ContainsKey(5))
 										itemsData.Add(5, new List<int>());
@@ -272,6 +312,7 @@ namespace AliasPro.Catalog.Packets.Events
 			await session.SendPacketAsync(new AddPlayerItemsComposer(itemsData));
             await session.SendPacketAsync(new InventoryRefreshComposer());
 			await session.SendPacketAsync(new InventoryBotsComposer(session.Player.Inventory.Bots));
+			await session.SendPacketAsync(new InventoryPetsComposer(session.Player.Inventory.Pets));
 			await session.SendPacketAsync(new PurchaseOKComposer(catalogItem));
         }
     }

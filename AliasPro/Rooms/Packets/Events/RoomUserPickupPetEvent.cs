@@ -44,8 +44,6 @@ namespace AliasPro.Rooms.Packets.Events
 			IPlayerPet playerPet = new PlayerPet(
 				petEntity.Id,
 				petEntity.Name,
-				petEntity.Motto,
-				petEntity.Gender,
 				petEntity.Type,
 				petEntity.Race,
 				petEntity.Colour

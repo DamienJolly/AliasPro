@@ -60,6 +60,9 @@ namespace AliasPro.Catalog
 		public async Task<int> AddNewBotAsync(IPlayerBot playerBot, int playerId) =>
 			await _catalogDao.AddNewBotAsync(playerBot, playerId);
 
+		public async Task<int> AddNewPetAsync(IPlayerPet playerPet, int playerId) =>
+			await _catalogDao.AddNewPetAsync(playerPet, playerId);
+
 		public bool TryGetGift(int spriteId, out ICatalogGiftPart item) =>
 			_giftParts.TryGetValue(spriteId, out item);
 

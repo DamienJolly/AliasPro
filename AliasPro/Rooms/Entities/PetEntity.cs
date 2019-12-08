@@ -8,8 +8,8 @@ namespace AliasPro.Rooms.Entities
 {
     public class PetEntity : BaseEntity
     {
-        internal PetEntity(int petId, int type, int race, string colour, uint ownerId, string ownerUsername, int id, int x, int y, int rotation, IRoom room, string name, PlayerGender gender, string motto)
-            : base(id, x, y, rotation, room, name, "", gender, motto, 0)
+        internal PetEntity(int petId, int type, int race, string colour, int experience, int happyness, int energy, int hunger, int thirst, int respect, uint ownerId, string ownerUsername, int id, int x, int y, int rotation, IRoom room, string name)
+            : base(id, x, y, rotation, room, name, "", PlayerGender.MALE, "", 0)
         {
 			PetId = petId;
 			OwnerId = ownerId;
@@ -17,6 +17,12 @@ namespace AliasPro.Rooms.Entities
 			Type = type;
 			Race = race;
 			Colour = colour;
+			Experience = experience;
+			Happyness = happyness;
+			Energy = energy;
+			Hunger = hunger;
+			Thirst = thirst;
+			Respect = respect;
 		}
 
 		public int PetId { get; set; }
@@ -25,8 +31,19 @@ namespace AliasPro.Rooms.Entities
 		public int Type { get; set; }
 		public int Race { get; set; }
 		public string Colour { get; set; }
+		public int Experience { get; set; }
+		public int Happyness { get; set; }
+		public int Energy { get; set; }
+		public int Hunger { get; set; }
+		public int Thirst { get; set; }
+		public int Respect { get; set; }
 
 		private int ActionTimer = 0;
+
+		private readonly int[] _experiences = new int[]
+		{
+			100, 200, 400, 600, 900, 1300, 1800, 2400, 3200, 4300, 5700, 7600, 10100, 13300, 17500, 23000, 30200, 39600, 51900
+		};
 
 		public override void OnEntityJoin()
 		{
@@ -57,7 +74,7 @@ namespace AliasPro.Rooms.Entities
         {
 			serverPacket.WriteInt(Id); //petId?
             serverPacket.WriteString(Name);
-            serverPacket.WriteString(Motto);
+            serverPacket.WriteString(string.Empty);
             serverPacket.WriteString(Type + " " + Race + " " + Colour);
 			serverPacket.WriteInt(Id);
             serverPacket.WriteInt(Position.X);
@@ -76,8 +93,43 @@ namespace AliasPro.Rooms.Entities
 			serverPacket.WriteBoolean(false); // fully grown
 			serverPacket.WriteBoolean(false); // can revive
 			serverPacket.WriteBoolean(false); // public breed?
-			serverPacket.WriteInt(0); // level
-			serverPacket.WriteString(""); // ??
+			serverPacket.WriteInt(PetLevel); // level
+			serverPacket.WriteString(string.Empty); // ??
 		}
+
+		public int PetLevel
+		{
+			get
+			{
+				int index = _experiences.Length;
+
+				for (int i = 0; i < _experiences.Length; i++)
+				{
+					if (_experiences[i] > Experience)
+					{
+						index = i;
+						break;
+					}
+				}
+
+				return index + 1;
+			}
+		}
+
+		// Deprecated
+		/*public int GetLevelFromXp(int xp)
+		{
+			int level = 0;
+
+			if (xp >= 0)
+			{
+				for (int i = 0; i <= level - 2; i++)
+				{
+					xp += 100 * (int)Math.Round(Math.Pow(1.30637788, i), 0);
+				}
+			}
+
+			return xp;
+		}*/
 	}
 }

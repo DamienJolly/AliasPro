@@ -119,6 +119,12 @@ namespace AliasPro.Rooms
 								reader.ReadData<int>("type"),
 								reader.ReadData<int>("race"),
 								reader.ReadData<string>("colour"),
+								reader.ReadData<int>("experience"),
+								reader.ReadData<int>("happyness"),
+								reader.ReadData<int>("energy"),
+								reader.ReadData<int>("hunger"),
+								reader.ReadData<int>("thirst"),
+								reader.ReadData<int>("respect"),
 								(uint)reader.ReadData<int>("player_id"),
 								reader.ReadData<string>("username"),
 								0,
@@ -126,9 +132,7 @@ namespace AliasPro.Rooms
 								reader.ReadData<int>("y"),
 								reader.ReadData<int>("rot"),
 								room,
-								reader.ReadData<string>("name"),
-								reader.ReadData<string>("gender") == "m" ? PlayerGender.MALE : PlayerGender.FEMALE,
-								reader.ReadData<string>("motto"));
+								reader.ReadData<string>("name"));
 
 							pets.Add(reader.ReadData<int>("id"), petEntity);
 						}
@@ -162,10 +166,10 @@ namespace AliasPro.Rooms
 				if (!(entity is PetEntity petEntity))
 					return;
 
-				await Insert(transaction, "UPDATE `player_pets` SET `name` = @1, `motto` = @2, `figure` = @3, `gender` = @4, `x` = @5, `y` = @6, " +
-					"`z` = @7, `rot` = @8, `room_id` = @9 WHERE `id` = @0;",
-				   petEntity.PetId, petEntity.Name, petEntity.Motto, petEntity.Figure, petEntity.Gender == PlayerGender.MALE ? "m" : "f",
-				   petEntity.Position.X, petEntity.Position.Y, petEntity.Position.Z, petEntity.BodyRotation, (int)roomId);
+				await Insert(transaction, "UPDATE `player_pets` SET `name` = @1, `x` = @2, `y` = @3, `z` = @4, `rot` = @5," +
+					"`experience` = @6, `happyness` = @7, `energy` = @8, `hunger` = @9, `thirst` = @10, `respect` = @11, `room_id` = @6 WHERE `id` = @0;",
+				   petEntity.PetId, petEntity.Name, petEntity.Position.X, petEntity.Position.Y, petEntity.Position.Z, petEntity.BodyRotation, 
+				   petEntity.Experience, petEntity.Happyness, petEntity.Energy, petEntity.Hunger, petEntity.Thirst, petEntity.Respect, (int)roomId);
 			});
 		}
 

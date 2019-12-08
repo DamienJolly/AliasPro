@@ -161,12 +161,22 @@ namespace AliasPro.Catalog
 
 		public async Task<int> AddNewBotAsync(IPlayerBot playerBot, int playerId)
 		{
-			System.Console.WriteLine(playerBot.Name + " " + playerBot.Motto + " " + playerBot.Figure + " " + (playerBot.Gender == PlayerGender.MALE ? "m" : "f"));
 			int botId = -1;
 			await CreateTransaction(async transaction =>
 			{
 				botId = await Insert(transaction, "INSERT INTO `bots` (`player_id`, `name`, `motto`, `figure`, `gender`) VALUES (@0, @1, @2, @3, @4);",
 					playerId, playerBot.Name, playerBot.Motto, playerBot.Figure, playerBot.Gender == PlayerGender.MALE ? "m" : "f");
+			});
+			return botId;
+		}
+
+		public async Task<int> AddNewPetAsync(IPlayerPet playerPet, int playerId)
+		{
+			int botId = -1;
+			await CreateTransaction(async transaction =>
+			{
+				botId = await Insert(transaction, "INSERT INTO `player_pets` (`player_id`, `name`, `race`, `type`, `colour`, `created`) VALUES (@0, @1, @2, @3, @4, @5);",
+					playerId, playerPet.Name, playerPet.Race, playerPet.Type, playerPet.Colour, (int)UnixTimestamp.Now);
 			});
 			return botId;
 		}

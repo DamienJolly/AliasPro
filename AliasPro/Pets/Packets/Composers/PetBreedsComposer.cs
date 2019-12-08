@@ -23,7 +23,7 @@ namespace AliasPro.Pets.Packets.Composers
 			message.WriteInt(_petData.Breeds.Count);
 			foreach (IPetBreed breed in _petData.Breeds)
 			{
-				message.WriteInt(_petData.Type); //race
+				message.WriteInt(breed.Race);
 				message.WriteInt(breed.ColourOne);
 				message.WriteInt(breed.ColourTwo);
 				message.WriteBoolean(breed.HasColourOne);
