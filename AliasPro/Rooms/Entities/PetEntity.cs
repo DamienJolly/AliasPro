@@ -3,12 +3,13 @@ using AliasPro.API.Rooms.Models;
 using AliasPro.Network.Protocol;
 using AliasPro.Players.Types;
 using AliasPro.Utilities;
+using System;
 
 namespace AliasPro.Rooms.Entities
 {
     public class PetEntity : BaseEntity
     {
-        internal PetEntity(int petId, int type, int race, string colour, int experience, int happyness, int energy, int hunger, int thirst, int respect, uint ownerId, string ownerUsername, int id, int x, int y, int rotation, IRoom room, string name)
+        internal PetEntity(int petId, int type, int race, string colour, int experience, int happyness, int energy, int hunger, int thirst, int respect, int created, uint ownerId, string ownerUsername, int id, int x, int y, int rotation, IRoom room, string name)
             : base(id, x, y, rotation, room, name, "", PlayerGender.MALE, "", 0)
         {
 			PetId = petId;
@@ -23,6 +24,7 @@ namespace AliasPro.Rooms.Entities
 			Hunger = hunger;
 			Thirst = thirst;
 			Respect = respect;
+			Created = created;
 		}
 
 		public int PetId { get; set; }
@@ -37,6 +39,7 @@ namespace AliasPro.Rooms.Entities
 		public int Hunger { get; set; }
 		public int Thirst { get; set; }
 		public int Respect { get; set; }
+		public int Created { get; set; }
 
 		private int ActionTimer = 0;
 
@@ -115,6 +118,9 @@ namespace AliasPro.Rooms.Entities
 				return index + 1;
 			}
 		}
+
+		public int DaysOld =>
+			(int)Math.Floor((UnixTimestamp.Now - Created) / (3600 * 24)) + 1;
 
 		// Deprecated
 		/*public int GetLevelFromXp(int xp)

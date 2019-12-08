@@ -176,7 +176,7 @@ namespace AliasPro.Catalog
 			await CreateTransaction(async transaction =>
 			{
 				botId = await Insert(transaction, "INSERT INTO `player_pets` (`player_id`, `name`, `race`, `type`, `colour`, `created`) VALUES (@0, @1, @2, @3, @4, @5);",
-					playerId, playerPet.Name, playerPet.Race, playerPet.Type, playerPet.Colour, (int)UnixTimestamp.Now);
+					playerId, playerPet.Name, playerPet.Race, playerPet.Type, playerPet.Colour, playerPet.Created);
 			});
 			return botId;
 		}

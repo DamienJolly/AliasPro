@@ -29,7 +29,7 @@ namespace AliasPro.Rooms.Packets.Composers
 			message.WriteInt(100); //max happyness, config?
 			message.WriteInt(_petEntity.Respect);
 			message.WriteInt(_petEntity.OwnerId);
-			message.WriteInt(10); //days old
+			message.WriteInt(_petEntity.DaysOld);
 			message.WriteString(_petEntity.OwnerUsername);
 			message.WriteInt(0); //rarity
 			message.WriteBoolean(false); //sadle

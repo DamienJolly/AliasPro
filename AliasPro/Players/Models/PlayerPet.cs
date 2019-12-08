@@ -2,6 +2,7 @@
 using AliasPro.API.Players.Models;
 using AliasPro.Network.Protocol;
 using AliasPro.Players.Types;
+using AliasPro.Utilities;
 using System.Data.Common;
 
 namespace AliasPro.Players.Models
@@ -21,6 +22,7 @@ namespace AliasPro.Players.Models
 			Hunger = reader.ReadData<int>("hunger");
 			Thirst = reader.ReadData<int>("thirst");
 			Respect = reader.ReadData<int>("respect");
+			Created = reader.ReadData<int>("created");
 		}
 
 		public PlayerPet(int id, string name, int type, int race, string colour)
@@ -36,6 +38,7 @@ namespace AliasPro.Players.Models
 			Hunger = 0;
 			Thirst = 0;
 			Respect = 0;
+			Created = (int)UnixTimestamp.Now;
 		}
 
 		public void Serialize(ServerPacket message)
@@ -63,5 +66,6 @@ namespace AliasPro.Players.Models
 		public int Hunger { get; set; }
 		public int Thirst { get; set; }
 		public int Respect { get; set; }
+		public int Created { get; set; }
 	}
 }

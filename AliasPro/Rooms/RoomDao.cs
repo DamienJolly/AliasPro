@@ -125,6 +125,7 @@ namespace AliasPro.Rooms
 								reader.ReadData<int>("hunger"),
 								reader.ReadData<int>("thirst"),
 								reader.ReadData<int>("respect"),
+								reader.ReadData<int>("created"),
 								(uint)reader.ReadData<int>("player_id"),
 								reader.ReadData<string>("username"),
 								0,

@@ -18,5 +18,6 @@ namespace AliasPro.API.Players.Models
 		int Hunger { get; set; }
 		int Thirst { get; set; }
 		int Respect { get; set; }
+		int Created { get; set; }
 	}
 }

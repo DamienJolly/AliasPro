@@ -43,7 +43,6 @@ namespace AliasPro.Rooms.Packets.Events
 				return;
 
 			int entityId = room.Entities.NextEntitityId++;
-			System.Console.WriteLine(entityId);
 			BaseEntity petEntity = new PetEntity(
 				pet.Id,
 				pet.Type,
@@ -55,6 +54,7 @@ namespace AliasPro.Rooms.Packets.Events
 				pet.Hunger,
 				pet.Thirst,
 				pet.Respect,
+				pet.Created,
 				session.Player.Id,
 				session.Player.Username,
 				entityId,
