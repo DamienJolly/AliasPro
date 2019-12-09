@@ -90,6 +90,17 @@ namespace AliasPro.Rooms.Models
             return tiles;
         }
 
+        public IList<IRoomTile> GetLockedTiles()
+        {
+            IList<IRoomTile> lockedTiles = new List<IRoomTile>();
+            foreach (IRoomTile tile in _roomTiles.Values)
+            {
+                if (tile.Items.Count != 0)
+                    lockedTiles.Add(tile);
+            }
+            return lockedTiles;
+        }
+
 		public bool TryGetRandomWalkableTile(out IRoomTile tile)
 		{
 			tile = null;

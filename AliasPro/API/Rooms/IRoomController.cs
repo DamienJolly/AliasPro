@@ -27,5 +27,8 @@ namespace AliasPro.API.Rooms
 		Task<IDictionary<uint, string>> GetRightsForRoomAsync(uint roomId);
         Task GiveRoomRights(uint roomId, uint playerId);
         Task TakeRoomRights(uint roomId, uint playerId);
-    }
+		void DisposeRoom(IRoom room);
+		Task UpdateRoomModel(IRoomModel model);
+		Task<bool> TryAddRoomModel(IRoomModel model);
+	}
 }

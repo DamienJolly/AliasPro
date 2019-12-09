@@ -103,9 +103,11 @@
         internal const short WiredSavedMessageComposer = 2074;
 		internal const short RoomBotSettingsMessageComposer = 1171;
 		internal const short PetInformationMessageComposer = 1009;
+        internal const short FloorPlanDoorSettingsMessageComposer = 1569;
+        internal const short FloorPlanBlockedTilesMessageComposer = 889;
 
-		// Landing
-		internal const short HotelViewMessageComposer = 2484;
+        // Landing
+        internal const short HotelViewMessageComposer = 2484;
 		internal const short HotelViewDataMessageComposer = 730;
         internal const short HallOfFameMessageComposer = 1243;
         internal const short NewsListMessageComposer = 811;

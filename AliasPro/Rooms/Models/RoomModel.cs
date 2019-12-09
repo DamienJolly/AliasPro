@@ -19,8 +19,17 @@ namespace AliasPro.Rooms.Models
             DoorX = reader.ReadData<int>("door_x");
             DoorY = reader.ReadData<int>("door_Y");
             DoorDir = reader.ReadData<int>("door_dir");
-            ParseHeightMap();
-            ParseRelativeMap();
+            InitializeHeightMap();
+        }
+
+        internal RoomModel(string id, string map, int doorX, int doorY, int doorDir)
+        {
+            Id = id;
+            HeightMap = map;
+            DoorX = doorX;
+            DoorY = doorY;
+            DoorDir = doorDir;
+            InitializeHeightMap();
         }
 
         public int MapSizeX { get; set; }
@@ -32,12 +41,20 @@ namespace AliasPro.Rooms.Models
         public string Id { get; set; }
         public string HeightMap { get; set; }
         public string RelativeHeightMap { get; set; }
+        public bool IsCustom => 
+            Id.StartsWith("model_bc_");
 
         public double GetHeight(int x, int y) =>
             floorHeightMap[x, y];
 
         public bool GetTileState(int x, int y) =>
             tileStateMap[x, y];
+
+        public void InitializeHeightMap()
+        {
+            ParseHeightMap();
+            ParseRelativeMap();
+        }
 
         private void ParseHeightMap()
         {

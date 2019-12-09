@@ -34,7 +34,7 @@ namespace AliasPro.Rooms
 			}
 		}
 
-		public async void Cycle()
+		public void Cycle()
 		{
 			foreach (IRoom room in Rooms.ToList())
 			{
@@ -45,28 +45,31 @@ namespace AliasPro.Rooms
 					room.IdleTimer++;
 
 				if (room.IdleTimer >= 60)
-				{
-					if (room.Entities != null)
-					{
-						foreach (BaseEntity entity in room.Entities.BotEntities)
-							await UpdateBotSettings(entity, room.Id);
-
-						foreach (BaseEntity entity in room.Entities.PetEntities)
-							await UpdatePetSettings(entity, room.Id);
-					}
-
-					if (room.Settings != null)
-						await _roomDao.UpdateRoomSettins(room);
-
-					if (room.Items != null)
-						await _roomDao.UpdateRoomItems(room.Items.Items);
-
-					await _roomDao.UpdateRoom(room);
-
-					room.Dispose();
-					_rooms.Remove(room.Id);
-				}
+					DisposeRoom(room);
 			}
+		}
+
+		public async void DisposeRoom(IRoom room)
+		{
+			if (room.Entities != null)
+			{
+				foreach (BaseEntity entity in room.Entities.BotEntities)
+					await UpdateBotSettings(entity, room.Id);
+
+				foreach (BaseEntity entity in room.Entities.PetEntities)
+					await UpdatePetSettings(entity, room.Id);
+			}
+
+			if (room.Settings != null)
+				await _roomDao.UpdateRoomSettins(room);
+
+			if (room.Items != null)
+				await _roomDao.UpdateRoomItems(room.Items.Items);
+
+			await _roomDao.UpdateRoom(room);
+
+			room.Dispose();
+			_rooms.Remove(room.Id);
 		}
 
 		public ICollection<IRoom> Rooms =>
@@ -103,8 +106,16 @@ namespace AliasPro.Rooms
 		public async Task<int> CreateRoomAsync(uint playerId, string name, string description, string modelName, int categoryId, int maxUsers, int tradeType) =>
             await _roomDao.CreateRoomAsync(playerId, name, description, modelName, categoryId, maxUsers, tradeType);
 
+		public async Task<bool> TryAddRoomModel(IRoomModel model)
+		{
+			await _roomDao.CreateRoomModelAsync(model);
+			return _roomModels.TryAdd(model.Id, model);
+		}
 
-        public bool TryGetRoomModel(string modelName, out IRoomModel model) =>
+		public async Task UpdateRoomModel(IRoomModel model) =>
+			await _roomDao.UpdateRoomModelAsync(model);
+
+		public bool TryGetRoomModel(string modelName, out IRoomModel model) =>
 			_roomModels.TryGetValue(modelName, out model);
 
 

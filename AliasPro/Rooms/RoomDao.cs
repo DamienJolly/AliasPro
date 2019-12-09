@@ -185,7 +185,25 @@ namespace AliasPro.Rooms
             return roomId;
         }
 
-        internal async Task<IRoomData> GetRoomData(uint id)
+		internal async Task CreateRoomModelAsync(IRoomModel model)
+		{
+			await CreateTransaction(async transaction =>
+			{
+				await Insert(transaction, "INSERT INTO `room_models` (`id`, `door_x`, `door_y`, `door_dir`, `heightmap`) VALUES (@0, @1, @2, @3, @4);",
+					model.Id, model.DoorX, model.DoorY, model.DoorDir, model.HeightMap);
+			});
+		}
+
+		internal async Task UpdateRoomModelAsync(IRoomModel model)
+		{
+			await CreateTransaction(async transaction =>
+			{
+				await Insert(transaction, "UPDATE `room_models` SET `door_x` = @1, `door_y` = @2, `door_dir` = @3, `heightmap` = @4 WHERE `id` = @0;",
+					model.Id, model.DoorX, model.DoorY, model.DoorDir, model.HeightMap);
+			});
+		}
+
+		internal async Task<IRoomData> GetRoomData(uint id)
         {
             IRoomData roomData = null;
             await CreateTransaction(async transaction =>
@@ -276,8 +294,8 @@ namespace AliasPro.Rooms
 		{
 			await CreateTransaction(async transaction =>
 			{
-				await Insert(transaction, "UPDATE `rooms` SET `score` = @1, `name` = @2, `caption` = @3, `password` = @4, `max_users` = @5, `trade_type` = @6, `category_id` = @7, `tags` = @8 WHERE `id` = @0;",
-					room.Id, room.Score, room.Name, room.Description, room.Password, room.MaxUsers, room.TradeType, room.CategoryId, /*tags*/"");
+				await Insert(transaction, "UPDATE `rooms` SET `score` = @1, `name` = @2, `caption` = @3, `password` = @4, `max_users` = @5, `trade_type` = @6, `category_id` = @7, `tags` = @8, `model_name` = @9 WHERE `id` = @0;",
+					room.Id, room.Score, room.Name, room.Description, room.Password, room.MaxUsers, room.TradeType, room.CategoryId, /*tags*/"", room.ModelName);
 			});
 		}
 

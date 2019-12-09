@@ -45,6 +45,10 @@ namespace AliasPro.Rooms
 			collection.AddSingleton<IAsyncPacket, RoomUserPlacePetEvent>();
 			collection.AddSingleton<IAsyncPacket, RoomUserPickupPetEvent>();
 			collection.AddSingleton<IAsyncPacket, RequestPetInformationEvent>();
-		}
+			collection.AddSingleton<IAsyncPacket, RequestFloorPlanBlockedTilesEvent>();
+			collection.AddSingleton<IAsyncPacket, RequestFloorPlanDoorSettingsEvent>();
+			collection.AddSingleton<IAsyncPacket, FloorPlanSaveEvent>();
+
+        }
     }
 }

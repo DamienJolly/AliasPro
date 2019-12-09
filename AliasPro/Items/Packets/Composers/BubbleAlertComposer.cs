@@ -49,6 +49,15 @@ namespace AliasPro.Items.Packets.Composers
 			_keys = new Dictionary<string, string>();
 		}
 
+		public BubbleAlertComposer(string errorkey, string message)
+		{
+			_errorkey = errorkey;
+			_keys = new Dictionary<string, string>
+			{
+				{ "message", message }
+			};
+		}
+
 		public BubbleAlertComposer(string errorkey, IDictionary<string, string> keys)
 		{
 			_errorkey = errorkey;

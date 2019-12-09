@@ -94,7 +94,6 @@ namespace AliasPro.Items.Interaction
 				}
 
 				waterItem.ExtraData = result.ToString();
-				System.Console.WriteLine(waterItem.ExtraData);
 				await waterItem.CurrentRoom.SendAsync(new FloorItemUpdateComposer(waterItem));
 			}
 		}

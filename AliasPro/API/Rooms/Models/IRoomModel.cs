@@ -11,7 +11,9 @@
         string Id { get; set; }
         string HeightMap { get; set; }
         string RelativeHeightMap { get; set; }
+        bool IsCustom { get; }
         double GetHeight(int x, int y);
         bool GetTileState(int x, int y);
-    }
+		void InitializeHeightMap();
+	}
 }

@@ -1,6 +1,5 @@
 ﻿using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
-using AliasPro.Groups.Types;
 using AliasPro.Network.Protocol;
 using AliasPro.Players.Types;
 using AliasPro.Utilities;

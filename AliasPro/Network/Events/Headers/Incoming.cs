@@ -93,9 +93,12 @@
 		internal const short RoomUserPlacePetMessageEvent = 1061;
 		internal const short RoomUserPickupPetMessageEvent = 1946;
 		internal const short RequestPetInformationMessageEvent = 3352;
+        internal const short RequestFloorPlanDoorSettingsMessageEvent = 2314;
+        internal const short RequestFloorPlanBlockedTilesMessageEvent = 24;
+        internal const short FloorPlanSaveMessageEvent = 40;
 
-		// Landing
-		internal const short HotelViewDataMessageEvent = 1579;
+        // Landing
+        internal const short HotelViewDataMessageEvent = 1579;
         internal const short RequestNewsListMessageEvent = 1156;
         internal const short HotelViewMessageEvent = 3119;
 
