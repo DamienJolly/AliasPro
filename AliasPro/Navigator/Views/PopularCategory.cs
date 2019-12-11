@@ -29,7 +29,7 @@ namespace AliasPro.Navigator.Views
 				rooms.Add(room);
 			}
 
-			return rooms.OrderBy(r => r.UsersNow).ToList();
+			return rooms.OrderByDescending(r => r.UsersNow).ToList();
 		}
     }
 }
