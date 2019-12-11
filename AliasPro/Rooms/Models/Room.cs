@@ -64,7 +64,10 @@ namespace AliasPro.Rooms.Models
 
             Items.TriggerWired(WiredInteractionType.SAY_SOMETHING, entity, text);
 
-			if (targetEntities == null)
+            foreach (string word in WordFilter)
+                text = text.Replace(word, "bobba");
+
+            if (targetEntities == null)
 				targetEntities = Entities.Entities;
 
 			foreach (BaseEntity targetEntity in targetEntities)
