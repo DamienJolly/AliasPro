@@ -41,7 +41,25 @@ namespace AliasPro.Rooms
             });
         }
 
-        internal async Task<IDictionary<uint, string>> GetRightsForRoom(uint roomId)
+		internal async Task CreateRoomWordFilterAsync(string word, uint roomId)
+		{
+			await CreateTransaction(async transaction =>
+			{
+				await Insert(transaction, "INSERT INTO `room_wordfilter` (`room_id`, `word`) VALUES (@0, @1)",
+					roomId, word);
+			});
+		}
+
+		internal async Task RemoveRoomWordFilterAsync(string word, uint roomId)
+		{
+			await CreateTransaction(async transaction =>
+			{
+				await Insert(transaction, "DELETE FROM `room_wordfilter` WHERE `room_id` = @0 AND `word` = @1",
+					roomId, word);
+			});
+		}
+
+		internal async Task<IDictionary<uint, string>> GetRightsForRoom(uint roomId)
         {
             IDictionary<uint, string> rights = new Dictionary<uint, string>();
             await CreateTransaction(async transaction =>
@@ -63,6 +81,27 @@ namespace AliasPro.Rooms
 
             return rights;
         }
+
+		internal async Task<IList<string>> GetWordFilterForRoomAsync(uint roomId)
+		{
+			IList<string> filters = new List<string>();
+			await CreateTransaction(async transaction =>
+			{
+				await Select(transaction, async reader =>
+				{
+					while (await reader.ReadAsync())
+					{
+						string word = reader.ReadData<string>("word");
+
+						if (!filters.Contains(word))
+							filters.Add(word);
+					}
+				}, "SELECT * FROM `room_wordfilter` WHERE `room_id` = @0;",
+				roomId);
+			});
+
+			return filters;
+		}
 
 		internal async Task<IDictionary<int, BaseEntity>> GetBotsForRoomAsync(IRoom room)
 		{

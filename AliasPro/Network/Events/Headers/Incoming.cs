@@ -96,6 +96,8 @@
         internal const short RequestFloorPlanDoorSettingsMessageEvent = 2314;
         internal const short RequestFloorPlanBlockedTilesMessageEvent = 24;
         internal const short FloorPlanSaveMessageEvent = 40;
+        internal const short RequestRoomWordFilterMessageEvent = 3571;
+        internal const short RoomWordFilterModifyMessageEvent = 3709;
 
         // Landing
         internal const short HotelViewDataMessageEvent = 1579;

@@ -30,5 +30,8 @@ namespace AliasPro.API.Rooms
 		void DisposeRoom(IRoom room);
 		Task UpdateRoomModel(IRoomModel model);
 		Task<bool> TryAddRoomModel(IRoomModel model);
+		Task<IList<string>> GetWordFilterForRoomAsync(uint roomId);
+		Task AddRoomWordFilter(string word, IRoom room);
+		Task RemoveRoomWordFilter(string word, IRoom room);
 	}
 }

@@ -105,6 +105,7 @@
 		internal const short PetInformationMessageComposer = 1009;
         internal const short FloorPlanDoorSettingsMessageComposer = 1569;
         internal const short FloorPlanBlockedTilesMessageComposer = 889;
+        internal const short RoomFilterWordsMessageComposer = 1071;
 
         // Landing
         internal const short HotelViewMessageComposer = 2484;

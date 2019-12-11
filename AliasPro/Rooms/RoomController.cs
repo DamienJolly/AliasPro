@@ -133,6 +133,22 @@ namespace AliasPro.Rooms
 			return roomSettings;
 		}
 
+		public async Task AddRoomWordFilter(string word, IRoom room)
+		{
+			if (room.WordFilter.Contains(word)) return;
+
+			await _roomDao.CreateRoomWordFilterAsync(word, room.Id);
+			room.WordFilter.Add(word);
+		}
+
+		public async Task RemoveRoomWordFilter(string word, IRoom room)
+		{
+			if (!room.WordFilter.Contains(word)) return;
+
+			await _roomDao.RemoveRoomWordFilterAsync(word, room.Id);
+			room.WordFilter.Remove(word);
+		}
+
 		public async Task<IDictionary<int, BaseEntity>> GetBotsForRoomAsync(IRoom room) =>
 			await _roomDao.GetBotsForRoomAsync(room);
 
@@ -147,6 +163,9 @@ namespace AliasPro.Rooms
 
 		public async Task<IDictionary<uint, string>> GetRightsForRoomAsync(uint roomId) =>
 			await _roomDao.GetRightsForRoom(roomId);
+
+		public async Task<IList<string>> GetWordFilterForRoomAsync(uint roomId) =>
+			await _roomDao.GetWordFilterForRoomAsync(roomId);
 
 		public async Task GiveRoomRights(uint roomId, uint playerId) =>
 			await _roomDao.CreateRoomRights(roomId, playerId);

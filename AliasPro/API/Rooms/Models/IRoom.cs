@@ -17,6 +17,7 @@ namespace AliasPro.API.Rooms.Models
         GameComponent Game { get; set; }
 		RoomGrid RoomGrid { get; set; }
         RoomCycle RoomCycle { get; set; }
+        IList<string> WordFilter { get; set; }
         int IdleTimer { get; set; }
 		bool Loaded { get; set; }
 

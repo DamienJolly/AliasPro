@@ -105,6 +105,7 @@ namespace AliasPro.Rooms.Packets.Events
 			}
 
 			int wallHeight = -1;
+			//todo: wall height
 			//if (clientPacket.bytesAvailable() >= 4)
 				//wallHeight = this.packet.readInt();
 

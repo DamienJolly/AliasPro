@@ -48,7 +48,8 @@ namespace AliasPro.Rooms
 			collection.AddSingleton<IAsyncPacket, RequestFloorPlanBlockedTilesEvent>();
 			collection.AddSingleton<IAsyncPacket, RequestFloorPlanDoorSettingsEvent>();
 			collection.AddSingleton<IAsyncPacket, FloorPlanSaveEvent>();
-
+			collection.AddSingleton<IAsyncPacket, RequestRoomWordFilterEvent>();
+			collection.AddSingleton<IAsyncPacket, RoomWordFilterModifyEvent>();
         }
     }
 }

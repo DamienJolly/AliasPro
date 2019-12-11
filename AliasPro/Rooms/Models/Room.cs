@@ -24,6 +24,7 @@ namespace AliasPro.Rooms.Models
         public GameComponent Game { get; set; }
 		public RoomGrid RoomGrid { get; set; }
         public RoomCycle RoomCycle { get; set; }
+        public IList<string> WordFilter { get; set; }
         public int IdleTimer { get; set; } = 0;
 		public bool Loaded { get; set; } = false;
 

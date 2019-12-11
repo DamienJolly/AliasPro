@@ -62,6 +62,8 @@ namespace AliasPro.Rooms.Packets.Events
 				room.Rights = new RightsComponent(room,
 					await _roomController.GetRightsForRoomAsync(room.Id));
 
+				room.WordFilter = await _roomController.GetWordFilterForRoomAsync(room.Id);
+
 				room.RoomCycle = new RoomCycle(room);
 				room.Loaded = true;
 			}
