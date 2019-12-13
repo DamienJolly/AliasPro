@@ -106,6 +106,7 @@
         internal const short FloorPlanDoorSettingsMessageComposer = 1569;
         internal const short FloorPlanBlockedTilesMessageComposer = 889;
         internal const short RoomFilterWordsMessageComposer = 1071;
+        internal const short PromoteOwnRoomsListMessageComposer = 3955;
 
         // Landing
         internal const short HotelViewMessageComposer = 2484;

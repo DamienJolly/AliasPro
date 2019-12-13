@@ -98,6 +98,7 @@
         internal const short FloorPlanSaveMessageEvent = 40;
         internal const short RequestRoomWordFilterMessageEvent = 3571;
         internal const short RoomWordFilterModifyMessageEvent = 3709;
+        internal const short RequestPromotionRoomsMessageEvent = 3802;
 
         // Landing
         internal const short HotelViewDataMessageEvent = 1579;
