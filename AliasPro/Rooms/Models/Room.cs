@@ -27,6 +27,7 @@ namespace AliasPro.Rooms.Models
         public IList<string> WordFilter { get; set; }
         public int IdleTimer { get; set; } = 0;
 		public bool Loaded { get; set; } = false;
+		public bool Muted { get; set; } = false;
 
         internal Room(IRoomData roomData)
             : base(roomData)
@@ -63,6 +64,9 @@ namespace AliasPro.Rooms.Models
             }
 
             Items.TriggerWired(WiredInteractionType.SAY_SOMETHING, entity, text);
+
+            if (Muted && entity is PlayerEntity player && !Rights.HasRights(player.Player.Id))
+                return;
 
             foreach (string word in WordFilter)
                 text = text.Replace(word, "bobba");

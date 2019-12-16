@@ -29,7 +29,7 @@ namespace AliasPro.Rooms.Packets.Composers
 			message.WriteBoolean(_entry);
             message.WriteBoolean(false); //staff picked
             message.WriteBoolean(false); //public room
-            message.WriteBoolean(false); //muted
+            message.WriteBoolean(_room.Muted);
             message.WriteInt(_room.Settings.WhoMutes);
             message.WriteInt(_room.Settings.WhoKicks);
             message.WriteInt(_room.Settings.WhoBans);

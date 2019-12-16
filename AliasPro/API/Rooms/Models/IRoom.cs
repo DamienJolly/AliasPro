@@ -20,6 +20,7 @@ namespace AliasPro.API.Rooms.Models
         IList<string> WordFilter { get; set; }
         int IdleTimer { get; set; }
 		bool Loaded { get; set; }
+		bool Muted { get; set; }
 
 
 		void Cycle();
