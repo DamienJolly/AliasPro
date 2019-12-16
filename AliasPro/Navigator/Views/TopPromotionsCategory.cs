@@ -4,22 +4,35 @@ using AliasPro.API.Players.Models;
 using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Models;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AliasPro.Navigator.Views
 {
-    public class TopPromotionsCategory : ICategoryType
-    {
-		private readonly INavigatorCategory _category;
-
+	public class TopPromotionsCategory : ICategoryType
+	{
 		public TopPromotionsCategory(INavigatorCategory category)
+			: base(category)
 		{
-			_category = category;
+
 		}
 
-		public ICollection<IRoom> Search(IRoomController roomController, IPlayer player, string searchCode)
+		public override async Task<IList<IRoomData>> GetResults(IRoomController roomController, IPlayer player, string searchCode)
 		{
-            ICollection<IRoom> rooms = new List<IRoom>();
-            return rooms;
-        }
-    }
+			IList<IRoomData> rooms = new List<IRoomData>();
+
+			foreach (IRoomData roomData in roomController.Rooms)
+			{
+				if (!roomData.Name.ToLower().Contains(searchCode.ToLower()))
+					continue;
+
+				if (!roomData.IsPromoted)
+					continue;
+
+				rooms.Add(roomData);
+			}
+
+			return rooms.OrderByDescending(r => r.UsersNow).ToList();
+		}
+	}
 }

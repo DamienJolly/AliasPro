@@ -37,9 +37,7 @@
     <Compile Remove="Navigator\Views\NavigatorHotelView.cs" />
     <Compile Remove="Navigator\Views\NavigatorPlayerView.cs" />
     <Compile Remove="Navigator\Views\NavigatorPublicView.cs" />
-    <Compile Remove="Navigator\Views\PromotionsCategory.cs" />
     <Compile Remove="Navigator\Views\QueryCategory.cs" />
-    <Compile Remove="Navigator\Views\TopPromotionsCategory.cs" />
     <Compile Remove="Rooms\Components\MappingComponent.cs" />
   </ItemGroup>
 
