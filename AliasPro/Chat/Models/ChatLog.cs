@@ -1,6 +1,7 @@
 ﻿using AliasPro.API.Chat.Models;
 using AliasPro.API.Database;
 using AliasPro.Network.Protocol;
+using AliasPro.Utilities;
 using System;
 using System.Data.Common;
 
@@ -18,11 +19,7 @@ namespace AliasPro.Chat.Models
 
         public void Compose(ServerPacket message)
         {
-            //todo: make util
-            DateTime dt = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-            dt = dt.AddSeconds(Timestamp).ToLocalTime();
-
-            message.WriteString(dt.ToString("HH:mm"));
+            message.WriteString(UnixTimestamp.FromUnixTimestamp(Timestamp).ToString("HH:mm"));
             message.WriteInt(PlayerId);
             message.WriteString(PlayerUsername);
             message.WriteString(Message);

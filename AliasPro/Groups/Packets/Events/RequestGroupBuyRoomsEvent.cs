@@ -28,11 +28,9 @@ namespace AliasPro.Groups.Packets.Events
 			if (session.Player == null)
 				return;
 
-			//todo: store in player class
-			//_roomController.LoadPlayersRooms(session.Player.Id);
 			ICollection<IRoom> rooms = new List<IRoom>();
-
-			foreach (IRoom room in _roomController.Rooms)
+			foreach (IRoom room in 
+				await _roomController.GetPlayersRooms(session.Player.Id))
 			{
 				if (room.OwnerId == session.Player.Id && room.Group == null)
 					rooms.Add(room);
