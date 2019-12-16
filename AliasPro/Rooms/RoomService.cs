@@ -53,6 +53,7 @@ namespace AliasPro.Rooms
 			collection.AddSingleton<IAsyncPacket, RequestPromotionRoomsEvent>();
 			collection.AddSingleton<IAsyncPacket, BuyRoomPromotionEvent>();
 			collection.AddSingleton<IAsyncPacket, UpdateRoomPromotionEvent>();
+			collection.AddSingleton<IAsyncPacket, RoomUserSignEvent>();
         }
     }
 }

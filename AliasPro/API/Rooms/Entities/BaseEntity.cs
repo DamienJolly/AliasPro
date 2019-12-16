@@ -81,6 +81,8 @@ namespace AliasPro.API.Rooms.Entities
         public int HandItemId = 0;
         public int HandItemTimer = 0;
 
+        public int SignTimer = 0;
+
         public GameTeamType Team = GameTeamType.NONE;
 
 		public ITrade Trade = null;

@@ -101,6 +101,7 @@
         internal const short RequestPromotionRoomsMessageEvent = 3802;
         internal const short BuyRoomPromotionMessageEvent = 335;
         internal const short UpdateRoomPromotionMessageEvent = 798;
+        internal const short RoomUserSignMessageEvent = 1146;
 
         // Landing
         internal const short HotelViewDataMessageEvent = 1579;

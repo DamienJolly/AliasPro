@@ -40,6 +40,15 @@ namespace AliasPro.Rooms.Entities
                 }
             }
 
+            if (SignTimer > 0)
+            {
+                SignTimer--;
+                if (SignTimer <= 0)
+                {
+                    Actions.RemoveStatus("sign");
+                }
+            }
+
             IdleTimer++;
             if (IdleTimer >= 600 && !IsIdle)
             {
