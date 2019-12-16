@@ -23,6 +23,7 @@ namespace AliasPro.Navigator
             collection.AddSingleton<IAsyncPacket, RequestNavigatorSettingsEvent>();
             collection.AddSingleton<IAsyncPacket, NavigatorSearchEvent>();
             collection.AddSingleton<IAsyncPacket, UpdateNavigatorPreferencesEvent>();
+            collection.AddSingleton<IAsyncPacket, FindRandomRoomEvent>();
         }
     }
 }

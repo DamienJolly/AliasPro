@@ -113,6 +113,7 @@
         internal const short RequestNavigatorSettingsMessageEvent = 708;
         internal const short NavigatorSearchMessageEvent = 3612;
         internal const short UpdateNavigatorPreferencesMessageEvent = 107;
+        internal const short FindRandomRoomMessageEvent = 2234;
 
 		// Moderation
 		internal const int ModerationMessageMessageEvent = 1932;
