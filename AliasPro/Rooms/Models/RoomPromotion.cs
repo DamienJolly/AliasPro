@@ -8,6 +8,7 @@ namespace AliasPro.Rooms.Models
     {
         public RoomPromotion(DbDataReader reader)
         {
+            Id = reader.ReadData<int>("category_id");
             Category = reader.ReadData<int>("category_id");
             Title = reader.ReadData<string>("title");
             Description = reader.ReadData<string>("description");
@@ -17,6 +18,7 @@ namespace AliasPro.Rooms.Models
 
         public RoomPromotion(int category, string title, string description, int startTimestamp, int endtimestamp)
         {
+            Id = -1;
             Category = category;
             Title = title;
             Description = description;
@@ -24,6 +26,7 @@ namespace AliasPro.Rooms.Models
             EndTimestamp = endtimestamp;
         }
 
+        public int Id { get; set; }
         public int Category { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }

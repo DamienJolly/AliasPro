@@ -150,11 +150,11 @@ namespace AliasPro.Rooms
 			return roomSettings;
 		}
 
-		public async Task AddRoomPromotion(uint roomId, IRoomPromotion promotion) =>
+		public async Task<int> AddRoomPromotion(uint roomId, IRoomPromotion promotion) =>
 			await _roomDao.CreateRoomPromotionAsync(roomId, promotion);
 
-		public async Task UpdateRoomPromotion(uint roomId, IRoomPromotion promotion) =>
-			await _roomDao.UpdateRoomPromotionAsync(roomId, promotion);
+		public async Task UpdateRoomPromotion(IRoomPromotion promotion) =>
+			await _roomDao.UpdateRoomPromotionAsync(promotion);
 
 		public async Task AddRoomWordFilter(string word, IRoom room)
 		{

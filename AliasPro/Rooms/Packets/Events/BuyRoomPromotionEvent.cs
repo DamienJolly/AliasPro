@@ -106,14 +106,14 @@ namespace AliasPro.Rooms.Packets.Events
             {
                 //todo: add end timestamp to config?
                 roomData.Promotion = new RoomPromotion(categoryId, title, description, (int)UnixTimestamp.Now, (int)UnixTimestamp.Now + (120 * 60));
-                await _roomController.AddRoomPromotion(roomData.Id, roomData.Promotion);
+                roomData.Promotion.Id = await _roomController.AddRoomPromotion(roomData.Id, roomData.Promotion);
             }
             else
             {
                 roomData.Promotion.Title = title;
                 roomData.Promotion.Description = description;
                 roomData.Promotion.EndTimestamp += 120 * 60;
-                await _roomController.UpdateRoomPromotion(roomData.Id, roomData.Promotion);
+                await _roomController.UpdateRoomPromotion(roomData.Promotion);
             }
 
             await session.SendPacketAsync(new PurchaseOKComposer());

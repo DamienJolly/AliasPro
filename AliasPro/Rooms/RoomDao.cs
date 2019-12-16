@@ -42,21 +42,23 @@ namespace AliasPro.Rooms
             });
         }
 
-		internal async Task CreateRoomPromotionAsync(uint roomId, IRoomPromotion promotion)
+		internal async Task<int> CreateRoomPromotionAsync(uint roomId, IRoomPromotion promotion)
 		{
+			int promotionId = -1;
 			await CreateTransaction(async transaction =>
 			{
-				await Insert(transaction, "INSERT INTO `room_promotions` (`room_id`, `category_id`, `title`, `description`, `created_timestamp`, `end_timestamp`) VALUES (@0, @1, @2, @3, @4, @5)",
+				promotionId = await Insert(transaction, "INSERT INTO `room_promotions` (`room_id`, `category_id`, `title`, `description`, `created_timestamp`, `end_timestamp`) VALUES (@0, @1, @2, @3, @4, @5)",
 					roomId, promotion.Category, promotion.Title, promotion.Description, promotion.StartTimestamp, promotion.EndTimestamp);
 			});
+			return promotionId;
 		}
 
-		internal async Task UpdateRoomPromotionAsync(uint roomId, IRoomPromotion promotion)
+		internal async Task UpdateRoomPromotionAsync(IRoomPromotion promotion)
 		{
 			await CreateTransaction(async transaction =>
 			{
-				await Insert(transaction, "UPDATE `room_promotions` SET `category_id` = @1, `title` = @2, `description` = @3, `end_timestamp` = @4 WHERE `room_id` = @0",
-					roomId, promotion.Category, promotion.Title, promotion.Description, promotion.EndTimestamp);
+				await Insert(transaction, "UPDATE `room_promotions` SET `category_id` = @1, `title` = @2, `description` = @3, `end_timestamp` = @4 WHERE `id` = @0",
+					promotion.Id, promotion.Category, promotion.Title, promotion.Description, promotion.EndTimestamp);
 			});
 		}
 
