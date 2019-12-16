@@ -24,12 +24,12 @@ namespace AliasPro.Navigator.Packets.Composers
 
             foreach (INavigatorCategory category in _categories)
             {
-                message.WriteInt(category.Id);
+                message.WriteInt(category.SortId);
                 message.WriteString(category.PublicName);
                 message.WriteBoolean(category.MinRank <= _playerRank);
-                message.WriteBoolean(false);
-                message.WriteString("");
-                message.WriteString("");
+                message.WriteBoolean(!category.Enabled);
+                message.WriteString(""); //??
+                message.WriteString(""); //??
                 message.WriteBoolean(false);
             }
             return message;

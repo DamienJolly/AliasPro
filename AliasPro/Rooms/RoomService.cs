@@ -51,6 +51,7 @@ namespace AliasPro.Rooms
 			collection.AddSingleton<IAsyncPacket, RequestRoomWordFilterEvent>();
 			collection.AddSingleton<IAsyncPacket, RoomWordFilterModifyEvent>();
 			collection.AddSingleton<IAsyncPacket, RequestPromotionRoomsEvent>();
+			collection.AddSingleton<IAsyncPacket, BuyRoomPromotionEvent>();
         }
     }
 }

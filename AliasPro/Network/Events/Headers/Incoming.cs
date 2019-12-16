@@ -99,6 +99,7 @@
         internal const short RequestRoomWordFilterMessageEvent = 3571;
         internal const short RoomWordFilterModifyMessageEvent = 3709;
         internal const short RequestPromotionRoomsMessageEvent = 3802;
+        internal const short BuyRoomPromotionMessageEvent = 335;
 
         // Landing
         internal const short HotelViewDataMessageEvent = 1579;
@@ -108,7 +109,7 @@
         // Navigator
         internal const short InitializeNavigatorMessageEvent = 2142;
         internal const short RequestUserFlatCatsMessageEvent = 3976;
-        internal const short RequestNavigatorFlatsMessageEvent = 708;
+        internal const short RequestNavigatorSettingsMessageEvent = 708;
         internal const short NavigatorSearchMessageEvent = 3612;
         internal const short UpdateNavigatorPreferencesMessageEvent = 107;
 

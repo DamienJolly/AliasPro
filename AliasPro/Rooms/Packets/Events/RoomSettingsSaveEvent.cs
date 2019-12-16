@@ -72,8 +72,9 @@ namespace AliasPro.Rooms.Packets.Events
             room.MaxUsers = maxUsers;
 
             int categoryId = clientPacket.ReadInt();
-            if (_navigatorController.TryGetRoomCategory((uint)categoryId, out INavigatorCategory category))
-                room.CategoryId = categoryId;
+            //todo: fix
+            //if (_navigatorController.TryGetRoomCategory((uint)categoryId, out INavigatorCategory category))
+           //     room.CategoryId = categoryId;
 
             room.Tags.Clear();
             int amount = clientPacket.ReadInt();

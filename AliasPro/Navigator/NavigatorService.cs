@@ -11,7 +11,6 @@ namespace AliasPro.Navigator
         public void SetupService(IServiceCollection collection)
         {
             collection.AddSingleton<NavigatorDao>();
-            collection.AddSingleton<NavigatorRepository>();
             collection.AddSingleton<INavigatorController, NavigatorController>();
 
             AddPackets(collection);
@@ -21,7 +20,7 @@ namespace AliasPro.Navigator
         {
             collection.AddSingleton<IAsyncPacket, InitializeNavigatorEvent>();
             collection.AddSingleton<IAsyncPacket, RequestUserFlatCatsEvent>();
-            collection.AddSingleton<IAsyncPacket, RequestNavigatorFlatsEvent>();
+            collection.AddSingleton<IAsyncPacket, RequestNavigatorSettingsEvent>();
             collection.AddSingleton<IAsyncPacket, NavigatorSearchEvent>();
             collection.AddSingleton<IAsyncPacket, UpdateNavigatorPreferencesEvent>();
         }

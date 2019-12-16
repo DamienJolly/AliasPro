@@ -1,5 +1,4 @@
 ﻿using AliasPro.API.Navigator;
-using AliasPro.API.Navigator.Models;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
 using AliasPro.API.Sessions.Models;
@@ -8,13 +7,13 @@ using AliasPro.Network.Events.Headers;
 
 namespace AliasPro.Navigator.Packets.Events
 {
-    internal class RequestUserFlatCatsEvent : IAsyncPacket
+    internal class RequestNavigatorSettingsEvent : IAsyncPacket
     {
-        public short Header { get; } = Incoming.RequestUserFlatCatsMessageEvent;
+        public short Header { get; } = Incoming.RequestNavigatorSettingsMessageEvent;
 
         private readonly INavigatorController _navigatorController;
 
-        public RequestUserFlatCatsEvent(INavigatorController navigatorController)
+        public RequestNavigatorSettingsEvent(INavigatorController navigatorController)
         {
             _navigatorController = navigatorController;
         }
@@ -23,7 +22,7 @@ namespace AliasPro.Navigator.Packets.Events
             ISession session,
             IClientPacket clientPacket)
         {
-            await session.SendPacketAsync(new UserFlatCatsComposer(_navigatorController.TryGetCategoryByView("hotel_view"), session.Player.Rank));
+            await session.SendPacketAsync(new NavigatorEventCategoriesComposer(_navigatorController.TryGetCategoryByView("roomads_view")));
         }
     }
 }

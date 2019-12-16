@@ -23,8 +23,10 @@ namespace AliasPro.API.Rooms.Models
         int Score { get; set; }
         IList<string> Tags { get; set; }
 		IGroup Group { get; set; }
+        bool IsPromoted { get; }
 
         IRoomModel RoomModel { get; set; }
         IRoomSettings Settings { get; set; }
+        IRoomPromotion Promotion { get; set; }
     }
 }

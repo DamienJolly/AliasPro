@@ -8,9 +8,9 @@ namespace AliasPro.Rooms.Packets.Composers
 {
     public class PromoteOwnRoomsListComposer : IPacketComposer
     {
-        private readonly ICollection<IRoom> _rooms;
+        private readonly ICollection<IRoomData> _rooms;
 
-        public PromoteOwnRoomsListComposer(ICollection<IRoom> rooms)
+        public PromoteOwnRoomsListComposer(ICollection<IRoomData> rooms)
         {
             _rooms = rooms;
         }
@@ -18,13 +18,13 @@ namespace AliasPro.Rooms.Packets.Composers
         public ServerPacket Compose()
         {
             ServerPacket message = new ServerPacket(Outgoing.PromoteOwnRoomsListMessageComposer);
-            message.WriteBoolean(true); //??
+            message.WriteBoolean(false); //??
             message.WriteInt(_rooms.Count);
-            foreach (IRoom room in _rooms)
+            foreach (IRoomData room in _rooms)
             {
                 message.WriteInt(room.Id);
                 message.WriteString(room.Name);
-                message.WriteBoolean(true); // owner?
+                message.WriteBoolean(room.IsPromoted);
             }
             return message;
         }

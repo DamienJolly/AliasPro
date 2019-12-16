@@ -3,10 +3,13 @@ using AliasPro.API.Navigator.Models;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
 using AliasPro.API.Rooms;
+using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Navigator.Models;
 using AliasPro.Navigator.Packets.Composers;
 using AliasPro.Network.Events.Headers;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AliasPro.Navigator.Packets.Events
 {
@@ -18,8 +21,8 @@ namespace AliasPro.Navigator.Packets.Events
         private readonly IRoomController _roomController;
 
         public NavigatorSearchEvent(
-			INavigatorController navigatorController, 
-			IRoomController roomController)
+			INavigatorController navigatorController,
+            IRoomController roomController)
         {
             _navigatorController = navigatorController;
             _roomController = roomController;
@@ -29,14 +32,40 @@ namespace AliasPro.Navigator.Packets.Events
             ISession session,
             IClientPacket clientPacket)
         {
-            string category = clientPacket.ReadString();
-            string data = clientPacket.ReadString();
+            string name = clientPacket.ReadString();
+            string query = clientPacket.ReadString();
+            bool showMore = !_navigatorController.IsView(name);
 
-            if (!_navigatorController.TryGetCategories(category, out IDictionary<uint, INavigatorCategory> categories))
-                return;
+            IList<INavigatorSearchResult> results = new List<INavigatorSearchResult>();
+
+            if (showMore)
+            {
+                if (_navigatorController.TryGetCategory(name, out INavigatorCategory category))
+                {
+                    IList<IRoomData> rooms = 
+                        await category.CategoryType.GetResults(_roomController, session.Player, query);
+
+                    if (rooms.Count != 0)
+                        results.Add(new NavigatorSearchResult(category.SortId, category.Identifier, category.PublicName, rooms.OrderByDescending(r => r.UsersNow).ToList(), showMore));
+                }
+            }
+            else
+            {
+                foreach (INavigatorCategory category in _navigatorController.TryGetCategoryByView(name))
+                {
+                    IList<IRoomData> rooms =
+                        await category.CategoryType.GetResults(_roomController, session.Player, query);
+
+                    if ((category.Identifier == "popular" && !string.IsNullOrEmpty(query)) || (category.Identifier == "query" && string.IsNullOrEmpty(query)))
+                        continue;
+
+                    if (rooms.Count != 0)
+                        results.Add(new NavigatorSearchResult(category.SortId, category.Identifier, category.PublicName, rooms.OrderByDescending(r => r.UsersNow).ToList(), showMore));
+                }
+            }
 
             await session.SendPacketAsync(
-                new NavigatorSearchResultSetComposer(session.Player, category, data, categories.Values, _roomController));
+                new NavigatorSearchResultSetComposer(name, query, results));
         }
     }
 }

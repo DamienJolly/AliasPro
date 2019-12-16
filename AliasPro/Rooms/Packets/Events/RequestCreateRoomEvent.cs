@@ -38,7 +38,8 @@ namespace AliasPro.Rooms.Packets.Events
 
             if (!_roomController.TryGetRoomModel(modelName, out IRoomModel model)) return;
 
-            if (!_navigatorController.TryGetRoomCategory((uint)categoryId, out INavigatorCategory category)) return;
+            // todo: fix
+            //if (!_navigatorController.TryGetRoomCategory((uint)categoryId, out INavigatorCategory category)) return;
 
             if (maxUsers > 250 || maxUsers < 10) return;
 

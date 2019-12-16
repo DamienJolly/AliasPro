@@ -29,7 +29,7 @@ namespace AliasPro.Groups.Packets.Events
 				return;
 
 			//todo: store in player class
-			_roomController.LoadPlayersRooms(session.Player.Id);
+			//_roomController.LoadPlayersRooms(session.Player.Id);
 			ICollection<IRoom> rooms = new List<IRoom>();
 
 			foreach (IRoom room in _roomController.Rooms)

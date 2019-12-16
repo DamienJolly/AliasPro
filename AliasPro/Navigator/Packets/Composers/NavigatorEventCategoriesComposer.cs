@@ -6,27 +6,24 @@ using System.Collections.Generic;
 
 namespace AliasPro.Navigator.Packets.Composers
 {
-    public class NavigatorFlatCatsComposer : IPacketComposer
+    public class NavigatorEventCategoriesComposer : IPacketComposer
     {
         private readonly ICollection<INavigatorCategory> _categories;
-        private readonly int _playerRank;
 
-        public NavigatorFlatCatsComposer(ICollection<INavigatorCategory> categories, int playerRank)
+        public NavigatorEventCategoriesComposer(ICollection<INavigatorCategory> categories)
         {
             _categories = categories;
-            _playerRank = playerRank;
         }
 
         public ServerPacket Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.NavigatorFlatCatsMessageComposer);
+            ServerPacket message = new ServerPacket(Outgoing.NavigatorEventCategoriesMessageComposer);
             message.WriteInt(_categories.Count);
-
             foreach (INavigatorCategory category in _categories)
             {
-                message.WriteInt(category.Id);
+                message.WriteInt(category.SortId);
                 message.WriteString(category.PublicName);
-                message.WriteBoolean(category.MinRank <= _playerRank);
+                message.WriteBoolean(category.Enabled);
             }
             return message;
         }

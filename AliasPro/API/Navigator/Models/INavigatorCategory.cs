@@ -4,11 +4,12 @@ namespace AliasPro.API.Navigator.Models
 {
     public interface INavigatorCategory
     {
-        uint Id { get; set; }
+        int SortId { get; set; }
         int MinRank { get; set; }
         string PublicName { get; set; }
         string Identifier { get; set; }
-        string Category { get; set; }
+        string View { get; set; }
         ICategoryType CategoryType { get; set; }
+        bool Enabled { get; set; }
     }
 }

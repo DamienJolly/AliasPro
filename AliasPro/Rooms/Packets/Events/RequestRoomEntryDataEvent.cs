@@ -61,6 +61,7 @@ namespace AliasPro.Rooms.Packets.Events
 
             await session.SendPacketAsync(new RoomFloorItemsComposer(room.Items.FloorItems, room.Items.GetItemOwners));
             await session.SendPacketAsync(new RoomWallItemsComposer(room.Items.WallItems, room.Items.GetItemOwners));
+            await session.SendPacketAsync(new RoomPromotionComposer(room));
 
             await room.Rights.ReloadRights(session);
         }

@@ -2,6 +2,7 @@
 using AliasPro.API.Groups.Models;
 using AliasPro.API.Rooms.Models;
 using AliasPro.Network.Protocol;
+using AliasPro.Utilities;
 using System.Collections.Generic;
 using System.Data.Common;
 
@@ -49,6 +50,7 @@ namespace AliasPro.Rooms.Models
             Score = data.Score;
             Tags = data.Tags;
 			Group = data.Group;
+            Promotion = data.Promotion;
         }
 
         public void Compose(ServerPacket message)
@@ -76,7 +78,14 @@ namespace AliasPro.Rooms.Models
 				message.WriteString(Group.Name);
 				message.WriteString(Group.Badge);
 			}
-		}
+
+            if (IsPromoted)
+            {
+                message.WriteString(Promotion.Title);
+                message.WriteString(Promotion.Description);
+                message.WriteInt((Promotion.EndTimestamp - (int)UnixTimestamp.Now) / 60);
+            }
+        }
 
         public uint Id { get; set; }
         public int OwnerId { get; set; }
@@ -103,8 +112,8 @@ namespace AliasPro.Rooms.Models
 				//	RoomType += 1;
 				if (Group != null)
 					type += 2;
-				//if (Data.Promotion != null)
-				//	RoomType += 4;
+				if (IsPromoted)
+                    type += 4;
 				//if (Data.Type == "private")
 					type += 8;
 				//if (Data.Allowpets)
@@ -113,7 +122,11 @@ namespace AliasPro.Rooms.Models
 			}
         }
 
+        public bool IsPromoted =>
+            Promotion != null && Promotion.EndTimestamp > (int)UnixTimestamp.Now;
+
         public IRoomModel RoomModel { get; set; }
         public IRoomSettings Settings { get; set; }
+        public IRoomPromotion Promotion { get; set; }
     }
 }

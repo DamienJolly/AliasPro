@@ -27,11 +27,9 @@ namespace AliasPro.Rooms.Packets.Events
             if (session.Player == null)
                 return;
 
-            //todo: sort this out
-            _roomController.LoadPlayersRooms(session.Player.Id);
-            ICollection<IRoom> rooms = new List<IRoom>();
-
-            foreach (IRoom room in _roomController.Rooms)
+            ICollection<IRoomData> rooms = new List<IRoomData>();
+            foreach (IRoomData room in 
+                await _roomController.GetPlayersRooms(session.Player.Id))
             {
                 if (room.OwnerId == session.Player.Id)
                     rooms.Add(room);

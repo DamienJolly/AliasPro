@@ -10,7 +10,9 @@ namespace AliasPro.API.Rooms
         void Cycle();
         ICollection<IRoom> Rooms { get; }
 
+		Task<ICollection<IRoomData>> GetPlayersRooms(uint playerId);
 		void LoadPlayersRooms(uint playerId);
+		IDictionary<int, IList<IRoomData>> GetRoomsByCategory();
 		bool TryGetRoom(uint roomId, out IRoom room);
 		Task<IRoom> LoadRoom(uint roomId);
 		Task<int> CreateRoomAsync(uint playerId, string name, string description, string modelName, int categoryId, int maxUsers, int tradeType);
@@ -33,5 +35,7 @@ namespace AliasPro.API.Rooms
 		Task<IList<string>> GetWordFilterForRoomAsync(uint roomId);
 		Task AddRoomWordFilter(string word, IRoom room);
 		Task RemoveRoomWordFilter(string word, IRoom room);
+		Task AddRoomPromotion(uint roomId, IRoomPromotion promotion);
+		Task UpdateRoomPromotion(uint roomId, IRoomPromotion promotion);
 	}
 }

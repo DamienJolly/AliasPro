@@ -9,6 +9,7 @@ using AliasPro.Items.Types;
 using AliasPro.Players.Types;
 using AliasPro.Rooms.Entities;
 using AliasPro.Rooms.Models;
+using AliasPro.Utilities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -40,6 +41,24 @@ namespace AliasPro.Rooms
                     roomId, playerId);
             });
         }
+
+		internal async Task CreateRoomPromotionAsync(uint roomId, IRoomPromotion promotion)
+		{
+			await CreateTransaction(async transaction =>
+			{
+				await Insert(transaction, "INSERT INTO `room_promotions` (`room_id`, `category_id`, `title`, `description`, `created_timestamp`, `end_timestamp`) VALUES (@0, @1, @2, @3, @4, @5)",
+					roomId, promotion.Category, promotion.Title, promotion.Description, promotion.StartTimestamp, promotion.EndTimestamp);
+			});
+		}
+
+		internal async Task UpdateRoomPromotionAsync(uint roomId, IRoomPromotion promotion)
+		{
+			await CreateTransaction(async transaction =>
+			{
+				await Insert(transaction, "UPDATE `room_promotions` SET `category_id` = @1, `title` = @2, `description` = @3, `end_timestamp` = @4 WHERE `room_id` = @0",
+					roomId, promotion.Category, promotion.Title, promotion.Description, promotion.EndTimestamp);
+			});
+		}
 
 		internal async Task CreateRoomWordFilterAsync(string word, uint roomId)
 		{
@@ -253,10 +272,34 @@ namespace AliasPro.Rooms
                     {
 						roomData = new RoomData(reader)
 						{
-							Group = await GetRoomGroup(reader.ReadData<int>("group_id"))
+							Group = await GetRoomGroup(reader.ReadData<int>("group_id")),
+							Promotion = await GetRoomPromotion((int)reader.ReadData<uint>("id"))
 						};
 					}
                 }, "SELECT `rooms`.* , `players`.`username` FROM `rooms` INNER JOIN `players` ON `players`.`id` = `rooms`.`owner` WHERE `rooms`.`id` = @0 LIMIT 1", id);
+            });
+
+            return roomData;
+        }
+
+        internal async Task<ICollection<IRoomData>> GetAllRoomDataById(uint playerId)
+        {
+            ICollection<IRoomData> roomData = new List<IRoomData>();
+            await CreateTransaction(async transaction =>
+            {
+                await Select(transaction, async reader =>
+                {
+                    while (await reader.ReadAsync())
+                    {
+						IRoomData data = new RoomData(reader)
+						{
+							Group = await GetRoomGroup(reader.ReadData<int>("group_id")),
+							Promotion = await GetRoomPromotion((int)reader.ReadData<uint>("id"))
+						};
+
+						roomData.Add(data);
+                    }
+                }, "SELECT `rooms`.* , `players`.`username` FROM `rooms` INNER JOIN `players` ON `players`.`id` = `rooms`.`owner` WHERE `rooms`.`owner` = @0;", playerId);
             });
 
             return roomData;
@@ -279,28 +322,25 @@ namespace AliasPro.Rooms
 			return group;
 		}
 
-        internal async Task<ICollection<IRoomData>> GetAllRoomDataById(uint playerId)
-        {
-            ICollection<IRoomData> roomData = new List<IRoomData>();
-            await CreateTransaction(async transaction =>
-            {
-                await Select(transaction, async reader =>
-                {
-                    while (await reader.ReadAsync())
-                    {
-						IRoomData data = new RoomData(reader)
-						{
-							Group = await GetRoomGroup(reader.ReadData<int>("group_id"))
-						};
-						roomData.Add(data);
-                    }
-                }, "SELECT `rooms`.* , `players`.`username` FROM `rooms` INNER JOIN `players` ON `players`.`id` = `rooms`.`owner` WHERE `rooms`.`owner` = @0;", playerId);
-            });
+		internal async Task<IRoomPromotion> GetRoomPromotion(int roomId)
+		{
+			IRoomPromotion promotion = null;
+			await CreateTransaction(async transaction =>
+			{
+				await Select(transaction, async reader =>
+				{
+					if (await reader.ReadAsync())
+					{
+						if (reader.ReadData<int>("end_timestamp") > (int)UnixTimestamp.Now)
+							promotion = new RoomPromotion(reader);
+					}
+				}, "SELECT * FROM `room_promotions` WHERE `room_id` = @0 ORDER BY `created_timestamp` DESC LIMIT 1;", roomId);
+			});
 
-            return roomData;
-        }
+			return promotion;
+		}
 
-        internal async Task<IRoomSettings> GetRoomSettingsId(uint id)
+		internal async Task<IRoomSettings> GetRoomSettingsId(uint id)
         {
             IRoomSettings roomSettings = null;
             await CreateTransaction(async transaction =>

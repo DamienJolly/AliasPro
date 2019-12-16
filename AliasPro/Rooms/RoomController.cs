@@ -75,6 +75,9 @@ namespace AliasPro.Rooms
 		public ICollection<IRoom> Rooms =>
 			_rooms.Values;
 
+		public async Task<ICollection<IRoomData>> GetPlayersRooms(uint playerId) =>
+			await _roomDao.GetAllRoomDataById(playerId);
+
 		public async void LoadPlayersRooms(uint playerId)
 		{
 			ICollection<IRoomData> roomDatas = await _roomDao.GetAllRoomDataById(playerId);
@@ -84,6 +87,20 @@ namespace AliasPro.Rooms
 				_rooms.TryAdd(room.Id, room);
 			}
 		}
+
+		public IDictionary<int, IList<IRoomData>> GetRoomsByCategory()
+		{
+			IDictionary<int, IList<IRoomData>> rooms = new Dictionary<int, IList<IRoomData>>();
+			foreach (IRoomData data in _rooms.Values)
+			{
+				if (!rooms.ContainsKey(data.CategoryId))
+					rooms.Add(data.CategoryId, new List<IRoomData>());
+
+				rooms[data.CategoryId].Add(data);
+			}
+			return rooms;
+		}
+
 
 		public bool TryGetRoom(uint roomId, out IRoom room) =>
 			_rooms.TryGetValue(roomId, out room);
@@ -132,6 +149,12 @@ namespace AliasPro.Rooms
 			}
 			return roomSettings;
 		}
+
+		public async Task AddRoomPromotion(uint roomId, IRoomPromotion promotion) =>
+			await _roomDao.CreateRoomPromotionAsync(roomId, promotion);
+
+		public async Task UpdateRoomPromotion(uint roomId, IRoomPromotion promotion) =>
+			await _roomDao.UpdateRoomPromotionAsync(roomId, promotion);
 
 		public async Task AddRoomWordFilter(string word, IRoom room)
 		{

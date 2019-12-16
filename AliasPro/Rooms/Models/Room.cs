@@ -22,7 +22,7 @@ namespace AliasPro.Rooms.Models
         public ItemsComponent Items { get; set; }
         public RightsComponent Rights { get; set; }
         public GameComponent Game { get; set; }
-		public RoomGrid RoomGrid { get; set; }
+        public RoomGrid RoomGrid { get; set; }
         public RoomCycle RoomCycle { get; set; }
         public IList<string> WordFilter { get; set; }
         public int IdleTimer { get; set; } = 0;
