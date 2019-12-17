@@ -34,7 +34,7 @@ namespace AliasPro.Logging
                             if (_categoryName == "AliasPro.Network.Events.EventProvider")
                             {
                                 level = "Packet";
-                                Console.ForegroundColor = ConsoleColor.Green;
+                                Console.ForegroundColor = ConsoleColor.DarkGreen;
                             }
                             else
                             {
@@ -49,7 +49,7 @@ namespace AliasPro.Logging
                             if (_categoryName == "AliasPro.Network.Events.EventProvider")
                             {
                                 level = "Packet";
-                                Console.ForegroundColor = ConsoleColor.Green;
+                                Console.ForegroundColor = ConsoleColor.DarkRed;
                             }
                             else
                             {

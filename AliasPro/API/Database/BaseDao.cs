@@ -76,7 +76,7 @@ namespace AliasPro.API.Database
             }
             catch (Exception ex)
             {
-                _logger.LogError("MySql Error: ", ex);
+                _logger.LogError($"MySql Error: {ex}");
                 transaction.Rollback();
             }
 
@@ -104,7 +104,7 @@ namespace AliasPro.API.Database
             }
             catch (Exception ex)
             {
-                _logger.LogError("MySql Error: ", ex);
+                _logger.LogError($"MySql Error: {ex}");
                 transaction.Rollback();
             }
         }
