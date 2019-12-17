@@ -26,9 +26,6 @@ namespace AliasPro.Configuration
             if (!File.Exists(GetFileFromDictionary(@"configuration.alias")))
             {
                 _logger.LogCritical("Configuration File not found.");
-                _logger.LogInformation("Press any key to exit.");
-                Console.ReadKey();
-                Environment.Exit(0);
             }
 
             IDictionary<string, string> variables = new Dictionary<string, string>();
@@ -48,9 +45,6 @@ namespace AliasPro.Configuration
             catch (Exception ex)
             {
                 _logger.LogCritical("Configuration File was missing some information.\n\n" + ex);
-                _logger.LogInformation("Press any key to exit.");
-                Console.ReadKey();
-                Environment.Exit(0);
             }
 
             return data;

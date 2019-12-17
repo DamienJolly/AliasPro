@@ -57,8 +57,6 @@ namespace AliasPro
             Console.WriteLine("");
             Console.ForegroundColor = ConsoleColor.Gray;
 
-            LoadFiles();
-
             IList<INetworkService> services = new List<INetworkService>
 			{
 				new ServerService(),
@@ -119,18 +117,5 @@ namespace AliasPro
         }
         
         static Task Main() => new Program().Run();
-
-        public void LoadFiles()
-        {
-            File.Delete(@"log.alias");
-            CreateFile(@"exceptions.alias");
-            CreateFile(@"log.alias");
-        }
-
-        private void CreateFile(string fileName)
-        {
-            var myFile = File.Create(fileName);
-            myFile.Close();
-        }
     }
 }

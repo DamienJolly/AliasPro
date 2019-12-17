@@ -4,6 +4,7 @@ using DotNetty.Transport.Bootstrapping;
 using DotNetty.Transport.Channels;
 using DotNetty.Transport.Channels.Sockets;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -39,14 +40,17 @@ namespace AliasPro.Network
                 .ChildOption(ChannelOption.RcvbufAllocator, new FixedRecvByteBufAllocator(1024))
                 .ChildOption(ChannelOption.Allocator, UnpooledByteBufferAllocator.Default);
 
-            IChannel serverChannl = await bootstrap.BindAsync(new IPEndPoint(IPAddress.Parse("0.0.0.0"), port));
-            if (serverChannl.Active)
+            try
             {
+                IChannel serverChannl = await bootstrap.BindAsync(new IPEndPoint(IPAddress.Parse("0.0.0.0"), port));
+                if (!serverChannl.Active)
+                    throw new Exception();
+
                 _logger.LogInformation($"Listening on port: {port}");
             }
-            else
+            catch
             {
-                _logger.LogError($"Failed to listen on port: {port}");
+                _logger.LogCritical($"Failed to listen on port: {port}");
             }
         }
     }

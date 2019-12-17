@@ -36,14 +36,12 @@ namespace AliasPro.API.Database
             catch
             {
                 _logger.LogCritical("Unable to connect to database, check settings and restart Alias.");
-                _logger.LogInformation("Press any key to exit.");
-                Console.ReadKey();
-                Environment.Exit(0);
             }
         }
 
         protected async Task CreateTransaction(Action<MySqlTransaction> transaction)
         {
+
             await CreateConnection(async connection =>
             {
                 try
@@ -76,7 +74,7 @@ namespace AliasPro.API.Database
             }
             catch (Exception ex)
             {
-                _logger.LogError($"MySql Error: {ex}");
+                _logger.LogError(ex, $"MySql Error");
                 transaction.Rollback();
             }
 
@@ -96,6 +94,7 @@ namespace AliasPro.API.Database
                     command.CommandText = query;
                     AddParameters(command.Parameters, parameters);
 
+
                     using (DbDataReader dbReader = await command.ExecuteReaderAsync())
                     {
                         reader(dbReader);
@@ -104,7 +103,7 @@ namespace AliasPro.API.Database
             }
             catch (Exception ex)
             {
-                _logger.LogError($"MySql Error: {ex}");
+                _logger.LogError(ex, $"MySql Error");
                 transaction.Rollback();
             }
         }

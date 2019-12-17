@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
+using System.IO;
 
 namespace AliasPro.Logging
 {
@@ -10,7 +11,14 @@ namespace AliasPro.Logging
 
         public ILogger CreateLogger(string categoryName)
         {
+            CreateFile(@"exceptions.alias");
             return new CustomConsoleLogger(categoryName);
+        }
+
+        private void CreateFile(string fileName)
+        {
+            var myFile = File.Create(fileName);
+            myFile.Close();
         }
 
         public class CustomConsoleLogger : ILogger
@@ -59,8 +67,25 @@ namespace AliasPro.Logging
                         }
                 }
 
-                Console.WriteLine($"[Alias] [{level}] : {formatter(state, exception)}");
+                Console.WriteLine($"[Alias] [{level}] : {state}");
                 Console.ForegroundColor = ConsoleColor.Gray;
+
+                if (logLevel == LogLevel.Error && exception != null)
+                {
+                    string currentText = File.ReadAllText(@"exceptions.alias");
+                    currentText += "\n\n";
+                    currentText += "Date: " + DateTime.Now.Day + "." + DateTime.Now.Month + "." + DateTime.Now.Year + " " + DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second;
+                    currentText += "\nEmulator Information: " + $"{state}";
+                    currentText += "\nInformation for developer: " + exception.ToString();
+                    File.WriteAllText(@"exceptions.alias", currentText);
+                }
+
+                if (logLevel == LogLevel.Critical)
+                {
+                    Console.WriteLine("Press any key to exit...");
+                    Console.ReadKey();
+                    Environment.Exit(0);
+                }
             }
 
             public bool IsEnabled(LogLevel logLevel)
