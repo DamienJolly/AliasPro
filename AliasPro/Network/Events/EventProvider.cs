@@ -3,6 +3,7 @@ using AliasPro.API.Network.Protocol;
 using AliasPro.API.Sessions.Models;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace AliasPro.Network.Events
@@ -22,12 +23,14 @@ namespace AliasPro.Network.Events
         {
             if (_events.TryGetValue(clientPacket.Header, out IAsyncPacket eventHandler))
             {
-                _logger.LogInformation($"Executing {eventHandler.GetType().Name} for header: {clientPacket.Header}.");
+                if (Debugger.IsAttached)
+                    _logger.LogInformation($"Executing {eventHandler.GetType().Name} for header: {clientPacket.Header}.");
                 eventHandler.HandleAsync(session, clientPacket);
             }
             else
             {
-                _logger.LogError($"Unable to handle packet: {clientPacket.Header}");
+                if (Debugger.IsAttached)
+                    _logger.LogWarning($"Unable to handle packet: {clientPacket.Header}");
             }
         }
     }

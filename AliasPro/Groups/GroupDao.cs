@@ -2,6 +2,7 @@
 using AliasPro.API.Database;
 using AliasPro.API.Groups.Models;
 using AliasPro.Groups.Models;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,11 +10,11 @@ namespace AliasPro.Groups
 {
     internal class GroupDao : BaseDao
     {
-        public GroupDao(IConfigurationController configurationController)
-            : base(configurationController)
-        {
+        public GroupDao(ILogger<BaseDao> logger, IConfigurationController configurationController)
+			: base(logger, configurationController)
+		{
 
-        }
+		}
 
 		public async Task<IList<IGroupBadgePart>> ReadBadgeParts()
 		{

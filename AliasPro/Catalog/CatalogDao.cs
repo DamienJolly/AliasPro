@@ -8,6 +8,7 @@ using AliasPro.Catalog.Models;
 using AliasPro.Items;
 using AliasPro.Players.Types;
 using AliasPro.Utilities;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -15,13 +16,13 @@ namespace AliasPro.Catalog
 {
     internal class CatalogDao : BaseDao
     {
-        public CatalogDao(IConfigurationController configurationController) 
-            : base(configurationController)
-        {
+        public CatalogDao(ILogger<BaseDao> logger, IConfigurationController configurationController)
+			: base(logger, configurationController)
+		{
 
-        }
+		}
 
-        internal async Task<IDictionary<int, ICatalogPage>> GetCatalogPages()
+		internal async Task<IDictionary<int, ICatalogPage>> GetCatalogPages()
         {
             IDictionary<int, ICatalogPage> pages = new Dictionary<int, ICatalogPage>();
 

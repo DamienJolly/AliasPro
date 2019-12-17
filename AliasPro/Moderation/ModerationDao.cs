@@ -3,6 +3,7 @@ using AliasPro.API.Database;
 using AliasPro.API.Moderation.Models;
 using AliasPro.Moderation.Models;
 using AliasPro.Utilities;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,11 +11,11 @@ namespace AliasPro.Moderation
 {
     internal class ModerationDao : BaseDao
     {
-        public ModerationDao(IConfigurationController configurationController)
-            : base(configurationController)
-        {
+        public ModerationDao(ILogger<BaseDao> logger, IConfigurationController configurationController)
+			: base(logger, configurationController)
+		{
 
-        }
+		}
 
 		public async Task<IList<IModerationPreset>> ReadPresets()
 		{

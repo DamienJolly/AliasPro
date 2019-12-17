@@ -3,6 +3,7 @@ using AliasPro.API.Database;
 using AliasPro.API.Players.Models;
 using AliasPro.Players.Models;
 using AliasPro.Players.Types;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,8 +11,8 @@ namespace AliasPro.Players
 {
     internal class PlayerDao : BaseDao
     {
-        public PlayerDao(IConfigurationController configurationController)
-            : base(configurationController)
+        public PlayerDao(ILogger<BaseDao> logger, IConfigurationController configurationController)
+            : base(logger, configurationController)
         {
 
         }

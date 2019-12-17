@@ -2,6 +2,7 @@
 using AliasPro.API.Database;
 using AliasPro.API.Pets.Models;
 using AliasPro.Pets.Models;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,11 +10,11 @@ namespace AliasPro.Pets
 {
     internal class PetDao : BaseDao
     {
-        public PetDao(IConfigurationController configurationController)
-            : base(configurationController)
-        {
+        public PetDao(ILogger<BaseDao> logger, IConfigurationController configurationController)
+			: base(logger, configurationController)
+		{
 
-        }
+		}
 
 		public async Task<IDictionary<int, IPetData>> ReadPetData()
 		{

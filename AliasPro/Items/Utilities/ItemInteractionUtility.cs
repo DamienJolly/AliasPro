@@ -34,7 +34,7 @@ namespace AliasPro.Items.Utilities
 				case "tent": return ItemInteractionType.TENT;
 				case "water": return ItemInteractionType.WATER;
                 case "default": return ItemInteractionType.DEFAULT;
-				default: System.Console.WriteLine(interaction + " doesn't exist"); return ItemInteractionType.DEFAULT;
+				default: return ItemInteractionType.DEFAULT;
 
 			}
         }

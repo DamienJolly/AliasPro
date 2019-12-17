@@ -3,6 +3,7 @@ using AliasPro.API.Configuration;
 using AliasPro.API.Database;
 using AliasPro.API.Players.Models;
 using AliasPro.Badges.Models;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,11 +11,11 @@ namespace AliasPro.Badges
 {
     internal class BadgeDao : BaseDao
     {
-        public BadgeDao(IConfigurationController configurationController)
-            : base(configurationController)
-        {
+        public BadgeDao(ILogger<BaseDao> logger, IConfigurationController configurationController)
+			: base(logger, configurationController)
+		{
 
-        }
+		}
 
 		public async Task<IDictionary<string, IBadge>> ReadBadges()
 		{

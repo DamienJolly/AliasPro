@@ -10,6 +10,7 @@ using AliasPro.Players.Types;
 using AliasPro.Rooms.Entities;
 using AliasPro.Rooms.Models;
 using AliasPro.Utilities;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -17,14 +18,13 @@ namespace AliasPro.Rooms
 {
     internal class RoomDao : BaseDao
     {
-		public RoomDao(
-			IConfigurationController configurationController)
-			: base(configurationController)
-        {
+		public RoomDao(ILogger<BaseDao> logger, IConfigurationController configurationController)
+			: base(logger, configurationController)
+		{
 
 		}
 
-        internal async Task CreateRoomRights(uint roomId, uint playerId)
+		internal async Task CreateRoomRights(uint roomId, uint playerId)
         {
             await CreateTransaction(async transaction =>
             {

@@ -2,6 +2,7 @@
 using AliasPro.API.Database;
 using AliasPro.API.Landing.Models;
 using AliasPro.Landing.Models;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,8 +10,8 @@ namespace AliasPro.Landing
 {
     internal class LandingDao : BaseDao
     {
-        public LandingDao(IConfigurationController configurationController)
-            : base(configurationController)
+        public LandingDao(ILogger<BaseDao> logger, IConfigurationController configurationController)
+            : base(logger, configurationController)
         {
 
         }

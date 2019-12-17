@@ -1,5 +1,6 @@
 ﻿using AliasPro.API.Configuration.Models;
 using AliasPro.Configuration.Models;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,10 +10,12 @@ namespace AliasPro.Configuration
 {
     internal class ConfigurationRepostiory
     {
+        private readonly ILogger<ConfigurationRepostiory> _logger;
         public IConfigurationData ConfigurationData;
 
-        public ConfigurationRepostiory()
+        public ConfigurationRepostiory(ILogger<ConfigurationRepostiory> logger)
         {
+            _logger = logger;
             ConfigurationData = ReadConfigurationFile();
         }
 
@@ -22,8 +25,10 @@ namespace AliasPro.Configuration
 
             if (!File.Exists(GetFileFromDictionary(@"configuration.alias")))
             {
-                //todo: use logger
-                Console.WriteLine("Configuration File not found.");
+                _logger.LogCritical("Configuration File not found.");
+                _logger.LogInformation("Press any key to exit.");
+                Console.ReadKey();
+                Environment.Exit(0);
             }
 
             IDictionary<string, string> variables = new Dictionary<string, string>();
@@ -42,8 +47,10 @@ namespace AliasPro.Configuration
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
-                Console.WriteLine("Configuration File was missing some information.");
+                _logger.LogCritical("Configuration File was missing some information.\n\n" + ex);
+                _logger.LogInformation("Press any key to exit.");
+                Console.ReadKey();
+                Environment.Exit(0);
             }
 
             return data;

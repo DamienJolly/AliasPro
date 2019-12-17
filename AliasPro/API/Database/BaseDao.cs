@@ -1,5 +1,6 @@
 ﻿using AliasPro.API.Configuration;
 using AliasPro.API.Configuration.Models;
+using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
 using System;
 using System.Data.Common;
@@ -9,29 +10,35 @@ namespace AliasPro.API.Database
 {
     public abstract class BaseDao
     {
+        private readonly ILogger<BaseDao> _logger;
         private readonly string _connectionString;
-        private readonly Action<object> _errorPrinter;
         private readonly IConfigurationController _configurationController;
 
-        protected BaseDao(IConfigurationController configurationController)
+        protected BaseDao(ILogger<BaseDao> logger, IConfigurationController configurationController)
         {
+            _logger = logger;
             _configurationController = configurationController;
-            _errorPrinter = (text) =>
-            {
-                Console.WriteLine("Caught error: " + text);
-            };
-
             IConfigurationData configData = _configurationController.ConfigurationData;
             _connectionString = configData.ConnectionString;
         }
 
         private async Task CreateConnection(Action<MySqlConnection> connection)
         {
-            using (MySqlConnection con = new MySqlConnection(_connectionString))
+            try
             {
-                await con.OpenAsync();
-                connection(con);
-                await con.CloseAsync();
+                using (MySqlConnection con = new MySqlConnection(_connectionString))
+                {
+                    await con.OpenAsync();
+                    connection(con);
+                    await con.CloseAsync();
+                }
+            }
+            catch
+            {
+                _logger.LogCritical("Unable to connect to database, check settings and restart Alias.");
+                _logger.LogInformation("Press any key to exit.");
+                Console.ReadKey();
+                Environment.Exit(0);
             }
         }
 
@@ -69,7 +76,7 @@ namespace AliasPro.API.Database
             }
             catch (Exception ex)
             {
-                _errorPrinter(ex);
+                _logger.LogError("MySql Error: ", ex);
                 transaction.Rollback();
             }
 
@@ -97,7 +104,7 @@ namespace AliasPro.API.Database
             }
             catch (Exception ex)
             {
-                _errorPrinter(ex);
+                _logger.LogError("MySql Error: ", ex);
                 transaction.Rollback();
             }
         }

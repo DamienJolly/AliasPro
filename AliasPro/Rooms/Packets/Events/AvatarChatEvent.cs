@@ -42,11 +42,8 @@ namespace AliasPro.Rooms.Packets.Events
 					IItem topItem = tile.TopItem;
 
 					if (topItem != null && topItem.Interaction is InteractionTent interaction)
-					{
-						System.Console.WriteLine("in tent");
-						targetEntities = interaction.TentEntities;
-					}
-				}
+                        targetEntities = interaction.TentEntities;
+                }
 
 				room.OnChat(text, colour, session.Entity, targetEntities);
             }

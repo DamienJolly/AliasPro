@@ -3,6 +3,7 @@ using AliasPro.API.Database;
 using AliasPro.API.Figure.Models;
 using AliasPro.Figure.Models;
 using AliasPro.Players.Types;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,11 +11,11 @@ namespace AliasPro.Figure
 {
     internal class FigureDao : BaseDao
     {
-        public FigureDao(IConfigurationController configurationController)
-            : base(configurationController)
-        {
+        public FigureDao(ILogger<BaseDao> logger, IConfigurationController configurationController)
+			: base(logger, configurationController)
+		{
 
-        }
+		}
 
 		internal async Task<IDictionary<int, IClothingItem>> GetClothingItemsAsync()
 		{

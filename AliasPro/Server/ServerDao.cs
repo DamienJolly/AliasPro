@@ -1,5 +1,6 @@
 ﻿using AliasPro.API.Configuration;
 using AliasPro.API.Database;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -7,8 +8,8 @@ namespace AliasPro.Server
 {
     internal class ServerDao : BaseDao
     {
-        public ServerDao(IConfigurationController configurationController)
-           : base(configurationController)
+        public ServerDao(ILogger<BaseDao> logger, IConfigurationController configurationController)
+            : base(logger, configurationController)
         {
 
         }

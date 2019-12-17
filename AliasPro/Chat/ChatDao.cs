@@ -2,6 +2,7 @@
 using AliasPro.API.Configuration;
 using AliasPro.API.Database;
 using AliasPro.Chat.Models;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,8 +10,8 @@ namespace AliasPro.Chat
 {
     internal class ChatDao : BaseDao
     {
-        public ChatDao(IConfigurationController configurationController)
-            : base(configurationController)
+        public ChatDao(ILogger<BaseDao> logger, IConfigurationController configurationController)
+            : base(logger, configurationController)
         {
 
         }

@@ -2,6 +2,7 @@
 using AliasPro.API.Database;
 using AliasPro.API.Permissions.Models;
 using AliasPro.Permissions.Models;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,11 +10,11 @@ namespace AliasPro.Permissions
 {
     internal class PermissionsDao : BaseDao
     {
-        public PermissionsDao(IConfigurationController configurationController)
-            : base(configurationController)
-        {
+        public PermissionsDao(ILogger<BaseDao> logger, IConfigurationController configurationController)
+			: base(logger, configurationController)
+		{
 
-        }
+		}
 
 		public async Task<IDictionary<int, IPermission>> ReadRankPermissions()
 		{

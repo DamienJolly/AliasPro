@@ -2,6 +2,7 @@
 using AliasPro.API.Achievements.Models;
 using AliasPro.API.Configuration;
 using AliasPro.API.Database;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,11 +10,11 @@ namespace AliasPro.Achievements
 {
     internal class AchievementDao : BaseDao
     {
-        public AchievementDao(IConfigurationController configurationController)
-            : base(configurationController)
-        {
+        public AchievementDao(ILogger<BaseDao> logger, IConfigurationController configurationController)
+			: base(logger, configurationController)
+		{
 
-        }
+		}
 
 		public async Task<IDictionary<string, IAchievement>> ReadAchievements()
 		{

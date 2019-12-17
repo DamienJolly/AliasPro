@@ -10,6 +10,7 @@ using AliasPro.Figure;
 using AliasPro.Groups;
 using AliasPro.Items;
 using AliasPro.Landing;
+using AliasPro.Logging;
 using AliasPro.Messenger;
 using AliasPro.Moderation;
 using AliasPro.Navigator;
@@ -22,10 +23,12 @@ using AliasPro.Rooms;
 using AliasPro.Server;
 using AliasPro.Sessions;
 using AliasPro.Trading;
+using AliasPro.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace AliasPro
@@ -36,7 +39,27 @@ namespace AliasPro
 
 		private Program()
         {
-			IList<INetworkService> services = new List<INetworkService>
+            Console.Title = "Alias Emulator is starting up...";
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("                      ______   _      _");
+            Console.WriteLine("                     |  __  | | |    |_|  ______    ______");
+            Console.WriteLine("                     | |__| | | |     _  |  __  |  |  ____|");
+            Console.WriteLine("                     |  __  | | |__  | | | |__| |  |____  |");
+            Console.WriteLine(@"                     |_|  |_| |____| |_| |_______\ |______|");
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("                                   Build: " + "2.0");
+            Console.WriteLine("                             https://DamienJolly.com");
+            Console.WriteLine("");
+            Console.WriteLine("");
+            Console.ForegroundColor = ConsoleColor.Gray;
+
+            LoadFiles();
+
+            IList<INetworkService> services = new List<INetworkService>
 			{
 				new ServerService(),
 				new NetworkService(),
@@ -63,7 +86,7 @@ namespace AliasPro
             IServiceCollection serviceCollection = new ServiceCollection();
             serviceCollection.AddLogging(logging =>
             {
-                logging.AddConsole();
+                logging.AddProvider(new CustomLoggerProvider());
             });
 
             foreach (INetworkService service in services)
@@ -84,6 +107,8 @@ namespace AliasPro
             IServerController server = _serviceProvider.GetService<IServerController>();
             await server.CleanupDatabase();
 
+            Console.Title = "Alias Emulator is online!";
+
             while (true)
             {
                 if (Console.ReadKey(true).Key == ConsoleKey.Enter)
@@ -94,5 +119,18 @@ namespace AliasPro
         }
         
         static Task Main() => new Program().Run();
+
+        public void LoadFiles()
+        {
+            File.Delete(@"log.alias");
+            CreateFile(@"exceptions.alias");
+            CreateFile(@"log.alias");
+        }
+
+        private void CreateFile(string fileName)
+        {
+            var myFile = File.Create(fileName);
+            myFile.Close();
+        }
     }
 }
