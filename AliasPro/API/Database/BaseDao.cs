@@ -39,11 +39,15 @@ namespace AliasPro.API.Database
         {
             await CreateConnection(async connection =>
             {
-                using (MySqlTransaction trans = await connection.BeginTransactionAsync())
+                try
                 {
-                    transaction(trans);
-                    trans.Commit();
+                    using (MySqlTransaction trans = await connection.BeginTransactionAsync())
+                    {
+                        transaction(trans);
+                        trans.Commit();
+                    }
                 }
+                catch { }
             });
         }
 
