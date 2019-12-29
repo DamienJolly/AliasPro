@@ -48,6 +48,12 @@ namespace AliasPro.Players.Packets.Events
 
             IPlayerData playerData = await _playerController.GetPlayerDataAsync(ssoTicket);
 
+            if (playerData == null)
+            {
+                session.Disconnect();
+                return;
+            }
+
             if (_playerController.TryGetPlayer(playerData.Id, out IPlayer currentPlayer))
             {
                 currentPlayer.Session.Disconnect();
