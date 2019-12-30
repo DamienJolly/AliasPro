@@ -77,7 +77,6 @@ namespace AliasPro.Rooms.Cycles
 					_entity.GoalPosition = _entity.Position;
 					return;
 				}
-                System.Console.WriteLine("2");
 
                 if (!_entity.Room.RoomGrid.TryGetRoomTile(_entity.Position.X, _entity.Position.Y, out IRoomTile oldTile))
 					{

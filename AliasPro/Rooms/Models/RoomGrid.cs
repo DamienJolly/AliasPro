@@ -34,7 +34,7 @@ namespace AliasPro.Rooms.Models
 
         public override bool IsWalkableAt(Position p, bool final, params object[] args)
         {
-            if (p.X < 0 || p.Y < 0 || p.X > MapSizeX || p.Y > MapSizeY)
+            if (p.X < 0 || p.Y < 0 || p.X >= MapSizeX || p.Y >= MapSizeY)
                 return false;
 
             if (!TryGetRoomTile(p.X, p.Y, out IRoomTile tile))
@@ -49,6 +49,9 @@ namespace AliasPro.Rooms.Models
 
         public bool CanStackAt(int targertX, int targetY, IItem item)
         {
+            if (targertX < 0 || targetY < 0 || targertX >= MapSizeX || targetY >= MapSizeY)
+                return false;
+
             bool canStack = true;
             IList<IRoomTile> tiles =
                 GetTilesFromItem(targertX, targetY, item);
