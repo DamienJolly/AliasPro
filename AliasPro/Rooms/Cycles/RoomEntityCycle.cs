@@ -45,20 +45,26 @@ namespace AliasPro.Rooms.Cycles
                 _entity.IsSitting = false;
                 _entity.IsLaying = false;
 
-                IList<Position> path = Pathfinder.FindPath(
-                    _entity.Room.RoomGrid,
-                    new Position(_entity.Position.X, _entity.Position.Y),
-                    new Position(_entity.GoalPosition.X, _entity.GoalPosition.Y),
-                    DiagonalMovement.ONE_WALKABLE,
-                    _entity);
+                IList<Position> path = null;
 
-				if (path == null || path.Count <= 0)
+                try
+                {
+                    path = Pathfinder.FindPath(
+                        _entity.Room.RoomGrid,
+                        new Position(_entity.Position.X, _entity.Position.Y),
+                        new Position(_entity.GoalPosition.X, _entity.GoalPosition.Y),
+                        DiagonalMovement.ONE_WALKABLE,
+                        _entity);
+                }
+                catch { }
+
+                if (path == null || path.Count <= 0)
 				{
-					_entity.GoalPosition = _entity.Position;
+                    _entity.GoalPosition = _entity.Position;
 					return;
 				}
 
-				Position nextStep = path[path.Count - 1];
+                Position nextStep = path[path.Count - 1];
 
                 if (!_entity.Room.RoomGrid.TryGetRoomTile(nextStep.X, nextStep.Y, out IRoomTile nextTile))
 				{
@@ -66,13 +72,14 @@ namespace AliasPro.Rooms.Cycles
 					return;
 				}
 
-				if (!nextTile.IsValidTile(_entity, path.Count <= 1))
+                if (!nextTile.IsValidTile(_entity, path.Count <= 1))
 				{
 					_entity.GoalPosition = _entity.Position;
 					return;
 				}
+                System.Console.WriteLine("2");
 
-				if (!_entity.Room.RoomGrid.TryGetRoomTile(_entity.Position.X, _entity.Position.Y, out IRoomTile oldTile))
+                if (!_entity.Room.RoomGrid.TryGetRoomTile(_entity.Position.X, _entity.Position.Y, out IRoomTile oldTile))
 					{
 					_entity.GoalPosition = _entity.Position;
 					return;

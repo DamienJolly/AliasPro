@@ -17,7 +17,7 @@ namespace AliasPro.Rooms.Packets.Events
             IRoom room = session.CurrentRoom;
             if (room == null || session.Entity == null) return;
 
-            int x = clientPacket.ReadInt();
+			int x = clientPacket.ReadInt();
             int y = clientPacket.ReadInt();
 
 			IRoomTile roomTile;
@@ -47,6 +47,6 @@ namespace AliasPro.Rooms.Packets.Events
                 return;
 
 			session.Entity.GoalPosition = roomTile.Position;
-        }
+		}
     }
 }

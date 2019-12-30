@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -54,12 +54,6 @@
 
   <ItemGroup>
     <Folder Include="Chat\Commands\Player\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Pathfinding">
-      <HintPath>..\..\Pathfinding\Pathfinding\bin\Release\netcoreapp2.1\Pathfinding.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>

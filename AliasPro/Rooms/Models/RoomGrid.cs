@@ -34,6 +34,9 @@ namespace AliasPro.Rooms.Models
 
         public override bool IsWalkableAt(Position p, bool final, params object[] args)
         {
+            if (p.X < 0 || p.Y < 0 || p.X > MapSizeX || p.Y > MapSizeY)
+                return false;
+
             if (!TryGetRoomTile(p.X, p.Y, out IRoomTile tile))
                 return false;
 
