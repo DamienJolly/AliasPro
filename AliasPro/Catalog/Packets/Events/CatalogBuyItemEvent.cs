@@ -152,21 +152,21 @@ namespace AliasPro.Catalog.Packets.Events
 											extraData = extraData.Substring(0, 150);
 
 										extraData = extraData + ";" + session.Player.Username + ";" + DateTime.Now.Day + "-" + DateTime.Now.Month + "-" + DateTime.Now.Year;
-										itemsToAdd.Add(new Item((uint)itemData.Id, session.Player.Id, extraData, itemData.ItemData));
+										itemsToAdd.Add(new Item((uint)itemData.Id, session.Player.Id, session.Player.Username, extraData, itemData.ItemData));
 									}
 									else if (itemData.ItemData.InteractionType == ItemInteractionType.TROPHY)
 									{
 										extraData = session.Player.Username + "\t" + DateTime.Now.Day + "\t" + DateTime.Now.Month + "\t" + DateTime.Now.Year + "\t" + extraData;
-										itemsToAdd.Add(new Item((uint)itemData.Id, session.Player.Id, extraData, itemData.ItemData));
+										itemsToAdd.Add(new Item((uint)itemData.Id, session.Player.Id, session.Player.Username, extraData, itemData.ItemData));
 									}
 									else if (itemData.ItemData.InteractionType == ItemInteractionType.TELEPORT)
 									{
-										itemsToAdd.Add(new Item((uint)itemData.Id, session.Player.Id, "", itemData.ItemData));
-										itemsToAdd.Add(new Item((uint)itemData.Id, session.Player.Id, "", itemData.ItemData));
+										itemsToAdd.Add(new Item((uint)itemData.Id, session.Player.Id, session.Player.Username, "", itemData.ItemData));
+										itemsToAdd.Add(new Item((uint)itemData.Id, session.Player.Id, session.Player.Username, "", itemData.ItemData));
 									}
 									else
 									{
-										itemsToAdd.Add(new Item((uint)itemData.Id, session.Player.Id, "", itemData.ItemData));
+										itemsToAdd.Add(new Item((uint)itemData.Id, session.Player.Id, session.Player.Username, "", itemData.ItemData));
 									}
 									break;
 								}

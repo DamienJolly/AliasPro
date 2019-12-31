@@ -52,7 +52,7 @@ namespace AliasPro.Items
                         items.Add(item.Id, item);
 
                     }
-                }, "SELECT * FROM `items` WHERE `player_id` = @0 AND `room_id` = '0';", id);
+                }, "SELECT `items`.*, `players`.`username` FROM `items` INNER JOIN `players` ON `players`.`id` = `items`.`player_id` WHERE `items`.`player_id` = @0 AND `items`.`room_id` = '0';", id);
             });
 
             return items;
@@ -75,8 +75,8 @@ namespace AliasPro.Items
 						}
 
 					}
-				}, "SELECT * FROM `items` WHERE `id` = @0;", itemId);
-			});
+				}, "SELECT `items`.*, `players`.`username` FROM `items` INNER JOIN `players` ON `players`.`id` = `items`.`player_id` WHERE `items`.`id` = @0;", itemId);
+            });
 
 			return item;
 		}
@@ -98,7 +98,7 @@ namespace AliasPro.Items
                         items.Add(item.Id, item);
 
                     }
-                }, "SELECT * FROM `items` WHERE `room_id` = @0;", id);
+                }, "SELECT `items`.*, `players`.`username` FROM `items` INNER JOIN `players` ON `players`.`id` = `items`.`player_id` WHERE `items`.`room_id` = @0;", id);
             });
 
             return items;

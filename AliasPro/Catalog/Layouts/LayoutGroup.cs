@@ -30,7 +30,7 @@ namespace AliasPro.Catalog.Layouts
 
         public IItem HandleItemPurchase(ISession session, ICatalogItemData itemData, string extraData)
         {
-            return new Item((uint)itemData.Id, session.Player.Id, "", itemData.ItemData);
+            return new Item((uint)itemData.Id, session.Player.Id, session.Player.Username, "", itemData.ItemData);
         }
     }
 }

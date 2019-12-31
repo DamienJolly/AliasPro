@@ -159,7 +159,7 @@ namespace AliasPro.Catalog.Packets.Events
 				session.Player.Username + "\t" +  
 				session.Player.Figure;
 
-			IItem giftItem = new Item((uint)gift.ItemId, userId, extraData, giftItemData);
+			IItem giftItem = new Item((uint)gift.ItemId, userId, username, extraData, giftItemData);
 			giftItem.Id = (uint)await _itemController.AddNewItemAsync(giftItem);
 
 			if (targetPlayer != null)

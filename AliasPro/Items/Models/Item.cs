@@ -17,7 +17,7 @@ namespace AliasPro.Items.Models
             Id = reader.ReadData<uint>("id");
             ItemId = reader.ReadData<uint>("item_id");
             PlayerId = reader.ReadData<uint>("player_id");
-            PlayerUsername = "Damien";
+            PlayerUsername = reader.ReadData<string>("username");
             RoomId = reader.ReadData<uint>("room_id");
             Rotation = reader.ReadData<int>("rot");
             Mode = reader.ReadData<int>("mode");
@@ -28,12 +28,12 @@ namespace AliasPro.Items.Models
                 reader.ReadData<double>("z"));
         }
 
-        internal Item(uint itemId, uint playerId, string extraData, IItemData itemData)
+        internal Item(uint itemId, uint playerId, string playerName, string extraData, IItemData itemData)
         {
             Id = 0;
             ItemId = itemId;
             PlayerId = playerId;
-            PlayerUsername = "Damien";
+            PlayerUsername = playerName;
             RoomId = 0;
             Rotation = 0;
             Mode = 0;

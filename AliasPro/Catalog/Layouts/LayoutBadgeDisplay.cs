@@ -41,7 +41,7 @@ namespace AliasPro.Catalog.Layouts
 
 			extraData = extraData + ";" + session.Player.Username + ";" + DateTime.Now.Day + "-" + DateTime.Now.Month + "-" + DateTime.Now.Year;
 
-            return new Item((uint)itemData.Id, session.Player.Id, extraData, itemData.ItemData);
+            return new Item((uint)itemData.Id, session.Player.Id, session.Player.Username, extraData, itemData.ItemData);
         }
     }
 }
