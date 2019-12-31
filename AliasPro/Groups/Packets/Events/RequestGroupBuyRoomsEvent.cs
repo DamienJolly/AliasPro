@@ -28,8 +28,8 @@ namespace AliasPro.Groups.Packets.Events
 			if (session.Player == null)
 				return;
 
-			ICollection<IRoom> rooms = new List<IRoom>();
-			foreach (IRoom room in 
+			ICollection<IRoomData> rooms = new List<IRoomData>();
+			foreach (IRoomData room in 
 				await _roomController.GetPlayersRooms(session.Player.Id))
 			{
 				if (room.OwnerId == session.Player.Id && room.Group == null)
