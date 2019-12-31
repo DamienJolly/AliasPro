@@ -264,9 +264,8 @@ namespace AliasPro.Rooms.Models
 							return heights[topItem.Mode] + topItem.Position.Z;
 					}
 
-					height += topItem.ItemData.Height + topItem.Position.Z;
+					height = topItem.ItemData.Height + topItem.Position.Z;
 				}
-
                 return height;
             }
         }
