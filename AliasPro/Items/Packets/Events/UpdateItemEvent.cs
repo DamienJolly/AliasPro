@@ -19,29 +19,30 @@ namespace AliasPro.Items.Packets.Events
         {
             IRoom room = session.CurrentRoom;
 
-            if (!room.Rights.HasRights(session.Player.Id)) return;
-
             uint itemId = (uint)clientPacket.ReadInt();
             if (room.Items.TryGetItem(itemId, out IItem item))
             {
-                int x = clientPacket.ReadInt();
-                int y = clientPacket.ReadInt();
-                int rot = clientPacket.ReadInt();
-                
-                if (room.RoomGrid.TryGetRoomTile(x, y, out IRoomTile roomTile))
+                if (room.Rights.HasRights(session.Player.Id))
                 {
-                    if (room.RoomGrid.CanStackAt(x, y, item))
+                    int x = clientPacket.ReadInt();
+                    int y = clientPacket.ReadInt();
+                    int rot = clientPacket.ReadInt();
+
+                    if (room.RoomGrid.TryGetRoomTile(x, y, out IRoomTile roomTile))
                     {
-                        room.RoomGrid.RemoveItem(item);
-                        item.RoomId = room.Id;
-                        item.Position = new RoomPosition(
-                            x,
-                            y,
-							item.Position.Z = item.ItemData.InteractionType == Types.ItemInteractionType.STACK_TOOL ? item.Position.Z : roomTile.Height);
-                        item.Rotation = rot;
-                        room.RoomGrid.AddItem(item);
-						item.Interaction.OnMoveItem();
-					}
+                        if (room.RoomGrid.CanStackAt(x, y, item))
+                        {
+                            room.RoomGrid.RemoveItem(item);
+                            item.RoomId = room.Id;
+                            item.Position = new RoomPosition(
+                                x,
+                                y,
+                                item.Position.Z = item.ItemData.InteractionType == Types.ItemInteractionType.STACK_TOOL ? item.Position.Z : roomTile.Height);
+                            item.Rotation = rot;
+                            room.RoomGrid.AddItem(item);
+                            item.Interaction.OnMoveItem();
+                        }
+                    }
                 }
 
                 await room.SendAsync(new FloorItemUpdateComposer(item));

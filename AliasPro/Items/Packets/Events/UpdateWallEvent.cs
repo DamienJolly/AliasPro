@@ -18,14 +18,16 @@ namespace AliasPro.Items.Packets.Events
         {
             IRoom room = session.CurrentRoom;
 
-            if (!room.Rights.HasRights(session.Player.Id)) return;
-
             uint itemId = (uint)clientPacket.ReadInt();
             if (room.Items.TryGetItem(itemId, out IItem item))
             {
-                string wallPosition = clientPacket.ReadString();
-                item.ExtraData = wallPosition;
-				item.Interaction.OnMoveItem();
+                if (room.Rights.HasRights(session.Player.Id))
+                {
+                    string wallPosition = clientPacket.ReadString();
+                    item.ExtraData = wallPosition;
+                    item.Interaction.OnMoveItem();
+                }
+
 				await room.SendAsync(new WallItemUpdateComposer(item));
             }
         }
