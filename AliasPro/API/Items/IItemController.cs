@@ -13,5 +13,6 @@ namespace AliasPro.API.Items
         Task<int> AddNewItemAsync(IItem item);
 		Task RemoveItemAsync(IItem item);
 		Task UpdatePlayerItemsAsync(ICollection<IItem> items);
-    }
+		Task UpdatePlayerItemAsync(IItem item);
+	}
 }

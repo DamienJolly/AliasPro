@@ -132,5 +132,14 @@ namespace AliasPro.Items
                 }
             });
         }
+
+        internal async Task UpdatePlayerItemAsync(IItem item)
+        {
+            await CreateTransaction(async transaction =>
+            {
+                await Insert(transaction, "UPDATE `items` SET `room_id` = 0, `extra_data` = @1, `player_id` = @2, `mode` = @3, `item_id` = @4 WHERE `id` = @0;", 
+                    item.Id, item.ExtraData, item.PlayerId, item.Mode, item.ItemId);
+            });
+        }
     }
 }

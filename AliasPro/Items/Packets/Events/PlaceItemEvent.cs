@@ -1,4 +1,5 @@
-﻿using AliasPro.API.Items.Models;
+﻿using AliasPro.API.Items;
+using AliasPro.API.Items.Models;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
 using AliasPro.API.Rooms.Models;
@@ -11,7 +12,12 @@ namespace AliasPro.Items.Packets.Events
     public class PlaceItemEvent : IAsyncPacket
     {
         public short Header { get; } = Incoming.PlaceItemMessageEvent;
-        
+
+        private readonly IItemController _itemController;
+        public PlaceItemEvent(IItemController itemController)
+        {
+            _itemController = itemController;
+        }
         public async void HandleAsync(
             ISession session,
             IClientPacket clientPacket)
@@ -56,6 +62,7 @@ namespace AliasPro.Items.Packets.Events
 				room.Items.AddItem(item);
 				item.Interaction.OnPlaceItem();
 				session.Player.Inventory.RemoveItem(item.Id);
+                await _itemController.UpdatePlayerItemAsync(item);
 
                 await session.SendPacketAsync(new RemovePlayerItemComposer(item.Id));
             }
