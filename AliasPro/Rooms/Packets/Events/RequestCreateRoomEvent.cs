@@ -49,6 +49,7 @@ namespace AliasPro.Rooms.Packets.Events
 
             int roomId = await _roomController.CreateRoomAsync(session.Player.Id, name, description, modelName, categoryId, maxUsers, tradeType);
             await session.SendPacketAsync(new RoomCreatedComposer(roomId, name));
+            await session.SendPacketAsync(new ForwardToRoomComposer((uint)roomId));
         }
     }
 }
