@@ -119,6 +119,7 @@ namespace AliasPro.Players.Packets.Events
             }
 
             player.PlayerCycle = new PlayerCycle(player);
+            player.Online = true;
 
             await _playerController.UpdatePlayerAsync(player);
         }
