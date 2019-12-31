@@ -39,6 +39,7 @@ namespace AliasPro
 
 		private Program()
         {
+            Console.Clear();
             Console.Title = "Alias Emulator is starting up...";
             Console.ForegroundColor = ConsoleColor.DarkBlue;
             Console.WriteLine();

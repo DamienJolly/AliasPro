@@ -29,7 +29,6 @@ namespace AliasPro.Rooms.Packets.Events
             if (room == null) return;
 
 			int petId = clientPacket.ReadInt();
-			System.Console.WriteLine(petId);
 			if (!room.Entities.TryGetEntityById(petId, out BaseEntity entity))
 				return;
 
