@@ -25,7 +25,7 @@ namespace AliasPro.Items.Packets.Events
             string rawData = clientPacket.ReadString();
             string[] data = rawData.Split(' ');
 
-            uint itemId = uint.Parse(data[0]);
+            if (uint.TryParse(data[0], out uint itemId)) return;
 
             IRoom room = session.CurrentRoom;
             
@@ -53,6 +53,8 @@ namespace AliasPro.Items.Packets.Events
                 }
                 else
                 {
+                    if (data.Length < 4) return;
+
                     item.ExtraData = data[1] + " " + data[2] + " " + data[3];
                     await session.SendPacketAsync(new AddWallItemComposer(item));
                 }
