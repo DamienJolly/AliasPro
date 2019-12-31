@@ -33,8 +33,6 @@ namespace AliasPro.Items.Packets.Events
 
             IRoom room = session.CurrentRoom;
 
-            if (!room.Rights.HasRights(session.Player.Id)) return;
-
             if (room.Items.TryGetItem(itemId, out IItem item))
             {
                 if (item.PlayerId != session.Player.Id && !room.Rights.IsOwner(session.Player.Id))
