@@ -1,12 +1,11 @@
 ﻿using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
 using AliasPro.API.Players;
+using AliasPro.API.Players.Models;
 using AliasPro.API.Rooms;
-using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
-using AliasPro.Rooms.Entities;
 
 namespace AliasPro.Rooms.Packets.Events
 {
@@ -32,18 +31,17 @@ namespace AliasPro.Rooms.Packets.Events
 
             if (!room.Rights.IsOwner(session.Player.Id)) return;
 
-            int entityId = clientPacket.ReadInt();
+            uint targetId = (uint)clientPacket.ReadInt();
+            if (room.Rights.HasRights(targetId)) return;
 
-            if (!room.Entities.TryGetEntityById(entityId, out BaseEntity entity)) return;
+            if (!_playerController.TryGetPlayer(targetId, out IPlayer targetPlayer))
+                return;
 
-            if (entity is PlayerEntity userEntity)
-            {
-                if (room.Rights.HasRights(userEntity.Player.Id)) return;
-                
-                room.Rights.GiveRights(userEntity.Player.Id, userEntity.Player.Username);
-                await _roomController.GiveRoomRights(room.Id, userEntity.Player.Id);
-                await room.Rights.ReloadRights(userEntity.Session);
-            }
+            room.Rights.GiveRights(targetPlayer.Id, targetPlayer.Username);
+            await _roomController.GiveRoomRights(room.Id, targetPlayer.Id);
+
+            if (targetPlayer.Session != null)
+                await room.Rights.ReloadRights(targetPlayer.Session);
         }
     }
 }
