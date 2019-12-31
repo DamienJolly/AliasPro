@@ -2,6 +2,8 @@
 using AliasPro.API.Items.Models;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
+using AliasPro.API.Players;
+using AliasPro.API.Players.Models;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Items.Packets.Composers;
@@ -14,9 +16,13 @@ namespace AliasPro.Items.Packets.Events
         public short Header { get; } = Incoming.RemoveItemMessageEvent;
 
         private readonly IItemController _itemController;
-        public RemoveItemEvent(IItemController itemController)
+        private readonly IPlayerController _playerController;
+        public RemoveItemEvent(
+            IItemController itemController,
+            IPlayerController playerController)
         {
             _itemController = itemController;
+            _playerController = playerController;
         }
         public async void HandleAsync(
             ISession session,
@@ -31,6 +37,9 @@ namespace AliasPro.Items.Packets.Events
 
             if (room.Items.TryGetItem(itemId, out IItem item))
             {
+                if (item.PlayerId != session.Player.Id && !room.Rights.IsOwner(session.Player.Id))
+                    return;
+
                 if (item.ItemData.Type == "s")
                 {
                     room.RoomGrid.RemoveItem(item);
@@ -45,14 +54,16 @@ namespace AliasPro.Items.Packets.Events
 
 				item.RoomId = 0;
                 item.CurrentRoom = null;
+                room.Items.RemoveItem(item.Id);
                 await _itemController.UpdatePlayerItemAsync(item);
 
-                if (session.Player.Inventory.TryAddItem(item))
+                if (_playerController.TryGetPlayer(item.PlayerId, out IPlayer targetPlayer))
                 {
-                    room.Items.RemoveItem(item.Id);
-
-                    await session.SendPacketAsync(new AddPlayerItemsComposer(1, (int)item.Id));
-                    await session.SendPacketAsync(new InventoryRefreshComposer());
+                    if (targetPlayer.Inventory.TryAddItem(item))
+                    {
+                        await targetPlayer.Session.SendPacketAsync(new AddPlayerItemsComposer(1, (int)item.Id));
+                        await targetPlayer.Session.SendPacketAsync(new InventoryRefreshComposer());
+                    }
                 }
             }
         }
