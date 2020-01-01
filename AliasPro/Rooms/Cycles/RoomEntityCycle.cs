@@ -40,10 +40,6 @@ namespace AliasPro.Rooms.Cycles
 				_entity.Position.Y != _entity.GoalPosition.Y)
             {
                 _entity.Actions.RemoveStatus("mv");
-                _entity.Actions.RemoveStatus("sit");
-                _entity.Actions.RemoveStatus("lay");
-                _entity.IsSitting = false;
-                _entity.IsLaying = false;
 
                 IList<Position> path = null;
 
@@ -84,6 +80,10 @@ namespace AliasPro.Rooms.Cycles
 					return;
 				}
 
+                _entity.Actions.RemoveStatus("sit");
+                _entity.Actions.RemoveStatus("lay");
+                _entity.IsSitting = false;
+                _entity.IsLaying = false;
                 _entity.Room.RoomGrid.RemoveEntity(_entity);
 
                 IItem nexTopItem = nextTile.TopItem;
