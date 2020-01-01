@@ -21,9 +21,9 @@ namespace AliasPro.Rooms.Packets.Events
             if (session.Entity.Actions.HasStatus("mv") ||
                 session.Entity.Actions.HasStatus("lay") ||
                 session.Entity.Actions.HasStatus("sit")) return;
-            
+
             if ((session.Entity.BodyRotation % 2) != 0)
-                session.Entity.SetRotation(session.Entity.BodyRotation--);
+                session.Entity.SetRotation(session.Entity.BodyRotation - 1);
 
             session.Entity.Actions.AddStatus("sit", 0.5 + "");
             session.Entity.IsSitting = true;
