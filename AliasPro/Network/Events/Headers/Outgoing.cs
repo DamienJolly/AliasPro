@@ -80,6 +80,8 @@
         internal const short EntityUpdateMessageComposer = 3902;
         internal const short EntityRemoveMessageComposer = 2369;
         internal const short AvatarChatMessageComposer = 3576;
+        internal const short AvatarShoutMessageComposer = 1941;
+        internal const short AvatarWhisperMessageComposer = 2133;
         internal const short RoomDataMessageComposer = 439;
         internal const short RoomFloorItemsMessageComposer = 2585;
         internal const short RoomWallItemsMessageComposer = 459;

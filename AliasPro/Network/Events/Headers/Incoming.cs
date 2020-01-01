@@ -70,6 +70,8 @@
         internal const short RequestFurnitureAliasesMessageEvent = 2443;
         internal const short MoveAvatarMessageEvent = 3155;
         internal const short AvatarChatMessageEvent = 500;
+        internal const short AvatarShoutMessageEvent = 3803;
+        internal const short AvatarWhisperMessageEvent = 3485;
         internal const short RequestRoomDataMessageEvent = 425;
         internal const short FindNewFriendsMessageEvent = 1100;
         internal const short RequestCreateRoomMessageEvent = 1227;

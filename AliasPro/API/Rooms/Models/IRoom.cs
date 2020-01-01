@@ -6,6 +6,7 @@ using AliasPro.Rooms.Cycles;
 using System.Threading.Tasks;
 using AliasPro.API.Groups.Models;
 using System.Collections.Generic;
+using AliasPro.Rooms.Types;
 
 namespace AliasPro.API.Rooms.Models
 {
@@ -26,8 +27,7 @@ namespace AliasPro.API.Rooms.Models
 		void Cycle();
         Task AddEntity(BaseEntity entity);
 		Task RemoveEntity(BaseEntity entity, bool notifyUser = true);
-
-		void OnChat(string text, int colour, BaseEntity entity, ICollection<BaseEntity> targetEntities = null);
+		void OnChat(string text, int colour, BaseEntity entity, RoomChatType chatType = RoomChatType.TALK);
 		Task UpdateRoomGroup(IGroup group);
 		Task SendAsync(IPacketComposer packet);
         void Dispose();

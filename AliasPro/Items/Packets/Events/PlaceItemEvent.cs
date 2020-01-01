@@ -25,7 +25,7 @@ namespace AliasPro.Items.Packets.Events
             string rawData = clientPacket.ReadString();
             string[] data = rawData.Split(' ');
 
-            if (uint.TryParse(data[0], out uint itemId)) return;
+            if (!uint.TryParse(data[0], out uint itemId)) return;
 
             IRoom room = session.CurrentRoom;
             

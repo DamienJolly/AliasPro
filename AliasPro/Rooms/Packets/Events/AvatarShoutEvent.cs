@@ -8,13 +8,13 @@ using AliasPro.Rooms.Types;
 
 namespace AliasPro.Rooms.Packets.Events
 {
-    public class AvatarChatEvent : IAsyncPacket
+    public class AvatarShoutEvent : IAsyncPacket
     {
-        public short Header { get; } = Incoming.AvatarChatMessageEvent;
+        public short Header { get; } = Incoming.AvatarShoutMessageEvent;
 
         private readonly IChatController _chatController;
 
-        public AvatarChatEvent(IChatController chatController)
+        public AvatarShoutEvent(IChatController chatController)
         {
             _chatController = chatController;
         }
@@ -33,7 +33,7 @@ namespace AliasPro.Rooms.Packets.Events
 
             if (!_chatController.HandleCommand(session, text))
             {
-                room.OnChat(text, colour, session.Entity, RoomChatType.TALK);
+                room.OnChat(text, colour, session.Entity, RoomChatType.SHOUT);
             }
         }
     }

@@ -25,7 +25,15 @@ namespace AliasPro.Network.Events
             {
                 if (Debugger.IsAttached)
                     _logger.LogInformation($"Executing {eventHandler.GetType().Name} for header: {clientPacket.Header}.");
-                eventHandler.HandleAsync(session, clientPacket);
+
+                try
+                {
+                    eventHandler.HandleAsync(session, clientPacket);
+                }
+                catch (System.Exception e)
+                {
+                    System.Console.WriteLine(e);
+                }
             }
             else
             {

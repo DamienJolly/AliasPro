@@ -1,5 +1,4 @@
-﻿using AliasPro.API.Chat;
-using AliasPro.API.Network.Events;
+﻿using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
@@ -8,16 +7,9 @@ using AliasPro.Rooms.Types;
 
 namespace AliasPro.Rooms.Packets.Events
 {
-    public class AvatarChatEvent : IAsyncPacket
+    public class AvatarWhisperEvent : IAsyncPacket
     {
-        public short Header { get; } = Incoming.AvatarChatMessageEvent;
-
-        private readonly IChatController _chatController;
-
-        public AvatarChatEvent(IChatController chatController)
-        {
-            _chatController = chatController;
-        }
+        public short Header { get; } = Incoming.AvatarWhisperMessageEvent;
 
         public void HandleAsync(
             ISession session,
@@ -31,10 +23,7 @@ namespace AliasPro.Rooms.Packets.Events
 
             session.Entity.Unidle();
 
-            if (!_chatController.HandleCommand(session, text))
-            {
-                room.OnChat(text, colour, session.Entity, RoomChatType.TALK);
-            }
+            room.OnChat(text, colour, session.Entity, RoomChatType.WHISPER);
         }
     }
 }

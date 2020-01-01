@@ -18,7 +18,7 @@ namespace AliasPro.Groups
 
 		private static void AddPackets(IServiceCollection collection)
 		{
-			/*collection.AddSingleton<IAsyncPacket, RequestGroupInfoEvent>();
+			collection.AddSingleton<IAsyncPacket, RequestGroupInfoEvent>();
 			collection.AddSingleton<IAsyncPacket, RequestGroupBuyRoomsEvent>();
 			collection.AddSingleton<IAsyncPacket, RequestGroupPartsEvent>();
 			collection.AddSingleton<IAsyncPacket, RequestGroupBuyEvent>();
@@ -34,7 +34,7 @@ namespace AliasPro.Groups
 			collection.AddSingleton<IAsyncPacket, GroupChangeColorsEvent>();
 			collection.AddSingleton<IAsyncPacket, GroupChangeNameDescEvent>();
 			collection.AddSingleton<IAsyncPacket, GroupChangeSettingsEvent>();
-			collection.AddSingleton<IAsyncPacket, GroupDeleteEvent>();*/
+			collection.AddSingleton<IAsyncPacket, GroupDeleteEvent>();
 		}
 	}
 }

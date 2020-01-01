@@ -5,6 +5,7 @@ using AliasPro.Items.Models;
 using AliasPro.Items.Types;
 using AliasPro.Rooms.Entities;
 using AliasPro.Rooms.Packets.Composers;
+using AliasPro.Rooms.Types;
 
 namespace AliasPro.Items.WiredInteraction
 {
@@ -50,7 +51,7 @@ namespace AliasPro.Items.WiredInteraction
                         if (_target is PlayerEntity userEntity)
                         {
                             await userEntity.Session.SendPacketAsync(new AvatarChatComposer(
-                                userEntity.Id, WiredData.Message, 0, 34));
+                                userEntity.Id, WiredData.Message, 0, 34, RoomChatType.TALK));
                         }
                     }
                     else
@@ -58,7 +59,7 @@ namespace AliasPro.Items.WiredInteraction
                         foreach (PlayerEntity entity in _item.CurrentRoom.Entities.Entities)
                         {
                             await entity.Session.SendPacketAsync(new AvatarChatComposer(
-                            entity.Id, WiredData.Message, 0, 34));
+                            entity.Id, WiredData.Message, 0, 34, RoomChatType.TALK));
                         }
                     }
                     _active = false;

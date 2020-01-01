@@ -60,7 +60,13 @@ namespace AliasPro.Rooms.Components
         public bool TryGetEntityById(int entityId, out BaseEntity entity) =>
             _entities.TryGetValue(entityId, out entity);
 
-		public bool HasEntity(int entityId) =>
+        public bool TryGetPlayerEntityByName(string username, out BaseEntity entity)
+        {
+            entity = _entities.Values.Where(x => x is PlayerEntity && x.Name == username).FirstOrDefault();
+            return entity != null;
+        }
+
+        public bool HasEntity(int entityId) =>
 			_entities.ContainsKey(entityId);
 
         public ICollection<BaseEntity> Entities =>

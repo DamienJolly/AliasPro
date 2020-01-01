@@ -13,6 +13,8 @@ using AliasPro.Landing.Packets.Composers;
 using AliasPro.API.Groups.Models;
 using AliasPro.Groups.Packets.Composers;
 using System.Collections.Generic;
+using AliasPro.Rooms.Types;
+using AliasPro.Items.Interaction;
 
 namespace AliasPro.Rooms.Models
 {
@@ -51,8 +53,11 @@ namespace AliasPro.Rooms.Models
             catch { }
         }
 
-		public async void OnChat(string text, int colour, BaseEntity entity, ICollection<BaseEntity> targetEntities)
+		public async void OnChat(string text, int colour, BaseEntity entity, RoomChatType chatType)
         {
+            ICollection<BaseEntity> targetEntities = new List<BaseEntity>();
+            string targetName = string.Empty;
+
             if (colour == 1 || colour == -1 || colour == 2)
             {
                 colour = 0;
@@ -63,20 +68,45 @@ namespace AliasPro.Rooms.Models
                 text = text.Substring(0, 100);
             }
 
-            Items.TriggerWired(WiredInteractionType.SAY_SOMETHING, entity, text);
-
             if (Muted && entity is PlayerEntity player && !Rights.HasRights(player.Player.Id))
                 return;
 
             foreach (string word in WordFilter)
                 text = text.Replace(word, "bobba");
 
-            if (targetEntities == null)
-				targetEntities = Entities.Entities;
-
-			foreach (BaseEntity targetEntity in targetEntities)
+            if (chatType == RoomChatType.WHISPER)
             {
-				if (targetEntity != entity)
+                targetName = text.Split(' ')[0];
+                text = text.Substring(targetName.Length + 1);
+
+                if (!Entities.TryGetPlayerEntityByName(targetName, out BaseEntity targetEntity))
+                    return;
+
+                targetEntities.Add(targetEntity);
+                targetEntities.Add(entity);
+            }
+            else if (entity.Room.RoomGrid.TryGetRoomTile(entity.Position.X, entity.Position.Y, out IRoomTile tile) && 
+                tile.TopItem != null && 
+                tile.TopItem.Interaction is InteractionTent interaction)
+            {
+                targetEntities = interaction.TentEntities;
+            }
+            else
+            {
+                targetEntities = Entities.Entities;
+            }
+
+            Items.TriggerWired(WiredInteractionType.SAY_SOMETHING, entity, text);
+
+            foreach (BaseEntity targetEntity in targetEntities)
+            {
+                string message = text;
+                if (chatType == RoomChatType.WHISPER && targetEntity == entity)
+                {
+                    message = "[Whisper to " + targetName + "] " + text;
+                }
+
+                if (targetEntity != entity)
 				{
 					int newDir = targetEntity.Position.CalculateDirection(entity.Position.X, entity.Position.Y);
 
@@ -88,7 +118,7 @@ namespace AliasPro.Rooms.Models
 
 				if (targetEntity is PlayerEntity playerEntity)
 				{
-					await playerEntity.Session.SendPacketAsync(new AvatarChatComposer(entity.Id, text, 0, colour));
+                    await playerEntity.Session.SendPacketAsync(new AvatarChatComposer(entity.Id, message, 0, colour, chatType));
 				}
 			}
         }

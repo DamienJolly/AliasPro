@@ -36,8 +36,13 @@ namespace AliasPro.Network
             _messengerController = messengerController;
         }
 
-        public override void ChannelRegistered(IChannelHandlerContext context) =>
-            _sessionController.CacheSession(context);
+        public override void ChannelRegistered(IChannelHandlerContext context)
+        {
+            if (!_sessionController.TryGetSession(context.Channel.Id, out _))
+            {
+                _sessionController.CacheSession(context);
+            }
+        }
 
         public override void ChannelUnregistered(IChannelHandlerContext context)
         {
