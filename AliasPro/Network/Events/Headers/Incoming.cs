@@ -38,6 +38,7 @@
         internal const short RoomInviteMessageEvent = 1280;
         internal const short RequestProfileFriendsMessageEvent = 3763;
         internal const short ChangeRelationMessageEvent = 2356;
+        internal const short StalkFriendMessageEvent = 2623;
 
         // Items
         internal const short RequestFurniInventoryMessageEvent = 2835;

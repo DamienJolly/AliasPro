@@ -30,6 +30,7 @@ namespace AliasPro.Messenger
             collection.AddSingleton<IAsyncPacket, FriendPrivateMessageEvent>();
             collection.AddSingleton<IAsyncPacket, RoomInviteEvent>();
             collection.AddSingleton<IAsyncPacket, ChangeRelationEvent>();
+            collection.AddSingleton<IAsyncPacket, StalkFriendEvent>();
         }
     }
 }
