@@ -1,6 +1,6 @@
-﻿using AliasPro.API.Network.Events;
+﻿using AliasPro.API.Messenger;
+using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
-using AliasPro.API.Rooms;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
 
@@ -10,11 +10,12 @@ namespace AliasPro.Landing.Packets.Events
     {
         public short Header { get; } = Incoming.HotelViewMessageEvent;
 
-        private readonly IRoomController _roomController;
+        private readonly IMessengerController _messengerController;
 
-        public HotelViewEvent(IRoomController roomController)
+        public HotelViewEvent(
+            IMessengerController messengerController)
         {
-            _roomController = roomController;
+            _messengerController = messengerController;
         }
 
         public async void HandleAsync(
@@ -26,6 +27,9 @@ namespace AliasPro.Landing.Packets.Events
                 return;
             
             await session.CurrentRoom.RemoveEntity(session.Entity);
+
+            if (session.Player.Messenger != null)
+                await _messengerController.UpdateStatusAsync(session.Player, session.Player.Messenger.Friends);
         }
     }
 }

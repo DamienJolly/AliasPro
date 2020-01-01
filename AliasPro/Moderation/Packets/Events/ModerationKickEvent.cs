@@ -1,4 +1,5 @@
-﻿using AliasPro.API.Network.Events;
+﻿using AliasPro.API.Messenger;
+using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
 using AliasPro.API.Permissions;
 using AliasPro.API.Players;
@@ -15,13 +16,16 @@ namespace AliasPro.Moderation.Packets.Events
 
 		private readonly IPlayerController _playerController;
 		private readonly IPermissionsController _permissionsController;
+		private readonly IMessengerController _messengerController;
 
 		public ModerationKickEvent(
 			IPlayerController playerController,
-			IPermissionsController permissionsController)
+			IPermissionsController permissionsController,
+			IMessengerController messengerController)
 		{
 			_playerController = playerController;
 			_permissionsController = permissionsController;
+			_messengerController = messengerController;
 		}
 
 		public async void HandleAsync(
@@ -42,6 +46,9 @@ namespace AliasPro.Moderation.Packets.Events
 
 			await player.Session.CurrentRoom.RemoveEntity(player.Session.Entity);
 			await player.Session.SendPacketAsync(new ModerationIssueHandledComposer(message));
-        }
+
+			if (player.Messenger != null)
+				await _messengerController.UpdateStatusAsync(player, player.Messenger.Friends);
+		}
     }
 }

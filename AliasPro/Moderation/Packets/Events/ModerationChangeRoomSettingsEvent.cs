@@ -1,4 +1,5 @@
-﻿using AliasPro.API.Network.Events;
+﻿using AliasPro.API.Messenger;
+using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
 using AliasPro.API.Permissions;
 using AliasPro.API.Rooms;
@@ -17,13 +18,16 @@ namespace AliasPro.Moderation.Packets.Events
         
         private readonly IRoomController _roomController;
 		private readonly IPermissionsController _permissionsController;
+		private readonly IMessengerController _messengerController;
 
 		public ModerationChangeRoomSettingsEvent(
 			IRoomController roomController,
-			IPermissionsController permissionsController)
+			IPermissionsController permissionsController,
+			IMessengerController messengerController)
 		{
 			_roomController = roomController;
 			_permissionsController = permissionsController;
+			_messengerController = messengerController;
 		}
 
 		public async void HandleAsync(
@@ -51,7 +55,12 @@ namespace AliasPro.Moderation.Packets.Events
 				foreach (BaseEntity entity in room.Entities.Entities.ToList())
 				{
 					if (entity is PlayerEntity playerEntity)
+					{
 						await playerEntity.Session.CurrentRoom.RemoveEntity(entity);
+
+						if (playerEntity.Player.Messenger != null)
+							await _messengerController.UpdateStatusAsync(playerEntity.Player, playerEntity.Player.Messenger.Friends);
+					}
 				}
 			}
 		}

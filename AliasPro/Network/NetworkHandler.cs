@@ -76,13 +76,12 @@ namespace AliasPro.Network
             if (session.Player.Inventory != null)
                 await _itemController.UpdatePlayerItemsAsync(session.Player.Inventory.Items);
 
+            if (session.CurrentRoom != null && session.Entity != null)
+                await session.CurrentRoom.RemoveEntity(session.Entity, false);
+
             if (session.Player.Messenger != null)
                 await _messengerController.UpdateStatusAsync(session.Player, session.Player.Messenger.Friends);
 
-			if (session.CurrentRoom != null &&
-                session.Entity != null)
-                await session.CurrentRoom.RemoveEntity(session.Entity, false);
-            
             _playerController.RemovePlayer(session.Player);
         }
     }
