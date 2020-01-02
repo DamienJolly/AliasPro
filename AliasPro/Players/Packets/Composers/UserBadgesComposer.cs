@@ -9,9 +9,9 @@ namespace AliasPro.Players.Packets.Composers
     public class UserBadgesComposer : IPacketComposer
     {
         private readonly ICollection<IPlayerBadge> _badges;
-        private readonly uint _playerId;
+        private readonly int _playerId;
 
-        public UserBadgesComposer(ICollection<IPlayerBadge> badges, uint playerId)
+        public UserBadgesComposer(ICollection<IPlayerBadge> badges, int playerId)
         {
             _badges = badges;
             _playerId = playerId;

@@ -13,5 +13,7 @@ namespace AliasPro.API.Players.Models
         string Motto { get; set; }
         bool Online { get; set; }
         int Score { get; set; }
+        int CreatedAt { get; set; }
+        int LastOnline { get; set; }
     }
 }

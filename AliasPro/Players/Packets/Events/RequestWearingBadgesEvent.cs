@@ -5,6 +5,8 @@ using AliasPro.API.Players.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Players.Packets.Composers;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AliasPro.Players.Packets.Events
 {
@@ -14,7 +16,8 @@ namespace AliasPro.Players.Packets.Events
 
         private readonly IPlayerController _playerController;
 
-        public RequestWearingBadgesEvent(IPlayerController playerController)
+        public RequestWearingBadgesEvent(
+            IPlayerController playerController)
         {
             _playerController = playerController;
         }
@@ -23,14 +26,25 @@ namespace AliasPro.Players.Packets.Events
             ISession session,
             IClientPacket clientPacket)
         {
-            uint playerId = (uint)clientPacket.ReadInt();
+            int playerId = clientPacket.ReadInt();
 
-            if (!_playerController.TryGetPlayer(playerId, out IPlayer targetPlayer))
-                return;
+            ICollection<IPlayerBadge> targetBadges;
 
-            if (targetPlayer.Badge == null) return;
+            if (_playerController.TryGetPlayer((uint)playerId, out IPlayer player) && player.Badge != null)
+            {
+                targetBadges = player.Badge.WornBadges;
+            }
+            else
+            {
+                IDictionary<string, IPlayerBadge> targetBadgesDictionary =
+                    await _playerController.GetPlayerBadgesAsync((uint)playerId);
+                targetBadges = WornBadges(targetBadgesDictionary.Values);
+            }
 
-            await session.SendPacketAsync(new UserBadgesComposer(targetPlayer.Badge.WornBadges, targetPlayer.Id));
+            await session.SendPacketAsync(new UserBadgesComposer(targetBadges, playerId));
         }
+
+        private ICollection<IPlayerBadge> WornBadges(ICollection<IPlayerBadge> badges) =>
+            badges.Where(badge => badge.Slot > 0).OrderBy(badge => badge.Slot).ToList();
     }
 }

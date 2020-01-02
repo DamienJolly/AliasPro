@@ -34,6 +34,9 @@ namespace AliasPro.Players
         public async Task<IPlayerData> GetPlayerDataAsync(uint playerId) =>
            await _playerDao.GetPlayerDataAsync(playerId);
 
+        public async Task<int> GetPlayerFriendsAsync(uint playerId) =>
+            await _playerDao.GetPlayerFriendsAsync(playerId);
+
         public bool TryAddPlayer(IPlayer player)
         {
             if (!_players.TryAdd(player.Id, player))

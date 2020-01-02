@@ -1,10 +1,13 @@
-﻿using AliasPro.API.Network.Events;
+﻿using AliasPro.API.Messenger;
+using AliasPro.API.Messenger.Models;
+using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
 using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Players.Packets.Composers;
+using System.Collections.Generic;
 
 namespace AliasPro.Players.Packets.Events
 {
@@ -13,25 +16,36 @@ namespace AliasPro.Players.Packets.Events
         public short Header { get; } = Incoming.RequestProfileFriendsMessageEvent;
 
         private readonly IPlayerController _playerController;
+        private readonly IMessengerController _messengerController;
 
-        public RequestProfileFriendsEvent(IPlayerController playerController)
+        public RequestProfileFriendsEvent(
+            IPlayerController playerController,
+            IMessengerController messengerController)
         {
             _playerController = playerController;
+            _messengerController = messengerController;
         }
 
         public async void HandleAsync(
             ISession session,
             IClientPacket clientPacket)
         {
-            uint playerId = (uint)clientPacket.ReadInt();
+            int playerId = clientPacket.ReadInt();
 
-            if (!_playerController.TryGetPlayer(playerId, out IPlayer targetPlayer))
-                return;
+            ICollection<IMessengerFriend> targetFriends;
 
-            //todo: remove/fix
-            if (targetPlayer.Messenger == null) return;
+            if (_playerController.TryGetPlayer((uint)playerId, out IPlayer player) && player.Messenger != null)
+            {
+                targetFriends = player.Messenger.Friends;
+            }
+            else
+            {
+                IDictionary<uint, IMessengerFriend> targetFriendsDictionary = 
+                    await _messengerController.GetPlayerFriendsAsync((uint)playerId);
+                targetFriends = targetFriendsDictionary.Values;
+            }
 
-            await session.SendPacketAsync(new ProfileFriendsComposer(targetPlayer.Id, targetPlayer.Messenger.Friends));
+            await session.SendPacketAsync(new ProfileFriendsComposer(playerId, targetFriends));
         }
     }
 }

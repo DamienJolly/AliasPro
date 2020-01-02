@@ -42,8 +42,16 @@ namespace AliasPro.Players
         public async Task<IPlayerData> GetPlayerDataAsync(string SSO) =>
             await _playerRepostiory.GetPlayerDataAsync(SSO);
 
-        public async Task<IPlayerData> GetPlayerDataAsync(uint playerId) =>
-            await _playerRepostiory.GetPlayerDataAsync(playerId);
+        public async Task<IPlayerData> GetPlayerDataAsync(uint playerId)
+        {
+            if (TryGetPlayer(playerId, out IPlayer player))
+                return player;
+
+            return await _playerRepostiory.GetPlayerDataAsync(playerId);
+        }
+
+        public async Task<int> GetPlayerFriendsAsync(uint playerId) =>
+            await _playerRepostiory.GetPlayerFriendsAsync(playerId);
 
         public bool TryGetPlayer(uint playerId, out IPlayer player) =>
             _playerRepostiory.TryGetPlayer(playerId, out player);

@@ -80,7 +80,7 @@ namespace AliasPro.Achievements
 					{
 						if (player.Session.CurrentRoom != null)
 							await player.Session.CurrentRoom.SendAsync(new UserBadgesComposer(
-								player.Badge.WornBadges, player.Id));
+								player.Badge.WornBadges, (int)player.Id));
 					}
 				}
 			}

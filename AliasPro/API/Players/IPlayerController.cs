@@ -11,6 +11,7 @@ namespace AliasPro.API.Players
         ICollection<IPlayer> Players { get; }
         Task<IPlayerData> GetPlayerDataAsync(string SSO);
         Task<IPlayerData> GetPlayerDataAsync(uint playerId);
+        Task<int> GetPlayerFriendsAsync(uint playerId);
         bool TryGetPlayer(string playerUsername, out IPlayer player);
         bool TryGetPlayer(uint playerId, out IPlayer player);
 		Task<uint> TryGetPlayerIdByUsername(string username);

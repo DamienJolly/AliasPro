@@ -46,7 +46,7 @@ namespace AliasPro.Players
                     if (await reader.ReadAsync())
                     {
                         data = new PlayerData(reader);
-                        //await ClearSSOAsync(data.Id);
+                        await ClearSSOAsync(data.Id);
                     }
                 }, "SELECT * FROM `players` WHERE `auth_ticket` = @0 LIMIT 1;", SSO);
             });
@@ -67,6 +67,22 @@ namespace AliasPro.Players
                 }, "SELECT * FROM `players` WHERE `id` = @0 LIMIT 1;", playerId);
             });
             return data;
+        }
+
+        internal async Task<int> GetPlayerFriendsAsync(uint playerId)
+        {
+            int friends = 0;
+            await CreateTransaction(async transaction =>
+            {
+                await Select(transaction, async reader =>
+                {
+                    if (await reader.ReadAsync())
+                    {
+                        friends = (int)reader.ReadData<long>("count");
+                    }
+                }, "SELECT COUNT(*) AS `count` FROM `messenger_friends` WHERE `player_id` = @0;", playerId);
+            });
+            return friends;
         }
 
         internal async Task ClearSSOAsync(uint playerId)

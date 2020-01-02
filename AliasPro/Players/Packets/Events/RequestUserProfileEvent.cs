@@ -1,10 +1,13 @@
-﻿using AliasPro.API.Network.Events;
+﻿using AliasPro.API.Groups;
+using AliasPro.API.Groups.Models;
+using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
 using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Players.Packets.Composers;
+using System.Collections.Generic;
 
 namespace AliasPro.Players.Packets.Events
 {
@@ -13,23 +16,45 @@ namespace AliasPro.Players.Packets.Events
         public short Header { get; } = Incoming.RequestUserProfileMessageEvent;
 
         private readonly IPlayerController _playerController;
+        private readonly IGroupController _groupController;
 
-        public RequestUserProfileEvent(IPlayerController playerController)
+        public RequestUserProfileEvent(
+            IPlayerController playerController,
+            IGroupController groupController)
         {
             _playerController = playerController;
+            _groupController = groupController;
         }
 
         public async void HandleAsync(
             ISession session,
             IClientPacket clientPacket)
         {
-            uint playerId = (uint)clientPacket.ReadInt();
+            int playerId = clientPacket.ReadInt();
 
-			IPlayerData targetPlayer = await _playerController.GetPlayerDataAsync((uint)playerId);
-			if (targetPlayer == null)
-				return;
+            IPlayerData playerdata;
+            int friendCount;
 
-            await session.SendPacketAsync(new UserProfileComposer(targetPlayer));
+            if (_playerController.TryGetPlayer((uint)playerId, out IPlayer player))
+            {
+                playerdata = player;
+
+                if (player.Messenger != null)
+                    friendCount = player.Messenger.Friends.Count;
+                else
+                    friendCount = await _playerController.GetPlayerFriendsAsync((uint)playerId);
+            }
+            else
+            {
+                playerdata = await _playerController.GetPlayerDataAsync((uint)playerId);
+                if (playerdata == null)
+                    return;
+
+                friendCount = await _playerController.GetPlayerFriendsAsync((uint)playerId);
+            }
+
+            ICollection<IGroup> targetGroups = await _groupController.ReadPlayerGroups(playerId);
+            await session.SendPacketAsync(new UserProfileComposer(session.Player, playerdata, targetGroups, friendCount));
         }
     }
 }

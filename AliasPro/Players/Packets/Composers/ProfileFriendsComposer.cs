@@ -9,12 +9,12 @@ namespace AliasPro.Players.Packets.Composers
 {
     public class ProfileFriendsComposer : IPacketComposer
     {
-        private readonly uint _targetId;
+        private readonly int _targetId;
         private readonly IList<IMessengerFriend> _love;
         private readonly IList<IMessengerFriend> _happy;
         private readonly IList<IMessengerFriend> _sad;
 
-        public ProfileFriendsComposer(uint targetId, ICollection<IMessengerFriend> friends)
+        public ProfileFriendsComposer(int targetId, ICollection<IMessengerFriend> friends)
         {
             _targetId = targetId;
             _love = new List<IMessengerFriend>();

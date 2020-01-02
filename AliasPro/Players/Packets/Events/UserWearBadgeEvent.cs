@@ -44,13 +44,13 @@ namespace AliasPro.Players.Packets.Events
             {
                 await session.CurrentRoom.SendAsync(new UserBadgesComposer(
                     session.Player.Badge.WornBadges, 
-                    session.Player.Id));
+                    (int)session.Player.Id));
                 return;
             }
 
             await session.SendPacketAsync(new UserBadgesComposer(
                     session.Player.Badge.WornBadges,
-                    session.Player.Id));
+                    (int)session.Player.Id));
         }
     }
 }
