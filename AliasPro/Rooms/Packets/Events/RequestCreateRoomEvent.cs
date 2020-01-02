@@ -17,7 +17,9 @@ namespace AliasPro.Rooms.Packets.Events
         private readonly IRoomController _roomController;
         private readonly INavigatorController _navigatorController;
 
-        public RequestCreateRoomEvent(IRoomController roomController, INavigatorController navigatorController)
+        public RequestCreateRoomEvent(
+            IRoomController roomController, 
+            INavigatorController navigatorController)
         {
             _roomController = roomController;
             _navigatorController = navigatorController;
@@ -36,7 +38,7 @@ namespace AliasPro.Rooms.Packets.Events
 
             // todo: room name/description checks
 
-            if (!_roomController.TryGetRoomModel(modelName, out IRoomModel model)) return;
+            if (!_roomController.TryGetRoomModel(modelName, out _)) return;
 
             // todo: fix
             //if (!_navigatorController.TryGetRoomCategory((uint)categoryId, out INavigatorCategory category)) return;

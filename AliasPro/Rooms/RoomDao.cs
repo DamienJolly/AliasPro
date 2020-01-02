@@ -241,8 +241,8 @@ namespace AliasPro.Rooms
             {
                 roomId = await Insert(transaction, "INSERT INTO `rooms` (`owner`, `name`, `caption`, `model_name`, `category_id`, `max_users`, `trade_type`) VALUES (@0, @1, @2, @3, @4, @5, @6);",
                     playerId, name, description, modelName, categoryId, maxUsers, tradeType);
-            });
-            return roomId;
+			});
+			return roomId;
         }
 
 		internal async Task CreateRoomModelAsync(IRoomModel model)
@@ -351,14 +351,20 @@ namespace AliasPro.Rooms
             {
                 await Select(transaction, async reader =>
                 {
-                    if (await reader.ReadAsync())
-                    {
-                        roomSettings = new RoomSettings(reader);
-                    }
+					if (await reader.ReadAsync())
+					{
+						roomSettings = new RoomSettings(reader);
+					}
                 }, "SELECT * FROM `room_settings` WHERE `id` = @0 LIMIT 1", id);
             });
 
-            return roomSettings;
+			if (roomSettings == null)
+			{
+				await CreateRoomSettings(id);
+				roomSettings = await GetRoomSettingsId(id);
+			}
+
+			return roomSettings;
         }
 
 		internal async Task UpdateRoomSettins(IRoom room)

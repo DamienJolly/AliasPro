@@ -16,6 +16,7 @@
         internal const short UserProfileMessageComposer = 1459;
         internal const short MeMenuSettingsMessageComposer = 2204;
         internal const short UserClothesMessageComposer = 2187;
+        internal const short BuildersClubMembershipMessageComposer = 1059;
 
         // Badges
         internal const short InventoryBadgesMessageComposer = 2782;

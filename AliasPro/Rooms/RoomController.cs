@@ -145,21 +145,6 @@ namespace AliasPro.Rooms
 		public bool TryGetRoomModel(string modelName, out IRoomModel model) =>
 			_roomModels.TryGetValue(modelName, out model);
 
-
-		public async Task<IRoomSettings> GetRoomSettingsAsync(uint roomId)
-		{
-			IRoomSettings roomSettings =
-						await _roomDao.GetRoomSettingsId(roomId);
-
-			if (roomSettings == null)
-			{
-				await _roomDao.CreateRoomSettings(roomId);
-				roomSettings =
-					await _roomDao.GetRoomSettingsId(roomId);
-			}
-			return roomSettings;
-		}
-
 		public async Task<int> AddRoomPromotion(uint roomId, IRoomPromotion promotion) =>
 			await _roomDao.CreateRoomPromotionAsync(roomId, promotion);
 

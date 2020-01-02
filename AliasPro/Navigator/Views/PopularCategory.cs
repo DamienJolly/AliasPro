@@ -26,6 +26,9 @@ namespace AliasPro.Navigator.Views
 				if (!roomData.Name.ToLower().Contains(searchCode.ToLower()))
 					continue;
 
+				if (roomData.UsersNow <= 0)
+					continue;
+
 				rooms.Add(roomData);
 			}
 

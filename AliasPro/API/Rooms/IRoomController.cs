@@ -19,8 +19,6 @@ namespace AliasPro.API.Rooms
 
         bool TryGetRoomModel(string modelName, out IRoomModel model);
 
-        Task<IRoomSettings> GetRoomSettingsAsync(uint roomId);
-
 		Task<IDictionary<int, BaseEntity>> GetBotsForRoomAsync(IRoom room);
 		Task<IDictionary<int, BaseEntity>> GetPetsForRoomAsync(IRoom room);
 		Task UpdateBotSettings(BaseEntity entity, uint roomId);
