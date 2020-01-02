@@ -71,9 +71,14 @@ namespace AliasPro.Groups.Packets.Events
 			await _groupController.AddGroupMember(group.Id, member);
 			await session.SendPacketAsync(new GroupInfoComposer(group, session.Player, false));
 
+			IRoom room = session.CurrentRoom;
+			if (room != null)
+				await room.SendAsync(new GroupRefreshGroupsComposer((int)session.Player.Id));
+			else
+				await session.SendPacketAsync(new GroupRefreshGroupsComposer((int)session.Player.Id));
+
 			if (group.State == GroupState.OPEN)
 			{
-				IRoom room = session.CurrentRoom;
 				if (room != null && room.Group != null && room.Group.Id == groupId)
 					await room.Rights.ReloadRights(session);
 			}

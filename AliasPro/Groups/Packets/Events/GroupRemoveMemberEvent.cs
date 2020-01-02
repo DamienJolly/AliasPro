@@ -56,7 +56,12 @@ namespace AliasPro.Groups.Packets.Events
 			{
 				await session.SendPacketAsync(new GroupInfoComposer(group, session.Player, false));
 
-				IRoom room = session.Player.Session.CurrentRoom;
+				IRoom room = session.CurrentRoom;
+				if (room != null)
+					await room.SendAsync(new GroupRefreshGroupsComposer((int)session.Player.Id));
+				else
+					await session.SendPacketAsync(new GroupRefreshGroupsComposer((int)session.Player.Id));
+
 				if (room != null && room.Group != null && room.Group.Id == groupId)
 					await room.Rights.ReloadRights(session);
 			}
@@ -67,6 +72,11 @@ namespace AliasPro.Groups.Packets.Events
 					await player.Session.SendPacketAsync(new GroupInfoComposer(group, player, false));
 
 					IRoom room = player.Session.CurrentRoom;
+					if (room != null)
+						await room.SendAsync(new GroupRefreshGroupsComposer((int)player.Id));
+					else
+						await player.Session.SendPacketAsync(new GroupRefreshGroupsComposer((int)player.Id));
+
 					if (room != null && room.Group != null && room.Group.Id == groupId)
 						await room.Rights.ReloadRights(player.Session);
 				}
