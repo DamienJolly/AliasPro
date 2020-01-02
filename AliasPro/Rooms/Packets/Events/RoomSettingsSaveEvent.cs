@@ -28,10 +28,12 @@ namespace AliasPro.Rooms.Packets.Events
             IClientPacket clientPacket)
         {
             uint roomId = (uint)clientPacket.ReadInt();
-            if (!_roomController.TryGetRoom(roomId, out IRoom room))
+
+            IRoom room = await _roomController.LoadRoom(roomId);
+            if (room == null)
                 return;
 
-            if (!room.Rights.IsOwner(session.Player.Id)) return;
+            if (room.OwnerId != session.Player.Id) return;
 
             string name = clientPacket.ReadString();
             if (name.Length > 60)
@@ -146,9 +148,12 @@ namespace AliasPro.Rooms.Packets.Events
             room.Settings.ChatDistance = chatDistance;
             room.Settings.ChatFlood = chatFlood;
 
-            await room.SendAsync(new RoomVisualizationSettingsComposer(room.Settings));
-            await room.SendAsync(new RoomChatSettingsComposer(room.Settings));
-            await room.SendAsync(new RoomSettingsUpdatedComposer(room.Id));
+            if (room.Loaded)
+            {
+                await room.SendAsync(new RoomVisualizationSettingsComposer(room.Settings));
+                await room.SendAsync(new RoomChatSettingsComposer(room.Settings));
+                await room.SendAsync(new RoomSettingsUpdatedComposer(room.Id));
+            }
 
             await session.SendPacketAsync(new RoomSettingsSavedComposer(room.Id));
         }

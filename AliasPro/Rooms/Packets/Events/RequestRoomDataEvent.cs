@@ -1,14 +1,10 @@
-﻿using AliasPro.API.Items;
-using AliasPro.API.Network.Events;
+﻿using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
 using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
-using AliasPro.Rooms.Components;
-using AliasPro.Rooms.Models;
 using AliasPro.Rooms.Packets.Composers;
-using AliasPro.Rooms.Cycles;
 
 namespace AliasPro.Rooms.Packets.Events
 {
@@ -17,14 +13,11 @@ namespace AliasPro.Rooms.Packets.Events
         public short Header { get; } = Incoming.RequestRoomDataMessageEvent;
 
         private readonly IRoomController _roomController;
-		private readonly IItemController _itemController;
 
         public RequestRoomDataEvent(
-			IRoomController roomController,
-			IItemController itemController)
+			IRoomController roomController)
         {
             _roomController = roomController;
-			_itemController = itemController;
         }
 
 		public async void HandleAsync(
