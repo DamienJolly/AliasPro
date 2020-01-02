@@ -10,6 +10,7 @@ using AliasPro.Rooms.Entities;
 using AliasPro.API.Items.Models;
 using AliasPro.Items.Packets.Composers;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AliasPro.Trading.Packets.Events
 {
@@ -86,7 +87,7 @@ namespace AliasPro.Trading.Packets.Events
 				targetEntity.Player.Inventory.TryAddItem(item);
 				playerEntity.Player.Inventory.RemoveItem(item.Id);
 
-				//await targetEntity.Player.Session.SendPacketAsync(new AddPlayerItemsComposer(1, userOne.OfferedItems.Values));
+				await targetEntity.Player.Session.SendPacketAsync(new AddPlayerItemsComposer(1, userOne.OfferedItems.Values.Select(c => (int)c.Id).Distinct().ToList()));
 			}
 
 			foreach (IItem item in userTwo.OfferedItems.Values)
@@ -104,7 +105,7 @@ namespace AliasPro.Trading.Packets.Events
 				targetEntity.Player.Inventory.TryAddItem(item);
 				playerEntity.Player.Inventory.RemoveItem(item.Id);
 
-				//await targetEntity.Player.Session.SendPacketAsync(new AddPlayerItemsComposer(1, userTwo.OfferedItems.Values));
+				await targetEntity.Player.Session.SendPacketAsync(new AddPlayerItemsComposer(1, userTwo.OfferedItems.Values.Select(c => (int)c.Id).Distinct().ToList()));
 			}
 
 			await trade.SendAsync(new InventoryRefreshComposer());
