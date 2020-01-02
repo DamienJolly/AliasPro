@@ -54,7 +54,7 @@ namespace AliasPro.Players.Packets.Composers
                 message.WriteBoolean(group.IsOwner((int)_targetPlayer.Id));
             }
 
-			message.WriteInt((int)UnixTimestamp.Now - _targetPlayer.LastOnline);
+			message.WriteInt((int)UnixTimestamp.Now - _targetPlayer.LastOnline); // -1 if hidding offline
             message.WriteBoolean(true); // dunno??
             return message;
         }

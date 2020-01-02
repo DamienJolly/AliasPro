@@ -13,6 +13,7 @@ using AliasPro.Players.Components;
 using AliasPro.Players.Cycles;
 using AliasPro.Players.Models;
 using AliasPro.Players.Packets.Composers;
+using AliasPro.Utilities;
 
 namespace AliasPro.Players.Packets.Events
 {
@@ -120,6 +121,7 @@ namespace AliasPro.Players.Packets.Events
 
             player.PlayerCycle = new PlayerCycle(player);
             player.Online = true;
+            player.LastOnline = (int)UnixTimestamp.Now;
 
             await _playerController.UpdatePlayerAsync(player);
         }

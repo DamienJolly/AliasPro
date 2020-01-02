@@ -97,11 +97,10 @@ namespace AliasPro.Players
         {
             await CreateTransaction(async transaction =>
             {
-                await Insert(transaction, "UPDATE `players` SET `is_online` = @1, `credits` = @2, `motto` = @3, `figure` = @4, `gender` = @5 WHERE `id` = @0;", 
-                    player.Id, player.Online, player.Credits, player.Motto, player.Figure, player.Gender == PlayerGender.MALE ? "m" : "f");
+                await Insert(transaction, "UPDATE `players` SET `is_online` = @1, `credits` = @2, `motto` = @3, `figure` = @4, `gender` = @5, `last_online` = @6 WHERE `id` = @0;", 
+                    player.Id, player.Online, player.Credits, player.Motto, player.Figure, player.Gender == PlayerGender.MALE ? "m" : "f", player.LastOnline);
             });
         }
-
 
         internal async Task<IPlayerSettings> GetPlayerSettingsAsync(uint id)
         {
