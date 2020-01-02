@@ -4,7 +4,6 @@ using AliasPro.API.Players.Models;
 using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Models;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AliasPro.Navigator.Views
@@ -35,7 +34,7 @@ namespace AliasPro.Navigator.Views
 				rooms.Add(roomData);
 			}
 
-			return rooms.OrderByDescending(r => r.UsersNow).ToList();
+			return rooms;
 		}
 	}
 }

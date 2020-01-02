@@ -28,6 +28,8 @@ namespace AliasPro.Navigator.Views
 				if (roomData.OwnerId != player.Id)
 					continue;
 
+				System.Console.WriteLine(roomData.UsersNow);
+
 				rooms.Add(roomData);
 			}
 

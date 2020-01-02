@@ -75,8 +75,18 @@ namespace AliasPro.Rooms
 		public ICollection<IRoom> Rooms =>
 			_rooms.Values;
 
-		public async Task<ICollection<IRoomData>> GetPlayersRooms(uint playerId) =>
-			await _roomDao.GetAllRoomDataById(playerId);
+		public async Task<ICollection<IRoomData>> GetPlayersRooms(uint playerId)
+		{
+			IList<IRoomData> roomsToGo = new List<IRoomData>();
+			foreach (IRoomData roomData in await _roomDao.GetAllRoomDataById(playerId))
+			{
+				if (TryGetRoom(roomData.Id, out IRoom room))
+					roomsToGo.Add(room);
+				else
+					roomsToGo.Add(roomData);
+			}
+			return roomsToGo;
+		}
 
 		public async void LoadPlayersRooms(uint playerId)
 		{

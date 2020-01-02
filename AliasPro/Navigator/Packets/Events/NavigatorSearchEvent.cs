@@ -9,7 +9,6 @@ using AliasPro.Navigator.Models;
 using AliasPro.Navigator.Packets.Composers;
 using AliasPro.Network.Events.Headers;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace AliasPro.Navigator.Packets.Events
 {
@@ -46,7 +45,7 @@ namespace AliasPro.Navigator.Packets.Events
                         await category.CategoryType.GetResults(_roomController, session.Player, query);
 
                     if (rooms.Count != 0)
-                        results.Add(new NavigatorSearchResult(category.SortId, category.Identifier, category.PublicName, rooms.OrderByDescending(r => r.UsersNow).ToList(), showMore));
+                        results.Add(new NavigatorSearchResult(category.SortId, category.Identifier, category.PublicName, rooms, showMore));
                 }
             }
             else
@@ -60,7 +59,7 @@ namespace AliasPro.Navigator.Packets.Events
                         continue;
 
                     if (rooms.Count != 0)
-                        results.Add(new NavigatorSearchResult(category.SortId, category.Identifier, category.PublicName, rooms.OrderByDescending(r => r.UsersNow).ToList(), showMore));
+                        results.Add(new NavigatorSearchResult(category.SortId, category.Identifier, category.PublicName, rooms, showMore));
                 }
             }
 

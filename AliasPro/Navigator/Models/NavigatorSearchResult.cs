@@ -26,7 +26,7 @@ namespace AliasPro.Navigator.Models
             message.WriteInt(0); //Display Mode (0 (List), 1 (Thumbnails), 2 (Thumbnail no choice))
 
             //todo: add take to config?
-            var roomsToGo = Rooms.OrderBy(i => i.UsersNow).Take(ShowMore ? 50 : 12).ToList();
+            var roomsToGo = Rooms.OrderByDescending(i => i.UsersNow).Take(ShowMore ? 50 : 12).ToList();
             message.WriteInt(roomsToGo.Count);
             foreach (IRoomData roomData in roomsToGo)
                 roomData.Compose(message);
