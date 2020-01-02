@@ -27,8 +27,9 @@ namespace AliasPro.Rooms.Packets.Events
             if (session.Entity.Actions.HasStatus("mv") ||
                 session.Entity.Actions.HasStatus("lay")) return;
 
-            int newDir = session.Entity.Position.CalculateDirection(x, y);
-            bool headonly = Math.Abs(newDir - session.Entity.BodyRotation) <= 2;
+
+            int newDir = session.Entity.BodyRotation == 0 ? 8 : session.Entity.Position.CalculateDirection(x, y);
+            bool headonly = Math.Abs(newDir - session.Entity.BodyRotation) <= 1;
 
             session.Entity.SetRotation(newDir, headonly);
             session.Entity.Unidle();
