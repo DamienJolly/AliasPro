@@ -33,7 +33,7 @@ namespace AliasPro.Rooms.Packets.Composers
             message.WriteInt(_room.Settings.WhoMutes);
             message.WriteInt(_room.Settings.WhoKicks);
             message.WriteInt(_room.Settings.WhoBans);
-            message.WriteBoolean(true); //owner check
+            message.WriteBoolean(_session.Player.Id == _room.OwnerId);
             message.WriteInt(_room.Settings.ChatMode);
             message.WriteInt(_room.Settings.ChatSize);
             message.WriteInt(_room.Settings.ChatSpeed);

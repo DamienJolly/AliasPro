@@ -26,6 +26,8 @@ namespace AliasPro.Players.Models
             Score = reader.ReadData<int>("score");
             CreatedAt = reader.ReadData<int>("created_at");
             LastOnline = reader.ReadData<int>("last_online");
+            GroupId = reader.ReadData<int>("group_id");
+            HomeRoom = reader.ReadData<int>("home_room");
         }
 
         internal PlayerData(IPlayerData data)
@@ -41,6 +43,8 @@ namespace AliasPro.Players.Models
             Score = data.Score;
             CreatedAt = data.CreatedAt;
             LastOnline = data.LastOnline;
+            GroupId = data.GroupId;
+            HomeRoom = data.HomeRoom;
         }
 
         public uint Id { get; set; }
@@ -54,5 +58,7 @@ namespace AliasPro.Players.Models
         public int Score { get; set; }
         public int CreatedAt { get; set; }
         public int LastOnline { get; set; }
+        public int GroupId { get; set; }
+        public int HomeRoom { get; set; }
     }
 }

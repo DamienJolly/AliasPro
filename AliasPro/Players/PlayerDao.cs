@@ -97,8 +97,8 @@ namespace AliasPro.Players
         {
             await CreateTransaction(async transaction =>
             {
-                await Insert(transaction, "UPDATE `players` SET `is_online` = @1, `credits` = @2, `motto` = @3, `figure` = @4, `gender` = @5, `last_online` = @6 WHERE `id` = @0;", 
-                    player.Id, player.Online, player.Credits, player.Motto, player.Figure, player.Gender == PlayerGender.MALE ? "m" : "f", player.LastOnline);
+                await Insert(transaction, "UPDATE `players` SET `is_online` = @1, `credits` = @2, `motto` = @3, `figure` = @4, `gender` = @5, `last_online` = @6, `home_room` = @7, `group_id` = @8 WHERE `id` = @0;", 
+                    player.Id, player.Online, player.Credits, player.Motto, player.Figure, player.Gender == PlayerGender.MALE ? "m" : "f", player.LastOnline, player.HomeRoom, player.GroupId);
             });
         }
 

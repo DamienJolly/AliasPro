@@ -15,5 +15,7 @@ namespace AliasPro.API.Players.Models
         int Score { get; set; }
         int CreatedAt { get; set; }
         int LastOnline { get; set; }
+        int GroupId { get; set; }
+        int HomeRoom { get; set; }
     }
 }

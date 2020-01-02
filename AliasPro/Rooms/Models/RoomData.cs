@@ -51,6 +51,7 @@ namespace AliasPro.Rooms.Models
             Tags = data.Tags;
 			Group = data.Group;
             Promotion = data.Promotion;
+            Settings = data.Settings;
         }
 
         public void Compose(ServerPacket message)

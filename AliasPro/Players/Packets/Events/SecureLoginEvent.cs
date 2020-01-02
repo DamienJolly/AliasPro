@@ -100,7 +100,7 @@ namespace AliasPro.Players.Packets.Events
             }
 
             await session.SendPacketAsync(new SecureLoginOKComposer());
-            await session.SendPacketAsync(new HomeRoomComposer(0));
+            await session.SendPacketAsync(new HomeRoomComposer(player.HomeRoom));
 
 			await session.SendPacketAsync(new UserClothesComposer(player.Wardrobe.ClothingItems));
 			await session.SendPacketAsync(new UserRightsComposer(player));

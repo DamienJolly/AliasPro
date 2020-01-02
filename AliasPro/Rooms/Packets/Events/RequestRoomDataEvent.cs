@@ -37,37 +37,6 @@ namespace AliasPro.Rooms.Packets.Events
 			if (room == null)
 				return;
 
-			if (!room.Loaded)
-			{
-				if (!_roomController.TryGetRoomModel(room.ModelName, out IRoomModel model))
-					return;
-
-				room.RoomModel = model;
-				room.Settings =
-					await _roomController.GetRoomSettingsAsync(room.Id);
-
-				room.Entities = new EntitiesComponent(
-					room,
-					await _roomController.GetBotsForRoomAsync(room),
-					await _roomController.GetPetsForRoomAsync(room));
-
-				room.Game = new GameComponent(room);
-
-				room.RoomGrid = new RoomGrid(room);
-
-				room.Items = new ItemsComponent(
-					room,
-					await _itemController.GetItemsForRoomAsync(room.Id));
-
-				room.Rights = new RightsComponent(room,
-					await _roomController.GetRightsForRoomAsync(room.Id));
-
-				room.WordFilter = await _roomController.GetWordFilterForRoomAsync(room.Id);
-
-				room.RoomCycle = new RoomCycle(room);
-				room.Loaded = true;
-			}
-
 			bool loading = !(clientPacket.ReadInt() == 0 && clientPacket.ReadInt() == 1);
 			await session.SendPacketAsync(new RoomDataComposer(room, loading, true, session));
         }

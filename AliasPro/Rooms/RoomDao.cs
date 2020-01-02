@@ -275,7 +275,8 @@ namespace AliasPro.Rooms
 						roomData = new RoomData(reader)
 						{
 							Group = await GetRoomGroup(reader.ReadData<int>("group_id")),
-							Promotion = await GetRoomPromotion((int)reader.ReadData<uint>("id"))
+							Promotion = await GetRoomPromotion((int)reader.ReadData<uint>("id")),
+							Settings = await GetRoomSettingsId(reader.ReadData<uint>("id"))
 						};
 					}
                 }, "SELECT `rooms`.* , `players`.`username` FROM `rooms` INNER JOIN `players` ON `players`.`id` = `rooms`.`owner` WHERE `rooms`.`id` = @0 LIMIT 1", id);
@@ -296,7 +297,8 @@ namespace AliasPro.Rooms
 						IRoomData data = new RoomData(reader)
 						{
 							Group = await GetRoomGroup(reader.ReadData<int>("group_id")),
-							Promotion = await GetRoomPromotion((int)reader.ReadData<uint>("id"))
+							Promotion = await GetRoomPromotion((int)reader.ReadData<uint>("id")),
+							Settings = await GetRoomSettingsId(reader.ReadData<uint>("id"))
 						};
 
 						roomData.Add(data);

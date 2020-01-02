@@ -6,6 +6,9 @@ using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
+using AliasPro.Rooms.Components;
+using AliasPro.Rooms.Cycles;
+using AliasPro.Rooms.Models;
 using AliasPro.Rooms.Packets.Composers;
 
 namespace AliasPro.Rooms.Packets.Events
@@ -38,10 +41,41 @@ namespace AliasPro.Rooms.Packets.Events
             if (session.CurrentRoom != null)
                 await session.CurrentRoom.RemoveEntity(session.Entity, false);
 
-            if (!_roomController.TryGetRoom(roomId, out IRoom room))
+            IRoom room = await _roomController.LoadRoom((uint)roomId);
+
+            if (room == null)
             {
                 // close connection
                 return;
+            }
+
+            if (!room.Loaded)
+            {
+                if (!_roomController.TryGetRoomModel(room.ModelName, out IRoomModel model))
+                    return;
+
+                room.RoomModel = model;
+
+                room.Entities = new EntitiesComponent(
+                    room,
+                    await _roomController.GetBotsForRoomAsync(room),
+                    await _roomController.GetPetsForRoomAsync(room));
+
+                room.Game = new GameComponent(room);
+
+                room.RoomGrid = new RoomGrid(room);
+
+                room.Items = new ItemsComponent(
+                    room,
+                    await _itemController.GetItemsForRoomAsync(room.Id));
+
+                room.Rights = new RightsComponent(room,
+                    await _roomController.GetRightsForRoomAsync(room.Id));
+
+                room.WordFilter = await _roomController.GetWordFilterForRoomAsync(room.Id);
+
+                room.RoomCycle = new RoomCycle(room);
+                room.Loaded = true;
             }
 
             if (room.Password != password)
