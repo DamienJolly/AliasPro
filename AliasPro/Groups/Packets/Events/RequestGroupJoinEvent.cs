@@ -74,7 +74,7 @@ namespace AliasPro.Groups.Packets.Events
 			if (group.State == GroupState.OPEN)
 			{
 				IRoom room = session.CurrentRoom;
-				if (room != null && room.Group.Id == groupId)
+				if (room != null && room.Group != null && room.Group.Id == groupId)
 					await room.Rights.ReloadRights(session);
 			}
 		}
