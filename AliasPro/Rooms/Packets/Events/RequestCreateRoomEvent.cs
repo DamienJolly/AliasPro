@@ -36,7 +36,10 @@ namespace AliasPro.Rooms.Packets.Events
             int maxUsers = clientPacket.ReadInt();
             int tradeType = clientPacket.ReadInt();
 
-            // todo: room name/description checks
+            if (name.Length > 60)
+                name.Substring(0, 60);
+
+            if (name.Length <= 0) return;
 
             if (!_roomController.TryGetRoomModel(modelName, out _)) return;
 
@@ -51,7 +54,6 @@ namespace AliasPro.Rooms.Packets.Events
 
             int roomId = await _roomController.CreateRoomAsync(session.Player.Id, name, description, modelName, categoryId, maxUsers, tradeType);
             await session.SendPacketAsync(new RoomCreatedComposer(roomId, name));
-            await session.SendPacketAsync(new ForwardToRoomComposer((uint)roomId));
         }
     }
 }

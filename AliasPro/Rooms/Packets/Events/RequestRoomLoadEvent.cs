@@ -38,7 +38,7 @@ namespace AliasPro.Rooms.Packets.Events
             uint roomId = (uint)clientPacket.ReadInt();
             string password = clientPacket.ReadString();
 
-            if (session.CurrentRoom != null)
+            if (session.Entity != null)
                 await session.CurrentRoom.RemoveEntity(session.Entity, false);
 
             IRoom room = await _roomController.LoadRoom((uint)roomId);
