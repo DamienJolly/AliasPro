@@ -35,5 +35,6 @@ namespace AliasPro.API.Rooms
 		Task RemoveRoomWordFilter(string word, IRoom room);
 		Task<int> AddRoomPromotion(uint roomId, IRoomPromotion promotion);
 		Task UpdateRoomPromotion(IRoomPromotion promotion);
+		Task UpdateRoom(IRoom room);
 	}
 }

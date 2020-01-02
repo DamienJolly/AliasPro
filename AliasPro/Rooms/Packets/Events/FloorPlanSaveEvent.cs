@@ -147,8 +147,11 @@ namespace AliasPro.Rooms.Packets.Events
 			}
 
 			room.RoomGrid = new RoomGrid(room);
+			room.Items.InitializeItems();
 			room.Settings.FloorThickness = floorSize;
 			room.Settings.WallThickness = wallSize;
+
+			await _roomController.UpdateRoom(room);
 
 			foreach (BaseEntity entity in room.Entities.Entities)
 			{

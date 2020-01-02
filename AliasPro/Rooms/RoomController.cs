@@ -60,13 +60,7 @@ namespace AliasPro.Rooms
 					await UpdatePetSettings(entity, room.Id);
 			}
 
-			if (room.Settings != null)
-				await _roomDao.UpdateRoomSettins(room);
-
-			if (room.Items != null)
-				await _roomDao.UpdateRoomItems(room.Items.Items);
-
-			await _roomDao.UpdateRoom(room);
+			await UpdateRoom(room);
 
 			room.Dispose();
 			_rooms.Remove(room.Id);
@@ -150,6 +144,17 @@ namespace AliasPro.Rooms
 
 		public async Task UpdateRoomPromotion(IRoomPromotion promotion) =>
 			await _roomDao.UpdateRoomPromotionAsync(promotion);
+
+		public async Task UpdateRoom(IRoom room)
+		{
+			if (room.Settings != null)
+				await _roomDao.UpdateRoomSettins(room);
+
+			if (room.Items != null)
+				await _roomDao.UpdateRoomItems(room.Items.Items);
+
+			await _roomDao.UpdateRoom(room);
+		}
 
 		public async Task AddRoomWordFilter(string word, IRoom room)
 		{

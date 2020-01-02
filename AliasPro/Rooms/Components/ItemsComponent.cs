@@ -16,7 +16,12 @@ namespace AliasPro.Rooms.Components
             _room = room;
             _items = items;
 
-            foreach (IItem item in items.Values)
+            InitializeItems();
+        }
+
+        public void InitializeItems()
+        {
+            foreach (IItem item in _items.Values)
             {
                 item.CurrentRoom = _room;
                 _room.RoomGrid.AddItem(item);
