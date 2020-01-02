@@ -24,7 +24,7 @@ namespace AliasPro.Players.Models
             Motto = reader.ReadData<string>("motto");
             Online = reader.ReadData<bool>("is_online");
             Score = reader.ReadData<int>("score");
-            CreatedAt = reader.ReadData<int>("created");
+            CreatedAt = reader.ReadData<int>("created_at");
             LastOnline = reader.ReadData<int>("last_online");
         }
 

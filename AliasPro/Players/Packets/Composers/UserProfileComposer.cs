@@ -34,7 +34,7 @@ namespace AliasPro.Players.Packets.Composers
             message.WriteString(_targetPlayer.Username);
             message.WriteString(_targetPlayer.Figure);
             message.WriteString(_targetPlayer.Motto);
-            message.WriteString(UnixTimestamp.FromUnixTimestamp(_targetPlayer.CreatedAt).ToString("dd-MM-yyyy HH:mm:ss"));
+            message.WriteString(UnixTimestamp.FromUnixTimestamp(_targetPlayer.CreatedAt).ToString("dd-MM-yyyy"));
             message.WriteInt(_targetPlayer.Score);
             message.WriteInt(_friendCount);
             message.WriteBoolean(_player.Messenger.TryGetFriend(_targetPlayer.Id, out _));
