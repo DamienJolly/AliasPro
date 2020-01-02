@@ -56,7 +56,7 @@ namespace AliasPro.Items.Packets.Events
                     if (data.Length < 4) return;
 
                     item.ExtraData = data[1] + " " + data[2] + " " + data[3];
-                    await session.SendPacketAsync(new AddWallItemComposer(item));
+                    await room.SendAsync(new AddWallItemComposer(item));
                 }
                 
                 item.RoomId = room.Id;
