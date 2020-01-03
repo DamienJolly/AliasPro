@@ -81,7 +81,7 @@ namespace AliasPro.Catalog
 						if (catalogRepostiory.TryGetCatalogPage(catalogItem.PageId, out ICatalogPage page))
 							page.Items.Add(catalogItem.Id, catalogItem);
 					}
-                }, "SELECT * FROM `catalog_items`;");
+                }, "SELECT * FROM `catalog_items` ORDER BY `id` ASC;");
             });
         }
 

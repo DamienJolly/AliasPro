@@ -2,6 +2,7 @@
 using AliasPro.API.Database;
 using AliasPro.API.Items.Models;
 using AliasPro.Items;
+using AliasPro.Items.Types;
 using AliasPro.Network.Protocol;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -91,7 +92,18 @@ namespace AliasPro.Catalog.Models
 				else
 				{
 					message.WriteInt(item.ItemData.SpriteId);
-					message.WriteString(item.BotData != null ? item.BotData.Figure : item.ItemData.ExtraData);
+
+                    if (item.ItemData.InteractionType == ItemInteractionType.WALLPAPER ||
+                        item.ItemData.InteractionType == ItemInteractionType.FLOOR ||
+                        item.ItemData.InteractionType == ItemInteractionType.LANDSCAPE)
+                    {
+                        message.WriteString(Name.Split('_')[2]);
+                    }
+                    else
+                    {
+                        message.WriteString(item.BotData != null ? item.BotData.Figure : item.ItemData.ExtraData);
+                    }
+
 					message.WriteInt(item.Amount);
 
 					message.WriteBoolean(IsLimited && item.Amount <= 1);

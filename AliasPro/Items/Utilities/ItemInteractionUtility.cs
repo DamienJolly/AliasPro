@@ -8,7 +8,9 @@ namespace AliasPro.Items.Utilities
         {
             switch (interaction)
             {
-                case "wired_trigger": return ItemInteractionType.WIRED_TRIGGER;
+				default: return ItemInteractionType.DEFAULT;
+				case "default": return ItemInteractionType.DEFAULT;
+				case "wired_trigger": return ItemInteractionType.WIRED_TRIGGER;
                 case "wired_effect": return ItemInteractionType.WIRED_EFFECT;
                 case "wired_condition": return ItemInteractionType.WIRED_CONDITION;
                 case "game_timer": return ItemInteractionType.GAME_TIMER;
@@ -33,9 +35,9 @@ namespace AliasPro.Items.Utilities
 				case "pressure_pad": return ItemInteractionType.PRESSURE_TILE;
 				case "tent": return ItemInteractionType.TENT;
 				case "water": return ItemInteractionType.WATER;
-                case "default": return ItemInteractionType.DEFAULT;
-				default: return ItemInteractionType.DEFAULT;
-
+				case "wallpaper": return ItemInteractionType.WALLPAPER;
+				case "floor": return ItemInteractionType.FLOOR;
+				case "landscape": return ItemInteractionType.LANDSCAPE;
 			}
         }
     }

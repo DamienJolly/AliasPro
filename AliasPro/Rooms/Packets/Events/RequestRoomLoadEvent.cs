@@ -90,6 +90,15 @@ namespace AliasPro.Rooms.Packets.Events
             await session.SendPacketAsync(new RoomModelComposer(room.RoomModel.Id, room.Id));
             await session.SendPacketAsync(new RoomScoreComposer(room.Score));
 
+            if (!room.WallPaint.Equals("0.0"))
+                await session.SendPacketAsync(new RoomPaintComposer("wallpaper", room.WallPaint));
+
+            if (!room.FloorPaint.Equals("0.0"))
+                await session.SendPacketAsync(new RoomPaintComposer("floor", room.FloorPaint));
+
+            await session.SendPacketAsync(new RoomPaintComposer("landscape", room.BackgroundPaint));
+
+
             if (session.Player.Messenger != null)
                 await _messengerController.UpdateStatusAsync(session.Player, session.Player.Messenger.Friends);
         }

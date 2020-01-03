@@ -54,7 +54,7 @@ namespace AliasPro.Catalog.Packets.Events
             string extraData = clientPacket.ReadString();
             int amount = clientPacket.ReadInt();
 
-            if (!_catalogController.TryGetCatalogPage(pageId, out ICatalogPage page))
+			if (!_catalogController.TryGetCatalogPage(pageId, out ICatalogPage page))
             {
                 await session.SendPacketAsync(new AlertPurchaseFailedComposer(AlertPurchaseFailedComposer.SERVER_ERROR));
                 return;
@@ -166,7 +166,7 @@ namespace AliasPro.Catalog.Packets.Events
 									}
 									else
 									{
-										itemsToAdd.Add(new Item((uint)itemData.Id, session.Player.Id, session.Player.Username, "", itemData.ItemData));
+										itemsToAdd.Add(new Item((uint)itemData.Id, session.Player.Id, session.Player.Username, extraData, itemData.ItemData));
 									}
 									break;
 								}

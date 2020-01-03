@@ -56,6 +56,7 @@
 		internal const short SetStackToolHeightMessageEvent = 2169;
 		internal const short RedeemClothingMessageEvent = 687;
 		internal const short RedeemGiftMessageEvent = 173;
+		internal const short ApplyDecorationMessageEvent = 1065;
 
 		// Catalog
 		internal const short RequestDiscountMessageEvent = 703;

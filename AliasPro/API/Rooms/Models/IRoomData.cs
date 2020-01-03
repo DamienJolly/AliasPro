@@ -21,6 +21,9 @@ namespace AliasPro.API.Rooms.Models
         int TradeType { get; set; }
         int DoorState { get; set; }
         int Score { get; set; }
+        string WallPaint { get; set; }
+        string FloorPaint { get; set; }
+        string BackgroundPaint { get; set; }
         IList<string> Tags { get; set; }
 		IGroup Group { get; set; }
         bool IsPromoted { get; }

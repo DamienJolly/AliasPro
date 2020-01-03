@@ -383,11 +383,12 @@ namespace AliasPro.Rooms
 		{
 			await CreateTransaction(async transaction =>
 			{
-				await Insert(transaction, "UPDATE `rooms` SET `score` = @1, `name` = @2, `caption` = @3, `password` = @4, `max_users` = @5, `trade_type` = @6, `category_id` = @7, `tags` = @8, `model_name` = @9 WHERE `id` = @0;",
-					room.Id, room.Score, room.Name, room.Description, room.Password, room.MaxUsers, room.TradeType, room.CategoryId, /*tags*/"", room.ModelName);
+				await Insert(transaction, "UPDATE `rooms` SET `score` = @1, `name` = @2, `caption` = @3, `password` = @4, `max_users` = @5, `trade_type` = @6, `category_id` = @7, `tags` = @8, " +
+					"`model_name` = @9,	`wall_paint` = @10, `floor_paint` = @11, `landscape_paint` = @12 WHERE `id` = @0;",
+					room.Id, room.Score, room.Name, room.Description, room.Password, room.MaxUsers, room.TradeType, room.CategoryId, /*tags*/"", 
+					room.ModelName, room.WallPaint, room.FloorPaint, room.BackgroundPaint);
 			});
 		}
-
 		internal async Task CreateRoomSettings(uint id)
         {
             await CreateTransaction(async transaction =>

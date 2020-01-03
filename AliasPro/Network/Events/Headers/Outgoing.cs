@@ -114,6 +114,7 @@
         internal const short RoomPromotionMessageComposer = 1571;
         internal const short UpdateRoomPromotionEvent = 1571;
         internal const short RoomMutedMessageComposer = 806;
+        internal const short RoomPaintMessageComposer = 2813;
 
         // Landing
         internal const short HotelViewMessageComposer = 2484;

@@ -11,6 +11,7 @@ namespace AliasPro.Items.Utilities
         {
             switch (interaction)
             {
+                case ItemInteractionType.DEFAULT: default: return new InteractionDefault(item);
                 case ItemInteractionType.GAME_TIMER: return new InteractionGameTimer(item);
                 case ItemInteractionType.WIRED_TRIGGER: return new InteractionWired(item);
                 case ItemInteractionType.WIRED_EFFECT: return new InteractionWired(item);
@@ -30,7 +31,9 @@ namespace AliasPro.Items.Utilities
 				case ItemInteractionType.PRESSURE_TILE: return new InteractionPressureTile(item);
 				case ItemInteractionType.TENT: return new InteractionTent(item);
 				case ItemInteractionType.WATER: return new InteractionWater(item);
-				case ItemInteractionType.DEFAULT: default: return new InteractionDefault(item);
+				case ItemInteractionType.WALLPAPER: return new InteractionWallpaper(item);
+				case ItemInteractionType.FLOOR: return new InteractionFloor(item);
+				case ItemInteractionType.LANDSCAPE: return new InteractionLandscape(item);
 			}
         }
     }

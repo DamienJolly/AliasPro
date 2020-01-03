@@ -23,6 +23,9 @@ namespace AliasPro.Rooms.Models
             TradeType = reader.ReadData<int>("trade_type");
             CategoryId = reader.ReadData<int>("category_id");
             Score = reader.ReadData<int>("score");
+            WallPaint = reader.ReadData<string>("wall_paint");
+            FloorPaint = reader.ReadData<string>("floor_paint");
+            BackgroundPaint = reader.ReadData<string>("landscape_paint");
             Tags = new List<string>();
 
             string tags = reader.ReadData<string>("tags");
@@ -52,6 +55,9 @@ namespace AliasPro.Rooms.Models
 			Group = data.Group;
             Promotion = data.Promotion;
             Settings = data.Settings;
+            WallPaint = data.WallPaint;
+            FloorPaint = data.FloorPaint;
+            BackgroundPaint = data.BackgroundPaint;
         }
 
         public void Compose(ServerPacket message)
@@ -101,6 +107,9 @@ namespace AliasPro.Rooms.Models
         public int TradeType { get; set; }
         public int DoorState { get; set; } = 0;
         public int Score { get; set; }
+        public string WallPaint { get; set; }
+        public string FloorPaint { get; set; }
+        public string BackgroundPaint { get; set; }
         public IList<string> Tags { get; set; }
 		public IGroup Group { get; set; }
 

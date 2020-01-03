@@ -43,6 +43,7 @@ namespace AliasPro.Catalog.Models
 				case "bot": return new LayoutBot(this);
 				case "pets": return new LayoutPets(this);
 				case "roomads": return new LayoutRoomAds(this);
+				case "spaces_new": return new LayoutSpacesNew(this);
 			}
         }
 
