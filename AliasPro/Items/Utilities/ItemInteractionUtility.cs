@@ -38,6 +38,7 @@ namespace AliasPro.Items.Utilities
 				case "wallpaper": return ItemInteractionType.WALLPAPER;
 				case "floor": return ItemInteractionType.FLOOR;
 				case "landscape": return ItemInteractionType.LANDSCAPE;
+				case "roombg": return ItemInteractionType.BACKGROUND_TONER;
 			}
         }
     }

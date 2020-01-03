@@ -33,7 +33,7 @@ namespace AliasPro.Items.Utilities
 				case ItemInteractionType.WATER: return new InteractionWater(item);
 				case ItemInteractionType.WALLPAPER: return new InteractionWallpaper(item);
 				case ItemInteractionType.FLOOR: return new InteractionFloor(item);
-				case ItemInteractionType.LANDSCAPE: return new InteractionLandscape(item);
+				case ItemInteractionType.BACKGROUND_TONER: return new InteractionBackgroundToner(item);
 			}
         }
     }

@@ -48,6 +48,7 @@ namespace AliasPro.Messenger.Packets.Events
                 IMessengerFriend friendOne = new MessengerFriend(targetPlayer);
                 if (session.Player.Messenger.TryAddFriend(friendOne))
                 {
+                    await _messengerController.UpdateStatusAsync(session.Player, session.Player.Messenger.Friends);
                     await session.SendPacketAsync(new UpdateFriendComposer(friendOne));
                 }
 
@@ -56,6 +57,7 @@ namespace AliasPro.Messenger.Packets.Events
                     IMessengerFriend friendTwo = new MessengerFriend(session.Player);
                     if (targetPlayer.Session.Player.Messenger.TryAddFriend(friendTwo))
                     {
+                        await _messengerController.UpdateStatusAsync(targetPlayer.Session.Player, targetPlayer.Session.Player.Messenger.Friends);
                         await targetPlayer.Session.SendPacketAsync(new UpdateFriendComposer(friendTwo));
                     }
                 }

@@ -57,6 +57,7 @@
 		internal const short RedeemClothingMessageEvent = 687;
 		internal const short RedeemGiftMessageEvent = 173;
 		internal const short ApplyDecorationMessageEvent = 1065;
+		internal const short SetTonerMessageEvent = 2563;
 
 		// Catalog
 		internal const short RequestDiscountMessageEvent = 703;

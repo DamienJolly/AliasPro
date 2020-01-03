@@ -34,7 +34,7 @@ namespace AliasPro.Messenger.Models
             Figure = player.Figure;
             Gender = player.Gender;
             Motto = player.Motto;
-            IsOnline = true;
+            IsOnline = player.Online;
             InRoom = false;
             Relation = 0;
         }

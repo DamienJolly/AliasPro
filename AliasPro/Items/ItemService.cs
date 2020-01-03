@@ -33,6 +33,7 @@ namespace AliasPro.Items
 			collection.AddSingleton<IAsyncPacket, RedeemClothingEvent>();
 			collection.AddSingleton<IAsyncPacket, RedeemGiftEvent>();
 			collection.AddSingleton<IAsyncPacket, ApplyDecorationEvent>();
+			collection.AddSingleton<IAsyncPacket, SetTonerEvent>();
 		}
     }
 }
