@@ -1,6 +1,7 @@
 ﻿using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
+using AliasPro.Rooms.Packets.Composers;
 using AliasPro.Utilities;
 using Pathfinding.Models;
 using System.Collections.Generic;
@@ -148,7 +149,7 @@ namespace AliasPro.Rooms.Models
             return TryGetRoomTile(posX, posY, out tile);
         }
         
-        public void AddItem(IItem item)
+        public async void AddItem(IItem item)
         {
             IList<IRoomTile> tiles =
                 GetTilesFromItem(item.Position.X, item.Position.Y, item);
@@ -157,9 +158,11 @@ namespace AliasPro.Rooms.Models
             {
                 tile.AddItem(item);
             }
+
+            await _room.SendAsync(new UpdateStackHeightComposer(tiles));
         }
 
-        public void RemoveItem(IItem item)
+        public async void RemoveItem(IItem item)
         {
             IList<IRoomTile> tiles =
                 GetTilesFromItem(item.Position.X, item.Position.Y, item);
@@ -168,6 +171,8 @@ namespace AliasPro.Rooms.Models
             {
                 tile.RemoveItem(item.Id);
             }
+
+            await _room.SendAsync(new UpdateStackHeightComposer(tiles));
         }
 
         public void AddEntity(BaseEntity entity)
@@ -190,5 +195,8 @@ namespace AliasPro.Rooms.Models
             _roomTiles.TryGetValue(ConvertTo1D(x, y), out roomTile);
 
         internal int ConvertTo1D(int x, int y) => MapSizeX * y + x;
+
+        public ICollection<IRoomTile> RoomTiles =>
+            _roomTiles.Values;
     }
 }

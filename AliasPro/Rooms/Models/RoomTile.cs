@@ -269,5 +269,8 @@ namespace AliasPro.Rooms.Models
                 return height;
             }
         }
-	}
+
+        public short RelativeHeight => 
+            (TopItem == null || TopItem.ItemData.CanStack) ? (short)(Height * 256.0) : (short)(64 * 256);
+    }
 }

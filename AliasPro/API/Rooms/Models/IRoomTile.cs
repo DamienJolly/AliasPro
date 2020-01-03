@@ -13,6 +13,7 @@ namespace AliasPro.API.Rooms.Models
         ICollection<IItem> WiredConditions { get; }
         IItem TopItem { get; }
         double Height { get; }
+        short RelativeHeight { get; }
 
         IRoomPosition PositionInFront(int rotation);
 		bool TilesAdjecent(IRoomPosition targetPos);
