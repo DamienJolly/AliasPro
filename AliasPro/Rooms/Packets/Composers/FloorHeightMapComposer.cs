@@ -18,8 +18,8 @@ namespace AliasPro.Rooms.Packets.Composers
         public ServerPacket Compose()
         {
             ServerPacket message = new ServerPacket(Outgoing.FloorHeightMapMessageComposer);
-            message.WriteBoolean(false);
-            message.WriteInt(_wallHeight); //todo: wall height
+            message.WriteBoolean(true);
+            message.WriteInt(_wallHeight);
             message.WriteString(_map);
             return message;
         }

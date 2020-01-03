@@ -105,9 +105,8 @@ namespace AliasPro.Rooms.Packets.Events
 			}
 
 			int wallHeight = -1;
-			//todo: wall height
-			//if (clientPacket.bytesAvailable() >= 4)
-				//wallHeight = this.packet.readInt();
+			if (clientPacket.BytesAvailable() >= 4)
+				wallHeight = clientPacket.ReadInt();
 
 			if (wallHeight < -1 || wallHeight > 15)
 			{
@@ -148,6 +147,7 @@ namespace AliasPro.Rooms.Packets.Events
 
 			room.RoomGrid = new RoomGrid(room);
 			room.Items.InitializeItems();
+			room.WallHeight = wallHeight;
 			room.Settings.FloorThickness = floorSize;
 			room.Settings.WallThickness = wallSize;
 

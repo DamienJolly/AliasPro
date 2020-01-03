@@ -24,6 +24,8 @@ namespace AliasPro.Network.Protocol
         public byte[] ReadBytes(int length) =>
             _buffer.ReadBytes(length).Array;
 
+        public int BytesAvailable() =>
+            _buffer.ReadableBytes;
         public bool ReadBool() =>
             _buffer.ReadByte() == 1;
 

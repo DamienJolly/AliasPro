@@ -26,6 +26,7 @@ namespace AliasPro.Rooms.Models
             WallPaint = reader.ReadData<string>("wall_paint");
             FloorPaint = reader.ReadData<string>("floor_paint");
             BackgroundPaint = reader.ReadData<string>("landscape_paint");
+            WallHeight = reader.ReadData<int>("wall_height");
             Tags = new List<string>();
 
             string tags = reader.ReadData<string>("tags");
@@ -58,6 +59,7 @@ namespace AliasPro.Rooms.Models
             WallPaint = data.WallPaint;
             FloorPaint = data.FloorPaint;
             BackgroundPaint = data.BackgroundPaint;
+            WallHeight = data.WallHeight;
         }
 
         public void Compose(ServerPacket message)
@@ -110,6 +112,7 @@ namespace AliasPro.Rooms.Models
         public string WallPaint { get; set; }
         public string FloorPaint { get; set; }
         public string BackgroundPaint { get; set; }
+        public int WallHeight { get; set; }
         public IList<string> Tags { get; set; }
 		public IGroup Group { get; set; }
 

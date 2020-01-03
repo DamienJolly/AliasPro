@@ -8,6 +8,8 @@
         short ReadShort();
         byte ReadByte();
         byte[] ReadBytes(int length);
+
+        int BytesAvailable();
         bool ReadBool();
         string ReadString();
     }

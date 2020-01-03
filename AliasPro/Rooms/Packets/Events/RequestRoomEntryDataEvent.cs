@@ -29,7 +29,7 @@ namespace AliasPro.Rooms.Packets.Events
             if (room == null) return;
 
             await session.SendPacketAsync(new HeightMapComposer(room.RoomModel));
-            await session.SendPacketAsync(new FloorHeightMapComposer(-1, room.RoomModel.RelativeHeightMap));
+            await session.SendPacketAsync(new FloorHeightMapComposer(room.WallHeight, room.RoomModel.RelativeHeightMap));
             
             if (session.Entity == null)
             {

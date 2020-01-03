@@ -24,6 +24,7 @@ namespace AliasPro.API.Rooms.Models
         string WallPaint { get; set; }
         string FloorPaint { get; set; }
         string BackgroundPaint { get; set; }
+        int WallHeight { get; set; }
         IList<string> Tags { get; set; }
 		IGroup Group { get; set; }
         bool IsPromoted { get; }
