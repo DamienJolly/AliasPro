@@ -26,7 +26,6 @@ namespace AliasPro.Rooms.Packets.Composers
             message.WriteByte(_tiles.Count);
             foreach (IRoomTile tile in _tiles)
             {
-                System.Console.WriteLine(tile.Position.X + " : " + tile.Position.Y);
                 message.WriteByte(tile.Position.X);
                 message.WriteByte(tile.Position.Y);
                 message.WriteShort(tile.RelativeHeight);

@@ -25,5 +25,8 @@ namespace AliasPro.Sessions
 
         internal void RemoveFromCache(IChannelId channelId) =>
             _cachedSessions.Remove(channelId);
+
+        internal ICollection<ISession> Sessions => 
+            _cachedSessions.Values;
     }
 }

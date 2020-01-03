@@ -58,6 +58,9 @@ namespace AliasPro.Rooms
 
 				foreach (BaseEntity entity in room.Entities.PetEntities)
 					await UpdatePetSettings(entity, room.Id);
+
+				foreach (BaseEntity entity in room.Entities.PlayerEntities)
+					await room.RemoveEntity(entity, true);
 			}
 
 			await UpdateRoom(room);

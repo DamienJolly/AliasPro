@@ -1,7 +1,9 @@
 ﻿using AliasPro.Achievements;
 using AliasPro.API.Network;
 using AliasPro.API.Network.Events;
+using AliasPro.API.Rooms;
 using AliasPro.API.Server;
+using AliasPro.API.Sessions;
 using AliasPro.Badges;
 using AliasPro.Catalog;
 using AliasPro.Chat;
@@ -23,12 +25,11 @@ using AliasPro.Rooms;
 using AliasPro.Server;
 using AliasPro.Sessions;
 using AliasPro.Trading;
-using AliasPro.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AliasPro
@@ -112,7 +113,26 @@ namespace AliasPro
             {
                 if (Console.ReadKey(true).Key == ConsoleKey.Enter)
                 {
+                    Console.Write("[Alias] [Command] : ");
                     string input = Console.ReadLine().ToLower();
+
+                    if (input == "shutdown")
+                    {
+                        ISessionController sessionController = _serviceProvider.GetService<ISessionController>();
+                        IRoomController roomController = _serviceProvider.GetService<IRoomController>();
+                        foreach (var room in roomController.Rooms.ToList())
+                        {
+                            roomController.DisposeRoom(room);
+                        }
+                        foreach (var session in sessionController.Sessions)
+                        {
+                            session.Disconnect();
+                        }
+
+                        Console.WriteLine("Press any key to exit...");
+                        Console.ReadKey();
+                        Environment.Exit(0);
+                    }
                 }
             }
         }

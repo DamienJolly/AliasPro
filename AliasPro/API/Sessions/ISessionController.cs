@@ -1,5 +1,6 @@
 ﻿using AliasPro.API.Sessions.Models;
 using DotNetty.Transport.Channels;
+using System.Collections.Generic;
 
 namespace AliasPro.API.Sessions
 {
@@ -9,5 +10,6 @@ namespace AliasPro.API.Sessions
         bool TryGetSession(IChannelId channelId, out ISession session);
         void CacheSession(IChannelHandlerContext channel);
         void RemoveFromCache(IChannelId channelId);
+        ICollection<ISession> Sessions { get; }
     }
 }

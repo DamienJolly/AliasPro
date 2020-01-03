@@ -1,6 +1,7 @@
 ﻿using AliasPro.API.Sessions;
 using AliasPro.API.Sessions.Models;
 using DotNetty.Transport.Channels;
+using System.Collections.Generic;
 
 namespace AliasPro.Sessions
 {
@@ -24,5 +25,8 @@ namespace AliasPro.Sessions
 
         public void RemoveFromCache(IChannelId channelId) =>
             _sessionRepository.RemoveFromCache(channelId);
+
+        public ICollection<ISession> Sessions =>
+            _sessionRepository.Sessions;
     }
 }
