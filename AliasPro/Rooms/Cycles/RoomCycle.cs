@@ -90,6 +90,14 @@ namespace AliasPro.Rooms.Cycles
 
                 if (_room.Entities.Entities.Count <= 0)
                     _room.IdleTimer++;
+                else
+                {
+                    foreach (BaseEntity entity in _room.Entities.Entities)
+                    {
+                        entity.NeedsUpdate = false;
+                        await _room.SendAsync(new EntityUpdateComposer(entity));
+                    }
+                }
             }
             catch { }
         }

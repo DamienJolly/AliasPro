@@ -30,8 +30,10 @@ namespace AliasPro.Rooms.Packets.Events
 			if (room == null)
 				return;
 
-			bool loading = !(clientPacket.ReadInt() == 0 && clientPacket.ReadInt() == 1);
-			await session.SendPacketAsync(new RoomDataComposer(room, loading, true, session));
+			bool loading = clientPacket.ReadInt() == 1;
+			bool entry = clientPacket.ReadInt() == 1;
+
+			await session.SendPacketAsync(new RoomDataComposer(room, loading, entry, session));
         }
     }
 }

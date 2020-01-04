@@ -34,7 +34,6 @@ namespace AliasPro.Items.Packets.Events
                     int brightness = interaction.Brightness = clientPacket.ReadInt() % 256;
 
                     item.ExtraData = hue + ":" + saturation + ":" + brightness;
-                    room.Items.TriggerWired(WiredInteractionType.STATE_CHANGED, session.Entity, item);
                     await room.SendAsync(new FloorItemUpdateComposer(item));
                 }
             }

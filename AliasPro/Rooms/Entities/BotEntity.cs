@@ -70,7 +70,7 @@ namespace AliasPro.Rooms.Entities
 
         public override void Compose(ServerPacket serverPacket)
         {
-            serverPacket.WriteInt(Id); //botId?
+            serverPacket.WriteInt(-BotId); //botId?
             serverPacket.WriteString(Name);
             serverPacket.WriteString(Motto);
             serverPacket.WriteString(Figure);

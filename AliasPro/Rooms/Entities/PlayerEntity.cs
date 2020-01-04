@@ -81,7 +81,7 @@ namespace AliasPro.Rooms.Entities
             serverPacket.WriteInt(-1);
             serverPacket.WriteInt(0);
             serverPacket.WriteInt(Score);
-            serverPacket.WriteBoolean(false);
+            serverPacket.WriteBoolean(true);
         }
     }
 }

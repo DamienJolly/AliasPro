@@ -188,6 +188,7 @@ namespace AliasPro.Rooms.Entities
                     }
                 }
             }
+            NeedsUpdate = true;
         }
 
         public void FindNest()
@@ -209,7 +210,7 @@ namespace AliasPro.Rooms.Entities
 
         public override void Compose(ServerPacket serverPacket)
         {
-			serverPacket.WriteInt(Id); //petId?
+			serverPacket.WriteInt(-PetId); //petId?
             serverPacket.WriteString(Name);
             serverPacket.WriteString(string.Empty);
             serverPacket.WriteString(Type + " " + Race + " " + Colour);

@@ -32,6 +32,7 @@ namespace AliasPro.Rooms.Packets.Events
             }
 
             session.Entity.Unidle();
+            session.Entity.NeedsUpdate = true;
         }
     }
 }

@@ -30,6 +30,7 @@ namespace AliasPro.Trading
 			{
 				player.Entity.Actions.AddStatus("trd", "");
 				player.Entity.Trade = trade;
+				player.Entity.NeedsUpdate = true;
 			}
 
 			return trade;

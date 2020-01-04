@@ -34,9 +34,9 @@ namespace AliasPro.Players.Packets.Composers
                 message.WriteBoolean(true); //Allow inventory stack
                 message.WriteBoolean(true); //Allow the item to be sold on the market place.
 
-                message.WriteInt(-1);
-                message.WriteBoolean(false);
-                message.WriteInt(-1);
+                message.WriteInt(-1); //time left
+                message.WriteBoolean(false); //renatable period started
+                message.WriteInt(-1); //room id
 
                 if (item.ItemData.Type != "i")
                 {

@@ -54,7 +54,7 @@ namespace AliasPro.Items.Models
             Interaction.Compose(message);
             message.WriteInt(-1);
             message.WriteInt(ItemData.Modes > 1 ? 1 : 0);
-            message.WriteInt(PlayerId);
+            message.WriteInt(PlayerId); // -12345678 = builders club
         }
 
         public void ComposeWallItem(ServerPacket message)
@@ -65,7 +65,7 @@ namespace AliasPro.Items.Models
             message.WriteString(Mode + "");
             message.WriteInt(-1);
             message.WriteInt(ItemData.Modes > 1 ? 1 : 0);
-            message.WriteInt(PlayerId);
+            message.WriteInt(PlayerId); // -12345678 = builders club
         }
 
         public uint Id { get; set; }

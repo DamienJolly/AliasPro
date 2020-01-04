@@ -74,8 +74,8 @@ namespace AliasPro.Rooms.Models
 			message.WriteString(Description);
 			message.WriteInt(TradeType);
 			message.WriteInt(Score);
-			message.WriteInt(0); // dunno?
-			message.WriteInt(CategoryId);
+            message.WriteInt(0); // dunno?
+            message.WriteInt(CategoryId);
 			message.WriteInt(Tags.Count);
             foreach (string tag in Tags)
 				message.WriteString(tag);

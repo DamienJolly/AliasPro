@@ -11,7 +11,7 @@ namespace AliasPro.Rooms.Packets.Events
     {
         public short Header { get; } = Incoming.UserSitMessageEvent;
 
-        public async void HandleAsync(
+        public void HandleAsync(
             ISession session,
             IClientPacket clientPacket)
         {
@@ -27,8 +27,7 @@ namespace AliasPro.Rooms.Packets.Events
 
             session.Entity.Actions.AddStatus("sit", 0.5 + "");
             session.Entity.IsSitting = true;
-
-            await room.SendAsync(new EntityUpdateComposer(session.Entity));
+            session.Entity.NeedsUpdate = true;
         }
     }
 }

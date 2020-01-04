@@ -110,6 +110,9 @@
         internal const short RoomUserSignMessageEvent = 1146;
         internal const short RoomMuteMessageEvent = 1675;
         internal const short SetHomeRoomMessageEvent = 151;
+        internal const short RequestRoomRightsMessageEvent = 3071;
+        internal const short RoomRemoveAllRightsMessageEvent = 1577;
+        internal const short RoomRemoveRightsMessageEvent = 2084;
 
         // Landing
         internal const short HotelViewDataMessageEvent = 1579;

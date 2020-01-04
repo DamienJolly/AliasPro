@@ -1,4 +1,5 @@
-﻿using AliasPro.API.Network.Events;
+﻿using AliasPro.API.Messenger.Models;
+using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
 using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
@@ -6,6 +7,7 @@ using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
+using AliasPro.Rooms.Packets.Composers;
 
 namespace AliasPro.Rooms.Packets.Events
 {
@@ -31,17 +33,34 @@ namespace AliasPro.Rooms.Packets.Events
 
             if (!room.Rights.IsOwner(session.Player.Id)) return;
 
-            uint targetId = (uint)clientPacket.ReadInt();
-            if (room.Rights.HasRights(targetId)) return;
+            int targetId = clientPacket.ReadInt();
+            if (room.Rights.HasRights((uint)targetId)) return;
 
-            if (!_playerController.TryGetPlayer(targetId, out IPlayer targetPlayer))
-                return;
+            string username;
+            bool reloadRights = false;
+            if (_playerController.TryGetPlayer((uint)targetId, out IPlayer targetPlayer))
+            {
+                username = targetPlayer.Username;
+                reloadRights = true;
+            }
+            else
+            {
+                if (session.Player.Messenger == null) 
+                    return;
 
-            room.Rights.GiveRights(targetPlayer.Id, targetPlayer.Username);
-            await _roomController.GiveRoomRights(room.Id, targetPlayer.Id);
+                if (!session.Player.Messenger.TryGetFriend((uint)targetId, out IMessengerFriend friend))
+                    return;
 
-            if (targetPlayer.Session != null)
+                username = friend.Username;
+            }
+
+            room.Rights.GiveRights((uint)targetId, username);
+            await _roomController.GiveRoomRights(room.Id, (uint)targetId);
+
+            if (reloadRights)
                 await room.Rights.ReloadRights(targetPlayer.Session);
+
+            await room.SendAsync(new RoomAddRightsListComposer((int)room.Id, targetId, username));
         }
     }
 }

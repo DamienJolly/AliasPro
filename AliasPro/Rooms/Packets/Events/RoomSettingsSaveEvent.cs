@@ -115,7 +115,7 @@ namespace AliasPro.Rooms.Packets.Events
             if (whoMutes < 0 || whoMutes > 1) whoMutes = 0;
 
             int whoKicks = clientPacket.ReadInt();
-            if (whoKicks < 0 || whoKicks > 1) whoKicks = 0;
+            if (whoKicks < 0 || whoKicks > 2) whoKicks = 0;
 
             int whoBans = clientPacket.ReadInt();
             if (whoBans < 0 || whoBans > 1) whoBans = 0;

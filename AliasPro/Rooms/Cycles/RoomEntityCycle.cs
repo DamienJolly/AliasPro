@@ -24,7 +24,7 @@ namespace AliasPro.Rooms.Cycles
             _moveStatus = new StringBuilder();
         }
 
-        public async void Cycle()
+        public void Cycle()
         {
             if (_entity.HeadRotation != _entity.BodyRotation)
             {
@@ -125,8 +125,7 @@ namespace AliasPro.Rooms.Cycles
 
                 _entity.Room.RoomGrid.AddEntity(_entity);
                 _entity.Unidle();
-
-                await _entity.Room.SendAsync(new EntityUpdateComposer(_entity));
+                _entity.NeedsUpdate = true;
             }
             else
             {
@@ -163,7 +162,7 @@ namespace AliasPro.Rooms.Cycles
 			}
 
             _entity.Cycle();
-            await _entity.Room.SendAsync(new EntityUpdateComposer(_entity));
+            _entity.NeedsUpdate = true;
         }
     }
 }
