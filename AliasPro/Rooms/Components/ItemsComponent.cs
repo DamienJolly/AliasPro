@@ -83,6 +83,9 @@ namespace AliasPro.Rooms.Components
         internal ICollection<IItem> WiredEffects =>
             _items.Values.Where(item => item.ItemData.InteractionType == ItemInteractionType.WIRED_EFFECT).ToList();
 
+        internal ICollection<IItem> Rollers =>
+            _items.Values.Where(item => item.ItemData.InteractionType == ItemInteractionType.ROLLER).ToList();
+
 
         internal IDictionary<uint, string> GetItemOwners
         {

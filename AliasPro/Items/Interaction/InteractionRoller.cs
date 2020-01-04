@@ -62,51 +62,7 @@ namespace AliasPro.Items.Interaction
 
         public async void OnCycle()
         {
-            _tick--;
-            if (_tick <= 0)
-            {
-                if (!_item.CurrentRoom.RoomGrid.TryGetRoomTile(_item.Position.X, _item.Position.Y, out IRoomTile rollerTile))
-                    return;
 
-                IRoomPosition newPos = HandleMovement(_item.Rotation, _item.Position);
-
-                foreach (IItem item in rollerTile.Items.ToList())
-                {
-                    if (item.Id == _item.Id) continue;
-
-                    _item.CurrentRoom.Items.TriggerWired(WiredInteractionType.COLLISION, newPos);
-
-                    if (!_item.CurrentRoom.RoomGrid.TryGetRoomTile(newPos.X, newPos.Y, out IRoomTile roomTile) ||
-                        !_item.CurrentRoom.RoomGrid.CanRollAt(newPos.X, newPos.Y, item))
-                        continue;
-
-                    newPos.Z = roomTile.Height;
-                    await _item.CurrentRoom.SendAsync(new FloorItemOnRollerComposer(item, newPos, _item.Id));
-
-                    _item.CurrentRoom.RoomGrid.RemoveItem(item);
-                    item.Position = newPos;
-                    _item.CurrentRoom.RoomGrid.AddItem(item);
-                }
-
-                foreach (BaseEntity entity in rollerTile.Entities.ToList())
-                {
-                    if (entity.NextPosition != entity.Position) return;
-
-                    if (!_item.CurrentRoom.RoomGrid.TryGetRoomTile(newPos.X, newPos.Y, out IRoomTile roomTile) ||
-                        !roomTile.IsValidTile(entity, true))
-                        continue;
-
-                    newPos.Z = roomTile.Height;
-                    await _item.CurrentRoom.SendAsync(new EntityOnRollerComposer(entity, newPos, _item.Id));
-
-                    _item.CurrentRoom.RoomGrid.RemoveEntity(entity);
-                    entity.NextPosition = newPos;
-                    entity.GoalPosition = newPos;
-                    _item.CurrentRoom.RoomGrid.AddEntity(entity);
-                }
-
-                _tick = 4;
-            }
         }
 
         private IRoomPosition HandleMovement(int rotation, IRoomPosition position)

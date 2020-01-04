@@ -61,9 +61,6 @@ namespace AliasPro.Items.Packets.Events
 			room.RoomGrid.AddItem(item);
 
 			await room.SendAsync(new FloorItemUpdateComposer(item));
-
-			//todo:
-			//await room.SendAsync(new UpdateStackHeightComposer());
 			await room.SendAsync(new UpdateStackToolHeightComposer(item));
 		}
 

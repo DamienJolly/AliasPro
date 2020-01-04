@@ -4,6 +4,7 @@ using AliasPro.API.Rooms.Models;
 using AliasPro.Items.Types;
 using AliasPro.Rooms.Entities;
 using AliasPro.Rooms.Models;
+using AliasPro.Rooms.Packets.Composers;
 using Pathfinding;
 using Pathfinding.Models;
 using Pathfinding.Types;
@@ -23,7 +24,7 @@ namespace AliasPro.Rooms.Cycles
             _moveStatus = new StringBuilder();
         }
 
-        public void Cycle()
+        public async void Cycle()
         {
             if (_entity.HeadRotation != _entity.BodyRotation)
             {
@@ -124,6 +125,8 @@ namespace AliasPro.Rooms.Cycles
 
                 _entity.Room.RoomGrid.AddEntity(_entity);
                 _entity.Unidle();
+
+                await _entity.Room.SendAsync(new EntityUpdateComposer(_entity));
             }
             else
             {
@@ -160,6 +163,7 @@ namespace AliasPro.Rooms.Cycles
 			}
 
             _entity.Cycle();
+            await _entity.Room.SendAsync(new EntityUpdateComposer(_entity));
         }
     }
 }

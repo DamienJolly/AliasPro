@@ -28,6 +28,8 @@ namespace AliasPro.Rooms.Models
         public RoomCycle RoomCycle { get; set; }
         public IList<string> WordFilter { get; set; }
         public int IdleTimer { get; set; } = 0;
+        public int RollerSpeed { get; set; } = 2;
+        public int RollerCycle { get; set; } = 0;
 		public bool Loaded { get; set; } = false;
 		public bool Muted { get; set; } = false;
 
