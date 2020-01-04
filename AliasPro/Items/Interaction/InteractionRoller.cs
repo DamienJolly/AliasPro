@@ -1,21 +1,13 @@
 ﻿using AliasPro.API.Items.Interaction;
 using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
-using AliasPro.API.Rooms.Models;
-using AliasPro.Items.Packets.Composers;
-using AliasPro.Items.Types;
 using AliasPro.Network.Protocol;
-using AliasPro.Rooms.Models;
-using AliasPro.Rooms.Packets.Composers;
-using System.Linq;
 
 namespace AliasPro.Items.Interaction
 {
     public class InteractionRoller : IItemInteractor
     {
         private readonly IItem _item;
-
-        private int _tick = 2;
 
         public InteractionRoller(IItem item)
         {
@@ -60,25 +52,9 @@ namespace AliasPro.Items.Interaction
 
         }
 
-        public async void OnCycle()
+        public void OnCycle()
         {
 
-        }
-
-        private IRoomPosition HandleMovement(int rotation, IRoomPosition position)
-        {
-            IRoomPosition newPos =
-                new RoomPosition(position.X, position.Y, position.Z);
-
-            switch (rotation)
-            {
-                case 0: newPos.Y--; break;
-                case 2: newPos.X++; break;
-                case 4: newPos.Y++; break;
-                case 6: newPos.X--; break;
-            }
-
-            return newPos;
         }
     }
 }
