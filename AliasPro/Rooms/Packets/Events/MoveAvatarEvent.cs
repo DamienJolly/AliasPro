@@ -17,6 +17,8 @@ namespace AliasPro.Rooms.Packets.Events
             IRoom room = session.CurrentRoom;
             if (room == null || session.Entity == null) return;
 
+			if (session.Entity.IsKicked) return;
+
 			int x = clientPacket.ReadInt();
             int y = clientPacket.ReadInt();
 

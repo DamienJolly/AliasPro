@@ -186,7 +186,6 @@ namespace AliasPro.Players
                 {
                     while (await reader.ReadAsync())
                     {
-                        System.Console.WriteLine("hi");
                         int targetId = (int)reader.ReadData<uint>("id");
                         if (!ignores.ContainsKey(targetId))
                             ignores.Add(targetId, reader.ReadData<string>("username"));
@@ -194,9 +193,6 @@ namespace AliasPro.Players
                 }, "SELECT `players`.`id`, `players`.`username` FROM `player_ignores` " +
                 "INNER JOIN `players` ON `players`.`id` = `player_ignores`.`target_id` WHERE `player_ignores`.`player_id` = @0;", id);
             });
-
-            System.Console.WriteLine(ignores.Count);
-
             return ignores;
         }
 

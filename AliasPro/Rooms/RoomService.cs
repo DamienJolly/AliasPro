@@ -63,6 +63,7 @@ namespace AliasPro.Rooms
 			collection.AddSingleton<IAsyncPacket, RoomRemoveRightsEvent>();
 			collection.AddSingleton<IAsyncPacket, IgnoreRoomUserEvent>();
 			collection.AddSingleton<IAsyncPacket, UnIgnoreRoomUserEvent>();
+			collection.AddSingleton<IAsyncPacket, RoomUserKickEvent>();
         }
     }
 }

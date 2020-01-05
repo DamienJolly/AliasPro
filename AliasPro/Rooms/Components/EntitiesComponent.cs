@@ -60,6 +60,12 @@ namespace AliasPro.Rooms.Components
         public bool TryGetEntityById(int entityId, out BaseEntity entity) =>
             _entities.TryGetValue(entityId, out entity);
 
+        public bool TryGetPlayerEntityById(int playerId, out PlayerEntity entity)
+        {
+            entity = _entities.Values.Where(x => x is PlayerEntity playerEntity && playerEntity.Player.Id == playerId).FirstOrDefault() as PlayerEntity;
+            return entity != null;
+        }
+
         public bool TryGetPlayerEntityByName(string username, out BaseEntity entity)
         {
             entity = _entities.Values.Where(x => x is PlayerEntity && x.Name == username).FirstOrDefault();

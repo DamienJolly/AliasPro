@@ -75,6 +75,7 @@ namespace AliasPro.API.Rooms.Entities
         public bool IsSitting { get; set; } = false;
         public bool IsLaying { get; set; } = false;
         public bool NeedsUpdate { get; set; } = false;
+        public bool IsKicked { get; set; } = false;
 
         public int DirOffsetTimer = 0;
         public int IdleTimer = 0;

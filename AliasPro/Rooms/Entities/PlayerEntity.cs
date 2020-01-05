@@ -7,7 +7,7 @@ using AliasPro.Rooms.Packets.Composers;
 
 namespace AliasPro.Rooms.Entities
 {
-    internal class PlayerEntity : BaseEntity
+    public class PlayerEntity : BaseEntity
     {
         internal PlayerEntity(int id, int x, int y, int rotation, ISession session)
             : base(id, x, y, rotation, session.CurrentRoom, session.Player.Username, session.Player.Figure, session.Player.Gender, session.Player.Motto, session.Player.Score)

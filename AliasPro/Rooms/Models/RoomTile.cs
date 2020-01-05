@@ -51,7 +51,8 @@ namespace AliasPro.Rooms.Models
 
 		public bool IsValidTile(BaseEntity entity, bool final)
         {
-            if (_entities.Count > 0)
+            if (!(!_room.RoomModel.IsCustom && Position.X == _room.RoomModel.DoorX && Position.Y == _room.RoomModel.DoorY) && 
+                _entities.Count > 0)
                 return entity == null ? false : _entities.ContainsKey(entity.Id);
 
             IItem topItem = TopItem;

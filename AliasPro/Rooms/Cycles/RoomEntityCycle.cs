@@ -24,7 +24,7 @@ namespace AliasPro.Rooms.Cycles
             _moveStatus = new StringBuilder();
         }
 
-        public void Cycle()
+        public async void Cycle()
         {
             if (_entity.HeadRotation != _entity.BodyRotation)
             {
@@ -35,7 +35,13 @@ namespace AliasPro.Rooms.Cycles
             }
 
             if (_entity.Position != _entity.NextPosition)
+            {
                 _entity.Position = _entity.NextPosition;
+
+                if (_entity.NextPosition.X == _entity.Room.RoomModel.DoorX &&
+                    _entity.NextPosition.Y == _entity.Room.RoomModel.DoorY)
+                    await _entity.Room.RemoveEntity(_entity);
+            }
 
             if (_entity.Position.X != _entity.GoalPosition.X ||
 				_entity.Position.Y != _entity.GoalPosition.Y)
@@ -136,6 +142,9 @@ namespace AliasPro.Rooms.Cycles
 
                 if (!_entity.IsSitting)
                     _entity.Actions.RemoveStatus("sit");
+
+                if (_entity.IsKicked)
+                    await _entity.Room.RemoveEntity(_entity);
 
                 if (!_entity.Room.RoomGrid.TryGetRoomTile(_entity.Position.X, _entity.Position.Y, out IRoomTile roomTile))
                     return;
