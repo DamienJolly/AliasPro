@@ -38,6 +38,7 @@ namespace AliasPro.Players
             collection.AddSingleton<IAsyncPacket, SaveBlockCameraFollowEvent>();
             collection.AddSingleton<IAsyncPacket, RequestMeMenuSettingsEvent>();
             collection.AddSingleton<IAsyncPacket, UserChangeMottoEvent>();
+            collection.AddSingleton<IAsyncPacket, RequestUserIgnoresEvent>();
         }
     }
 }

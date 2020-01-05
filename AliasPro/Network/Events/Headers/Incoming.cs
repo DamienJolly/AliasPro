@@ -14,6 +14,7 @@
         internal const short SaveIgnoreRoomInvitesMessageEvent = 3110;
         internal const short SaveBlockCameraFollowMessageEvent = 191;
         internal const short UserChangeMottoMessageEvent = 3726;
+        internal const short RequestUserIgnoresMessageEvent = 3822;
 
         // Badges
         internal const short RequestBadgeInventoryMessageEvent = 1023;
@@ -113,6 +114,8 @@
         internal const short RequestRoomRightsMessageEvent = 3071;
         internal const short RoomRemoveAllRightsMessageEvent = 1577;
         internal const short RoomRemoveRightsMessageEvent = 2084;
+        internal const short IgnoreRoomUserMessageEvent = 1897;
+        internal const short UnIgnoreRoomUserMessageEvent = 1109;
 
         // Landing
         internal const short HotelViewDataMessageEvent = 1579;

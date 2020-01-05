@@ -177,6 +177,47 @@ namespace AliasPro.Players
             return currencies;
         }
 
+        internal async Task<IDictionary<int, string>> GetPlayerIgnoresAsync(uint id)
+        {
+            IDictionary<int, string> ignores = new Dictionary<int, string>();
+            await CreateTransaction(async transaction =>
+            {
+                await Select(transaction, async reader =>
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        System.Console.WriteLine("hi");
+                        int targetId = (int)reader.ReadData<uint>("id");
+                        if (!ignores.ContainsKey(targetId))
+                            ignores.Add(targetId, reader.ReadData<string>("username"));
+                    }
+                }, "SELECT `players`.`id`, `players`.`username` FROM `player_ignores` " +
+                "INNER JOIN `players` ON `players`.`id` = `player_ignores`.`target_id` WHERE `player_ignores`.`player_id` = @0;", id);
+            });
+
+            System.Console.WriteLine(ignores.Count);
+
+            return ignores;
+        }
+
+        internal async Task AddPlayerIgnoreAsync(int playerId, int targetId)
+        {
+            await CreateTransaction(async transaction =>
+            {
+                await Insert(transaction, "INSERT INTO `player_ignores` (`player_id`, `target_id`) VALUES (@0, @1);",
+                    playerId, targetId);
+            });
+        }
+
+        internal async Task RemovePlayerIgnoreAsync(int playerId, int targetId)
+        {
+            await CreateTransaction(async transaction =>
+            {
+                await Insert(transaction, "DELETE FROM `player_ignores` WHERE `player_id` = @0 AND `target_id` = @1;",
+                    playerId, targetId);
+            });
+        }
+
         internal async Task UpdatePlayerCurrenciesAsync(IPlayer player)
         {
             await CreateTransaction(async transaction =>

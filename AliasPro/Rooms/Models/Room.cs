@@ -120,7 +120,8 @@ namespace AliasPro.Rooms.Models
 
 				if (targetEntity is PlayerEntity playerEntity)
 				{
-                    await playerEntity.Session.SendPacketAsync(new AvatarChatComposer(entity.Id, message, 0, colour, chatType));
+                    if (entity is PlayerEntity targetPlayer && !playerEntity.Player.Ignore.TryGetIgnoredUser((int)targetPlayer.Player.Id))
+                        await playerEntity.Session.SendPacketAsync(new AvatarChatComposer(entity.Id, message, 0, colour, chatType));
 				}
 			}
         }

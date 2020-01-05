@@ -17,6 +17,7 @@
         internal const short MeMenuSettingsMessageComposer = 2204;
         internal const short UserClothesMessageComposer = 2187;
         internal const short BuildersClubMembershipMessageComposer = 1059;
+        internal const short IgnoredUsersMessageComposer = 2317;
 
         // Badges
         internal const short InventoryBadgesMessageComposer = 2782;
@@ -120,6 +121,7 @@
         internal const short RoomNoRightsMessageComposer = 2558;
         internal const short RoomAddRightsListMessageComposer = 667;
         internal const short RoomRemoveRightsListMessageComposer = 1383;
+        internal const short RoomUserIgnoredMessageComposer = 1556;
 
         // Landing
         internal const short HotelViewMessageComposer = 2484;

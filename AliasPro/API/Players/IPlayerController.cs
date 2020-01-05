@@ -21,6 +21,7 @@ namespace AliasPro.API.Players
         Task UpdatePlayerAsync(IPlayer player);
 
         Task<IDictionary<int, IPlayerCurrency>> GetPlayerCurrenciesAsync(uint id);
+        Task<IDictionary<int, string>> GetPlayerIgnoresAsync(uint id);
         Task UpdatePlayerCurrenciesAsync(IPlayer player);
 
         Task<IDictionary<string, IPlayerBadge>> GetPlayerBadgesAsync(uint id);
@@ -35,5 +36,7 @@ namespace AliasPro.API.Players
 
         Task<ICollection<IPlayerRoomVisited>> GetPlayerRoomVisitsAsync(uint playerId);
 		Task<IDictionary<uint, IPlayerData>> GetPlayersByUsernameAsync(string playerName);
+		Task AddPlayerIgnoreAsync(int playerId, int targetId);
+		Task RemovePlayerIgnoreAsync(int playerId, int targetId);
 	}
 }

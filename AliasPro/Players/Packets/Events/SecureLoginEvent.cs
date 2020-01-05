@@ -78,6 +78,9 @@ namespace AliasPro.Players.Packets.Events
             player.Currency = new CurrencyComponent(
                 await _playerController.GetPlayerCurrenciesAsync(player.Id));
 
+            player.Ignore = new IgnoreComponent(
+                await _playerController.GetPlayerIgnoresAsync(player.Id));
+
             player.Inventory = new InventoryComponent(
                 await _itemController.GetItemsForPlayerAsync(player.Id),
 				await _playerController.GetPlayerBotsAsync(player.Id),
