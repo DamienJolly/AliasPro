@@ -7,6 +7,8 @@ using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Rooms.Entities;
 using AliasPro.Rooms.Packets.Composers;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AliasPro.Rooms.Packets.Events
 {
@@ -28,7 +30,7 @@ namespace AliasPro.Rooms.Packets.Events
             IRoom room = session.CurrentRoom;
             if (room == null) return;
 
-            await session.SendPacketAsync(new HeightMapComposer(room.RoomModel));
+            await session.SendPacketAsync(new HeightMapComposer(room));
             await session.SendPacketAsync(new FloorHeightMapComposer(room.WallHeight, room.RoomModel.RelativeHeightMap));
             
             if (session.Entity == null)
@@ -64,8 +66,6 @@ namespace AliasPro.Rooms.Packets.Events
             await session.SendPacketAsync(new RoomFloorItemsComposer(room.Items.FloorItems, room.Items.GetItemOwners));
             await session.SendPacketAsync(new RoomWallItemsComposer(room.Items.WallItems, room.Items.GetItemOwners));
             await session.SendPacketAsync(new RoomPromotionComposer(room));
-
-            await session.SendPacketAsync(new UpdateStackHeightComposer(room.RoomGrid.RoomTiles));
         }
     }
 }

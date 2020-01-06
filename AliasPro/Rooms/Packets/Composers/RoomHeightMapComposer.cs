@@ -7,30 +7,30 @@ namespace AliasPro.Rooms.Packets.Composers
 {
     public class HeightMapComposer : IPacketComposer
     {
-        private readonly IRoomModel _roomModel;
+        private readonly IRoom _room;
 
-        public HeightMapComposer(IRoomModel roomModel)
+        public HeightMapComposer(IRoom room)
         {
-            _roomModel = roomModel;
+            _room = room;
         }
 
         public ServerPacket Compose()
         {
             ServerPacket message = new ServerPacket(Outgoing.HeightMapMessageComposer);
-            message.WriteInt(_roomModel.MapSizeX);
-            message.WriteInt(_roomModel.MapSizeX * _roomModel.MapSizeY);
+            message.WriteInt(_room.RoomGrid.MapSizeX);
+            message.WriteInt(_room.RoomGrid.MapSizeX * _room.RoomGrid.MapSizeY);
 
-            for (int y = 0; y < _roomModel.MapSizeY; y++)
+            for (int y = 0; y < _room.RoomGrid.MapSizeY; y++)
             {
-                for (int x = 0; x < _roomModel.MapSizeX; x++)
+                for (int x = 0; x < _room.RoomGrid.MapSizeX; x++)
                 {
-                    if (_roomModel.GetTileState(x, y))
+                    if (_room.RoomGrid.TryGetRoomTile(x, y, out IRoomTile roomTile))
                     {
-                        message.WriteShort((short)(_roomModel.GetHeight(x, y) * 256));
+                        message.WriteShort(roomTile.RelativeHeight);
                     }
                     else
                     {
-                        message.WriteShort(-1);
+                        message.WriteShort(short.MaxValue);
                     }
                 }
             }
