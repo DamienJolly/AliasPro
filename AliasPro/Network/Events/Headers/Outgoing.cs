@@ -127,6 +127,7 @@
         internal const short GenericErrorMessageComposer = 1883;
         internal const short RoomUserUnbannedMessageComposer = 1849;
         internal const short RoomBannedUsersMessageComposer = 1188;
+        internal const short RoomCloseMessageComposer = 2484;
 
         // Landing
         internal const short HotelViewMessageComposer = 2484;

@@ -45,14 +45,17 @@ namespace AliasPro.Rooms.Packets.Events
 
             if (room == null)
             {
-                // close connection
+                await session.SendPacketAsync(new RoomCloseComposer());
                 return;
             }
 
             if (!room.Loaded)
             {
                 if (!_roomController.TryGetRoomModel(room.ModelName, out IRoomModel model))
+                {
+                    await session.SendPacketAsync(new RoomCloseComposer());
                     return;
+                }
 
                 room.RoomModel = model;
 
@@ -89,10 +92,16 @@ namespace AliasPro.Rooms.Packets.Events
                 return;
             }
 
+            if (room.Entities.Entities.Count >= room.MaxUsers)
+            {
+                await session.SendPacketAsync(new RoomEnterErrorComposer(RoomEnterErrorComposer.ROOM_ERROR_GUESTROOM_FULL));
+                return;
+            }
+
             if (room.Password != password)
             {
-                //close connection?
                 await session.SendPacketAsync(new GenericErrorComposer(GenericErrorComposer.ROOM_PASSWORD_INCORRECT));
+                await session.SendPacketAsync(new RoomCloseComposer());
                 return;
             }
 
