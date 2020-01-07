@@ -32,7 +32,11 @@ namespace AliasPro.Rooms.Packets.Events
             if (!_roomController.TryGetRoom((uint)roomId, out IRoom room)) 
                 return;
 
-            if (!room.Rights.HasRights(session.Player.Id)) return;
+            switch (room.Settings.WhoMutes)
+            {
+                case 0: default: if (!room.Rights.IsOwner(session.Player.Id)) return; break;
+                case 1: if (!room.Rights.HasRights(session.Player.Id)) return; break;
+            }
 
             if (room.Rights.HasRights((uint)playerId)) return;
 

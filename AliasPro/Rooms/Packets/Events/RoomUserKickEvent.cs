@@ -31,7 +31,12 @@ namespace AliasPro.Rooms.Packets.Events
 
             int playerId = clientPacket.ReadInt();
 
-            if (!room.Rights.HasRights(session.Player.Id)) return;
+            switch (room.Settings.WhoKicks)
+            {
+                case 0: default: if (!room.Rights.IsOwner(session.Player.Id)) return; break;
+                case 1: if (!room.Rights.HasRights(session.Player.Id)) return; break;
+                case 2: break;
+            }
 
             if (room.Rights.HasRights((uint)playerId)) return;
 

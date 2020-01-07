@@ -29,6 +29,8 @@ namespace AliasPro.Rooms.Packets.Events
             if (!_roomController.TryGetRoom((uint)roomId, out IRoom room)) 
                 return;
 
+            if (!room.Rights.IsOwner(session.Player.Id)) return;
+
             room.Bans.UnbanPlayer(playerId);
             await _roomController.RemoveRoomBan(room.Id, playerId);
         }
