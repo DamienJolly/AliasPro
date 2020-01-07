@@ -36,5 +36,8 @@ namespace AliasPro.API.Rooms
 		Task<int> AddRoomPromotion(uint roomId, IRoomPromotion promotion);
 		Task UpdateRoomPromotion(IRoomPromotion promotion);
 		Task UpdateRoom(IRoom room);
+		Task AddRoomBan(uint roomId, int playerId, int expireTime);
+		Task RemoveRoomBan(uint roomId, int playerId);
+		Task<IDictionary<int, IRoomBan>> GetBannedPlayers(uint roomId);
 	}
 }

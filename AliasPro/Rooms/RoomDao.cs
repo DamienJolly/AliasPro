@@ -435,5 +435,50 @@ namespace AliasPro.Rooms
 					item.Id, item.RoomId, item.Rotation, item.Position.X, item.Position.Y, item.Position.Z, item.ExtraData, item.Mode, item.ItemId);
 			});
 		}
+
+		internal async Task<IDictionary<int, IRoomBan>> GetBannedPlayers(uint roomId)
+		{
+			IDictionary<int, IRoomBan> bannedPlayers = new Dictionary<int, IRoomBan>();
+			await CreateTransaction(async transaction =>
+			{
+				await Select(transaction, async reader =>
+				{
+					while (await reader.ReadAsync())
+					{
+						IRoomBan roomBan = new RoomBan(reader);
+						if (roomBan.HasExpired)
+						{
+							await RemoveRoomBan(roomId, roomBan.PlayerId);
+							continue;
+						}
+
+						if (!bannedPlayers.ContainsKey(roomBan.PlayerId))
+							bannedPlayers.Add(roomBan.PlayerId, roomBan);
+					}
+				}, "SELECT `players`.`id`, `players`.`username`, `room_bans`.`expire_time` FROM `room_bans` " +
+				"INNER JOIN `players` ON `players`.`id` = `room_bans`.`player_id` WHERE `room_bans`.`room_id` = @0;",
+				roomId);
+			});
+
+			return bannedPlayers;
+		}
+
+		internal async Task AddRoomBan(uint roomId, int playerId, int expireTime)
+		{
+			await CreateTransaction(async transaction =>
+			{
+				await Insert(transaction, "INSERT INTO `room_bans` (`room_id`, `player_id`, `expire_time`) VALUES (@0, @1, @2)",
+					roomId, playerId, expireTime);
+			});
+		}
+
+		internal async Task RemoveRoomBan(uint roomId, int playerId)
+		{
+			await CreateTransaction(async transaction =>
+			{
+				await Insert(transaction, "DELETE FROM `room_bans` WHERE `room_id` = @0 AND `player_id` = @1",
+					roomId, playerId);
+			});
+		}
 	}
 }

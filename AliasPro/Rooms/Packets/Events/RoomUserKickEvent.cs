@@ -6,6 +6,7 @@ using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Rooms.Entities;
 using AliasPro.Rooms.Models;
+using AliasPro.Rooms.Packets.Composers;
 
 namespace AliasPro.Rooms.Packets.Events
 {
@@ -53,7 +54,7 @@ namespace AliasPro.Rooms.Packets.Events
                 );
             }
 
-            //habbo.getClient().sendResponse(new GenericErrorMessagesComposer(GenericErrorMessagesComposer.KICKED_OUT_OF_THE_ROOM));
+            await entity.Session.SendPacketAsync(new GenericErrorComposer(GenericErrorComposer.KICKED_OUT_OF_THE_ROOM));
 
             if (entity.Session.Player.Messenger != null)
                 await _messengerController.UpdateStatusAsync(entity.Session.Player, entity.Session.Player.Messenger.Friends);

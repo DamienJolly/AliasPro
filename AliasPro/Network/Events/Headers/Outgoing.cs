@@ -123,6 +123,10 @@
         internal const short RoomRemoveRightsListMessageComposer = 1383;
         internal const short RoomUserIgnoredMessageComposer = 1556;
         internal const short MutedWhisperMessageComposer = 76;
+        internal const short RoomEnterErrorMessageComposer = 3107;
+        internal const short GenericErrorMessageComposer = 1883;
+        internal const short RoomUserUnbannedMessageComposer = 1849;
+        internal const short RoomBannedUsersMessageComposer = 1188;
 
         // Landing
         internal const short HotelViewMessageComposer = 2484;

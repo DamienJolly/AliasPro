@@ -25,6 +25,7 @@ namespace AliasPro.Rooms.Models
         public RightsComponent Rights { get; set; }
         public GameComponent Game { get; set; }
         public MuteComponent Mute { get; set; }
+        public BanComponent Bans { get; set; }
         public RoomGrid RoomGrid { get; set; }
         public RoomCycle RoomCycle { get; set; }
         public IList<string> WordFilter { get; set; }

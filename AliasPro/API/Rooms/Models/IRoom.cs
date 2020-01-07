@@ -17,6 +17,7 @@ namespace AliasPro.API.Rooms.Models
         RightsComponent Rights { get; set; }
         GameComponent Game { get; set; }
         MuteComponent Mute { get; set; }
+        BanComponent Bans { get; set; }
 		RoomGrid RoomGrid { get; set; }
         RoomCycle RoomCycle { get; set; }
         IList<string> WordFilter { get; set; }

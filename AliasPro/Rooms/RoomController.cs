@@ -198,5 +198,14 @@ namespace AliasPro.Rooms
 
 		public async Task TakeRoomRights(uint roomId, uint playerId) =>
 			await _roomDao.RemoveRoomRights(roomId, playerId);
+
+		public async Task<IDictionary<int, IRoomBan>> GetBannedPlayers(uint roomId) =>
+			await _roomDao.GetBannedPlayers(roomId);
+
+		public async Task AddRoomBan(uint roomId, int playerId, int expireTime) =>
+			await _roomDao.AddRoomBan(roomId, playerId, expireTime);
+
+		public async Task RemoveRoomBan(uint roomId, int playerId) =>
+			await _roomDao.RemoveRoomBan(roomId, playerId);
 	}
 }

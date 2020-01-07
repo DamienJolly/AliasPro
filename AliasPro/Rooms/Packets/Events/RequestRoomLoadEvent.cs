@@ -64,6 +64,10 @@ namespace AliasPro.Rooms.Packets.Events
                 room.Game = new GameComponent(room);
                 room.Mute = new MuteComponent(room);
 
+                room.Bans = new BanComponent(
+                    room,
+                    await _roomController.GetBannedPlayers(room.Id));
+
                 room.RoomGrid = new RoomGrid(room);
 
                 room.Items = new ItemsComponent(
@@ -79,9 +83,16 @@ namespace AliasPro.Rooms.Packets.Events
                 room.Loaded = true;
             }
 
+            if (room.Bans.PlayerBanned((int)session.Player.Id))
+            {
+                await session.SendPacketAsync(new RoomEnterErrorComposer(RoomEnterErrorComposer.ROOM_ERROR_BANNED));
+                return;
+            }
+
             if (room.Password != password)
             {
-                // close connection
+                //close connection?
+                await session.SendPacketAsync(new GenericErrorComposer(GenericErrorComposer.ROOM_PASSWORD_INCORRECT));
                 return;
             }
 

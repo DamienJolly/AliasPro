@@ -118,6 +118,9 @@
         internal const short UnIgnoreRoomUserMessageEvent = 1109;
         internal const short RoomUserKickMessageEvent = 416;
         internal const short RoomUserMuteMessageEvent = 2343;
+        internal const short RoomUserBanMessageEvent = 2915;
+        internal const short RoomUserUnbanMessageEvent = 2302;
+        internal const short RequestBannedUsersMessageEvent = 2584;
 
         // Landing
         internal const short HotelViewDataMessageEvent = 1579;
