@@ -24,6 +24,7 @@ namespace AliasPro.Rooms.Models
         public ItemsComponent Items { get; set; }
         public RightsComponent Rights { get; set; }
         public GameComponent Game { get; set; }
+        public MuteComponent Mute { get; set; }
         public RoomGrid RoomGrid { get; set; }
         public RoomCycle RoomCycle { get; set; }
         public IList<string> WordFilter { get; set; }
@@ -70,8 +71,16 @@ namespace AliasPro.Rooms.Models
                 text = text.Substring(0, 100);
             }
 
-            if (Muted && entity is PlayerEntity player && !Rights.HasRights(player.Player.Id))
-                return;
+            if (entity is PlayerEntity player && !Rights.HasRights(player.Player.Id))
+            {
+                if (Muted) return;
+
+                if (Mute.PlayerMuted((int)player.Player.Id))
+                {
+                    await player.Session.SendPacketAsync(new MutedWhisperComposer(Mute.MutedTimeLeft((int)player.Player.Id)));
+                    return;
+                }
+            }
 
             foreach (string word in WordFilter)
                 text = text.Replace(word, "bobba");

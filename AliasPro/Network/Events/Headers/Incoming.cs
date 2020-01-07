@@ -117,6 +117,7 @@
         internal const short IgnoreRoomUserMessageEvent = 1897;
         internal const short UnIgnoreRoomUserMessageEvent = 1109;
         internal const short RoomUserKickMessageEvent = 416;
+        internal const short RoomUserMuteMessageEvent = 2343;
 
         // Landing
         internal const short HotelViewDataMessageEvent = 1579;

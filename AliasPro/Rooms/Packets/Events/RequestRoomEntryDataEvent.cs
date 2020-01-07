@@ -7,8 +7,6 @@ using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Rooms.Entities;
 using AliasPro.Rooms.Packets.Composers;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AliasPro.Rooms.Packets.Events
 {

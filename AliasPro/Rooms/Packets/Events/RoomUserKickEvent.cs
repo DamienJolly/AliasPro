@@ -30,11 +30,9 @@ namespace AliasPro.Rooms.Packets.Events
 
             int playerId = clientPacket.ReadInt();
 
-            System.Console.WriteLine(playerId);
-
-            if (room.Rights.IsOwner((uint)playerId)) return;
-
             if (!room.Rights.HasRights(session.Player.Id)) return;
+
+            if (room.Rights.HasRights((uint)playerId)) return;
 
             if (!room.Entities.TryGetPlayerEntityById(playerId, out PlayerEntity entity))
                 return;

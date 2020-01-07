@@ -122,6 +122,7 @@
         internal const short RoomAddRightsListMessageComposer = 667;
         internal const short RoomRemoveRightsListMessageComposer = 1383;
         internal const short RoomUserIgnoredMessageComposer = 1556;
+        internal const short MutedWhisperMessageComposer = 76;
 
         // Landing
         internal const short HotelViewMessageComposer = 2484;
