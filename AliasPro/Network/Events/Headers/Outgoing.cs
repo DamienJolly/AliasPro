@@ -128,6 +128,7 @@
         internal const short RoomUserUnbannedMessageComposer = 1849;
         internal const short RoomBannedUsersMessageComposer = 1188;
         internal const short RoomCloseMessageComposer = 2484;
+        internal const short RoomGroupBadgesMessageComposer = 3056;
 
         // Landing
         internal const short HotelViewMessageComposer = 2484;
@@ -178,6 +179,7 @@
 		internal const int GroupManageMessageComposer = 2434;
 		internal const int RemoveGroupFromRoomMessageComposer = 2310;
 		internal const int GroupRefreshGroupsMessageComposer = 2630;
+		internal const int GroupFavoriteUpdateMessageComposer = 3017;
 
 		// Subscription
 		internal const int UserClubMessageComposer = 2984;

@@ -32,24 +32,6 @@ namespace AliasPro.Groups
 			return badgeParts;
 		}
 
-		public async Task<IList<int>> ReadPlayerGroups(uint playerId)
-		{
-			IList<int> groupIds = new List<int>();
-			await CreateTransaction(async transaction =>
-			{
-				await Select(transaction, async reader =>
-				{
-					while (await reader.ReadAsync())
-					{
-						int groupId = reader.ReadData<int>("group_id");
-						if (!groupIds.Contains(groupId))
-							groupIds.Add(groupId);
-					}
-				}, "SELECT * FROM `group_members` WHERE `player_id` = @0;", playerId);
-			});
-			return groupIds;
-		}
-
 		public async Task<IGroup> ReadGroupData(int groupId)
 		{
 			IGroup group = null;

@@ -1,4 +1,5 @@
-﻿using AliasPro.API.Players.Models;
+﻿using AliasPro.API.Groups.Models;
+using AliasPro.API.Players.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Protocol;
@@ -77,9 +78,21 @@ namespace AliasPro.Rooms.Entities
 
             serverPacket.WriteInt(1);
             serverPacket.WriteString(Player.Gender == PlayerGender.MALE ? "m" : "f");
-            serverPacket.WriteInt(-1);
-            serverPacket.WriteInt(-1);
-            serverPacket.WriteInt(0);
+
+            if (Player.TryGetGroup(Player.FavoriteGroup, out IGroup group))
+            {
+                serverPacket.WriteInt(group.Id);
+                serverPacket.WriteInt(group.Id);
+                serverPacket.WriteString(group.Name);
+            }
+            else
+            {
+                serverPacket.WriteInt(-1);
+                serverPacket.WriteInt(-1);
+                serverPacket.WriteString(string.Empty);
+            }
+
+            serverPacket.WriteString(string.Empty); // dunno?
             serverPacket.WriteInt(Score);
             serverPacket.WriteBoolean(true);
         }

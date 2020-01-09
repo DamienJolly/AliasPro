@@ -35,6 +35,8 @@ namespace AliasPro.Groups
 			collection.AddSingleton<IAsyncPacket, GroupChangeNameDescEvent>();
 			collection.AddSingleton<IAsyncPacket, GroupChangeSettingsEvent>();
 			collection.AddSingleton<IAsyncPacket, GroupDeleteEvent>();
+			collection.AddSingleton<IAsyncPacket, GroupSetFavoriteEvent>();
+			collection.AddSingleton<IAsyncPacket, GroupRemoveFavoriteEvent>();
 		}
 	}
 }

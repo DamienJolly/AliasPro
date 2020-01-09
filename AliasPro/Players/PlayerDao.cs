@@ -1,6 +1,8 @@
 ﻿using AliasPro.API.Configuration;
 using AliasPro.API.Database;
+using AliasPro.API.Groups.Models;
 using AliasPro.API.Players.Models;
+using AliasPro.Groups.Models;
 using AliasPro.Players.Models;
 using AliasPro.Players.Types;
 using Microsoft.Extensions.Logging;
@@ -46,6 +48,7 @@ namespace AliasPro.Players
                     if (await reader.ReadAsync())
                     {
                         data = new PlayerData(reader);
+                        data.Groups = await GetPlayerGroups((int)data.Id);
                         await ClearSSOAsync(data.Id);
                     }
                 }, "SELECT * FROM `players` WHERE `auth_ticket` = @0 LIMIT 1;", SSO);
@@ -63,6 +66,7 @@ namespace AliasPro.Players
                     if (await reader.ReadAsync())
                     {
                         data = new PlayerData(reader);
+                        data.Groups = await GetPlayerGroups((int)data.Id);
                     }
                 }, "SELECT * FROM `players` WHERE `id` = @0 LIMIT 1;", playerId);
             });
@@ -98,7 +102,7 @@ namespace AliasPro.Players
             await CreateTransaction(async transaction =>
             {
                 await Insert(transaction, "UPDATE `players` SET `is_online` = @1, `credits` = @2, `motto` = @3, `figure` = @4, `gender` = @5, `last_online` = @6, `home_room` = @7, `group_id` = @8 WHERE `id` = @0;", 
-                    player.Id, player.Online, player.Credits, player.Motto, player.Figure, player.Gender == PlayerGender.MALE ? "m" : "f", player.LastOnline, player.HomeRoom, player.GroupId);
+                    player.Id, player.Online, player.Credits, player.Motto, player.Figure, player.Gender == PlayerGender.MALE ? "m" : "f", player.LastOnline, player.HomeRoom, player.FavoriteGroup);
             });
         }
 
@@ -351,6 +355,7 @@ namespace AliasPro.Players
 					while (await reader.ReadAsync())
 					{
 						IPlayerData player = new PlayerData(reader);
+                        player.Groups = await GetPlayerGroups((int)player.Id);
 
 						if (!players.ContainsKey(player.Id))
 							players.Add(player.Id, player);
@@ -360,5 +365,27 @@ namespace AliasPro.Players
 			});
 			return players;
 		}
-	}
+
+        internal async Task<IDictionary<int, IGroup>> GetPlayerGroups(int playerId)
+        {
+            IDictionary<int, IGroup> groups = new Dictionary<int, IGroup>();
+            await CreateTransaction(async transaction =>
+            {
+                await Select(transaction, async reader =>
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        IGroup group = new Group(reader);
+
+                        if (!groups.ContainsKey(group.Id))
+                            groups.Add(group.Id, group);
+                    }
+                }, "SELECT `groups`.* FROM `group_members` " +
+                "INNER JOIN `groups` ON `groups`.`id` = `group_members`.`group_id` " +
+                "WHERE `group_members`.`player_id` = @0;", playerId);
+            });
+
+            return groups;
+        }
+    }
 }

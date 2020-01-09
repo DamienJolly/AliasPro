@@ -55,26 +55,6 @@ namespace AliasPro.Groups
 			return group;
 		}
 
-		public async Task<ICollection<IGroup>> ReadPlayerGroups(int playerId)
-		{
-			IList<IGroup> groups = new List<IGroup>();
-			IList<int> groupIds = await _groupDao.ReadPlayerGroups((uint)playerId);
-
-			foreach (int groupId in groupIds)
-			{
-				if (!_groups.TryGetValue(groupId, out IGroup group))
-				{
-					group = await _groupDao.ReadGroupData(groupId);
-					_groups.TryAdd(group.Id, group);
-				}
-
-				group.IdleTime = 0;
-				groups.Add(group);
-			}
-
-			return groups;
-		}
-
 		public async Task<IGroup> CreateGroup(string name, string desc, uint playerId, int roomId, string badge, int colourOne, int colourTwo)
 		{
 			return await ReadGroupData(

@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Groups\Imager\**" />
     <Compile Remove="Players\Models\Messenger\**" />
     <Compile Remove="Players\Tasks\**" />
     <Compile Remove="Rooms\Gamemap\**" />
@@ -15,6 +16,7 @@
     <Compile Remove="Rooms\Models\Right\**" />
     <Compile Remove="Rooms\Tasks\**" />
     <Compile Remove="Settings\**" />
+    <EmbeddedResource Remove="Groups\Imager\**" />
     <EmbeddedResource Remove="Players\Models\Messenger\**" />
     <EmbeddedResource Remove="Players\Tasks\**" />
     <EmbeddedResource Remove="Rooms\Gamemap\**" />
@@ -23,6 +25,7 @@
     <EmbeddedResource Remove="Rooms\Models\Right\**" />
     <EmbeddedResource Remove="Rooms\Tasks\**" />
     <EmbeddedResource Remove="Settings\**" />
+    <None Remove="Groups\Imager\**" />
     <None Remove="Players\Models\Messenger\**" />
     <None Remove="Players\Tasks\**" />
     <None Remove="Rooms\Gamemap\**" />

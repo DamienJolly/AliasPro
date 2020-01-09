@@ -14,7 +14,6 @@ namespace AliasPro.API.Groups
 		Task RemoveGroup(int groupId);
 		Task AddGroupMember(int groupId, IGroupMember member);
 		Task RemoveGroupMember(int groupId, int playerId);
-		Task<ICollection<IGroup>> ReadPlayerGroups(int playerId);
 
 		ICollection<IGroupBadgePart> GetBases { get; }
 		ICollection<IGroupBadgePart> GetSymbols { get; }
