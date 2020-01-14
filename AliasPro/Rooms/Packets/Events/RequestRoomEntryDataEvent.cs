@@ -1,4 +1,5 @@
-﻿using AliasPro.API.Groups.Models;
+﻿using AliasPro.API.Groups;
+using AliasPro.API.Groups.Models;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
 using AliasPro.API.Rooms.Entities;
@@ -14,6 +15,14 @@ namespace AliasPro.Rooms.Packets.Events
     public class RequestRoomEntryDataEvent : IAsyncPacket
     {
         public short Header { get; } = Incoming.RequestRoomEntryDataMessageEvent;
+
+        private readonly IGroupController _groupController;
+
+        public RequestRoomEntryDataEvent(
+            IGroupController groupController)
+        {
+            _groupController = groupController;
+        }
 
         public async void HandleAsync(
             ISession session,
@@ -37,6 +46,10 @@ namespace AliasPro.Rooms.Packets.Events
                 
                 session.Entity = userEntity;
                 await room.AddEntity(userEntity);
+
+                IGroup group = await _groupController.ReadGroupData(session.Player.FavoriteGroup);
+                if (group != null)
+                    await room.SendAsync(new RoomGroupBadgesComposer(group));
             }
 
             await room.Rights.ReloadRights(session);
@@ -62,7 +75,8 @@ namespace AliasPro.Rooms.Packets.Events
 
                 if (entity is PlayerEntity playerEntity)
                 {
-                    if ( playerEntity.Player.TryGetGroup(playerEntity.Player.FavoriteGroup, out IGroup group))
+                    IGroup group = await _groupController.ReadGroupData(playerEntity.Player.FavoriteGroup);
+                    if (group != null)
                     {
                         if (!groups.ContainsKey(group.Id))
                             groups.Add(group.Id, group);

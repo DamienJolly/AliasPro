@@ -320,7 +320,9 @@ namespace AliasPro.Rooms
 					{
 						group = new Group(reader);
 					}
-				}, "SELECT * FROM `groups` WHERE `id` = @0 LIMIT 1;", groupId);
+				}, "SELECT `groups`.*, `rooms`.`name` AS `room_name`, `players`.`username` AS `owner_name` FROM `groups` " +
+					"INNER JOIN `rooms` ON `groups`.`room_id` = `rooms`.`id` " +
+					"INNER JOIN `players` ON `groups`.`owner_id` = `players`.`id` WHERE `groups`.`id` = @0 LIMIT 1;", groupId);
 			});
 
 			return group;

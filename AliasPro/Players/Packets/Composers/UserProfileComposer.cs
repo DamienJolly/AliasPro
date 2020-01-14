@@ -4,6 +4,7 @@ using AliasPro.API.Players.Models;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Network.Protocol;
 using AliasPro.Utilities;
+using System.Collections.Generic;
 
 namespace AliasPro.Players.Packets.Composers
 {
@@ -11,15 +12,18 @@ namespace AliasPro.Players.Packets.Composers
     {
         private readonly IPlayer _player;
         private readonly IPlayerData _targetPlayer;
+        private readonly ICollection<IGroup> _targetGroups;
         private readonly int _friendCount;
 
         public UserProfileComposer(
             IPlayer player,
             IPlayerData targetPlayer,
+            ICollection<IGroup> targetGroups,
             int friendCount)
         {
             _player = player;
             _targetPlayer = targetPlayer;
+            _targetGroups = targetGroups;
             _friendCount = friendCount;
         }
 
@@ -37,8 +41,8 @@ namespace AliasPro.Players.Packets.Composers
             message.WriteBoolean(_player.Messenger.TryGetRequest(_targetPlayer.Id, out _));
             message.WriteBoolean(_targetPlayer.Online);
 
-            message.WriteInt(_targetPlayer.Groups.Count);
-            foreach (IGroup group in _targetPlayer.Groups.Values)
+            message.WriteInt(_targetGroups.Count);
+            foreach (IGroup group in _targetGroups)
             {
                 message.WriteInt(group.Id);
                 message.WriteString(group.Name);

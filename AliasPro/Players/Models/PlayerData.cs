@@ -1,5 +1,4 @@
 ﻿using AliasPro.API.Database;
-using AliasPro.API.Groups.Models;
 using AliasPro.API.Players.Models;
 using AliasPro.Players.Types;
 using System.Collections.Generic;
@@ -29,7 +28,7 @@ namespace AliasPro.Players.Models
             CreatedAt = reader.ReadData<int>("created_at");
             LastOnline = reader.ReadData<int>("last_online");
             FavoriteGroup = reader.ReadData<int>("group_id");
-            Groups = new Dictionary<int, IGroup>();
+            Groups = new List<int>();
             HomeRoom = reader.ReadData<int>("home_room");
         }
 
@@ -63,17 +62,15 @@ namespace AliasPro.Players.Models
         public int CreatedAt { get; set; }
         public int LastOnline { get; set; }
         public int FavoriteGroup { get; set; }
-        public IDictionary<int, IGroup> Groups { get; set; }
+        public IList<int> Groups { get; set; }
         public int HomeRoom { get; set; }
 
         public bool IsFavoriteGroup(int groupId) =>
             FavoriteGroup == groupId;
         public bool HasGroup(int groupId) =>
-            Groups.ContainsKey(groupId);
-        public bool TryGetGroup(int groupId, out IGroup group) =>
-            Groups.TryGetValue(groupId, out group);
-        public bool TryAddGroup(IGroup group) =>
-            Groups.TryAdd(group.Id, group);
+            Groups.Contains(groupId);
+        public void AddGroup(int groupId) =>
+            Groups.Add(groupId);
         public void RemoveGroup(int groupId) =>
             Groups.Remove(groupId);
     }

@@ -38,5 +38,6 @@ namespace AliasPro.API.Players
 		Task<IDictionary<uint, IPlayerData>> GetPlayersByUsernameAsync(string playerName);
 		Task AddPlayerIgnoreAsync(int playerId, int targetId);
 		Task RemovePlayerIgnoreAsync(int playerId, int targetId);
+		Task RemoveFavoriteGroup(int playerId, int groupId);
 	}
 }

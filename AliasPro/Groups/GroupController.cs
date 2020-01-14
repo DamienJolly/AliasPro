@@ -1,5 +1,6 @@
 ﻿using AliasPro.API.Groups;
 using AliasPro.API.Groups.Models;
+using AliasPro.Groups.Imager;
 using AliasPro.Groups.Types;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace AliasPro.Groups
 
 		private readonly IDictionary<int, IGroup> _groups;
 		private IList<IGroupBadgePart> _badgeParts;
+		public BadgeImager BadgeImager { get; set; }
 
 		public GroupController(
 			GroupDao groupDao)
@@ -22,12 +24,19 @@ namespace AliasPro.Groups
 			_groups = new Dictionary<int, IGroup>();
 			_badgeParts = new List<IGroupBadgePart>();
 
+			BadgeImager = new BadgeImager();
+
 			InitializeGroups();
 		}
 
 		public async void InitializeGroups()
 		{
 			_badgeParts = await _groupDao.ReadBadgeParts();
+		}
+
+		public void InitalizeBadgeImager()
+		{
+			BadgeImager.Initialize(_badgeParts);
 		}
 
 		public async void Cycle()
@@ -48,6 +57,9 @@ namespace AliasPro.Groups
 			if (!_groups.TryGetValue(groupId, out IGroup group))
 			{
 				group = await _groupDao.ReadGroupData(groupId);
+				if (group == null)
+					return null;
+
 				_groups.TryAdd(group.Id, group);
 			}
 
@@ -55,14 +67,14 @@ namespace AliasPro.Groups
 			return group;
 		}
 
-		public async Task<IGroup> CreateGroup(string name, string desc, uint playerId, int roomId, string badge, int colourOne, int colourTwo)
-		{
-			return await ReadGroupData(
-				await _groupDao.CreateGroup(name, desc, playerId, roomId, badge, colourOne, colourTwo));
-		}
+		public async Task<int> CreateGroup(IGroup group) => 
+			await _groupDao.CreateGroup(group);
 
 		public async Task UpdateGroup(IGroup group) =>
 			await _groupDao.UpdateGroup(group);
+
+		public bool TryAddGroup(IGroup group) =>
+			_groups.TryAdd(group.Id, group);
 
 		public async Task RemoveGroup(int groupId)
 		{

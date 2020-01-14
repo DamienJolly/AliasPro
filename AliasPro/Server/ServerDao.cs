@@ -25,7 +25,7 @@ namespace AliasPro.Server
                     {
                         if (!settings.ContainsKey(reader.ReadData<string>("key")))
                         {
-                            settings.Add(reader.ReadData<string>("kay"),
+                            settings.Add(reader.ReadData<string>("key"),
                                 reader.ReadData<string>("value"));
                         }
                     }

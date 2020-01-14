@@ -1,4 +1,5 @@
 ﻿using AliasPro.Achievements;
+using AliasPro.API.Groups;
 using AliasPro.API.Network;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Rooms;
@@ -36,9 +37,10 @@ namespace AliasPro
 {
     public class Program
     {
-        private readonly IServiceProvider _serviceProvider;
+        private static IServiceProvider _serviceProvider;
+        public static IServerController Server;
 
-		private Program()
+        private Program()
         {
             Console.Clear();
             Console.Title = "Alias Emulator is starting up...";
@@ -99,13 +101,20 @@ namespace AliasPro
             _serviceProvider = serviceCollection.BuildServiceProvider();
         }
 
+        public static T GetService<T>() =>
+            _serviceProvider.GetService<T>();
+
         private async Task Run()
         {
-            INetworkListener listener = _serviceProvider.GetService<INetworkListener>();
+            INetworkListener listener = GetService<INetworkListener>();
             await listener.Listen(30000);
 
-            IServerController server = _serviceProvider.GetService<IServerController>();
+            IServerController server = GetService<IServerController>();
             await server.CleanupDatabase();
+            Server = server;
+
+            IGroupController group = GetService<IGroupController>();
+            group.InitalizeBadgeImager();
 
             Console.Title = "Alias Emulator is online!";
 
@@ -118,8 +127,8 @@ namespace AliasPro
 
                     if (input == "shutdown")
                     {
-                        ISessionController sessionController = _serviceProvider.GetService<ISessionController>();
-                        IRoomController roomController = _serviceProvider.GetService<IRoomController>();
+                        ISessionController sessionController = GetService<ISessionController>();
+                        IRoomController roomController = GetService<IRoomController>();
                         foreach (var room in roomController.Rooms.ToList())
                         {
                             roomController.DisposeRoom(room);

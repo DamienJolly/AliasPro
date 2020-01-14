@@ -1,4 +1,5 @@
-﻿using AliasPro.API.Groups.Models;
+﻿using AliasPro.API.Groups;
+using AliasPro.API.Groups.Models;
 using AliasPro.API.Players.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Sessions.Models;
@@ -64,7 +65,7 @@ namespace AliasPro.Rooms.Entities
             }
         }
 
-        public override void Compose(ServerPacket serverPacket)
+        public override async void Compose(ServerPacket serverPacket)
         {
             serverPacket.WriteInt(Player.Id);
             serverPacket.WriteString(Name);
@@ -79,7 +80,9 @@ namespace AliasPro.Rooms.Entities
             serverPacket.WriteInt(1);
             serverPacket.WriteString(Player.Gender == PlayerGender.MALE ? "m" : "f");
 
-            if (Player.TryGetGroup(Player.FavoriteGroup, out IGroup group))
+            IGroup group = 
+                await Program.GetService<IGroupController>().ReadGroupData(Player.FavoriteGroup);
+            if (group != null)
             {
                 serverPacket.WriteInt(group.Id);
                 serverPacket.WriteInt(group.Id);

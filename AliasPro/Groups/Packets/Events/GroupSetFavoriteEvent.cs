@@ -5,6 +5,7 @@ using AliasPro.API.Network.Protocol;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Groups.Packets.Composers;
 using AliasPro.Network.Events.Headers;
+using AliasPro.Rooms.Packets.Composers;
 
 namespace AliasPro.Groups.Packets.Events
 {
@@ -36,6 +37,7 @@ namespace AliasPro.Groups.Packets.Events
 
 			if (session.CurrentRoom != null)
 			{
+				await session.CurrentRoom.SendAsync(new RoomGroupBadgesComposer(group));
 				await session.CurrentRoom.SendAsync(new GroupRefreshGroupsComposer((int)session.Player.Id));
 				await session.CurrentRoom.SendAsync(new GroupFavoriteUpdateComposer(session.Entity, group));
 			}

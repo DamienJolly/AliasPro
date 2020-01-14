@@ -48,61 +48,37 @@ namespace AliasPro.Groups.Packets.Events
 					!group.IsOwner((int)session.Player.Id)) return;
 			}
 
-			group.RemoveMember(playerId);
-			await _groupController.RemoveGroupMember(group.Id, playerId);
+			if (!_playerController.TryGetPlayer((uint)playerId, out IPlayer player)) return;
+
+			player.RemoveGroup(group.Id);
+
+			await player.Session.SendPacketAsync(new GroupInfoComposer(group, player, false));
+
+			IRoom room = player.Session.CurrentRoom;
+			if (room != null)
+				await room.SendAsync(new GroupRefreshGroupsComposer((int)player.Id));
+			else
+				await player.Session.SendPacketAsync(new GroupRefreshGroupsComposer((int)player.Id));
+
+			if (player.IsFavoriteGroup(group.Id))
+			{
+				player.FavoriteGroup = 0;
+
+				if (room != null)
+					await room.SendAsync(new GroupFavoriteUpdateComposer(player.Session.Entity, null));
+			}
+
+			if (room != null && room.Group != null && room.Group.Id == groupId)
+				await room.Rights.ReloadRights(player.Session);
+
 			// todo: eject furni
 
-			if (playerId == session.Player.Id)
-			{
-				if (session.Player.HasGroup(group.Id))
-					session.Player.RemoveGroup(group.Id);
+			group.RemoveMember(playerId);
+			await _groupController.RemoveGroupMember(group.Id, playerId);
+			await _playerController.RemoveFavoriteGroup(group.Id, playerId);
 
-				await session.SendPacketAsync(new GroupInfoComposer(group, session.Player, false));
-
-				IRoom room = session.CurrentRoom;
-				if (room != null)
-				{
-					await room.SendAsync(new GroupRefreshGroupsComposer((int)session.Player.Id));
-
-					if (session.Player.IsFavoriteGroup(group.Id))
-					{
-						session.Player.FavoriteGroup = 0;
-						await room.SendAsync(new GroupFavoriteUpdateComposer(session.Entity, null));
-					}
-				}
-				else
-				{
-					await session.SendPacketAsync(new GroupRefreshGroupsComposer((int)session.Player.Id));
-				}
-
-				if (room != null && room.Group != null && room.Group.Id == groupId)
-					await room.Rights.ReloadRights(session);
-			}
-			else
-			{
-				if (_playerController.TryGetPlayer((uint)playerId, out IPlayer player))
-				{
-					if (player.HasGroup(group.Id))
-						player.RemoveGroup(group.Id);
-
-					await player.Session.SendPacketAsync(new GroupInfoComposer(group, player, false));
-
-					IRoom room = player.Session.CurrentRoom;
-					if (room != null)
-					{
-						await room.SendAsync(new GroupRefreshGroupsComposer((int)player.Id));
-					}
-					else
-					{
-						await player.Session.SendPacketAsync(new GroupRefreshGroupsComposer((int)player.Id));
-					}
-
-					if (room != null && room.Group != null && room.Group.Id == groupId)
-						await room.Rights.ReloadRights(player.Session);
-				}
-
+			if (playerId != session.Player.Id)
 				await session.SendPacketAsync(new GroupRefreshMembersListComposer(group));
-			}
 		}
 	}
 }

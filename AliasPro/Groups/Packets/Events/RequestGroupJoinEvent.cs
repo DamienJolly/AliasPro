@@ -79,6 +79,9 @@ namespace AliasPro.Groups.Packets.Events
 
 			if (group.State == GroupState.OPEN)
 			{
+				if (!session.Player.HasGroup(group.Id))
+					session.Player.AddGroup(group.Id);
+
 				if (room != null && room.Group != null && room.Group.Id == groupId)
 					await room.Rights.ReloadRights(session);
 			}

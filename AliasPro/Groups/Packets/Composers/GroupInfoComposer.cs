@@ -36,14 +36,14 @@ namespace AliasPro.Groups.Packets.Composers
 			message.WriteString(_group.Description);
 			message.WriteString(_group.Badge);
 			message.WriteInt(_group.RoomId);
-			message.WriteString("unknown"); // room name
+			message.WriteString(_group.RoomName);
 			message.WriteInt(PlayerRank);
 			message.WriteInt(_group.GetMembers);
-			message.WriteBoolean(false); // fav group
+			message.WriteBoolean(_player.IsFavoriteGroup(_group.Id));
 			message.WriteString(created.Day + "-" + created.Month + "-" + created.Year);
 			message.WriteBoolean(_group.IsOwner((int)_player.Id));
 			message.WriteBoolean(_group.IsAdmin((int)_player.Id));
-			message.WriteString("unknown"); // owner name
+			message.WriteString(_group.OwnerName);
 			message.WriteBoolean(_newWindow);
 			message.WriteBoolean(false); // user can furni
 			message.WriteInt(_group.IsAdmin((int)_player.Id) ? _group.GetRequests : 0);

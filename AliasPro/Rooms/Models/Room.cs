@@ -146,12 +146,6 @@ namespace AliasPro.Rooms.Models
 
             await SendAsync(new EntitiesComposer(entity));
             await SendAsync(new EntityUpdateComposer(entity));
-
-            if (entity is PlayerEntity playerEntity)
-            {
-                if (playerEntity.Player.TryGetGroup(playerEntity.Player.FavoriteGroup, out IGroup group))
-                    await SendAsync(new RoomGroupBadgesComposer(group));
-            }
         }
 
 		public async Task RemoveEntity(BaseEntity entity, bool notifyUser)

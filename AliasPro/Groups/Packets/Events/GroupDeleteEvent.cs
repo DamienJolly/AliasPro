@@ -47,11 +47,26 @@ namespace AliasPro.Groups.Packets.Events
 			{
 				room.Group = null;
 				await room.SendAsync(new RemoveGroupFromRoomComposer(group.Id));
+			}
 
-				foreach (IGroupMember member in group.Members.Values)
+			foreach (IGroupMember member in group.Members.Values)
+			{
+				if (_playerController.TryGetPlayer((uint)member.PlayerId, out IPlayer player))
 				{
-					if (_playerController.TryGetPlayer((uint)member.PlayerId, out IPlayer player))
-						await room.Rights.ReloadRights(player.Session);
+					player.RemoveGroup(group.Id);
+
+					if (session.CurrentRoom != null)
+					{
+						if (session.CurrentRoom == room)
+							await session.CurrentRoom.Rights.ReloadRights(player.Session);
+
+						await session.CurrentRoom.SendAsync(new GroupRefreshGroupsComposer((int)player.Id));
+						await session.CurrentRoom.SendAsync(new GroupFavoriteUpdateComposer(session.Entity, null));
+					}
+					else
+					{
+						await player.Session.SendPacketAsync(new GroupRefreshGroupsComposer((int)player.Id));
+					}
 				}
 			}
 		}

@@ -1,37 +1,75 @@
 ﻿using AliasPro.API.Groups.Models;
+using AliasPro.Groups.Types;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 
 namespace AliasPro.Groups.Imager
 {
 	public class BadgeImager
 	{
-		private IList<IGroupBadgePart> _badgeParts;
+        private IList<IGroupBadgePart> _badgeParts;
+        private readonly IDictionary<string, Bitmap> _cachedImages = new Dictionary<string, Bitmap>();
 
-		public BadgeImager()
+        public BadgeImager()
 		{
 
-		}
+        }
 
 		public void Initialize(IList<IGroupBadgePart> badgeParts)
 		{
 			_badgeParts = badgeParts;
-		}
 
-        public void GenerateImage(IGroup group)
-        {
-            string badge = group.Badge;
-            File outputFile;
-            try
+            _cachedImages.Clear();
+
+            foreach (IGroupBadgePart part in _badgeParts)
             {
-                outputFile = new File("", badge + ".png");
+                if (part.Type != BadgePartType.BASE && part.Type != BadgePartType.SYMBOL)
+                    continue;
 
-                if (outputFile.exists())
-                    return;
+                if (!string.IsNullOrEmpty(part.AssetOne))
+                {
+                    string path = Program.Server.GetSetting("group.internal_imager.badge_parts") + "badgepart_" + part.AssetOne;
+                    try
+                    {
+                        Bitmap image = new Bitmap(path);
+
+                        if (!_cachedImages.ContainsKey(part.AssetOne))
+                            _cachedImages.Add(part.AssetOne, image);
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Could not load asset: " + path);
+                        return;
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(part.AssetTwo))
+                {
+                    string path = Program.Server.GetSetting("group.internal_imager.badge_parts") + "badgepart_" + part.AssetTwo;
+                    try
+                    {
+                        Bitmap image = new Bitmap(path);
+
+                        if (!_cachedImages.ContainsKey(part.AssetTwo))
+                            _cachedImages.Add(part.AssetTwo, image);
+                    }
+                    catch 
+                    {
+                        Console.WriteLine("Could not load asset " + path);
+                    }
+                }
             }
-            catch { return; }
+        }
+
+        public void GenerateImage(string badge)
+        {
+            string path = Program.Server.GetSetting("group.internal_imager.output_path") + badge + ".png";
+
+            if (File.Exists(path)) return;
 
             string[] parts = new string[] { "", "", "", "", "" };
 
@@ -55,77 +93,137 @@ namespace AliasPro.Groups.Imager
             }
 
 
-            BufferedImage image = new BufferedImage(39, 39, BufferedImage.TYPE_INT_ARGB);
-            Graphics graphics = image.getGraphics();
+            Bitmap image = new Bitmap(39, 39);
+            Graphics graphics = Graphics.FromImage(image);
 
-            foreach (string s in parts)
+            foreach (string part2 in parts)
             {
-                if (s.isEmpty())
+                if (string.IsNullOrEmpty(part2) || part2.Length != 7)
                     continue;
 
-                String type = s.charAt(0) + "";
-                int id = Integer.valueOf(s.substring(1, 4));
-                int c = Integer.valueOf(s.substring(4, 6));
-                int position = Integer.valueOf(s.substring(6));
+                string type = part2[0] + "";
+                int id = int.Parse(part2.Substring(1, 3));
+                int colour = int.Parse(part2.Substring(4, 2));
+                int position = int.Parse(part2.Substring(6, 1));
 
-                GuildPart part;
-                GuildPart color = Emulator.getGameEnvironment().getGuildManager().getPart(GuildPartType.BASE_COLOR, c);
+                IGroupBadgePart part;
+                IGroupBadgePart color = GetBadgePart(BadgePartType.BASE_COLOUR, colour);
 
-                if (type.equalsIgnoreCase("b"))
+                if (type == "b")
                 {
-                    part = Emulator.getGameEnvironment().getGuildManager().getPart(GuildPartType.BASE, id);
+                    part = GetBadgePart(BadgePartType.BASE, id);
                 }
                 else
                 {
-                    part = Emulator.getGameEnvironment().getGuildManager().getPart(GuildPartType.SYMBOL, id);
+                    part = GetBadgePart(BadgePartType.SYMBOL, id);
                 }
 
-                BufferedImage imagePart = BadgeImager.deepCopy(this.cachedImages.get(part.valueA));
+                if (part == null || color == null)
+                    continue;
 
-                Point point;
-
-                if (imagePart != null)
+                if (_cachedImages.TryGetValue(part.AssetOne, out Bitmap tempImageOne))
                 {
-                    if (imagePart.getColorModel().getPixelSize() < 32)
-                    {
-                        imagePart = convert32(imagePart);
-                    }
+                    Bitmap imageOne = tempImageOne.Clone() as Bitmap;
+                    Point point = GetPoint(image, imageOne, position);
 
-                    point = getPoint(image, imagePart, position);
-
-                    recolor(imagePart, colorFromHexString(color.valueA));
-
-                    graphics.drawImage(imagePart, point.x, point.y, null);
+                    Recolor(imageOne, ColorTranslator.FromHtml("#" + color.AssetOne));
+                    graphics.DrawImage(imageOne, point.X, point.Y);
                 }
 
-                if (!part.valueB.isEmpty())
+                if (_cachedImages.TryGetValue(part.AssetTwo, out Bitmap tempImageTwo))
                 {
-                    imagePart = BadgeImager.deepCopy(this.cachedImages.get(part.valueB));
+                    Bitmap imageTwo = tempImageTwo.Clone() as Bitmap;
+                    Point point = GetPoint(image, imageTwo, position);
 
-                    if (imagePart != null)
-                    {
-                        if (imagePart.getColorModel().getPixelSize() < 32)
-                        {
-                            imagePart = convert32(imagePart);
-                        }
-
-                        point = getPoint(image, imagePart, position);
-                        graphics.drawImage(imagePart, point.x, point.y, null);
-                    }
+                    graphics.DrawImage(imageTwo, point.X, point.Y);
                 }
             }
 
             try
             {
-                ImageIO.write(image, "PNG", outputFile);
+                image.Save(path, ImageFormat.Png);
             }
-            catch (Exception e)
+            catch
             {
-                Emulator.getLogging().logErrorLine("Failed to generate guild badge: " + outputFile + ".png Make sure the output folder exists and is writable!");
+                System.Console.WriteLine("Failed to save image!");
             }
 
-            graphics.dispose();
+            graphics.Dispose();
         }
 
+        private Point GetPoint(Bitmap image, Bitmap imagePart, int position)
+        {
+            int x = 0;
+            int y = 0;
+
+            if (position == 1)
+            {
+                x = (image.Width - imagePart.Width) / 2;
+                y = 0;
+            }
+            else if (position == 2)
+            {
+                x = image.Width - imagePart.Width;
+                y = 0;
+            }
+            else if (position == 3)
+            {
+                x = 0;
+                y = (image.Height / 2) - (imagePart.Height / 2);
+            }
+            else if (position == 4)
+            {
+                x = (image.Width / 2) - (imagePart.Width / 2);
+                y = (image.Height / 2) - (imagePart.Height / 2);
+            }
+            else if (position == 5)
+            {
+                x = image.Width - imagePart.Width;
+                y = (image.Height / 2) - (imagePart.Height / 2);
+            }
+            else if (position == 6)
+            {
+                x = 0;
+                y = image.Height - imagePart.Height;
+            }
+            else if (position == 7)
+            {
+                x = ((image.Width - imagePart.Width) / 2);
+                y = image.Height - imagePart.Height;
+            }
+            else if (position == 8)
+            {
+                x = image.Width - imagePart.Width;
+                y = image.Height - imagePart.Height;
+            }
+
+            return new Point(x, y);
+        }
+
+        private void Recolor(Bitmap image, Color maskColour)
+        {
+            for (int x = 0; x < image.Width; x++)
+            {
+                for (int y = 0; y < image.Height; y++)
+                {
+                    Color old = image.GetPixel(x, y);
+
+                    Color newColor = Color.FromArgb(
+                        old.A,
+                        ColorConvert(old.R, maskColour.R),
+                        ColorConvert(old.G, maskColour.G),
+                        ColorConvert(old.B, maskColour.B)
+                    );
+
+                    image.SetPixel(x, y, newColor);
+                }
+            }
+        }
+
+        private int ColorConvert(int oldC, int newC) => 
+            (int)((double)newC / 255 * oldC);
+
+        private IGroupBadgePart GetBadgePart(BadgePartType type, int id) => 
+            _badgeParts.Where(part => part.Type == type && part.Id == id).FirstOrDefault();
     }
 }

@@ -6,6 +6,7 @@ using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
+using AliasPro.Rooms.Packets.Composers;
 
 namespace AliasPro.Groups.Packets.Events
 {
@@ -51,9 +52,13 @@ namespace AliasPro.Groups.Packets.Events
 			}
 
 			group.Badge = badge;
+			_groupController.BadgeImager.GenerateImage(group.Badge);
 
 			if (_roomController.TryGetRoom((uint)group.RoomId, out IRoom room))
+			{
 				await room.UpdateRoomGroup(group);
+				await room.SendAsync(new RoomGroupBadgesComposer(group));
+			}
 		}
 	}
 }

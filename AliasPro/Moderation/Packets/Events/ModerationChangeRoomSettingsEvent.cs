@@ -43,7 +43,7 @@ namespace AliasPro.Moderation.Packets.Events
 
             bool lockDoor = clientPacket.ReadInt() == 1;
 			if (lockDoor)
-				room.DoorState = 2;
+				room.DoorState = 1;
 
 			bool changeTitle = clientPacket.ReadInt() == 1;
 			if (changeTitle)

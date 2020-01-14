@@ -4,6 +4,7 @@ using System.Data.Common;
 using System.Collections.Generic;
 using System.Linq;
 using AliasPro.Groups.Types;
+using AliasPro.Utilities;
 
 namespace AliasPro.Groups.Models
 {
@@ -16,11 +17,30 @@ namespace AliasPro.Groups.Models
 			Description = reader.ReadData<string>("desc");
 			CreatedAt = reader.ReadData<int>("created_at");
 			OwnerId = reader.ReadData<int>("owner_id");
+			OwnerName = reader.ReadData<string>("owner_name");
 			RoomId = reader.ReadData<int>("room_id");
+			RoomName = reader.ReadData<string>("room_name");
 			State = (GroupState)reader.ReadData<int>("state");
 			Badge = reader.ReadData<string>("badge");
 			ColourOne = reader.ReadData<int>("colour1");
 			ColourTwo = reader.ReadData<int>("colour2");
+			Members = new Dictionary<int, IGroupMember>();
+		}
+
+		internal Group(string name, string description, int ownerId, string ownerName, int roomId, string roomName, string badge, int colourOne, int colourTwo)
+		{
+			Id = 0;
+			Name = name;
+			Description = description;
+			CreatedAt = (int)UnixTimestamp.Now;
+			OwnerId = ownerId;
+			OwnerName = ownerName;
+			RoomId = roomId;
+			RoomName = roomName;
+			State = GroupState.OPEN;
+			Badge = badge;
+			ColourOne = colourOne;
+			ColourTwo = colourTwo;
 			Members = new Dictionary<int, IGroupMember>();
 		}
 
@@ -67,8 +87,10 @@ namespace AliasPro.Groups.Models
 		public string Name { get; set; }
 		public string Description { get; set; }
 		public int OwnerId { get; set; }
+		public string OwnerName { get; set; }
 		public int CreatedAt { get; set; }
 		public int RoomId { get; set; }
+		public string RoomName { get; set; }
 		public GroupState State { get; set; }
 		public string Badge { get; set; }
 		public int ColourOne { get; set; }

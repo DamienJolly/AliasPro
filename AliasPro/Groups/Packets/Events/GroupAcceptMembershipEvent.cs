@@ -56,6 +56,9 @@ namespace AliasPro.Groups.Packets.Events
 
 			if (_playerController.TryGetPlayer((uint)playerId, out IPlayer player))
 			{
+				if (!player.HasGroup(group.Id))
+					player.AddGroup(group.Id);
+
 				IRoom room = player.Session.CurrentRoom;
 				if (room != null && room.Group != null && room.Group.Id == groupId)
 					await room.Rights.ReloadRights(player.Session);

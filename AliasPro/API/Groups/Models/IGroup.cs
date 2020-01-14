@@ -18,8 +18,10 @@ namespace AliasPro.API.Groups.Models
 		string Name { get; set; }
 		string Description { get; set; }
 		int OwnerId { get; set; }
+		string OwnerName { get; set; }
 		int CreatedAt { get; set; }
 		int RoomId { get; set; }
+		string RoomName { get; set; }
 		GroupState State { get; set; }
 		string Badge { get; set; }
 		int ColourOne { get; set; }

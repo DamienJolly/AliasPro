@@ -1,8 +1,6 @@
 ﻿using AliasPro.API.Configuration;
 using AliasPro.API.Database;
-using AliasPro.API.Groups.Models;
 using AliasPro.API.Players.Models;
-using AliasPro.Groups.Models;
 using AliasPro.Players.Models;
 using AliasPro.Players.Types;
 using Microsoft.Extensions.Logging;
@@ -366,26 +364,30 @@ namespace AliasPro.Players
 			return players;
 		}
 
-        internal async Task<IDictionary<int, IGroup>> GetPlayerGroups(int playerId)
+        internal async Task<IList<int>> GetPlayerGroups(int playerId)
         {
-            IDictionary<int, IGroup> groups = new Dictionary<int, IGroup>();
+            IList<int> groups = new List<int>();
             await CreateTransaction(async transaction =>
             {
                 await Select(transaction, async reader =>
                 {
                     while (await reader.ReadAsync())
                     {
-                        IGroup group = new Group(reader);
-
-                        if (!groups.ContainsKey(group.Id))
-                            groups.Add(group.Id, group);
+                        groups.Add(reader.ReadData<int>("group_id"));
                     }
-                }, "SELECT `groups`.* FROM `group_members` " +
-                "INNER JOIN `groups` ON `groups`.`id` = `group_members`.`group_id` " +
-                "WHERE `group_members`.`player_id` = @0;", playerId);
+                }, "SELECT * FROM `group_members` WHERE `player_id` = @0;", playerId);
             });
 
             return groups;
+        }
+
+        internal async Task RemoveFavoriteGroup(int playerId, int groupId)
+        {
+            await CreateTransaction(async transaction =>
+            {
+                await Insert(transaction, "UPDATE `players` set `group_id` = '0' WHERE `id` = @0 AND `group_id` = @1;",
+                    playerId, groupId);
+            });
         }
     }
 }

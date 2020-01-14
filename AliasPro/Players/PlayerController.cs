@@ -119,5 +119,8 @@ namespace AliasPro.Players
 
 		public async Task<IDictionary<uint, IPlayerData>> GetPlayersByUsernameAsync(string playerName) =>
 			 await _playerRepostiory.GetPlayersByUsernameAsync(playerName);
-	}
+
+        public async Task RemoveFavoriteGroup(int playerId, int groupId) =>
+            await _playerRepostiory.RemoveFavoriteGroup(playerId, groupId);
+    }
 }

@@ -53,7 +53,16 @@ namespace AliasPro.Players.Packets.Events
                 friendCount = await _playerController.GetPlayerFriendsAsync((uint)playerId);
             }
 
-            await session.SendPacketAsync(new UserProfileComposer(session.Player, playerdata, friendCount));
+            IList<IGroup> groups = new List<IGroup>();
+            foreach (int groupId in playerdata.Groups)
+            {
+                IGroup group = await _groupController.ReadGroupData(groupId);
+
+                if (group != null)
+                    groups.Add(group);
+            }
+
+            await session.SendPacketAsync(new UserProfileComposer(session.Player, playerdata, groups, friendCount));
         }
     }
 }
