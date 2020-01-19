@@ -2,6 +2,7 @@
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Landing.Packets.Composers;
 using AliasPro.Network.Events.Headers;
 
 namespace AliasPro.Landing.Packets.Events
@@ -22,11 +23,15 @@ namespace AliasPro.Landing.Packets.Events
             ISession session,
             IClientPacket clientPacket)
         {
-            if (session.CurrentRoom == null || 
-                session.Entity == null)
+            if (session.CurrentRoom == null)
                 return;
             
-            await session.CurrentRoom.RemoveEntity(session.Entity);
+            if (session.Entity != null)
+                await session.CurrentRoom.RemoveEntity(session.Entity);
+            else
+                await session.SendPacketAsync(new HotelViewComposer());
+
+            session.CurrentRoom = null;
 
             if (session.Player.Messenger != null)
                 await _messengerController.UpdateStatusAsync(session.Player, session.Player.Messenger.Friends);

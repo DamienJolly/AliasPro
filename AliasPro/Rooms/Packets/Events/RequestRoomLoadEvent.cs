@@ -3,11 +3,13 @@ using AliasPro.API.Messenger;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
 using AliasPro.API.Rooms;
+using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Network.Events.Headers;
 using AliasPro.Rooms.Components;
 using AliasPro.Rooms.Cycles;
+using AliasPro.Rooms.Entities;
 using AliasPro.Rooms.Models;
 using AliasPro.Rooms.Packets.Composers;
 
@@ -98,16 +100,38 @@ namespace AliasPro.Rooms.Packets.Events
                 return;
             }
 
-            if (room.Password != password)
+            await session.SendPacketAsync(new RoomOpenComposer());
+
+            if (!room.Rights.HasRights(session.Player.Id))
             {
-                await session.SendPacketAsync(new GenericErrorComposer(GenericErrorComposer.ROOM_PASSWORD_INCORRECT));
-                await session.SendPacketAsync(new RoomCloseComposer());
-                return;
+                if (room.DoorState == 1)
+                {
+                    foreach (BaseEntity entity in room.Entities.Entities)
+                    {
+                        if (!(entity is PlayerEntity playerEntity)) continue;
+
+                        if (!room.Rights.HasRights(playerEntity.Player.Id)) continue;
+
+                        await playerEntity.Session.SendPacketAsync(new DoorbellAddUserComposer(session.Player.Username));
+                    }
+
+                    session.CurrentRoom = room;
+                    await session.SendPacketAsync(new DoorbellAddUserComposer(string.Empty));
+                    return;
+                }
+                else if (room.DoorState == 2)
+                {
+                    if (room.Password != password)
+                    {
+                        await session.SendPacketAsync(new GenericErrorComposer(GenericErrorComposer.ROOM_PASSWORD_INCORRECT));
+                        await session.SendPacketAsync(new RoomCloseComposer());
+                        return;
+                    }
+                }
             }
 
             session.CurrentRoom = room;
 
-            await session.SendPacketAsync(new RoomOpenComposer());
             await session.SendPacketAsync(new RoomModelComposer(room.RoomModel.Id, room.Id));
             await session.SendPacketAsync(new RoomScoreComposer(room.Score));
 
@@ -118,7 +142,6 @@ namespace AliasPro.Rooms.Packets.Events
                 await session.SendPacketAsync(new RoomPaintComposer("floor", room.FloorPaint));
 
             await session.SendPacketAsync(new RoomPaintComposer("landscape", room.BackgroundPaint));
-
 
             if (session.Player.Messenger != null)
                 await _messengerController.UpdateStatusAsync(session.Player, session.Player.Messenger.Friends);

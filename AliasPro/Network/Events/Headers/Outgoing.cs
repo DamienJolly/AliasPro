@@ -129,6 +129,9 @@
         internal const short RoomBannedUsersMessageComposer = 1188;
         internal const short RoomCloseMessageComposer = 2484;
         internal const short RoomGroupBadgesMessageComposer = 3056;
+        internal const short DoorbellAddUserMessageComposer = 1974;
+        internal const short RoomAccessibleMessageComposer = 1264;
+        internal const short RoomAccessDeniedMessageComposer = 3424;
 
         // Landing
         internal const short HotelViewMessageComposer = 2484;

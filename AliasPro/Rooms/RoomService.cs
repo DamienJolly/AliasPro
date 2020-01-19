@@ -68,6 +68,8 @@ namespace AliasPro.Rooms
 			collection.AddSingleton<IAsyncPacket, RoomUserBanEvent>();
 			collection.AddSingleton<IAsyncPacket, RoomUserUnbanEvent>();
 			collection.AddSingleton<IAsyncPacket, RequestBannedUsersEvent>();
+			collection.AddSingleton<IAsyncPacket, HandleDoorbellEvent>();
+			collection.AddSingleton<IAsyncPacket, RequestRoomLoadDataEvent>();
         }
     }
 }
