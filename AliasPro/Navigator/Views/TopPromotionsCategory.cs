@@ -1,4 +1,6 @@
-﻿using AliasPro.API.Navigator.Models;
+﻿using AliasPro.API.Groups;
+using AliasPro.API.Groups.Models;
+using AliasPro.API.Navigator.Models;
 using AliasPro.API.Navigator.Views;
 using AliasPro.API.Players.Models;
 using AliasPro.API.Rooms;
@@ -22,8 +24,35 @@ namespace AliasPro.Navigator.Views
 
 			foreach (IRoomData roomData in roomController.Rooms)
 			{
-				if (!roomData.Name.ToLower().Contains(searchCode.ToLower()))
-					continue;
+				if (searchCode.StartsWith("owner:"))
+				{
+					string param = searchCode.Split("owner:")[1];
+					if (roomData.OwnerName.ToLower() != param.ToLower())
+						continue;
+				}
+				else if (searchCode.StartsWith("tag:"))
+				{
+					string param = searchCode.Split("tag:")[1];
+					if (!roomData.Tags.Contains(param))
+						continue;
+				}
+				else if (searchCode.StartsWith("group:"))
+				{
+					string param = searchCode.Split("group:")[1];
+					if (roomData.Group == null)
+						continue;
+
+					IGroup group =
+						await Program.GetService<IGroupController>().ReadGroupData(roomData.Group.Id);
+
+					if (!group.Name.ToLower().Contains(param.ToLower()))
+						continue;
+				}
+				else
+				{
+					if (!roomData.Name.ToLower().Contains(searchCode.ToLower()))
+						continue;
+				}
 
 				if (!roomData.IsPromoted)
 					continue;
