@@ -8,7 +8,7 @@ namespace AliasPro.Items.Utilities
         {
             switch (interaction)
             {
-				default: return ItemInteractionType.DEFAULT;
+				default: System.Console.WriteLine(interaction);  return ItemInteractionType.DEFAULT;
 				case "default": return ItemInteractionType.DEFAULT;
 				case "wired_trigger": return ItemInteractionType.WIRED_TRIGGER;
                 case "wired_effect": return ItemInteractionType.WIRED_EFFECT;
