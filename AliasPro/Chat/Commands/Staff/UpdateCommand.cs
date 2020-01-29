@@ -29,7 +29,7 @@ namespace AliasPro.Chat.Commands
                 case "catalog":
                 case "catalogue":
                     {
-                        _catalogController.ReloadCatalog();
+                        _catalogController.InitializeCatalog();
                         session.SendPacketAsync(new CatalogUpdatedComposer());
                         break;
                     }

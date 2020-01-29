@@ -1,6 +1,7 @@
 ﻿using AliasPro.API.Items;
 using AliasPro.API.Items.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AliasPro.Items
@@ -34,6 +35,12 @@ namespace AliasPro.Items
 
 		public bool TryGetItemDataById(uint itemId, out IItemData item) =>
 			_itemDatas.TryGetValue(itemId, out item);
+
+		public bool TryGetItemDataByName(string itemName, out IItemData item)
+		{
+			item = _itemDatas.Where(x => x.Value.Name == itemName).FirstOrDefault().Value;
+			return item != null;
+		}
 
 		public async Task<int> AddNewItemAsync(IItem item) =>
 			await _itemDao.AddNewItemAsync(item);

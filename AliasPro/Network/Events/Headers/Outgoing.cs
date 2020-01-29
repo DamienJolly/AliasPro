@@ -69,6 +69,9 @@
         internal const short AlertLimitedSoldOutMessageComposer = 2802;
         internal const short PurchaseOKMessageComposer = 3661;
         internal const short GiftConfigurationMessageComposer = 1353;
+        internal const short RecyclerLogicMessageComposer = 455;
+        internal const short ReloadRecyclerMessageComposer = 2523;
+        internal const short RecyclerCompleteMessageComposer = 1210;
 
         // Rooms
         internal const short RoomOpenMessageComposer = 1975;

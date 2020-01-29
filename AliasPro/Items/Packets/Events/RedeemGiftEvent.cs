@@ -2,7 +2,6 @@
 using AliasPro.API.Items.Models;
 using AliasPro.API.Network.Events;
 using AliasPro.API.Network.Protocol;
-using AliasPro.API.Players;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Items.Interaction;
@@ -40,18 +39,43 @@ namespace AliasPro.Items.Packets.Events
 
 			if (item.ItemData.Type != "s") return;
 
-			if (item.Interaction is InteractionGift interaction)
+			if (item.Interaction is InteractionGift giftInteraction)
 			{
 				if (item.ItemData.Name.Contains("present_wrap"))
 				{
-					interaction.Exploaded = true;
+					giftInteraction.Exploaded = true;
 					await room.SendAsync(new FloorItemUpdateComposer(item));
 				}
 
-				if (!_itemController.TryGetItemDataById((uint)interaction.itemId, out IItemData giftData))
+				if (!_itemController.TryGetItemDataById((uint)giftInteraction.itemId, out IItemData giftData))
 					return;
 
-				await TaskManager.ExecuteTask(new OpenGiftTask(giftData, interaction.ExtraData, item, session), interaction.Exploaded ? 1500 : 0);
+				await TaskManager.ExecuteTask(new OpenGiftTask(giftData, giftInteraction.ExtraData, item, session), giftInteraction.Exploaded ? 1500 : 0);
+			}
+			else if (item.Interaction is InteractionEcotron ecotronInteraction)
+			{
+				if (!_itemController.TryGetItemDataById((uint)ecotronInteraction.itemId, out IItemData giftData))
+					return;
+
+				string extradata = ecotronInteraction.ExtraData;
+
+				room.RoomGrid.RemoveItem(item);
+				room.Items.RemoveItem(item.Id);
+				await room.SendAsync(new RemoveFloorItemComposer(item));
+
+				item.ItemData = giftData;
+				item.ItemId = giftData.Id;
+				item.ExtraData = "";
+				item.Mode = 0;
+				item.Interaction = null;
+
+				if (session.Player.Inventory.TryAddItem(item))
+				{
+					await session.SendPacketAsync(new AddPlayerItemsComposer(1, (int)item.Id));
+					await session.SendPacketAsync(new InventoryRefreshComposer());
+				}
+
+				await session.SendPacketAsync(new PresentItemOpenedComposer(item, extradata, false));
 			}
 		}
     }

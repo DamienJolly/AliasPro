@@ -44,6 +44,9 @@ namespace AliasPro.Catalog.Models
 				case "pets": return new LayoutPets(this);
 				case "roomads": return new LayoutRoomAds(this);
 				case "spaces_new": return new LayoutSpacesNew(this);
+				case "recycler": return new LayoutRecycler(this);
+				case "recycler_prizes": return new LayoutRecyclerPrizes(this);
+				case "recycler_info": return new LayoutRecyclerInfo(this);
 			}
         }
 

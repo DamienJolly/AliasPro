@@ -21,6 +21,10 @@ namespace AliasPro.Items.Models
             Modes = reader.ReadData<int>("modes");
             CanWalk = reader.ReadData<bool>("can_walk");
             CanStack = reader.ReadData<bool>("can_stack");
+            AllowRecycle = reader.ReadData<bool>("allow_recycle");
+            AllowTrade = reader.ReadData<bool>("allow_trade");
+            AllowInventoryStack = reader.ReadData<bool>("allow_inventory_stack");
+            AllowMarketplace = reader.ReadData<bool>("allow_marketplace");
 
             InteractionType = ItemInteractionUtility.GetItemInteractor(
                 reader.ReadData<string>("interaction_type"));
@@ -41,6 +45,10 @@ namespace AliasPro.Items.Models
         public int Modes { get; }
         public bool CanWalk { get; set; }
         public bool CanStack { get; }
+        public bool AllowRecycle { get; }
+        public bool AllowTrade { get; }
+        public bool AllowInventoryStack { get; }
+        public bool AllowMarketplace { get; }
         
         public ItemInteractionType InteractionType { get; }
         public WiredInteractionType WiredInteractionType { get; }

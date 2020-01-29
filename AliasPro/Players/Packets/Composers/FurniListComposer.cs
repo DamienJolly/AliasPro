@@ -29,10 +29,10 @@ namespace AliasPro.Players.Packets.Composers
                 message.WriteInt(item.Id);
                 message.WriteInt(item.ItemData.SpriteId);
 				item.Interaction.Compose(message);
-				message.WriteBoolean(false); //Allow ecotron.
-                message.WriteBoolean(true); //Allow trade
-                message.WriteBoolean(true); //Allow inventory stack
-                message.WriteBoolean(true); //Allow the item to be sold on the market place.
+				message.WriteBoolean(item.ItemData.AllowRecycle);
+                message.WriteBoolean(item.ItemData.AllowTrade);
+                message.WriteBoolean(item.ItemData.AllowInventoryStack);
+                message.WriteBoolean(item.ItemData.AllowMarketplace);
 
                 message.WriteInt(-1); //time left
                 message.WriteBoolean(false); //renatable period started

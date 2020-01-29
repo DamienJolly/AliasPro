@@ -41,7 +41,7 @@ namespace AliasPro.Catalog
             return pages;
         }
 
-        internal async Task GetCatalogItems(CatalogRepostiory catalogRepostiory, IItemController itemRepository)
+        internal async Task GetCatalogItems(CatalogController catalogRepostiory, IItemController itemRepository)
         {
             await CreateTransaction(async transaction =>
             {
@@ -123,6 +123,51 @@ namespace AliasPro.Catalog
 				}, "SELECT * FROM `catalog_gift_parts`;");
 			});
 			return giftParts;
+		}
+
+		internal async Task<IDictionary<int, int>> GetRecyclerLevels()
+		{
+			IDictionary<int, int> recyclerLevels = new Dictionary<int, int>();
+			await CreateTransaction(async transaction =>
+			{
+				await Select(transaction, async reader =>
+				{
+					while (await reader.ReadAsync())
+					{
+						int level = reader.ReadData<int>("level");
+						int rarity = reader.ReadData<int>("rarity");
+
+						if (!recyclerLevels.ContainsKey(level))
+							recyclerLevels.Add(level, rarity);
+					}
+				}, "SELECT * FROM `catalog_recycler_levels` ORDER BY `level` DESC;");
+			});
+			return recyclerLevels;
+		}
+
+		internal async Task<IDictionary<int, IList<IItemData>>> GetRecyclerPrizes()
+		{
+			IDictionary<int, IList<IItemData>> recyclerPrizes = new Dictionary<int, IList<IItemData>>();
+			await CreateTransaction(async transaction =>
+			{
+				await Select(transaction, async reader =>
+				{
+					while (await reader.ReadAsync())
+					{
+						int level = reader.ReadData<int>("level");
+						int itemId = reader.ReadData<int>("item_id");
+
+						if (!Program.GetService<IItemController>().TryGetItemDataById((uint)itemId, out IItemData item))
+							continue;
+
+						if (!recyclerPrizes.ContainsKey(level))
+							recyclerPrizes.Add(level, new List<IItemData>());
+
+						recyclerPrizes[level].Add(item);
+					}
+				}, "SELECT * FROM `catalog_recycler_prizes` ORDER BY `level` DESC;");
+			});
+			return recyclerPrizes;
 		}
 
 		internal async Task<List<int>> ReadLimited(int itemId, int size)

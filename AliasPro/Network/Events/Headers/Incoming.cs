@@ -68,6 +68,9 @@
         internal const short CatalogBuyItemMessageEvent = 2687;
         internal const short CatalogBuyGiftItemMessageEvent = 2649;
         internal const short RequestGiftConfigurationMessageEvent = 3493;
+        internal const short RequestRecyclerLogicMessageEvent = 862;
+        internal const short ReloadRecyclerMessageEvent = 3447;
+        internal const short RecycleMessageEvent = 607;
 
         // Rooms
         internal const short RequestRoomLoadMessageEvent = 3464;

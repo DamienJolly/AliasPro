@@ -15,6 +15,10 @@ namespace AliasPro.API.Items.Models
         int Modes { get; }
         bool CanWalk { get; set; }
         bool CanStack { get; }
+        bool AllowRecycle { get; }
+        bool AllowTrade { get; }
+        bool AllowInventoryStack { get; }
+        bool AllowMarketplace { get; }
 
         ItemInteractionType InteractionType { get; }
         WiredInteractionType WiredInteractionType { get; }

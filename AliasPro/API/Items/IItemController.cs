@@ -10,6 +10,7 @@ namespace AliasPro.API.Items
 		Task<IItem> GetPlayerItemByIdAsync(uint itemId);
 		Task<IDictionary<uint, IItem>> GetItemsForRoomAsync(uint id);
         bool TryGetItemDataById(uint itemId, out IItemData item);
+        bool TryGetItemDataByName(string itemName, out IItemData item);
         Task<int> AddNewItemAsync(IItem item);
 		Task RemoveItemAsync(IItem item);
 		Task UpdatePlayerItemsAsync(ICollection<IItem> items);

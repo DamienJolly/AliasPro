@@ -11,7 +11,6 @@ namespace AliasPro.Catalog
         public void SetupService(IServiceCollection collection)
         {
             collection.AddSingleton<CatalogDao>();
-            collection.AddSingleton<CatalogRepostiory>();
             collection.AddSingleton<ICatalogController, CatalogController>();
 
             AddPackets(collection);
@@ -26,6 +25,9 @@ namespace AliasPro.Catalog
             collection.AddSingleton<IAsyncPacket, CatalogBuyItemEvent>();
             collection.AddSingleton<IAsyncPacket, CatalogBuyGiftItemEvent>();
             collection.AddSingleton<IAsyncPacket, RequestGiftConfigurationEvent>();
+            collection.AddSingleton<IAsyncPacket, RequestRecyclerLogicEvent>();
+            collection.AddSingleton<IAsyncPacket, ReloadRecyclerEvent>();
+            collection.AddSingleton<IAsyncPacket, RecycleEvent>();
         }
     }
 }
