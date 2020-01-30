@@ -8,6 +8,7 @@ using AliasPro.Catalog.Packets.Composers;
 using AliasPro.Items.Models;
 using AliasPro.Items.Packets.Composers;
 using AliasPro.Network.Events.Headers;
+using System;
 using System.Collections.Generic;
 
 namespace AliasPro.Catalog.Packets.Events
@@ -32,6 +33,7 @@ namespace AliasPro.Catalog.Packets.Events
             IClientPacket clientPacket)
         {
             //todo: ecotron disabled config
+            //todo: add box name to config
             if (!_itemController.TryGetItemDataByName("ecotron_box", out IItemData giftItemData)  /*|| ecotron disabled*/)
             {
                 await session.SendPacketAsync(new RecyclerCompleteComposer(RecyclerCompleteComposer.RECYCLING_CLOSED));
@@ -74,8 +76,8 @@ namespace AliasPro.Catalog.Packets.Events
                 await session.SendPacketAsync(new RemovePlayerItemComposer(item.Id));
             }
 
-            string extraData = rewardItemData.Id + "\t" + 
-                1 + "-" + 1 + "-" + 1996;
+            string extraData = rewardItemData.Id + "\t" +
+                DateTime.Now.Day + "-" + DateTime.Now.Month + "-" + DateTime.Now.Year;
 
             IItem rewardItem = new Item(giftItemData.Id, session.Player.Id, session.Player.Username, extraData, giftItemData);
             rewardItem.Id = (uint)await _itemController.AddNewItemAsync(rewardItem);
