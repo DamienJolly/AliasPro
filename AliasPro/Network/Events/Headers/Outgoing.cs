@@ -72,6 +72,11 @@
         internal const short RecyclerLogicMessageComposer = 455;
         internal const short ReloadRecyclerMessageComposer = 2523;
         internal const short RecyclerCompleteMessageComposer = 1210;
+        internal const short MarketplaceConfigMessageComposer = 3802;
+        internal const short MarketplaceSellItemMessageComposer = 1380;
+        internal const short MarketplaceItemPostedMessageComposer = 1551;
+        internal const short MarketplaceOwnItemsMessageComposer = 3062;
+        internal const short MarketplaceOffersMessageComposer = 976;
 
         // Rooms
         internal const short RoomOpenMessageComposer = 1975;

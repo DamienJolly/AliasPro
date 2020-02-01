@@ -42,11 +42,14 @@ namespace AliasPro.Catalog.Models
 				case "trophies": return new LayoutTrophies(this);
 				case "bot": return new LayoutBot(this);
 				case "pets": return new LayoutPets(this);
+				case "pets3": return new LayoutPets3(this);
 				case "roomads": return new LayoutRoomAds(this);
 				case "spaces_new": return new LayoutSpacesNew(this);
 				case "recycler": return new LayoutRecycler(this);
 				case "recycler_prizes": return new LayoutRecyclerPrizes(this);
 				case "recycler_info": return new LayoutRecyclerInfo(this);
+				case "marketplace": return new LayoutMarketplace(this);
+				case "marketplace_own_items": return new LayoutMarketplaceOwnItems(this);
 			}
         }
 

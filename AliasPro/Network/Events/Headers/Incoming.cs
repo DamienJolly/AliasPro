@@ -71,6 +71,11 @@
         internal const short RequestRecyclerLogicMessageEvent = 862;
         internal const short ReloadRecyclerMessageEvent = 3447;
         internal const short RecycleMessageEvent = 607;
+        internal const short RequestMarketplaceConfigMessageEvent = 1728;
+        internal const short RequestSellItemMessageEvent = 3365;
+        internal const short SellItemMessageEvent = 2016;
+        internal const short RequestOwnItemsMessageEvent = 3463;
+        internal const short RequestOffersMessageEvent = 61;
 
         // Rooms
         internal const short RequestRoomLoadMessageEvent = 3464;

@@ -196,7 +196,7 @@ namespace AliasPro.Catalog
             return availableNumbers;
         }
 
-        internal async Task AddLimitedAsync(uint itemId, uint playerId, int number)
+		internal async Task AddLimitedAsync(uint itemId, uint playerId, int number)
         {
             await CreateTransaction(async transaction =>
             {
