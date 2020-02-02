@@ -55,6 +55,7 @@
 
   <ItemGroup>
     <Folder Include="Chat\Commands\Player\" />
+    <Folder Include="Items\Tasks\Wired\" />
   </ItemGroup>
 
 </Project>

@@ -54,11 +54,17 @@ namespace AliasPro.Items.WiredInteraction
                         {
                             if (_item.CurrentRoom.Items.TryGetItem(itemData.ItemId, out IItem item))
                             {
+                                System.Console.WriteLine("uhm");
                                 //todo: effect
-                                _item.CurrentRoom.RoomGrid.RemoveEntity(_target);
-                                _target.NextPosition = item.Position;
-                                _target.GoalPosition = item.Position;
-                                _item.CurrentRoom.RoomGrid.AddEntity(_target);
+                                _target.Room.RoomGrid.RemoveEntity(_target);
+                                _target.Position = 
+                                    _target.NextPosition = 
+                                    _target.GoalPosition = new RoomPosition(
+                                            item.Position.X,
+                                            item.Position.Y,
+                                         item.Position.Z);
+                                _target.Room.RoomGrid.AddEntity(_target);
+                                _target = null;
                             }
                         }
                     }
