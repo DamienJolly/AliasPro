@@ -1,10 +1,10 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
-    public class UserTypingComposer : IPacketComposer
+    public class UserTypingComposer : IMessageComposer
     {
         private readonly int _virtualId;
         private readonly bool _typing;
@@ -15,9 +15,9 @@ namespace AliasPro.Rooms.Packets.Composers
             _typing = typing;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.UserTypingMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.UserTypingMessageComposer);
             message.WriteInt(_virtualId);
             message.WriteInt(_typing ? 1 : 0);
             return message;

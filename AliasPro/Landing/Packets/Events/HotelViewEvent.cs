@@ -1,15 +1,16 @@
 ﻿using AliasPro.API.Messenger;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Landing.Packets.Composers;
-using AliasPro.Network.Events.Headers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Landing.Packets.Events
 {
-    public class HotelViewEvent : IAsyncPacket
+    public class HotelViewEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.HotelViewMessageEvent;
+        public short Id { get; } = Incoming.HotelViewMessageEvent;
 
         private readonly IMessengerController _messengerController;
 
@@ -19,9 +20,9 @@ namespace AliasPro.Landing.Packets.Events
             _messengerController = messengerController;
         }
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             if (session.CurrentRoom == null)
                 return;

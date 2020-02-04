@@ -1,14 +1,14 @@
 ﻿using AliasPro.API.Groups.Models;
-using AliasPro.API.Network.Events;
 using AliasPro.API.Players.Models;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace AliasPro.Groups.Packets.Composers
 {
-	public class GroupMembersComposer : IPacketComposer
+	public class GroupMembersComposer : IMessageComposer
 	{
 		private readonly IPlayer _player;
 		private readonly IGroup _group;
@@ -27,9 +27,9 @@ namespace AliasPro.Groups.Packets.Composers
 			_query = query;
 		}
 
-		public ServerPacket Compose()
+		public ServerMessage Compose()
 		{
-			ServerPacket message = new ServerPacket(Outgoing.GroupMembersMessageComposer);
+			ServerMessage message = new ServerMessage(Outgoing.GroupMembersMessageComposer);
 			message.WriteInt(_group.Id);
 			message.WriteString(_group.Name);
 			message.WriteInt(_group.RoomId);

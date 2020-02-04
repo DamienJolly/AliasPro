@@ -1,10 +1,10 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Landing.Packets.Composers
 {
-    public class HotelViewDataComposer : IPacketComposer
+    public class HotelViewDataComposer : IMessageComposer
     {
         private readonly string _data;
         private readonly string _key;
@@ -15,9 +15,9 @@ namespace AliasPro.Landing.Packets.Composers
             _key = key;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.HotelViewDataMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.HotelViewDataMessageComposer);
             message.WriteString(_data);
             message.WriteString(_key);
             return message;

@@ -1,19 +1,20 @@
 ﻿using AliasPro.API.Achievements;
 using AliasPro.API.Figure;
 using AliasPro.API.Messenger;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Players;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Figure.Packets.Composers;
-using AliasPro.Network.Events.Headers;
 using AliasPro.Players.Types;
+using System.Threading.Tasks;
 
 namespace AliasPro.Figure.Packets.Events
 {
-    public class UpdateFigureEvent : IAsyncPacket
+    public class UpdateFigureEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.UpdateFigureMessageEvent;
+        public short Id { get; } = Incoming.UpdateFigureMessageEvent;
        
         private readonly IPlayerController _playerController;
         private readonly IFigureController _figureController;
@@ -32,9 +33,9 @@ namespace AliasPro.Figure.Packets.Events
 			_achievementController = achievementController;
 		}
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             PlayerGender gender = PlayerGender.MALE;
 
@@ -60,7 +61,7 @@ namespace AliasPro.Figure.Packets.Events
             {
                 session.Entity.Figure = session.Player.Figure;
                 session.Entity.Gender = session.Player.Gender;
-                await session.CurrentRoom.SendAsync(new UpdateEntityDataComposer(session.Entity));
+                await session.CurrentRoom.SendPacketAsync(new UpdateEntityDataComposer(session.Entity));
             }
 
             if (session.Player.Messenger != null)

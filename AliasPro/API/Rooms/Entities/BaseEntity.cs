@@ -1,6 +1,6 @@
 ﻿using AliasPro.API.Rooms.Models;
 using AliasPro.API.Trading.Models;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Players.Types;
 using AliasPro.Rooms.Cycles;
 using AliasPro.Rooms.Models;
@@ -34,7 +34,7 @@ namespace AliasPro.API.Rooms.Entities
         {
             IdleTimer = 0;
             IsIdle = false;
-            await Room.SendAsync(new UserSleepComposer(this));
+            await Room.SendPacketAsync(new UserSleepComposer(this));
         }
 
         public void SetRotation(int rotation, bool headOnly = false)
@@ -92,6 +92,6 @@ namespace AliasPro.API.Rooms.Entities
 		public abstract void OnEntityJoin();
 		public abstract void OnEntityLeave();
 		public abstract void Cycle();
-		public abstract void Compose(ServerPacket serverPacket);
+		public abstract void Compose(ServerMessage ServerMessage);
     }
 }

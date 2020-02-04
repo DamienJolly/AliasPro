@@ -1,11 +1,11 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 
 namespace AliasPro.Players.Packets.Composers
 {
-    public class IgnoredUsersComposer : IPacketComposer
+    public class IgnoredUsersComposer : IMessageComposer
     {
         private readonly ICollection<string> _ignoredUsers;
 
@@ -14,9 +14,9 @@ namespace AliasPro.Players.Packets.Composers
             _ignoredUsers = ignoredUsers;
 		}
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.IgnoredUsersMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.IgnoredUsersMessageComposer);
             message.WriteInt(_ignoredUsers.Count);
             foreach (string username in _ignoredUsers)
             {

@@ -1,12 +1,12 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Rooms.Models;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.API.Rooms.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
-    public class RoomBannedUsersComposer : IPacketComposer
+    public class RoomBannedUsersComposer : IMessageComposer
     {
         private readonly int _roomId;
         private readonly ICollection<IRoomBan> _bannedPlayers;
@@ -17,9 +17,9 @@ namespace AliasPro.Rooms.Packets.Composers
             _bannedPlayers = bannedPlayers;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.RoomBannedUsersMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.RoomBannedUsersMessageComposer);
             message.WriteInt(_roomId);
             message.WriteInt(_bannedPlayers.Count);
             foreach (IRoomBan roomBan in _bannedPlayers)

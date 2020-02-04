@@ -1,13 +1,12 @@
 ﻿using AliasPro.Achievements;
 using AliasPro.API.Groups;
-using AliasPro.API.Network;
-using AliasPro.API.Network.Events;
 using AliasPro.API.Rooms;
 using AliasPro.API.Server;
 using AliasPro.API.Sessions;
 using AliasPro.Badges;
 using AliasPro.Catalog;
 using AliasPro.Chat;
+using AliasPro.Communication.Messages;
 using AliasPro.Configuration;
 using AliasPro.Figure;
 using AliasPro.Groups;
@@ -17,8 +16,7 @@ using AliasPro.Logging;
 using AliasPro.Messenger;
 using AliasPro.Moderation;
 using AliasPro.Navigator;
-using AliasPro.Network;
-using AliasPro.Network.Events;
+using AliasPro.Network.Game;
 using AliasPro.Permissions;
 using AliasPro.Pets;
 using AliasPro.Players;
@@ -61,10 +59,10 @@ namespace AliasPro
             Console.WriteLine("");
             Console.ForegroundColor = ConsoleColor.Gray;
 
-            IList<INetworkService> services = new List<INetworkService>
+            IList<IService> services = new List<IService>
 			{
 				new ServerService(),
-				new NetworkService(),
+				//new NetworkService(),
 				new ModerationService(),
 				new MessengerService(),
 				new PlayerService(),
@@ -91,12 +89,14 @@ namespace AliasPro
                 logging.AddProvider(new CustomLoggerProvider());
             });
 
-            foreach (INetworkService service in services)
+            foreach (IService service in services)
             {
-                service.SetupService(serviceCollection);
+                service.Register(serviceCollection);
             }
             
-            serviceCollection.AddSingleton<IEventProvider, EventProvider>();
+            //serviceCollection.AddSingleton<IEventProvider, EventProvider>();
+            serviceCollection.AddSingleton<MessageHandler>();
+            serviceCollection.AddSingleton<GameNetworkListener>();
 
             _serviceProvider = serviceCollection.BuildServiceProvider();
         }
@@ -106,8 +106,11 @@ namespace AliasPro
 
         private async Task Run()
         {
-            INetworkListener listener = GetService<INetworkListener>();
-            await listener.Listen(30000);
+            GameNetworkListener listener = GetService<GameNetworkListener>();
+            await listener.StartAsync(30000);
+
+            //INetworkListener listener = GetService<INetworkListener>();
+            //await listener.Listen(30000);
 
             IServerController server = GetService<IServerController>();
             await server.CleanupDatabase();

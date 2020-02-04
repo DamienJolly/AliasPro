@@ -1,20 +1,21 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
-using AliasPro.API.Rooms.Models;
+﻿using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
 using AliasPro.API.Trading.Models;
 using AliasPro.Trading.Packets.Composers;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using System.Threading.Tasks;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Trading.Packets.Events
 {
-	public class TradeCancelOfferItemEvent : IAsyncPacket
+	public class TradeCancelOfferItemEvent : IMessageEvent
 	{
-		public short Header { get; } = Incoming.TradeCancelOfferItemMessageEvent;
+		public short Id { get; } = Incoming.TradeCancelOfferItemMessageEvent;
 
-		public async void HandleAsync(
+		public async Task RunAsync(
 			ISession session,
-			IClientPacket clientPacket)
+			ClientMessage clientPacket)
 		{
 			IRoom room = session.CurrentRoom;
 			if (room == null) return;
@@ -30,7 +31,7 @@ namespace AliasPro.Trading.Packets.Events
 			int itemId = clientPacket.ReadInt();
 
 			player.RemoveItem((uint)itemId);
-			await trade.SendAsync(new TradeUpdateComposer(trade));
+			await trade.SendPacketAsync(new TradeUpdateComposer(trade));
 		}
 	}
 }

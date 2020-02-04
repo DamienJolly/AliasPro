@@ -1,15 +1,16 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
-using AliasPro.API.Players;
+﻿using AliasPro.API.Players;
 using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Players.Packets.Composers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Players.Packets.Events
 {
-    public class RequestUserDataEvent : IAsyncPacket
+    public class RequestUserDataEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.RequestUserDataMessageEvent;
+        public short Id { get; } = Incoming.RequestUserDataMessageEvent;
 
         private readonly IPlayerController _playerController;
 
@@ -18,9 +19,9 @@ namespace AliasPro.Players.Packets.Events
             _playerController = playerController;
         }
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             await session.SendPacketAsync(new UserDataComposer(session.Player));
             await session.SendPacketAsync(new UserPerksComposer(session.Player));

@@ -1,13 +1,13 @@
 ﻿using AliasPro.API.Figure.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Players.Types;
 using System.Collections.Generic;
 
 namespace AliasPro.Figure.Packets.Composers
 {
-    public class UserWardrobeComposer : IPacketComposer
+    public class UserWardrobeComposer : IMessageComposer
     {
 		private readonly ICollection<IWardrobeItem> _items;
 
@@ -16,9 +16,9 @@ namespace AliasPro.Figure.Packets.Composers
 			_items = items;
 		}
 
-		public ServerPacket Compose()
+		public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.UserWardrobeMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.UserWardrobeMessageComposer);
 
 			message.WriteInt(1); // can use wardrobe?
 			message.WriteInt(_items.Count);

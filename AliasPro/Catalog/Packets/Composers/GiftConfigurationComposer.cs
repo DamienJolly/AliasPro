@@ -1,12 +1,12 @@
 ﻿using AliasPro.API.Catalog.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 
 namespace AliasPro.Catalog.Packets.Composers
 {
-	public class GiftConfigurationComposer : IPacketComposer
+	public class GiftConfigurationComposer : IMessageComposer
 	{
 		private readonly ICollection<ICatalogGiftPart> _gifts;
 		private readonly ICollection<ICatalogGiftPart> _wrappers;
@@ -19,9 +19,9 @@ namespace AliasPro.Catalog.Packets.Composers
 			_wrappers = wrappers;
 		}
 
-		public ServerPacket Compose()
+		public ServerMessage Compose()
 		{
-			ServerPacket message = new ServerPacket(Outgoing.GiftConfigurationMessageComposer);
+			ServerMessage message = new ServerMessage(Outgoing.GiftConfigurationMessageComposer);
 			message.WriteBoolean(true); // gifts enabled?
 			message.WriteInt(1); // price??
 			message.WriteInt(_wrappers.Count);

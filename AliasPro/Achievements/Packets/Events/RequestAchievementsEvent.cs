@@ -1,15 +1,16 @@
 ﻿using AliasPro.Achievements.Packets.Composers;
 using AliasPro.API.Achievements;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
+using System.Threading.Tasks;
 
 namespace AliasPro.Achievements.Packets.Events
 {
-	public class RequestAchievementsEvent : IAsyncPacket
+	public class RequestAchievementsEvent : IMessageEvent
 	{
-		public short Header { get; } = Incoming.RequestAchievementsMessageEvent;
+		public short Id { get; } = Incoming.RequestAchievementsMessageEvent;
 
 		private readonly IAchievementController _achievementController;
 
@@ -19,9 +20,9 @@ namespace AliasPro.Achievements.Packets.Events
 			_achievementController = achievementController;
 		}
 
-		public async void HandleAsync(
+		public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
 			if (session.Player == null)
 				return;

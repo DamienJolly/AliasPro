@@ -1,8 +1,8 @@
 ﻿using AliasPro.API.Items.Interaction;
 using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Packets.Composers;
-using AliasPro.Network.Protocol;
 using AliasPro.Rooms.Entities;
 
 namespace AliasPro.Items.Interaction
@@ -16,7 +16,7 @@ namespace AliasPro.Items.Interaction
             _item = item;
         }
 
-		public void Compose(ServerPacket message, bool tradeItem)
+		public void Compose(ServerMessage message, bool tradeItem)
 		{
 			if (!tradeItem)
 				message.WriteInt(1);
@@ -58,7 +58,7 @@ namespace AliasPro.Items.Interaction
             if (_item.Mode >= _item.ItemData.Modes)
 				_item.Mode = 0;
 
-			await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(_item));
+			await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
         }
 
         public void OnCycle()

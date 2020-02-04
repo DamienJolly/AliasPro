@@ -1,10 +1,10 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
-    public class RoomMutedComposer : IPacketComposer
+    public class RoomMutedComposer : IMessageComposer
     {
         private readonly bool _isMuted;
 
@@ -13,9 +13,9 @@ namespace AliasPro.Rooms.Packets.Composers
             _isMuted = isMuted;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.RoomMutedMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.RoomMutedMessageComposer);
             message.WriteBoolean(_isMuted);
             return message;
         }

@@ -1,10 +1,10 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
-    public class RoomUserIgnoredComposer : IPacketComposer
+    public class RoomUserIgnoredComposer : IMessageComposer
     {
         public static int IGNORED = 1;
         public static int MUTED = 2;
@@ -19,9 +19,9 @@ namespace AliasPro.Rooms.Packets.Composers
             _state = state;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.RoomUserIgnoredMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.RoomUserIgnoredMessageComposer);
             message.WriteInt(_state);
             message.WriteString(_username);
             return message;

@@ -1,17 +1,18 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
-using AliasPro.API.Rooms;
+﻿using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Rooms.Entities;
 using AliasPro.Utilities;
+using System.Threading.Tasks;
 
 namespace AliasPro.Rooms.Packets.Events
 {
-    public class RoomUserMuteEvent : IAsyncPacket
+    public class RoomUserMuteEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.RoomUserMuteMessageEvent;
+        public short Id { get; } = Incoming.RoomUserMuteMessageEvent;
 
         private readonly IRoomController _roomController;
 
@@ -21,29 +22,32 @@ namespace AliasPro.Rooms.Packets.Events
             _roomController = roomController;
         }
 
-        public void HandleAsync(
+        public Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             int playerId = clientPacket.ReadInt();
             int roomId = clientPacket.ReadInt();
             int minutes = clientPacket.ReadInt();
 
-            if (!_roomController.TryGetRoom((uint)roomId, out IRoom room)) 
-                return;
+            if (!_roomController.TryGetRoom((uint)roomId, out IRoom room))
+                return Task.CompletedTask;
 
             switch (room.Settings.WhoMutes)
             {
-                case 0: default: if (!room.Rights.IsOwner(session.Player.Id)) return; break;
-                case 1: if (!room.Rights.HasRights(session.Player.Id)) return; break;
+                case 0: default: if (!room.Rights.IsOwner(session.Player.Id)) return Task.CompletedTask; break;
+                case 1: if (!room.Rights.HasRights(session.Player.Id)) return Task.CompletedTask; break;
             }
 
-            if (room.Rights.HasRights((uint)playerId)) return;
+            if (room.Rights.HasRights((uint)playerId)) 
+                return Task.CompletedTask;
 
             if (!room.Entities.TryGetPlayerEntityById(playerId, out PlayerEntity entity))
-                return;
+                return Task.CompletedTask;
 
             room.Mute.MutePlayer(playerId, (int)UnixTimestamp.Now + (minutes * 60));
+
+            return Task.CompletedTask;
         }
     }
 }

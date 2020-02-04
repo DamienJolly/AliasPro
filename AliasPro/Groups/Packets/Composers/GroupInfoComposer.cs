@@ -1,14 +1,14 @@
 ﻿using AliasPro.API.Groups.Models;
 using AliasPro.API.Groups.Types;
-using AliasPro.API.Network.Events;
 using AliasPro.API.Players.Models;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using System;
 
 namespace AliasPro.Groups.Packets.Composers
 {
-	public class GroupInfoComposer : IPacketComposer
+	public class GroupInfoComposer : IMessageComposer
 	{
 		private readonly IGroup _group;
 		private readonly IPlayer _player;
@@ -24,11 +24,11 @@ namespace AliasPro.Groups.Packets.Composers
 			_newWindow = newWindow;
 		}
 
-		public ServerPacket Compose()
+		public ServerMessage Compose()
 		{
 			DateTime created = new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds(_group.CreatedAt);
 
-			ServerPacket message = new ServerPacket(Outgoing.GroupInfoMessageComposer);
+			ServerMessage message = new ServerMessage(Outgoing.GroupInfoMessageComposer);
 			message.WriteInt(_group.Id);
 			message.WriteBoolean(true); // ??
 			message.WriteInt((int)_group.State);

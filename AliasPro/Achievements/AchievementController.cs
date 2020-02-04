@@ -79,7 +79,7 @@ namespace AliasPro.Achievements
 					if (badge.Slot > 0)
 					{
 						if (player.Session.CurrentRoom != null)
-							await player.Session.CurrentRoom.SendAsync(new UserBadgesComposer(
+							await player.Session.CurrentRoom.SendPacketAsync(new UserBadgesComposer(
 								player.Badge.WornBadges, (int)player.Id));
 					}
 				}

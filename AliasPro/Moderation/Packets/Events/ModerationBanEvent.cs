@@ -1,18 +1,19 @@
 ﻿using AliasPro.API.Moderation;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Permissions;
 using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
 using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Utilities;
+using System.Threading.Tasks;
 
 namespace AliasPro.Moderation.Packets.Events
 {
-    public class ModerationBanEvent : IAsyncPacket
+    public class ModerationBanEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.ModerationBanMessageEvent;
+        public short Id { get; } = Incoming.ModerationBanMessageEvent;
 
 		private const int BAN_18_HOURS = 3;
 		private const int BAN_7_DAYS = 4;
@@ -35,9 +36,9 @@ namespace AliasPro.Moderation.Packets.Events
 			_permissionsController = permissionsController;
 		}
 
-		public async void HandleAsync(
+		public async Task RunAsync(
 			ISession session,
-			IClientPacket clientPacket)
+			ClientMessage clientPacket)
 		{
 			if (!_permissionsController.HasPermission(session.Player, "acc_modtool_player_ban"))
 				return;
@@ -52,7 +53,7 @@ namespace AliasPro.Moderation.Packets.Events
 			string reason = clientPacket.ReadString();
 			int topicId = clientPacket.ReadInt();
 			int banType = clientPacket.ReadInt();
-			clientPacket.ReadBool(); //dunno?
+			clientPacket.ReadBoolean(); //dunno?
 
 			int duration = 0;
 			switch (banType)

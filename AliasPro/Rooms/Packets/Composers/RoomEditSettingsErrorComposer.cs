@@ -1,10 +1,10 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
-    public class RoomEditSettingsErrorComposer : IPacketComposer
+    public class RoomEditSettingsErrorComposer : IMessageComposer
     {
         public static int PASSWORD_REQUIRED = 5;
         public static int ROOM_NAME_MISSING = 7;
@@ -23,10 +23,10 @@ namespace AliasPro.Rooms.Packets.Composers
             _errorCode = errorCode;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.RoomEditSettingsErrorMessageComposer);
-            message.WriteInt(_roomId);
+            ServerMessage message = new ServerMessage(Outgoing.RoomEditSettingsErrorMessageComposer);
+            message.WriteInt((int)_roomId);
             message.WriteInt(_errorCode);
             message.WriteString(string.Empty);
             return message;

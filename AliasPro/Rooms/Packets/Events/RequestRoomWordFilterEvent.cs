@@ -1,16 +1,17 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
-using AliasPro.API.Rooms;
+﻿using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Rooms.Packets.Composers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Rooms.Packets.Events
 {
-    public class RequestRoomWordFilterEvent : IAsyncPacket
+    public class RequestRoomWordFilterEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.RequestRoomWordFilterMessageEvent;
+        public short Id { get; } = Incoming.RequestRoomWordFilterMessageEvent;
 
         private readonly IRoomController _roomController;
 
@@ -18,9 +19,9 @@ namespace AliasPro.Rooms.Packets.Events
         {
             _roomController = roomController;
         }
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             uint roomId = (uint)clientPacket.ReadInt();
             if (!_roomController.TryGetRoom(roomId, out IRoom room))

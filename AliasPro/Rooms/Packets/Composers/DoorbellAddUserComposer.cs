@@ -1,10 +1,10 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
-    public class DoorbellAddUserComposer : IPacketComposer
+    public class DoorbellAddUserComposer : IMessageComposer
     {
         private readonly string _playerName;
 
@@ -13,9 +13,9 @@ namespace AliasPro.Rooms.Packets.Composers
             _playerName = playerName;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.DoorbellAddUserMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.DoorbellAddUserMessageComposer);
             message.WriteString(_playerName);
             return message;
         }

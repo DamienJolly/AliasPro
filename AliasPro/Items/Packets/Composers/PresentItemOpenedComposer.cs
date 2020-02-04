@@ -1,11 +1,11 @@
 ﻿using AliasPro.API.Items.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Items.Packets.Composers
 {
-    public class PresentItemOpenedComposer : IPacketComposer
+    public class PresentItemOpenedComposer : IMessageComposer
     {
         private readonly IItem _item;
         private readonly string _extraData;
@@ -18,13 +18,13 @@ namespace AliasPro.Items.Packets.Composers
 			_itemIsInRoom = itemIsInRoom;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.PresentItemOpenedMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.PresentItemOpenedMessageComposer);
 			message.WriteString(_item.ItemData.Type.ToLower());
-			message.WriteInt(_item.ItemData.SpriteId);
+			message.WriteInt((int)_item.ItemData.SpriteId);
 			message.WriteString(_item.ItemData.Name);
-			message.WriteInt(_item.Id);
+			message.WriteInt((int)_item.Id);
 			message.WriteString(_item.ItemData.Type.ToLower());
 			message.WriteBoolean(_itemIsInRoom);
 			message.WriteString(_extraData);

@@ -1,12 +1,11 @@
-﻿using AliasPro.API.Network;
-using AliasPro.API.Permissions;
+﻿using AliasPro.API.Permissions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AliasPro.Permissions
 {
-    internal class PermissionsService : INetworkService
+    internal class PermissionsService : IService
     {
-        public void SetupService(IServiceCollection collection)
+        public void Register(IServiceCollection collection)
         {
             collection.AddSingleton<PermissionsDao>();
             collection.AddSingleton<IPermissionsController, PermissionsController>();

@@ -1,12 +1,12 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Players.Models;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.API.Players.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 
 namespace AliasPro.Players.Packets.Composers
 {
-    public class UserCurrencyComposer : IPacketComposer
+    public class UserCurrencyComposer : IMessageComposer
     {
         private readonly ICollection<IPlayerCurrency> _currencies;
 
@@ -15,9 +15,9 @@ namespace AliasPro.Players.Packets.Composers
             _currencies = currencies;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.UserCurrencyMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.UserCurrencyMessageComposer);
             message.WriteInt(_currencies.Count);
             foreach (IPlayerCurrency currency in _currencies)
             {

@@ -1,11 +1,11 @@
 ﻿using AliasPro.API.Messenger.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Messenger.Packets.Composers
 {
-    public class UpdateFriendComposer : IPacketComposer
+    public class UpdateFriendComposer : IMessageComposer
     {
         private readonly IMessengerFriend _friend;
         private readonly uint _friendId = 0;
@@ -20,9 +20,9 @@ namespace AliasPro.Messenger.Packets.Composers
             _friendId = friendId;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.UpdateFriendMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.UpdateFriendMessageComposer);
             message.WriteInt(0);
             message.WriteInt(1);
             if (_friend != null)
@@ -33,7 +33,7 @@ namespace AliasPro.Messenger.Packets.Composers
             else
             {
                 message.WriteInt(-1);
-                message.WriteInt(_friendId);
+                message.WriteInt((int)_friendId);
             }
             return message;
         }

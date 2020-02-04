@@ -1,11 +1,11 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Pets.Models;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.API.Pets.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Pets.Packets.Composers
 {
-    public class PetBreedsComposer : IPacketComposer
+    public class PetBreedsComposer : IMessageComposer
     {
         private readonly string _petName;
         private readonly IPetData _petData;
@@ -16,9 +16,9 @@ namespace AliasPro.Pets.Packets.Composers
 			_petData = petData;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.PetBreedsMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.PetBreedsMessageComposer);
             message.WriteString(_petName);
 			message.WriteInt(_petData.Breeds.Count);
 			foreach (IPetBreed breed in _petData.Breeds)

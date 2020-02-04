@@ -1,29 +1,28 @@
 ﻿using AliasPro.API.Navigator;
-using AliasPro.API.Network;
-using AliasPro.API.Network.Events;
+using AliasPro.Communication.Messages;
 using AliasPro.Navigator.Packets.Events;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AliasPro.Navigator
 {
-    internal class NavigatorService : INetworkService
+    internal class NavigatorService : IService
     {
-        public void SetupService(IServiceCollection collection)
+        public void Register(IServiceCollection collection)
         {
             collection.AddSingleton<NavigatorDao>();
             collection.AddSingleton<INavigatorController, NavigatorController>();
 
-            AddPackets(collection);
+            RegisterPackets(collection);
         }
 
-        private static void AddPackets(IServiceCollection collection)
+        private static void RegisterPackets(IServiceCollection collection)
         {
-            collection.AddSingleton<IAsyncPacket, InitializeNavigatorEvent>();
-            collection.AddSingleton<IAsyncPacket, RequestUserFlatCatsEvent>();
-            collection.AddSingleton<IAsyncPacket, RequestNavigatorSettingsEvent>();
-            collection.AddSingleton<IAsyncPacket, NavigatorSearchEvent>();
-            collection.AddSingleton<IAsyncPacket, UpdateNavigatorPreferencesEvent>();
-            collection.AddSingleton<IAsyncPacket, FindRandomRoomEvent>();
+            collection.AddSingleton<IMessageEvent, InitializeNavigatorEvent>();
+            collection.AddSingleton<IMessageEvent, RequestUserFlatCatsEvent>();
+            collection.AddSingleton<IMessageEvent, RequestNavigatorSettingsEvent>();
+            collection.AddSingleton<IMessageEvent, NavigatorSearchEvent>();
+            collection.AddSingleton<IMessageEvent, UpdateNavigatorPreferencesEvent>();
+            collection.AddSingleton<IMessageEvent, FindRandomRoomEvent>();
         }
     }
 }

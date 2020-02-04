@@ -1,10 +1,10 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Groups.Packets.Composers
 {
-	public class GroupJoinErrorComposer : IPacketComposer
+	public class GroupJoinErrorComposer : IMessageComposer
 	{
 		public static readonly int GROUP_FULL = 0;
 		public static readonly int GROUP_LIMIT_EXCEED = 1;
@@ -22,9 +22,9 @@ namespace AliasPro.Groups.Packets.Composers
 			_code = code;
 		}
 
-		public ServerPacket Compose()
+		public ServerMessage Compose()
 		{
-			ServerPacket message = new ServerPacket(Outgoing.GroupJoinErrorMessageComposer);
+			ServerMessage message = new ServerMessage(Outgoing.GroupJoinErrorMessageComposer);
 			message.WriteInt(_code);
 			return message;
 		}

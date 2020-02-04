@@ -1,7 +1,7 @@
 ﻿using AliasPro.API.Database;
 using AliasPro.API.Messenger.Models;
 using AliasPro.API.Players.Models;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages.Protocols;
 using System.Data.Common;
 
 namespace AliasPro.Messenger.Models
@@ -24,9 +24,9 @@ namespace AliasPro.Messenger.Models
             Motto = player.Motto;
         }
 
-        public void Compose(ServerPacket message)
+        public void Compose(ServerMessage message)
         {
-            message.WriteInt(Id);
+            message.WriteInt((int)Id);
             message.WriteString(Username);
             message.WriteString(Figure);
         }

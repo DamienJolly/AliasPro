@@ -1,22 +1,14 @@
 ﻿using AliasPro.API.Badge;
-using AliasPro.API.Network;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AliasPro.Badges
 {
-    internal class BadgeService : INetworkService
+    internal class BadgeService : IService
     {
-        public void SetupService(IServiceCollection collection)
+        public void Register(IServiceCollection collection)
         {
             collection.AddSingleton<BadgeDao>();
             collection.AddSingleton<IBadgeController, BadgeController>();
-
-			AddPackets(collection);
-		}
-
-		private static void AddPackets(IServiceCollection collection)
-		{
-
 		}
 	}
 }

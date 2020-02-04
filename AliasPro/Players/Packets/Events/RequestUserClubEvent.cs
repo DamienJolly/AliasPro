@@ -1,18 +1,19 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
-using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
+﻿using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Players.Packets.Composers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Players.Packets.Events
 {
-    public class RequestUserClubEvent : IAsyncPacket
+    public class RequestUserClubEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.RequestUserClubMessageEvent;
+        public short Id { get; } = Incoming.RequestUserClubMessageEvent;
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             await session.SendPacketAsync(new UserClubComposer());
         }

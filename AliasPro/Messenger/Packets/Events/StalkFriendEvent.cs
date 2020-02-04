@@ -1,18 +1,19 @@
 ﻿using AliasPro.API.Messenger.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Messenger.Packets.Composers;
-using AliasPro.Network.Events.Headers;
 using AliasPro.Rooms.Packets.Composers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Messenger.Packets.Events
 {
-    public class StalkFriendEvent : IAsyncPacket
+    public class StalkFriendEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.StalkFriendMessageEvent;
+        public short Id { get; } = Incoming.StalkFriendMessageEvent;
 
         private readonly IPlayerController _playerController;
 
@@ -22,9 +23,9 @@ namespace AliasPro.Messenger.Packets.Events
             _playerController = playerController;
         }
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             uint targetId = (uint)clientPacket.ReadInt();
 

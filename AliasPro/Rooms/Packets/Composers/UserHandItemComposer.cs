@@ -1,10 +1,10 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
-    public class UserHandItemComposer : IPacketComposer
+    public class UserHandItemComposer : IMessageComposer
     {
         private readonly int _virtualId;
         private readonly int _handItemId;
@@ -15,9 +15,9 @@ namespace AliasPro.Rooms.Packets.Composers
             _handItemId = handItemId;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.UserHandItemMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.UserHandItemMessageComposer);
             message.WriteInt(_virtualId);
             message.WriteInt(_handItemId);
             return message;

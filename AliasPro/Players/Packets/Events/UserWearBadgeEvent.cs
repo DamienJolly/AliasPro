@@ -1,16 +1,17 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
-using AliasPro.API.Players;
+﻿using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
 using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Players.Packets.Composers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Players.Packets.Events
 {
-    public class UserWearBadgeEvent : IAsyncPacket
+    public class UserWearBadgeEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.UserWearBadgeMessageEvent;
+        public short Id { get; } = Incoming.UserWearBadgeMessageEvent;
 
         private readonly IPlayerController _playerController;
 
@@ -19,9 +20,9 @@ namespace AliasPro.Players.Packets.Events
             _playerController = playerController;
         }
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             if (session.Player.Badge == null) return;
 
@@ -42,7 +43,7 @@ namespace AliasPro.Players.Packets.Events
 
             if (session.CurrentRoom != null)
             {
-                await session.CurrentRoom.SendAsync(new UserBadgesComposer(
+                await session.CurrentRoom.SendPacketAsync(new UserBadgesComposer(
                     session.Player.Badge.WornBadges, 
                     (int)session.Player.Id));
                 return;

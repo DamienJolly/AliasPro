@@ -1,14 +1,14 @@
 ﻿using AliasPro.API.Groups.Models;
-using AliasPro.API.Network.Events;
 using AliasPro.API.Players.Models;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Utilities;
 using System.Collections.Generic;
 
 namespace AliasPro.Players.Packets.Composers
 {
-    public class UserProfileComposer : IPacketComposer
+    public class UserProfileComposer : IMessageComposer
     {
         private readonly IPlayer _player;
         private readonly IPlayerData _targetPlayer;
@@ -27,10 +27,10 @@ namespace AliasPro.Players.Packets.Composers
             _friendCount = friendCount;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.UserProfileMessageComposer);
-            message.WriteInt(_targetPlayer.Id);
+            ServerMessage message = new ServerMessage(Outgoing.UserProfileMessageComposer);
+            message.WriteInt((int)_targetPlayer.Id);
             message.WriteString(_targetPlayer.Username);
             message.WriteString(_targetPlayer.Figure);
             message.WriteString(_targetPlayer.Motto);

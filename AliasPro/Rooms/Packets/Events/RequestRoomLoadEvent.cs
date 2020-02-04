@@ -1,23 +1,24 @@
 ﻿using AliasPro.API.Items;
 using AliasPro.API.Messenger;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Rooms.Components;
 using AliasPro.Rooms.Cycles;
 using AliasPro.Rooms.Entities;
 using AliasPro.Rooms.Models;
 using AliasPro.Rooms.Packets.Composers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Rooms.Packets.Events
 {
-    public class RequestRoomLoadEvent : IAsyncPacket
+    public class RequestRoomLoadEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.RequestRoomLoadMessageEvent;
+        public short Id { get; } = Incoming.RequestRoomLoadMessageEvent;
 
         private readonly IRoomController _roomController;
         private readonly IItemController _itemController;
@@ -33,9 +34,9 @@ namespace AliasPro.Rooms.Packets.Events
             _messengerController = messengerController;
         }
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             uint roomId = (uint)clientPacket.ReadInt();
             string password = clientPacket.ReadString();

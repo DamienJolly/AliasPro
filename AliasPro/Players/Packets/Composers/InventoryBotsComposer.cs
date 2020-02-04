@@ -1,13 +1,13 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Players.Models;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.API.Players.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Players.Types;
 using System.Collections.Generic;
 
 namespace AliasPro.Players.Packets.Composers
 {
-    public class InventoryBotsComposer : IPacketComposer
+    public class InventoryBotsComposer : IMessageComposer
     {
         private readonly ICollection<IPlayerBot> _bots;
 
@@ -16,9 +16,9 @@ namespace AliasPro.Players.Packets.Composers
 			_bots = bots;
 		}
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.InventoryBotsMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.InventoryBotsMessageComposer);
             message.WriteInt(_bots.Count);
             foreach (IPlayerBot bot in _bots)
             {

@@ -1,15 +1,16 @@
 ﻿using AliasPro.API.Catalog;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Catalog.Packets.Composers;
-using AliasPro.Network.Events.Headers;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
+using System.Threading.Tasks;
 
 namespace AliasPro.Catalog.Packets.Events
 {
-    public class RequestGiftConfigurationEvent : IAsyncPacket
+    public class RequestGiftConfigurationEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.RequestGiftConfigurationMessageEvent;
+        public short Id { get; } = Incoming.RequestGiftConfigurationMessageEvent;
 
         private readonly ICatalogController _catalogController;
 
@@ -18,9 +19,9 @@ namespace AliasPro.Catalog.Packets.Events
             _catalogController = catalogController;
         }
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             await session.SendPacketAsync(new GiftConfigurationComposer(
 				_catalogController.GetGifts,

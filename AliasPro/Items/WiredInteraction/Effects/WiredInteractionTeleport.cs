@@ -54,7 +54,6 @@ namespace AliasPro.Items.WiredInteraction
                         {
                             if (_item.CurrentRoom.Items.TryGetItem(itemData.ItemId, out IItem item))
                             {
-                                System.Console.WriteLine("uhm");
                                 //todo: effect
                                 _target.Room.RoomGrid.RemoveEntity(_target);
                                 _target.Position = 

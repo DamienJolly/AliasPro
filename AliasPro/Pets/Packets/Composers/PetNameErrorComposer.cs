@@ -1,10 +1,10 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Pets.Packets.Composers
 {
-    public class PetNameErrorComposer : IPacketComposer
+    public class PetNameErrorComposer : IMessageComposer
     {
 		public static int NAME_OK = 0;
 		public static int NAME_TO_LONG = 1;
@@ -20,9 +20,9 @@ namespace AliasPro.Pets.Packets.Composers
 			_data = data;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.PetNameErrorMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.PetNameErrorMessageComposer);
             message.WriteInt(_error);
             message.WriteString(_data);
             return message;

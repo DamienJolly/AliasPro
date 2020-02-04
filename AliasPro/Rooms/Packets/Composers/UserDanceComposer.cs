@@ -1,11 +1,11 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Rooms.Entities;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.API.Rooms.Entities;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
-    public class UserDanceComposer : IPacketComposer
+    public class UserDanceComposer : IMessageComposer
     {
         private readonly BaseEntity _entity;
 
@@ -14,9 +14,9 @@ namespace AliasPro.Rooms.Packets.Composers
             _entity = entity;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.UserDanceMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.UserDanceMessageComposer);
             message.WriteInt(_entity.Id);
             message.WriteInt(_entity.DanceId);
             return message;

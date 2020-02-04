@@ -1,12 +1,12 @@
 ﻿using AliasPro.API.Items.Models;
-using AliasPro.API.Network.Events;
 using AliasPro.API.Rooms.Models;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Items.Packets.Composers
 {
-    public class FloorItemOnRollerComposer : IPacketComposer
+    public class FloorItemOnRollerComposer : IMessageComposer
     {
         private readonly IItem _item;
         private readonly IRoomPosition _target;
@@ -19,18 +19,18 @@ namespace AliasPro.Items.Packets.Composers
             _rollerId = rollerId;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.SlideObjectMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.SlideObjectMessageComposer);
             message.WriteInt(_item.Position.X);
             message.WriteInt(_item.Position.Y);
             message.WriteInt(_target.X);
             message.WriteInt(_target.Y);
             message.WriteInt(1);
-            message.WriteInt(_item.Id);
-            message.WriteDouble(_item.Position.Z);
-            message.WriteDouble(_target.Z);
-            message.WriteInt(_rollerId);
+            message.WriteInt((int)_item.Id);
+            message.WriteString(_item.Position.Z.ToString());
+            message.WriteString(_target.Z.ToString());
+            message.WriteInt((int)_rollerId);
             return message;
         }
     }

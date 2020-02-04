@@ -56,7 +56,7 @@ namespace AliasPro.Items.WiredInteraction
 
                         _item.CurrentRoom.RoomGrid.AddItem(item);
 
-                        await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(item));
+                        await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(item));
                     }
 
                     _active = false;

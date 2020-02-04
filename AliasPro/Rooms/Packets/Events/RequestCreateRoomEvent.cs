@@ -1,18 +1,17 @@
 ﻿using AliasPro.API.Navigator;
-using AliasPro.API.Navigator.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Rooms;
-using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Rooms.Packets.Composers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Rooms.Packets.Events
 {
-    public class RequestCreateRoomEvent : IAsyncPacket
+    public class RequestCreateRoomEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.RequestCreateRoomMessageEvent;
+        public short Id { get; } = Incoming.RequestCreateRoomMessageEvent;
 
         private readonly IRoomController _roomController;
         private readonly INavigatorController _navigatorController;
@@ -25,9 +24,9 @@ namespace AliasPro.Rooms.Packets.Events
             _navigatorController = navigatorController;
         }
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             string name = clientPacket.ReadString();
             string description = clientPacket.ReadString();

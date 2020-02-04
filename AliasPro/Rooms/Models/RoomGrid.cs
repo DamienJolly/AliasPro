@@ -159,7 +159,7 @@ namespace AliasPro.Rooms.Models
                 tile.AddItem(item);
             }
 
-            await _room.SendAsync(new UpdateStackHeightComposer(tiles));
+            await _room.SendPacketAsync(new UpdateStackHeightComposer(tiles));
         }
 
         public async void RemoveItem(IItem item)
@@ -172,7 +172,7 @@ namespace AliasPro.Rooms.Models
                 tile.RemoveItem(item.Id);
             }
 
-            await _room.SendAsync(new UpdateStackHeightComposer(tiles));
+            await _room.SendPacketAsync(new UpdateStackHeightComposer(tiles));
         }
 
         public void AddEntity(BaseEntity entity)

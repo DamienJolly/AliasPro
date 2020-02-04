@@ -2,9 +2,9 @@
 using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Packets.Composers;
 using AliasPro.Items.Tasks;
-using AliasPro.Network.Protocol;
 using AliasPro.Tasks;
 
 namespace AliasPro.Items.Interaction
@@ -18,7 +18,7 @@ namespace AliasPro.Items.Interaction
             _item = item;
         }
 
-		public void Compose(ServerPacket message, bool tradeItem)
+		public void Compose(ServerMessage message, bool tradeItem)
 		{
 			if (!tradeItem)
 				message.WriteInt(1);
@@ -70,7 +70,7 @@ namespace AliasPro.Items.Interaction
 			_item.ItemData.CanWalk = true;
 			_item.Mode = 1;
 			entity.GoalPosition = _item.Position;
-			await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(_item));
+			await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
 			await TaskManager.ExecuteTask(new TeleportTaskOne(_item, entity), 1500);
 		}
 

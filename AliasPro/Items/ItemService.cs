@@ -1,39 +1,38 @@
 ﻿using AliasPro.API.Items;
-using AliasPro.API.Network;
-using AliasPro.API.Network.Events;
+using AliasPro.Communication.Messages;
 using AliasPro.Items.Packets.Events;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AliasPro.Items
 {
-    internal class ItemService : INetworkService
+    internal class ItemService : IService
     {
-        public void SetupService(IServiceCollection collection)
+        public void Register(IServiceCollection collection)
         {
             collection.AddSingleton<ItemDao>();
             collection.AddSingleton<IItemController, ItemController>();
 
-            AddPackets(collection);
+            RegisterPackets(collection);
         }
 
-        private static void AddPackets(IServiceCollection collection)
+        private static void RegisterPackets(IServiceCollection collection)
         {
-            collection.AddSingleton<IAsyncPacket, PlaceItemEvent>();
-            collection.AddSingleton<IAsyncPacket, UpdateItemEvent>();
-            collection.AddSingleton<IAsyncPacket, RemoveItemEvent>();
-            collection.AddSingleton<IAsyncPacket, UpdateWallEvent>();
-            collection.AddSingleton<IAsyncPacket, ToggleFloorItemEvent>();
-            collection.AddSingleton<IAsyncPacket, ToggleWallItemEvent>();
-            collection.AddSingleton<IAsyncPacket, ToggleDiceEvent>();
-            collection.AddSingleton<IAsyncPacket, ToggleOneWayEvent>();
-            collection.AddSingleton<IAsyncPacket, CloseDiceEvent>();
-			collection.AddSingleton<IAsyncPacket, RedeemItemEvent>();
-			collection.AddSingleton<IAsyncPacket, LoveLockConfirmEvent>();
-			collection.AddSingleton<IAsyncPacket, SetStackToolHeightEvent>();
-			collection.AddSingleton<IAsyncPacket, RedeemClothingEvent>();
-			collection.AddSingleton<IAsyncPacket, RedeemGiftEvent>();
-			collection.AddSingleton<IAsyncPacket, ApplyDecorationEvent>();
-			collection.AddSingleton<IAsyncPacket, SetTonerEvent>();
+            collection.AddSingleton<IMessageEvent, PlaceItemEvent>();
+            collection.AddSingleton<IMessageEvent, UpdateItemEvent>();
+            collection.AddSingleton<IMessageEvent, RemoveItemEvent>();
+            collection.AddSingleton<IMessageEvent, UpdateWallEvent>();
+            collection.AddSingleton<IMessageEvent, ToggleFloorItemEvent>();
+            collection.AddSingleton<IMessageEvent, ToggleWallItemEvent>();
+            collection.AddSingleton<IMessageEvent, ToggleDiceEvent>();
+            collection.AddSingleton<IMessageEvent, ToggleOneWayEvent>();
+            collection.AddSingleton<IMessageEvent, CloseDiceEvent>();
+			collection.AddSingleton<IMessageEvent, RedeemItemEvent>();
+			collection.AddSingleton<IMessageEvent, LoveLockConfirmEvent>();
+			collection.AddSingleton<IMessageEvent, SetStackToolHeightEvent>();
+			collection.AddSingleton<IMessageEvent, RedeemClothingEvent>();
+			collection.AddSingleton<IMessageEvent, RedeemGiftEvent>();
+			collection.AddSingleton<IMessageEvent, ApplyDecorationEvent>();
+			collection.AddSingleton<IMessageEvent, SetTonerEvent>();
 		}
     }
 }

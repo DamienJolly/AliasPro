@@ -1,13 +1,13 @@
 ﻿using AliasPro.API.Messenger.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Utilities;
 using System.Collections.Generic;
 
 namespace AliasPro.Players.Packets.Composers
 {
-    public class ProfileFriendsComposer : IPacketComposer
+    public class ProfileFriendsComposer : IMessageComposer
     {
         private readonly int _targetId;
         private readonly IList<IMessengerFriend> _love;
@@ -24,9 +24,9 @@ namespace AliasPro.Players.Packets.Composers
             SetRelationships(friends);
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.ProfileFriendsMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.ProfileFriendsMessageComposer);
             message.WriteInt(_targetId);
 
             int total = 0;
@@ -54,11 +54,11 @@ namespace AliasPro.Players.Packets.Composers
             return message;
         }
 
-        private void ComposeRelationship(ServerPacket message, IMessengerFriend friend)
+        private void ComposeRelationship(ServerMessage message, IMessengerFriend friend)
         {
             message.WriteInt(friend.Relation);
             message.WriteInt(_love.Count);
-            message.WriteInt(friend.Id);
+            message.WriteInt((int)friend.Id);
             message.WriteString(friend.Username);
             message.WriteString(friend.Figure);
         }

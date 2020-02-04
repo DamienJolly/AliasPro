@@ -1,10 +1,10 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Catalog.Packets.Composers
 {
-    public class CatalogModeComposer : IPacketComposer
+    public class CatalogModeComposer : IMessageComposer
     {
         private readonly int _mode;
 
@@ -13,9 +13,9 @@ namespace AliasPro.Catalog.Packets.Composers
             _mode = mode;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.CatalogModeMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.CatalogModeMessageComposer);
             message.WriteInt(_mode);
             return message;
         }

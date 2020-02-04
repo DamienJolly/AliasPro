@@ -1,26 +1,25 @@
 ﻿using AliasPro.API.Figure;
-using AliasPro.API.Network;
-using AliasPro.API.Network.Events;
+using AliasPro.Communication.Messages;
 using AliasPro.Figure.Packets.Events;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AliasPro.Figure
 {
-    internal class FigureService : INetworkService
+    internal class FigureService : IService
     {
-        public void SetupService(IServiceCollection collection)
+        public void Register(IServiceCollection collection)
         {
             collection.AddSingleton<FigureDao>();
             collection.AddSingleton<IFigureController, FigureController>();
 
-            AddPackets(collection);
+            RegisterPackets(collection);
         }
 
-        private static void AddPackets(IServiceCollection collection)
+        private static void RegisterPackets(IServiceCollection collection)
         {
-            collection.AddSingleton<IAsyncPacket, UpdateFigureEvent>();
-            collection.AddSingleton<IAsyncPacket, RequestUserWardrobeEvent>();
-            collection.AddSingleton<IAsyncPacket, SaveWardrobeEvent>();
+            collection.AddSingleton<IMessageEvent, UpdateFigureEvent>();
+            collection.AddSingleton<IMessageEvent, RequestUserWardrobeEvent>();
+            collection.AddSingleton<IMessageEvent, SaveWardrobeEvent>();
         }
     }
 }

@@ -1,10 +1,10 @@
-﻿using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.API.Messenger.Models
 {
     public interface IMessengerRequest
     {
-        void Compose(ServerPacket message);
+        void Compose(ServerMessage message);
 
         uint Id { get; }
         string Username { get; }

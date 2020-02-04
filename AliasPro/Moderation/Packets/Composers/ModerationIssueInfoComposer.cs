@@ -1,11 +1,11 @@
 ﻿using AliasPro.API.Moderation.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Moderation.Packets.Composers
 {
-    public class ModerationIssueInfoComposer : IPacketComposer
+    public class ModerationIssueInfoComposer : IMessageComposer
     {
         private readonly IModerationTicket _ticket;
 
@@ -14,9 +14,9 @@ namespace AliasPro.Moderation.Packets.Composers
             _ticket = ticket;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.ModerationIssueInfoMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.ModerationIssueInfoMessageComposer);
             _ticket.Compose(message);
             return message;
         }

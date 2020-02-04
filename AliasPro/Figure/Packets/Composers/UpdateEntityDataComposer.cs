@@ -1,12 +1,12 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Rooms.Entities;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.API.Rooms.Entities;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Players.Types;
 
 namespace AliasPro.Figure.Packets.Composers
 {
-    public class UpdateEntityDataComposer : IPacketComposer
+    public class UpdateEntityDataComposer : IMessageComposer
     {
         private readonly BaseEntity _entity;
 
@@ -15,9 +15,9 @@ namespace AliasPro.Figure.Packets.Composers
             _entity = entity;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.UpdateEntityDataMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.UpdateEntityDataMessageComposer);
             message.WriteInt(_entity.Id);
             message.WriteString(_entity.Figure);
             message.WriteString(_entity.Gender == PlayerGender.MALE ? "m" : "f");

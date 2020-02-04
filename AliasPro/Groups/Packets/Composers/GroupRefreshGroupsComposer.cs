@@ -1,10 +1,10 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Groups.Packets.Composers
 {
-	public class GroupRefreshGroupsComposer : IPacketComposer
+	public class GroupRefreshGroupsComposer : IMessageComposer
 	{
 		private readonly int _playerId;
 
@@ -14,9 +14,9 @@ namespace AliasPro.Groups.Packets.Composers
 			_playerId = playerId;
 		}
 
-		public ServerPacket Compose()
+		public ServerMessage Compose()
 		{
-			ServerPacket message = new ServerPacket(Outgoing.GroupRefreshGroupsMessageComposer);
+			ServerMessage message = new ServerMessage(Outgoing.GroupRefreshGroupsMessageComposer);
 			message.WriteInt(_playerId);
 			return message;
 		}

@@ -2,8 +2,8 @@
 using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Packets.Composers;
-using AliasPro.Network.Protocol;
 
 namespace AliasPro.Items.Interaction
 {
@@ -16,7 +16,7 @@ namespace AliasPro.Items.Interaction
             _item = item;
         }
 
-		public void Compose(ServerPacket message, bool tradeItem)
+		public void Compose(ServerMessage message, bool tradeItem)
 		{
 			if (!tradeItem)
 				message.WriteInt(1);
@@ -94,7 +94,7 @@ namespace AliasPro.Items.Interaction
 				}
 
 				waterItem.ExtraData = result.ToString();
-				await waterItem.CurrentRoom.SendAsync(new FloorItemUpdateComposer(waterItem));
+				await waterItem.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(waterItem));
 			}
 		}
     }

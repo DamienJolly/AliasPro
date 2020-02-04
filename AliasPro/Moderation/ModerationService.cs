@@ -1,40 +1,39 @@
 ﻿using AliasPro.API.Moderation;
-using AliasPro.API.Network;
-using AliasPro.API.Network.Events;
+using AliasPro.Communication.Messages;
 using AliasPro.Moderation.Packets.Events;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AliasPro.Moderation
 {
-    internal class ModerationService : INetworkService
+    internal class ModerationService : IService
     {
-        public void SetupService(IServiceCollection collection)
+        public void Register(IServiceCollection collection)
         {
             collection.AddSingleton<ModerationDao>();
             collection.AddSingleton<IModerationController, ModerationController>();
 
-            AddPackets(collection);
+            RegisterPackets(collection);
         }
 
-        private static void AddPackets(IServiceCollection collection)
+        private static void RegisterPackets(IServiceCollection collection)
         {
-			collection.AddSingleton<IAsyncPacket, ModerationMessageEvent>();
-			collection.AddSingleton<IAsyncPacket, ModerationAlertEvent>();
-			collection.AddSingleton<IAsyncPacket, ModerationTradeLockEvent>();
-			collection.AddSingleton<IAsyncPacket, ModerationMuteEvent>();
-			collection.AddSingleton<IAsyncPacket, ModerationBanEvent>();
-			collection.AddSingleton<IAsyncPacket, ModerationPickTicketEvent>();
-            collection.AddSingleton<IAsyncPacket, ModerationReleaseTicketEvent>();
-            collection.AddSingleton<IAsyncPacket, ModerationCloseTicketEvent>();
-			collection.AddSingleton<IAsyncPacket, ModerationKickEvent>();
-			collection.AddSingleton<IAsyncPacket, ModerationRequestRoomChatlogEvent>();
-            collection.AddSingleton<IAsyncPacket, ModerationRequestIssueChatlogEvent>();
-            collection.AddSingleton<IAsyncPacket, ModerationRequestRoomInfoEvent>();
-            collection.AddSingleton<IAsyncPacket, ModerationRoomAlertEvent>();
-            collection.AddSingleton<IAsyncPacket, ModerationChangeRoomSettingsEvent>();
-            collection.AddSingleton<IAsyncPacket, ModerationRequestUserInfoEvent>();
-            collection.AddSingleton<IAsyncPacket, ModerationRequestRoomVisitsEvent>();
-            collection.AddSingleton<IAsyncPacket, ModerationRequestUserChatlogEvent>();
+			collection.AddSingleton<IMessageEvent, ModerationMessageEvent>();
+			collection.AddSingleton<IMessageEvent, ModerationAlertEvent>();
+			collection.AddSingleton<IMessageEvent, ModerationTradeLockEvent>();
+			collection.AddSingleton<IMessageEvent, ModerationMuteEvent>();
+			collection.AddSingleton<IMessageEvent, ModerationBanEvent>();
+			collection.AddSingleton<IMessageEvent, ModerationPickTicketEvent>();
+            collection.AddSingleton<IMessageEvent, ModerationReleaseTicketEvent>();
+            collection.AddSingleton<IMessageEvent, ModerationCloseTicketEvent>();
+			collection.AddSingleton<IMessageEvent, ModerationKickEvent>();
+			collection.AddSingleton<IMessageEvent, ModerationRequestRoomChatlogEvent>();
+            collection.AddSingleton<IMessageEvent, ModerationRequestIssueChatlogEvent>();
+            collection.AddSingleton<IMessageEvent, ModerationRequestRoomInfoEvent>();
+            collection.AddSingleton<IMessageEvent, ModerationRoomAlertEvent>();
+            collection.AddSingleton<IMessageEvent, ModerationChangeRoomSettingsEvent>();
+            collection.AddSingleton<IMessageEvent, ModerationRequestUserInfoEvent>();
+            collection.AddSingleton<IMessageEvent, ModerationRequestRoomVisitsEvent>();
+            collection.AddSingleton<IMessageEvent, ModerationRequestUserChatlogEvent>();
         }
     }
 }

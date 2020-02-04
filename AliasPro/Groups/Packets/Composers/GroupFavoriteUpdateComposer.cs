@@ -1,12 +1,12 @@
 ﻿using AliasPro.API.Groups.Models;
-using AliasPro.API.Network.Events;
 using AliasPro.API.Rooms.Entities;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Groups.Packets.Composers
 {
-	public class GroupFavoriteUpdateComposer : IPacketComposer
+	public class GroupFavoriteUpdateComposer : IMessageComposer
 	{
 		private readonly BaseEntity _entity;
 		private readonly IGroup _group;
@@ -17,9 +17,9 @@ namespace AliasPro.Groups.Packets.Composers
 			_group = group;
 		}
 
-		public ServerPacket Compose()
+		public ServerMessage Compose()
 		{
-			ServerPacket message = new ServerPacket(Outgoing.GroupFavoriteUpdateMessageComposer);
+			ServerMessage message = new ServerMessage(Outgoing.GroupFavoriteUpdateMessageComposer);
 			message.WriteInt(_entity.Id);
 			message.WriteInt(_group != null ? _group.Id : -1);
 			message.WriteInt(_group != null ? (int)_group.State : -1);

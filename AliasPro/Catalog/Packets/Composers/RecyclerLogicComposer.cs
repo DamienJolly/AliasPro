@@ -1,12 +1,12 @@
 ﻿using AliasPro.API.Items.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 
 namespace AliasPro.Catalog.Packets.Composers
 {
-	public class RecyclerLogicComposer : IPacketComposer
+	public class RecyclerLogicComposer : IMessageComposer
 	{
 		private readonly IDictionary<int, int> _recyclerLevels;
 		private readonly IDictionary<int, IList<IItemData>> _recyclerPrizes;
@@ -19,9 +19,9 @@ namespace AliasPro.Catalog.Packets.Composers
 			_recyclerPrizes = recyclerPrizes;
 		}
 
-		public ServerPacket Compose()
+		public ServerMessage Compose()
 		{
-			ServerPacket message = new ServerPacket(Outgoing.RecyclerLogicMessageComposer);
+			ServerMessage message = new ServerMessage(Outgoing.RecyclerLogicMessageComposer);
 			message.WriteInt(_recyclerPrizes.Count);
 			foreach (var prize in _recyclerPrizes)
 			{
@@ -33,7 +33,7 @@ namespace AliasPro.Catalog.Packets.Composers
 					message.WriteString(item.Name);
 					message.WriteInt(1); // dunno??
 					message.WriteString(item.Type.ToLower());
-					message.WriteInt(item.SpriteId);
+					message.WriteInt((int)item.SpriteId);
 				}
 			}
 			return message;

@@ -1,16 +1,17 @@
 ﻿using AliasPro.API.Messenger;
 using AliasPro.API.Messenger.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Messenger.Packets.Composers;
-using AliasPro.Network.Events.Headers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Messenger.Packets.Events
 {
-    public class ChangeRelationEvent : IAsyncPacket
+    public class ChangeRelationEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.ChangeRelationMessageEvent;
+        public short Id { get; } = Incoming.ChangeRelationMessageEvent;
 
         private readonly IMessengerController _messengerController;
 
@@ -19,9 +20,9 @@ namespace AliasPro.Messenger.Packets.Events
             _messengerController = messengerController;
         }
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             int playerId = clientPacket.ReadInt();
             if (!session.Player.Messenger.TryGetFriend((uint)playerId, out IMessengerFriend friend))

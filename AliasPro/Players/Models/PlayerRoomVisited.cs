@@ -1,6 +1,6 @@
 ﻿using AliasPro.API.Database;
 using AliasPro.API.Players.Models;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages.Protocols;
 using System.Data.Common;
 
 namespace AliasPro.Players.Models
@@ -15,7 +15,7 @@ namespace AliasPro.Players.Models
             ExitTimestamp = reader.ReadData<int>("exit_timestamp");
         }
 
-        public void Compose(ServerPacket message)
+        public void Compose(ServerMessage message)
         {
             message.WriteInt(RoomId);
             message.WriteString(RoomName);

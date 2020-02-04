@@ -1,12 +1,12 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Players.Models;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.API.Players.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Players.Types;
 
 namespace AliasPro.Players.Packets.Composers
 {
-    public class UserDataComposer : IPacketComposer
+    public class UserDataComposer : IMessageComposer
     {
         private readonly IPlayer _player;
 
@@ -15,10 +15,10 @@ namespace AliasPro.Players.Packets.Composers
             _player = player;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.UserDataMessageComposer);
-            message.WriteInt(_player.Id);
+            ServerMessage message = new ServerMessage(Outgoing.UserDataMessageComposer);
+            message.WriteInt((int)_player.Id);
             message.WriteString(_player.Username);
             message.WriteString(_player.Figure);
             message.WriteString(_player.Gender == PlayerGender.MALE ? "m" : "f");

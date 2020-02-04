@@ -1,10 +1,10 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Catalog.Packets.Composers
 {
-    public class RecyclerCompleteComposer : IPacketComposer
+    public class RecyclerCompleteComposer : IMessageComposer
     {
         public static int RECYCLING_COMPLETE = 1;
         public static int RECYCLING_CLOSED = 2;
@@ -16,9 +16,9 @@ namespace AliasPro.Catalog.Packets.Composers
             _code = code;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.RecyclerCompleteMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.RecyclerCompleteMessageComposer);
             message.WriteInt(_code);
             message.WriteInt(0); // prizeId, lol why habbo?
             return message;

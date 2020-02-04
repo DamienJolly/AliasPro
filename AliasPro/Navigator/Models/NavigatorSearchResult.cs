@@ -1,6 +1,6 @@
 ﻿using AliasPro.API.Navigator.Models;
 using AliasPro.API.Rooms.Models;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,7 +17,7 @@ namespace AliasPro.Navigator.Models
             ShowMore = showMore;
         }
 
-        public void Serialize(ServerPacket message)
+        public void Serialize(ServerMessage message)
         {
             message.WriteString(Id);
             message.WriteString(PublicName);

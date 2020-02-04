@@ -1,34 +1,39 @@
 ﻿using AliasPro.API.Items.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Packets.Composers;
 using AliasPro.Items.Types;
-using AliasPro.Network.Events.Headers;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AliasPro.Items.Packets.Events
 {
-    public class SetStackToolHeightEvent : IAsyncPacket
+    public class SetStackToolHeightEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.SetStackToolHeightMessageEvent;
+        public short Id { get; } = Incoming.SetStackToolHeightMessageEvent;
         
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             IRoom room = session.CurrentRoom;
 
-            if (room == null) return;
+            if (room == null) 
+				return;
 
-            if (session.Entity == null) return;
+            if (session.Entity == null) 
+				return;
 
-			if (!room.Rights.HasRights(session.Player.Id)) return;
+			if (!room.Rights.HasRights(session.Player.Id)) 
+				return;
 
             uint itemId = (uint)clientPacket.ReadInt();
-			if (!room.Items.TryGetItem(itemId, out IItem item)) return;
+			if (!room.Items.TryGetItem(itemId, out IItem item)) 
+				return;
 
 			if (!item.CurrentRoom.RoomGrid.TryGetRoomTile(item.Position.X, item.Position.Y, out IRoomTile itemTile))
 				return;
@@ -60,8 +65,8 @@ namespace AliasPro.Items.Packets.Events
 			item.Position.Z = height;
 			room.RoomGrid.AddItem(item);
 
-			await room.SendAsync(new FloorItemUpdateComposer(item));
-			await room.SendAsync(new UpdateStackToolHeightComposer(item));
+			await room.SendPacketAsync(new FloorItemUpdateComposer(item));
+			await room.SendPacketAsync(new UpdateStackToolHeightComposer(item));
 		}
 
 

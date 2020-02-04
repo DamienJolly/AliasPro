@@ -1,20 +1,22 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
-using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
+﻿using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Rooms.Packets.Composers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Rooms.Packets.Events
 {
-    public class RequestFloorPlanDoorSettingsEvent : IAsyncPacket
+    public class RequestFloorPlanDoorSettingsEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.RequestFloorPlanDoorSettingsMessageEvent;
+        public short Id { get; } = Incoming.RequestFloorPlanDoorSettingsMessageEvent;
         
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
-            if (session.CurrentRoom == null) return;
+            if (session.CurrentRoom == null) 
+                return;
 
             await session.SendPacketAsync(new FloorPlanDoorSettingsComposer(session.CurrentRoom));
             //await session.SendPacketAsync(new RoomThicknessComposer(session.Player.CurrentRoom));

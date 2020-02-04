@@ -1,11 +1,11 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Players.Types;
 
 namespace AliasPro.Figure.Packets.Composers
 {
-    public class UpdateFigureComposer : IPacketComposer
+    public class UpdateFigureComposer : IMessageComposer
     {
         private readonly string _figure;
         private readonly PlayerGender _gender;
@@ -16,9 +16,9 @@ namespace AliasPro.Figure.Packets.Composers
             _gender = gender;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.UpdateFigureMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.UpdateFigureMessageComposer);
             message.WriteString(_figure);
             message.WriteString(_gender == PlayerGender.MALE ? "m" : "f");
             return message;

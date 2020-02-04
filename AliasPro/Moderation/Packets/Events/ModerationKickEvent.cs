@@ -1,18 +1,19 @@
 ﻿using AliasPro.API.Messenger;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Permissions;
 using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Moderation.Packets.Composers;
-using AliasPro.Network.Events.Headers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Moderation.Packets.Events
 {
-    public class ModerationKickEvent : IAsyncPacket
+    public class ModerationKickEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.ModerationKickMessageEvent;
+        public short Id { get; } = Incoming.ModerationKickMessageEvent;
 
 		private readonly IPlayerController _playerController;
 		private readonly IPermissionsController _permissionsController;
@@ -28,9 +29,9 @@ namespace AliasPro.Moderation.Packets.Events
 			_messengerController = messengerController;
 		}
 
-		public async void HandleAsync(
+		public async Task RunAsync(
 			ISession session,
-			IClientPacket clientPacket)
+			ClientMessage clientPacket)
 		{
 			if (!_permissionsController.HasPermission(session.Player, "acc_modtool_player_kick"))
 				return;

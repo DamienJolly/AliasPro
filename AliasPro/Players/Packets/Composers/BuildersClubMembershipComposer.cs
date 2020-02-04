@@ -1,14 +1,14 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Players.Packets.Composers
 {
-    public class BuildersClubMembershipComposer : IPacketComposer
+    public class BuildersClubMembershipComposer : IMessageComposer
     {
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.BuildersClubMembershipMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.BuildersClubMembershipMessageComposer);
             message.WriteInt(int.MaxValue);
             message.WriteInt(100);
             message.WriteInt(0);

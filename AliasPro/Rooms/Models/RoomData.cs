@@ -1,7 +1,7 @@
 ﻿using AliasPro.API.Database;
 using AliasPro.API.Groups.Models;
 using AliasPro.API.Rooms.Models;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Utilities;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -62,9 +62,9 @@ namespace AliasPro.Rooms.Models
             WallHeight = data.WallHeight;
         }
 
-        public void Compose(ServerPacket message)
+        public void Compose(ServerMessage message)
         {
-			message.WriteInt(Id);
+			message.WriteInt((int)Id);
 			message.WriteString(Name);
 			message.WriteInt(OwnerId);
 			message.WriteString(OwnerName);

@@ -22,7 +22,7 @@ namespace AliasPro.Items.Tasks
 
 			_item.CurrentRoom.RoomGrid.RemoveItem(_item);
 			_item.CurrentRoom.Items.RemoveItem(_item.Id);
-			await _item.CurrentRoom.SendAsync(new RemoveFloorItemComposer(_item));
+			await _item.CurrentRoom.SendPacketAsync(new RemoveFloorItemComposer(_item));
 			await _itemController.RemoveItemAsync(_item);
 		}
 	}

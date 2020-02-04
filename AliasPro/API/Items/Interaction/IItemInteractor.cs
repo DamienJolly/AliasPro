@@ -1,11 +1,11 @@
 ﻿using AliasPro.API.Rooms.Entities;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.API.Items.Interaction
 {
     public interface IItemInteractor
     {
-        void Compose(ServerPacket message, bool tradeItem = false);
+        void Compose(ServerMessage message, bool tradeItem = false);
 		void OnPlaceItem();
 		void OnPickupItem();
 		void OnMoveItem();

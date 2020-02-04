@@ -3,8 +3,8 @@ using AliasPro.API.Items.Interaction;
 using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Utilities;
-using AliasPro.Network.Protocol;
 using AliasPro.Rooms.Models;
 using System.Data.Common;
 
@@ -42,10 +42,10 @@ namespace AliasPro.Items.Models
             ItemData = itemData;
         }
 
-        public void ComposeFloorItem(ServerPacket message)
+        public void ComposeFloorItem(ServerMessage message)
         {
-            message.WriteInt(Id);
-            message.WriteInt(ItemData.SpriteId);
+            message.WriteInt((int)Id);
+            message.WriteInt((int)ItemData.SpriteId);
             message.WriteInt(Position.X);
             message.WriteInt(Position.Y);
             message.WriteInt(Rotation);
@@ -54,18 +54,18 @@ namespace AliasPro.Items.Models
             Interaction.Compose(message);
             message.WriteInt(-1);
             message.WriteInt(ItemData.Modes > 1 ? 1 : 0);
-            message.WriteInt(PlayerId); // -12345678 = builders club
+            message.WriteInt((int)PlayerId); // -12345678 = builders club
         }
 
-        public void ComposeWallItem(ServerPacket message)
+        public void ComposeWallItem(ServerMessage message)
         {
             message.WriteString(Id + "");
-            message.WriteInt(ItemData.SpriteId);
+            message.WriteInt((int)ItemData.SpriteId);
             message.WriteString(ExtraData);
             message.WriteString(Mode + "");
             message.WriteInt(-1);
             message.WriteInt(ItemData.Modes > 1 ? 1 : 0);
-            message.WriteInt(PlayerId); // -12345678 = builders club
+            message.WriteInt((int)PlayerId); // -12345678 = builders club
         }
 
         public uint Id { get; set; }

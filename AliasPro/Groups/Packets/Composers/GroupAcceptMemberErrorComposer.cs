@@ -1,10 +1,10 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Groups.Packets.Composers
 {
-	public class GroupAcceptMemberErrorComposer : IPacketComposer
+	public class GroupAcceptMemberErrorComposer : IMessageComposer
 	{
 		public static readonly int NO_LONGER_MEMBER = 0;
 		public static readonly int ALREADY_REJECTED = 1;
@@ -21,9 +21,9 @@ namespace AliasPro.Groups.Packets.Composers
 			_code = code;
 		}
 
-		public ServerPacket Compose()
+		public ServerMessage Compose()
 		{
-			ServerPacket message = new ServerPacket(Outgoing.GroupAcceptMemberErrorMessageComposer);
+			ServerMessage message = new ServerMessage(Outgoing.GroupAcceptMemberErrorMessageComposer);
 			message.WriteInt(_groupId);
 			message.WriteInt(_code);
 			return message;

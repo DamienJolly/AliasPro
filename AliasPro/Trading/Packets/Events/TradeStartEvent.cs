@@ -1,19 +1,20 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
-using AliasPro.API.Rooms.Entities;
+﻿using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
 using AliasPro.Rooms.Entities;
 using AliasPro.API.Trading;
 using AliasPro.API.Trading.Models;
 using AliasPro.Trading.Packets.Composers;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using System.Threading.Tasks;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Trading.Packets.Events
 {
-	public class TradeStartEvent : IAsyncPacket
+	public class TradeStartEvent : IMessageEvent
 	{
-		public short Header { get; } = Incoming.TradeStartMessageEvent;
+		public short Id { get; } = Incoming.TradeStartMessageEvent;
 
 		private readonly ITradingController _tradingController;
 
@@ -23,9 +24,9 @@ namespace AliasPro.Trading.Packets.Events
 			_tradingController = tradingController;
 		}
 
-		public async void HandleAsync(
+		public async Task RunAsync(
 			ISession session,
-			IClientPacket clientPacket)
+			ClientMessage clientPacket)
 		{
 			IRoom room = session.CurrentRoom;
 			if (room == null) return;
@@ -73,7 +74,7 @@ namespace AliasPro.Trading.Packets.Events
 			ITrade trade = _tradingController.StartTrade(session.Entity, playerEntity);
 			if (trade == null) return;
 
-			await trade.SendAsync(new TradeStartComposer(trade));
+			await trade.SendPacketAsync(new TradeStartComposer(trade));
 		}
 	}
 }

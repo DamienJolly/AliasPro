@@ -1,5 +1,4 @@
-﻿using AliasPro.Network.Protocol;
-using AliasPro.Players.Types;
+﻿using AliasPro.Players.Types;
 
 namespace AliasPro.API.Figure.Models
 {

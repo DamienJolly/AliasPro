@@ -25,7 +25,7 @@ namespace AliasPro.Items.Tasks
 			_item.CurrentRoom.RoomGrid.AddEntity(_entity);
 			_item.Mode = 2;
 
-			await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(_item));
+			await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
 			await TaskManager.ExecuteTask(new TeleportTaskFive(_item, _entity), 2000);
 		}
 	}

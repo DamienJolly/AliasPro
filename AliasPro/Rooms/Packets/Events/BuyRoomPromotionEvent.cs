@@ -1,23 +1,24 @@
 ﻿using AliasPro.API.Catalog;
 using AliasPro.API.Catalog.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Players.Models;
 using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Catalog.Packets.Composers;
-using AliasPro.Network.Events.Headers;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Players.Packets.Composers;
 using AliasPro.Rooms.Models;
 using AliasPro.Rooms.Packets.Composers;
 using AliasPro.Utilities;
+using System.Threading.Tasks;
 
 namespace AliasPro.Rooms.Packets.Events
 {
-    public class BuyRoomPromotionEvent : IAsyncPacket
+    public class BuyRoomPromotionEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.BuyRoomPromotionMessageEvent;
+        public short Id { get; } = Incoming.BuyRoomPromotionMessageEvent;
 
         private readonly ICatalogController _catalogController;
         private readonly IRoomController _roomController;
@@ -30,15 +31,15 @@ namespace AliasPro.Rooms.Packets.Events
             _roomController = roomController;
         }
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             int pageId = clientPacket.ReadInt();
             int itemId = clientPacket.ReadInt();
             int roomId = clientPacket.ReadInt();
             string title = clientPacket.ReadString();
-            clientPacket.ReadBool(); //dunno??
+            clientPacket.ReadBoolean(); //dunno??
             string description = clientPacket.ReadString();
             int categoryId = clientPacket.ReadInt();
 
@@ -121,7 +122,7 @@ namespace AliasPro.Rooms.Packets.Events
             if (_roomController.TryGetRoom(roomData.Id, out IRoom room))
             {
                 room.Promotion = roomData.Promotion;
-                await room.SendAsync(new RoomPromotionComposer(room));
+                await room.SendPacketAsync(new RoomPromotionComposer(room));
             }
         }
     }

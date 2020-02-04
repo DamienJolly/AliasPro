@@ -1,7 +1,7 @@
 ﻿using AliasPro.API.Database;
 using AliasPro.API.Messenger.Models;
 using AliasPro.API.Players.Models;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Players.Types;
 using System.Data.Common;
 
@@ -39,9 +39,9 @@ namespace AliasPro.Messenger.Models
             Relation = 0;
         }
 
-        public void Compose(ServerPacket message)
+        public void Compose(ServerMessage message)
         {
-            message.WriteInt(Id);
+            message.WriteInt((int)Id);
             message.WriteString(Username);
             message.WriteInt(1); //Gender???
             message.WriteBoolean(IsOnline); //Online

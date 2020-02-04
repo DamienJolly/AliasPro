@@ -1,10 +1,10 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
-    public class MutedWhisperComposer : IPacketComposer
+    public class MutedWhisperComposer : IMessageComposer
     {
         private readonly int _seconds;
 
@@ -13,9 +13,9 @@ namespace AliasPro.Rooms.Packets.Composers
             _seconds = seconds;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.MutedWhisperMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.MutedWhisperMessageComposer);
             message.WriteInt(_seconds);
             return message;
         }

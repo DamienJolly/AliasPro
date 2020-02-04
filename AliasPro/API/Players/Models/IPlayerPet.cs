@@ -1,11 +1,10 @@
-﻿using AliasPro.Network.Protocol;
-using AliasPro.Players.Types;
+﻿using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.API.Players.Models
 {
     public interface IPlayerPet
 	{
-		void Serialize(ServerPacket message);
+		void Serialize(ServerMessage message);
 
 		int Id { get; set; }
 		string Name { get; set; }

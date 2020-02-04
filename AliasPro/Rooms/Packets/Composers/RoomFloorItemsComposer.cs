@@ -1,12 +1,12 @@
 ﻿using AliasPro.API.Items.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
-    public class RoomFloorItemsComposer : IPacketComposer
+    public class RoomFloorItemsComposer : IMessageComposer
     {
         private readonly ICollection<IItem> _roomItems;
         private readonly IDictionary<uint, string> _itemOwners;
@@ -17,13 +17,13 @@ namespace AliasPro.Rooms.Packets.Composers
             _itemOwners = itemOwners;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.RoomFloorItemsMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.RoomFloorItemsMessageComposer);
             message.WriteInt(_itemOwners.Count);
             foreach (var owner in _itemOwners)
             {
-                message.WriteInt(owner.Key);
+                message.WriteInt((int)owner.Key);
                 message.WriteString(owner.Value);
             }
 

@@ -1,15 +1,16 @@
 ﻿using AliasPro.API.Navigator;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Navigator.Packets.Composers;
-using AliasPro.Network.Events.Headers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Navigator.Packets.Events
 {
-    internal class RequestNavigatorSettingsEvent : IAsyncPacket
+    internal class RequestNavigatorSettingsEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.RequestNavigatorSettingsMessageEvent;
+        public short Id { get; } = Incoming.RequestNavigatorSettingsMessageEvent;
 
         private readonly INavigatorController _navigatorController;
 
@@ -18,9 +19,9 @@ namespace AliasPro.Navigator.Packets.Events
             _navigatorController = navigatorController;
         }
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             await session.SendPacketAsync(new NavigatorEventCategoriesComposer(_navigatorController.TryGetCategoryByView("roomads_view")));
         }

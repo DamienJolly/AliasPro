@@ -1,12 +1,11 @@
-﻿using AliasPro.API.Network;
-using AliasPro.API.Sessions;
+﻿using AliasPro.API.Sessions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AliasPro.Sessions
 {
-    internal class SessionService : INetworkService
+    internal class SessionService : IService
     {
-        public void SetupService(IServiceCollection collection)
+        public void Register(IServiceCollection collection)
         {
             collection.AddSingleton<SessionRepository>();
             collection.AddSingleton<ISessionController, SessionController>();

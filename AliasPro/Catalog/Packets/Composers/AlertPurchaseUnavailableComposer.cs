@@ -1,10 +1,10 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Catalog.Packets.Composers
 {
-    public class AlertPurchaseUnavailableComposer : IPacketComposer
+    public class AlertPurchaseUnavailableComposer : IMessageComposer
     {
         public static int ILLEGAL = 0;
         public static int REQUIRES_CLUB = 1;
@@ -16,9 +16,9 @@ namespace AliasPro.Catalog.Packets.Composers
             _code = code;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.AlertPurchaseUnavailableMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.AlertPurchaseUnavailableMessageComposer);
             message.WriteInt(_code);
             return message;
         }

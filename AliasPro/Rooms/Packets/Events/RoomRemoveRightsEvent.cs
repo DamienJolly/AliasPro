@@ -1,16 +1,17 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
-using AliasPro.API.Rooms;
+﻿using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Rooms.Packets.Composers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Rooms.Packets.Events
 {
-    public class RoomRemoveRightsEvent : IAsyncPacket
+    public class RoomRemoveRightsEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.RoomRemoveRightsMessageEvent;
+        public short Id { get; } = Incoming.RoomRemoveRightsMessageEvent;
 
         private readonly IRoomController _roomController;
 
@@ -20,9 +21,9 @@ namespace AliasPro.Rooms.Packets.Events
             _roomController = roomController;
         }
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             int roomId = clientPacket.ReadInt();
             IRoom room = await _roomController.LoadRoom((uint)roomId);
@@ -37,7 +38,7 @@ namespace AliasPro.Rooms.Packets.Events
                 room.Rights.RemoveRights(session.Player.Id);
 
                 await room.Rights.ReloadRights(session);
-                await room.SendAsync(new RoomRemoveRightsListComposer((int)room.Id, (int)session.Player.Id));
+                await room.SendPacketAsync(new RoomRemoveRightsListComposer((int)room.Id, (int)session.Player.Id));
             }
 
             await _roomController.TakeRoomRights(room.Id, session.Player.Id);

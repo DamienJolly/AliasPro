@@ -1,12 +1,12 @@
 ﻿using AliasPro.API.Items.Models;
-using AliasPro.API.Network.Events;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Models;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
-    public class WiredConditionDataComposer : IPacketComposer
+    public class WiredConditionDataComposer : IMessageComposer
     {
         private readonly IItem _item;
         private readonly IWiredData _wiredData;
@@ -18,18 +18,18 @@ namespace AliasPro.Rooms.Packets.Composers
                 item.WiredInteraction.WiredData;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.WiredConditionDataMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.WiredConditionDataMessageComposer);
             message.WriteBoolean(false);
             message.WriteInt(5);
 
             message.WriteInt(_wiredData.Items.Count);
             foreach (WiredItemData itemData in _wiredData.Items.Values)
-                message.WriteInt(itemData.ItemId);
+                message.WriteInt((int)itemData.ItemId);
 
-            message.WriteInt(_item.ItemData.SpriteId);
-            message.WriteInt(_item.Id);
+            message.WriteInt((int)_item.ItemData.SpriteId);
+            message.WriteInt((int)_item.Id);
             message.WriteString(_wiredData.Message);
 
             message.WriteInt(_wiredData.Params.Count);

@@ -1,4 +1,4 @@
-﻿using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 
 namespace AliasPro.API.Catalog.Models
@@ -22,6 +22,6 @@ namespace AliasPro.API.Catalog.Models
         bool IsLimited { get; }
         bool TryGetLimitedNumber(out int limitedNumber);
 
-        void Compose(ServerPacket message);
+        void Compose(ServerMessage message);
     }
 }

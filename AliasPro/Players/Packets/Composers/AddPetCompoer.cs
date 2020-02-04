@@ -1,11 +1,11 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Players.Models;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.API.Players.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Players.Packets.Composers
 {
-    public class AddPetCompoer : IPacketComposer
+    public class AddPetCompoer : IMessageComposer
     {
         private readonly IPlayerPet _pet;
 
@@ -14,9 +14,9 @@ namespace AliasPro.Players.Packets.Composers
 			_pet = pet;
 		}
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.AddPetMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.AddPetMessageComposer);
 			_pet.Serialize(message);
 			message.WriteBoolean(false); // ??
 			return message;

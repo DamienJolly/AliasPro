@@ -1,12 +1,12 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Rooms.Models;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.API.Rooms.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
-    public class UpdateStackHeightComposer : IPacketComposer
+    public class UpdateStackHeightComposer : IMessageComposer
     {
         private readonly ICollection<IRoomTile> _tiles;
 
@@ -20,14 +20,14 @@ namespace AliasPro.Rooms.Packets.Composers
             _tiles = new List<IRoomTile> { tile };
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.UpdateStackHeightMessageComposer);
-            message.WriteByte(_tiles.Count);
+            ServerMessage message = new ServerMessage(Outgoing.UpdateStackHeightMessageComposer);
+            message.WriteByte((byte)_tiles.Count);
             foreach (IRoomTile tile in _tiles)
             {
-                message.WriteByte(tile.Position.X);
-                message.WriteByte(tile.Position.Y);
+                message.WriteByte((byte)tile.Position.X);
+                message.WriteByte((byte)tile.Position.Y);
                 message.WriteShort(tile.RelativeHeight);
             }
             return message;

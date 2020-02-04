@@ -1,9 +1,7 @@
 ﻿using AliasPro.API.Catalog.Models;
 using AliasPro.API.Database;
-using AliasPro.API.Items.Models;
-using AliasPro.Items;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Types;
-using AliasPro.Network.Protocol;
 using System.Collections.Generic;
 using System.Data.Common;
 
@@ -71,7 +69,7 @@ namespace AliasPro.Catalog.Models
             return false;
         }
 
-        public void Compose(ServerPacket message)
+        public void Compose(ServerMessage message)
         {
             message.WriteInt(Id);
             message.WriteString(Name);
@@ -91,7 +89,7 @@ namespace AliasPro.Catalog.Models
 				}
 				else
 				{
-					message.WriteInt(item.ItemData.SpriteId);
+					message.WriteInt((int)item.ItemData.SpriteId);
 
                     if (item.ItemData.InteractionType == ItemInteractionType.WALLPAPER ||
                         item.ItemData.InteractionType == ItemInteractionType.FLOOR ||

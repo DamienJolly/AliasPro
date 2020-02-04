@@ -1,30 +1,33 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
-using AliasPro.API.Rooms.Models;
+﻿using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
+using System.Threading.Tasks;
 
 namespace AliasPro.Rooms.Packets.Events
 {
-    public class MoveAvatarEvent : IAsyncPacket
+    public class MoveAvatarEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.MoveAvatarMessageEvent;
+        public short Id { get; } = Incoming.MoveAvatarMessageEvent;
         
-        public void HandleAsync(
+        public Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             IRoom room = session.CurrentRoom;
-            if (room == null || session.Entity == null) return;
+            if (room == null || session.Entity == null) 
+				return Task.CompletedTask;
 
-			if (session.Entity.IsKicked) return;
+			if (session.Entity.IsKicked)
+				return Task.CompletedTask;
 
 			int x = clientPacket.ReadInt();
             int y = clientPacket.ReadInt();
 
 			IRoomTile roomTile;
             if (!room.RoomGrid.TryGetRoomTile(x, y, out roomTile))
-                return;
+				return Task.CompletedTask;
 
 			var topItem = roomTile.TopItem;
 
@@ -42,13 +45,14 @@ namespace AliasPro.Rooms.Packets.Events
 				}
 
 				if (!room.RoomGrid.TryGetRoomTile(x, y, out roomTile))
-					return;
+					return Task.CompletedTask;
 			}
 
 			if (!roomTile.IsValidTile(session.Entity, true))
-                return;
+				return Task.CompletedTask;
 
 			session.Entity.GoalPosition = roomTile.Position;
+			return Task.CompletedTask;
 		}
     }
 }

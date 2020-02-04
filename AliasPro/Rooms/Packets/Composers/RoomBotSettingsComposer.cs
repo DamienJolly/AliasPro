@@ -1,12 +1,11 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Rooms.Entities;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
-using System.Text;
+﻿using AliasPro.API.Rooms.Entities;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
-    public class RoomBotSettingsComposer : IPacketComposer
+    public class RoomBotSettingsComposer : IMessageComposer
     {
 		private readonly BaseEntity _entity;
 		private readonly int _settingId;
@@ -17,9 +16,9 @@ namespace AliasPro.Rooms.Packets.Composers
 			_settingId = settingId;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.RoomBotSettingsMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.RoomBotSettingsMessageComposer);
 			message.WriteInt(_entity.Id);
 			message.WriteInt(_settingId);
 			switch (_settingId)

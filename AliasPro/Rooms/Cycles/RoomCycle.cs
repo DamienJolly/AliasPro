@@ -57,7 +57,7 @@ namespace AliasPro.Rooms.Cycles
                                 continue;
 
                             newPos.Z = roomTile.Height;
-                            await item.CurrentRoom.SendAsync(new FloorItemOnRollerComposer(rollerItem, newPos, item.Id));
+                            await item.CurrentRoom.SendPacketAsync(new FloorItemOnRollerComposer(rollerItem, newPos, item.Id));
 
                             itemsRolled.Add((int)rollerItem.Id);
                             item.CurrentRoom.RoomGrid.RemoveItem(rollerItem);
@@ -75,7 +75,7 @@ namespace AliasPro.Rooms.Cycles
                                 continue;
 
                             newPos.Z = roomTile.Height;
-                            await item.CurrentRoom.SendAsync(new EntityOnRollerComposer(entity, newPos, item.Id));
+                            await item.CurrentRoom.SendPacketAsync(new EntityOnRollerComposer(entity, newPos, item.Id));
 
                             entitiesRolled.Add(entity.Id);
                             item.CurrentRoom.RoomGrid.RemoveEntity(entity);
@@ -95,7 +95,7 @@ namespace AliasPro.Rooms.Cycles
                     foreach (BaseEntity entity in _room.Entities.Entities)
                     {
                         entity.NeedsUpdate = false;
-                        await _room.SendAsync(new EntityUpdateComposer(entity));
+                        await _room.SendPacketAsync(new EntityUpdateComposer(entity));
                     }
                 }
             }

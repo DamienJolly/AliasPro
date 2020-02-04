@@ -1,11 +1,11 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Players.Models;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.API.Players.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Players.Packets.Composers
 {
-    public class UserRightsComposer : IPacketComposer
+    public class UserRightsComposer : IMessageComposer
     {
         private readonly IPlayer _player;
 
@@ -14,9 +14,9 @@ namespace AliasPro.Players.Packets.Composers
             _player = player;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.UserRightsMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.UserRightsMessageComposer);
             message.WriteInt(2); //todo: subscription
             message.WriteInt(_player.Rank);
             message.WriteBoolean(false); //todo: ambassador

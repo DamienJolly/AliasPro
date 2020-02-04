@@ -1,12 +1,12 @@
 ﻿using AliasPro.API.Messenger.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 
 namespace AliasPro.Messenger.Packets.Composers
 {
-    public class FriendsComposer : IPacketComposer
+    public class FriendsComposer : IMessageComposer
     {
         private readonly ICollection<IMessengerFriend> _friends;
 
@@ -15,9 +15,9 @@ namespace AliasPro.Messenger.Packets.Composers
             _friends = friends;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.FriendsMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.FriendsMessageComposer);
             message.WriteInt(1);
             message.WriteInt(0);
             message.WriteInt(_friends.Count);

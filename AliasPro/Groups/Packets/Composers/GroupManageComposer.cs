@@ -1,11 +1,11 @@
 ﻿using AliasPro.API.Groups.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Groups.Packets.Composers
 {
-	public class GroupManageComposer : IPacketComposer
+	public class GroupManageComposer : IMessageComposer
 	{
 		private readonly IGroup _group;
 
@@ -15,9 +15,9 @@ namespace AliasPro.Groups.Packets.Composers
 			_group = group;
 		}
 
-		public ServerPacket Compose()
+		public ServerMessage Compose()
 		{
-			ServerPacket message = new ServerPacket(Outgoing.GroupManageMessageComposer);
+			ServerMessage message = new ServerMessage(Outgoing.GroupManageMessageComposer);
 			message.WriteInt(0);
 			message.WriteBoolean(true);
 			message.WriteInt(_group.Id);

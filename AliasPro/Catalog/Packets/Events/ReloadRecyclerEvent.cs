@@ -1,18 +1,19 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
-using AliasPro.API.Sessions.Models;
+﻿using AliasPro.API.Sessions.Models;
 using AliasPro.Catalog.Packets.Composers;
-using AliasPro.Network.Events.Headers;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
+using System.Threading.Tasks;
 
 namespace AliasPro.Catalog.Packets.Events
 {
-    public class ReloadRecyclerEvent : IAsyncPacket
+    public class ReloadRecyclerEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.ReloadRecyclerMessageEvent;
+        public short Id { get; } = Incoming.ReloadRecyclerMessageEvent;
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             await session.SendPacketAsync(new ReloadRecyclerComposer());
         }

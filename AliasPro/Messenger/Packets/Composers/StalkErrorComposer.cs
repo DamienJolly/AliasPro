@@ -1,10 +1,10 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Messenger.Packets.Composers
 {
-    public class StalkErrorComposer : IPacketComposer
+    public class StalkErrorComposer : IMessageComposer
     {
         public static readonly int NOT_IN_FRIEND_LIST = 0;
         public static readonly int FRIEND_OFFLINE = 1;
@@ -18,9 +18,9 @@ namespace AliasPro.Messenger.Packets.Composers
             _errorCode = errorCode;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.StalkErrorMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.StalkErrorMessageComposer);
             message.WriteInt(_errorCode);
             return message;
         }

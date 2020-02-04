@@ -2,19 +2,20 @@
 using AliasPro.API.Chat.Models;
 using AliasPro.API.Moderation;
 using AliasPro.API.Moderation.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Permissions;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Moderation.Packets.Composers;
-using AliasPro.Network.Events.Headers;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AliasPro.Moderation.Packets.Events
 {
-    public class ModerationRequestIssueChatlogEvent : IAsyncPacket
+    public class ModerationRequestIssueChatlogEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.ModerationRequestIssueChatlogMessageEvent;
+        public short Id { get; } = Incoming.ModerationRequestIssueChatlogMessageEvent;
 
         private readonly IModerationController _moderationController;
         private readonly IChatController _chatController;
@@ -30,9 +31,9 @@ namespace AliasPro.Moderation.Packets.Events
 			_permissionsController = permissionsController;
 		}
 
-		public async void HandleAsync(
+		public async Task RunAsync(
 			ISession session,
-			IClientPacket clientPacket)
+			ClientMessage clientPacket)
 		{
 			if (!_permissionsController.HasPermission(session.Player, "acc_modtool_ticket_queue"))
 				return;

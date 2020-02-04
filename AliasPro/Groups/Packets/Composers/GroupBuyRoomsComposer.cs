@@ -1,12 +1,12 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Rooms.Models;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.API.Rooms.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 
 namespace AliasPro.Groups.Packets.Composers
 {
-	public class GroupBuyRoomsComposer : IPacketComposer
+	public class GroupBuyRoomsComposer : IMessageComposer
 	{
 		private readonly ICollection<IRoomData> _rooms;
 
@@ -16,15 +16,15 @@ namespace AliasPro.Groups.Packets.Composers
 			_rooms = rooms;
 		}
 
-		public ServerPacket Compose()
+		public ServerMessage Compose()
 		{
-			ServerPacket message = new ServerPacket(Outgoing.GroupBuyRoomsMessageComposer);
+			ServerMessage message = new ServerMessage(Outgoing.GroupBuyRoomsMessageComposer);
 			message.WriteInt(10); // price
 
 			message.WriteInt(_rooms.Count);
 			foreach (IRoomData room in _rooms)
 			{
-				message.WriteInt(room.Id);
+				message.WriteInt((int)room.Id);
 				message.WriteString(room.Name);
 				message.WriteBoolean(false);
 			}

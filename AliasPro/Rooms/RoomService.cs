@@ -1,75 +1,74 @@
-﻿using AliasPro.API.Network;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Rooms;
+﻿using AliasPro.API.Rooms;
+using AliasPro.Communication.Messages;
 using AliasPro.Rooms.Packets.Events;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AliasPro.Rooms
 {
-    internal class RoomService : INetworkService
+    internal class RoomService : IService
     {
-        public void SetupService(IServiceCollection collection)
+        public void Register(IServiceCollection collection)
         {
             collection.AddSingleton<RoomDao>();
             collection.AddSingleton<IRoomController, RoomController>();
 
-            AddPackets(collection);
+            RegisterPackets(collection);
         }
 
-        private static void AddPackets(IServiceCollection collection)
+        private static void RegisterPackets(IServiceCollection collection)
         {
-            collection.AddSingleton<IAsyncPacket, RequestRoomLoadEvent>();
-            collection.AddSingleton<IAsyncPacket, RequestRoomEntryDataEvent>();
-            collection.AddSingleton<IAsyncPacket, RequestFurnitureAliasesEvent>();
-            collection.AddSingleton<IAsyncPacket, MoveAvatarEvent>();
-            collection.AddSingleton<IAsyncPacket, AvatarChatEvent>();
-            collection.AddSingleton<IAsyncPacket, AvatarShoutEvent>();
-            collection.AddSingleton<IAsyncPacket, AvatarWhisperEvent>();
-            collection.AddSingleton<IAsyncPacket, RequestRoomDataEvent>();
-            collection.AddSingleton<IAsyncPacket, RequestCreateRoomEvent>();
-            collection.AddSingleton<IAsyncPacket, RequestRoomSettingsEvent>();
-            collection.AddSingleton<IAsyncPacket, RoomSettingsSaveEvent>();
-            collection.AddSingleton<IAsyncPacket, UserStartTypingEvent>();
-            collection.AddSingleton<IAsyncPacket, UserStopTypingEvent>();
-            collection.AddSingleton<IAsyncPacket, UserLookAtPointEvent>();
-            collection.AddSingleton<IAsyncPacket, UserDanceEvent>();
-            collection.AddSingleton<IAsyncPacket, UserActionEvent>();
-            collection.AddSingleton<IAsyncPacket, UserSitEvent>();
-            collection.AddSingleton<IAsyncPacket, UserRemoveRightsEvent>();
-            collection.AddSingleton<IAsyncPacket, UserGiveRightsEvent>();
-            collection.AddSingleton<IAsyncPacket, WiredTriggerSaveDataEvent>();
-            collection.AddSingleton<IAsyncPacket, WiredEffectSaveDataEvent>();
-            collection.AddSingleton<IAsyncPacket, WiredConditionSaveDataEvent>();
-			collection.AddSingleton<IAsyncPacket, RoomUserPlaceBotEvent>();
-			collection.AddSingleton<IAsyncPacket, RoomBotSettingsEvent>();
-			collection.AddSingleton<IAsyncPacket, RoomBotSaveSettingsEvent>();
-			collection.AddSingleton<IAsyncPacket, RoomUserPickupBotEvent>();
-			collection.AddSingleton<IAsyncPacket, RoomUserPlacePetEvent>();
-			collection.AddSingleton<IAsyncPacket, RoomUserPickupPetEvent>();
-			collection.AddSingleton<IAsyncPacket, RequestPetInformationEvent>();
-			collection.AddSingleton<IAsyncPacket, RequestFloorPlanBlockedTilesEvent>();
-			collection.AddSingleton<IAsyncPacket, RequestFloorPlanDoorSettingsEvent>();
-			collection.AddSingleton<IAsyncPacket, FloorPlanSaveEvent>();
-			collection.AddSingleton<IAsyncPacket, RequestRoomWordFilterEvent>();
-			collection.AddSingleton<IAsyncPacket, RoomWordFilterModifyEvent>();
-			collection.AddSingleton<IAsyncPacket, RequestPromotionRoomsEvent>();
-			collection.AddSingleton<IAsyncPacket, BuyRoomPromotionEvent>();
-			collection.AddSingleton<IAsyncPacket, UpdateRoomPromotionEvent>();
-			collection.AddSingleton<IAsyncPacket, RoomUserSignEvent>();
-			collection.AddSingleton<IAsyncPacket, RoomMuteEvent>();
-			collection.AddSingleton<IAsyncPacket, SetHomeRoomEvent>();
-			collection.AddSingleton<IAsyncPacket, RequestRoomRightsEvent>();
-			collection.AddSingleton<IAsyncPacket, RoomRemoveAllRightsEvent>();
-			collection.AddSingleton<IAsyncPacket, RoomRemoveRightsEvent>();
-			collection.AddSingleton<IAsyncPacket, IgnoreRoomUserEvent>();
-			collection.AddSingleton<IAsyncPacket, UnIgnoreRoomUserEvent>();
-			collection.AddSingleton<IAsyncPacket, RoomUserKickEvent>();
-			collection.AddSingleton<IAsyncPacket, RoomUserMuteEvent>();
-			collection.AddSingleton<IAsyncPacket, RoomUserBanEvent>();
-			collection.AddSingleton<IAsyncPacket, RoomUserUnbanEvent>();
-			collection.AddSingleton<IAsyncPacket, RequestBannedUsersEvent>();
-			collection.AddSingleton<IAsyncPacket, HandleDoorbellEvent>();
-			collection.AddSingleton<IAsyncPacket, RequestRoomLoadDataEvent>();
+            collection.AddSingleton<IMessageEvent, RequestRoomLoadEvent>();
+            collection.AddSingleton<IMessageEvent, RequestRoomEntryDataEvent>();
+            collection.AddSingleton<IMessageEvent, RequestFurnitureAliasesEvent>();
+            collection.AddSingleton<IMessageEvent, MoveAvatarEvent>();
+            collection.AddSingleton<IMessageEvent, AvatarChatEvent>();
+            collection.AddSingleton<IMessageEvent, AvatarShoutEvent>();
+            collection.AddSingleton<IMessageEvent, AvatarWhisperEvent>();
+            collection.AddSingleton<IMessageEvent, RequestRoomDataEvent>();
+            collection.AddSingleton<IMessageEvent, RequestCreateRoomEvent>();
+            collection.AddSingleton<IMessageEvent, RequestRoomSettingsEvent>();
+            collection.AddSingleton<IMessageEvent, RoomSettingsSaveEvent>();
+            collection.AddSingleton<IMessageEvent, UserStartTypingEvent>();
+            collection.AddSingleton<IMessageEvent, UserStopTypingEvent>();
+            collection.AddSingleton<IMessageEvent, UserLookAtPointEvent>();
+            collection.AddSingleton<IMessageEvent, UserDanceEvent>();
+            collection.AddSingleton<IMessageEvent, UserActionEvent>();
+            collection.AddSingleton<IMessageEvent, UserSitEvent>();
+            collection.AddSingleton<IMessageEvent, UserRemoveRightsEvent>();
+            collection.AddSingleton<IMessageEvent, UserGiveRightsEvent>();
+            collection.AddSingleton<IMessageEvent, WiredTriggerSaveDataEvent>();
+            collection.AddSingleton<IMessageEvent, WiredEffectSaveDataEvent>();
+            collection.AddSingleton<IMessageEvent, WiredConditionSaveDataEvent>();
+			collection.AddSingleton<IMessageEvent, RoomUserPlaceBotEvent>();
+			collection.AddSingleton<IMessageEvent, RoomBotSettingsEvent>();
+			collection.AddSingleton<IMessageEvent, RoomBotSaveSettingsEvent>();
+			collection.AddSingleton<IMessageEvent, RoomUserPickupBotEvent>();
+			collection.AddSingleton<IMessageEvent, RoomUserPlacePetEvent>();
+			collection.AddSingleton<IMessageEvent, RoomUserPickupPetEvent>();
+			collection.AddSingleton<IMessageEvent, RequestPetInformationEvent>();
+			collection.AddSingleton<IMessageEvent, RequestFloorPlanBlockedTilesEvent>();
+			collection.AddSingleton<IMessageEvent, RequestFloorPlanDoorSettingsEvent>();
+			collection.AddSingleton<IMessageEvent, FloorPlanSaveEvent>();
+			collection.AddSingleton<IMessageEvent, RequestRoomWordFilterEvent>();
+			collection.AddSingleton<IMessageEvent, RoomWordFilterModifyEvent>();
+			collection.AddSingleton<IMessageEvent, RequestPromotionRoomsEvent>();
+			collection.AddSingleton<IMessageEvent, BuyRoomPromotionEvent>();
+			collection.AddSingleton<IMessageEvent, UpdateRoomPromotionEvent>();
+			collection.AddSingleton<IMessageEvent, RoomUserSignEvent>();
+			collection.AddSingleton<IMessageEvent, RoomMuteEvent>();
+			collection.AddSingleton<IMessageEvent, SetHomeRoomEvent>();
+			collection.AddSingleton<IMessageEvent, RequestRoomRightsEvent>();
+			collection.AddSingleton<IMessageEvent, RoomRemoveAllRightsEvent>();
+			collection.AddSingleton<IMessageEvent, RoomRemoveRightsEvent>();
+			collection.AddSingleton<IMessageEvent, IgnoreRoomUserEvent>();
+			collection.AddSingleton<IMessageEvent, UnIgnoreRoomUserEvent>();
+			collection.AddSingleton<IMessageEvent, RoomUserKickEvent>();
+			collection.AddSingleton<IMessageEvent, RoomUserMuteEvent>();
+			collection.AddSingleton<IMessageEvent, RoomUserBanEvent>();
+			collection.AddSingleton<IMessageEvent, RoomUserUnbanEvent>();
+			collection.AddSingleton<IMessageEvent, RequestBannedUsersEvent>();
+			collection.AddSingleton<IMessageEvent, HandleDoorbellEvent>();
+			collection.AddSingleton<IMessageEvent, RequestRoomLoadDataEvent>();
         }
     }
 }

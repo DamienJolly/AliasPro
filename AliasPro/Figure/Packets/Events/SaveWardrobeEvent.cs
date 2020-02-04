@@ -1,17 +1,18 @@
 ﻿using AliasPro.API.Figure;
 using AliasPro.API.Figure.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Figure.Models;
-using AliasPro.Network.Events.Headers;
 using AliasPro.Players.Types;
+using System.Threading.Tasks;
 
 namespace AliasPro.Figure.Packets.Events
 {
-    public class SaveWardrobeEvent : IAsyncPacket
+    public class SaveWardrobeEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.SaveWardrobeMessageEvent;
+        public short Id { get; } = Incoming.SaveWardrobeMessageEvent;
        
         private readonly IFigureController _figureController;
 
@@ -21,21 +22,24 @@ namespace AliasPro.Figure.Packets.Events
             _figureController = figureController;
 		}
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
-			if (session.Player.Wardrobe == null) return;
+			if (session.Player.Wardrobe == null) 
+				return;
 
 			int slotsAvailable = session.Player.Wardrobe.SlotsAvailable;
-			if (slotsAvailable == 0) return;
+			if (slotsAvailable == 0) 
+				return;
 
 			int slotId = clientPacket.ReadInt();
 			string look = clientPacket.ReadString();
 			PlayerGender gender = 
 				clientPacket.ReadString().ToLower() == "m" ? PlayerGender.MALE : PlayerGender.FEMALE;
 
-			if (slotId <= 0 || slotId > slotsAvailable) return;
+			if (slotId <= 0 || slotId > slotsAvailable) 
+				return;
 
 			if (session.Player.Wardrobe.TryGetWardrobeItem(slotId, out IWardrobeItem item))
 			{

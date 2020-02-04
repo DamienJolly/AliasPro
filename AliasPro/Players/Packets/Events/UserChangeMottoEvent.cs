@@ -1,15 +1,16 @@
 ﻿using AliasPro.API.Messenger;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Figure.Packets.Composers;
-using AliasPro.Network.Events.Headers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Players.Packets.Events
 {
-    public class UserChangeMottoEvent : IAsyncPacket
+    public class UserChangeMottoEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.UserChangeMottoMessageEvent;
+        public short Id { get; } = Incoming.UserChangeMottoMessageEvent;
 
         private readonly IMessengerController _messengerController;
 
@@ -19,9 +20,9 @@ namespace AliasPro.Players.Packets.Events
             _messengerController = messengerController;
         }
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             string motto = clientPacket.ReadString();
 
@@ -31,7 +32,7 @@ namespace AliasPro.Players.Packets.Events
                 session.Entity != null)
             {
                 session.Entity.Motto = session.Player.Motto;
-                await session.CurrentRoom.SendAsync(new UpdateEntityDataComposer(session.Entity));
+                await session.CurrentRoom.SendPacketAsync(new UpdateEntityDataComposer(session.Entity));
             }
 
             if (session.Player.Messenger != null)

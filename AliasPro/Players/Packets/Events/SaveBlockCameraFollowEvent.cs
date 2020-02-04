@@ -1,19 +1,21 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
-using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
+﻿using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
+using System.Threading.Tasks;
 
 namespace AliasPro.Players.Packets.Events
 {
-    internal class SaveBlockCameraFollowEvent : IAsyncPacket
+    internal class SaveBlockCameraFollowEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.SaveBlockCameraFollowMessageEvent;
+        public short Id { get; } = Incoming.SaveBlockCameraFollowMessageEvent;
         
-        public void HandleAsync(
+        public Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
-            session.Player.PlayerSettings.CameraFollow = clientPacket.ReadBool();
+            session.Player.PlayerSettings.CameraFollow = clientPacket.ReadBoolean();
+            return Task.CompletedTask;
         }
     }
 }

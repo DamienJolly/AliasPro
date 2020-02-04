@@ -1,11 +1,11 @@
-﻿using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Players.Types;
 
 namespace AliasPro.API.Messenger.Models
 {
     public interface IMessengerFriend
     {
-        void Compose(ServerPacket message);
+        void Compose(ServerMessage message);
 
         uint Id { get; }
         string Username { get; set; }

@@ -3,7 +3,7 @@ using AliasPro.API.Groups.Models;
 using AliasPro.API.Players.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Players.Types;
 using AliasPro.Rooms.Packets.Composers;
 
@@ -38,7 +38,7 @@ namespace AliasPro.Rooms.Entities
                 if (HandItemTimer <= 0)
                 {
                     SetHandItem(0);
-                    await Session.CurrentRoom.SendAsync(new UserHandItemComposer(Id, HandItemId));
+                    await Session.CurrentRoom.SendPacketAsync(new UserHandItemComposer(Id, HandItemId));
                 }
             }
 
@@ -56,7 +56,7 @@ namespace AliasPro.Rooms.Entities
             {
                 IdleTimer = 0;
                 IsIdle = true;
-                await Session.CurrentRoom.SendAsync(new UserSleepComposer(this));
+                await Session.CurrentRoom.SendPacketAsync(new UserSleepComposer(this));
             }
 
             if (IdleTimer >= 1800 && IsIdle)
@@ -65,39 +65,39 @@ namespace AliasPro.Rooms.Entities
             }
         }
 
-        public override async void Compose(ServerPacket serverPacket)
+        public override async void Compose(ServerMessage ServerMessage)
         {
-            serverPacket.WriteInt(Player.Id);
-            serverPacket.WriteString(Name);
-            serverPacket.WriteString(Motto);
-            serverPacket.WriteString(Figure);
-            serverPacket.WriteInt(Id);
-            serverPacket.WriteInt(Position.X);
-            serverPacket.WriteInt(Position.Y);
-            serverPacket.WriteString(Position.Z.ToString());
-            serverPacket.WriteInt(BodyRotation);
+            ServerMessage.WriteInt((int)Player.Id);
+            ServerMessage.WriteString(Name);
+            ServerMessage.WriteString(Motto);
+            ServerMessage.WriteString(Figure);
+            ServerMessage.WriteInt(Id);
+            ServerMessage.WriteInt(Position.X);
+            ServerMessage.WriteInt(Position.Y);
+            ServerMessage.WriteDouble(Position.Z);
+            ServerMessage.WriteInt(BodyRotation);
 
-            serverPacket.WriteInt(1);
-            serverPacket.WriteString(Player.Gender == PlayerGender.MALE ? "m" : "f");
+            ServerMessage.WriteInt(1);
+            ServerMessage.WriteString(Player.Gender == PlayerGender.MALE ? "m" : "f");
 
             IGroup group = 
                 await Program.GetService<IGroupController>().ReadGroupData(Player.FavoriteGroup);
             if (group != null)
             {
-                serverPacket.WriteInt(group.Id);
-                serverPacket.WriteInt(group.Id);
-                serverPacket.WriteString(group.Name);
+                ServerMessage.WriteInt(group.Id);
+                ServerMessage.WriteInt(group.Id);
+                ServerMessage.WriteString(group.Name);
             }
             else
             {
-                serverPacket.WriteInt(-1);
-                serverPacket.WriteInt(-1);
-                serverPacket.WriteString(string.Empty);
+                ServerMessage.WriteInt(-1);
+                ServerMessage.WriteInt(-1);
+                ServerMessage.WriteString(string.Empty);
             }
 
-            serverPacket.WriteString(string.Empty); // dunno?
-            serverPacket.WriteInt(Score);
-            serverPacket.WriteBoolean(true);
+            ServerMessage.WriteString(string.Empty); // dunno?
+            ServerMessage.WriteInt(Score);
+            ServerMessage.WriteBoolean(true);
         }
     }
 }

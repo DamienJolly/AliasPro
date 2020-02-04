@@ -23,14 +23,14 @@ namespace AliasPro.Items.Tasks
 			{
 				_item.ItemData.CanWalk = false;
 				_item.Mode = 0;
-				await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(_item));
+				await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
 				return;
 			}
 
 			_item.ItemData.CanWalk = false;
 			_item.Mode = 0;
 
-			await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(_item));
+			await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
 			await TaskManager.ExecuteTask(new TeleportTaskTwo(_item, _entity), 1500);
 		}
 	}

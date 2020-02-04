@@ -1,36 +1,35 @@
 ﻿using AliasPro.API.Messenger;
-using AliasPro.API.Network;
-using AliasPro.API.Network.Events;
+using AliasPro.Communication.Messages;
 using AliasPro.Messenger.Packets.Events;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AliasPro.Messenger
 {
-    internal class MessengerService : INetworkService
+    internal class MessengerService : IService
     {
-        public void SetupService(IServiceCollection collection)
+        public void Register(IServiceCollection collection)
         {
             collection.AddSingleton<MessengerDao>();
             collection.AddSingleton<MessengerRepository>();
             collection.AddSingleton<IMessengerController, MessengerController>();
 
-            AddPackets(collection);
+            RegisterPackets(collection);
         }
 
-        private static void AddPackets(IServiceCollection collection)
+        private static void RegisterPackets(IServiceCollection collection)
         {
-            collection.AddSingleton<IAsyncPacket, RequestInitFriendsEvent>();
-            collection.AddSingleton<IAsyncPacket, FriendRequestEvent>();
-            collection.AddSingleton<IAsyncPacket, RequestFriendsEvent>();
-            collection.AddSingleton<IAsyncPacket, RequestFriendRequestsEvent>();
-            collection.AddSingleton<IAsyncPacket, DeclineFriendRequestEvent>();
-            collection.AddSingleton<IAsyncPacket, AcceptFriendRequestEvent>();
-            collection.AddSingleton<IAsyncPacket, RemoveFriendEvent>();
-            collection.AddSingleton<IAsyncPacket, SearchUserEvent>();
-            collection.AddSingleton<IAsyncPacket, FriendPrivateMessageEvent>();
-            collection.AddSingleton<IAsyncPacket, RoomInviteEvent>();
-            collection.AddSingleton<IAsyncPacket, ChangeRelationEvent>();
-            collection.AddSingleton<IAsyncPacket, StalkFriendEvent>();
+            collection.AddSingleton<IMessageEvent, RequestInitFriendsEvent>();
+            collection.AddSingleton<IMessageEvent, FriendRequestEvent>();
+            collection.AddSingleton<IMessageEvent, RequestFriendsEvent>();
+            collection.AddSingleton<IMessageEvent, RequestFriendRequestsEvent>();
+            collection.AddSingleton<IMessageEvent, DeclineFriendRequestEvent>();
+            collection.AddSingleton<IMessageEvent, AcceptFriendRequestEvent>();
+            collection.AddSingleton<IMessageEvent, RemoveFriendEvent>();
+            collection.AddSingleton<IMessageEvent, SearchUserEvent>();
+            collection.AddSingleton<IMessageEvent, FriendPrivateMessageEvent>();
+            collection.AddSingleton<IMessageEvent, RoomInviteEvent>();
+            collection.AddSingleton<IMessageEvent, ChangeRelationEvent>();
+            collection.AddSingleton<IMessageEvent, StalkFriendEvent>();
         }
     }
 }

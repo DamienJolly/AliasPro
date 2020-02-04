@@ -1,11 +1,11 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Rooms.Entities;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.API.Rooms.Entities;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
-    public class UserSleepComposer : IPacketComposer
+    public class UserSleepComposer : IMessageComposer
     {
         private readonly BaseEntity _entity;
 
@@ -14,9 +14,9 @@ namespace AliasPro.Rooms.Packets.Composers
             _entity = entity;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.UserSleepMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.UserSleepMessageComposer);
             message.WriteInt(_entity.Id);
             message.WriteBoolean(_entity.IsIdle);
             return message;

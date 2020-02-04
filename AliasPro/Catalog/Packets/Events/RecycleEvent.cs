@@ -1,21 +1,22 @@
 ﻿using AliasPro.API.Catalog;
 using AliasPro.API.Items;
 using AliasPro.API.Items.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Catalog.Packets.Composers;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Models;
 using AliasPro.Items.Packets.Composers;
-using AliasPro.Network.Events.Headers;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AliasPro.Catalog.Packets.Events
 {
-    public class RecycleEvent : IAsyncPacket
+    public class RecycleEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.RecycleMessageEvent;
+        public short Id { get; } = Incoming.RecycleMessageEvent;
 
         private readonly ICatalogController _catalogController;
         private readonly IItemController _itemController;
@@ -28,9 +29,9 @@ namespace AliasPro.Catalog.Packets.Events
             _itemController = itemController;
         }
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             //todo: ecotron disabled config
             //todo: add box name to config

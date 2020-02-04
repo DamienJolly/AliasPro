@@ -1,13 +1,13 @@
 ﻿using AliasPro.API.Chat.Models;
-using AliasPro.API.Network.Events;
 using AliasPro.API.Players.Models;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 
 namespace AliasPro.Moderation.Packets.Composers
 {
-    public class ModeratorUserChatlogComposer : IPacketComposer
+    public class ModeratorUserChatlogComposer : IMessageComposer
     {
         private readonly IPlayerData _player;
         private readonly IDictionary<IPlayerRoomVisited, ICollection<IChatLog>> _chatLogs;
@@ -20,10 +20,10 @@ namespace AliasPro.Moderation.Packets.Composers
             _chatLogs = chatLogs;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.ModeratorUserChatlogMessageComposer);
-            message.WriteInt(_player.Id);
+            ServerMessage message = new ServerMessage(Outgoing.ModeratorUserChatlogMessageComposer);
+            message.WriteInt((int)_player.Id);
             message.WriteString(_player.Username);
 
             message.WriteInt(_chatLogs.Count);
@@ -39,7 +39,7 @@ namespace AliasPro.Moderation.Packets.Composers
                 message.WriteByte(1);
                 message.WriteInt(visit.Key.RoomId);
 
-                message.WriteShort(visit.Value.Count);
+                message.WriteShort((short)visit.Value.Count);
                 foreach (IChatLog chatlog in visit.Value)
                     chatlog.Compose(message);
             }

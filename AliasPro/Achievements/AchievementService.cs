@@ -1,24 +1,23 @@
 ﻿using AliasPro.Achievements.Packets.Events;
 using AliasPro.API.Achievements;
-using AliasPro.API.Network;
-using AliasPro.API.Network.Events;
+using AliasPro.Communication.Messages;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AliasPro.Achievements
 {
-    internal class AchievementService : INetworkService
-    {
-        public void SetupService(IServiceCollection collection)
+    internal class AchievementService : IService
+	{
+        public void Register(IServiceCollection collection)
         {
             collection.AddSingleton<AchievementDao>();
             collection.AddSingleton<IAchievementController, AchievementController>();
 
-			AddPackets(collection);
+			RegisterPackets(collection);
 		}
 
-		private static void AddPackets(IServiceCollection collection)
+		private static void RegisterPackets(IServiceCollection collection)
 		{
-			collection.AddSingleton<IAsyncPacket, RequestAchievementsEvent>();
+			collection.AddSingleton<IMessageEvent, RequestAchievementsEvent>();
 		}
 	}
 }

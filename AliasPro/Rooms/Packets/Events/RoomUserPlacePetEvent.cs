@@ -1,19 +1,20 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
-using AliasPro.API.Players.Models;
+﻿using AliasPro.API.Players.Models;
 using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Players.Packets.Composers;
 using AliasPro.Rooms.Entities;
+using System.Threading.Tasks;
 
 namespace AliasPro.Rooms.Packets.Events
 {
-    public class RoomUserPlacePetEvent : IAsyncPacket
+    public class RoomUserPlacePetEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.RoomUserPlacePetMessageEvent;
+        public short Id { get; } = Incoming.RoomUserPlacePetMessageEvent;
 
         private readonly IRoomController _roomController;
 
@@ -22,12 +23,13 @@ namespace AliasPro.Rooms.Packets.Events
 			_roomController = roomController;
         }
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             IRoom room = session.CurrentRoom;
-            if (room == null) return;
+            if (room == null) 
+				return;
 
 			int petId = clientPacket.ReadInt();
 			if (!session.Player.Inventory.TryGetPet(petId, out IPlayerPet pet))

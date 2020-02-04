@@ -1,16 +1,17 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
-using AliasPro.API.Rooms;
+﻿using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Rooms.Packets.Composers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Rooms.Packets.Events
 {
-    public class RoomMuteEvent : IAsyncPacket
+    public class RoomMuteEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.RoomMuteMessageEvent;
+        public short Id { get; } = Incoming.RoomMuteMessageEvent;
 
         private readonly IRoomController _roomController;
 
@@ -19,9 +20,9 @@ namespace AliasPro.Rooms.Packets.Events
             _roomController = roomController;
         }
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             IRoom room = session.CurrentRoom;
             if (room == null) return;
@@ -29,7 +30,7 @@ namespace AliasPro.Rooms.Packets.Events
             if (room.OwnerId != session.Player.Id) return;
 
             room.Muted = !room.Muted;
-            await room.SendAsync(new RoomMutedComposer(room.Muted));
+            await room.SendPacketAsync(new RoomMutedComposer(room.Muted));
         }
     }
 }

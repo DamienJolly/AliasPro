@@ -1,42 +1,47 @@
 ﻿using AliasPro.API.Items.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Packets.Composers;
 using AliasPro.Items.Types;
-using AliasPro.Network.Events.Headers;
 using AliasPro.Rooms.Entities;
 using System;
+using System.Threading.Tasks;
 
 namespace AliasPro.Items.Packets.Events
 {
-    public class LoveLockConfirmEvent : IAsyncPacket
+    public class LoveLockConfirmEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.LoveLockConfirmMessageEvent;
+        public short Id { get; } = Incoming.LoveLockConfirmMessageEvent;
         
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
 			uint itemId = (uint)clientPacket.ReadInt();
-			bool confirmed = clientPacket.ReadBool();
+			bool confirmed = clientPacket.ReadBoolean();
 
 			if (!confirmed)
 				return;
 
 			IRoom room = session.CurrentRoom;
 
-			if (room == null) return;
+			if (room == null) 
+				return;
 
-			if (session.Entity == null) return;
+			if (session.Entity == null) 
+				return;
 
 			if (room.Items.TryGetItem(itemId, out IItem item))
 			{
-				if (item.ItemData.Type != "s") return;
+				if (item.ItemData.Type != "s") 
+					return;
 
-				if (item.ItemData.InteractionType != ItemInteractionType.LOVE_LOCK) return;
+				if (item.ItemData.InteractionType != ItemInteractionType.LOVE_LOCK) 
+					return;
 
 				if(item.InteractingPlayer == null || item.InteractingPlayerTwo == null)
 					return;
@@ -70,7 +75,7 @@ namespace AliasPro.Items.Packets.Events
 					targetEntity.Figure + ";" +
 					DateTime.Now.Day + "-" + DateTime.Now.Month + "-" + DateTime.Now.Year;
 
-				await room.SendAsync(new FloorItemUpdateComposer(item));
+				await room.SendPacketAsync(new FloorItemUpdateComposer(item));
 			}
 		}
     }

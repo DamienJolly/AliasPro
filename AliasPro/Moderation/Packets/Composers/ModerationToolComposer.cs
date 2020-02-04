@@ -1,14 +1,14 @@
 ﻿using AliasPro.API.Moderation.Models;
-using AliasPro.API.Network.Events;
 using AliasPro.API.Permissions;
 using AliasPro.API.Players.Models;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 
 namespace AliasPro.Moderation.Packets.Composers
 {
-    public class ModerationToolComposer : IPacketComposer
+    public class ModerationToolComposer : IMessageComposer
     {
 		private readonly IPermissionsController _permissionsController;
 		private readonly IPlayer _player;
@@ -33,9 +33,9 @@ namespace AliasPro.Moderation.Packets.Composers
 			_tickets = tickets;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.ModerationToolMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.ModerationToolMessageComposer);
             message.WriteInt(_tickets.Count);
             foreach (IModerationTicket ticket in _tickets)
                 ticket.Compose(message);

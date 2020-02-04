@@ -1,19 +1,20 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
-using AliasPro.API.Rooms.Models;
+﻿using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
 using AliasPro.API.Trading.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
+using System.Threading.Tasks;
 
 namespace AliasPro.Trading.Packets.Events
 {
-	public class TradeCloseEvent : IAsyncPacket
+	public class TradeCloseEvent : IMessageEvent
 	{
-		public short Header { get; } = Incoming.TradeCloseMessageEvent;
+		public short Id { get; } = Incoming.TradeCloseMessageEvent;
 
-		public async void HandleAsync(
+		public async Task RunAsync(
 			ISession session,
-			IClientPacket clientPacket)
+			ClientMessage clientPacket)
 		{
 			IRoom room = session.CurrentRoom;
 			if (room == null) return;

@@ -1,11 +1,11 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Players.Models;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.API.Players.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Players.Packets.Composers
 {
-    public class UserPerksComposer : IPacketComposer
+    public class UserPerksComposer : IMessageComposer
     {
         private readonly IPlayer _player;
 
@@ -14,9 +14,9 @@ namespace AliasPro.Players.Packets.Composers
             _player = player;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.UserPerksMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.UserPerksMessageComposer);
             message.WriteInt(15);
             message.WriteString("USE_GUIDE_TOOL");
             message.WriteString("");

@@ -1,44 +1,41 @@
 ﻿using AliasPro.API.Groups;
-using AliasPro.API.Network;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Server;
+using AliasPro.Communication.Messages;
 using AliasPro.Groups.Packets.Events;
-using AliasPro.Server;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AliasPro.Groups
 {
-    internal class GroupService : INetworkService
-    {
-        public void SetupService(IServiceCollection collection)
+    internal class GroupService : IService
+	{
+        public void Register(IServiceCollection collection)
         {
             collection.AddSingleton<GroupDao>();
             collection.AddSingleton<IGroupController, GroupController>();
 
-			AddPackets(collection);
+			RegisterPackets(collection);
 		}
 
-		private static void AddPackets(IServiceCollection collection)
+		private static void RegisterPackets(IServiceCollection collection)
 		{
-			collection.AddSingleton<IAsyncPacket, RequestGroupInfoEvent>();
-			collection.AddSingleton<IAsyncPacket, RequestGroupBuyRoomsEvent>();
-			collection.AddSingleton<IAsyncPacket, RequestGroupPartsEvent>();
-			collection.AddSingleton<IAsyncPacket, RequestGroupBuyEvent>();
-			collection.AddSingleton<IAsyncPacket, RequestGroupMembersEvent>();
-			collection.AddSingleton<IAsyncPacket, GroupSetAdminEvent>();
-			collection.AddSingleton<IAsyncPacket, GroupRemoveAdminEvent>();
-			collection.AddSingleton<IAsyncPacket, RequestGroupJoinEvent>();
-			collection.AddSingleton<IAsyncPacket, GroupRemoveMemberEvent>();
-			collection.AddSingleton<IAsyncPacket, GroupAcceptMembershipEvent>();
-			collection.AddSingleton<IAsyncPacket, GroupDeclineMembershipEvent>();
-			collection.AddSingleton<IAsyncPacket, RequestGroupManageEvent>();
-			collection.AddSingleton<IAsyncPacket, GroupChangeBadgeEvent>();
-			collection.AddSingleton<IAsyncPacket, GroupChangeColorsEvent>();
-			collection.AddSingleton<IAsyncPacket, GroupChangeNameDescEvent>();
-			collection.AddSingleton<IAsyncPacket, GroupChangeSettingsEvent>();
-			collection.AddSingleton<IAsyncPacket, GroupDeleteEvent>();
-			collection.AddSingleton<IAsyncPacket, GroupSetFavoriteEvent>();
-			collection.AddSingleton<IAsyncPacket, GroupRemoveFavoriteEvent>();
+			collection.AddSingleton<IMessageEvent, RequestGroupInfoEvent>();
+			collection.AddSingleton<IMessageEvent, RequestGroupBuyRoomsEvent>();
+			collection.AddSingleton<IMessageEvent, RequestGroupPartsEvent>();
+			collection.AddSingleton<IMessageEvent, RequestGroupBuyEvent>();
+			collection.AddSingleton<IMessageEvent, RequestGroupMembersEvent>();
+			collection.AddSingleton<IMessageEvent, GroupSetAdminEvent>();
+			collection.AddSingleton<IMessageEvent, GroupRemoveAdminEvent>();
+			collection.AddSingleton<IMessageEvent, RequestGroupJoinEvent>();
+			collection.AddSingleton<IMessageEvent, GroupRemoveMemberEvent>();
+			collection.AddSingleton<IMessageEvent, GroupAcceptMembershipEvent>();
+			collection.AddSingleton<IMessageEvent, GroupDeclineMembershipEvent>();
+			collection.AddSingleton<IMessageEvent, RequestGroupManageEvent>();
+			collection.AddSingleton<IMessageEvent, GroupChangeBadgeEvent>();
+			collection.AddSingleton<IMessageEvent, GroupChangeColorsEvent>();
+			collection.AddSingleton<IMessageEvent, GroupChangeNameDescEvent>();
+			collection.AddSingleton<IMessageEvent, GroupChangeSettingsEvent>();
+			collection.AddSingleton<IMessageEvent, GroupDeleteEvent>();
+			collection.AddSingleton<IMessageEvent, GroupSetFavoriteEvent>();
+			collection.AddSingleton<IMessageEvent, GroupRemoveFavoriteEvent>();
 		}
 	}
 }

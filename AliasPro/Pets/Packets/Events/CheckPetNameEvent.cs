@@ -1,19 +1,20 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
-using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
+﻿using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Pets.Packets.Composers;
 using AliasPro.Utilities;
+using System.Threading.Tasks;
 
 namespace AliasPro.Pets.Packets.Events
 {
-    public class CheckPetNameEvent : IAsyncPacket
+    public class CheckPetNameEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.CheckPetNameMessageEvent;
+        public short Id { get; } = Incoming.CheckPetNameMessageEvent;
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
 			string petName = clientPacket.ReadString();
 

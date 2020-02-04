@@ -1,19 +1,20 @@
 ﻿using AliasPro.API.Groups;
 using AliasPro.API.Groups.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Groups.Packets.Composers;
-using AliasPro.Network.Events.Headers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Groups.Packets.Events
 {
-	public class GroupRemoveMemberEvent : IAsyncPacket
+	public class GroupRemoveMemberEvent : IMessageEvent
 	{
-		public short Header { get; } = Incoming.GroupRemoveMemberMessageEvent;
+		public short Id { get; } = Incoming.GroupRemoveMemberMessageEvent;
 
 		private readonly IGroupController _groupController;
 		private readonly IPlayerController _playerController;
@@ -26,9 +27,9 @@ namespace AliasPro.Groups.Packets.Events
 			_playerController = playerController;
 		}
 
-		public async void HandleAsync(
+		public async Task RunAsync(
 			ISession session,
-			IClientPacket clientPacket)
+			ClientMessage clientPacket)
 		{
 			int groupId = clientPacket.ReadInt();
 			int playerId = clientPacket.ReadInt();
@@ -56,7 +57,7 @@ namespace AliasPro.Groups.Packets.Events
 
 			IRoom room = player.Session.CurrentRoom;
 			if (room != null)
-				await room.SendAsync(new GroupRefreshGroupsComposer((int)player.Id));
+				await room.SendPacketAsync(new GroupRefreshGroupsComposer((int)player.Id));
 			else
 				await player.Session.SendPacketAsync(new GroupRefreshGroupsComposer((int)player.Id));
 
@@ -65,7 +66,7 @@ namespace AliasPro.Groups.Packets.Events
 				player.FavoriteGroup = 0;
 
 				if (room != null)
-					await room.SendAsync(new GroupFavoriteUpdateComposer(player.Session.Entity, null));
+					await room.SendPacketAsync(new GroupFavoriteUpdateComposer(player.Session.Entity, null));
 			}
 
 			if (room != null && room.Group != null && room.Group.Id == groupId)

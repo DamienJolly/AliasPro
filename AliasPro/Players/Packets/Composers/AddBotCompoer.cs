@@ -1,12 +1,12 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Players.Models;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.API.Players.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Players.Types;
 
 namespace AliasPro.Players.Packets.Composers
 {
-    public class AddBotCompoer : IPacketComposer
+    public class AddBotCompoer : IMessageComposer
     {
 		private readonly IPlayerBot _bot;
 
@@ -15,9 +15,9 @@ namespace AliasPro.Players.Packets.Composers
 			_bot = bot;
 		}
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.AddBotMessageCompoer);
+            ServerMessage message = new ServerMessage(Outgoing.AddBotMessageCompoer);
 			message.WriteInt(_bot.Id);
 			message.WriteString(_bot.Name);
 			message.WriteString(_bot.Motto);

@@ -1,10 +1,10 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Items.Packets.Composers
 {
-    public class RemovePlayerItemComposer : IPacketComposer
+    public class RemovePlayerItemComposer : IMessageComposer
     {
         private readonly uint _itemId;
 
@@ -13,10 +13,10 @@ namespace AliasPro.Items.Packets.Composers
             _itemId = itemId;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.RemovePlayerItemMessageComposer);
-            message.WriteInt(_itemId);
+            ServerMessage message = new ServerMessage(Outgoing.RemovePlayerItemMessageComposer);
+            message.WriteInt((int)_itemId);
             return message;
         }
     }

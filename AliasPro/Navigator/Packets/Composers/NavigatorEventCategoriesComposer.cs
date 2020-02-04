@@ -1,12 +1,12 @@
 ﻿using AliasPro.API.Navigator.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 
 namespace AliasPro.Navigator.Packets.Composers
 {
-    public class NavigatorEventCategoriesComposer : IPacketComposer
+    public class NavigatorEventCategoriesComposer : IMessageComposer
     {
         private readonly ICollection<INavigatorCategory> _categories;
 
@@ -15,9 +15,9 @@ namespace AliasPro.Navigator.Packets.Composers
             _categories = categories;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.NavigatorEventCategoriesMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.NavigatorEventCategoriesMessageComposer);
             message.WriteInt(_categories.Count);
             foreach (INavigatorCategory category in _categories)
             {

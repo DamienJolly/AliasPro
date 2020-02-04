@@ -1,12 +1,11 @@
-﻿using AliasPro.API.Network;
-using AliasPro.API.Server;
+﻿using AliasPro.API.Server;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AliasPro.Server
 {
-    internal class ServerService : INetworkService
+    internal class ServerService : IService
     {
-        public void SetupService(IServiceCollection collection)
+        public void Register(IServiceCollection collection)
         {
             collection.AddSingleton<ServerDao>();
             collection.AddSingleton<IServerController, ServerController>();

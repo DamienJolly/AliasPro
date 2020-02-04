@@ -1,26 +1,26 @@
-﻿using AliasPro.API.Badge;
-using AliasPro.API.Catalog;
+﻿using AliasPro.API.Catalog;
 using AliasPro.API.Catalog.Models;
 using AliasPro.API.Items;
 using AliasPro.API.Items.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Catalog.Packets.Composers;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Models;
 using AliasPro.Items.Packets.Composers;
 using AliasPro.Items.Types;
-using AliasPro.Network.Events.Headers;
 using AliasPro.Players.Packets.Composers;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AliasPro.Catalog.Packets.Events
 {
-    public class CatalogBuyGiftItemEvent : IAsyncPacket
+    public class CatalogBuyGiftItemEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.CatalogBuyGiftItemMessageEvent;
+        public short Id { get; } = Incoming.CatalogBuyGiftItemMessageEvent;
 
         private readonly ICatalogController _catalogController;
         private readonly IItemController _itemController;
@@ -36,9 +36,9 @@ namespace AliasPro.Catalog.Packets.Events
 			_playerController = playerController;
 		}
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
 			int pageId = clientPacket.ReadInt();
 			int itemId = clientPacket.ReadInt();
@@ -48,7 +48,7 @@ namespace AliasPro.Catalog.Packets.Events
 			int spriteId = clientPacket.ReadInt();
 			int color = clientPacket.ReadInt();
 			int ribbonId = clientPacket.ReadInt();
-			bool showName = clientPacket.ReadBool();
+			bool showName = clientPacket.ReadBoolean();
 
 			if (!_catalogController.TryGetCatalogPage(pageId, out ICatalogPage page))
 			{

@@ -1,11 +1,11 @@
 ﻿using AliasPro.API.Items.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Items.Packets.Composers
 {
-    public class LoveLockFriendConfirmedComposer : IPacketComposer
+    public class LoveLockFriendConfirmedComposer : IMessageComposer
     {
         private readonly IItem _item;
 
@@ -14,10 +14,10 @@ namespace AliasPro.Items.Packets.Composers
 			_item = item;
 		}
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.LoveLockFriendConfirmedMessageComposer);
-            message.WriteInt(_item.Id);
+            ServerMessage message = new ServerMessage(Outgoing.LoveLockFriendConfirmedMessageComposer);
+            message.WriteInt((int)_item.Id);
             return message;
         }
     }

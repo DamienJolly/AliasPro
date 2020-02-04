@@ -1,15 +1,16 @@
 ﻿using AliasPro.API.Items;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Players.Packets.Composers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Players.Packets.Events
 {
-    public class RequestFurniInventoryEvent : IAsyncPacket
+    public class RequestFurniInventoryEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.RequestFurniInventoryMessageEvent;
+        public short Id { get; } = Incoming.RequestFurniInventoryMessageEvent;
 
         private readonly IItemController _itemController;
 
@@ -18,9 +19,9 @@ namespace AliasPro.Players.Packets.Events
             _itemController = itemController;
         }
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             
             await session.SendPacketAsync(new FurniListComposer(session.Player.Inventory.Items));

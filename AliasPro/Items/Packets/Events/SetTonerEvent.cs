@@ -1,28 +1,30 @@
 ﻿using AliasPro.API.Items.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Interaction;
 using AliasPro.Items.Packets.Composers;
-using AliasPro.Items.Types;
-using AliasPro.Network.Events.Headers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Items.Packets.Events
 {
-    public class SetTonerEvent : IAsyncPacket
+    public class SetTonerEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.SetTonerMessageEvent;
+        public short Id { get; } = Incoming.SetTonerMessageEvent;
         
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             IRoom room = session.CurrentRoom;
 
-            if (room == null) return;
+            if (room == null) 
+                return;
 
-            if (session.Entity == null) return;
+            if (session.Entity == null) 
+                return;
 
             uint itemId = (uint)clientPacket.ReadInt();
             if (room.Items.TryGetItem(itemId, out IItem item))
@@ -34,7 +36,7 @@ namespace AliasPro.Items.Packets.Events
                     int brightness = interaction.Brightness = clientPacket.ReadInt() % 256;
 
                     item.ExtraData = hue + ":" + saturation + ":" + brightness;
-                    await room.SendAsync(new FloorItemUpdateComposer(item));
+                    await room.SendPacketAsync(new FloorItemUpdateComposer(item));
                 }
             }
         }

@@ -1,10 +1,10 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
-    public class FloorHeightMapComposer : IPacketComposer
+    public class FloorHeightMapComposer : IMessageComposer
     {
         private readonly int _wallHeight;
         private readonly string _map;
@@ -15,9 +15,9 @@ namespace AliasPro.Rooms.Packets.Composers
             _map = map;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.FloorHeightMapMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.FloorHeightMapMessageComposer);
             message.WriteBoolean(true);
             message.WriteInt(_wallHeight);
             message.WriteString(_map);

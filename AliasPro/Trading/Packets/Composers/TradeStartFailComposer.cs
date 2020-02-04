@@ -1,10 +1,10 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Trading.Packets.Composers
 {
-    public class TradeStartFailComposer : IPacketComposer
+    public class TradeStartFailComposer : IMessageComposer
     {
 		public static readonly int HOTEL_TRADING_NOT_ALLOWED = 1;
 		public static readonly int YOU_TRADING_OFF = 2;
@@ -22,9 +22,9 @@ namespace AliasPro.Trading.Packets.Composers
 			_username = username;
 		}
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.TradeStartFailMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.TradeStartFailMessageComposer);
             message.WriteInt(_code);
 			message.WriteString(_username);
 			return message;

@@ -1,12 +1,12 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Trading.Packets.Composers
 {
-    public class TradingWaitingConfirmComposer : IPacketComposer
+    public class TradingWaitingConfirmComposer : IMessageComposer
     {
-		public ServerPacket Compose() =>
-			new ServerPacket(Outgoing.TradingWaitingConfirmMessageComposer);
+		public ServerMessage Compose() =>
+			new ServerMessage(Outgoing.TradingWaitingConfirmMessageComposer);
     }
 }

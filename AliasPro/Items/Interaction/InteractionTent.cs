@@ -1,9 +1,7 @@
 ﻿using AliasPro.API.Items.Interaction;
 using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
-using AliasPro.Items.Packets.Composers;
-using AliasPro.Network.Protocol;
-using AliasPro.Rooms.Entities;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 
 namespace AliasPro.Items.Interaction
@@ -19,7 +17,7 @@ namespace AliasPro.Items.Interaction
 			TentEntities = new List<BaseEntity>();
 		}
 
-		public void Compose(ServerPacket message, bool tradeItem)
+		public void Compose(ServerMessage message, bool tradeItem)
 		{
 			if (!tradeItem)
 				message.WriteInt(1);

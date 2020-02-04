@@ -1,20 +1,21 @@
 ﻿using AliasPro.API.Groups;
 using AliasPro.API.Groups.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
 using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Groups.Packets.Composers;
-using AliasPro.Network.Events.Headers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Groups.Packets.Events
 {
-	public class GroupDeleteEvent : IAsyncPacket
+	public class GroupDeleteEvent : IMessageEvent
 	{
-		public short Header { get; } = Incoming.GroupDeleteMessageEvent;
+		public short Id { get; } = Incoming.GroupDeleteMessageEvent;
 
 		private readonly IGroupController _groupController;
 		private readonly IRoomController _roomController;
@@ -30,9 +31,9 @@ namespace AliasPro.Groups.Packets.Events
 			_playerController = playerController;
 		}
 
-		public async void HandleAsync(
+		public async Task RunAsync(
 			ISession session,
-			IClientPacket clientPacket)
+			ClientMessage clientPacket)
 		{
 			int groupId = clientPacket.ReadInt();
 			IGroup group = await _groupController.ReadGroupData(groupId);
@@ -46,7 +47,7 @@ namespace AliasPro.Groups.Packets.Events
 			if (_roomController.TryGetRoom((uint)group.RoomId, out IRoom room))
 			{
 				room.Group = null;
-				await room.SendAsync(new RemoveGroupFromRoomComposer(group.Id));
+				await room.SendPacketAsync(new RemoveGroupFromRoomComposer(group.Id));
 			}
 
 			foreach (IGroupMember member in group.Members.Values)
@@ -60,8 +61,8 @@ namespace AliasPro.Groups.Packets.Events
 						if (session.CurrentRoom == room)
 							await session.CurrentRoom.Rights.ReloadRights(player.Session);
 
-						await session.CurrentRoom.SendAsync(new GroupRefreshGroupsComposer((int)player.Id));
-						await session.CurrentRoom.SendAsync(new GroupFavoriteUpdateComposer(session.Entity, null));
+						await session.CurrentRoom.SendPacketAsync(new GroupRefreshGroupsComposer((int)player.Id));
+						await session.CurrentRoom.SendPacketAsync(new GroupFavoriteUpdateComposer(session.Entity, null));
 					}
 					else
 					{

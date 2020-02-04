@@ -1,17 +1,18 @@
 ﻿using AliasPro.API.Groups;
 using AliasPro.API.Groups.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
+using System.Threading.Tasks;
 
 namespace AliasPro.Groups.Packets.Events
 {
-	public class GroupChangeNameDescEvent : IAsyncPacket
+	public class GroupChangeNameDescEvent : IMessageEvent
 	{
-		public short Header { get; } = Incoming.GroupChangeNameDescMessageEvent;
+		public short Id { get; } = Incoming.GroupChangeNameDescMessageEvent;
 
 		private readonly IGroupController _groupController;
 		private readonly IRoomController _roomController;
@@ -24,9 +25,9 @@ namespace AliasPro.Groups.Packets.Events
 			_roomController = roomController;
 		}
 
-		public async void HandleAsync(
+		public async Task RunAsync(
 			ISession session,
-			IClientPacket clientPacket)
+			ClientMessage clientPacket)
 		{
 			int groupId = clientPacket.ReadInt();
 			IGroup group = await _groupController.ReadGroupData(groupId);

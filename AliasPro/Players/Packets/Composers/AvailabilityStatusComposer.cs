@@ -1,14 +1,14 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Players.Packets.Composers
 {
-    public class AvailabilityStatusComposer : IPacketComposer
+    public class AvailabilityStatusComposer : IMessageComposer
     {
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.AvailabilityStatusMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.AvailabilityStatusMessageComposer);
             message.WriteBoolean(true);
             message.WriteBoolean(false);
             message.WriteBoolean(true);

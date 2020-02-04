@@ -1,18 +1,19 @@
 ﻿using AliasPro.API.Messenger;
 using AliasPro.API.Messenger.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Messenger.Packets.Composers;
-using AliasPro.Network.Events.Headers;
 using AliasPro.Players.Components;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AliasPro.Messenger.Packets.Events
 {
-    public class RequestInitFriendsEvent : IAsyncPacket
+    public class RequestInitFriendsEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.RequestInitFriendsMessageEvent;
+        public short Id { get; } = Incoming.RequestInitFriendsMessageEvent;
 
         private readonly IMessengerController _messengerController;
 
@@ -21,9 +22,9 @@ namespace AliasPro.Messenger.Packets.Events
             _messengerController = messengerController;
         }
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             //todo: add to cofig
             int maxFriends = 1000;

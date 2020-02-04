@@ -1,11 +1,11 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Players.Models;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.API.Players.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Moderation.Packets.Composers
 {
-    public class ModerationUserInfoComposer : IPacketComposer
+    public class ModerationUserInfoComposer : IMessageComposer
     {
         private readonly IPlayerData _playerData;
         
@@ -14,10 +14,10 @@ namespace AliasPro.Moderation.Packets.Composers
             _playerData = playerData;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.ModerationUserInfoMessageComposer);
-            message.WriteInt(_playerData.Id);
+            ServerMessage message = new ServerMessage(Outgoing.ModerationUserInfoMessageComposer);
+            message.WriteInt((int)_playerData.Id);
             message.WriteString(_playerData.Username);
             message.WriteString(_playerData.Figure);
             message.WriteInt(0); //account created

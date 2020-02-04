@@ -1,10 +1,10 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
-    public class GenericErrorComposer : IPacketComposer
+    public class GenericErrorComposer : IMessageComposer
     {
         public static int AUTHENTICATION_FAILED = -3;
         public static int CONNECTING_TO_THE_SERVER_FAILED = -400;
@@ -21,9 +21,9 @@ namespace AliasPro.Rooms.Packets.Composers
             _errorCode = errorCode;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.GenericErrorMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.GenericErrorMessageComposer);
             message.WriteInt(_errorCode);
             return message;
         }

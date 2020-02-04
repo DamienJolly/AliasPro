@@ -1,19 +1,21 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
-using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
+﻿using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
+using System.Threading.Tasks;
 
 namespace AliasPro.Messenger.Packets.Events
 {
-    public class RequestFriendsEvent : IAsyncPacket
+    public class RequestFriendsEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.RequestFriendsMessageEvent;
+        public short Id { get; } = Incoming.RequestFriendsMessageEvent;
 
-        public void HandleAsync(
+        public Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             //not used??
+            return Task.CompletedTask;
         }
     }
 }

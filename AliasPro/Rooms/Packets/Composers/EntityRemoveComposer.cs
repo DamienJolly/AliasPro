@@ -1,10 +1,10 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
-    public class EntityRemoveComposer : IPacketComposer
+    public class EntityRemoveComposer : IMessageComposer
     {
         private readonly int _entityId;
         
@@ -13,9 +13,9 @@ namespace AliasPro.Rooms.Packets.Composers
             _entityId = entityId;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.EntityRemoveMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.EntityRemoveMessageComposer);
             message.WriteString(_entityId.ToString());
             return message;
         }

@@ -2,8 +2,8 @@
 using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Packets.Composers;
-using AliasPro.Network.Protocol;
 using AliasPro.Rooms.Packets.Composers;
 using AliasPro.Utilities;
 using System.Collections.Generic;
@@ -21,7 +21,7 @@ namespace AliasPro.Items.Interaction
             _item = item;
         }
 
-        public void Compose(ServerPacket message, bool tradeItem)
+        public void Compose(ServerMessage message, bool tradeItem)
         {
 			if (!tradeItem)
 				message.WriteInt(1);
@@ -81,7 +81,7 @@ namespace AliasPro.Items.Interaction
             _item.InteractingPlayer = entity;
             _tickCount = 0;
 
-            await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(_item));
+            await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
         }
 
         public async void OnCycle()
@@ -99,8 +99,8 @@ namespace AliasPro.Items.Interaction
                 GetRandomVendingMachineId(_item.ItemData.ExtraData);
             _item.InteractingPlayer.SetHandItem(handItemId);
 
-            await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(_item));
-            await _item.CurrentRoom.SendAsync(new UserHandItemComposer(
+            await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
+            await _item.CurrentRoom.SendPacketAsync(new UserHandItemComposer(
                 _item.InteractingPlayer.Id,
                 _item.InteractingPlayer.HandItemId));
         }

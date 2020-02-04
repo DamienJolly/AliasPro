@@ -1,8 +1,4 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
-using AliasPro.API.Rooms.Models;
-using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
+﻿using AliasPro.API.Sessions.Models;
 using AliasPro.API.Trading.Models;
 using AliasPro.Trading.Packets.Composers;
 using System.Threading.Tasks;
@@ -11,16 +7,20 @@ using AliasPro.API.Items.Models;
 using AliasPro.Items.Packets.Composers;
 using System.Collections.Generic;
 using System.Linq;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
+using AliasPro.API.Rooms.Models;
 
 namespace AliasPro.Trading.Packets.Events
 {
-	public class TradeConfirmEvent : IAsyncPacket
+	public class TradeConfirmEvent : IMessageEvent
 	{
-		public short Header { get; } = Incoming.TradeConfirmMessageEvent;
+		public short Id { get; } = Incoming.TradeConfirmMessageEvent;
 
-		public async void HandleAsync(
+		public async Task RunAsync(
 			ISession session,
-			IClientPacket clientPacket)
+			ClientMessage clientPacket)
 		{
 			IRoom room = session.CurrentRoom;
 			if (room == null) return;
@@ -34,7 +34,7 @@ namespace AliasPro.Trading.Packets.Events
 			if (!player.Accepted) return;
 
 			player.Confirmed = true;
-			await trade.SendAsync(new TradeAcceptedComposer(player));
+			await trade.SendPacketAsync(new TradeAcceptedComposer(player));
 
 			if (trade.Confirmed)
 			{
@@ -58,7 +58,7 @@ namespace AliasPro.Trading.Packets.Events
 					if (playerEntity.Player.Inventory.Items.Contains(item))
 						continue;
 
-					await trade.SendAsync(new TradeClosedComposer(TradeClosedComposer.ITEMS_NOT_FOUND, target.playerId));
+					await trade.SendPacketAsync(new TradeClosedComposer(TradeClosedComposer.ITEMS_NOT_FOUND, target.playerId));
 					return;
 				}
 
@@ -108,7 +108,7 @@ namespace AliasPro.Trading.Packets.Events
 				await targetEntity.Player.Session.SendPacketAsync(new AddPlayerItemsComposer(1, userTwo.OfferedItems.Values.Select(c => (int)c.Id).Distinct().ToList()));
 			}
 
-			await trade.SendAsync(new InventoryRefreshComposer());
+			await trade.SendPacketAsync(new InventoryRefreshComposer());
 		}
 	}
 }

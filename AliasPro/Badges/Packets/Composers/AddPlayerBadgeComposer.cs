@@ -1,11 +1,11 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Players.Models;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.API.Players.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Badges.Packets.Composers
 {
-    public class AddPlayerBadgeComposer : IPacketComposer
+    public class AddPlayerBadgeComposer : IMessageComposer
     {
 		private readonly IPlayerBadge _playerBadge;
 
@@ -15,9 +15,9 @@ namespace AliasPro.Badges.Packets.Composers
 			_playerBadge = playerBadge;
 		}
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.AddPlayerBadgeMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.AddPlayerBadgeMessageComposer);
 			message.WriteInt(_playerBadge.BadgeId);
 			message.WriteString(_playerBadge.Code);
 			return message;

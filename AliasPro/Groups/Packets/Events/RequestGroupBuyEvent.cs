@@ -1,24 +1,24 @@
 ﻿using AliasPro.API.Groups;
 using AliasPro.API.Groups.Models;
 using AliasPro.API.Groups.Types;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Catalog.Packets.Composers;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Groups.Models;
 using AliasPro.Groups.Packets.Composers;
-using AliasPro.Network.Events.Headers;
 using AliasPro.Players.Packets.Composers;
-using AliasPro.Rooms.Packets.Composers;
 using AliasPro.Utilities;
+using System.Threading.Tasks;
 
 namespace AliasPro.Groups.Packets.Events
 {
-	public class RequestGroupBuyEvent : IAsyncPacket
+	public class RequestGroupBuyEvent : IMessageEvent
 	{
-		public short Header { get; } = Incoming.RequestGroupBuyMessageEvent;
+		public short Id { get; } = Incoming.RequestGroupBuyMessageEvent;
 
 		private readonly IGroupController _groupController;
 		private readonly IRoomController _roomController;
@@ -31,9 +31,9 @@ namespace AliasPro.Groups.Packets.Events
 			_roomController = roomController;
 		}
 
-		public async void HandleAsync(
+		public async Task RunAsync(
 			ISession session,
-			IClientPacket clientPacket)
+			ClientMessage clientPacket)
 		{
 			int guildPrice = 10;
 			if (session.Player.Credits >= guildPrice)

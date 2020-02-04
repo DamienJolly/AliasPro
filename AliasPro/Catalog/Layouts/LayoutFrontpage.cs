@@ -2,7 +2,7 @@
 using AliasPro.API.Catalog.Models;
 using AliasPro.API.Items.Models;
 using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Catalog.Layouts
 {
@@ -15,7 +15,7 @@ namespace AliasPro.Catalog.Layouts
             _page = page;
         }
 
-        public void Compose(ServerPacket message)
+        public void Compose(ServerMessage message)
         {
             message.WriteString("frontpage4");
             message.WriteInt(2);

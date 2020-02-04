@@ -1,5 +1,4 @@
 ﻿using AliasPro.API.Items.Models;
-using AliasPro.API.Network.Events;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.Items.Types;
@@ -15,6 +14,7 @@ using AliasPro.Groups.Packets.Composers;
 using System.Collections.Generic;
 using AliasPro.Rooms.Types;
 using AliasPro.Items.Interaction;
+using AliasPro.Communication.Messages;
 
 namespace AliasPro.Rooms.Models
 {
@@ -52,7 +52,7 @@ namespace AliasPro.Rooms.Models
                     item.Interaction.OnCycle();
 
                 if (Entities.Entities.Count > 0)
-                    await SendAsync(new EntityUpdateComposer(Entities.Entities));
+                    await SendPacketAsync(new EntityUpdateComposer(Entities.Entities));
             }
             catch { }
         }
@@ -144,8 +144,8 @@ namespace AliasPro.Rooms.Models
 			entity.OnEntityJoin();
 			Items.TriggerWired(WiredInteractionType.ENTER_ROOM, entity);
 
-            await SendAsync(new EntitiesComposer(entity));
-            await SendAsync(new EntityUpdateComposer(entity));
+            await SendPacketAsync(new EntitiesComposer(entity));
+            await SendPacketAsync(new EntityUpdateComposer(entity));
         }
 
 		public async Task RemoveEntity(BaseEntity entity, bool notifyUser)
@@ -155,7 +155,7 @@ namespace AliasPro.Rooms.Models
             RoomGrid.RemoveEntity(entity);
             Game.LeaveTeam(entity);
 
-			await SendAsync(new EntityRemoveComposer(entity.Id));
+			await SendPacketAsync(new EntityRemoveComposer(entity.Id));
 
 			if (entity is PlayerEntity playerEntity)
 			{
@@ -185,7 +185,7 @@ namespace AliasPro.Rooms.Models
 			}
 		}
 
-		public async Task SendAsync(IPacketComposer packet)
+		public async Task SendPacketAsync(IMessageComposer packet)
         {
             foreach (BaseEntity entity in Entities.Entities)
             {

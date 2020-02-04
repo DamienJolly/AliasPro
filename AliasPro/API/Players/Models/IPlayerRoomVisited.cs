@@ -1,10 +1,10 @@
-﻿using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.API.Players.Models
 {
     public interface IPlayerRoomVisited
     {
-        void Compose(ServerPacket message);
+        void Compose(ServerMessage message);
 
         int RoomId { get; set; }
         string RoomName { get; set; }

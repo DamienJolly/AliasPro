@@ -1,9 +1,9 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Players.Models;
+﻿using AliasPro.API.Players.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Protocols;
 using DotNetty.Transport.Channels;
 using System.Threading.Tasks;
 
@@ -29,14 +29,14 @@ namespace AliasPro.Sessions.Models
 			_channel.CloseAsync();
         }
 
-		public Task SendPacketAsync(IPacketComposer serverPacket)
+		public Task SendPacketAsync(IMessageComposer ServerMessage)
 		{
 			if (_channel.Channel.IsWritable)
-				return WriteAndFlushAsync(serverPacket.Compose());
+				return WriteAndFlushAsync(ServerMessage.Compose());
 
 			return Task.CompletedTask;
 		}
 
-		private Task WriteAndFlushAsync(ServerPacket serverPacket) => _channel.WriteAndFlushAsync(serverPacket);
+		private Task WriteAndFlushAsync(ServerMessage ServerMessage) => _channel.WriteAndFlushAsync(ServerMessage);
     }
 }

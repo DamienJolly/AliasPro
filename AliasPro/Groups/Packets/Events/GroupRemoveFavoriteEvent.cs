@@ -1,16 +1,17 @@
 ﻿using AliasPro.API.Groups;
 using AliasPro.API.Groups.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Groups.Packets.Composers;
-using AliasPro.Network.Events.Headers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Groups.Packets.Events
 {
-	public class GroupRemoveFavoriteEvent : IAsyncPacket
+	public class GroupRemoveFavoriteEvent : IMessageEvent
 	{
-		public short Header { get; } = Incoming.GroupRemoveFavoriteMessageEvent;
+		public short Id { get; } = Incoming.GroupRemoveFavoriteMessageEvent;
 
 		private readonly IGroupController _groupController;
 
@@ -20,9 +21,9 @@ namespace AliasPro.Groups.Packets.Events
 			_groupController = groupController;
 		}
 
-		public async void HandleAsync(
+		public async Task RunAsync(
 			ISession session,
-			IClientPacket clientPacket)
+			ClientMessage clientPacket)
 		{
 			int groupId = clientPacket.ReadInt();
 
@@ -36,8 +37,8 @@ namespace AliasPro.Groups.Packets.Events
 
 			if (session.CurrentRoom != null)
 			{
-				await session.CurrentRoom.SendAsync(new GroupRefreshGroupsComposer((int)session.Player.Id));
-				await session.CurrentRoom.SendAsync(new GroupFavoriteUpdateComposer(session.Entity, null));
+				await session.CurrentRoom.SendPacketAsync(new GroupRefreshGroupsComposer((int)session.Player.Id));
+				await session.CurrentRoom.SendPacketAsync(new GroupFavoriteUpdateComposer(session.Entity, null));
 			}
 			else
 			{

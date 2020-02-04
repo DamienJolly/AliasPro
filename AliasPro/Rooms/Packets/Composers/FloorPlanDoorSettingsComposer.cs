@@ -1,11 +1,11 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Rooms.Models;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.API.Rooms.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
-    public class FloorPlanDoorSettingsComposer : IPacketComposer
+    public class FloorPlanDoorSettingsComposer : IMessageComposer
     {
         private readonly IRoom _room;
 
@@ -14,9 +14,9 @@ namespace AliasPro.Rooms.Packets.Composers
             _room = room;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.FloorPlanDoorSettingsMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.FloorPlanDoorSettingsMessageComposer);
             message.WriteInt(_room.RoomModel.DoorX);
             message.WriteInt(_room.RoomModel.DoorY);
             message.WriteInt(_room.RoomModel.DoorDir);

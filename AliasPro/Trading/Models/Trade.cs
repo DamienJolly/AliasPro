@@ -1,6 +1,6 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Rooms.Entities;
+﻿using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Trading.Models;
+using AliasPro.Communication.Messages;
 using AliasPro.Rooms.Entities;
 using AliasPro.Trading.Packets.Composers;
 using System.Collections.Generic;
@@ -33,12 +33,12 @@ namespace AliasPro.Trading.Models
 			}
 			
 			if (!confirmed)
-				await SendAsync(new TradeClosedComposer(TradeClosedComposer.USER_CANCEL_TRADE, playerId));
+				await SendPacketAsync(new TradeClosedComposer(TradeClosedComposer.USER_CANCEL_TRADE, playerId));
 			else
-				await SendAsync(new TradeCompleteComposer());
+				await SendPacketAsync(new TradeCompleteComposer());
 		}
 
-		public async Task SendAsync(IPacketComposer packet)
+		public async Task SendPacketAsync(IMessageComposer packet)
 		{
 			foreach (ITradePlayer player in _players.Values)
 			{

@@ -1,18 +1,19 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
-using AliasPro.API.Players;
+﻿using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
 using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Players.Packets.Composers;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AliasPro.Players.Packets.Events
 {
-    public class RequestWearingBadgesEvent : IAsyncPacket
+    public class RequestWearingBadgesEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.RequestWearingBadgesMessageEvent;
+        public short Id { get; } = Incoming.RequestWearingBadgesMessageEvent;
 
         private readonly IPlayerController _playerController;
 
@@ -22,9 +23,9 @@ namespace AliasPro.Players.Packets.Events
             _playerController = playerController;
         }
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             int playerId = clientPacket.ReadInt();
 

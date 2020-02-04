@@ -1,27 +1,27 @@
 ﻿using AliasPro.API.Items;
 using AliasPro.API.Items.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Packets.Composers;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Rooms.Packets.Composers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Items.Packets.Events
 {
-    public class PlaceItemEvent : IAsyncPacket
+    public class PlaceItemEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.PlaceItemMessageEvent;
+        public short Id { get; } = Incoming.PlaceItemMessageEvent;
 
         private readonly IItemController _itemController;
         public PlaceItemEvent(IItemController itemController)
         {
             _itemController = itemController;
         }
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             string rawData = clientPacket.ReadString();
             string[] data = rawData.Split(' ');
@@ -50,14 +50,14 @@ namespace AliasPro.Items.Packets.Events
                     item.Rotation = rot;
                     room.RoomGrid.AddItem(item);
 
-                    await room.SendAsync(new ObjectAddComposer(item));
+                    await room.SendPacketAsync(new ObjectAddComposer(item));
                 }
                 else
                 {
                     if (data.Length < 4) return;
 
                     item.ExtraData = data[1] + " " + data[2] + " " + data[3];
-                    await room.SendAsync(new AddWallItemComposer(item));
+                    await room.SendPacketAsync(new AddWallItemComposer(item));
                 }
                 
                 item.RoomId = room.Id;

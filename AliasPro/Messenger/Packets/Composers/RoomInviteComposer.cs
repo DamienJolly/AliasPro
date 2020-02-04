@@ -1,10 +1,10 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Messenger.Packets.Composers
 {
-    public class RoomInviteComposer : IPacketComposer
+    public class RoomInviteComposer : IMessageComposer
     {
         private readonly uint _playerId;
         private readonly string _message;
@@ -15,10 +15,10 @@ namespace AliasPro.Messenger.Packets.Composers
             _message = message;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.RoomInviteMessageComposer);
-            message.WriteInt(_playerId);
+            ServerMessage message = new ServerMessage(Outgoing.RoomInviteMessageComposer);
+            message.WriteInt((int)_playerId);
             message.WriteString(_message);
             return message;
         }

@@ -1,12 +1,12 @@
 ﻿using AliasPro.API.Landing.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 
 namespace AliasPro.Landing.Packets.Composers
 {
-    public class NewsListComposer : IPacketComposer
+    public class NewsListComposer : IMessageComposer
     {
         private readonly IList<IArticle> _articles;
 
@@ -15,13 +15,13 @@ namespace AliasPro.Landing.Packets.Composers
             _articles = articles;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.NewsListMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.NewsListMessageComposer);
             message.WriteInt(_articles.Count);
             foreach (IArticle article in _articles)
             {
-                message.WriteInt(article.Id);
+                message.WriteInt((int)article.Id);
                 message.WriteString(article.Title);
                 message.WriteString(article.Message);
                 message.WriteString(article.Caption);

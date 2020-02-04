@@ -1,11 +1,11 @@
 ﻿using AliasPro.API.Catalog.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Catalog.Packets.Composers
 {
-    public class PurchaseOKComposer : IPacketComposer
+    public class PurchaseOKComposer : IMessageComposer
     {
         private readonly ICatalogItem _item;
 
@@ -19,9 +19,9 @@ namespace AliasPro.Catalog.Packets.Composers
 			_item = null;
 		}
 
-		public ServerPacket Compose()
+		public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.PurchaseOKMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.PurchaseOKMessageComposer);
 			if (_item != null)
 				_item.Compose(message);
 			else

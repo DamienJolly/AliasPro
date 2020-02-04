@@ -1,12 +1,12 @@
 ﻿using AliasPro.API.Rooms.Models;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 
 namespace AliasPro.API.Navigator.Models
 {
     public interface INavigatorSearchResult
     {
-        void Serialize(ServerPacket message);
+        void Serialize(ServerMessage message);
 
         int Order { get; set; }
         string Id { get; set; }

@@ -1,10 +1,10 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Groups.Packets.Composers
 {
-	public class RemoveGroupFromRoomComposer : IPacketComposer
+	public class RemoveGroupFromRoomComposer : IMessageComposer
 	{
 		private readonly int _groupId;
 
@@ -14,9 +14,9 @@ namespace AliasPro.Groups.Packets.Composers
 			_groupId = groupId;
 		}
 
-		public ServerPacket Compose()
+		public ServerMessage Compose()
 		{
-			ServerPacket message = new ServerPacket(Outgoing.RemoveGroupFromRoomMessageComposer);
+			ServerMessage message = new ServerMessage(Outgoing.RemoveGroupFromRoomMessageComposer);
 			message.WriteInt(_groupId);
 			return message;
 		}

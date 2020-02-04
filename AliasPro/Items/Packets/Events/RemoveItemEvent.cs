@@ -1,19 +1,20 @@
 ﻿using AliasPro.API.Items;
 using AliasPro.API.Items.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Packets.Composers;
-using AliasPro.Network.Events.Headers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Items.Packets.Events
 {
-    public class RemoveItemEvent : IAsyncPacket
+    public class RemoveItemEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.RemoveItemMessageEvent;
+        public short Id { get; } = Incoming.RemoveItemMessageEvent;
 
         private readonly IItemController _itemController;
         private readonly IPlayerController _playerController;
@@ -24,9 +25,9 @@ namespace AliasPro.Items.Packets.Events
             _itemController = itemController;
             _playerController = playerController;
         }
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             clientPacket.ReadInt(); //??
             uint itemId = (uint)clientPacket.ReadInt();
@@ -41,11 +42,11 @@ namespace AliasPro.Items.Packets.Events
                 if (item.ItemData.Type == "s")
                 {
                     room.RoomGrid.RemoveItem(item);
-                    await room.SendAsync(new RemoveFloorItemComposer(item));
+                    await room.SendPacketAsync(new RemoveFloorItemComposer(item));
                 }
                 else
                 {
-                    await room.SendAsync(new RemoveWallItemComposer(item));
+                    await room.SendPacketAsync(new RemoveWallItemComposer(item));
                 }
 
 				item.Interaction.OnPickupItem();

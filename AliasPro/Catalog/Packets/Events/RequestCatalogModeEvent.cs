@@ -1,15 +1,16 @@
 ﻿using AliasPro.API.Catalog;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Catalog.Packets.Composers;
-using AliasPro.Network.Events.Headers;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
+using System.Threading.Tasks;
 
 namespace AliasPro.Catalog.Packets.Events
 {
-    public class RequestCatalogModeEvent : IAsyncPacket
+    public class RequestCatalogModeEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.RequestCatalogModeMessageEvent;
+        public short Id { get; } = Incoming.RequestCatalogModeMessageEvent;
 
         private readonly ICatalogController _catalogController;
 
@@ -18,9 +19,9 @@ namespace AliasPro.Catalog.Packets.Events
             _catalogController = catalogController;
         }
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             string mode = clientPacket.ReadString();
             await session.SendPacketAsync(new CatalogModeComposer(mode.Equals("normal") ? 0 : 1));

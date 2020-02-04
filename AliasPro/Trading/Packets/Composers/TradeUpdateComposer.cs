@@ -1,12 +1,12 @@
 ﻿using AliasPro.API.Items.Models;
-using AliasPro.API.Network.Events;
 using AliasPro.API.Trading.Models;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Trading.Packets.Composers
 {
-    public class TradeUpdateComposer : IPacketComposer
+    public class TradeUpdateComposer : IMessageComposer
     {
 		private readonly ITrade _trade;
 
@@ -15,20 +15,20 @@ namespace AliasPro.Trading.Packets.Composers
 			_trade = trade;
 		}
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.TradeUpdateMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.TradeUpdateMessageComposer);
 			foreach (ITradePlayer player in _trade.Players)
 			{
-				message.WriteInt(player.playerId);
+				message.WriteInt((int)player.playerId);
 				message.WriteInt(player.OfferedItems.Count);
 
 				foreach (IItem item in player.OfferedItems.Values)
 				{
-					message.WriteInt(item.Id);
+					message.WriteInt((int)item.Id);
 					message.WriteString(item.ItemData.Type.ToUpper());
-					message.WriteInt(item.Id);
-					message.WriteInt(item.ItemData.SpriteId);
+					message.WriteInt((int)item.Id);
+					message.WriteInt((int)item.ItemData.SpriteId);
 					message.WriteInt(0);
 					message.WriteBoolean(item.ItemData.CanStack);
 					item.Interaction.Compose(message, true);

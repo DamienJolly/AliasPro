@@ -1,18 +1,19 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
-using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
+﻿using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Players.Packets.Composers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Players.Packets.Events
 {
-    public class RequestBotInventoryEvent : IAsyncPacket
+    public class RequestBotInventoryEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.RequestBotInventoryMessageEvent;
+        public short Id { get; } = Incoming.RequestBotInventoryMessageEvent;
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             
             await session.SendPacketAsync(new InventoryBotsComposer(session.Player.Inventory.Bots));

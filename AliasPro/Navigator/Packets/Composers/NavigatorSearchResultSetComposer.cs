@@ -1,12 +1,12 @@
 ﻿using AliasPro.API.Navigator.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 
 namespace AliasPro.Navigator.Packets.Composers
 {
-    public class NavigatorSearchResultSetComposer : IPacketComposer
+    public class NavigatorSearchResultSetComposer : IMessageComposer
     {
         private readonly string _name;
         private readonly string _query;
@@ -19,9 +19,9 @@ namespace AliasPro.Navigator.Packets.Composers
             _results = results;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-			ServerPacket message = new ServerPacket(Outgoing.NavigatorSearchResultSetMessageComposer);
+			ServerMessage message = new ServerMessage(Outgoing.NavigatorSearchResultSetMessageComposer);
             message.WriteString(_name);
             message.WriteString(_query);
             message.WriteInt(_results.Count);

@@ -1,11 +1,11 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Rooms.Entities;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
-    public class PetInformationComposer : IPacketComposer
+    public class PetInformationComposer : IMessageComposer
     {
         private readonly PetEntity _petEntity;
 
@@ -14,9 +14,9 @@ namespace AliasPro.Rooms.Packets.Composers
 			_petEntity = petEntity;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-			ServerPacket message = new ServerPacket(Outgoing.PetInformationMessageComposer);
+			ServerMessage message = new ServerMessage(Outgoing.PetInformationMessageComposer);
 			message.WriteInt(_petEntity.Id);
 			message.WriteString(_petEntity.Name);
 			message.WriteInt(_petEntity.PetLevel);
@@ -28,7 +28,7 @@ namespace AliasPro.Rooms.Packets.Composers
 			message.WriteInt(_petEntity.Happyness);
 			message.WriteInt(100); //max happyness, config?
 			message.WriteInt(_petEntity.Respect);
-			message.WriteInt(_petEntity.OwnerId);
+			message.WriteInt((int)_petEntity.OwnerId);
 			message.WriteInt(_petEntity.DaysOld);
 			message.WriteString(_petEntity.OwnerUsername);
 			message.WriteInt(0); //rarity

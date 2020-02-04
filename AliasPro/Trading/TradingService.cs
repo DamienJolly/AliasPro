@@ -1,31 +1,30 @@
-﻿using AliasPro.API.Network;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Trading;
+﻿using AliasPro.API.Trading;
+using AliasPro.Communication.Messages;
 using AliasPro.Trading.Packets.Events;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AliasPro.Trading
 {
-    internal class TradingService : INetworkService
-    {
-        public void SetupService(IServiceCollection collection)
+    internal class TradingService : IService
+	{
+        public void Register(IServiceCollection collection)
         {
             collection.AddSingleton<TradingDao>();
             collection.AddSingleton<ITradingController, TradingController>();
 
-			AddPackets(collection);
+			RegisterPackets(collection);
 		}
 
-		private static void AddPackets(IServiceCollection collection)
+		private static void RegisterPackets(IServiceCollection collection)
 		{
-			collection.AddSingleton<IAsyncPacket, TradeStartEvent>();
-			collection.AddSingleton<IAsyncPacket, TradeOfferItemEvent>();
-			collection.AddSingleton<IAsyncPacket, TradeOfferMultipleItemsEvent>();
-			collection.AddSingleton<IAsyncPacket, TradeCancelOfferItemEvent>();
-			collection.AddSingleton<IAsyncPacket, TradeAcceptEvent>();
-			collection.AddSingleton<IAsyncPacket, TradeUnAcceptEvent>();
-			collection.AddSingleton<IAsyncPacket, TradeConfirmEvent>();
-			collection.AddSingleton<IAsyncPacket, TradeCloseEvent>();
+			collection.AddSingleton<IMessageEvent, TradeStartEvent>();
+			collection.AddSingleton<IMessageEvent, TradeOfferItemEvent>();
+			collection.AddSingleton<IMessageEvent, TradeOfferMultipleItemsEvent>();
+			collection.AddSingleton<IMessageEvent, TradeCancelOfferItemEvent>();
+			collection.AddSingleton<IMessageEvent, TradeAcceptEvent>();
+			collection.AddSingleton<IMessageEvent, TradeUnAcceptEvent>();
+			collection.AddSingleton<IMessageEvent, TradeConfirmEvent>();
+			collection.AddSingleton<IMessageEvent, TradeCloseEvent>();
 		}
 	}
 }

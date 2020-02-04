@@ -1,19 +1,20 @@
 ﻿using AliasPro.API.Groups;
 using AliasPro.API.Groups.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
 using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Players.Packets.Composers;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AliasPro.Players.Packets.Events
 {
-    public class RequestUserProfileEvent : IAsyncPacket
+    public class RequestUserProfileEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.RequestUserProfileMessageEvent;
+        public short Id { get; } = Incoming.RequestUserProfileMessageEvent;
 
         private readonly IPlayerController _playerController;
         private readonly IGroupController _groupController;
@@ -26,9 +27,9 @@ namespace AliasPro.Players.Packets.Events
             _groupController = groupController;
         }
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             int playerId = clientPacket.ReadInt();
 

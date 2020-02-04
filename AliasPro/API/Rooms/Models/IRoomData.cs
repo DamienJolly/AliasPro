@@ -1,12 +1,12 @@
 ﻿using AliasPro.API.Groups.Models;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 
 namespace AliasPro.API.Rooms.Models
 {
     public interface IRoomData
     {
-        void Compose(ServerPacket serverPacket);
+        void Compose(ServerMessage ServerMessage);
 
         uint Id { get; set; }
         int OwnerId { get; set; }

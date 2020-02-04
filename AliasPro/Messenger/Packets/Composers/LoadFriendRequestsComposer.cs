@@ -1,12 +1,12 @@
 ﻿using AliasPro.API.Messenger.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 
 namespace AliasPro.Messenger.Packets.Composers
 {
-    public class LoadFriendRequestsComposer : IPacketComposer
+    public class LoadFriendRequestsComposer : IMessageComposer
     {
         private readonly ICollection<IMessengerRequest> _requests;
 
@@ -15,9 +15,9 @@ namespace AliasPro.Messenger.Packets.Composers
             _requests = requests;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.LoadFriendRequestsMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.LoadFriendRequestsMessageComposer);
             message.WriteInt(_requests.Count);
             message.WriteInt(_requests.Count);
             foreach (IMessengerRequest request in _requests)

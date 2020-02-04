@@ -1,12 +1,12 @@
 ﻿using AliasPro.API.Items.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 
 namespace AliasPro.Players.Packets.Composers
 {
-    public class FurniListComposer : IPacketComposer
+    public class FurniListComposer : IMessageComposer
     {
         private readonly ICollection<IItem> _items;
 
@@ -15,19 +15,19 @@ namespace AliasPro.Players.Packets.Composers
             _items = items;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.FurniListMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.FurniListMessageComposer);
             message.WriteInt(1);
             message.WriteInt(0);
 
             message.WriteInt(_items.Count);
             foreach (IItem item in _items)
             {
-                message.WriteInt(item.Id);
+                message.WriteInt((int)item.Id);
                 message.WriteString(item.ItemData.Type.ToUpper());
-                message.WriteInt(item.Id);
-                message.WriteInt(item.ItemData.SpriteId);
+                message.WriteInt((int)item.Id);
+                message.WriteInt((int)item.ItemData.SpriteId);
 				item.Interaction.Compose(message);
 				message.WriteBoolean(item.ItemData.AllowRecycle);
                 message.WriteBoolean(item.ItemData.AllowTrade);

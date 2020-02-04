@@ -1,25 +1,26 @@
 ﻿using AliasPro.API.Figure;
 using AliasPro.API.Items;
 using AliasPro.API.Moderation;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Permissions;
 using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Moderation.Packets.Composers;
-using AliasPro.Network.Events.Headers;
 using AliasPro.Players.Components;
 using AliasPro.Players.Cycles;
 using AliasPro.Players.Models;
 using AliasPro.Players.Packets.Composers;
 using AliasPro.Utilities;
+using System.Threading.Tasks;
 
 namespace AliasPro.Players.Packets.Events
 {
-    public class SecureLoginEvent : IAsyncPacket
+    public class SecureLoginEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.SecureLoginMessageEvent;
+        public short Id { get; } = Incoming.SecureLoginMessageEvent;
 
         private readonly IPlayerController _playerController;
         private readonly IItemController _itemController;
@@ -41,9 +42,9 @@ namespace AliasPro.Players.Packets.Events
 			_permissionsController = permissionsController;
 		}
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             string ssoTicket = clientPacket.ReadString();
 
@@ -112,7 +113,7 @@ namespace AliasPro.Players.Packets.Events
 
 			await session.SendPacketAsync(new ModerationTopicsComposer());
 
-			if (_permissionsController.HasPermission(session.Player, "acc_modtool"))
+		    if (_permissionsController.HasPermission(session.Player, "acc_modtool"))
             {
                 await session.SendPacketAsync(new ModerationToolComposer(
 					_permissionsController,

@@ -1,24 +1,27 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
-using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
+﻿using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
+using System.Threading.Tasks;
 
 namespace AliasPro.Navigator.Packets.Events
 {
-    internal class UpdateNavigatorPreferencesEvent : IAsyncPacket
+    internal class UpdateNavigatorPreferencesEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.UpdateNavigatorPreferencesMessageEvent;
+        public short Id { get; } = Incoming.UpdateNavigatorPreferencesMessageEvent;
         
-        public void HandleAsync(
+        public Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             session.Player.PlayerSettings.NaviX = clientPacket.ReadInt();
             session.Player.PlayerSettings.NaviY = clientPacket.ReadInt();
             session.Player.PlayerSettings.NaviWidth = clientPacket.ReadInt();
             session.Player.PlayerSettings.NaviHeight = clientPacket.ReadInt();
-            session.Player.PlayerSettings.NaviHideSearches = clientPacket.ReadBool();
+            session.Player.PlayerSettings.NaviHideSearches = clientPacket.ReadBoolean();
             clientPacket.ReadInt();
+
+            return Task.CompletedTask;
         }
     }
 }

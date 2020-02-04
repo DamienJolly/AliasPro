@@ -1,6 +1,6 @@
 ﻿using AliasPro.API.Database;
 using AliasPro.API.Players.Models;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Players.Types;
 using AliasPro.Utilities;
 using System.Data.Common;
@@ -41,7 +41,7 @@ namespace AliasPro.Players.Models
 			Created = (int)UnixTimestamp.Now;
 		}
 
-		public void Serialize(ServerPacket message)
+		public void Serialize(ServerMessage message)
 		{
 			message.WriteInt(Id);
 			message.WriteString(Name);

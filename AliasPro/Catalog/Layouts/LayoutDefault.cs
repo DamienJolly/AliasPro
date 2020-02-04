@@ -2,8 +2,8 @@
 using AliasPro.API.Catalog.Models;
 using AliasPro.API.Items.Models;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Models;
-using AliasPro.Network.Protocol;
 
 namespace AliasPro.Catalog.Layouts
 {
@@ -16,7 +16,7 @@ namespace AliasPro.Catalog.Layouts
             _page = page;
         }
 
-        public void Compose(ServerPacket message)
+        public void Compose(ServerMessage message)
         {
             message.WriteString("default_3x3");
             message.WriteInt(3);

@@ -1,14 +1,13 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
-
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 namespace AliasPro.Moderation.Packets.Composers
 {
-    public class ModerationTopicsComposer : IPacketComposer
+    public class ModerationTopicsComposer : IMessageComposer
     {
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.ModerationTopicsMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.ModerationTopicsMessageComposer);
 			message.WriteInt(1);
 			message.WriteString("Sexually Explicit");
 			message.WriteInt(2);

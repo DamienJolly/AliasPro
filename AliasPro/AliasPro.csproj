@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="API\Network\**" />
+    <Compile Remove="Game\**" />
+    <Compile Remove="Network\Codec\**" />
+    <Compile Remove="Network\Events\**" />
+    <Compile Remove="Network\Protocol\**" />
     <Compile Remove="Players\Models\Messenger\**" />
     <Compile Remove="Players\Tasks\**" />
     <Compile Remove="Rooms\Gamemap\**" />
@@ -15,6 +20,11 @@
     <Compile Remove="Rooms\Models\Right\**" />
     <Compile Remove="Rooms\Tasks\**" />
     <Compile Remove="Settings\**" />
+    <EmbeddedResource Remove="API\Network\**" />
+    <EmbeddedResource Remove="Game\**" />
+    <EmbeddedResource Remove="Network\Codec\**" />
+    <EmbeddedResource Remove="Network\Events\**" />
+    <EmbeddedResource Remove="Network\Protocol\**" />
     <EmbeddedResource Remove="Players\Models\Messenger\**" />
     <EmbeddedResource Remove="Players\Tasks\**" />
     <EmbeddedResource Remove="Rooms\Gamemap\**" />
@@ -23,6 +33,11 @@
     <EmbeddedResource Remove="Rooms\Models\Right\**" />
     <EmbeddedResource Remove="Rooms\Tasks\**" />
     <EmbeddedResource Remove="Settings\**" />
+    <None Remove="API\Network\**" />
+    <None Remove="Game\**" />
+    <None Remove="Network\Codec\**" />
+    <None Remove="Network\Events\**" />
+    <None Remove="Network\Protocol\**" />
     <None Remove="Players\Models\Messenger\**" />
     <None Remove="Players\Tasks\**" />
     <None Remove="Rooms\Gamemap\**" />
@@ -38,6 +53,10 @@
     <Compile Remove="Navigator\Views\NavigatorPlayerView.cs" />
     <Compile Remove="Navigator\Views\NavigatorPublicView.cs" />
     <Compile Remove="Navigator\Views\QueryCategory.cs" />
+    <Compile Remove="Network\NetworkHandler.cs" />
+    <Compile Remove="Network\NetworkInitializer.cs" />
+    <Compile Remove="Network\NetworkListener.cs" />
+    <Compile Remove="Network\NetworkService.cs" />
     <Compile Remove="Rooms\Components\MappingComponent.cs" />
   </ItemGroup>
 

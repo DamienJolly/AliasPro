@@ -1,20 +1,21 @@
 ﻿using AliasPro.API.Items;
 using AliasPro.API.Items.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Interaction;
 using AliasPro.Items.Packets.Composers;
 using AliasPro.Items.Tasks;
-using AliasPro.Network.Events.Headers;
 using AliasPro.Tasks;
+using System.Threading.Tasks;
 
 namespace AliasPro.Items.Packets.Events
 {
-	public class RedeemGiftEvent : IAsyncPacket
+	public class RedeemGiftEvent : IMessageEvent
 	{
-        public short Header { get; } = Incoming.RedeemGiftMessageEvent;
+        public short Id { get; } = Incoming.RedeemGiftMessageEvent;
 
 		private readonly IItemController _itemController;
 
@@ -24,27 +25,31 @@ namespace AliasPro.Items.Packets.Events
 			_itemController = itemController;
 		}
 
-		public async void HandleAsync(
+		public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             IRoom room = session.CurrentRoom;
 
-            if (room == null) return;
+            if (room == null) 
+				return;
 
-			if (!session.CurrentRoom.Rights.IsOwner(session.Player.Id)) return;
+			if (!session.CurrentRoom.Rights.IsOwner(session.Player.Id)) 
+				return;
 
 			uint itemId = (uint)clientPacket.ReadInt();
-			if (!room.Items.TryGetItem(itemId, out IItem item)) return;
+			if (!room.Items.TryGetItem(itemId, out IItem item)) 
+				return;
 
-			if (item.ItemData.Type != "s") return;
+			if (item.ItemData.Type != "s") 
+				return;
 
 			if (item.Interaction is InteractionGift giftInteraction)
 			{
 				if (item.ItemData.Name.Contains("present_wrap"))
 				{
 					giftInteraction.Exploaded = true;
-					await room.SendAsync(new FloorItemUpdateComposer(item));
+					await room.SendPacketAsync(new FloorItemUpdateComposer(item));
 				}
 
 				if (!_itemController.TryGetItemDataById((uint)giftInteraction.itemId, out IItemData giftData))
@@ -61,7 +66,7 @@ namespace AliasPro.Items.Packets.Events
 
 				room.RoomGrid.RemoveItem(item);
 				room.Items.RemoveItem(item.Id);
-				await room.SendAsync(new RemoveFloorItemComposer(item));
+				await room.SendPacketAsync(new RemoveFloorItemComposer(item));
 
 				item.ItemData = giftData;
 				item.ItemId = giftData.Id;

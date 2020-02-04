@@ -1,12 +1,12 @@
 ﻿using AliasPro.API.Navigator.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 
 namespace AliasPro.Navigator.Packets.Composers
 {
-    public class UserFlatCatsComposer : IPacketComposer
+    public class UserFlatCatsComposer : IMessageComposer
     {
         private readonly ICollection<INavigatorCategory> _categories;
         private readonly int _playerRank;
@@ -17,9 +17,9 @@ namespace AliasPro.Navigator.Packets.Composers
             _playerRank = playerRank;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.UserFlatCatsMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.UserFlatCatsMessageComposer);
             message.WriteInt(_categories.Count);
 
             foreach (INavigatorCategory category in _categories)

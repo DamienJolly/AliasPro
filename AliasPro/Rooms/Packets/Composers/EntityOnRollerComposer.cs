@@ -1,12 +1,12 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Rooms.Entities;
+﻿using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
-    public class EntityOnRollerComposer : IPacketComposer
+    public class EntityOnRollerComposer : IMessageComposer
     {
         private readonly BaseEntity _entity;
         private readonly IRoomPosition _target;
@@ -19,15 +19,15 @@ namespace AliasPro.Rooms.Packets.Composers
             _rollerId = rollerId;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.SlideObjectMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.SlideObjectMessageComposer);
             message.WriteInt(_entity.Position.X);
             message.WriteInt(_entity.Position.Y);
             message.WriteInt(_target.X);
             message.WriteInt(_target.Y);
             message.WriteInt(0);
-            message.WriteInt(_rollerId);
+            message.WriteInt((int)_rollerId);
             message.WriteInt(2);
             message.WriteInt(_entity.Id);
             message.WriteDouble(_entity.Position.Z);

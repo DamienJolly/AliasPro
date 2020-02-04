@@ -2,8 +2,8 @@
 
 namespace AliasPro.API.Network.Events
 {
-    public interface IPacketComposer
+    public interface IMessageComposer
     {
-        ServerPacket Compose();
+        ServerMessage Compose();
     }
 }

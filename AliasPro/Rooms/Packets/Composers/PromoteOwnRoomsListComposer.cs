@@ -1,12 +1,12 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Rooms.Models;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.API.Rooms.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
-    public class PromoteOwnRoomsListComposer : IPacketComposer
+    public class PromoteOwnRoomsListComposer : IMessageComposer
     {
         private readonly ICollection<IRoomData> _rooms;
 
@@ -15,14 +15,14 @@ namespace AliasPro.Rooms.Packets.Composers
             _rooms = rooms;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.PromoteOwnRoomsListMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.PromoteOwnRoomsListMessageComposer);
             message.WriteBoolean(false); //??
             message.WriteInt(_rooms.Count);
             foreach (IRoomData room in _rooms)
             {
-                message.WriteInt(room.Id);
+                message.WriteInt((int)room.Id);
                 message.WriteString(room.Name);
                 message.WriteBoolean(room.IsPromoted);
             }

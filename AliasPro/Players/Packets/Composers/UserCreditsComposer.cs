@@ -1,10 +1,10 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Players.Packets.Composers
 {
-    public class UserCreditsComposer : IPacketComposer
+    public class UserCreditsComposer : IMessageComposer
     {
         private readonly int _credits;
 
@@ -13,9 +13,9 @@ namespace AliasPro.Players.Packets.Composers
             _credits = credits;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.UserCreditsMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.UserCreditsMessageComposer);
             message.WriteString(_credits + ".0");
             return message;
         }

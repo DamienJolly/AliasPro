@@ -25,7 +25,7 @@ namespace AliasPro.Rooms.Components
         public async void UnbanPlayer(int playerId)
         {
             _bannedPlayers.Remove(playerId);
-            await _room.SendAsync(new RoomUserUnbannedComposer((int)_room.Id, playerId));
+            await _room.SendPacketAsync(new RoomUserUnbannedComposer((int)_room.Id, playerId));
         }
 
         public bool PlayerBanned(int playerId)

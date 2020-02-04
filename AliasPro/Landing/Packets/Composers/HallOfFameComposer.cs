@@ -1,12 +1,12 @@
 ﻿using AliasPro.API.Landing.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 
 namespace AliasPro.Landing.Packets.Composers
 {
-    public class HallOfFameComposer : IPacketComposer
+    public class HallOfFameComposer : IMessageComposer
     {
         private readonly IList<IHallOfFamer> _hallOfFamers;
         private readonly string _key;
@@ -17,16 +17,16 @@ namespace AliasPro.Landing.Packets.Composers
             _key = key;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.HallOfFameMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.HallOfFameMessageComposer);
             message.WriteString(_key);
             message.WriteInt(_hallOfFamers.Count);
 
             int count = 1;
             foreach (IHallOfFamer hallOfFamer in _hallOfFamers)
             {
-                message.WriteInt(hallOfFamer.Id);
+                message.WriteInt((int)hallOfFamer.Id);
                 message.WriteString(hallOfFamer.Username);
                 message.WriteString(hallOfFamer.Figure);
                 message.WriteInt(count);

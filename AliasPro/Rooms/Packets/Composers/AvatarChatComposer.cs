@@ -1,11 +1,11 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Rooms.Types;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
-    public class AvatarChatComposer : IPacketComposer
+    public class AvatarChatComposer : IMessageComposer
     {
         private readonly int _id;
         private readonly string _message;
@@ -22,9 +22,9 @@ namespace AliasPro.Rooms.Packets.Composers
             _chatType = chatType;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(GetHeaderId(_chatType));
+            ServerMessage message = new ServerMessage(GetHeaderId(_chatType));
             message.WriteInt(_id);
             message.WriteString(_message);
             message.WriteInt(_expression);

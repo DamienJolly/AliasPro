@@ -1,19 +1,20 @@
 ﻿using AliasPro.API.Messenger.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
 using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Rooms.Packets.Composers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Rooms.Packets.Events
 {
-    public class UserGiveRightsEvent : IAsyncPacket
+    public class UserGiveRightsEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.UserGiveRightsMessageEvent;
+        public short Id { get; } = Incoming.UserGiveRightsMessageEvent;
 
         private readonly IPlayerController _playerController;
         private readonly IRoomController _roomController;
@@ -24,17 +25,20 @@ namespace AliasPro.Rooms.Packets.Events
             _roomController = roomController;
         }
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             IRoom room = session.CurrentRoom;
-            if (room == null || session.Entity == null) return;
+            if (room == null || session.Entity == null) 
+                return;
 
-            if (!room.Rights.IsOwner(session.Player.Id)) return;
+            if (!room.Rights.IsOwner(session.Player.Id)) 
+                return;
 
             int targetId = clientPacket.ReadInt();
-            if (room.Rights.HasRights((uint)targetId)) return;
+            if (room.Rights.HasRights((uint)targetId)) 
+                return;
 
             string username;
             bool reloadRights = false;
@@ -60,7 +64,7 @@ namespace AliasPro.Rooms.Packets.Events
             if (reloadRights)
                 await room.Rights.ReloadRights(targetPlayer.Session);
 
-            await room.SendAsync(new RoomAddRightsListComposer((int)room.Id, targetId, username));
+            await room.SendPacketAsync(new RoomAddRightsListComposer((int)room.Id, targetId, username));
         }
     }
 }

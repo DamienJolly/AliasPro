@@ -1,11 +1,11 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Rooms.Models;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.API.Rooms.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Moderation.Packets.Composers
 {
-    public class ModerationRoomInfoComposer : IPacketComposer
+    public class ModerationRoomInfoComposer : IMessageComposer
     {
         private readonly IRoom _room;
         
@@ -15,11 +15,11 @@ namespace AliasPro.Moderation.Packets.Composers
             _room = room;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
             bool publicRoom = true;
-            ServerPacket message = new ServerPacket(Outgoing.ModerationRoomInfoMessageComposer);
-            message.WriteInt(_room.Id);
+            ServerMessage message = new ServerMessage(Outgoing.ModerationRoomInfoMessageComposer);
+            message.WriteInt((int)_room.Id);
             message.WriteInt(_room.UsersNow);
             message.WriteBoolean(true); //todo: owner online
             message.WriteInt(_room.OwnerId);

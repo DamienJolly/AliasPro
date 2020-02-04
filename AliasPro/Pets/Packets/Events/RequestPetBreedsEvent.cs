@@ -1,16 +1,17 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
-using AliasPro.API.Pets;
+﻿using AliasPro.API.Pets;
 using AliasPro.API.Pets.Models;
 using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Pets.Packets.Composers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Pets.Packets.Events
 {
-    public class RequestPetBreedsEvent : IAsyncPacket
+    public class RequestPetBreedsEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.RequestPetBreedsMessageEvent;
+        public short Id { get; } = Incoming.RequestPetBreedsMessageEvent;
 
         private readonly IPetController _petController;
 
@@ -19,9 +20,9 @@ namespace AliasPro.Pets.Packets.Events
 			_petController = petController;
         }
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
 			string name = clientPacket.ReadString();
 

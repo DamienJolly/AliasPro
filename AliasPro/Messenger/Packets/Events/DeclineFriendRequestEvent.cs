@@ -1,14 +1,15 @@
 ﻿using AliasPro.API.Messenger;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
+using System.Threading.Tasks;
 
 namespace AliasPro.Messenger.Packets.Events
 {
-    public class DeclineFriendRequestEvent : IAsyncPacket
+    public class DeclineFriendRequestEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.DeclineFriendRequestMessageEvent;
+        public short Id { get; } = Incoming.DeclineFriendRequestMessageEvent;
 
         private readonly IMessengerController _messengerController;
 
@@ -17,11 +18,11 @@ namespace AliasPro.Messenger.Packets.Events
             _messengerController = messengerController;
         }
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
-            bool DeclineAll = clientPacket.ReadBool();
+            bool DeclineAll = clientPacket.ReadBoolean();
             
             if(DeclineAll)
             {

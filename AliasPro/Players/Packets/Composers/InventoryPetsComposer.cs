@@ -1,12 +1,12 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Players.Models;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.API.Players.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 
 namespace AliasPro.Players.Packets.Composers
 {
-    public class InventoryPetsComposer : IPacketComposer
+    public class InventoryPetsComposer : IMessageComposer
     {
         private readonly ICollection<IPlayerPet> _pets;
 
@@ -15,9 +15,9 @@ namespace AliasPro.Players.Packets.Composers
 			_pets = pets;
 		}
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.InventoryPetsMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.InventoryPetsMessageComposer);
             message.WriteInt(1); // ??
             message.WriteInt(1); // ??
 

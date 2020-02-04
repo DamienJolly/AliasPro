@@ -1,10 +1,10 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Messenger.Packets.Composers
 {
-    public class RoomInviteErrorComposer : IPacketComposer
+    public class RoomInviteErrorComposer : IMessageComposer
     {
         public static readonly int FRIEND_MUTED = 3;
         public static readonly int YOU_ARE_MUTED = 4;
@@ -22,11 +22,11 @@ namespace AliasPro.Messenger.Packets.Composers
             _targetId = targetId;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.RoomInviteErrorMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.RoomInviteErrorMessageComposer);
             message.WriteInt(_errorCode);
-            message.WriteInt(_targetId);
+            message.WriteInt((int)_targetId);
             message.WriteString("");
             return message;
         }

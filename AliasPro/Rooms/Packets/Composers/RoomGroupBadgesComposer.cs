@@ -1,12 +1,12 @@
 ﻿using AliasPro.API.Groups.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
-    public class RoomGroupBadgesComposer : IPacketComposer
+    public class RoomGroupBadgesComposer : IMessageComposer
     {
         private readonly ICollection<IGroup> _groups;
 
@@ -21,9 +21,9 @@ namespace AliasPro.Rooms.Packets.Composers
             _groups.Add(group);
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.RoomGroupBadgesMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.RoomGroupBadgesMessageComposer);
             message.WriteInt(_groups.Count);
             foreach (IGroup group in _groups)
             {

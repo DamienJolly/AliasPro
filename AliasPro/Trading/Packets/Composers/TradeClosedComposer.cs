@@ -1,10 +1,10 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Trading.Packets.Composers
 {
-    public class TradeClosedComposer : IPacketComposer
+    public class TradeClosedComposer : IMessageComposer
     {
 		public static readonly int USER_CANCEL_TRADE = 0;
 		public static readonly int ITEMS_NOT_FOUND = 1;
@@ -18,10 +18,10 @@ namespace AliasPro.Trading.Packets.Composers
 			_playerId = playerId;
 		}
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.TradeClosedMessageComposer);
-            message.WriteInt(_playerId);
+            ServerMessage message = new ServerMessage(Outgoing.TradeClosedMessageComposer);
+            message.WriteInt((int)_playerId);
 			message.WriteInt(_code);
 			return message;
         }

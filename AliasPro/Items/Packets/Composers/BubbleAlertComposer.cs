@@ -1,11 +1,11 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 
 namespace AliasPro.Items.Packets.Composers
 {
-    public class BubbleAlertComposer : IPacketComposer
+    public class BubbleAlertComposer : IMessageComposer
     {
 		public static readonly string ADMIN_PERSISTENT = "admin.persistent";
 		public static readonly string ADMIN_TRANSIENT = "admin.transient";
@@ -64,9 +64,9 @@ namespace AliasPro.Items.Packets.Composers
 			_keys = keys;
 		}
 
-		public ServerPacket Compose()
+		public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.BubbleAlertMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.BubbleAlertMessageComposer);
 			message.WriteString(_errorkey);
 			message.WriteInt(_keys.Count);
 			foreach (var set in _keys)

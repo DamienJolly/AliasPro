@@ -1,10 +1,10 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
-    public class RoomRightsComposer : IPacketComposer
+    public class RoomRightsComposer : IMessageComposer
     {
         private readonly int _rightLevel;
 
@@ -13,9 +13,9 @@ namespace AliasPro.Rooms.Packets.Composers
             _rightLevel = rightLevel;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.RoomRightsMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.RoomRightsMessageComposer);
             message.WriteInt(_rightLevel);
             return message;
         }

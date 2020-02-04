@@ -1,12 +1,12 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Rooms.Models;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.API.Rooms.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
-    public class FloorPlanBlockedTilesComposer : IPacketComposer
+    public class FloorPlanBlockedTilesComposer : IMessageComposer
     {
         private readonly ICollection<IRoomTile> _lockedTiles;
 
@@ -15,9 +15,9 @@ namespace AliasPro.Rooms.Packets.Composers
             _lockedTiles = lockedTiles;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.FloorPlanBlockedTilesMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.FloorPlanBlockedTilesMessageComposer);
             message.WriteInt(_lockedTiles.Count);
             foreach (IRoomTile tile in _lockedTiles)
             {

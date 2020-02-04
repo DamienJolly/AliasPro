@@ -1,17 +1,18 @@
 ﻿using AliasPro.API.Landing;
 using AliasPro.API.Landing.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Landing.Packets.Composers;
-using AliasPro.Network.Events.Headers;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AliasPro.Landing.Packets.Events
 {
-    public class RequestNewsListEvent : IAsyncPacket
+    public class RequestNewsListEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.RequestNewsListMessageEvent;
+        public short Id { get; } = Incoming.RequestNewsListMessageEvent;
 
         private readonly ILandingController _landingController;
 
@@ -20,9 +21,9 @@ namespace AliasPro.Landing.Packets.Events
             _landingController = landingController;
         }
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             IList<IArticle> artiles = await _landingController.GetNewsArticlesAsync();
             await session.SendPacketAsync(new NewsListComposer(artiles));

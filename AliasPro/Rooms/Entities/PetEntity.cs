@@ -1,6 +1,6 @@
 ﻿using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Players.Types;
 using AliasPro.Utilities;
 using System;
@@ -208,31 +208,31 @@ namespace AliasPro.Rooms.Entities
             //find drink types
         }
 
-        public override void Compose(ServerPacket serverPacket)
+        public override void Compose(ServerMessage ServerMessage)
         {
-			serverPacket.WriteInt(-PetId); //petId?
-            serverPacket.WriteString(Name);
-            serverPacket.WriteString(string.Empty);
-            serverPacket.WriteString(Type + " " + Race + " " + Colour);
-			serverPacket.WriteInt(Id);
-            serverPacket.WriteInt(Position.X);
-            serverPacket.WriteInt(Position.Y);
-            serverPacket.WriteString(Position.Z.ToString());
-			serverPacket.WriteInt(BodyRotation);
+			ServerMessage.WriteInt(-PetId); //petId?
+            ServerMessage.WriteString(Name);
+            ServerMessage.WriteString(string.Empty);
+            ServerMessage.WriteString(Type + " " + Race + " " + Colour);
+			ServerMessage.WriteInt(Id);
+            ServerMessage.WriteInt(Position.X);
+            ServerMessage.WriteInt(Position.Y);
+            ServerMessage.WriteDouble(Position.Z);
+			ServerMessage.WriteInt(BodyRotation);
 
-			serverPacket.WriteInt(2);
-			serverPacket.WriteInt(Type);
-			serverPacket.WriteInt(OwnerId);
-			serverPacket.WriteString(OwnerUsername);
-			serverPacket.WriteInt(1); // rarity
-			serverPacket.WriteBoolean(false); // sadle
-			serverPacket.WriteBoolean(false); // riding horse
-			serverPacket.WriteBoolean(false); // can breed
-			serverPacket.WriteBoolean(false); // fully grown
-			serverPacket.WriteBoolean(false); // can revive
-			serverPacket.WriteBoolean(false); // public breed?
-			serverPacket.WriteInt(PetLevel); // level
-			serverPacket.WriteString(string.Empty); // ??
+			ServerMessage.WriteInt(2);
+			ServerMessage.WriteInt(Type);
+			ServerMessage.WriteInt((int)OwnerId);
+			ServerMessage.WriteString(OwnerUsername);
+			ServerMessage.WriteInt(1); // rarity
+			ServerMessage.WriteBoolean(false); // sadle
+			ServerMessage.WriteBoolean(false); // riding horse
+			ServerMessage.WriteBoolean(false); // can breed
+			ServerMessage.WriteBoolean(false); // fully grown
+			ServerMessage.WriteBoolean(false); // can revive
+			ServerMessage.WriteBoolean(false); // public breed?
+			ServerMessage.WriteInt(PetLevel); // level
+			ServerMessage.WriteString(string.Empty); // ??
 		}
 
 		public int PetLevel

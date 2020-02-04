@@ -1,11 +1,11 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Trading.Models;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.API.Trading.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Trading.Packets.Composers
 {
-    public class TradeStartComposer : IPacketComposer
+    public class TradeStartComposer : IMessageComposer
     {
 		private readonly ITrade _trade;
 
@@ -14,12 +14,12 @@ namespace AliasPro.Trading.Packets.Composers
 			_trade = trade;
 		}
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.TradeStartMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.TradeStartMessageComposer);
 			foreach (ITradePlayer player in _trade.Players)
 			{
-				message.WriteInt(player.playerId);
+				message.WriteInt((int)player.playerId);
 				message.WriteInt(1); //dunno?
 			}
 			return message;

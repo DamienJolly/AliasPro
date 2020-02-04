@@ -1,13 +1,13 @@
 ﻿using AliasPro.API.Chat.Models;
 using AliasPro.API.Moderation.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 
 namespace AliasPro.Moderation.Packets.Composers
 {
-    public class ModerationIssueChatlogComposer : IPacketComposer
+    public class ModerationIssueChatlogComposer : IMessageComposer
     {
         private readonly IModerationTicket _ticket;
         private readonly ICollection<IChatLog> _chatLogs;
@@ -18,9 +18,9 @@ namespace AliasPro.Moderation.Packets.Composers
             _chatLogs = chatLogs;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.ModerationIssueChatlogMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.ModerationIssueChatlogMessageComposer);
             message.WriteInt(_ticket.Id);
             message.WriteInt(_ticket.SenderId);
             message.WriteInt(_ticket.ReportedId);
@@ -35,7 +35,7 @@ namespace AliasPro.Moderation.Packets.Composers
             message.WriteByte(1);
             message.WriteInt(_ticket.RoomId);
 
-            message.WriteShort(_chatLogs.Count);
+            message.WriteShort((short)_chatLogs.Count);
             foreach (IChatLog chatlog in _chatLogs)
                 chatlog.Compose(message);
 

@@ -1,19 +1,20 @@
 ﻿using AliasPro.API.Messenger;
 using AliasPro.API.Messenger.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Messenger.Models;
 using AliasPro.Messenger.Packets.Composers;
-using AliasPro.Network.Events.Headers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Messenger.Packets.Events
 {
-    public class FriendRequestEvent : IAsyncPacket
+    public class FriendRequestEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.FriendRequestMessageEvent;
+        public short Id { get; } = Incoming.FriendRequestMessageEvent;
 
         private readonly IPlayerController _playerController;
         private readonly IMessengerController _messengerController;
@@ -24,9 +25,9 @@ namespace AliasPro.Messenger.Packets.Events
             _messengerController = messengerController;
         }
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             string username = clientPacket.ReadString();
 

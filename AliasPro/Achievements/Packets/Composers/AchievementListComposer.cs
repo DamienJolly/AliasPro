@@ -1,13 +1,13 @@
 ﻿using AliasPro.API.Achievements.Models;
-using AliasPro.API.Network.Events;
 using AliasPro.API.Players.Models;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 
 namespace AliasPro.Achievements.Packets.Composers
 {
-    public class AchievementListComposer : IPacketComposer
+    public class AchievementListComposer : IMessageComposer
     {
         private readonly IPlayer _player;
 		private readonly ICollection<IAchievement> _achievements;
@@ -20,9 +20,9 @@ namespace AliasPro.Achievements.Packets.Composers
 			_achievements = achievements;
 		}
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.AchievementListMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.AchievementListMessageComposer);
 			message.WriteInt(_achievements.Count);
 
 			foreach (IAchievement achievement in _achievements)

@@ -1,20 +1,21 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
-using AliasPro.API.Rooms;
+﻿using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Figure.Packets.Composers;
-using AliasPro.Network.Events.Headers;
 using AliasPro.Rooms.Entities;
 using AliasPro.Rooms.Packets.Composers;
 using AliasPro.Utilities;
+using System.Threading.Tasks;
 
 namespace AliasPro.Rooms.Packets.Events
 {
-    public class RoomBotSaveSettingsEvent : IAsyncPacket
+    public class RoomBotSaveSettingsEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.RoomBotSaveSettingsMessageEvent;
+        public short Id { get; } = Incoming.RoomBotSaveSettingsMessageEvent;
 
 		private readonly IRoomController _roomController;
 
@@ -23,12 +24,13 @@ namespace AliasPro.Rooms.Packets.Events
 			_roomController = roomController;
 		}
 
-		public async void HandleAsync(
+		public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             IRoom room = session.CurrentRoom;
-            if (room == null) return;
+            if (room == null) 
+				return;
 
 			if (room.OwnerId != session.Player.Id)
 				return;
@@ -47,7 +49,7 @@ namespace AliasPro.Rooms.Packets.Events
 				case 1:
 					botEntity.Figure = session.Player.Figure;
 					botEntity.Gender = session.Player.Gender;
-					await room.SendAsync(new UpdateEntityDataComposer(botEntity));
+					await room.SendPacketAsync(new UpdateEntityDataComposer(botEntity));
 					break;
 
 				case 2:
@@ -64,7 +66,7 @@ namespace AliasPro.Rooms.Packets.Events
 					else
 						botEntity.DanceId = Randomness.RandomNumber(1, 4);
 
-					await room.SendAsync(new UserDanceComposer(botEntity));
+					await room.SendPacketAsync(new UserDanceComposer(botEntity));
 					break;
 
 				case 5:
@@ -73,7 +75,7 @@ namespace AliasPro.Rooms.Packets.Events
 						return;
 
 					botEntity.Name = name;
-					await room.SendAsync(new EntitiesComposer(botEntity));
+					await room.SendPacketAsync(new EntitiesComposer(botEntity));
 					break;
 			}
 		}

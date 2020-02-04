@@ -24,7 +24,7 @@ namespace AliasPro.Items.Tasks
 				!_item.CurrentRoom.RoomGrid.TryGetRoomTile(_item.Position.X, _item.Position.Y, out IRoomTile tile))
 			{
 				_item.Mode = 0;
-				await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(_item));
+				await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
 				return;
 			}
 
@@ -32,7 +32,7 @@ namespace AliasPro.Items.Tasks
 			_entity.GoalPosition = tile.PositionInFront(_item.Rotation);
 			_item.Mode = 1;
 
-			await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(_item));
+			await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
 			await TaskManager.ExecuteTask(new TeleportTaskFive(_item, _entity), 1500);
 		}
 	}

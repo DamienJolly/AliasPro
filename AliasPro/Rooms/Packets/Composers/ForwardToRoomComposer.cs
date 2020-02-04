@@ -1,10 +1,10 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
-    public class ForwardToRoomComposer : IPacketComposer
+    public class ForwardToRoomComposer : IMessageComposer
     {
         private readonly uint _roomId;
 
@@ -13,10 +13,10 @@ namespace AliasPro.Rooms.Packets.Composers
             _roomId = roomId;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.ForwardToRoomMessageComposer);
-            message.WriteInt(_roomId);
+            ServerMessage message = new ServerMessage(Outgoing.ForwardToRoomMessageComposer);
+            message.WriteInt((int)_roomId);
             return message;
         }
     }

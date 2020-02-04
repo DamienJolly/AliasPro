@@ -1,11 +1,11 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Rooms.Models;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.API.Rooms.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
-    public class RoomChatSettingsComposer : IPacketComposer
+    public class RoomChatSettingsComposer : IMessageComposer
     {
         private readonly IRoomSettings _roomSettings;
 
@@ -14,9 +14,9 @@ namespace AliasPro.Rooms.Packets.Composers
             _roomSettings = roomSettings;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.RoomChatSettingsMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.RoomChatSettingsMessageComposer);
             message.WriteInt(_roomSettings.ChatMode);
             message.WriteInt(_roomSettings.ChatSize);
             message.WriteInt(_roomSettings.ChatSpeed);

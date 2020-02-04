@@ -1,17 +1,18 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
-using AliasPro.API.Permissions;
+﻿using AliasPro.API.Permissions;
 using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Moderation.Packets.Composers;
-using AliasPro.Network.Events.Headers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Moderation.Packets.Events
 {
-    public class ModerationRequestRoomInfoEvent : IAsyncPacket
+    public class ModerationRequestRoomInfoEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.ModerationRequestRoomInfoMessageEvent;
+        public short Id { get; } = Incoming.ModerationRequestRoomInfoMessageEvent;
 
 		private readonly IRoomController _roomController;
 		private readonly IPermissionsController _permissionsController;
@@ -24,9 +25,9 @@ namespace AliasPro.Moderation.Packets.Events
 			_permissionsController = permissionsController;
 		}
 
-		public async void HandleAsync(
+		public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
 			if (!_permissionsController.HasPermission(session.Player, "acc_modtool_room_info"))
 				return;

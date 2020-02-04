@@ -60,7 +60,7 @@ namespace AliasPro.Items.WiredInteraction
                             continue;
 
                         newPos.Z = roomTile.Height;
-                        await _item.CurrentRoom.SendAsync(new FloorItemOnRollerComposer(item, newPos, 0));
+                        await _item.CurrentRoom.SendPacketAsync(new FloorItemOnRollerComposer(item, newPos, 0));
 
                         _item.CurrentRoom.RoomGrid.RemoveItem(item);
                         item.Position = newPos;

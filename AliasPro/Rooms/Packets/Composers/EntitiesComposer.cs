@@ -1,12 +1,12 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Rooms.Entities;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.API.Rooms.Entities;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
-    public class EntitiesComposer : IPacketComposer
+    public class EntitiesComposer : IMessageComposer
     {
         private readonly ICollection<BaseEntity> _entities;
 
@@ -21,9 +21,9 @@ namespace AliasPro.Rooms.Packets.Composers
             _entities.Add(entity);
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.EntitiesMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.EntitiesMessageComposer);
             message.WriteInt(_entities.Count);
             foreach (BaseEntity entity in _entities)
             {

@@ -1,6 +1,6 @@
 ﻿using AliasPro.API.Chat.Models;
 using AliasPro.API.Database;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Utilities;
 using System;
 using System.Data.Common;
@@ -17,7 +17,7 @@ namespace AliasPro.Chat.Models
             Message = reader.ReadData<string>("message");
         }
 
-        public void Compose(ServerPacket message)
+        public void Compose(ServerMessage message)
         {
             message.WriteString(UnixTimestamp.FromUnixTimestamp(Timestamp).ToString("HH:mm"));
             message.WriteInt(PlayerId);

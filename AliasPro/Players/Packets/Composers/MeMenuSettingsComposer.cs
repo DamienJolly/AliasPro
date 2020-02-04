@@ -1,11 +1,11 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Players.Models;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.API.Players.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Players.Packets.Composers
 {
-    public class MeMenuSettingsComposer : IPacketComposer
+    public class MeMenuSettingsComposer : IMessageComposer
     {
         private readonly IPlayerSettings _settings;
 
@@ -14,9 +14,9 @@ namespace AliasPro.Players.Packets.Composers
             _settings = settings;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.MeMenuSettingsMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.MeMenuSettingsMessageComposer);
             message.WriteInt(_settings.VolumeSystem);
             message.WriteInt(_settings.VolumeFurni);
             message.WriteInt(_settings.VolumeTrax);

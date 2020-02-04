@@ -1,18 +1,19 @@
 ﻿using AliasPro.API.Groups;
 using AliasPro.API.Groups.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Rooms.Packets.Composers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Groups.Packets.Events
 {
-	public class GroupChangeBadgeEvent : IAsyncPacket
+	public class GroupChangeBadgeEvent : IMessageEvent
 	{
-		public short Header { get; } = Incoming.GroupChangeBadgeMessageEvent;
+		public short Id { get; } = Incoming.GroupChangeBadgeMessageEvent;
 
 		private readonly IGroupController _groupController;
 		private readonly IRoomController _roomController;
@@ -25,9 +26,9 @@ namespace AliasPro.Groups.Packets.Events
 			_roomController = roomController;
 		}
 
-		public async void HandleAsync(
+		public async Task RunAsync(
 			ISession session,
-			IClientPacket clientPacket)
+			ClientMessage clientPacket)
 		{
 			int groupId = clientPacket.ReadInt();
 			IGroup group = await _groupController.ReadGroupData(groupId);
@@ -57,7 +58,7 @@ namespace AliasPro.Groups.Packets.Events
 			if (_roomController.TryGetRoom((uint)group.RoomId, out IRoom room))
 			{
 				await room.UpdateRoomGroup(group);
-				await room.SendAsync(new RoomGroupBadgesComposer(group));
+				await room.SendPacketAsync(new RoomGroupBadgesComposer(group));
 			}
 		}
 	}

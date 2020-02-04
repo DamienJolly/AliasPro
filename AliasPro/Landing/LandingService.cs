@@ -1,27 +1,26 @@
 ﻿using AliasPro.API.Landing;
-using AliasPro.API.Network;
-using AliasPro.API.Network.Events;
+using AliasPro.Communication.Messages;
 using AliasPro.Landing.Packets.Events;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AliasPro.Landing
 {
-    internal class LandingService : INetworkService
+    internal class LandingService : IService
     {
-        public void SetupService(IServiceCollection collection)
+        public void Register(IServiceCollection collection)
         {
             collection.AddSingleton<LandingDao>();
             collection.AddSingleton<LandingRepository>();
             collection.AddSingleton<ILandingController, LandingController>();
 
-            AddPackets(collection);
+            RegisterPackets(collection);
         }
 
-        private static void AddPackets(IServiceCollection collection)
+        private static void RegisterPackets(IServiceCollection collection)
         {
-            collection.AddSingleton<IAsyncPacket, RequestNewsListEvent>();
-            collection.AddSingleton<IAsyncPacket, HotelViewEvent>();
-			collection.AddSingleton<IAsyncPacket, HotelViewDataEvent>();
+            collection.AddSingleton<IMessageEvent, RequestNewsListEvent>();
+            collection.AddSingleton<IMessageEvent, HotelViewEvent>();
+			collection.AddSingleton<IMessageEvent, HotelViewDataEvent>();
 		}
     }
 }

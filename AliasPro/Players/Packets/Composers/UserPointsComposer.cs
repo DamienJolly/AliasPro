@@ -1,10 +1,10 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Players.Packets.Composers
 {
-    public class UserPointsComposer : IPacketComposer
+    public class UserPointsComposer : IMessageComposer
     {
         private readonly int _amount;
         private readonly int _amountAdded;
@@ -17,9 +17,9 @@ namespace AliasPro.Players.Packets.Composers
             _type = type;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.UserPointsMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.UserPointsMessageComposer);
             message.WriteInt(_amount);
             message.WriteInt(_amountAdded);
             message.WriteInt(_type);

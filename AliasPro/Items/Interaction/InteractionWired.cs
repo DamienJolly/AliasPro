@@ -1,8 +1,8 @@
 ﻿using AliasPro.API.Items.Interaction;
 using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Types;
-using AliasPro.Network.Protocol;
 using AliasPro.Rooms.Entities;
 using AliasPro.Rooms.Packets.Composers;
 
@@ -17,7 +17,7 @@ namespace AliasPro.Items.Interaction
             _item = item;
         }
 
-        public void Compose(ServerPacket message, bool tradeItem)
+        public void Compose(ServerMessage message, bool tradeItem)
         {
 			if (!tradeItem)
 				message.WriteInt(1);

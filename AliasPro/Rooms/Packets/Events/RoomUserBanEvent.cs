@@ -1,20 +1,21 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
-using AliasPro.API.Players;
+﻿using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
 using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Rooms.Entities;
 using AliasPro.Rooms.Models;
 using AliasPro.Utilities;
+using System.Threading.Tasks;
 
 namespace AliasPro.Rooms.Packets.Events
 {
-    public class RoomUserBanEvent : IAsyncPacket
+    public class RoomUserBanEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.RoomUserBanMessageEvent;
+        public short Id { get; } = Incoming.RoomUserBanMessageEvent;
 
         private readonly IRoomController _roomController;
         private readonly IPlayerController _playerController;
@@ -27,9 +28,9 @@ namespace AliasPro.Rooms.Packets.Events
             _playerController = playerController;
         }
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             int playerId = clientPacket.ReadInt();
             int roomId = clientPacket.ReadInt();

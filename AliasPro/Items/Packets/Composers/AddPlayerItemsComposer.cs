@@ -1,12 +1,11 @@
-﻿using AliasPro.API.Items.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 
 namespace AliasPro.Items.Packets.Composers
 {
-    public class AddPlayerItemsComposer : IPacketComposer
+    public class AddPlayerItemsComposer : IMessageComposer
     {
         private readonly IDictionary<int, IList<int>> _itemsToAdd;
 
@@ -36,9 +35,9 @@ namespace AliasPro.Items.Packets.Composers
 			_itemsToAdd = itemsToAdd;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.AddPlayerItemsMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.AddPlayerItemsMessageComposer);
             message.WriteInt(_itemsToAdd.Count);
 			foreach (var type in _itemsToAdd)
 			{

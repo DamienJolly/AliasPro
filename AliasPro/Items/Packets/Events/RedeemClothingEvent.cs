@@ -2,20 +2,21 @@
 using AliasPro.API.Figure.Models;
 using AliasPro.API.Items;
 using AliasPro.API.Items.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Packets.Composers;
 using AliasPro.Items.Types;
-using AliasPro.Network.Events.Headers;
 using AliasPro.Players.Packets.Composers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Items.Packets.Events
 {
-    public class RedeemClothingEvent : IAsyncPacket
+    public class RedeemClothingEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.RedeemClothingMessageEvent;
+        public short Id { get; } = Incoming.RedeemClothingMessageEvent;
 
 		private readonly IFigureController _figureController;
 		private readonly IItemController _itemController;
@@ -28,30 +29,38 @@ namespace AliasPro.Items.Packets.Events
 			_itemController = itemController;
 		}
 
-		public async void HandleAsync(
+		public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             IRoom room = session.CurrentRoom;
 
-            if (room == null) return;
+            if (room == null)
+				return;
 
-            if (session.Entity == null) return;
+            if (session.Entity == null) 
+				return;
 
-			if (!session.CurrentRoom.Rights.IsOwner(session.Player.Id)) return;
+			if (!session.CurrentRoom.Rights.IsOwner(session.Player.Id)) 
+				return;
 
 			uint itemId = (uint)clientPacket.ReadInt();
             if (room.Items.TryGetItem(itemId, out IItem item))
             {
-                if (item.ItemData.Type != "s") return;
+                if (item.ItemData.Type != "s") 
+					return;
 
-                if (item.ItemData.InteractionType != ItemInteractionType.CLOTHING) return;
+                if (item.ItemData.InteractionType != ItemInteractionType.CLOTHING) 
+					return;
 
-				if (string.IsNullOrEmpty(item.ItemData.ExtraData)) return;
+				if (string.IsNullOrEmpty(item.ItemData.ExtraData)) 
+					return;
 
-				if (!int.TryParse(item.ItemData.ExtraData, out int clothingId)) return;
+				if (!int.TryParse(item.ItemData.ExtraData, out int clothingId)) 
+					return;
 
-				if (!_figureController.TryGetClothingItem(clothingId, out IClothingItem clothingItem)) return;
+				if (!_figureController.TryGetClothingItem(clothingId, out IClothingItem clothingItem)) 
+					return;
 
 				if (session.Player.Wardrobe.TryGetClothingItem(clothingItem.Id, out _))
 				{
@@ -61,7 +70,7 @@ namespace AliasPro.Items.Packets.Events
 
 				room.RoomGrid.RemoveItem(item);
 				room.Items.RemoveItem(item.Id);
-				await room.SendAsync(new RemoveFloorItemComposer(item));
+				await room.SendPacketAsync(new RemoveFloorItemComposer(item));
 				await _itemController.RemoveItemAsync(item);
 
 				if (session.Player.Wardrobe.TryAddClothingItem(clothingItem))

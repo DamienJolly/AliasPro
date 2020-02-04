@@ -1,10 +1,10 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Messenger.Packets.Composers
 {
-    public class MessengerInitComposer : IPacketComposer
+    public class MessengerInitComposer : IMessageComposer
     {
         private readonly int _maxFriends;
 
@@ -13,9 +13,9 @@ namespace AliasPro.Messenger.Packets.Composers
             _maxFriends = maxFriends;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.MessengerInitMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.MessengerInitMessageComposer);
             message.WriteInt(_maxFriends);
             message.WriteInt(300);
             message.WriteInt(800);

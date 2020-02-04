@@ -1,11 +1,11 @@
 ﻿using AliasPro.API.Items.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Items.Packets.Composers
 {
-    public class RemoveFloorItemComposer : IPacketComposer
+    public class RemoveFloorItemComposer : IMessageComposer
     {
         private readonly IItem _item;
 
@@ -14,12 +14,12 @@ namespace AliasPro.Items.Packets.Composers
             _item = item;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.RemoveFloorItemMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.RemoveFloorItemMessageComposer);
             message.WriteString(_item.Id + "");
             message.WriteBoolean(false);
-            message.WriteInt(_item.PlayerId);
+            message.WriteInt((int)_item.PlayerId);
             message.WriteInt(0);
             return message;
         }

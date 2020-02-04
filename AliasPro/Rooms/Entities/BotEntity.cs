@@ -1,6 +1,6 @@
 ﻿using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Players.Types;
 using AliasPro.Rooms.Packets.Composers;
 using AliasPro.Utilities;
@@ -32,7 +32,7 @@ namespace AliasPro.Rooms.Entities
 			SpeechTimer = 20;
 			ActionTimer = Randomness.RandomNumber(5, 20);
 
-			await Room.SendAsync(new UserDanceComposer(this));
+			await Room.SendPacketAsync(new UserDanceComposer(this));
 		}
 
 		public override void OnEntityLeave()
@@ -68,29 +68,29 @@ namespace AliasPro.Rooms.Entities
 			}
 		}
 
-        public override void Compose(ServerPacket serverPacket)
+        public override void Compose(ServerMessage ServerMessage)
         {
-            serverPacket.WriteInt(-BotId); //botId?
-            serverPacket.WriteString(Name);
-            serverPacket.WriteString(Motto);
-            serverPacket.WriteString(Figure);
-            serverPacket.WriteInt(Id);
-            serverPacket.WriteInt(Position.X);
-            serverPacket.WriteInt(Position.Y);
-            serverPacket.WriteString(Position.Z.ToString());
-			serverPacket.WriteInt(BodyRotation);
+            ServerMessage.WriteInt(-BotId); //botId?
+            ServerMessage.WriteString(Name);
+            ServerMessage.WriteString(Motto);
+            ServerMessage.WriteString(Figure);
+            ServerMessage.WriteInt(Id);
+            ServerMessage.WriteInt(Position.X);
+            ServerMessage.WriteInt(Position.Y);
+            ServerMessage.WriteDouble(Position.Z);
+			ServerMessage.WriteInt(BodyRotation);
 
-			serverPacket.WriteInt(4);
-			serverPacket.WriteString(Gender == PlayerGender.MALE ? "m" : "f"); // ?
-			serverPacket.WriteInt(OwnerId);
-			serverPacket.WriteString(OwnerUsername);
-			serverPacket.WriteInt(4);
+			ServerMessage.WriteInt(4);
+			ServerMessage.WriteString(Gender == PlayerGender.MALE ? "m" : "f"); // ?
+			ServerMessage.WriteInt((int)OwnerId);
+			ServerMessage.WriteString(OwnerUsername);
+			ServerMessage.WriteInt(4);
 			{
-				serverPacket.WriteShort(1); //Copy looks
-				//serverPacket.WriteShort(2); //Setup speech
-				serverPacket.WriteShort(3); //Relax
-				serverPacket.WriteShort(4); //Dance
-				serverPacket.WriteShort(5); //Change name
+				ServerMessage.WriteShort(1); //Copy looks
+				//ServerMessage.WriteShort(2); //Setup speech
+				ServerMessage.WriteShort(3); //Relax
+				ServerMessage.WriteShort(4); //Dance
+				ServerMessage.WriteShort(5); //Change name
 			}
 		}
 	}

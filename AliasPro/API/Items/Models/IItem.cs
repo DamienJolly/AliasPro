@@ -1,14 +1,14 @@
 ﻿using AliasPro.API.Items.Interaction;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.API.Items.Models
 {
     public interface IItem
     {
-        void ComposeFloorItem(ServerPacket serverPacket);
-        void ComposeWallItem(ServerPacket serverPacket);
+        void ComposeFloorItem(ServerMessage ServerMessage);
+        void ComposeWallItem(ServerMessage ServerMessage);
 
         uint Id { get; set; }
         uint ItemId { get; set; }

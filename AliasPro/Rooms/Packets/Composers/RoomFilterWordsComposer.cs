@@ -1,11 +1,11 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
-    public class RoomFilterWordsComposer : IPacketComposer
+    public class RoomFilterWordsComposer : IMessageComposer
     {
         private readonly ICollection<string> _words;
 
@@ -14,9 +14,9 @@ namespace AliasPro.Rooms.Packets.Composers
             _words = words;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.RoomFilterWordsMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.RoomFilterWordsMessageComposer);
             message.WriteInt(_words.Count);
             foreach (string word in _words)
             {

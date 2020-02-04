@@ -1,10 +1,10 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Moderation.Packets.Composers
 {
-    public class ModerationIssueHandledComposer : IPacketComposer
+    public class ModerationIssueHandledComposer : IMessageComposer
     {
         private readonly int _code = 0;
         private readonly string _message = "";
@@ -19,9 +19,9 @@ namespace AliasPro.Moderation.Packets.Composers
 			_message = message;
 		}
 
-		public ServerPacket Compose()
+		public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.ModerationIssueHandledMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.ModerationIssueHandledMessageComposer);
             message.WriteInt(_code);
             message.WriteString(_message);
             return message;

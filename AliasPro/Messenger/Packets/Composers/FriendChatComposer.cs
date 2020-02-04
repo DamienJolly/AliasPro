@@ -1,12 +1,12 @@
 ﻿using AliasPro.API.Messenger.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Utilities;
 
 namespace AliasPro.Messenger.Packets.Composers
 {
-    public class FriendChatComposer : IPacketComposer
+    public class FriendChatComposer : IMessageComposer
     {
         private readonly IMessengerMessage _privateMessage;
 
@@ -15,10 +15,10 @@ namespace AliasPro.Messenger.Packets.Composers
             _privateMessage = privateMessage;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.FriendChatMessageComposer);
-            message.WriteInt(_privateMessage.TargetId);
+            ServerMessage message = new ServerMessage(Outgoing.FriendChatMessageComposer);
+            message.WriteInt((int)_privateMessage.TargetId);
             message.WriteString(_privateMessage.Message);
             message.WriteInt((int)UnixTimestamp.Now - 
                 _privateMessage.Timestamp);

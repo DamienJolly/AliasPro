@@ -1,8 +1,8 @@
 ﻿using AliasPro.API.Items.Interaction;
 using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Packets.Composers;
-using AliasPro.Network.Protocol;
 using AliasPro.Rooms.Entities;
 using System;
 
@@ -26,14 +26,14 @@ namespace AliasPro.Items.Interaction
             _tick = _timer * 2;
         }
 
-		public void Compose(ServerPacket message, bool tradeItem)
+		public void Compose(ServerMessage message, bool tradeItem)
 		{
 			double timeLeft = Math.Ceiling(_tick / 2.0);
 
 			if (!tradeItem)
 				message.WriteInt(1);
 			message.WriteInt(0);
-            message.WriteString(timeLeft.ToString());
+            message.WriteDouble(timeLeft);
         }
 
 		public void OnPlaceItem()
@@ -103,7 +103,7 @@ namespace AliasPro.Items.Interaction
                     }
             }
 
-            await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(_item));
+            await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
         }
 
         public async void OnCycle()
@@ -119,7 +119,7 @@ namespace AliasPro.Items.Interaction
                 }
                 _tick--;
 
-                await _item.CurrentRoom.SendAsync(new FloorItemUpdateComposer(_item));
+                await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
             }
         }
     }

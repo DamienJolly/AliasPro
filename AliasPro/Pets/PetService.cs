@@ -1,25 +1,24 @@
-﻿using AliasPro.API.Network;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Pets;
+﻿using AliasPro.API.Pets;
+using AliasPro.Communication.Messages;
 using AliasPro.Pets.Packets.Events;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AliasPro.Pets
 {
-    internal class PetService : INetworkService
-    {
-        public void SetupService(IServiceCollection collection)
+    internal class PetService : IService
+	{
+        public void Register(IServiceCollection collection)
         {
             collection.AddSingleton<PetDao>();
             collection.AddSingleton<IPetController, PetController>();
 
-			AddPackets(collection);
+			RegisterPackets(collection);
 		}
 
-		private static void AddPackets(IServiceCollection collection)
+		private static void RegisterPackets(IServiceCollection collection)
 		{
-			collection.AddSingleton<IAsyncPacket, RequestPetBreedsEvent>();
-			collection.AddSingleton<IAsyncPacket, CheckPetNameEvent>();
+			collection.AddSingleton<IMessageEvent, RequestPetBreedsEvent>();
+			collection.AddSingleton<IMessageEvent, CheckPetNameEvent>();
 		}
 	}
 }

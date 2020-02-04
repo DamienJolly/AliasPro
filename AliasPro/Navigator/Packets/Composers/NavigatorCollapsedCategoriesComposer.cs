@@ -1,14 +1,14 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Navigator.Packets.Composers
 {
-    public class NavigatorCollapsedCategoriesComposer : IPacketComposer
+    public class NavigatorCollapsedCategoriesComposer : IMessageComposer
     {
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.NavigatorCollapsedCategoriesMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.NavigatorCollapsedCategoriesMessageComposer);
             message.WriteInt(46);
             message.WriteString("new_ads");
             message.WriteString("friend_finding");

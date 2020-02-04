@@ -1,22 +1,23 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
-using AliasPro.API.Rooms;
+﻿using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Packets.Composers;
-using AliasPro.Network.Events.Headers;
 using AliasPro.Rooms.Entities;
 using AliasPro.Rooms.Models;
 using AliasPro.Rooms.Packets.Composers;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AliasPro.Rooms.Packets.Events
 {
-    public class FloorPlanSaveEvent : IAsyncPacket
+    public class FloorPlanSaveEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.FloorPlanSaveMessageEvent;
+        public short Id { get; } = Incoming.FloorPlanSaveMessageEvent;
 
 		private readonly IRoomController _roomController;
 
@@ -25,9 +26,9 @@ namespace AliasPro.Rooms.Packets.Events
 			_roomController = roomController;
 		}
 
-		public async void HandleAsync(
+		public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             IRoom room = session.CurrentRoom;
             if (room == null) return;

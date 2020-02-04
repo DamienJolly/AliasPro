@@ -1,7 +1,7 @@
 ﻿using AliasPro.API.Database;
 using AliasPro.API.Groups.Models;
 using AliasPro.API.Groups.Types;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages.Protocols;
 using System;
 using System.Data.Common;
 
@@ -27,7 +27,7 @@ namespace AliasPro.Groups.Models
 			Rank = rank;
 		}
 
-		public void Compose(ServerPacket message)
+		public void Compose(ServerMessage message)
 		{
 			DateTime created = new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds(JoinData);
 			message.WriteInt((int)Rank);

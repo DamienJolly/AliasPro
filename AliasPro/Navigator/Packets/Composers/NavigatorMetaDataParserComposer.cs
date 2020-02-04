@@ -1,14 +1,14 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Navigator.Packets.Composers
 {
-    public class NavigatorMetaDataParserComposer : IPacketComposer
+    public class NavigatorMetaDataParserComposer : IMessageComposer
     {
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.NavigatorMetaDataParserMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.NavigatorMetaDataParserMessageComposer);
             message.WriteInt(4);
             message.WriteString("official_view");
             message.WriteInt(0);

@@ -1,22 +1,22 @@
 ﻿using AliasPro.API.Items.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Packets.Composers;
-using AliasPro.Network.Events.Headers;
 using AliasPro.Rooms.Models;
-using AliasPro.Rooms.Packets.Composers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Items.Packets.Events
 {
-    public class UpdateItemEvent : IAsyncPacket
+    public class UpdateItemEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.UpdateItemMessageEvent;
+        public short Id { get; } = Incoming.UpdateItemMessageEvent;
         
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             IRoom room = session.CurrentRoom;
 
@@ -46,7 +46,7 @@ namespace AliasPro.Items.Packets.Events
                     }
                 }
 
-                await room.SendAsync(new FloorItemUpdateComposer(item));
+                await room.SendPacketAsync(new FloorItemUpdateComposer(item));
             }
         }
     }

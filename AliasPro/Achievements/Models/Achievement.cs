@@ -3,7 +3,7 @@ using AliasPro.Achievements.Utilities;
 using AliasPro.API.Achievements.Models;
 using AliasPro.API.Database;
 using AliasPro.API.Players.Models;
-using AliasPro.Network.Protocol;
+using AliasPro.Communication.Messages.Protocols;
 using System.Collections.Generic;
 using System.Data.Common;
 
@@ -20,7 +20,7 @@ namespace AliasPro.Achievements.Models
 			Levels = new List<IAchievementLevel>();
 		}
 
-		public void Compose(ServerPacket message, IPlayer player)
+		public void Compose(ServerMessage message, IPlayer player)
 		{
 			int amount = 0;
 

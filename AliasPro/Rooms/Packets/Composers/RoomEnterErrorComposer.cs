@@ -1,10 +1,10 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
-    public class RoomEnterErrorComposer : IPacketComposer
+    public class RoomEnterErrorComposer : IMessageComposer
     {
         public static int ROOM_ERROR_GUESTROOM_FULL = 1;
         public static int ROOM_ERROR_CANT_ENTER = 2;
@@ -31,9 +31,9 @@ namespace AliasPro.Rooms.Packets.Composers
             _queueError = queueError;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.RoomEnterErrorMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.RoomEnterErrorMessageComposer);
             message.WriteInt(_errorCode);
             message.WriteString(_queueError);
             return message;

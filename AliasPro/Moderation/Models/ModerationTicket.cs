@@ -1,7 +1,7 @@
 ﻿using AliasPro.API.Database;
 using AliasPro.API.Moderation.Models;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Moderation.Types;
-using AliasPro.Network.Protocol;
 using System.Data.Common;
 
 namespace AliasPro.Moderation.Models
@@ -26,7 +26,7 @@ namespace AliasPro.Moderation.Models
             RoomId = reader.ReadData<int>("room_id");
         }
 
-        public void Compose(ServerPacket message)
+        public void Compose(ServerMessage message)
         {
             message.WriteInt(Id);
             message.WriteInt((int)State);

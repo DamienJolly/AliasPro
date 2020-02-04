@@ -1,17 +1,18 @@
 ﻿using AliasPro.API.Figure;
 using AliasPro.API.Figure.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Figure.Packets.Composers;
-using AliasPro.Network.Events.Headers;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AliasPro.Figure.Packets.Events
 {
-    public class RequestUserWardrobeEvent : IAsyncPacket
+    public class RequestUserWardrobeEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.RequestUserWardrobeMessengerEvent;
+        public short Id { get; } = Incoming.RequestUserWardrobeMessengerEvent;
        
         private readonly IFigureController _figureController;
 
@@ -21,19 +22,22 @@ namespace AliasPro.Figure.Packets.Events
             _figureController = figureController;
 		}
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
-			if (session.Player.Wardrobe == null) return;
+			if (session.Player.Wardrobe == null) 
+                return;
 
 			int slotsAvailable = session.Player.Wardrobe.SlotsAvailable;
-			if (slotsAvailable == 0) return;
+			if (slotsAvailable == 0) 
+                return;
 
 			IList<IWardrobeItem> validItems = new List<IWardrobeItem>();
 			foreach (IWardrobeItem Item in session.Player.Wardrobe.WardobeItems)
 			{
-				if (Item.SlotId > slotsAvailable) continue;
+				if (Item.SlotId > slotsAvailable) 
+                    continue;
 
 				validItems.Add(Item);
 			}

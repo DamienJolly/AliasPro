@@ -36,7 +36,7 @@ namespace AliasPro.Items.Tasks
 
 			_session.CurrentRoom.RoomGrid.RemoveItem(_item);
 			_session.CurrentRoom.Items.RemoveItem(_item.Id);
-			await _session.CurrentRoom.SendAsync(new RemoveFloorItemComposer(_item));
+			await _session.CurrentRoom.SendPacketAsync(new RemoveFloorItemComposer(_item));
 
 			_item.ItemData = _giftData;
 			_item.ItemId = _giftData.Id;
@@ -48,7 +48,7 @@ namespace AliasPro.Items.Tasks
 			{
 				_session.CurrentRoom.RoomGrid.AddItem(_item);
 				_session.CurrentRoom.Items.AddItem(_item);
-				await _session.CurrentRoom.SendAsync(new ObjectAddComposer(_item));
+				await _session.CurrentRoom.SendPacketAsync(new ObjectAddComposer(_item));
 			}
 			else
 			{

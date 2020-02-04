@@ -1,18 +1,19 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
-using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
+﻿using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Players.Packets.Composers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Players.Packets.Events
 {
-    public class RequestMeMenuSettingsEvent : IAsyncPacket
+    public class RequestMeMenuSettingsEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.RequestMeMenuSettingsMessageEvent;
+        public short Id { get; } = Incoming.RequestMeMenuSettingsMessageEvent;
         
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             await session.SendPacketAsync(new MeMenuSettingsComposer(session.Player.PlayerSettings));
         }

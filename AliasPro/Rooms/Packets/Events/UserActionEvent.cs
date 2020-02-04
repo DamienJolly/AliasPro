@@ -1,19 +1,20 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
-using AliasPro.API.Rooms.Models;
+﻿using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
-using AliasPro.Network.Events.Headers;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Rooms.Packets.Composers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Rooms.Packets.Events
 {
-    public class UserActionEvent : IAsyncPacket
+    public class UserActionEvent : IMessageEvent
     {
-        public short Header { get; } = Incoming.UserActionMessageEvent;
+        public short Id { get; } = Incoming.UserActionMessageEvent;
 
-        public async void HandleAsync(
+        public async Task RunAsync(
             ISession session,
-            IClientPacket clientPacket)
+            ClientMessage clientPacket)
         {
             IRoom room = session.CurrentRoom;
             if (room == null || session.Entity == null) return;
@@ -24,7 +25,7 @@ namespace AliasPro.Rooms.Packets.Events
             if (session.Entity.DanceId > 0)
             {
                 session.Entity.DanceId = 0;
-                await room.SendAsync(new UserDanceComposer(session.Entity));
+                await room.SendPacketAsync(new UserDanceComposer(session.Entity));
             }
 
             //todo: remove effect
@@ -34,7 +35,7 @@ namespace AliasPro.Rooms.Packets.Events
                 if (!session.Entity.IsIdle)
                 {
                     session.Entity.IsIdle = true;
-                    await room.SendAsync(new UserSleepComposer(session.Entity));
+                    await room.SendPacketAsync(new UserSleepComposer(session.Entity));
                 }
             }
             else
@@ -42,7 +43,7 @@ namespace AliasPro.Rooms.Packets.Events
                 session.Entity.Unidle();
             }
 
-            await room.SendAsync(new UserActionComposer(session.Entity, action));
+            await room.SendPacketAsync(new UserActionComposer(session.Entity, action));
         }
     }
 }

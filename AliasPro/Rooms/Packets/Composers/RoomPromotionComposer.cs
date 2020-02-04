@@ -1,11 +1,11 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.API.Rooms.Models;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.API.Rooms.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
-    public class RoomPromotionComposer : IPacketComposer
+    public class RoomPromotionComposer : IMessageComposer
     {
         private readonly IRoomData _roomData;
 
@@ -14,9 +14,9 @@ namespace AliasPro.Rooms.Packets.Composers
             _roomData = roomData;
         }
 
-        public ServerPacket Compose()
+        public ServerMessage Compose()
         {
-            ServerPacket message = new ServerPacket(Outgoing.RoomPromotionMessageComposer);
+            ServerMessage message = new ServerMessage(Outgoing.RoomPromotionMessageComposer);
             message.WriteInt(!_roomData.IsPromoted ? -1 : (int)_roomData.Id);
             message.WriteInt(!_roomData.IsPromoted ? -1 : _roomData.OwnerId);
             message.WriteString(!_roomData.IsPromoted ? "" : _roomData.OwnerName);

@@ -1,12 +1,12 @@
-﻿using AliasPro.API.Network.Events;
-using AliasPro.Network.Events.Headers;
-using AliasPro.Network.Protocol;
+﻿using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Rooms.Packets.Composers
 {
-    public class RoomNoRightsComposer : IPacketComposer
+    public class RoomNoRightsComposer : IMessageComposer
     {
-        public ServerPacket Compose() =>
-            new ServerPacket(Outgoing.RoomNoRightsMessageComposer);
+        public ServerMessage Compose() =>
+            new ServerMessage(Outgoing.RoomNoRightsMessageComposer);
     }
 }

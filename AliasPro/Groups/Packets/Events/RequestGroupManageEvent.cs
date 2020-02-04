@@ -1,16 +1,17 @@
 ﻿using AliasPro.API.Groups;
 using AliasPro.API.Groups.Models;
-using AliasPro.API.Network.Events;
-using AliasPro.API.Network.Protocol;
 using AliasPro.API.Sessions.Models;
+using AliasPro.Communication.Messages;
+using AliasPro.Communication.Messages.Headers;
+using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Groups.Packets.Composers;
-using AliasPro.Network.Events.Headers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Groups.Packets.Events
 {
-	public class RequestGroupManageEvent : IAsyncPacket
+	public class RequestGroupManageEvent : IMessageEvent
 	{
-		public short Header { get; } = Incoming.RequestGroupManageMessageEvent;
+		public short Id { get; } = Incoming.RequestGroupManageMessageEvent;
 
 		private readonly IGroupController _groupController;
 
@@ -20,9 +21,9 @@ namespace AliasPro.Groups.Packets.Events
 			_groupController = groupController;
 		}
 
-		public async void HandleAsync(
+		public async Task RunAsync(
 			ISession session,
-			IClientPacket clientPacket)
+			ClientMessage clientPacket)
 		{
 			int groupId = clientPacket.ReadInt();
 			IGroup group = await _groupController.ReadGroupData(groupId);
