@@ -23,7 +23,7 @@ namespace AliasPro.Catalog.Layouts
             message.WriteString(_page.TeaserImage);
             message.WriteInt(3);
             message.WriteString(_page.TextOne);
-            message.WriteString(_page.TextDetails);
+            message.WriteString(_page.TextTwo);
             message.WriteString(_page.TextTeaser);
         }
 

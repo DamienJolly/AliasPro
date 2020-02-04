@@ -61,7 +61,7 @@
         // Catalog
         internal const short DiscountMessageComposer = 1602;
         internal const short CatalogUpdatedMessageComposer = 1592;
-        internal const short CatalogModeMessageComposer = 1103;
+        internal const short CatalogModeMessageComposer = 363;
         internal const short CatalogPagesListMessageComposer = 267;
         internal const short CatalogPageMessageComposer = 3933;
         internal const short AlertPurchaseFailedMessageComposer = 1103;

@@ -1,4 +1,6 @@
-﻿using AliasPro.API.Catalog.Models;
+﻿using AliasPro.API.Catalog.Layouts;
+using AliasPro.API.Catalog.Models;
+using AliasPro.Catalog.Layouts;
 using AliasPro.Communication.Messages;
 using AliasPro.Communication.Messages.Headers;
 using AliasPro.Communication.Messages.Protocols;
@@ -31,6 +33,31 @@ namespace AliasPro.Catalog.Packets.Composers
 
             message.WriteInt(0);
             message.WriteBoolean(false);
+
+            if (_catalogPage.Layout is LayoutFrontpage)
+            {
+                message.WriteInt(0); //count
+                {
+                    //message.WriteInt(SlotId);
+                    //message.WriteString(Caption);
+                    //message.WriteString(Image);
+                    //message.WriteInt(Type);
+                    /*switch (Type)
+                    {
+                        case PAGE_NAME:
+                            message.WriteString(PageName);
+                            break;
+                        case PAGE_ID:
+                            message.WriteInt(PageId);
+                            break;
+                        case PRODUCT_NAME:
+                            message.WriteString(ProductName);
+                            break;
+                    }*/
+                    //message.WriteInt(-1); //Expire Time
+                }
+            }
+
             return message;
         }
     }
