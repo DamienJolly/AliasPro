@@ -30,10 +30,10 @@ namespace AliasPro.Navigator.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-            string name = clientPacket.ReadString();
-            string query = clientPacket.ReadString();
+            string name = message.ReadString();
+            string query = message.ReadString();
             bool showMore = !_navigatorController.IsView(name);
 
             IList<INavigatorSearchResult> results = new List<INavigatorSearchResult>();

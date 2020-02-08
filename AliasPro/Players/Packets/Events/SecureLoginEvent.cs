@@ -44,9 +44,9 @@ namespace AliasPro.Players.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-            string ssoTicket = clientPacket.ReadString();
+            string ssoTicket = message.ReadString();
 
             IPlayerData playerData = await _playerController.GetPlayerDataAsync(ssoTicket);
 

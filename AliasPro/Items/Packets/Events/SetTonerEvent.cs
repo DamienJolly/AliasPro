@@ -16,7 +16,7 @@ namespace AliasPro.Items.Packets.Events
         
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             IRoom room = session.CurrentRoom;
 
@@ -26,14 +26,14 @@ namespace AliasPro.Items.Packets.Events
             if (session.Entity == null) 
                 return;
 
-            uint itemId = (uint)clientPacket.ReadInt();
+            uint itemId = (uint)message.ReadInt();
             if (room.Items.TryGetItem(itemId, out IItem item))
             {
                 if (item.Interaction is InteractionBackgroundToner interaction)
                 {
-                    int hue = interaction.Hue = clientPacket.ReadInt() % 256;
-                    int saturation = interaction.Saturation = clientPacket.ReadInt() % 256;
-                    int brightness = interaction.Brightness = clientPacket.ReadInt() % 256;
+                    int hue = interaction.Hue = message.ReadInt() % 256;
+                    int saturation = interaction.Saturation = message.ReadInt() % 256;
+                    int brightness = interaction.Brightness = message.ReadInt() % 256;
 
                     item.ExtraData = hue + ":" + saturation + ":" + brightness;
                     await room.SendPacketAsync(new FloorItemUpdateComposer(item));

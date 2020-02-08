@@ -21,7 +21,7 @@ namespace AliasPro.Navigator.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             await session.SendPacketAsync(new UserFlatCatsComposer(_navigatorController.TryGetCategoryByView("hotel_view"), session.Player.Rank));
         }

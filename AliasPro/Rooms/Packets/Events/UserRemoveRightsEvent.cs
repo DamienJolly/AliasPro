@@ -28,7 +28,7 @@ namespace AliasPro.Rooms.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             IRoom room = session.CurrentRoom;
             if (room == null || session.Entity == null) 
@@ -37,11 +37,11 @@ namespace AliasPro.Rooms.Packets.Events
             if (!room.Rights.IsOwner(session.Player.Id)) 
                 return;
 
-            int amount = clientPacket.ReadInt();
+            int amount = message.ReadInt();
 
             for (int i = 0; i < amount; i++)
             {
-                int targetId = clientPacket.ReadInt();
+                int targetId = message.ReadInt();
                 if (!room.Rights.HasRights((uint)targetId)) 
                     continue;
 

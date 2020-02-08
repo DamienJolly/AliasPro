@@ -29,12 +29,12 @@ namespace AliasPro.Rooms.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             IRoom room = session.CurrentRoom;
             if (room == null || session.Entity == null) return;
 
-            int roomId = clientPacket.ReadInt(); //unused?
+            int roomId = message.ReadInt(); //unused?
             if (room.Id != (uint)roomId) return;
 
             if (!room.Rights.IsOwner(session.Player.Id)) return;

@@ -26,14 +26,14 @@ namespace AliasPro.Rooms.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-            string name = clientPacket.ReadString();
-            string description = clientPacket.ReadString();
-            string modelName = clientPacket.ReadString();
-            int categoryId = clientPacket.ReadInt();
-            int maxUsers = clientPacket.ReadInt();
-            int tradeType = clientPacket.ReadInt();
+            string name = message.ReadString();
+            string description = message.ReadString();
+            string modelName = message.ReadString();
+            int categoryId = message.ReadInt();
+            int maxUsers = message.ReadInt();
+            int tradeType = message.ReadInt();
 
             if (name.Length > 60)
                 name.Substring(0, 60);

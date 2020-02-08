@@ -22,10 +22,10 @@ namespace AliasPro.Rooms.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-            int playerId = clientPacket.ReadInt();
-            int roomId = clientPacket.ReadInt();
+            int playerId = message.ReadInt();
+            int roomId = message.ReadInt();
 
             if (!_roomController.TryGetRoom((uint)roomId, out IRoom room)) 
                 return;

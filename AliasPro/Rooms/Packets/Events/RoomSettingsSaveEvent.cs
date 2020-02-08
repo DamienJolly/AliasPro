@@ -24,9 +24,9 @@ namespace AliasPro.Rooms.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-            uint roomId = (uint)clientPacket.ReadInt();
+            uint roomId = (uint)message.ReadInt();
 
             IRoom room = await _roomController.LoadRoom(roomId);
             if (room == null)
@@ -34,7 +34,7 @@ namespace AliasPro.Rooms.Packets.Events
 
             if (room.OwnerId != session.Player.Id) return;
 
-            string name = clientPacket.ReadString();
+            string name = message.ReadString();
             if (name.Length > 60)
                 name.Substring(0, 60);
 
@@ -47,12 +47,12 @@ namespace AliasPro.Rooms.Packets.Events
                 room.Name = name;
             }
 
-            room.Description = clientPacket.ReadString();
+            room.Description = message.ReadString();
             
-            int doorState = clientPacket.ReadInt();
+            int doorState = message.ReadInt();
             if (doorState < 0 || doorState > 3) doorState = 0;
 
-            string password = clientPacket.ReadString();
+            string password = message.ReadString();
 
             if (doorState == 2 && password.Length <= 0)
             {
@@ -64,7 +64,7 @@ namespace AliasPro.Rooms.Packets.Events
                 room.Password = password;
             }
 
-            int maxUsers = clientPacket.ReadInt();
+            int maxUsers = message.ReadInt();
             if ((maxUsers % 5) != 0 || 
                 maxUsers < 10 || 
                 maxUsers > 50)
@@ -72,16 +72,16 @@ namespace AliasPro.Rooms.Packets.Events
 
             room.MaxUsers = maxUsers;
 
-            int categoryId = clientPacket.ReadInt();
+            int categoryId = message.ReadInt();
             //todo: fix
             //if (_navigatorController.TryGetRoomCategory((uint)categoryId, out INavigatorCategory category))
            //     room.CategoryId = categoryId;
 
             room.Tags.Clear();
-            int amount = clientPacket.ReadInt();
+            int amount = message.ReadInt();
             for (int i = 0; i < amount && i < 2; i++)
             {
-                string tag = clientPacket.ReadString();
+                string tag = message.ReadString();
                 if (string.IsNullOrWhiteSpace(tag))
                     continue;
 
@@ -94,29 +94,29 @@ namespace AliasPro.Rooms.Packets.Events
                 room.Tags.Add(tag);
             }
             
-            int tradeType = clientPacket.ReadInt();
+            int tradeType = message.ReadInt();
             if (tradeType < 0 || tradeType > 2) tradeType = 0;
 
             room.TradeType = tradeType;
 
-            room.Settings.AllowPets = clientPacket.ReadBoolean();
-            room.Settings.AllowPetsEat = clientPacket.ReadBoolean();
-            room.Settings.RoomBlocking = clientPacket.ReadBoolean();
-            room.Settings.HideWalls = clientPacket.ReadBoolean();
+            room.Settings.AllowPets = message.ReadBoolean();
+            room.Settings.AllowPetsEat = message.ReadBoolean();
+            room.Settings.RoomBlocking = message.ReadBoolean();
+            room.Settings.HideWalls = message.ReadBoolean();
 
-            int wallThickness = clientPacket.ReadInt();
+            int wallThickness = message.ReadInt();
             if (wallThickness < -2 || wallThickness > 1) wallThickness = 0;
 
-            int floorThickness = clientPacket.ReadInt();
+            int floorThickness = message.ReadInt();
             if (floorThickness < -2 || floorThickness > 1) floorThickness = 0;
 
-            int whoMutes = clientPacket.ReadInt();
+            int whoMutes = message.ReadInt();
             if (whoMutes < 0 || whoMutes > 1) whoMutes = 0;
 
-            int whoKicks = clientPacket.ReadInt();
+            int whoKicks = message.ReadInt();
             if (whoKicks < 0 || whoKicks > 2) whoKicks = 0;
 
-            int whoBans = clientPacket.ReadInt();
+            int whoBans = message.ReadInt();
             if (whoBans < 0 || whoBans > 1) whoBans = 0;
 
             room.Settings.WallThickness = wallThickness;
@@ -125,20 +125,20 @@ namespace AliasPro.Rooms.Packets.Events
             room.Settings.WhoKicks = whoKicks;
             room.Settings.WhoBans = whoBans;
 
-            int chatMode = clientPacket.ReadInt();
+            int chatMode = message.ReadInt();
             if (chatMode < 0 || chatMode > 1) chatMode = 0;
 
-            int chatSize = clientPacket.ReadInt();
+            int chatSize = message.ReadInt();
             if (chatSize < 0 || chatSize > 2) chatSize = 1;
 
-            int chatSpeed = clientPacket.ReadInt();
+            int chatSpeed = message.ReadInt();
             if (chatSpeed < 0 || chatSpeed > 2) chatSpeed = 1;
 
-            int chatDistance = clientPacket.ReadInt();
+            int chatDistance = message.ReadInt();
             if (chatDistance < 0) chatDistance = 1;
             else if (chatDistance > 100) chatDistance = 14;
 
-            int chatFlood = clientPacket.ReadInt();
+            int chatFlood = message.ReadInt();
             if (chatFlood < 0 || chatFlood > 2) chatFlood = 1;
 
             room.Settings.ChatMode = chatMode;

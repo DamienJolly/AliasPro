@@ -36,10 +36,10 @@ namespace AliasPro.Rooms.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-            uint roomId = (uint)clientPacket.ReadInt();
-            string password = clientPacket.ReadString();
+            uint roomId = (uint)message.ReadInt();
+            string password = message.ReadString();
 
             if (session.Entity != null)
                 await session.CurrentRoom.RemoveEntity(session.Entity, false);

@@ -25,9 +25,9 @@ namespace AliasPro.Messenger.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-            uint targetId = (uint)clientPacket.ReadInt();
+            uint targetId = (uint)message.ReadInt();
 
             if (!_playerController.TryGetPlayer(targetId, out IPlayer targetPlayer) || 
                 targetPlayer.Session == null)

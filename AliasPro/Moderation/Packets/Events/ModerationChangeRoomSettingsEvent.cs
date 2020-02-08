@@ -33,24 +33,24 @@ namespace AliasPro.Moderation.Packets.Events
 
 		public async Task RunAsync(
 			ISession session,
-			ClientMessage clientPacket)
+			ClientMessage message)
 		{
 			if (!_permissionsController.HasPermission(session.Player, "acc_modtool_room_settings"))
 				return;
 
-			int roomId = clientPacket.ReadInt();
+			int roomId = message.ReadInt();
 			if(!_roomController.TryGetRoom((uint)roomId, out IRoom room))
                 return;
 
-            bool lockDoor = clientPacket.ReadInt() == 1;
+            bool lockDoor = message.ReadInt() == 1;
 			if (lockDoor)
 				room.DoorState = 1;
 
-			bool changeTitle = clientPacket.ReadInt() == 1;
+			bool changeTitle = message.ReadInt() == 1;
 			if (changeTitle)
 				room.Name = "Inappropriate to hotel management!";
 
-			bool kickUsers = clientPacket.ReadInt() == 1;
+			bool kickUsers = message.ReadInt() == 1;
 			if (kickUsers)
 			{
 				foreach (BaseEntity entity in room.Entities.Entities.ToList())

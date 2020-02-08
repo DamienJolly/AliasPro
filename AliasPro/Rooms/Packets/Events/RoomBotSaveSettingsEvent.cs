@@ -26,7 +26,7 @@ namespace AliasPro.Rooms.Packets.Events
 
 		public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             IRoom room = session.CurrentRoom;
             if (room == null) 
@@ -35,14 +35,14 @@ namespace AliasPro.Rooms.Packets.Events
 			if (room.OwnerId != session.Player.Id)
 				return;
 
-			int botId = clientPacket.ReadInt();
+			int botId = message.ReadInt();
 			if (!room.Entities.TryGetEntityById(botId, out BaseEntity entity))
 				return;
 
 			if (!(entity is BotEntity botEntity))
 				return;
 
-			int settingId = clientPacket.ReadInt();
+			int settingId = message.ReadInt();
 
 			switch (settingId)
 			{
@@ -70,7 +70,7 @@ namespace AliasPro.Rooms.Packets.Events
 					break;
 
 				case 5:
-					string name = clientPacket.ReadString();
+					string name = message.ReadString();
 					if (name.Length > 25)
 						return;
 

@@ -13,7 +13,7 @@ namespace AliasPro.Players.Packets.Events
         
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             if (session.Player.Badge == null) return;
 

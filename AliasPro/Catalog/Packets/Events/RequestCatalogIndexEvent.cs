@@ -12,7 +12,7 @@ namespace AliasPro.Catalog.Packets.Events
 
         public Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             // not used?
             return Task.CompletedTask;

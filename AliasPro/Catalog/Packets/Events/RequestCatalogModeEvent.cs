@@ -21,9 +21,9 @@ namespace AliasPro.Catalog.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-            string mode = clientPacket.ReadString();
+            string mode = message.ReadString();
             await session.SendPacketAsync(new CatalogModeComposer(mode.Equals("normal") ? 0 : 1));
             await session.SendPacketAsync(new CatalogPagesListComposer(_catalogController, mode, session.Player.Rank));
         }

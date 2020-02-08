@@ -28,23 +28,23 @@ namespace AliasPro.Groups.Packets.Events
 
 		public async Task RunAsync(
 			ISession session,
-			ClientMessage clientPacket)
+			ClientMessage message)
 		{
-			int groupId = clientPacket.ReadInt();
+			int groupId = message.ReadInt();
 			IGroup group = await _groupController.ReadGroupData(groupId);
 
 			if (group == null) return;
 
 			if (!group.IsOwner((int)session.Player.Id)) return;
 
-			int count = clientPacket.ReadInt();
+			int count = message.ReadInt();
 
 			string badge = "";
 			for (int i = 0; i < count; i += 3)
 			{
-				int id = clientPacket.ReadInt();
-				int colour = clientPacket.ReadInt();
-				int pos = clientPacket.ReadInt();
+				int id = message.ReadInt();
+				int colour = message.ReadInt();
+				int pos = message.ReadInt();
 
 				if (i == 0) badge += "b";
 				else badge += "s";

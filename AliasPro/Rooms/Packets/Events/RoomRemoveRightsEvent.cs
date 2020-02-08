@@ -23,9 +23,9 @@ namespace AliasPro.Rooms.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-            int roomId = clientPacket.ReadInt();
+            int roomId = message.ReadInt();
             IRoom room = await _roomController.LoadRoom((uint)roomId);
 
             if (room == null)

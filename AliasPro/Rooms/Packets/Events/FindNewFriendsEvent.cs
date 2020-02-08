@@ -24,7 +24,7 @@ namespace AliasPro.Rooms.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             IRoom room = _roomController.Rooms.OrderBy(a => Randomness.RandomNumber()).First();
             await session.SendPacketAsync(new ForwardToRoomComposer(room.Id));

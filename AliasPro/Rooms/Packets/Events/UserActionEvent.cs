@@ -14,12 +14,12 @@ namespace AliasPro.Rooms.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             IRoom room = session.CurrentRoom;
             if (room == null || session.Entity == null) return;
 
-            int action = clientPacket.ReadInt();
+            int action = message.ReadInt();
             if (action < 0 || action > 5) return;
 
             if (session.Entity.DanceId > 0)

@@ -46,12 +46,12 @@ namespace AliasPro.Catalog.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-            int pageId = clientPacket.ReadInt();
-            int itemId = clientPacket.ReadInt();
-            string extraData = clientPacket.ReadString();
-            int amount = clientPacket.ReadInt();
+            int pageId = message.ReadInt();
+            int itemId = message.ReadInt();
+            string extraData = message.ReadString();
+            int amount = message.ReadInt();
 
 			if (!_catalogController.TryGetCatalogPage(pageId, out ICatalogPage page))
             {

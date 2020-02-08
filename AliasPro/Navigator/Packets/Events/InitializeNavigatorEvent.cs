@@ -13,7 +13,7 @@ namespace AliasPro.Navigator.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             await session.SendPacketAsync(new NavigatorMetaDataParserComposer());
             await session.SendPacketAsync(new NavigatorLiftedRoomsComposer());

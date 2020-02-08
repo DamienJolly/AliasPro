@@ -22,9 +22,9 @@ namespace AliasPro.Pets.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-			string name = clientPacket.ReadString();
+			string name = message.ReadString();
 
 			if (!_petController.TryGetPetData(name, out IPetData pet))
 				return;

@@ -22,9 +22,9 @@ namespace AliasPro.Players.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-            string motto = clientPacket.ReadString();
+            string motto = message.ReadString();
 
             session.Player.Motto = motto;
 

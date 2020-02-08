@@ -26,7 +26,7 @@ namespace AliasPro.Moderation.Packets.Events
 
 		public async Task RunAsync(
 			ISession session,
-			ClientMessage clientPacket)
+			ClientMessage message)
 		{
 			if (!_permissionsController.HasPermission(session.Player, "acc_modtool_room_info"))
 				return;
@@ -34,10 +34,10 @@ namespace AliasPro.Moderation.Packets.Events
 			if (session.CurrentRoom == null)
                 return;
 
-            clientPacket.ReadInt();
-            string message = clientPacket.ReadString();
+            message.ReadInt();
+            string msg = message.ReadString();
 
-            await session.CurrentRoom.SendPacketAsync(new ModerationIssueHandledComposer(message));
+            await session.CurrentRoom.SendPacketAsync(new ModerationIssueHandledComposer(msg));
         }
     }
 }

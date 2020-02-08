@@ -33,15 +33,15 @@ namespace AliasPro.Rooms.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-            int pageId = clientPacket.ReadInt();
-            int itemId = clientPacket.ReadInt();
-            int roomId = clientPacket.ReadInt();
-            string title = clientPacket.ReadString();
-            clientPacket.ReadBoolean(); //dunno??
-            string description = clientPacket.ReadString();
-            int categoryId = clientPacket.ReadInt();
+            int pageId = message.ReadInt();
+            int itemId = message.ReadInt();
+            int roomId = message.ReadInt();
+            string title = message.ReadString();
+            message.ReadBoolean(); //dunno??
+            string description = message.ReadString();
+            int categoryId = message.ReadInt();
 
             if (!_catalogController.TryGetCatalogPage(pageId, out ICatalogPage page))
             {

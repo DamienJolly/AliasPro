@@ -24,9 +24,9 @@ namespace AliasPro.Messenger.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-            string username = clientPacket.ReadString();
+            string username = message.ReadString();
 
             if (string.IsNullOrEmpty(username))
                 return;

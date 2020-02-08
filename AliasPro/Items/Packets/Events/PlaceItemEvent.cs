@@ -21,9 +21,9 @@ namespace AliasPro.Items.Packets.Events
         }
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-            string rawData = clientPacket.ReadString();
+            string rawData = message.ReadString();
             string[] data = rawData.Split(' ');
 
             if (!uint.TryParse(data[0], out uint itemId)) return;

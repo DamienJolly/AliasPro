@@ -18,7 +18,7 @@ namespace AliasPro.Communication.Messages
         {
             this.logger = logger;
 
-            this.messageEvents = messageEvents.ToDictionary(x => x.Id, x => x);
+            this.messageEvents = messageEvents.ToDictionary(x => x.Header, x => x);
 
             this.logger.LogDebug("Loaded {0} message events", this.messageEvents.Count);
         }

@@ -28,7 +28,7 @@ namespace AliasPro.Rooms.Packets.Events
 
 		public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             IRoom room = session.CurrentRoom;
             if (room == null) return;
@@ -37,7 +37,7 @@ namespace AliasPro.Rooms.Packets.Events
 
 			IList<string> errors = new List<string>();
 
-			string map = clientPacket.ReadString().ToLower().TrimEnd();
+			string map = message.ReadString().ToLower().TrimEnd();
 			if (map.Length == 0)
 			{
 				errors.Add("${notification.floorplan_editor.error.message.effective_height_is_0}");
@@ -78,36 +78,36 @@ namespace AliasPro.Rooms.Packets.Events
 				}
 			}
 
-			int doorX = clientPacket.ReadInt();
-			int doorY = clientPacket.ReadInt();
+			int doorX = message.ReadInt();
+			int doorY = message.ReadInt();
 
 			if (doorX < 0 || doorX > lengthX || doorY < 0 || doorY > lengthY || data[doorY][doorX] == 'x')
 			{
 				errors.Add("${notification.floorplan_editor.error.message.entry_tile_outside_map}");
 			}
 
-			int doorRotation = clientPacket.ReadInt();
+			int doorRotation = message.ReadInt();
 
 			if (doorRotation < 0 || doorRotation > 7)
 			{
 				errors.Add("${notification.floorplan_editor.error.message.invalid_entry_tile_direction}");
 			}
 
-			int wallSize = clientPacket.ReadInt();
+			int wallSize = message.ReadInt();
 			if (wallSize < -2 || wallSize > 1)
 			{
 				errors.Add("${notification.floorplan_editor.error.message.invalid_wall_thickness}");
 			}
 
-			int floorSize = clientPacket.ReadInt();
+			int floorSize = message.ReadInt();
 			if (floorSize < -2 || floorSize > 1)
 			{
 				errors.Add("${notification.floorplan_editor.error.message.invalid_floor_thickness}");
 			}
 
 			int wallHeight = -1;
-			if (clientPacket.BytesAvailable() >= 4)
-				wallHeight = clientPacket.ReadInt();
+			if (message.BytesAvailable() >= 4)
+				wallHeight = message.ReadInt();
 
 			if (wallHeight < -1 || wallHeight > 15)
 			{

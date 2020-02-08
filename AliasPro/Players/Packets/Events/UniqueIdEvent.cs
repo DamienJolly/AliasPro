@@ -12,10 +12,10 @@ namespace AliasPro.Players.Packets.Events
 
         public Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-            clientPacket.ReadString();
-            session.UniqueId = clientPacket.ReadString();
+            message.ReadString();
+            session.UniqueId = message.ReadString();
             return Task.CompletedTask;
         }
     }

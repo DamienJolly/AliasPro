@@ -24,7 +24,7 @@ namespace AliasPro.Figure.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
 			if (session.Player.Wardrobe == null) 
 				return;
@@ -33,10 +33,10 @@ namespace AliasPro.Figure.Packets.Events
 			if (slotsAvailable == 0) 
 				return;
 
-			int slotId = clientPacket.ReadInt();
-			string look = clientPacket.ReadString();
+			int slotId = message.ReadInt();
+			string look = message.ReadString();
 			PlayerGender gender = 
-				clientPacket.ReadString().ToLower() == "m" ? PlayerGender.MALE : PlayerGender.FEMALE;
+				message.ReadString().ToLower() == "m" ? PlayerGender.MALE : PlayerGender.FEMALE;
 
 			if (slotId <= 0 || slotId > slotsAvailable) 
 				return;

@@ -22,14 +22,14 @@ namespace AliasPro.Catalog.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-            int catalogPageId = clientPacket.ReadInt();
-            clientPacket.ReadInt(); // ??
+            int catalogPageId = message.ReadInt();
+            message.ReadInt(); // ??
 
             if (_catalogController.TryGetCatalogPage(catalogPageId, out ICatalogPage page))
             {
-                string mode = clientPacket.ReadString();
+                string mode = message.ReadString();
 
                 if (page.Rank <= session.Player.Rank && page.Enabled)
                     await session.SendPacketAsync(new CatalogPageComposer(page, mode));

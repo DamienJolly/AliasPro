@@ -38,17 +38,17 @@ namespace AliasPro.Catalog.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-			int pageId = clientPacket.ReadInt();
-			int itemId = clientPacket.ReadInt();
-			string extraData = clientPacket.ReadString();
-			string username = clientPacket.ReadString();
-			string message = clientPacket.ReadString();
-			int spriteId = clientPacket.ReadInt();
-			int color = clientPacket.ReadInt();
-			int ribbonId = clientPacket.ReadInt();
-			bool showName = clientPacket.ReadBoolean();
+			int pageId = message.ReadInt();
+			int itemId = message.ReadInt();
+			string extraData = message.ReadString();
+			string username = message.ReadString();
+			string note = message.ReadString();
+			int spriteId = message.ReadInt();
+			int color = message.ReadInt();
+			int ribbonId = message.ReadInt();
+			bool showName = message.ReadBoolean();
 
 			if (!_catalogController.TryGetCatalogPage(pageId, out ICatalogPage page))
 			{
@@ -154,8 +154,8 @@ namespace AliasPro.Catalog.Packets.Events
 				extraData + "\t" +
 				color + "\t" +
 				ribbonId + "\t" +
-				(showName ? "1" : "0") + "\t" + 
-				message.Replace("\t", "") + "\t" + 
+				(showName ? "1" : "0") + "\t" +
+				note.Replace("\t", "") + "\t" + 
 				session.Player.Username + "\t" +  
 				session.Player.Figure;
 

@@ -22,11 +22,11 @@ namespace AliasPro.Rooms.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-            int roomId = clientPacket.ReadInt();
-            string title = clientPacket.ReadString();
-            string description = clientPacket.ReadString();
+            int roomId = message.ReadInt();
+            string title = message.ReadString();
+            string description = message.ReadString();
 
             //todo: load room data
             if (!_roomController.TryGetRoom((uint)roomId, out IRoom roomData))

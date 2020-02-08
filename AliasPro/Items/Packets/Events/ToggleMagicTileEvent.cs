@@ -18,7 +18,7 @@ namespace AliasPro.Items.Packets.Events
         
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             IRoom room = session.CurrentRoom;
 
@@ -31,14 +31,14 @@ namespace AliasPro.Items.Packets.Events
 			if (!room.Rights.HasRights(session.Player.Id)) 
 				return;
 
-            uint itemId = (uint)clientPacket.ReadInt();
+            uint itemId = (uint)message.ReadInt();
 			if (!room.Items.TryGetItem(itemId, out IItem item)) 
 				return;
 
 			if (!item.CurrentRoom.RoomGrid.TryGetRoomTile(item.Position.X, item.Position.Y, out IRoomTile itemTile))
 				return;
 
-			double stackerHeight = clientPacket.ReadInt();
+			double stackerHeight = message.ReadInt();
 
 			ICollection<IRoomTile> tiles = room.RoomGrid.GetTilesFromItem(item.Position.X, item.Position.Y, item);
 			if (stackerHeight == -100)

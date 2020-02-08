@@ -13,7 +13,7 @@ namespace AliasPro.Rooms.Packets.Events
         
         public Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             IRoom room = session.CurrentRoom;
             if (room == null || session.Entity == null) 
@@ -22,8 +22,8 @@ namespace AliasPro.Rooms.Packets.Events
 			if (session.Entity.IsKicked)
 				return Task.CompletedTask;
 
-			int x = clientPacket.ReadInt();
-            int y = clientPacket.ReadInt();
+			int x = message.ReadInt();
+            int y = message.ReadInt();
 
 			IRoomTile roomTile;
             if (!room.RoomGrid.TryGetRoomTile(x, y, out roomTile))

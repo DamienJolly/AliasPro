@@ -13,9 +13,9 @@ namespace AliasPro.Rooms.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-            int roomId = clientPacket.ReadInt();
+            int roomId = message.ReadInt();
 
             if (roomId == session.Player.HomeRoom)
                 return;

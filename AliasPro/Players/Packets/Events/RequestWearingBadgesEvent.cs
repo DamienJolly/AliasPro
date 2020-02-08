@@ -25,9 +25,9 @@ namespace AliasPro.Players.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-            int playerId = clientPacket.ReadInt();
+            int playerId = message.ReadInt();
 
             ICollection<IPlayerBadge> targetBadges;
 

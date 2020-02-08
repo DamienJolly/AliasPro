@@ -25,13 +25,13 @@ namespace AliasPro.Rooms.Packets.Events
 
 		public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             IRoom room = session.CurrentRoom;
             if (room == null) return;
 
-			string username = clientPacket.ReadString();
-			bool accepted = clientPacket.ReadBoolean();
+			string username = message.ReadString();
+			bool accepted = message.ReadBoolean();
 
 			if (!_playerController.TryGetPlayer(username, out IPlayer targetPlayer)) 
 				return;

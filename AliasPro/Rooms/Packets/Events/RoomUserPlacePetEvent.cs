@@ -25,18 +25,18 @@ namespace AliasPro.Rooms.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             IRoom room = session.CurrentRoom;
             if (room == null) 
 				return;
 
-			int petId = clientPacket.ReadInt();
+			int petId = message.ReadInt();
 			if (!session.Player.Inventory.TryGetPet(petId, out IPlayerPet pet))
 				return;
 
-			int posX = clientPacket.ReadInt();
-			int posY = clientPacket.ReadInt();
+			int posX = message.ReadInt();
+			int posY = message.ReadInt();
 
 			if (!room.RoomGrid.TryGetRoomTile(posX, posY, out IRoomTile tile))
 				return;

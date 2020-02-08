@@ -27,13 +27,13 @@ namespace AliasPro.Moderation.Packets.Events
 
 		public async Task RunAsync(
 			ISession session,
-			ClientMessage clientPacket)
+			ClientMessage message)
 		{
 			if (!_permissionsController.HasPermission(session.Player, "acc_modtool_player_alert"))
 				return;
 
-			int playerId = clientPacket.ReadInt();
-			string message = clientPacket.ReadString();
+			int playerId = message.ReadInt();
+			string msg = message.ReadString();
 
 			if (!_playerController.TryGetPlayer((uint)playerId, out IPlayer player))
 				return;
@@ -41,7 +41,7 @@ namespace AliasPro.Moderation.Packets.Events
             if (player.Session == null)
                 return;
 
-            await player.Session.SendPacketAsync(new ModerationIssueHandledComposer(message));
+            await player.Session.SendPacketAsync(new ModerationIssueHandledComposer(msg));
         }
     }
 }

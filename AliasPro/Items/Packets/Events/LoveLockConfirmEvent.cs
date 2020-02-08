@@ -19,10 +19,10 @@ namespace AliasPro.Items.Packets.Events
         
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-			uint itemId = (uint)clientPacket.ReadInt();
-			bool confirmed = clientPacket.ReadBoolean();
+			uint itemId = (uint)message.ReadInt();
+			bool confirmed = message.ReadBoolean();
 
 			if (!confirmed)
 				return;

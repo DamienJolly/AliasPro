@@ -27,10 +27,10 @@ namespace AliasPro.Items.Packets.Events
         }
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-            clientPacket.ReadInt(); //??
-            uint itemId = (uint)clientPacket.ReadInt();
+            message.ReadInt(); //??
+            uint itemId = (uint)message.ReadInt();
 
             IRoom room = session.CurrentRoom;
 

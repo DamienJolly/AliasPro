@@ -25,12 +25,12 @@ namespace AliasPro.Rooms.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             IRoom room = session.CurrentRoom;
             if (room == null) return;
 
-            int playerId = clientPacket.ReadInt();
+            int playerId = message.ReadInt();
 
             switch (room.Settings.WhoKicks)
             {

@@ -12,9 +12,9 @@ namespace AliasPro.Players.Packets.Events
         
         public Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-            session.Player.PlayerSettings.CameraFollow = clientPacket.ReadBoolean();
+            session.Player.PlayerSettings.CameraFollow = message.ReadBoolean();
             return Task.CompletedTask;
         }
     }

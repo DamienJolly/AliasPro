@@ -15,7 +15,7 @@ namespace AliasPro.Items.Packets.Events
         
         public Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             IRoom room = session.CurrentRoom;
 
@@ -25,7 +25,7 @@ namespace AliasPro.Items.Packets.Events
             if (session.Entity == null)
                 return Task.CompletedTask;
 
-            uint itemId = (uint)clientPacket.ReadInt();
+            uint itemId = (uint)message.ReadInt();
             if (room.Items.TryGetItem(itemId, out IItem item))
             {
                 if (item.ItemData.Type != "s")
@@ -34,7 +34,7 @@ namespace AliasPro.Items.Packets.Events
                 if (item.ItemData.InteractionType == ItemInteractionType.DICE)
                     return Task.CompletedTask;
 
-                int state = clientPacket.ReadInt();
+                int state = message.ReadInt();
 
                 item.Interaction.OnUserInteract(session.Entity, state);
                 

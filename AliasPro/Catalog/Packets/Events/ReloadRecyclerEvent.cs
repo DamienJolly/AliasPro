@@ -13,7 +13,7 @@ namespace AliasPro.Catalog.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             await session.SendPacketAsync(new ReloadRecyclerComposer());
         }

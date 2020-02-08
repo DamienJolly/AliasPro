@@ -15,16 +15,16 @@ namespace AliasPro.Items.Packets.Events
         
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             IRoom room = session.CurrentRoom;
 
-            uint itemId = (uint)clientPacket.ReadInt();
+            uint itemId = (uint)message.ReadInt();
             if (room.Items.TryGetItem(itemId, out IItem item))
             {
                 if (room.Rights.HasRights(session.Player.Id))
                 {
-                    string wallPosition = clientPacket.ReadString();
+                    string wallPosition = message.ReadString();
                     item.ExtraData = wallPosition;
                     item.Interaction.OnMoveItem();
                 }

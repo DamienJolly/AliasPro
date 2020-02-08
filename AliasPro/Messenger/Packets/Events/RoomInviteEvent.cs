@@ -24,7 +24,7 @@ namespace AliasPro.Messenger.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             //todo: muted
             /*if ()
@@ -34,22 +34,22 @@ namespace AliasPro.Messenger.Packets.Events
             }*/
 
             IList<IPlayer> targetPlayers = new List<IPlayer>();
-            int amount = clientPacket.ReadInt();
+            int amount = message.ReadInt();
 
             for (int i = 0; i < amount; i++)
             {
-                uint targetId = (uint)clientPacket.ReadInt();
+                uint targetId = (uint)message.ReadInt();
 
                 if (_playerController.TryGetPlayer(targetId, out IPlayer targetPlayer))
                     targetPlayers.Add(targetPlayer);
             }
 
-            string message = clientPacket.ReadString();
+            string msg = message.ReadString();
 
-            if (string.IsNullOrWhiteSpace(message)) return;
+            if (string.IsNullOrWhiteSpace(msg)) return;
 
-            if (message.Length > 200)
-                message.Substring(0, 200);
+            if (msg.Length > 200)
+                msg.Substring(0, 200);
 
             foreach (IPlayer targetPlayer in targetPlayers)
             {
@@ -76,7 +76,7 @@ namespace AliasPro.Messenger.Packets.Events
                     }*/
 
                     //todo: log invite
-                    await targetPlayer.Session.SendPacketAsync(new RoomInviteComposer(session.Player.Id, message));
+                    await targetPlayer.Session.SendPacketAsync(new RoomInviteComposer(session.Player.Id, msg));
                 }
             }
         }

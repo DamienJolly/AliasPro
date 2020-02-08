@@ -24,7 +24,7 @@ namespace AliasPro.Groups.Packets.Events
 
 		public async Task RunAsync(
 			ISession session,
-			ClientMessage clientPacket)
+			ClientMessage message)
 		{
 			if (session.Player == null)
 				return;

@@ -25,13 +25,13 @@ namespace AliasPro.Rooms.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             IRoom room = session.CurrentRoom;
             if (room == null || session.Entity == null) return;
 
 
-            string username = clientPacket.ReadString();
+            string username = message.ReadString();
             if (!room.Entities.TryGetPlayerEntityByName(username, out BaseEntity targetEntity))
                 return;
 

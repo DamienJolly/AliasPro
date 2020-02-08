@@ -31,13 +31,13 @@ namespace AliasPro.Moderation.Packets.Events
 
 		public async Task RunAsync(
 			ISession session,
-			ClientMessage clientPacket)
+			ClientMessage message)
 		{
 			if (!_permissionsController.HasPermission(session.Player, "acc_modtool_player_kick"))
 				return;
 
-			int playerId = clientPacket.ReadInt();
-			string message = clientPacket.ReadString();
+			int playerId = message.ReadInt();
+			string msg = message.ReadString();
 
 			if (!_playerController.TryGetPlayer((uint)playerId, out IPlayer player))
 				return;
@@ -46,7 +46,7 @@ namespace AliasPro.Moderation.Packets.Events
                 return;
 
 			await player.Session.CurrentRoom.RemoveEntity(player.Session.Entity);
-			await player.Session.SendPacketAsync(new ModerationIssueHandledComposer(message));
+			await player.Session.SendPacketAsync(new ModerationIssueHandledComposer(msg));
 
 			if (player.Messenger != null)
 				await _messengerController.UpdateStatusAsync(player, player.Messenger.Friends);

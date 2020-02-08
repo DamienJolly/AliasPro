@@ -22,7 +22,7 @@ namespace AliasPro.Players.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             if (session.Player.Badge == null) return;
 
@@ -30,8 +30,8 @@ namespace AliasPro.Players.Packets.Events
             
             for (int i = 0; i < 5; i++)
             {
-                int slot = clientPacket.ReadInt();
-                string code = clientPacket.ReadString();
+                int slot = message.ReadInt();
+                string code = message.ReadString();
 
                 if (slot < 1 || slot > 5 || code.Length == 0) continue;
 

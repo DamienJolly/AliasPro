@@ -22,7 +22,7 @@ namespace AliasPro.Groups.Packets.Events
 
 		public async Task RunAsync(
 			ISession session,
-			ClientMessage clientPacket)
+			ClientMessage message)
 		{
 			await session.SendPacketAsync(new GroupPartsComposer(
 				_groupController.GetBases,

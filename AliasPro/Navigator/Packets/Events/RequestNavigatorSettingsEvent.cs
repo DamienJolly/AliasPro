@@ -21,7 +21,7 @@ namespace AliasPro.Navigator.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             await session.SendPacketAsync(new NavigatorEventCategoriesComposer(_navigatorController.TryGetCategoryByView("roomads_view")));
         }

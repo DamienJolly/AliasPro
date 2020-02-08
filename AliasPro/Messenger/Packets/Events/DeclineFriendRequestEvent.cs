@@ -20,9 +20,9 @@ namespace AliasPro.Messenger.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-            bool DeclineAll = clientPacket.ReadBoolean();
+            bool DeclineAll = message.ReadBoolean();
             
             if(DeclineAll)
             {
@@ -31,8 +31,8 @@ namespace AliasPro.Messenger.Packets.Events
             }
             else
             {
-                clientPacket.ReadInt(); // dunno?
-                uint targetId = (uint)clientPacket.ReadInt();
+                message.ReadInt(); // dunno?
+                uint targetId = (uint)message.ReadInt();
 
                 session.Player.Messenger.RemoveRequest(targetId);
                 await _messengerController.RemoveRequestAsync(session.Player.Id, targetId);

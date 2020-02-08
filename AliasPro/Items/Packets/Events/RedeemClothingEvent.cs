@@ -31,7 +31,7 @@ namespace AliasPro.Items.Packets.Events
 
 		public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             IRoom room = session.CurrentRoom;
 
@@ -44,7 +44,7 @@ namespace AliasPro.Items.Packets.Events
 			if (!session.CurrentRoom.Rights.IsOwner(session.Player.Id)) 
 				return;
 
-			uint itemId = (uint)clientPacket.ReadInt();
+			uint itemId = (uint)message.ReadInt();
             if (room.Items.TryGetItem(itemId, out IItem item))
             {
                 if (item.ItemData.Type != "s") 

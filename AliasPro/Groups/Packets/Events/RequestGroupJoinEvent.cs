@@ -28,9 +28,9 @@ namespace AliasPro.Groups.Packets.Events
 
 		public async Task RunAsync(
 			ISession session,
-			ClientMessage clientPacket)
+			ClientMessage message)
 		{
-			int groupId = clientPacket.ReadInt();
+			int groupId = message.ReadInt();
 			IGroup group = await _groupController.ReadGroupData(groupId);
 
 			if (group == null) return;

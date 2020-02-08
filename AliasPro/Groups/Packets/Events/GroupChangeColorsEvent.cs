@@ -27,17 +27,17 @@ namespace AliasPro.Groups.Packets.Events
 
 		public async Task RunAsync(
 			ISession session,
-			ClientMessage clientPacket)
+			ClientMessage message)
 		{
-			int groupId = clientPacket.ReadInt();
+			int groupId = message.ReadInt();
 			IGroup group = await _groupController.ReadGroupData(groupId);
 
 			if (group == null) return;
 
 			if (!group.IsOwner((int)session.Player.Id)) return;
 
-			int colourOne = clientPacket.ReadInt();
-			int colourTwo = clientPacket.ReadInt();
+			int colourOne = message.ReadInt();
+			int colourTwo = message.ReadInt();
 
 			group.ColourOne = colourOne;
 			group.ColourTwo = colourTwo;

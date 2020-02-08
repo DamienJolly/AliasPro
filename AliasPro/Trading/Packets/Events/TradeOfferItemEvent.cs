@@ -16,7 +16,7 @@ namespace AliasPro.Trading.Packets.Events
 
 		public async Task RunAsync(
 			ISession session,
-			ClientMessage clientPacket)
+			ClientMessage message)
 		{
 			IRoom room = session.CurrentRoom;
 			if (room == null) return;
@@ -27,7 +27,7 @@ namespace AliasPro.Trading.Packets.Events
 			if (!trade.TryGetPlayer(session.Entity.Id, out ITradePlayer player))
 				return;
 
-			int itemId = clientPacket.ReadInt();
+			int itemId = message.ReadInt();
 
 			if (!session.Player.Inventory.TryGetItem((uint)itemId, out IItem item))
 				return;

@@ -24,7 +24,7 @@ namespace AliasPro.Messenger.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             //todo: add to cofig
             int maxFriends = 1000;
@@ -44,8 +44,8 @@ namespace AliasPro.Messenger.Packets.Events
             ICollection<IMessengerMessage> messages = 
                 await _messengerController.GetOfflineMessagesAsync(session.Player.Id);
 
-            foreach (IMessengerMessage message in messages)
-                await session.SendPacketAsync(new FriendChatComposer(message));
+            foreach (IMessengerMessage msg in messages)
+                await session.SendPacketAsync(new FriendChatComposer(msg));
         }
     }
 }

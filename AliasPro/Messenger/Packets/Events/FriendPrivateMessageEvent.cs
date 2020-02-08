@@ -28,19 +28,19 @@ namespace AliasPro.Messenger.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-            uint targetId = (uint)clientPacket.ReadInt();
+            uint targetId = (uint)message.ReadInt();
 
             if (!_playerController.TryGetPlayer(targetId, out IPlayer targetPlayer))
                 return;
 
-            string message = clientPacket.ReadString();
-            if (string.IsNullOrWhiteSpace(message))
+            string msg = message.ReadString();
+            if (string.IsNullOrWhiteSpace(msg))
                 return;
 
-            if (message.Length > 200)
-                message.Substring(0, 200);
+            if (msg.Length > 200)
+                msg.Substring(0, 200);
 
             if (!session.Player.Messenger.TryGetFriend(targetPlayer.Id, out IMessengerFriend friend))
             {
@@ -56,7 +56,7 @@ namespace AliasPro.Messenger.Packets.Events
             }*/
 
             IMessengerMessage privateMessage =
-                    new MessengerMessage(session.Player.Id, message, (int)UnixTimestamp.Now);
+                    new MessengerMessage(session.Player.Id, msg, (int)UnixTimestamp.Now);
             //todo: log message
 
             if (targetPlayer.Session != null)

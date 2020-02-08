@@ -33,12 +33,12 @@ namespace AliasPro.Moderation.Packets.Events
 
 		public async Task RunAsync(
 			ISession session,
-			ClientMessage clientPacket)
+			ClientMessage message)
 		{
 			if (!_permissionsController.HasPermission(session.Player, "acc_modtool_ticket_queue"))
 				return;
 
-			int ticketId = clientPacket.ReadInt();
+			int ticketId = message.ReadInt();
             if (!_moderationController.TryGetTicket(ticketId, out IModerationTicket ticket))
                 return;
 

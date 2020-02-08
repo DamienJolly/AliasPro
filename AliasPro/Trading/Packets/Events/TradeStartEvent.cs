@@ -26,12 +26,12 @@ namespace AliasPro.Trading.Packets.Events
 
 		public async Task RunAsync(
 			ISession session,
-			ClientMessage clientPacket)
+			ClientMessage message)
 		{
 			IRoom room = session.CurrentRoom;
 			if (room == null) return;
 
-			int userId = clientPacket.ReadInt();
+			int userId = message.ReadInt();
 			if (userId == session.Entity.Id) return;
 
 			//if (room.TradeState == RoomTradeState.FORBIDDEN ||

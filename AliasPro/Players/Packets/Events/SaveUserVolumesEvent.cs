@@ -12,11 +12,11 @@ namespace AliasPro.Players.Packets.Events
         
         public Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-            session.Player.PlayerSettings.VolumeSystem = clientPacket.ReadInt();
-            session.Player.PlayerSettings.VolumeFurni = clientPacket.ReadInt();
-            session.Player.PlayerSettings.VolumeTrax = clientPacket.ReadInt();
+            session.Player.PlayerSettings.VolumeSystem = message.ReadInt();
+            session.Player.PlayerSettings.VolumeFurni = message.ReadInt();
+            session.Player.PlayerSettings.VolumeTrax = message.ReadInt();
             return Task.CompletedTask;
         }
     }

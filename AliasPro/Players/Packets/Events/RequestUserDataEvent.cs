@@ -21,7 +21,7 @@ namespace AliasPro.Players.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             await session.SendPacketAsync(new UserDataComposer(session.Player));
             await session.SendPacketAsync(new UserPerksComposer(session.Player));

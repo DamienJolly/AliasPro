@@ -31,13 +31,13 @@ namespace AliasPro.Moderation.Packets.Events
 
 		public async Task RunAsync(
 			ISession session,
-			ClientMessage clientPacket)
+			ClientMessage message)
 		{
 			if (!_permissionsController.HasPermission(session.Player, "acc_modtool_room_logs"))
 				return;
 
-			clientPacket.ReadInt(); //dunno?
-            int roomId = clientPacket.ReadInt();
+			message.ReadInt(); //dunno?
+            int roomId = message.ReadInt();
 
             IRoom room = await _roomController.LoadRoom((uint)roomId);
             if (room == null)

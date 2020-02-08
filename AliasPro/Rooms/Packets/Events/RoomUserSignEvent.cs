@@ -13,13 +13,13 @@ namespace AliasPro.Rooms.Packets.Events
 
         public Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             IRoom room = session.CurrentRoom;
             if (room == null || session.Entity == null) 
                 return Task.CompletedTask;
 
-            int signId = clientPacket.ReadInt();
+            int signId = message.ReadInt();
 
             if (signId < 0 || signId > 17)
                 return Task.CompletedTask;

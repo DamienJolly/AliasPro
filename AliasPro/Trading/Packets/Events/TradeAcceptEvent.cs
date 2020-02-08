@@ -15,7 +15,7 @@ namespace AliasPro.Trading.Packets.Events
 
 		public async Task RunAsync(
 			ISession session,
-			ClientMessage clientPacket)
+			ClientMessage message)
 		{
 			IRoom room = session.CurrentRoom;
 			if (room == null) return;

@@ -23,13 +23,13 @@ namespace AliasPro.Groups.Packets.Events
 
 		public async Task RunAsync(
 			ISession session,
-			ClientMessage clientPacket)
+			ClientMessage message)
 		{
 			if (session.Player == null)
 				return;
 
-			int groupId = clientPacket.ReadInt();
-			bool newWindow = clientPacket.ReadBoolean();
+			int groupId = message.ReadInt();
+			bool newWindow = message.ReadBoolean();
 
 			IGroup group = await _groupController.ReadGroupData(groupId);
 			if (group == null)

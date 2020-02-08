@@ -23,9 +23,9 @@ namespace AliasPro.Landing.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-            string text = clientPacket.ReadString();
+            string text = message.ReadString();
             string name = string.Empty;
             IList<IHallOfFamer> hallOfFamers = await _landingController.GetHallOfFamersAsync();
 

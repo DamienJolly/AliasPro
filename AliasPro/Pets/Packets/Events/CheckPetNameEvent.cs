@@ -14,9 +14,9 @@ namespace AliasPro.Pets.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-			string petName = clientPacket.ReadString();
+			string petName = message.ReadString();
 
 			int minLength = 2; //todo: add to config
 			int maxLength = 15;

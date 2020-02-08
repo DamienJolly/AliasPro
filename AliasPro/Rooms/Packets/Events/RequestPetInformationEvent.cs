@@ -24,13 +24,13 @@ namespace AliasPro.Rooms.Packets.Events
 
 		public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             IRoom room = session.CurrentRoom;
             if (room == null) 
 				return;
 
-			int petId = clientPacket.ReadInt();
+			int petId = message.ReadInt();
 			if (!room.Entities.TryGetEntityById(petId, out BaseEntity entity))
 				return;
 

@@ -31,7 +31,7 @@ namespace AliasPro.Catalog.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             //todo: ecotron disabled config
             //todo: add box name to config
@@ -43,10 +43,10 @@ namespace AliasPro.Catalog.Packets.Events
 
             IList<IItem> items = new List<IItem>();
 
-            int count = clientPacket.ReadInt();
+            int count = message.ReadInt();
             for (int i = 0; i < count; i++)
             {
-                int itemId = clientPacket.ReadInt();
+                int itemId = message.ReadInt();
                 if (!session.Player.Inventory.TryGetItem((uint)itemId, out IItem item))
                     continue;
 

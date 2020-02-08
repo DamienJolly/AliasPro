@@ -20,17 +20,17 @@ namespace AliasPro.Rooms.Packets.Events
         }
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-            uint roomId = (uint)clientPacket.ReadInt();
+            uint roomId = (uint)message.ReadInt();
             if (!_roomController.TryGetRoom(roomId, out IRoom room))
                 return;
 
             if (!room.Rights.HasRights(session.Player.Id)) 
                 return;
 
-            bool add = clientPacket.ReadBoolean();
-            string word = clientPacket.ReadString();
+            bool add = message.ReadBoolean();
+            string word = message.ReadString();
 
             if (word.Length > 25)
                 word = word.Substring(0, 24);

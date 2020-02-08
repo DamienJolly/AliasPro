@@ -33,7 +33,7 @@ namespace AliasPro.Groups.Packets.Events
 
 		public async Task RunAsync(
 			ISession session,
-			ClientMessage clientPacket)
+			ClientMessage message)
 		{
 			int guildPrice = 10;
 			if (session.Player.Credits >= guildPrice)
@@ -47,11 +47,11 @@ namespace AliasPro.Groups.Packets.Events
 				return;
 			}
 
-			string name = clientPacket.ReadString();
+			string name = message.ReadString();
 			if (name.Length <= 0) return;
 
-			string description = clientPacket.ReadString();
-			int roomId = clientPacket.ReadInt();
+			string description = message.ReadString();
+			int roomId = message.ReadInt();
 
 			IRoom room = await _roomController.LoadRoom((uint)roomId);
 			if (room == null)
@@ -61,16 +61,16 @@ namespace AliasPro.Groups.Packets.Events
 
 			if (room.OwnerId != session.Player.Id) return;
 
-			int colourOne = clientPacket.ReadInt();
-			int colourTwo = clientPacket.ReadInt();
-			int count = clientPacket.ReadInt();
+			int colourOne = message.ReadInt();
+			int colourTwo = message.ReadInt();
+			int count = message.ReadInt();
 
 			string badge = "";
 			for (int i = 0; i < count; i += 3)
 			{
-				int id = clientPacket.ReadInt();
-				int colour = clientPacket.ReadInt();
-				int pos = clientPacket.ReadInt();
+				int id = message.ReadInt();
+				int colour = message.ReadInt();
+				int pos = message.ReadInt();
 
 				if (i == 0) badge += "b";
 				else badge += "s";

@@ -30,11 +30,11 @@ namespace AliasPro.Rooms.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-            int playerId = clientPacket.ReadInt();
-            int roomId = clientPacket.ReadInt();
-            string banName = clientPacket.ReadString();
+            int playerId = message.ReadInt();
+            int roomId = message.ReadInt();
+            string banName = message.ReadString();
 
             if (!_roomController.TryGetRoom((uint)roomId, out IRoom room)) 
                 return;

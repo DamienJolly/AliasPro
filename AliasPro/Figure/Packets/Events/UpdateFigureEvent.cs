@@ -35,17 +35,17 @@ namespace AliasPro.Figure.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             PlayerGender gender = PlayerGender.MALE;
 
-            switch (clientPacket.ReadString().ToLower())
+            switch (message.ReadString().ToLower())
             {
                 case "m": gender = PlayerGender.MALE; break;
                 case "f": gender = PlayerGender.FEMALE; break;
             }
 
-            string figure = clientPacket.ReadString().ToLower();
+            string figure = message.ReadString().ToLower();
 
             if (figure.Length == 0 || 
                 figure == session.Player.Figure) return;

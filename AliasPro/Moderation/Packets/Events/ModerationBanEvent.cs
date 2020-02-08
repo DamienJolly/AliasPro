@@ -38,22 +38,22 @@ namespace AliasPro.Moderation.Packets.Events
 
 		public async Task RunAsync(
 			ISession session,
-			ClientMessage clientPacket)
+			ClientMessage message)
 		{
 			if (!_permissionsController.HasPermission(session.Player, "acc_modtool_player_ban"))
 				return;
 
-			int playerId = clientPacket.ReadInt();
+			int playerId = message.ReadInt();
 			if (!_playerController.TryGetPlayer((uint)playerId, out IPlayer player))
 				return;
 
             if (player.Session == null || 
 				player.Rank >= session.Player.Rank) return;
 
-			string reason = clientPacket.ReadString();
-			int topicId = clientPacket.ReadInt();
-			int banType = clientPacket.ReadInt();
-			clientPacket.ReadBoolean(); //dunno?
+			string reason = message.ReadString();
+			int topicId = message.ReadInt();
+			int banType = message.ReadInt();
+			message.ReadBoolean(); //dunno?
 
 			int duration = 0;
 			switch (banType)

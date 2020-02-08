@@ -23,7 +23,7 @@ namespace AliasPro.Landing.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             IList<IArticle> artiles = await _landingController.GetNewsArticlesAsync();
             await session.SendPacketAsync(new NewsListComposer(artiles));

@@ -33,12 +33,12 @@ namespace AliasPro.Moderation.Packets.Events
 
 		public async Task RunAsync(
 			ISession session,
-			ClientMessage clientPacket)
+			ClientMessage message)
 		{
 			if (!_permissionsController.HasPermission(session.Player, "acc_modtool_player_logs"))
 				return;
 
-			int playerId = clientPacket.ReadInt();
+			int playerId = message.ReadInt();
 
             IPlayerData player = await _playerController.GetPlayerDataAsync((uint)playerId);
             if (player == null)

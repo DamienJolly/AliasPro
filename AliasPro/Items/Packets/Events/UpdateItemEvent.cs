@@ -16,18 +16,18 @@ namespace AliasPro.Items.Packets.Events
         
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             IRoom room = session.CurrentRoom;
 
-            uint itemId = (uint)clientPacket.ReadInt();
+            uint itemId = (uint)message.ReadInt();
             if (room.Items.TryGetItem(itemId, out IItem item))
             {
                 if (room.Rights.HasRights(session.Player.Id))
                 {
-                    int x = clientPacket.ReadInt();
-                    int y = clientPacket.ReadInt();
-                    int rot = clientPacket.ReadInt();
+                    int x = message.ReadInt();
+                    int y = message.ReadInt();
+                    int rot = message.ReadInt();
 
                     if (room.RoomGrid.TryGetRoomTile(x, y, out IRoomTile roomTile))
                     {

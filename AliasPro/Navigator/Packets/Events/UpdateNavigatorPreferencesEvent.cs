@@ -12,14 +12,14 @@ namespace AliasPro.Navigator.Packets.Events
         
         public Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-            session.Player.PlayerSettings.NaviX = clientPacket.ReadInt();
-            session.Player.PlayerSettings.NaviY = clientPacket.ReadInt();
-            session.Player.PlayerSettings.NaviWidth = clientPacket.ReadInt();
-            session.Player.PlayerSettings.NaviHeight = clientPacket.ReadInt();
-            session.Player.PlayerSettings.NaviHideSearches = clientPacket.ReadBoolean();
-            clientPacket.ReadInt();
+            session.Player.PlayerSettings.NaviX = message.ReadInt();
+            session.Player.PlayerSettings.NaviY = message.ReadInt();
+            session.Player.PlayerSettings.NaviWidth = message.ReadInt();
+            session.Player.PlayerSettings.NaviHeight = message.ReadInt();
+            session.Player.PlayerSettings.NaviHideSearches = message.ReadBoolean();
+            message.ReadInt();
 
             return Task.CompletedTask;
         }

@@ -16,7 +16,7 @@ namespace AliasPro.Rooms.Packets.Events
         
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             IRoom room = session.CurrentRoom;
 
@@ -26,7 +26,7 @@ namespace AliasPro.Rooms.Packets.Events
             if (!room.Rights.HasRights(session.Player.Id)) 
                 return;
 
-            uint wiredItemId = (uint)clientPacket.ReadInt();
+            uint wiredItemId = (uint)message.ReadInt();
             if (room.Items.TryGetItem(wiredItemId, out IItem wiredItem))
             {
                 if (!wiredItem.ItemData.IsWired) 
@@ -37,21 +37,21 @@ namespace AliasPro.Rooms.Packets.Events
                 wiredData.Params.Clear();
                 wiredData.Items.Clear();
 
-                int paramCount = clientPacket.ReadInt();
+                int paramCount = message.ReadInt();
 
                 for (int i = 0; i < paramCount; i++)
                 {
-                    int paramData = clientPacket.ReadInt();
+                    int paramData = message.ReadInt();
                     wiredData.Params.Add(paramData);
                 }
 
-                wiredData.Message = clientPacket.ReadString();
+                wiredData.Message = message.ReadString();
 
-                int itemsCount = clientPacket.ReadInt();
+                int itemsCount = message.ReadInt();
 
                 for (int i = 0; i < itemsCount; i++)
                 {
-                    int itemId = clientPacket.ReadInt();
+                    int itemId = message.ReadInt();
                     if (room.Items.TryGetItem((uint)itemId, out IItem item))
                     {
                         wiredData.Items.Add(item.Id,
@@ -59,7 +59,7 @@ namespace AliasPro.Rooms.Packets.Events
                     }
                 }
 
-                clientPacket.ReadInt();
+                message.ReadInt();
                 wiredItem.ExtraData = wiredData.ToString();
 
                 await session.SendPacketAsync(new WiredSavedComposer());

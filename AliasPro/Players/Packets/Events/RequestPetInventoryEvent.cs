@@ -13,7 +13,7 @@ namespace AliasPro.Players.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             await session.SendPacketAsync(new InventoryPetsComposer(session.Player.Inventory.Pets));
         }

@@ -12,9 +12,9 @@ namespace AliasPro.Players.Packets.Events
         
         public Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-            session.Player.PlayerSettings.OldChat = clientPacket.ReadBoolean();
+            session.Player.PlayerSettings.OldChat = message.ReadBoolean();
             return Task.CompletedTask;
         }
     }

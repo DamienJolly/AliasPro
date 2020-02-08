@@ -22,13 +22,13 @@ namespace AliasPro.Messenger.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
-            int playerId = clientPacket.ReadInt();
+            int playerId = message.ReadInt();
             if (!session.Player.Messenger.TryGetFriend((uint)playerId, out IMessengerFriend friend))
                 return;
 
-            int type = clientPacket.ReadInt();
+            int type = message.ReadInt();
             if (type < 0 || type > 3)
                 return;
 

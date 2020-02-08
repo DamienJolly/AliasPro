@@ -25,7 +25,7 @@ namespace AliasPro.Navigator.Packets.Events
 
         public async Task RunAsync(
             ISession session,
-            ClientMessage clientPacket)
+            ClientMessage message)
         {
             IList<IRoomData> rooms = new List<IRoomData>();
             foreach (IRoomData roomData in _roomController.Rooms)
