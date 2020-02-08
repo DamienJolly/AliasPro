@@ -11,7 +11,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class RequestRoomWordFilterEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RequestRoomWordFilterMessageEvent;
+        public short Header => Incoming.RequestRoomWordFilterMessageEvent;
 
         private readonly IRoomController _roomController;
 

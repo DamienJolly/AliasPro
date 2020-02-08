@@ -12,7 +12,7 @@ namespace AliasPro.Moderation.Packets.Events
 {
     public class ModerationTradeLockEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.ModerationTradeLockMessageEvent;
+        public short Header => Incoming.ModerationTradeLockMessageEvent;
         
 		private readonly IPlayerController _playerController;
 		private readonly IPermissionsController _permissionsController;

@@ -13,7 +13,7 @@ namespace AliasPro.Moderation.Packets.Events
 {
     public class ModerationBanEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.ModerationBanMessageEvent;
+        public short Header => Incoming.ModerationBanMessageEvent;
 
 		private const int BAN_18_HOURS = 3;
 		private const int BAN_7_DAYS = 4;

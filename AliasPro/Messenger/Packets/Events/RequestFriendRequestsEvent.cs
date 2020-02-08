@@ -9,7 +9,7 @@ namespace AliasPro.Messenger.Packets.Events
 {
     public class RequestFriendRequestsEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RequestFriendRequestsMessageEvent;
+        public short Header => Incoming.RequestFriendRequestsMessageEvent;
 
         public async Task RunAsync(
             ISession session,

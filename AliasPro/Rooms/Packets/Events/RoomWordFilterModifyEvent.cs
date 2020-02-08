@@ -10,7 +10,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class RoomWordFilterModifyEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RoomWordFilterModifyMessageEvent;
+        public short Header => Incoming.RoomWordFilterModifyMessageEvent;
 
         private readonly IRoomController _roomController;
 

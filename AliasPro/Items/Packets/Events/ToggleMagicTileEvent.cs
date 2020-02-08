@@ -14,7 +14,7 @@ namespace AliasPro.Items.Packets.Events
 {
     public class SetStackToolHeightEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.SetStackToolHeightMessageEvent;
+        public short Header => Incoming.SetStackToolHeightMessageEvent;
         
         public async Task RunAsync(
             ISession session,

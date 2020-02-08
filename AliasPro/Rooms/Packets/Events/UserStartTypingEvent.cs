@@ -10,7 +10,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class UserStartTypingEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.UserStartTypingMessageEvent;
+        public short Header => Incoming.UserStartTypingMessageEvent;
 
         public async Task RunAsync(
             ISession session,

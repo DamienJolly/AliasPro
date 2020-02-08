@@ -14,7 +14,7 @@ namespace AliasPro.Messenger.Packets.Events
 {
     public class AcceptFriendRequestEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.AcceptFriendRequestMessageEvent;
+        public short Header => Incoming.AcceptFriendRequestMessageEvent;
 
         private readonly IPlayerController _playerController;
         private readonly IMessengerController _messengerController;

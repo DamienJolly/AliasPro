@@ -12,7 +12,7 @@ namespace AliasPro.Figure.Packets.Events
 {
     public class RequestUserWardrobeEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RequestUserWardrobeMessengerEvent;
+        public short Header => Incoming.RequestUserWardrobeMessengerEvent;
        
         private readonly IFigureController _figureController;
 

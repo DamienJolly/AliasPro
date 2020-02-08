@@ -13,7 +13,7 @@ namespace AliasPro.Items.Packets.Events
 {
     public class RedeemItemEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RedeemItemMessageEvent;
+        public short Header => Incoming.RedeemItemMessageEvent;
 
 		private readonly IItemController _itemController;
 

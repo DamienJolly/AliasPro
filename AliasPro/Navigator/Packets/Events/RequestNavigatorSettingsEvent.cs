@@ -10,7 +10,7 @@ namespace AliasPro.Navigator.Packets.Events
 {
     internal class RequestNavigatorSettingsEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RequestNavigatorSettingsMessageEvent;
+        public short Header => Incoming.RequestNavigatorSettingsMessageEvent;
 
         private readonly INavigatorController _navigatorController;
 

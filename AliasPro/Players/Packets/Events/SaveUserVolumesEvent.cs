@@ -8,7 +8,7 @@ namespace AliasPro.Players.Packets.Events
 {
     internal class SaveUserVolumesEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.SaveUserVolumesMessageEvent;
+        public short Header => Incoming.SaveUserVolumesMessageEvent;
         
         public Task RunAsync(
             ISession session,

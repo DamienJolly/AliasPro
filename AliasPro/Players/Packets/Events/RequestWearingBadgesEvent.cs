@@ -13,7 +13,7 @@ namespace AliasPro.Players.Packets.Events
 {
     public class RequestWearingBadgesEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RequestWearingBadgesMessageEvent;
+        public short Header => Incoming.RequestWearingBadgesMessageEvent;
 
         private readonly IPlayerController _playerController;
 

@@ -12,7 +12,7 @@ namespace AliasPro.Moderation.Packets.Events
 {
     public class ModerationRequestUserInfoEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.ModerationRequestUserInfoMessageEvent;
+        public short Header => Incoming.ModerationRequestUserInfoMessageEvent;
         
 		private readonly IPlayerController _playerController;
 		private readonly IPermissionsController _permissionsController;

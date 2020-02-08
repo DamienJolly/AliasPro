@@ -20,7 +20,7 @@ namespace AliasPro.Players.Packets.Events
 {
     public class SecureLoginEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.SecureLoginMessageEvent;
+        public short Header => Incoming.SecureLoginMessageEvent;
 
         private readonly IPlayerController _playerController;
         private readonly IItemController _itemController;

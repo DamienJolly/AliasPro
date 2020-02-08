@@ -9,7 +9,7 @@ namespace AliasPro.Players.Packets.Events
 {
     public class RequestUserIgnoresEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RequestUserIgnoresMessageEvent;
+        public short Header => Incoming.RequestUserIgnoresMessageEvent;
 
         public async Task RunAsync(
             ISession session,

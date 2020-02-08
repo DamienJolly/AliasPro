@@ -11,7 +11,7 @@ namespace AliasPro.Groups.Packets.Events
 {
 	public class GroupRemoveFavoriteEvent : IMessageEvent
 	{
-		public short Id { get; } = Incoming.GroupRemoveFavoriteMessageEvent;
+		public short Header => Incoming.GroupRemoveFavoriteMessageEvent;
 
 		private readonly IGroupController _groupController;
 

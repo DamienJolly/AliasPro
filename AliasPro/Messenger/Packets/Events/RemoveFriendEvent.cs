@@ -13,7 +13,7 @@ namespace AliasPro.Messenger.Packets.Events
 {
     public class RemoveFriendEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RemoveFriendMessageEvent;
+        public short Header => Incoming.RemoveFriendMessageEvent;
 
         private readonly IPlayerController _playerController;
         private readonly IMessengerController _messengerController;

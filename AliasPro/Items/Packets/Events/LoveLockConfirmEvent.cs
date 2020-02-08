@@ -15,7 +15,7 @@ namespace AliasPro.Items.Packets.Events
 {
     public class LoveLockConfirmEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.LoveLockConfirmMessageEvent;
+        public short Header => Incoming.LoveLockConfirmMessageEvent;
         
         public async Task RunAsync(
             ISession session,

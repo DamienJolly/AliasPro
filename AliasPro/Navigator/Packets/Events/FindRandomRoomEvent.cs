@@ -13,7 +13,7 @@ namespace AliasPro.Navigator.Packets.Events
 {
     internal class FindRandomRoomEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.FindRandomRoomMessageEvent;
+        public short Header => Incoming.FindRandomRoomMessageEvent;
 
         private readonly IRoomController _roomController;
 

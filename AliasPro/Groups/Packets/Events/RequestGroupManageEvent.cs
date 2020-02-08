@@ -11,7 +11,7 @@ namespace AliasPro.Groups.Packets.Events
 {
 	public class RequestGroupManageEvent : IMessageEvent
 	{
-		public short Id { get; } = Incoming.RequestGroupManageMessageEvent;
+		public short Header => Incoming.RequestGroupManageMessageEvent;
 
 		private readonly IGroupController _groupController;
 

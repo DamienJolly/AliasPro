@@ -15,7 +15,7 @@ namespace AliasPro.Groups.Packets.Events
 {
 	public class GroupAcceptMembershipEvent : IMessageEvent
 	{
-		public short Id { get; } = Incoming.GroupAcceptMembershipMessageEvent;
+		public short Header => Incoming.GroupAcceptMembershipMessageEvent;
 
 		private readonly IGroupController _groupController;
 		private readonly IPlayerController _playerController;

@@ -15,7 +15,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class RoomBotSaveSettingsEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RoomBotSaveSettingsMessageEvent;
+        public short Header => Incoming.RoomBotSaveSettingsMessageEvent;
 
 		private readonly IRoomController _roomController;
 

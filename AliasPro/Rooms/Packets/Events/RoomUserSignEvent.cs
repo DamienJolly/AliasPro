@@ -9,7 +9,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class RoomUserSignEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RoomUserSignMessageEvent;
+        public short Header => Incoming.RoomUserSignMessageEvent;
 
         public Task RunAsync(
             ISession session,

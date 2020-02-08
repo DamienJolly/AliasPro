@@ -12,7 +12,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class RequestPromotionRoomsEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RequestPromotionRoomsMessageEvent;
+        public short Header => Incoming.RequestPromotionRoomsMessageEvent;
 
         private readonly IRoomController _roomController;
 

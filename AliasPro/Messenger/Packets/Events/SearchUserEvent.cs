@@ -13,7 +13,7 @@ namespace AliasPro.Messenger.Packets.Events
 {
     public class SearchUserEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.SearchUserMessageEvent;
+        public short Header => Incoming.SearchUserMessageEvent;
 
         private readonly IPlayerController _playerController;
 

@@ -15,7 +15,7 @@ namespace AliasPro.Groups.Packets.Events
 {
 	public class GroupDeleteEvent : IMessageEvent
 	{
-		public short Id { get; } = Incoming.GroupDeleteMessageEvent;
+		public short Header => Incoming.GroupDeleteMessageEvent;
 
 		private readonly IGroupController _groupController;
 		private readonly IRoomController _roomController;

@@ -12,7 +12,7 @@ namespace AliasPro.Items.Packets.Events
 {
     public class ToggleWallItemEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.ToggleWallItemMessageEvent;
+        public short Header => Incoming.ToggleWallItemMessageEvent;
         
         public async Task RunAsync(
             ISession session,

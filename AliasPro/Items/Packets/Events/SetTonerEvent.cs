@@ -12,7 +12,7 @@ namespace AliasPro.Items.Packets.Events
 {
     public class SetTonerEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.SetTonerMessageEvent;
+        public short Header => Incoming.SetTonerMessageEvent;
         
         public async Task RunAsync(
             ISession session,

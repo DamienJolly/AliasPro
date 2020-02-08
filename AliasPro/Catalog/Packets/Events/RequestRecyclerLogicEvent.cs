@@ -10,7 +10,7 @@ namespace AliasPro.Catalog.Packets.Events
 {
     public class RequestRecyclerLogicEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RequestRecyclerLogicMessageEvent;
+        public short Header => Incoming.RequestRecyclerLogicMessageEvent;
 
         private readonly ICatalogController _catalogController;
 

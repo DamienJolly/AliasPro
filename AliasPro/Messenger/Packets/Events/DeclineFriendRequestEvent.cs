@@ -9,7 +9,7 @@ namespace AliasPro.Messenger.Packets.Events
 {
     public class DeclineFriendRequestEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.DeclineFriendRequestMessageEvent;
+        public short Header => Incoming.DeclineFriendRequestMessageEvent;
 
         private readonly IMessengerController _messengerController;
 

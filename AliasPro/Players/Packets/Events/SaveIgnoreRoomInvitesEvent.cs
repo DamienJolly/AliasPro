@@ -8,7 +8,7 @@ namespace AliasPro.Players.Packets.Events
 {
     internal class SaveIgnoreRoomInvitesEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.SaveIgnoreRoomInvitesMessageEvent;
+        public short Header => Incoming.SaveIgnoreRoomInvitesMessageEvent;
         
         public Task RunAsync(
             ISession session,

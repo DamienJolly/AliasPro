@@ -12,7 +12,7 @@ namespace AliasPro.Groups.Packets.Events
 {
 	public class GroupSetFavoriteEvent : IMessageEvent
 	{
-		public short Id { get; } = Incoming.GroupSetFavoriteMessageEvent;
+		public short Header => Incoming.GroupSetFavoriteMessageEvent;
 
 		private readonly IGroupController _groupController;
 

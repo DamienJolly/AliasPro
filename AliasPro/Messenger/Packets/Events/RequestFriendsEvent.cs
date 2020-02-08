@@ -8,7 +8,7 @@ namespace AliasPro.Messenger.Packets.Events
 {
     public class RequestFriendsEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RequestFriendsMessageEvent;
+        public short Header => Incoming.RequestFriendsMessageEvent;
 
         public Task RunAsync(
             ISession session,

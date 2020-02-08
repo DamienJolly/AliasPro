@@ -9,7 +9,7 @@ namespace AliasPro.Catalog.Packets.Events
 {
     public class ReloadRecyclerEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.ReloadRecyclerMessageEvent;
+        public short Header => Incoming.ReloadRecyclerMessageEvent;
 
         public async Task RunAsync(
             ISession session,

@@ -14,7 +14,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class HandleDoorbellEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.HandleDoorbellMessageEvent;
+        public short Header => Incoming.HandleDoorbellMessageEvent;
 
 		private readonly IPlayerController _playerController;
 

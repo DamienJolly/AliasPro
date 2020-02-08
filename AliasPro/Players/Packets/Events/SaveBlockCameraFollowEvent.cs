@@ -8,7 +8,7 @@ namespace AliasPro.Players.Packets.Events
 {
     internal class SaveBlockCameraFollowEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.SaveBlockCameraFollowMessageEvent;
+        public short Header => Incoming.SaveBlockCameraFollowMessageEvent;
         
         public Task RunAsync(
             ISession session,

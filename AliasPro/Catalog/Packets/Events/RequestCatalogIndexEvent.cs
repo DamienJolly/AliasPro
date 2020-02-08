@@ -8,7 +8,7 @@ namespace AliasPro.Catalog.Packets.Events
 {
     public class RequestCatalogIndexEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RequestCatalogIndexMessageEvent;
+        public short Header => Incoming.RequestCatalogIndexMessageEvent;
 
         public Task RunAsync(
             ISession session,

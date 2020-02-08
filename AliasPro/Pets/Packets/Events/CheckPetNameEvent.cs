@@ -10,7 +10,7 @@ namespace AliasPro.Pets.Packets.Events
 {
     public class CheckPetNameEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.CheckPetNameMessageEvent;
+        public short Header => Incoming.CheckPetNameMessageEvent;
 
         public async Task RunAsync(
             ISession session,

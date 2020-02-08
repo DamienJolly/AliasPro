@@ -10,7 +10,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class RequestRoomRightsEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RequestRoomRightsMessageEvent;
+        public short Header => Incoming.RequestRoomRightsMessageEvent;
 
         public async Task RunAsync(
             ISession session,

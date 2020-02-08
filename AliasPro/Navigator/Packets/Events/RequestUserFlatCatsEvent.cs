@@ -10,7 +10,7 @@ namespace AliasPro.Navigator.Packets.Events
 {
     internal class RequestUserFlatCatsEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RequestUserFlatCatsMessageEvent;
+        public short Header => Incoming.RequestUserFlatCatsMessageEvent;
 
         private readonly INavigatorController _navigatorController;
 

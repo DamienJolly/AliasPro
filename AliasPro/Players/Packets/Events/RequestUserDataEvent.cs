@@ -10,7 +10,7 @@ namespace AliasPro.Players.Packets.Events
 {
     public class RequestUserDataEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RequestUserDataMessageEvent;
+        public short Header => Incoming.RequestUserDataMessageEvent;
 
         private readonly IPlayerController _playerController;
 

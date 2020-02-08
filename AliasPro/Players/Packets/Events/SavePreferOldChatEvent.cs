@@ -8,7 +8,7 @@ namespace AliasPro.Players.Packets.Events
 {
     internal class SavePreferOldChatEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.SavePreferOldChatMessageEvent;
+        public short Header => Incoming.SavePreferOldChatMessageEvent;
         
         public Task RunAsync(
             ISession session,

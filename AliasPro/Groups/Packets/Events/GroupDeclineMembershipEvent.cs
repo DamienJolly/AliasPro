@@ -11,7 +11,7 @@ namespace AliasPro.Groups.Packets.Events
 {
 	public class GroupDeclineMembershipEvent : IMessageEvent
 	{
-		public short Id { get; } = Incoming.GroupDeclineMembershipMessageEvent;
+		public short Header => Incoming.GroupDeclineMembershipMessageEvent;
 
 		private readonly IGroupController _groupController;
 

@@ -12,7 +12,7 @@ namespace AliasPro.Items.Packets.Events
 {
     public class UpdateItemEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.UpdateItemMessageEvent;
+        public short Header => Incoming.UpdateItemMessageEvent;
         
         public async Task RunAsync(
             ISession session,

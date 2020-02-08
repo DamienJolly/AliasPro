@@ -14,7 +14,7 @@ namespace AliasPro.Figure.Packets.Events
 {
     public class UpdateFigureEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.UpdateFigureMessageEvent;
+        public short Header => Incoming.UpdateFigureMessageEvent;
        
         private readonly IPlayerController _playerController;
         private readonly IFigureController _figureController;

@@ -14,7 +14,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class UserGiveRightsEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.UserGiveRightsMessageEvent;
+        public short Header => Incoming.UserGiveRightsMessageEvent;
 
         private readonly IPlayerController _playerController;
         private readonly IRoomController _roomController;

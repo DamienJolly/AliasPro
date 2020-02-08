@@ -11,7 +11,7 @@ namespace AliasPro.Items.Packets.Events
 {
     public class ToggleDiceEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.TriggerDiceMessageEvent;
+        public short Header => Incoming.TriggerDiceMessageEvent;
         
         public Task RunAsync(
             ISession session,

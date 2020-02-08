@@ -13,7 +13,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class RoomUserKickEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RoomUserKickMessageEvent;
+        public short Header => Incoming.RoomUserKickMessageEvent;
 
         private readonly IMessengerController _messengerController;
 

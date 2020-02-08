@@ -14,7 +14,7 @@ namespace AliasPro.Players.Packets.Events
 {
     public class RequestProfileFriendsEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RequestProfileFriendsMessageEvent;
+        public short Header => Incoming.RequestProfileFriendsMessageEvent;
 
         private readonly IPlayerController _playerController;
         private readonly IMessengerController _messengerController;

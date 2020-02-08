@@ -12,7 +12,7 @@ namespace AliasPro.Landing.Packets.Events
 {
     public class HotelViewDataEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.HotelViewDataMessageEvent;
+        public short Header => Incoming.HotelViewDataMessageEvent;
 
         private readonly ILandingController _landingController;
 

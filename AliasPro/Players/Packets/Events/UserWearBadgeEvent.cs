@@ -11,7 +11,7 @@ namespace AliasPro.Players.Packets.Events
 {
     public class UserWearBadgeEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.UserWearBadgeMessageEvent;
+        public short Header => Incoming.UserWearBadgeMessageEvent;
 
         private readonly IPlayerController _playerController;
 

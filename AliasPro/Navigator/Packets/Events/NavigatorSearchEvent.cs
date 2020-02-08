@@ -15,7 +15,7 @@ namespace AliasPro.Navigator.Packets.Events
 {
     internal class NavigatorSearchEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.NavigatorSearchMessageEvent;
+        public short Header => Incoming.NavigatorSearchMessageEvent;
 
         private readonly INavigatorController _navigatorController;
         private readonly IRoomController _roomController;

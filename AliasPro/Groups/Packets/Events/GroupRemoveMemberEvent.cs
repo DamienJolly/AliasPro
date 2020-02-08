@@ -14,7 +14,7 @@ namespace AliasPro.Groups.Packets.Events
 {
 	public class GroupRemoveMemberEvent : IMessageEvent
 	{
-		public short Id { get; } = Incoming.GroupRemoveMemberMessageEvent;
+		public short Header => Incoming.GroupRemoveMemberMessageEvent;
 
 		private readonly IGroupController _groupController;
 		private readonly IPlayerController _playerController;

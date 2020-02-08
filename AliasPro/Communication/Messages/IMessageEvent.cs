@@ -6,7 +6,7 @@ namespace AliasPro.Communication.Messages
 {
     public interface IMessageEvent
     {
-        short Id { get; }
+        short Header { get; }
 
         Task RunAsync(ISession session, ClientMessage message);
     }

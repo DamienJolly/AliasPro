@@ -11,7 +11,7 @@ namespace AliasPro.Items.Packets.Events
 {
     public class ToggleFloorItemEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.ToggleFloorItemMessageEvent;
+        public short Header => Incoming.ToggleFloorItemMessageEvent;
         
         public Task RunAsync(
             ISession session,

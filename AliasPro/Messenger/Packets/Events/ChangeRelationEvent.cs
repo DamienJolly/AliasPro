@@ -11,7 +11,7 @@ namespace AliasPro.Messenger.Packets.Events
 {
     public class ChangeRelationEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.ChangeRelationMessageEvent;
+        public short Header => Incoming.ChangeRelationMessageEvent;
 
         private readonly IMessengerController _messengerController;
 

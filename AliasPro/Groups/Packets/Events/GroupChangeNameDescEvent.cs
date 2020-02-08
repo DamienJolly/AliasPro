@@ -12,7 +12,7 @@ namespace AliasPro.Groups.Packets.Events
 {
 	public class GroupChangeNameDescEvent : IMessageEvent
 	{
-		public short Id { get; } = Incoming.GroupChangeNameDescMessageEvent;
+		public short Header => Incoming.GroupChangeNameDescMessageEvent;
 
 		private readonly IGroupController _groupController;
 		private readonly IRoomController _roomController;

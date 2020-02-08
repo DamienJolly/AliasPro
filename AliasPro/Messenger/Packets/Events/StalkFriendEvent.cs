@@ -13,7 +13,7 @@ namespace AliasPro.Messenger.Packets.Events
 {
     public class StalkFriendEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.StalkFriendMessageEvent;
+        public short Header => Incoming.StalkFriendMessageEvent;
 
         private readonly IPlayerController _playerController;
 

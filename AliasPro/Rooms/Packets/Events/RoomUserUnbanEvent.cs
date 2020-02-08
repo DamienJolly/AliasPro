@@ -10,7 +10,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class RoomUserUnbanEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RoomUserUnbanMessageEvent;
+        public short Header => Incoming.RoomUserUnbanMessageEvent;
 
         private readonly IRoomController _roomController;
 

@@ -16,7 +16,7 @@ namespace AliasPro.Catalog.Packets.Events
 {
     public class RecycleEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RecycleMessageEvent;
+        public short Header => Incoming.RecycleMessageEvent;
 
         private readonly ICatalogController _catalogController;
         private readonly IItemController _itemController;

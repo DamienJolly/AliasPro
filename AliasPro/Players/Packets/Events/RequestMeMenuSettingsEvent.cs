@@ -9,7 +9,7 @@ namespace AliasPro.Players.Packets.Events
 {
     public class RequestMeMenuSettingsEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RequestMeMenuSettingsMessageEvent;
+        public short Header => Incoming.RequestMeMenuSettingsMessageEvent;
         
         public async Task RunAsync(
             ISession session,

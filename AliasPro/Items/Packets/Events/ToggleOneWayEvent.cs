@@ -11,7 +11,7 @@ namespace AliasPro.Items.Packets.Events
 {
     public class ToggleOneWayEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.ToggleOneWayMessageEvent;
+        public short Header => Incoming.ToggleOneWayMessageEvent;
         
         public Task RunAsync(
             ISession session,

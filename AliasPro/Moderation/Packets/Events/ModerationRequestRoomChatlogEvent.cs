@@ -13,7 +13,7 @@ namespace AliasPro.Moderation.Packets.Events
 {
     public class ModerationRequestRoomChatlogEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.ModerationRequestRoomChatlogMessageEvent;
+        public short Header => Incoming.ModerationRequestRoomChatlogMessageEvent;
 
         private readonly IRoomController _roomController;
         private readonly IChatController _chatController;

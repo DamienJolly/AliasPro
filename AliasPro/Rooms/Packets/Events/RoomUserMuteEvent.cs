@@ -12,7 +12,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class RoomUserMuteEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RoomUserMuteMessageEvent;
+        public short Header => Incoming.RoomUserMuteMessageEvent;
 
         private readonly IRoomController _roomController;
 

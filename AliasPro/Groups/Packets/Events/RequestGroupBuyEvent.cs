@@ -18,7 +18,7 @@ namespace AliasPro.Groups.Packets.Events
 {
 	public class RequestGroupBuyEvent : IMessageEvent
 	{
-		public short Id { get; } = Incoming.RequestGroupBuyMessageEvent;
+		public short Header => Incoming.RequestGroupBuyMessageEvent;
 
 		private readonly IGroupController _groupController;
 		private readonly IRoomController _roomController;

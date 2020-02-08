@@ -11,7 +11,7 @@ namespace AliasPro.Items.Packets.Events
 {
     public class UpdateWallEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.UpdateWallMessageEvent;
+        public short Header => Incoming.UpdateWallMessageEvent;
         
         public async Task RunAsync(
             ISession session,

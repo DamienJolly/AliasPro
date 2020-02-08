@@ -12,7 +12,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class WiredTriggerSaveDataEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.WiredTriggerSaveDataMessageEvent;
+        public short Header => Incoming.WiredTriggerSaveDataMessageEvent;
         
         public async Task RunAsync(
             ISession session,

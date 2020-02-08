@@ -25,7 +25,7 @@ namespace AliasPro.Catalog.Packets.Events
 {
     public class CatalogBuyItemEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.CatalogBuyItemMessageEvent;
+        public short Header => Incoming.CatalogBuyItemMessageEvent;
 
         private readonly ICatalogController _catalogController;
         private readonly IItemController _itemController;

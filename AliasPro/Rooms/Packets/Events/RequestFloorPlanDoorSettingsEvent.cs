@@ -9,7 +9,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class RequestFloorPlanDoorSettingsEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RequestFloorPlanDoorSettingsMessageEvent;
+        public short Header => Incoming.RequestFloorPlanDoorSettingsMessageEvent;
         
         public async Task RunAsync(
             ISession session,

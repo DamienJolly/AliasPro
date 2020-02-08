@@ -15,7 +15,7 @@ namespace AliasPro.Moderation.Packets.Events
 {
     public class ModerationRequestUserChatlogEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.ModerationRequestUserChatlogMessageEvent;
+        public short Header => Incoming.ModerationRequestUserChatlogMessageEvent;
 
 		private readonly IPlayerController _playerController;
 		private readonly IChatController _chatController;

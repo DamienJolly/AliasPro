@@ -20,7 +20,7 @@ namespace AliasPro.Catalog.Packets.Events
 {
     public class CatalogBuyGiftItemEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.CatalogBuyGiftItemMessageEvent;
+        public short Header => Incoming.CatalogBuyGiftItemMessageEvent;
 
         private readonly ICatalogController _catalogController;
         private readonly IItemController _itemController;

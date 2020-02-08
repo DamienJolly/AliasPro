@@ -15,7 +15,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class RequestRoomEntryDataEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RequestRoomEntryDataMessageEvent;
+        public short Header => Incoming.RequestRoomEntryDataMessageEvent;
 
         private readonly IGroupController _groupController;
 

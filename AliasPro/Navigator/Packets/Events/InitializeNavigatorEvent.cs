@@ -9,7 +9,7 @@ namespace AliasPro.Navigator.Packets.Events
 {
     internal class InitializeNavigatorEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.InitializeNavigatorMessageEvent;
+        public short Header => Incoming.InitializeNavigatorMessageEvent;
 
         public async Task RunAsync(
             ISession session,

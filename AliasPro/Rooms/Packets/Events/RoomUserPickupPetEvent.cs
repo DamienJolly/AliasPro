@@ -16,7 +16,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class RoomUserPickupPetEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RoomUserPickupPetMessageEvent;
+        public short Header => Incoming.RoomUserPickupPetMessageEvent;
 
 		private readonly IRoomController _roomController;
 

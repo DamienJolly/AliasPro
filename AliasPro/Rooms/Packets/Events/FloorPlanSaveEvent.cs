@@ -17,7 +17,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class FloorPlanSaveEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.FloorPlanSaveMessageEvent;
+        public short Header => Incoming.FloorPlanSaveMessageEvent;
 
 		private readonly IRoomController _roomController;
 

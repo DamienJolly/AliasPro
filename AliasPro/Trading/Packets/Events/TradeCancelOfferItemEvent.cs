@@ -11,7 +11,7 @@ namespace AliasPro.Trading.Packets.Events
 {
 	public class TradeCancelOfferItemEvent : IMessageEvent
 	{
-		public short Id { get; } = Incoming.TradeCancelOfferItemMessageEvent;
+		public short Header => Incoming.TradeCancelOfferItemMessageEvent;
 
 		public async Task RunAsync(
 			ISession session,

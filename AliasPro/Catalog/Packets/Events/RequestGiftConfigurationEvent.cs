@@ -10,7 +10,7 @@ namespace AliasPro.Catalog.Packets.Events
 {
     public class RequestGiftConfigurationEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RequestGiftConfigurationMessageEvent;
+        public short Header => Incoming.RequestGiftConfigurationMessageEvent;
 
         private readonly ICatalogController _catalogController;
 

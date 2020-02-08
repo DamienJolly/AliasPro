@@ -9,7 +9,7 @@ namespace AliasPro.Players.Packets.Events
 {
     public class RequestBadgeInventoryEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RequestBadgeInventoryMessageEvent;
+        public short Header => Incoming.RequestBadgeInventoryMessageEvent;
         
         public async Task RunAsync(
             ISession session,

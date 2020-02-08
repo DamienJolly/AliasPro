@@ -12,7 +12,7 @@ namespace AliasPro.Moderation.Packets.Events
 {
     public class ModerationRequestRoomInfoEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.ModerationRequestRoomInfoMessageEvent;
+        public short Header => Incoming.ModerationRequestRoomInfoMessageEvent;
 
 		private readonly IRoomController _roomController;
 		private readonly IPermissionsController _permissionsController;

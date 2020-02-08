@@ -15,7 +15,7 @@ namespace AliasPro.Groups.Packets.Events
 {
 	public class GroupSetAdminEvent : IMessageEvent
 	{
-		public short Id { get; } = Incoming.GroupSetAdminMessageEvent;
+		public short Header => Incoming.GroupSetAdminMessageEvent;
 
 		private readonly IGroupController _groupController;
 		private readonly IPlayerController _playerController;

@@ -14,7 +14,7 @@ namespace AliasPro.Items.Packets.Events
 {
     public class ApplyDecorationEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.ApplyDecorationMessageEvent;
+        public short Header => Incoming.ApplyDecorationMessageEvent;
 
 		private readonly IItemController _itemController;
 

@@ -12,7 +12,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class RoomBotSettingsEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RoomBotSettingsMessageEvent;
+        public short Header => Incoming.RoomBotSettingsMessageEvent;
 
         public async Task RunAsync(
             ISession session,

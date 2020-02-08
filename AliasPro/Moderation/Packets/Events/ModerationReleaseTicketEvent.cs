@@ -13,7 +13,7 @@ namespace AliasPro.Moderation.Packets.Events
 {
     public class ModerationReleaseTicketEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.ModerationReleaseTicketMessageEvent;
+        public short Header => Incoming.ModerationReleaseTicketMessageEvent;
 
         private readonly IModerationController _moderationController;
 		private readonly IPermissionsController _permissionsController;

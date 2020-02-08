@@ -13,7 +13,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class UnIgnoreRoomUserEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.UnIgnoreRoomUserMessageEvent;
+        public short Header => Incoming.UnIgnoreRoomUserMessageEvent;
 
         private readonly IPlayerController _playerController;
 

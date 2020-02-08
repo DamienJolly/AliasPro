@@ -9,7 +9,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class RequestFloorPlanBlockedTilesEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RequestFloorPlanBlockedTilesMessageEvent;
+        public short Header => Incoming.RequestFloorPlanBlockedTilesMessageEvent;
         
         public async Task RunAsync(
             ISession session,

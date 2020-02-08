@@ -13,7 +13,7 @@ namespace AliasPro.Messenger.Packets.Events
 {
     public class RequestInitFriendsEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RequestInitFriendsMessageEvent;
+        public short Header => Incoming.RequestInitFriendsMessageEvent;
 
         private readonly IMessengerController _messengerController;
 

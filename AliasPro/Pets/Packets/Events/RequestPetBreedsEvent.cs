@@ -11,7 +11,7 @@ namespace AliasPro.Pets.Packets.Events
 {
     public class RequestPetBreedsEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RequestPetBreedsMessageEvent;
+        public short Header => Incoming.RequestPetBreedsMessageEvent;
 
         private readonly IPetController _petController;
 

@@ -14,7 +14,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class RoomRemoveAllRightsEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RoomRemoveAllRightsMessageEvent;
+        public short Header => Incoming.RoomRemoveAllRightsMessageEvent;
 
         private readonly IPlayerController _playerController;
         private readonly IRoomController _roomController;

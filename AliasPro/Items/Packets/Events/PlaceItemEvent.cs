@@ -12,7 +12,7 @@ namespace AliasPro.Items.Packets.Events
 {
     public class PlaceItemEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.PlaceItemMessageEvent;
+        public short Header => Incoming.PlaceItemMessageEvent;
 
         private readonly IItemController _itemController;
         public PlaceItemEvent(IItemController itemController)

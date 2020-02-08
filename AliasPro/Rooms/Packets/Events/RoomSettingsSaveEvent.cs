@@ -12,7 +12,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class RoomSettingsSaveEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RoomSettingsSaveMessageEvent;
+        public short Header => Incoming.RoomSettingsSaveMessageEvent;
 
         private readonly IRoomController _roomController;
 

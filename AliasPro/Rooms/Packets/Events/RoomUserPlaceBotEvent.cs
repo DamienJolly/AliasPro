@@ -14,7 +14,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class RoomUserPlaceBotEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RoomUserPlaceBotMessageEvent;
+        public short Header => Incoming.RoomUserPlaceBotMessageEvent;
 
         private readonly IRoomController _roomController;
 

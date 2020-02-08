@@ -10,7 +10,7 @@ namespace AliasPro.Groups.Packets.Events
 {
 	public class RequestGroupPartsEvent : IMessageEvent
 	{
-		public short Id { get; } = Incoming.RequestGroupPartsMessageEvent;
+		public short Header => Incoming.RequestGroupPartsMessageEvent;
 
 		private readonly IGroupController _groupController;
 

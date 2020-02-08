@@ -12,7 +12,7 @@ namespace AliasPro.Trading.Packets.Events
 {
 	public class TradeOfferMultipleItemsEvent : IMessageEvent
 	{
-		public short Id { get; } = Incoming.TradeOfferMultipleItemsMessageEvent;
+		public short Header => Incoming.TradeOfferMultipleItemsMessageEvent;
 
 		public async Task RunAsync(
 			ISession session,

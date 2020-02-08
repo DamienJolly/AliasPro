@@ -10,7 +10,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class AvatarWhisperEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.AvatarWhisperMessageEvent;
+        public short Header => Incoming.AvatarWhisperMessageEvent;
 
         public Task RunAsync(
             ISession session,

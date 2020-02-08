@@ -11,7 +11,7 @@ namespace AliasPro.Catalog.Packets.Events
 {
     public class RequestCatalogPageEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RequestCatalogPageMessageEvent;
+        public short Header => Incoming.RequestCatalogPageMessageEvent;
 
         private readonly ICatalogController _catalogController;
 

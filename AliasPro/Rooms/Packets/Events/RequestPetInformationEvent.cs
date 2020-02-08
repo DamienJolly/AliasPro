@@ -13,7 +13,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class RequestPetInformationEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RequestPetInformationMessageEvent;
+        public short Header => Incoming.RequestPetInformationMessageEvent;
 
 		private readonly IRoomController _roomController;
 

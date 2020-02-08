@@ -11,7 +11,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class RequestRoomLoadDataEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RequestRoomLoadDataMessageEvent;
+        public short Header => Incoming.RequestRoomLoadDataMessageEvent;
 
         private readonly IMessengerController _messengerController;
 

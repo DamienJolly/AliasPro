@@ -10,7 +10,7 @@ namespace AliasPro.Achievements.Packets.Events
 {
 	public class RequestAchievementsEvent : IMessageEvent
 	{
-		public short Id { get; } = Incoming.RequestAchievementsMessageEvent;
+		public short Header => Incoming.RequestAchievementsMessageEvent;
 
 		private readonly IAchievementController _achievementController;
 

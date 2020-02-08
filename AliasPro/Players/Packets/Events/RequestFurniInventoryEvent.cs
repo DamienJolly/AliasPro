@@ -10,7 +10,7 @@ namespace AliasPro.Players.Packets.Events
 {
     public class RequestFurniInventoryEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RequestFurniInventoryMessageEvent;
+        public short Header => Incoming.RequestFurniInventoryMessageEvent;
 
         private readonly IItemController _itemController;
 

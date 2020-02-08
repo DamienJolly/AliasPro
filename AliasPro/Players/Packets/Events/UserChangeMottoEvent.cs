@@ -10,7 +10,7 @@ namespace AliasPro.Players.Packets.Events
 {
     public class UserChangeMottoEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.UserChangeMottoMessageEvent;
+        public short Header => Incoming.UserChangeMottoMessageEvent;
 
         private readonly IMessengerController _messengerController;
 

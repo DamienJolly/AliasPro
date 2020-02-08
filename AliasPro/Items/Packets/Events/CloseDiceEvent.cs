@@ -11,7 +11,7 @@ namespace AliasPro.Items.Packets.Events
 {
     public class CloseDiceEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.CloseDiceMessageEvent;
+        public short Header => Incoming.CloseDiceMessageEvent;
         
         public Task RunAsync(
             ISession session,

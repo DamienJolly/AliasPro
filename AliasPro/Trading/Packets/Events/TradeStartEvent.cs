@@ -14,7 +14,7 @@ namespace AliasPro.Trading.Packets.Events
 {
 	public class TradeStartEvent : IMessageEvent
 	{
-		public short Id { get; } = Incoming.TradeStartMessageEvent;
+		public short Header => Incoming.TradeStartMessageEvent;
 
 		private readonly ITradingController _tradingController;
 

@@ -15,7 +15,7 @@ namespace AliasPro.Moderation.Packets.Events
 {
     public class ModerationChangeRoomSettingsEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.ModerationChangeRoomSettingsMessageEvent;
+        public short Header => Incoming.ModerationChangeRoomSettingsMessageEvent;
         
         private readonly IRoomController _roomController;
 		private readonly IPermissionsController _permissionsController;

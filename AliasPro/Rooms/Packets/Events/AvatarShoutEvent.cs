@@ -11,7 +11,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class AvatarShoutEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.AvatarShoutMessageEvent;
+        public short Header => Incoming.AvatarShoutMessageEvent;
 
         private readonly IChatController _chatController;
 

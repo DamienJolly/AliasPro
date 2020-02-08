@@ -9,7 +9,7 @@ namespace AliasPro.Players.Packets.Events
 {
     public class RequestBotInventoryEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RequestBotInventoryMessageEvent;
+        public short Header => Incoming.RequestBotInventoryMessageEvent;
 
         public async Task RunAsync(
             ISession session,

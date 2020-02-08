@@ -9,7 +9,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class RequestFurnitureAliasesEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RequestFurnitureAliasesMessageEvent;
+        public short Header => Incoming.RequestFurnitureAliasesMessageEvent;
         
         public async Task RunAsync(
             ISession session,

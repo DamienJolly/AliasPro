@@ -9,7 +9,7 @@ namespace AliasPro.Players.Packets.Events
 {
     public class RequestPetInventoryEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RequestPetInventoryMessageEvent;
+        public short Header => Incoming.RequestPetInventoryMessageEvent;
 
         public async Task RunAsync(
             ISession session,

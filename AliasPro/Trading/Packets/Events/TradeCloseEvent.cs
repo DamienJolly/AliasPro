@@ -10,7 +10,7 @@ namespace AliasPro.Trading.Packets.Events
 {
 	public class TradeCloseEvent : IMessageEvent
 	{
-		public short Id { get; } = Incoming.TradeCloseMessageEvent;
+		public short Header => Incoming.TradeCloseMessageEvent;
 
 		public async Task RunAsync(
 			ISession session,

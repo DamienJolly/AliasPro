@@ -13,7 +13,7 @@ namespace AliasPro.Groups.Packets.Events
 {
 	public class GroupChangeSettingsEvent : IMessageEvent
 	{
-		public short Id { get; } = Incoming.GroupChangeSettingsMessageEvent;
+		public short Header => Incoming.GroupChangeSettingsMessageEvent;
 
 		private readonly IGroupController _groupController;
 		private readonly IRoomController _roomController;

@@ -9,7 +9,7 @@ namespace AliasPro.Catalog.Packets.Events
 {
     public class RequestDiscountEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RequestDiscountMessageEvent;
+        public short Header => Incoming.RequestDiscountMessageEvent;
 
         public async Task RunAsync(
             ISession session,

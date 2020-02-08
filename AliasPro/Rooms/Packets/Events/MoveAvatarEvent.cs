@@ -9,7 +9,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class MoveAvatarEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.MoveAvatarMessageEvent;
+        public short Header => Incoming.MoveAvatarMessageEvent;
         
         public Task RunAsync(
             ISession session,

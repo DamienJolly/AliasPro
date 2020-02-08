@@ -10,7 +10,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class UserLookAtPointEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.UserLookAtPointMessageEvent;
+        public short Header => Incoming.UserLookAtPointMessageEvent;
 
         public Task RunAsync(
             ISession session,

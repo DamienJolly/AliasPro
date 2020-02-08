@@ -13,7 +13,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class FindNewFriendsEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.FindNewFriendsMessageEvent;
+        public short Header => Incoming.FindNewFriendsMessageEvent;
 
         private readonly IRoomController _roomController;
 

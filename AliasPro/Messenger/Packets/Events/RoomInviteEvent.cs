@@ -13,7 +13,7 @@ namespace AliasPro.Messenger.Packets.Events
 {
     public class RoomInviteEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RoomInviteMessageEvent;
+        public short Header => Incoming.RoomInviteMessageEvent;
 
         private readonly IPlayerController _playerController;
 

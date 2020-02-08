@@ -15,7 +15,7 @@ namespace AliasPro.Moderation.Packets.Events
 {
     public class ModerationCloseTicketEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.ModerationCloseTicketMessageEvent;
+        public short Header => Incoming.ModerationCloseTicketMessageEvent;
 
         private readonly IModerationController _moderationController;
         private readonly IPlayerController _playerController;

@@ -14,7 +14,7 @@ namespace AliasPro.Items.Packets.Events
 {
     public class RemoveItemEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RemoveItemMessageEvent;
+        public short Header => Incoming.RemoveItemMessageEvent;
 
         private readonly IItemController _itemController;
         private readonly IPlayerController _playerController;

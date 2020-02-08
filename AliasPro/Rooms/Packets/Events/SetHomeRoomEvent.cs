@@ -9,7 +9,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class SetHomeRoomEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.SetHomeRoomMessageEvent;
+        public short Header => Incoming.SetHomeRoomMessageEvent;
 
         public async Task RunAsync(
             ISession session,

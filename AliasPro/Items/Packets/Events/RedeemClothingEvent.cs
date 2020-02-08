@@ -16,7 +16,7 @@ namespace AliasPro.Items.Packets.Events
 {
     public class RedeemClothingEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RedeemClothingMessageEvent;
+        public short Header => Incoming.RedeemClothingMessageEvent;
 
 		private readonly IFigureController _figureController;
 		private readonly IItemController _itemController;

@@ -12,7 +12,7 @@ namespace AliasPro.Figure.Packets.Events
 {
     public class SaveWardrobeEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.SaveWardrobeMessageEvent;
+        public short Header => Incoming.SaveWardrobeMessageEvent;
        
         private readonly IFigureController _figureController;
 

@@ -11,7 +11,7 @@ namespace AliasPro.Trading.Packets.Events
 {
 	public class TradeUnAcceptEvent : IMessageEvent
 	{
-		public short Id { get; } = Incoming.TradeUnAcceptMessageEvent;
+		public short Header => Incoming.TradeUnAcceptMessageEvent;
 
 		public async Task RunAsync(
 			ISession session,

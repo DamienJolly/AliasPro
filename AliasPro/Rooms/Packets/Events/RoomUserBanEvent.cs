@@ -15,7 +15,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class RoomUserBanEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RoomUserBanMessageEvent;
+        public short Header => Incoming.RoomUserBanMessageEvent;
 
         private readonly IRoomController _roomController;
         private readonly IPlayerController _playerController;

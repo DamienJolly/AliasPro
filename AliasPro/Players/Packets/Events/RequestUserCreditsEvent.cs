@@ -9,7 +9,7 @@ namespace AliasPro.Players.Packets.Events
 {
     public class RequestUserCreditsEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RequestUserCreditsMessageEvent;
+        public short Header => Incoming.RequestUserCreditsMessageEvent;
 
         public async Task RunAsync(
             ISession session,

@@ -8,7 +8,7 @@ namespace AliasPro.Players.Packets.Events
 {
     public class UniqueIdEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.UniqueIdMessageEvent;
+        public short Header => Incoming.UniqueIdMessageEvent;
 
         public Task RunAsync(
             ISession session,

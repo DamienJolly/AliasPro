@@ -18,7 +18,7 @@ namespace AliasPro.Rooms.Packets.Events
 {
     public class BuyRoomPromotionEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.BuyRoomPromotionMessageEvent;
+        public short Header => Incoming.BuyRoomPromotionMessageEvent;
 
         private readonly ICatalogController _catalogController;
         private readonly IRoomController _roomController;

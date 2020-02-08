@@ -8,7 +8,7 @@ namespace AliasPro.Navigator.Packets.Events
 {
     internal class UpdateNavigatorPreferencesEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.UpdateNavigatorPreferencesMessageEvent;
+        public short Header => Incoming.UpdateNavigatorPreferencesMessageEvent;
         
         public Task RunAsync(
             ISession session,

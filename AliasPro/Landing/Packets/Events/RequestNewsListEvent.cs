@@ -12,7 +12,7 @@ namespace AliasPro.Landing.Packets.Events
 {
     public class RequestNewsListEvent : IMessageEvent
     {
-        public short Id { get; } = Incoming.RequestNewsListMessageEvent;
+        public short Header => Incoming.RequestNewsListMessageEvent;
 
         private readonly ILandingController _landingController;
 
