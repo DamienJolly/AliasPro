@@ -15,6 +15,7 @@ namespace AliasPro.Catalog
     {
         private readonly CatalogDao _catalogDao;
         private readonly IItemController _itemController;
+        private IDictionary<int, ICatalogFeaturedPage> _catalogFeaturedPages;
         private IDictionary<int, ICatalogPage> _catalogPages;
         private IDictionary<int, ICatalogBot> _catalogBots;
         private IDictionary<int, ICatalogGiftPart> _giftParts;
@@ -28,6 +29,7 @@ namespace AliasPro.Catalog
             _catalogDao = catalogDao;
             _itemController = itemController;
             _catalogPages = new Dictionary<int, ICatalogPage>();
+            _catalogFeaturedPages = new Dictionary<int, ICatalogFeaturedPage>();
             _catalogBots = new Dictionary<int, ICatalogBot>();
             _giftParts = new Dictionary<int, ICatalogGiftPart>();
             _recyclerLevels = new Dictionary<int, int>();
@@ -39,6 +41,7 @@ namespace AliasPro.Catalog
         public async void InitializeCatalog()
         {
             _catalogPages = await _catalogDao.GetCatalogPages();
+            _catalogFeaturedPages = await _catalogDao.GetCatalogFeaturedPages();
             _catalogBots = await _catalogDao.GetCatalogBots();
             _giftParts = await _catalogDao.GetGiftParts();
             _recyclerLevels = await _catalogDao.GetRecyclerLevels();
@@ -52,6 +55,9 @@ namespace AliasPro.Catalog
 
         public bool TryGetCatalogPage(int pageId, out ICatalogPage page) =>
             _catalogPages.TryGetValue(pageId, out page);
+
+        public ICollection<ICatalogFeaturedPage> GetCatalogFeaturedPages =>
+            _catalogFeaturedPages.Values;
 
         public ICollection<ICatalogPage> GetCatalogPages(int pageId, int rank)
         {

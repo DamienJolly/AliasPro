@@ -32,7 +32,7 @@ namespace AliasPro.Catalog.Packets.Events
                 string mode = message.ReadString();
 
                 if (page.Rank <= session.Player.Rank && page.Enabled)
-                    await session.SendPacketAsync(new CatalogPageComposer(page, mode));
+                    await session.SendPacketAsync(new CatalogPageComposer(page, _catalogController.GetCatalogFeaturedPages, mode));
             }
         }
     }

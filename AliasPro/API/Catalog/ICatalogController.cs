@@ -9,8 +9,9 @@ namespace AliasPro.API.Catalog
     public interface ICatalogController
     {
         ICollection<ICatalogPage> GetCatalogPages(int pageId, int rank);
+		ICollection<ICatalogFeaturedPage> GetCatalogFeaturedPages { get; }
 
-        bool TryGetCatalogPage(int pageId, out ICatalogPage page);
+		bool TryGetCatalogPage(int pageId, out ICatalogPage page);
         void InitializeCatalog();
         Task AddLimitedAsync(uint itemId, uint playerId, int number);
 		Task<int> AddNewBotAsync(IPlayerBot playerBot, int playerId);

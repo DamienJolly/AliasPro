@@ -1,20 +1,28 @@
 ﻿using AliasPro.API.Catalog.Layouts;
 using AliasPro.API.Catalog.Models;
 using AliasPro.Catalog.Layouts;
+using AliasPro.Catalog.Types;
 using AliasPro.Communication.Messages;
 using AliasPro.Communication.Messages.Headers;
 using AliasPro.Communication.Messages.Protocols;
+using AliasPro.Utilities;
+using System.Collections.Generic;
 
 namespace AliasPro.Catalog.Packets.Composers
 {
     public class CatalogPageComposer : IMessageComposer
     {
         private readonly ICatalogPage _catalogPage;
+        private readonly ICollection<ICatalogFeaturedPage> _featuredPages;
         private readonly string _mode;
 
-        public CatalogPageComposer(ICatalogPage catalogPage, string mode)
+        public CatalogPageComposer(
+            ICatalogPage catalogPage, 
+            ICollection<ICatalogFeaturedPage> featuredPages, 
+            string mode)
         {
             _catalogPage = catalogPage;
+            _featuredPages = featuredPages;
             _mode = mode;
         }
 
@@ -36,25 +44,24 @@ namespace AliasPro.Catalog.Packets.Composers
 
             if (_catalogPage.Layout is LayoutFrontpage)
             {
-                message.WriteInt(0); //count
+                message.WriteInt(_featuredPages.Count);
+                foreach (ICatalogFeaturedPage featuredPage in _featuredPages)
                 {
-                    //message.WriteInt(SlotId);
-                    //message.WriteString(Caption);
-                    //message.WriteString(Image);
-                    //message.WriteInt(Type);
-                    /*switch (Type)
+                    message.WriteInt(featuredPage.SlotId);
+                    message.WriteString(featuredPage.Caption);
+                    message.WriteString(featuredPage.Image);
+                    message.WriteInt((int)featuredPage.Type);
+                    switch (featuredPage.Type)
                     {
-                        case PAGE_NAME:
-                            message.WriteString(PageName);
-                            break;
-                        case PAGE_ID:
-                            message.WriteInt(PageId);
-                            break;
-                        case PRODUCT_NAME:
-                            message.WriteString(ProductName);
-                            break;
-                    }*/
-                    //message.WriteInt(-1); //Expire Time
+                        case FeaturedPageType.PAGE_NAME:
+                        default:
+                            message.WriteString(featuredPage.PageName); break;
+                        case FeaturedPageType.PAGE_ID:
+                            message.WriteInt(featuredPage.PageId); break;
+                        case FeaturedPageType.PRODUCT_NAME:
+                            message.WriteString(featuredPage.ProductName); break;
+                    }
+                    message.WriteInt((int)UnixTimestamp.Now - featuredPage.ExpireTimestamp);
                 }
             }
 

@@ -41,7 +41,25 @@ namespace AliasPro.Catalog
             return pages;
         }
 
-        internal async Task GetCatalogItems(CatalogController catalogRepostiory, IItemController itemRepository)
+		internal async Task<IDictionary<int, ICatalogFeaturedPage>> GetCatalogFeaturedPages()
+		{
+			IDictionary<int, ICatalogFeaturedPage> featured = new Dictionary<int, ICatalogFeaturedPage>();
+
+			await CreateTransaction(async transaction =>
+			{
+				await Select(transaction, async reader =>
+				{
+					while (await reader.ReadAsync())
+					{
+						ICatalogFeaturedPage feature = new CatalogFeaturedPage(reader);
+						featured.Add(feature.SlotId, feature);
+					}
+				}, "SELECT * FROM `catalog_featured_pages`;");
+			});
+			return featured;
+		}
+
+		internal async Task GetCatalogItems(CatalogController catalogRepostiory, IItemController itemRepository)
         {
             await CreateTransaction(async transaction =>
             {
