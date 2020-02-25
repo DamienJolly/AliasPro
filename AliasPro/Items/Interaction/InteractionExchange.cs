@@ -21,7 +21,7 @@ namespace AliasPro.Items.Interaction
 			if (!tradeItem)
 				message.WriteInt(1);
 			message.WriteInt(0);
-            message.WriteString(_item.Mode.ToString());
+            message.WriteString(_item.ExtraData);
         }
 
 		public void OnPlaceItem()

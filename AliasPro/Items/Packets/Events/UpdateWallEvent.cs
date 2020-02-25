@@ -25,7 +25,7 @@ namespace AliasPro.Items.Packets.Events
                 if (room.Rights.HasRights(session.Player.Id))
                 {
                     string wallPosition = message.ReadString();
-                    item.ExtraData = wallPosition;
+                    item.WallCord = wallPosition;
                     item.Interaction.OnMoveItem();
                 }
 

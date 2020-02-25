@@ -23,14 +23,14 @@ namespace AliasPro.Items.Tasks
 			if (_item.Position.X != _entity.Position.X || _item.Position.Y != _entity.Position.Y ||
 				!_item.CurrentRoom.RoomGrid.TryGetRoomTile(_item.Position.X, _item.Position.Y, out IRoomTile tile))
 			{
-				_item.Mode = 0;
+				_item.ExtraData = "0";
 				await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
 				return;
 			}
 
 			_entity.SetRotation(_item.Rotation);
 			_entity.GoalPosition = tile.PositionInFront(_item.Rotation);
-			_item.Mode = 1;
+			_item.ExtraData = "1";
 
 			await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
 			await TaskManager.ExecuteTask(new TeleportTaskFive(_item, _entity), 1500);

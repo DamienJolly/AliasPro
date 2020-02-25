@@ -46,7 +46,7 @@ namespace AliasPro.Items.WiredInteraction
                         _item.CurrentRoom.RoomGrid.RemoveItem(item);
                         
                         if (ChangeState)
-                            item.Mode = itemData.Mode;
+                            item.ExtraData = itemData.Mode + "";
 
                         if (ChangeDirection)
                             item.Rotation = itemData.Rotation;

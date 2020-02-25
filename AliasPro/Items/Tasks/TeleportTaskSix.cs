@@ -18,7 +18,7 @@ namespace AliasPro.Items.Tasks
 
 		public async void Run()
 		{
-			_item.Mode = 0;
+			_item.ExtraData = "0";
 			await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
 		}
 	}

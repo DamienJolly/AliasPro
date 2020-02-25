@@ -20,33 +20,33 @@ namespace AliasPro.Items.Interaction
 			if (!tradeItem)
 				message.WriteInt(1);
 			message.WriteInt(0);
-            message.WriteString(_item.Mode.ToString());
+            message.WriteString(_item.ExtraData);
         }
 
 		public void OnPlaceItem()
 		{
-			_item.Mode = 0;
+			_item.ExtraData = "0";
 		}
 
 		public void OnPickupItem()
 		{
-			_item.Mode = 0;
+			_item.ExtraData = "0";
 		}
 
 		public void OnMoveItem()
 		{
-			_item.Mode = 0;
+			_item.ExtraData = "0";
 		}
 
 		public async void OnUserWalkOn(BaseEntity entity)
         {
-			_item.Mode = 1;
+			_item.ExtraData = "1";
 			await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
 		}
 
         public async void OnUserWalkOff(BaseEntity entity)
         {
-			_item.Mode = 0;
+			_item.ExtraData = "0";
 			await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
 		}
         

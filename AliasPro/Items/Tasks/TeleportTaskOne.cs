@@ -22,13 +22,13 @@ namespace AliasPro.Items.Tasks
 			if (_item.Position.X != _entity.Position.X || _item.Position.Y != _entity.Position.Y)
 			{
 				_item.ItemData.CanWalk = false;
-				_item.Mode = 0;
+				_item.ExtraData = "0";
 				await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
 				return;
 			}
 
 			_item.ItemData.CanWalk = false;
-			_item.Mode = 0;
+			_item.ExtraData = "0";
 
 			await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
 			await TaskManager.ExecuteTask(new TeleportTaskTwo(_item, _entity), 1500);

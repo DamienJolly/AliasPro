@@ -71,7 +71,6 @@ namespace AliasPro.Items.Packets.Events
 				item.ItemData = giftData;
 				item.ItemId = giftData.Id;
 				item.ExtraData = "";
-				item.Mode = 0;
 				item.Interaction = null;
 
 				if (session.Player.Inventory.TryAddItem(item))

@@ -2,8 +2,6 @@
 using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.Communication.Messages.Protocols;
-using AliasPro.Items.Packets.Composers;
-using AliasPro.Rooms.Entities;
 
 namespace AliasPro.Items.Interaction
 {
@@ -59,16 +57,9 @@ namespace AliasPro.Items.Interaction
 
         }
         
-        public async void OnUserInteract(BaseEntity entity, int state)
+        public void OnUserInteract(BaseEntity entity, int state)
         {
-			if (entity is PlayerEntity playerEntity)
-				if (!_item.CurrentRoom.Rights.HasRights(playerEntity.Player.Id)) return;
 
-			_item.Mode++;
-            if (_item.Mode >= _item.ItemData.Modes)
-				_item.Mode = 0;
-
-			await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
         }
 
         public void OnCycle()

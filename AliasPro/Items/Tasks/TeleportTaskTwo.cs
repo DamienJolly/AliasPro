@@ -24,7 +24,7 @@ namespace AliasPro.Items.Tasks
 
 			if (_item.CurrentRoom.Items.TryGetItem(uint.Parse(_item.ExtraData), out IItem otherItem))
 			{
-				_item.Mode = 2;
+				_item.ExtraData = "2";
 				await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
 				await TaskManager.ExecuteTask(new TeleportTaskFour(otherItem, _entity), 1000);
 				await TaskManager.ExecuteTask(new TeleportTaskThree(_item, _entity), 1000);
@@ -36,7 +36,7 @@ namespace AliasPro.Items.Tasks
 
 				_entity.GoalPosition = tile.PositionInFront(_item.Rotation);
 
-				_item.Mode = 1;
+				_item.ExtraData = "1";
 				await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
 				await TaskManager.ExecuteTask(new TeleportTaskOne(_item, _entity), 1000);
 			}

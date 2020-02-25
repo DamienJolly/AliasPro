@@ -54,8 +54,10 @@ namespace AliasPro.Rooms.Packets.Events
                     int itemId = message.ReadInt();
                     if (room.Items.TryGetItem((uint)itemId, out IItem item))
                     {
-                        wiredData.Items.Add(item.Id,
-                            new WiredItemData(item.Id, item.Position, item.Mode, item.Rotation));
+
+                        //todo: fix
+                        //wiredData.Items.Add(item.Id,
+                           // new WiredItemData(item.Id, item.Position, item.Mode, item.Rotation));
                     }
                 }
                 

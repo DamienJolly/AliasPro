@@ -156,6 +156,12 @@ namespace AliasPro.Rooms
 			if (room.Items != null)
 				await _roomDao.UpdateRoomItems(room.Items.Items);
 
+			if (room.Moodlight != null)
+			{
+				foreach (IRoomMoodlightPreset preset in room.Moodlight.Presets)
+					await _roomDao.UpdateMoodlightPreset(room.Id, preset);
+			}
+
 			await _roomDao.UpdateRoom(room);
 		}
 
@@ -201,6 +207,12 @@ namespace AliasPro.Rooms
 
 		public async Task<IDictionary<int, IRoomBan>> GetBannedPlayers(uint roomId) =>
 			await _roomDao.GetBannedPlayers(roomId);
+
+		public async Task<IDictionary<int, IRoomMoodlightPreset>> GetMoodlightPresets(uint roomId) =>
+			await _roomDao.GetMoodlightPresets(roomId);
+
+		public async Task AddMoodlightPreset(uint roomId, IRoomMoodlightPreset preset) =>
+			await _roomDao.AddMoodlightPreset(roomId, preset);
 
 		public async Task AddRoomBan(uint roomId, int playerId, int expireTime) =>
 			await _roomDao.AddRoomBan(roomId, playerId, expireTime);

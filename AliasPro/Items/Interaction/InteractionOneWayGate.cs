@@ -21,7 +21,7 @@ namespace AliasPro.Items.Interaction
 			if (!tradeItem)
 				message.WriteInt(1);
 			message.WriteInt(0);
-			message.WriteString(_item.Mode.ToString());
+			message.WriteString(_item.ExtraData);
         }
 
 		public void OnPlaceItem()
@@ -31,7 +31,7 @@ namespace AliasPro.Items.Interaction
 
 		public void OnPickupItem()
 		{
-			_item.Mode = 0;
+			_item.ExtraData = "0";
 		}
 
 		public void OnMoveItem()
@@ -53,7 +53,7 @@ namespace AliasPro.Items.Interaction
         {
 			if(entity == null) return;
 
-			if (_item.Mode == 1) return;
+			if (_item.ExtraData == "1") return;
 
 			if (!_item.CurrentRoom.RoomGrid.TryGetRoomTile(_item.Position.X, _item.Position.Y, out IRoomTile tile))
 				return;
@@ -79,7 +79,7 @@ namespace AliasPro.Items.Interaction
 			IRoomPosition newPosition = tile.PositionInFront(newRot);
 			entity.GoalPosition = newPosition;
 
-			_item.Mode = 1;
+			_item.ExtraData = "1";
 			_item.InteractingPlayer = entity;
 
 			await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
@@ -87,7 +87,7 @@ namespace AliasPro.Items.Interaction
 
 		public async void OnCycle()
 		{
-			if (_item.Mode != 1) return;
+			if (_item.ExtraData != "1") return;
 
 			if (!_item.CurrentRoom.RoomGrid.TryGetRoomTile(_item.Position.X, _item.Position.Y, out IRoomTile tile))
 				return;
@@ -101,7 +101,7 @@ namespace AliasPro.Items.Interaction
 			if (newPosition.X != _item.InteractingPlayer.GoalPosition.X || newPosition.Y != _item.InteractingPlayer.GoalPosition.Y ||
 				newPosition.X == _item.InteractingPlayer.Position.X && newPosition.Y == _item.InteractingPlayer.Position.Y)
 			{
-				_item.Mode = 0;
+				_item.ExtraData = "0";
 				_item.InteractingPlayer = null;
 				await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
 				return;

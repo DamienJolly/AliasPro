@@ -86,6 +86,9 @@ namespace AliasPro.Rooms.Components
         internal ICollection<IItem> Rollers =>
             _items.Values.Where(item => item.ItemData.InteractionType == ItemInteractionType.ROLLER).ToList();
 
+        internal ICollection<IItem> Moodlights =>
+            _items.Values.Where(item => item.ItemData.InteractionType == ItemInteractionType.DIMMER).ToList();
+
 
         internal IDictionary<uint, string> GetItemOwners
         {

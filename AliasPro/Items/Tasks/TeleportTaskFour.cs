@@ -23,7 +23,7 @@ namespace AliasPro.Items.Tasks
 			_entity.Position = _entity.NextPosition = _entity.GoalPosition = _item.Position;
 			_entity.SetRotation(_item.Rotation);
 			_item.CurrentRoom.RoomGrid.AddEntity(_entity);
-			_item.Mode = 2;
+			_item.ExtraData = "2";
 
 			await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
 			await TaskManager.ExecuteTask(new TeleportTaskFive(_item, _entity), 2000);

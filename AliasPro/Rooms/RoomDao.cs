@@ -423,8 +423,8 @@ namespace AliasPro.Rooms
 			{
 				foreach (IItem item in items)
 				{
-					await Insert(transaction, "UPDATE `items` SET `room_id` = @1, `rot` = @2, `x` = @3, `y` = @4, `z` = @5, `extra_data` = @6, `mode` = @7, `item_id` = @8 WHERE `id` = @0;",
-					   item.Id, item.RoomId, item.Rotation, item.Position.X, item.Position.Y, item.Position.Z, item.ExtraData, item.Mode, item.ItemId);
+					await Insert(transaction, "UPDATE `items` SET `room_id` = @1, `rot` = @2, `x` = @3, `y` = @4, `z` = @5, `extra_data` = @6, `item_id` = @7, `wall_cord` = @8 WHERE `id` = @0;",
+					   item.Id, item.RoomId, item.Rotation, item.Position.X, item.Position.Y, item.Position.Z, item.ExtraData, item.ItemId, item.WallCord);
 				}
 			});
 		}
@@ -433,8 +433,8 @@ namespace AliasPro.Rooms
 		{
 			await CreateTransaction(async transaction =>
 			{
-				await Insert(transaction, "UPDATE `items` SET `room_id` = @1, `rot` = @2, `x` = @3, `y` = @4, `z` = @5, `extra_data` = @6, `mode` = @7, `item_id` = @8 WHERE `id` = @0;",
-					item.Id, item.RoomId, item.Rotation, item.Position.X, item.Position.Y, item.Position.Z, item.ExtraData, item.Mode, item.ItemId);
+				await Insert(transaction, "UPDATE `items` SET `room_id` = @1, `rot` = @2, `x` = @3, `y` = @4, `z` = @5, `extra_data` = @6, `item_id` = @7, `wall_cord` = @8 WHERE `id` = @0;",
+					item.Id, item.RoomId, item.Rotation, item.Position.X, item.Position.Y, item.Position.Z, item.ExtraData, item.ItemId, item.WallCord);
 			});
 		}
 
@@ -463,6 +463,45 @@ namespace AliasPro.Rooms
 			});
 
 			return bannedPlayers;
+		}
+
+		internal async Task<IDictionary<int, IRoomMoodlightPreset>> GetMoodlightPresets(uint roomId)
+		{
+			IDictionary<int, IRoomMoodlightPreset> presets = new Dictionary<int, IRoomMoodlightPreset>();
+			await CreateTransaction(async transaction =>
+			{
+				await Select(transaction, async reader =>
+				{
+					while (await reader.ReadAsync())
+					{
+						IRoomMoodlightPreset preset = new RoomMoodlightPreset(reader);
+
+						if (!presets.ContainsKey(preset.Id))
+							presets.Add(preset.Id, preset);
+					}
+				}, "SELECT * FROM `room_moodlight_presets` WHERE `room_id` = @0 LIMIT 3;",
+				roomId);
+			});
+
+			return presets;
+		}
+
+		internal async Task AddMoodlightPreset(uint roomId, IRoomMoodlightPreset preset)
+		{
+			await CreateTransaction(async transaction =>
+			{
+				await Insert(transaction, "INSERT INTO `room_moodlight_presets` (`room_id`, `preset_id`, `enabled`, `background_only`, `colour`, `intensity`) VALUES (@0, @1, @2, @3, @4, @5)",
+					roomId, preset.Id, preset.Enabled, preset.BackgroundOnly, preset.Colour, preset.Intensity);
+			});
+		}
+
+		internal async Task UpdateMoodlightPreset(uint roomId, IRoomMoodlightPreset preset)
+		{
+			await CreateTransaction(async transaction =>
+			{
+				await Insert(transaction, "UPDATE `room_moodlight_presets` SET `enabled` = @2, `background_only` = @3, `colour` = @4, `intensity` = @5 WHERE `room_id` = @0 AND `preset_id` = @1;",
+					roomId, preset.Id, preset.Enabled, preset.BackgroundOnly, preset.Colour, preset.Intensity);
+			});
 		}
 
 		internal async Task AddRoomBan(uint roomId, int playerId, int expireTime)

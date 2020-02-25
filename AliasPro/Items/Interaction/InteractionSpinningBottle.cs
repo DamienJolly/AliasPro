@@ -24,7 +24,7 @@ namespace AliasPro.Items.Interaction
 			if (!tradeItem)
 				message.WriteInt(1);
 			message.WriteInt(0);
-			message.WriteString(_item.Mode.ToString());
+			message.WriteString(_item.ExtraData);
 		}
 
 		public void OnPlaceItem()
@@ -34,8 +34,8 @@ namespace AliasPro.Items.Interaction
 
 		public void OnPickupItem()
 		{
-			if (_item.Mode == -1)
-				_item.Mode = 0;
+			if (_item.ExtraData == "-1")
+				_item.ExtraData = "0";
 		}
 
 		public void OnMoveItem()
@@ -57,7 +57,7 @@ namespace AliasPro.Items.Interaction
         {
 			if (entity == null) return;
 
-			if (_item.Mode == -1) return;
+			if (_item.ExtraData == "-1") return;
 
 			if (!_item.CurrentRoom.RoomGrid.TryGetRoomTile(_item.Position.X, _item.Position.Y, out IRoomTile tile))
 				return;
@@ -69,18 +69,18 @@ namespace AliasPro.Items.Interaction
 				return;
 			}
 
-			_item.Mode = -1;
+			_item.ExtraData = "-1";
 			_tickCount = 0;
 			await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
 		}
 
         public async void OnCycle()
         {
-			if (_item.Mode == -1)
+			if (_item.ExtraData == "-1")
 			{
 				if (_tickCount >= 6)
 				{
-					_item.Mode = Randomness.RandomNumber(0, _item.ItemData.Modes);
+					_item.ExtraData = Randomness.RandomNumber(0, _item.ItemData.Modes) + "";
 					await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
 				}
 				_tickCount++;

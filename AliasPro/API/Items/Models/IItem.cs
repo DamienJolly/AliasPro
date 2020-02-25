@@ -16,9 +16,9 @@ namespace AliasPro.API.Items.Models
         string PlayerUsername { get; set; }
         uint RoomId { get; set; }
         int Rotation { get; set; }
-        int Mode { get; set; }
         string ExtraData { get; set; }
         IRoomPosition Position { get; set; }
+        string WallCord { get; set; }
         IItemData ItemData { get; set; }
         BaseEntity InteractingPlayer { get; set; }
 		BaseEntity InteractingPlayerTwo { get; set; }

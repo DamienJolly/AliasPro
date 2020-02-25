@@ -39,5 +39,7 @@ namespace AliasPro.API.Rooms
 		Task AddRoomBan(uint roomId, int playerId, int expireTime);
 		Task RemoveRoomBan(uint roomId, int playerId);
 		Task<IDictionary<int, IRoomBan>> GetBannedPlayers(uint roomId);
+		Task<IDictionary<int, IRoomMoodlightPreset>> GetMoodlightPresets(uint roomId);
+		Task AddMoodlightPreset(uint roomId, IRoomMoodlightPreset preset);
 	}
 }

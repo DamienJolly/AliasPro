@@ -26,7 +26,7 @@ namespace AliasPro.Items.Interaction
 			if (!tradeItem)
 				message.WriteInt(1);
 			message.WriteInt(0);
-            message.WriteString(_item.Mode.ToString());
+            message.WriteString(_item.ExtraData);
         }
 
 		public void OnPlaceItem()
@@ -36,12 +36,12 @@ namespace AliasPro.Items.Interaction
 
 		public void OnPickupItem()
 		{
-			_item.Mode = 0;
+			_item.ExtraData = "0";
 		}
 
 		public void OnMoveItem()
 		{
-			_item.Mode = 0;
+			_item.ExtraData = "0";
 		}
 
 		public void OnUserWalkOn(BaseEntity entity)
@@ -68,7 +68,7 @@ namespace AliasPro.Items.Interaction
                 return;
             }
 
-            if (_item.Mode == 1) return;
+            if (_item.ExtraData == "1") return;
 
             if (!entity.Actions.HasStatus("sit") &&
                 !entity.Actions.HasStatus("lay"))
@@ -77,7 +77,7 @@ namespace AliasPro.Items.Interaction
                 entity.SetRotation(entity.Position.CalculateDirection(_item.Position.X, _item.Position.Y));
             }
 
-            _item.Mode = 1;
+            _item.ExtraData = "1";
             _item.InteractingPlayer = entity;
             _tickCount = 0;
 
@@ -86,7 +86,7 @@ namespace AliasPro.Items.Interaction
 
         public async void OnCycle()
         {
-            if (_item.Mode != 1) return;
+            if (_item.ExtraData != "1") return;
 
             if (_tickCount < 1)
             {
@@ -94,7 +94,7 @@ namespace AliasPro.Items.Interaction
                 return;
             }
 
-            _item.Mode = 0;
+            _item.ExtraData = "0";
             int handItemId =
                 GetRandomVendingMachineId(_item.ItemData.ExtraData);
             _item.InteractingPlayer.SetHandItem(handItemId);

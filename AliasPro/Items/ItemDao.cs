@@ -128,7 +128,7 @@ namespace AliasPro.Items
             {
                 foreach (IItem item in items)
                 {
-                    await Insert(transaction, "UPDATE `items` SET `room_id` = 0, `extra_data` = @1, `player_id` = @2, `mode` = @3, `item_id` = @4 WHERE `id` = @0;", item.Id, item.ExtraData, item.PlayerId, item.Mode, item.ItemId);
+                    await Insert(transaction, "UPDATE `items` SET `room_id` = 0, `extra_data` = @1, `player_id` = @2, `item_id` = @3 WHERE `id` = @0;", item.Id, item.ExtraData, item.PlayerId, item.ItemId);
                 }
             });
         }
@@ -137,8 +137,8 @@ namespace AliasPro.Items
         {
             await CreateTransaction(async transaction =>
             {
-                await Insert(transaction, "UPDATE `items` SET `room_id` = 0, `extra_data` = @1, `player_id` = @2, `mode` = @3, `item_id` = @4 WHERE `id` = @0;", 
-                    item.Id, item.ExtraData, item.PlayerId, item.Mode, item.ItemId);
+                await Insert(transaction, "UPDATE `items` SET `room_id` = 0, `extra_data` = @1, `player_id` = @2, `item_id` = @3 WHERE `id` = @0;", 
+                    item.Id, item.ExtraData, item.PlayerId,item.ItemId);
             });
         }
     }

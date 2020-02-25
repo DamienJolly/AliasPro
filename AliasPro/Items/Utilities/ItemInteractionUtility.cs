@@ -40,6 +40,7 @@ namespace AliasPro.Items.Utilities
 				case "landscape": return ItemInteractionType.LANDSCAPE;
 				case "roombg": return ItemInteractionType.BACKGROUND_TONER;
 				case "ecotron": return ItemInteractionType.ECOTRON;
+				case "dimmer": return ItemInteractionType.DIMMER;
 			}
         }
     }

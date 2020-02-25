@@ -41,7 +41,6 @@ namespace AliasPro.Items.Tasks
 			_item.ItemData = _giftData;
 			_item.ItemId = _giftData.Id;
 			_item.ExtraData = extraData;
-			_item.Mode = 0;
 			_item.Interaction = null;
 
 			if (_item.ItemData.Type.ToLower() == "s")

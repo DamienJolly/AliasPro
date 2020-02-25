@@ -33,7 +33,7 @@ namespace AliasPro.Items.Interaction
 				message.WriteInt(0);
 			message.WriteInt(5);
 			message.WriteInt(4);
-            message.WriteInt(_item.Mode);
+            message.WriteInt(0);
             message.WriteInt(Hue);
             message.WriteInt(Saturation);
             message.WriteInt(Brightness);
@@ -64,16 +64,9 @@ namespace AliasPro.Items.Interaction
 
         }
         
-        public async void OnUserInteract(BaseEntity entity, int state)
+        public void OnUserInteract(BaseEntity entity, int state)
         {
-			if (entity is PlayerEntity playerEntity)
-				if (!_item.CurrentRoom.Rights.HasRights(playerEntity.Player.Id)) return;
 
-			_item.Mode++;
-            if (_item.Mode >= _item.ItemData.Modes)
-				_item.Mode = 0;
-
-			await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
         }
 
         public void OnCycle()

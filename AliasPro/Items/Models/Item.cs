@@ -20,12 +20,12 @@ namespace AliasPro.Items.Models
             PlayerUsername = reader.ReadData<string>("username");
             RoomId = reader.ReadData<uint>("room_id");
             Rotation = reader.ReadData<int>("rot");
-            Mode = reader.ReadData<int>("mode");
             ExtraData = reader.ReadData<string>("extra_data");
             Position = new RoomPosition(
                 reader.ReadData<int>("x"),
                 reader.ReadData<int>("y"),
                 reader.ReadData<double>("z"));
+            WallCord = reader.ReadData<string>("wall_cord");
         }
 
         internal Item(uint itemId, uint playerId, string playerName, string extraData, IItemData itemData)
@@ -36,9 +36,9 @@ namespace AliasPro.Items.Models
             PlayerUsername = playerName;
             RoomId = 0;
             Rotation = 0;
-            Mode = 0;
             ExtraData = extraData;
             Position = new RoomPosition(0, 0, 0.00);
+            WallCord = string.Empty;
             ItemData = itemData;
         }
 
@@ -61,8 +61,8 @@ namespace AliasPro.Items.Models
         {
             message.WriteString(Id + "");
             message.WriteInt((int)ItemData.SpriteId);
+            message.WriteString(WallCord);
             message.WriteString(ExtraData);
-            message.WriteString(Mode + "");
             message.WriteInt(-1);
             message.WriteInt(ItemData.Modes > 1 ? 1 : 0);
             message.WriteInt((int)PlayerId); // -12345678 = builders club
@@ -74,9 +74,9 @@ namespace AliasPro.Items.Models
         public string PlayerUsername { get; set; }
         public uint RoomId { get; set; }
         public int Rotation { get; set; }
-        public int Mode { get; set; }
         public string ExtraData { get; set; }
         public IRoomPosition Position { get; set; }
+        public string WallCord { get; set; }
         public IItemData ItemData { get; set; }
         public BaseEntity InteractingPlayer { get; set; }
 		public BaseEntity InteractingPlayerTwo { get; set; }

@@ -140,6 +140,7 @@
         internal const short DoorbellAddUserMessageComposer = 1974;
         internal const short RoomAccessibleMessageComposer = 1264;
         internal const short RoomAccessDeniedMessageComposer = 3424;
+        internal const short MoodLightDataMessageComposer = 1394;
 
         // Landing
         internal const short HotelViewMessageComposer = 2484;

@@ -23,7 +23,7 @@ namespace AliasPro.Items.Interaction
 			if (!tradeItem)
 				message.WriteInt(1);
 			message.WriteInt(0);
-            message.WriteString(_item.Mode.ToString());
+            message.WriteString(_item.ExtraData);
         }
 
 		public void OnPlaceItem()
@@ -33,12 +33,12 @@ namespace AliasPro.Items.Interaction
 
 		public void OnPickupItem()
 		{
-			_item.Mode = 0;
+			_item.ExtraData = "0";
 		}
 
 		public void OnMoveItem()
 		{
-			_item.Mode = 0;
+			_item.ExtraData = "0";
 		}
 
 		public void OnUserWalkOn(BaseEntity entity)
@@ -68,7 +68,7 @@ namespace AliasPro.Items.Interaction
 			}
 
 			_item.ItemData.CanWalk = true;
-			_item.Mode = 1;
+			_item.ExtraData = "1";
 			entity.GoalPosition = _item.Position;
 			await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
 			await TaskManager.ExecuteTask(new TeleportTaskOne(_item, entity), 1500);
