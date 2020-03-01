@@ -6,7 +6,7 @@ namespace AliasPro.API.Items.Models
     {
         uint ItemId { get; set; }
         IRoomPosition Position { get; set; }
-        int Mode { get; set; }
+        string ExtraData { get; set; }
         int Rotation { get; set; }
         int MovementDirection { get; set; }
     }

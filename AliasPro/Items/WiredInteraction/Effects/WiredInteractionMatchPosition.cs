@@ -45,8 +45,9 @@ namespace AliasPro.Items.WiredInteraction
 
                         _item.CurrentRoom.RoomGrid.RemoveItem(item);
                         
+                        //todo: check it state can be changed. E.g; Teleporters = false, Gates = true.
                         if (ChangeState)
-                            item.ExtraData = itemData.Mode + "";
+                            item.ExtraData = itemData.ExtraData + "";
 
                         if (ChangeDirection)
                             item.Rotation = itemData.Rotation;

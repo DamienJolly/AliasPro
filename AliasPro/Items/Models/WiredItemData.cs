@@ -15,28 +15,28 @@ namespace AliasPro.Items.Models
             double z = double.Parse(itemParts[3]);
             Position = new RoomPosition(x, y, x);
 
-            Mode = int.Parse(itemParts[4]);
+            ExtraData = itemParts[4];
             Rotation = int.Parse(itemParts[5]);
             MovementDirection = int.Parse(itemParts[6]);
         }
 
-        internal WiredItemData(uint itemId, IRoomPosition position, int mode, int rotation)
+        internal WiredItemData(uint itemId, IRoomPosition position, string extraData, int rotation)
         {
             ItemId = itemId;
             Position = position;
-            Mode = mode;
+            ExtraData = extraData;
             Rotation = rotation;
             MovementDirection = -1;
         }
 
         public override string ToString()
         {
-            return ItemId + ":" + Position.X + ":" + Position.Y + ":" + Position.Z + ":" + Mode + ":" + Rotation + ":" + MovementDirection;
+            return ItemId + ":" + Position.X + ":" + Position.Y + ":" + Position.Z + ":" + ExtraData + ":" + Rotation + ":" + MovementDirection;
         }
 
         public uint ItemId { get; set; }
         public IRoomPosition Position { get; set; }
-        public int Mode { get; set; }
+        public string ExtraData { get; set; }
         public int Rotation { get; set; }
         public int MovementDirection { get; set; }
     }

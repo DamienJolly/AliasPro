@@ -62,10 +62,16 @@ namespace AliasPro.Rooms.Models
 					(topItem.ItemData.InteractionType == ItemInteractionType.ONE_WAY_GATE || 
 					topItem.ItemData.InteractionType == ItemInteractionType.TELEPORT)) return true;
 
-                //todo: fix
-				//if (topItem.ItemData.InteractionType == ItemInteractionType.GATE && topItem.Mode >= (topItem.ItemData.Modes - 1)) return true;
+                if (topItem.ItemData.InteractionType == ItemInteractionType.GATE)
+                {
+                    if (int.TryParse(topItem.ExtraData, out int mode))
+                    {
+                        if (mode >= (topItem.ItemData.Modes - 1))
+                            return true;
+                    }
+                }
 
-				if (topItem.ItemData.InteractionType == ItemInteractionType.CHAIR && final) return true;
+                if (topItem.ItemData.InteractionType == ItemInteractionType.CHAIR && final) return true;
 
 				if (topItem.ItemData.InteractionType == ItemInteractionType.BED && final)
 				{
@@ -262,10 +268,13 @@ namespace AliasPro.Rooms.Models
 								heights.Add(heightData);
 						}
 
-                        //todo: fix
-						//if (topItem.Mode <= heights.Count)
-						//	return heights[topItem.Mode] + topItem.Position.Z;
-					}
+                        //todo: maybe have this as a method in item?
+                        if (int.TryParse(topItem.ExtraData, out int mode))
+                        {
+                            if (mode <= heights.Count)
+                                return heights[mode] + topItem.Position.Z;
+                        }
+                    }
 
 					height = topItem.ItemData.Height + topItem.Position.Z;
 				}

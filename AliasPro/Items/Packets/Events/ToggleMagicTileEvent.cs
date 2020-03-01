@@ -100,9 +100,11 @@ namespace AliasPro.Items.Packets.Events
 							heights.Add(heightData);
 					}
 
-					//todo: fix
-					//if (topItem.Mode <= heights.Count)
-					//	return heights[topItem.Mode] + topItem.Position.Z;
+					if (int.TryParse(topItem.ExtraData, out int mode))
+					{
+						if (mode <= heights.Count)
+							return heights[mode] + topItem.Position.Z;
+					}
 				}
 
 				height += topItem.ItemData.Height + topItem.Position.Z;
