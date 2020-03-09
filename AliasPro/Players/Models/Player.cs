@@ -1,7 +1,9 @@
-﻿using AliasPro.API.Players.Models;
+﻿using AliasPro.API.Players;
+using AliasPro.API.Players.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Players.Components;
 using AliasPro.Players.Cycles;
+using System.Threading.Tasks;
 
 namespace AliasPro.Players.Models
 {
@@ -24,6 +26,23 @@ namespace AliasPro.Players.Models
             : base(data)
         {
             Session = session;
+        }
+
+        public async Task<IPlayerCurrency> GetPlayerCurrency(int type)
+        {
+            if (Currency == null)
+                return null;
+
+            if (!Currency.TryGetCurrency(type, out IPlayerCurrency currency))
+            {
+                currency = new PlayerCurrency(type);
+                if (Currency.TryAddCurrency(currency))
+                {
+                    await Program.GetService<IPlayerController>().AddPlayerCurrencyAsync((int)Id, currency);
+                }
+            }
+
+            return currency;
         }
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using AliasPro.API.Groups;
 using AliasPro.API.Groups.Models;
 using AliasPro.API.Groups.Types;
+using AliasPro.API.Players.Models;
 using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
@@ -36,10 +37,10 @@ namespace AliasPro.Groups.Packets.Events
 			ClientMessage message)
 		{
 			int guildPrice = 10;
-			if (session.Player.Credits >= guildPrice)
+			if (session.Player.Currency.TryGetCurrency(-1, out IPlayerCurrency currency) && currency.Amount >= guildPrice)
 			{
-				session.Player.Credits -= guildPrice;
-				await session.SendPacketAsync(new UserCreditsComposer(session.Player.Credits));
+				currency.Amount -= guildPrice;
+				await session.SendPacketAsync(new UserCreditsComposer(currency.Amount));
 			}
 			else
 			{

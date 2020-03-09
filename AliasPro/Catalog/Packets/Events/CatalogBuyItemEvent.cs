@@ -112,7 +112,7 @@ namespace AliasPro.Catalog.Packets.Events
 
             for (int i = 0; i < amount; i++)
             {
-				if (catalogItem.Credits > session.Player.Credits - totalCredits)
+				if (catalogItem.Credits > session.Player.Currency.GetCurrenyAmount(-1) - totalCredits)
 				{
 					return;
 				}
@@ -294,8 +294,11 @@ namespace AliasPro.Catalog.Packets.Events
 
             if (totalCredits > 0)
             {
-                session.Player.Credits -= totalCredits;
-                await session.SendPacketAsync(new UserCreditsComposer(session.Player.Credits));
+				if (session.Player.Currency.TryGetCurrency(-1, out IPlayerCurrency currency))
+				{
+					currency.Amount -= catalogItem.Credits;
+					await session.SendPacketAsync(new UserCreditsComposer(currency.Amount));
+				}
             }
 
             if (totalPoints > 0)

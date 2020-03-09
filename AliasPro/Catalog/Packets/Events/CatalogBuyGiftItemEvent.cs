@@ -122,15 +122,18 @@ namespace AliasPro.Catalog.Packets.Events
 
 			if (catalogItem.Credits > 0)
 			{
-				if (catalogItem.Credits > session.Player.Credits)
+				if (session.Player.Currency.TryGetCurrency(-1, out IPlayerCurrency currency))
 				{
-					// not enough credits
-					await session.SendPacketAsync(new AlertPurchaseFailedComposer(AlertPurchaseFailedComposer.SERVER_ERROR));
-					return;
-				}
+					if (catalogItem.Credits > currency.Amount)
+					{
+						// not enough credits
+						await session.SendPacketAsync(new AlertPurchaseFailedComposer(AlertPurchaseFailedComposer.SERVER_ERROR));
+						return;
+					}
 
-				session.Player.Credits -= catalogItem.Credits;
-				await session.SendPacketAsync(new UserCreditsComposer(session.Player.Credits));
+					currency.Amount -= catalogItem.Credits;
+					await session.SendPacketAsync(new UserCreditsComposer(currency.Amount));
+				}
 			}
 
 			if (catalogItem.Points > 0)

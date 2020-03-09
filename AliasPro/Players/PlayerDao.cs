@@ -99,8 +99,8 @@ namespace AliasPro.Players
         {
             await CreateTransaction(async transaction =>
             {
-                await Insert(transaction, "UPDATE `players` SET `is_online` = @1, `credits` = @2, `motto` = @3, `figure` = @4, `gender` = @5, `last_online` = @6, `home_room` = @7, `group_id` = @8 WHERE `id` = @0;", 
-                    player.Id, player.Online, player.Credits, player.Motto, player.Figure, player.Gender == PlayerGender.MALE ? "m" : "f", player.LastOnline, player.HomeRoom, player.FavoriteGroup);
+                await Insert(transaction, "UPDATE `players` SET `is_online` = @1, `motto` = @2, `figure` = @3, `gender` = @4, `last_online` = @5, `home_room` = @6, `group_id` = @7 WHERE `id` = @0;", 
+                    player.Id, player.Online, player.Motto, player.Figure, player.Gender == PlayerGender.MALE ? "m" : "f", player.LastOnline, player.HomeRoom, player.FavoriteGroup);
             });
         }
 
@@ -173,7 +173,7 @@ namespace AliasPro.Players
                             currencies.Add(currency.Type, currency);
                         }
                     }
-                }, "SELECT `type`, `amount` FROM `player_currencies` WHERE `player_id` = @0;", id);
+                }, "SELECT * FROM `player_currencies` WHERE `player_id` = @0;", id);
             });
 
             return currencies;
@@ -216,14 +216,23 @@ namespace AliasPro.Players
             });
         }
 
+        internal async Task AddPlayerCurrencyAsync(int playerId, IPlayerCurrency currency)
+        {
+            await CreateTransaction(async transaction =>
+            {
+                await Insert(transaction, "INSERT INTO `player_currencies` (`player_id`, `type`, `amount`, `cycles`) VALUES (@0, @1, @2, @3);",
+                    playerId, currency.Type, currency.Amount, currency.Cycles);
+            });
+        }
+
         internal async Task UpdatePlayerCurrenciesAsync(IPlayer player)
         {
             await CreateTransaction(async transaction =>
             {
                 foreach (IPlayerCurrency curreny in player.Currency.Currencies)
                 {
-                    await Insert(transaction, "UPDATE `player_currencies` SET `type` = @1, `amount` = @2 WHERE `player_id` = @0;",
-                       player.Id, curreny.Type, curreny.Amount);
+                    await Insert(transaction, "UPDATE `player_currencies` SET `amount` = @2, `cycles` = @3 WHERE `player_id` = @0 AND `type` = @1;",
+                       player.Id, curreny.Type, curreny.Amount, curreny.Cycles);
                 }
             });
         }

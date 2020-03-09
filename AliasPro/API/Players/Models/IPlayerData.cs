@@ -6,7 +6,6 @@ namespace AliasPro.API.Players.Models
     public interface IPlayerData
     {
         uint Id { get; set; }
-        int Credits { get; set; }
         int Rank { get; set; }
         string Username { get; set; }
         string Figure { get; set; }

@@ -15,7 +15,10 @@ namespace AliasPro.Players.Components
 
         public ICollection<IPlayerCurrency> Currencies =>
             _currencies.Values;
-        
+
+        public bool TryAddCurrency(IPlayerCurrency currency) => 
+            _currencies.TryAdd(currency.Type, currency);
+
         public bool TryGetCurrency(int type, out IPlayerCurrency currency) =>
             _currencies.TryGetValue(type, out currency);
 

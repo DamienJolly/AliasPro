@@ -1,5 +1,6 @@
 ﻿using AliasPro.API.Items.Interaction;
 using AliasPro.API.Items.Models;
+using AliasPro.API.Players.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Players.Packets.Composers;
@@ -61,8 +62,11 @@ namespace AliasPro.Items.Interaction
 
 			if (entity is PlayerEntity userEntity)
 			{
-				userEntity.Player.Credits += amount;
-				await userEntity.Player.Session.SendPacketAsync(new UserCreditsComposer(userEntity.Player.Credits));
+				if (userEntity.Player.Currency.TryGetCurrency(-1, out IPlayerCurrency currency))
+				{
+					currency.Amount += amount;
+					await userEntity.Player.Session.SendPacketAsync(new UserCreditsComposer(currency.Amount));
+				}
 			}
         }
 

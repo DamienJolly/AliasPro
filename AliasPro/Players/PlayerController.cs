@@ -94,6 +94,9 @@ namespace AliasPro.Players
         public async Task RemovePlayerIgnoreAsync(int playerId, int targetId) =>
             await _playerRepostiory.RemovePlayerIgnoreAsync(playerId, targetId);
 
+        public async Task AddPlayerCurrencyAsync(int playerId, IPlayerCurrency currency) =>
+            await _playerRepostiory.AddPlayerCurrencyAsync(playerId, currency);
+
         public async Task UpdatePlayerCurrenciesAsync(IPlayer player) =>
             await _playerRepostiory.UpdatePlayerCurrenciesAsync(player);
 

@@ -1,4 +1,5 @@
-﻿using AliasPro.API.Sessions.Models;
+﻿using AliasPro.API.Players.Models;
+using AliasPro.API.Sessions.Models;
 using AliasPro.Communication.Messages;
 using AliasPro.Communication.Messages.Headers;
 using AliasPro.Communication.Messages.Protocols;
@@ -15,7 +16,11 @@ namespace AliasPro.Players.Packets.Events
             ISession session,
             ClientMessage message)
         {
-            await session.SendPacketAsync(new UserCreditsComposer(session.Player.Credits));
+            if (await session.Player.GetPlayerCurrency(0) != null)
+            {
+                await session.SendPacketAsync(new UserCreditsComposer((await session.Player.GetPlayerCurrency(-1)).Amount));
+            }
+
             await session.SendPacketAsync(new UserCurrencyComposer(session.Player.Currency.Currencies));
         }
     }

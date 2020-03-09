@@ -21,6 +21,9 @@ namespace AliasPro.Players.Cycles
             {
                 foreach (ICurrencySetting setting in settings.Values)
                 {
+                    if (setting.Time == 0)
+                        continue;
+
                     if (!_tickTimers.ContainsKey(setting.Id))
                     {
                         _tickTimers.Add(setting.Id, 0);
@@ -33,18 +36,32 @@ namespace AliasPro.Players.Cycles
                         continue;
                     }
 
-                    if (setting.Id == 0) //credits
+                    IPlayerCurrency currency = 
+                        await _player.GetPlayerCurrency(setting.Id);
+
+                    if (currency != null)
                     {
-                        _player.Credits += setting.Amount;
-                        await _player.Session.SendPacketAsync(new UserCreditsComposer(_player.Credits));
-                    }
-                    else
-                    {
-                        //todo: create currency for player
-                        if (_player.Currency.TryGetCurrency(setting.Id, out IPlayerCurrency currency))
+                        if (setting.CyclesPerDay == 0 || setting.CyclesPerDay > currency.Cycles)
                         {
-                            currency.Amount += setting.Amount;
-                            await _player.Session.SendPacketAsync(new UserPointsComposer(currency.Amount, setting.Amount, currency.Type));
+                            if (setting.Maximum == 0 || currency.Amount != setting.Maximum)
+                            {
+                                currency.Amount += setting.Amount;
+                                if (setting.Maximum != 0 && currency.Amount > setting.Maximum)
+                                    currency.Amount = setting.Maximum;
+
+                                System.Console.WriteLine(setting.Id + ": success; amount: " + currency.Amount);
+                                currency.Cycles++;
+
+                                System.Console.WriteLine("uhm");
+                                if (setting.Id == -1)
+                                {
+                                    await _player.Session.SendPacketAsync(new UserCreditsComposer(currency.Amount));
+                                }
+                                else
+                                {
+                                    await _player.Session.SendPacketAsync(new UserPointsComposer(currency.Amount, setting.Amount, currency.Type));
+                                }
+                            }
                         }
                     }
 

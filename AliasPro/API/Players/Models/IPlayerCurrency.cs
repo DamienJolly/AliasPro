@@ -4,5 +4,6 @@
     {
         int Type { get; }
         int Amount { get; set; }
+        int Cycles { get; set; }
     }
 }

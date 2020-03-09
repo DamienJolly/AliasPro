@@ -11,7 +11,6 @@ namespace AliasPro.Players.Models
         internal PlayerData(DbDataReader reader)
         {
             Id = reader.ReadData<uint>("id");
-            Credits = reader.ReadData<int>("credits");
             Rank = reader.ReadData<int>("rank");
             Username = reader.ReadData<string>("username");
             Figure = reader.ReadData<string>("figure");
@@ -36,7 +35,6 @@ namespace AliasPro.Players.Models
         internal PlayerData(IPlayerData data)
         {
             Id = data.Id;
-            Credits = data.Credits;
             Rank = data.Rank;
             Username = data.Username;
             Figure = data.Figure;
@@ -53,7 +51,6 @@ namespace AliasPro.Players.Models
         }
 
         public uint Id { get; set; }
-        public int Credits { get; set; }
         public int Rank { get; set; }
         public string Username { get; set; }
         public string Figure { get; set; }

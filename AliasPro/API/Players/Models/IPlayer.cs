@@ -1,6 +1,7 @@
 ﻿using AliasPro.API.Sessions.Models;
 using AliasPro.Players.Components;
 using AliasPro.Players.Cycles;
+using System.Threading.Tasks;
 
 namespace AliasPro.API.Players.Models
 {
@@ -17,5 +18,7 @@ namespace AliasPro.API.Players.Models
         InventoryComponent Inventory { get; set; }
 		WardrobeComponent Wardrobe { get; set; }
         PlayerCycle PlayerCycle { get; set; }
+
+        Task<IPlayerCurrency> GetPlayerCurrency(int type);
     }
 }
