@@ -68,8 +68,7 @@ namespace AliasPro.Catalog.Packets.Events
 				return;
 			}
 
-			//todo: player club level
-			if (catalogItem.ClubLevel > 1)
+			if (catalogItem.ClubLevel > session.Player.VipRank)
 			{
 				await session.SendPacketAsync(new AlertPurchaseUnavailableComposer(AlertPurchaseUnavailableComposer.REQUIRES_CLUB));
 				return;

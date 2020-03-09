@@ -19,6 +19,7 @@ namespace AliasPro.API.Players.Models
         int FavoriteGroup { get; set; }
         IList<int> Groups { get; set; }
         int HomeRoom { get; set; }
+        int VipRank { get; set; }
 
         bool IsFavoriteGroup(int groupId);
         bool HasGroup(int groupId);

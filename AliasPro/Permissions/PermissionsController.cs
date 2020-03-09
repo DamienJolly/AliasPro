@@ -33,8 +33,7 @@ namespace AliasPro.Permissions
 			if (_rankPerms.TryGetValue(player.Rank, out IPermission rankPerm))
 				return rankPerm.HasPermission(param);
 
-			//todo: vip system
-			if (_subPerms.TryGetValue(0, out IPermission subPerm))
+			if (_subPerms.TryGetValue(player.VipRank, out IPermission subPerm))
 				return subPerm.HasPermission(param);
 
 			return false;
