@@ -3,6 +3,7 @@ using AliasPro.API.Database;
 using AliasPro.API.Players.Models;
 using AliasPro.Players.Models;
 using AliasPro.Players.Types;
+using AliasPro.Utilities;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -99,8 +100,10 @@ namespace AliasPro.Players
         {
             await CreateTransaction(async transaction =>
             {
-                await Insert(transaction, "UPDATE `players` SET `is_online` = @1, `motto` = @2, `figure` = @3, `gender` = @4, `last_online` = @5, `home_room` = @6, `group_id` = @7 WHERE `id` = @0;", 
-                    player.Id, player.Online, player.Motto, player.Figure, player.Gender == PlayerGender.MALE ? "m" : "f", player.LastOnline, player.HomeRoom, player.FavoriteGroup);
+                await Insert(transaction, "UPDATE `players` SET `is_online` = @1, `motto` = @2, `figure` = @3, `gender` = @4, `last_online` = @5, `home_room` = @6, `group_id` = @7, " +
+                    "`respects` = @8, `respects_given` = @9, `respects_recieved` = @10, `login_streak` = @11 WHERE `id` = @0;", 
+                    player.Id, player.Online, player.Motto, player.Figure, player.Gender == PlayerGender.MALE ? "m" : "f", (int)UnixTimestamp.Now, player.HomeRoom, player.FavoriteGroup,
+                    player.Respects, player.RespectsGiven, player.RespectsRecieved, player.LoginStreak);
             });
         }
 

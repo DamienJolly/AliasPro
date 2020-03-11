@@ -30,6 +30,10 @@ namespace AliasPro.Players.Models
             Groups = new List<int>();
             HomeRoom = reader.ReadData<int>("home_room");
             VipRank = reader.ReadData<int>("vip_rank");
+            Respects = reader.ReadData<int>("respects");
+            RespectsGiven = reader.ReadData<int>("respects_given");
+            RespectsRecieved = reader.ReadData<int>("respects_recieved");
+            LoginStreak = reader.ReadData<int>("login_streak");
         }
 
         internal PlayerData(IPlayerData data)
@@ -48,6 +52,10 @@ namespace AliasPro.Players.Models
             Groups = data.Groups;
             HomeRoom = data.HomeRoom;
             VipRank = data.VipRank;
+            Respects = data.Respects;
+            RespectsGiven = data.RespectsGiven;
+            RespectsRecieved = data.RespectsRecieved;
+            LoginStreak = data.LoginStreak;
         }
 
         public uint Id { get; set; }
@@ -64,6 +72,10 @@ namespace AliasPro.Players.Models
         public IList<int> Groups { get; set; }
         public int HomeRoom { get; set; }
         public int VipRank { get; set; }
+        public int Respects { get; set; }
+        public int RespectsGiven { get; set; }
+        public int RespectsRecieved { get; set; }
+        public int LoginStreak { get; set; }
 
         public bool IsFavoriteGroup(int groupId) =>
             FavoriteGroup == groupId;

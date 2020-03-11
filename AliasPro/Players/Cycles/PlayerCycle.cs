@@ -19,6 +19,8 @@ namespace AliasPro.Players.Cycles
         {
             try
             {
+                _player.CheckLastOnline();
+
                 foreach (ICurrencySetting setting in settings.Values)
                 {
                     if (setting.Time == 0)

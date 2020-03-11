@@ -20,5 +20,6 @@ namespace AliasPro.API.Players.Models
         PlayerCycle PlayerCycle { get; set; }
 
         Task<IPlayerCurrency> GetPlayerCurrency(int type);
+        void CheckLastOnline();
     }
 }

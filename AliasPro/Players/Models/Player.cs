@@ -3,6 +3,7 @@ using AliasPro.API.Players.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Players.Components;
 using AliasPro.Players.Cycles;
+using AliasPro.Utilities;
 using System.Threading.Tasks;
 
 namespace AliasPro.Players.Models
@@ -43,6 +44,29 @@ namespace AliasPro.Players.Models
             }
 
             return currency;
+        }
+
+        public void CheckLastOnline()
+        {
+            if (!UnixTimestamp.IsToday(LastOnline))
+            {
+                if (UnixTimestamp.IsYesterday(LastOnline))
+                {
+                    //todo: some achievement
+                    LoginStreak++;
+                }
+                else
+                    LoginStreak = 0;
+
+                //todo: maybe some setting to change this?
+                Respects = 3;
+
+                foreach (IPlayerCurrency currency in Currency.Currencies)
+                    currency.Cycles = 0;
+
+                // clean up
+                LastOnline = (int)UnixTimestamp.Now;
+            }
         }
 	}
 }

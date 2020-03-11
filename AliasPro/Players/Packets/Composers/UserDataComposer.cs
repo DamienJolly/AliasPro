@@ -25,8 +25,8 @@ namespace AliasPro.Players.Packets.Composers
             message.WriteString(_player.Motto);
             message.WriteString("");
             message.WriteBoolean(false);
-            message.WriteInt(0); //Respect
-            message.WriteInt(3); //DailyRespect
+            message.WriteInt(_player.RespectsRecieved); //Respect
+            message.WriteInt(_player.Respects);
             message.WriteInt(0); //DailyPetRespect
             message.WriteBoolean(false); //Friendstream
             message.WriteString("01.01.1970 00:00:00"); //Last online
