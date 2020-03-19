@@ -134,6 +134,7 @@
         internal const short MoodLightSettingsMessageEvent = 3643;
         internal const short MoodLightTurnOnMessageEvent = 1041;
         internal const short MoodLightSaveSettingsMessageEvent = 2126;
+        internal const short RoomUserGiveRespectMessageEvent = 3963;
 
         // Landing
         internal const short HotelViewDataMessageEvent = 1579;

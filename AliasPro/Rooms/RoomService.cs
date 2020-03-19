@@ -70,6 +70,7 @@ namespace AliasPro.Rooms
 			collection.AddSingleton<IMessageEvent, HandleDoorbellEvent>();
 			collection.AddSingleton<IMessageEvent, RequestRoomLoadDataEvent>();
 			collection.AddSingleton<IMessageEvent, MoodLightSettingsEvent>();
+			collection.AddSingleton<IMessageEvent, RoomUserGiveRespectEvent>();
         }
     }
 }
