@@ -220,5 +220,6 @@
         internal const int BubbleAlertMessageComposer = 1469;
         internal const int StaffAlertWithLinkMessageComposer = 2488;
         internal const int BroadcastMessageAlertMessageComposer = 524;
+        internal const int MessagesForYouMessageComposer = 3687;
     }
 }

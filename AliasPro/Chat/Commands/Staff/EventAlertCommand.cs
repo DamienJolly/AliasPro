@@ -21,6 +21,8 @@ namespace AliasPro.Chat.Commands
 
         public string PermissionRequired => "cmd_eventalert";
 
+        public string Parameters => "%message%";
+
         public string Description => "Send a message to the entire hotel.";
 
         private readonly ISessionController _sessionController;

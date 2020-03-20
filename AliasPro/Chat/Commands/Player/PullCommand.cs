@@ -18,6 +18,8 @@ namespace AliasPro.Chat.Commands
 
         public string PermissionRequired => "cmd_pull";
 
+        public string Parameters => "%target%";
+
         public string Description => "Pulls the target player towards them.";
 
         public bool Handle(ISession session, string[] args)

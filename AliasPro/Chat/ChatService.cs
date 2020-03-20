@@ -24,6 +24,8 @@ namespace AliasPro.Chat
 
             collection.AddSingleton<IChatCommand, PushCommand>();
             collection.AddSingleton<IChatCommand, PullCommand>();
+
+            collection.AddSingleton<IChatCommand, CommandsCommand>();
         }
     }
 }

@@ -61,5 +61,21 @@ namespace AliasPro.Chat
 
         public async Task<ICollection<IChatLog>> ReadRoomChatlogs(uint roomId, int enterTimestamp, int exitTimestamp) =>
             await _chatDao.ReadRoomChatlogs(roomId, enterTimestamp, exitTimestamp);
+
+        public IList<IChatCommand> CommandsForRank(ISession session)
+        {
+            IList<IChatCommand> commands = new List<IChatCommand>();
+            foreach (IChatCommand command in _commands.Values)
+            {
+                if (!_permissionsController.HasPermission(session.Player, command.PermissionRequired))
+                    continue;
+
+                if (commands.Contains(command))
+                    continue;
+
+                commands.Add(command);
+            }
+            return commands;
+        }
     }
 }

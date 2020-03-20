@@ -14,6 +14,8 @@ namespace AliasPro.Chat.Commands
 
         public string PermissionRequired => "cmd_update";
 
+        public string Parameters => "%item%";
+
         public string Description => "Updates shit.";
 
         private readonly ICatalogController _catalogController;
