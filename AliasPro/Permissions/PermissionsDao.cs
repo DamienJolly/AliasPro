@@ -69,7 +69,8 @@ namespace AliasPro.Permissions
 					{
 						permissions.Add(reader.ReadData<string>("permission"));
 					}
-				}, "SELECT * FROM `permissions` WHERE `rank_level` = @0 AND `sub_level` = @1;", rankLevel, subLevel);
+				}, "SELECT * FROM `permissions` WHERE `rank_level` = @0 AND `sub_level` = @1 " +
+					"UNION SELECT *FROM `permissions_commands` WHERE `rank_level` = @0 AND `sub_level` = @1;" , rankLevel, subLevel);
 			});
 			return permissions;
 		}

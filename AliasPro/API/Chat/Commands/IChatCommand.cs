@@ -4,7 +4,8 @@ namespace AliasPro.API.Chat.Commands
 {
     interface IChatCommand
     {
-        string Name { get; }
+        string[] Names { get; }
+        string PermissionRequired { get; }
         string Description { get; }
         bool Handle(ISession session, string[] args);
     }

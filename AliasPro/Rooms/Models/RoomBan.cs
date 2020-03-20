@@ -9,7 +9,7 @@ namespace AliasPro.Rooms.Models
     {
         public RoomBan(DbDataReader reader)
         {
-            PlayerId = reader.ReadData<int>("id");
+            PlayerId = (int)reader.ReadData<uint>("id");
             PlayerName = reader.ReadData<string>("username");
             ExpireTime = reader.ReadData<int>("expire_time");
         }

@@ -7,7 +7,13 @@ namespace AliasPro.Chat.Commands
 {
     internal class UpdateCommand : IChatCommand
     {
-        public string Name => "update";
+        public string[] Names => new[]
+        {
+            "update"
+        };
+
+        public string PermissionRequired => "cmd_update";
+
         public string Description => "Updates shit.";
 
         private readonly ICatalogController _catalogController;

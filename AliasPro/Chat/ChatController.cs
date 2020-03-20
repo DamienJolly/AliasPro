@@ -1,6 +1,7 @@
 ﻿using AliasPro.API.Chat;
 using AliasPro.API.Chat.Commands;
 using AliasPro.API.Chat.Models;
+using AliasPro.API.Permissions;
 using AliasPro.API.Sessions.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +11,26 @@ namespace AliasPro.Chat
 {
     internal class ChatController : IChatController
     {
+        private readonly IPermissionsController _permissionsController;
         private readonly ChatDao _chatDao;
         private readonly IDictionary<string, IChatCommand> _commands;
 
-        public ChatController(ChatDao chatDao, IEnumerable<IChatCommand> commands)
+        public ChatController(
+            IPermissionsController permissionsController,
+            ChatDao chatDao, 
+            IEnumerable<IChatCommand> commands)
         {
+            _permissionsController = permissionsController;
             _chatDao = chatDao;
-            _commands = commands.ToDictionary(x => x.Name, x => x);
+            _commands = new Dictionary<string, IChatCommand>();
+
+            foreach (IChatCommand command in commands)
+            {
+                foreach (string name in command.Names)
+                {
+                    _commands.TryAdd(name, command);
+                }
+            }
         }
 
         public bool HandleCommand(ISession session, string message)
@@ -34,6 +48,9 @@ namespace AliasPro.Chat
             messageData = messageData.Skip(1).ToArray();
 
             if (!_commands.TryGetValue(commandName, out IChatCommand command))
+                return false;
+
+            if (!_permissionsController.HasPermission(session.Player, command.PermissionRequired))
                 return false;
 
             return command.Handle(session, messageData);
