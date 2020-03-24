@@ -63,6 +63,8 @@ namespace AliasPro.Items.Interaction
 		{
 			foreach (IItem waterItem in _item.CurrentRoom.Items.FloorItems)
 			{
+				if (waterItem?.CurrentRoom == null) continue;
+
 				if (waterItem.ItemData.InteractionType != Types.ItemInteractionType.WATER) continue;
 
 				int result = 0;
