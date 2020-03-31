@@ -18,6 +18,7 @@ namespace AliasPro.Players.Models
         public IgnoreComponent Ignore { get; set; }
         public BadgeComponent Badge { get; set; }
 		public AchievementComponent Achievement { get; set; }
+		public SanctionComponent Sanction { get; set; }
 		public InventoryComponent Inventory { get; set; }
 		public WardrobeComponent Wardrobe { get; set; }
 

@@ -65,9 +65,15 @@ namespace AliasPro.Network.Game
             session.Player.Online = false;
 
             await Program.GetService<IPlayerController>().UpdatePlayerAsync(session.Player);
-            await Program.GetService<IPlayerController>().UpdatePlayerSettingsAsync(session.Player);
-            await Program.GetService<IPlayerController>().UpdatePlayerCurrenciesAsync(session.Player);
-            await Program.GetService<IPlayerController>().UpdatePlayerBadgesAsync(session.Player);
+
+            if (session.Player.PlayerSettings != null)
+                await Program.GetService<IPlayerController>().UpdatePlayerSettingsAsync(session.Player);
+
+            if (session.Player.Currency != null)
+                await Program.GetService<IPlayerController>().UpdatePlayerCurrenciesAsync(session.Player);
+
+            if (session.Player.Badge != null)
+                await Program.GetService<IPlayerController>().UpdatePlayerBadgesAsync(session.Player);
 
             if (session.Player.Inventory != null)
                 await Program.GetService<IItemController>().UpdatePlayerItemsAsync(session.Player.Inventory.Items);

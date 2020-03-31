@@ -20,25 +20,23 @@ namespace AliasPro.Rooms.Packets.Events
             _chatController = chatController;
         }
 
-        public Task RunAsync(
+        public async Task RunAsync(
             ISession session,
             ClientMessage message)
         {
             IRoom room = session.CurrentRoom;
             if (room == null || session.Entity == null)
-                return Task.CompletedTask;
+                return;
 
             string text = message.ReadString();
             int colour = message.ReadInt();
 
             session.Entity.Unidle();
 
-            if (!_chatController.HandleCommand(session, text))
+            if (!await _chatController.HandleCommand(session, text))
             {
                 room.OnChat(text, colour, session.Entity, RoomChatType.SHOUT);
             }
-
-            return Task.CompletedTask;
         }
     }
 }

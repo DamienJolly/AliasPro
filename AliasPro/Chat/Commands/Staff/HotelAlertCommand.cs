@@ -6,6 +6,7 @@ using AliasPro.Players.Packets.Composers;
 using AliasPro.Rooms.Packets.Composers;
 using AliasPro.Rooms.Types;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AliasPro.Chat.Commands
 {
@@ -30,11 +31,11 @@ namespace AliasPro.Chat.Commands
             _sessionController = sessionController;
         }
 
-        public bool Handle(ISession session, string[] args)
+        public async Task<bool> Handle(ISession session, string[] args)
         {
             if (args.Length <= 0)
             {
-                session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter a message to send.", 0, 0, RoomChatType.WHISPER));
+                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter a message to send.", 0, 0, RoomChatType.WHISPER));
                 return true;
             }
 
@@ -48,7 +49,7 @@ namespace AliasPro.Chat.Commands
             {
                 //targetSession.SendPacketAsync(new StaffAlertWithLinkComposer(message + "\r\n-" + session.Player.Username, ""));
                 //targetSession.SendPacketAsync(new BroadcastMessageAlertComposer(message + "\r\n-" + session.Player.Username, ""));
-                targetSession.SendPacketAsync(new BubbleAlertComposer("admin", message + "\r\n-" + session.Player.Username));
+                await targetSession.SendPacketAsync(new BubbleAlertComposer("admin", message + "\r\n-" + session.Player.Username));
             }
 
             return true;

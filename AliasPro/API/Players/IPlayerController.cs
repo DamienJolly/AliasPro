@@ -10,7 +10,8 @@ namespace AliasPro.API.Players
         void Cycle();
         ICollection<IPlayer> Players { get; }
         Task<IPlayerData> GetPlayerDataAsync(string SSO);
-        Task<IPlayerData> GetPlayerDataAsync(uint playerId);
+        Task<IPlayer> GetPlayerAsync(uint playerId);
+        Task<IPlayer> GetPlayerByUsernameAsync(string username);
         Task<int> GetPlayerFriendsAsync(uint playerId);
         bool TryGetPlayer(string playerUsername, out IPlayer player);
         bool TryGetPlayer(uint playerId, out IPlayer player);
@@ -29,7 +30,9 @@ namespace AliasPro.API.Players
 		Task<IDictionary<int, IPlayerBot>> GetPlayerBotsAsync(uint id);
 		Task<IDictionary<int, IPlayerPet>> GetPlayerPetsAsync(uint id);
 		Task<IDictionary<int, IPlayerAchievement>> GetPlayerAchievementsAsync(uint id);
-		Task UpdatePlayerBadgesAsync(IPlayer player);
+		Task<IList<IPlayerSanction>> GetPlayerSanctionsAsync(uint id);
+        Task AddPlayerSanction(uint playerId, IPlayerSanction sanction);
+        Task UpdatePlayerBadgesAsync(IPlayer player);
 
         Task<IPlayerSettings> GetPlayerSettingsAsync(uint id);
         Task AddPlayerSettingsAsync(uint id);

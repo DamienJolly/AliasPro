@@ -33,7 +33,7 @@ namespace AliasPro.Chat
             }
         }
 
-        public bool HandleCommand(ISession session, string message)
+        public async Task<bool> HandleCommand(ISession session, string message)
         {
             if (!message.StartsWith(":"))
                 return false;
@@ -53,7 +53,7 @@ namespace AliasPro.Chat
             if (!_permissionsController.HasPermission(session.Player, command.PermissionRequired))
                 return false;
 
-            return command.Handle(session, messageData);
+            return await command.Handle(session, messageData);
         }
         
         public async Task<ICollection<IChatLog>> ReadUserChatlogs(uint playerId) =>

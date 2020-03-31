@@ -47,8 +47,8 @@ namespace AliasPro.Rooms.Packets.Events
 
             if (room.Rights.HasRights((uint)playerId)) return;
 
-            IPlayerData playerData = await _playerController.GetPlayerDataAsync((uint)playerId);
-            if (playerData == null)
+            IPlayer targetPlayer = await _playerController.GetPlayerAsync((uint)playerId);
+            if (targetPlayer == null)
                 return;
 
             int time = 0;
@@ -61,7 +61,7 @@ namespace AliasPro.Rooms.Packets.Events
 
             IRoomBan roomBan = new RoomBan(
                 playerId,
-                playerData.Username, 
+                targetPlayer.Username, 
                 (int)UnixTimestamp.Now + time
             );
 

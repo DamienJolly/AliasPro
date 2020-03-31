@@ -4,6 +4,7 @@ using AliasPro.API.Sessions.Models;
 using AliasPro.Players.Packets.Composers;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AliasPro.Chat.Commands
 {
@@ -21,7 +22,7 @@ namespace AliasPro.Chat.Commands
 
         public string Description => "Hello world!";
 
-        public bool Handle(ISession session, string[] args)
+        public async Task<bool> Handle(ISession session, string[] args)
         {
             StringBuilder message = new StringBuilder("This is the list of commands you have available:\n");
 
@@ -32,7 +33,7 @@ namespace AliasPro.Chat.Commands
                 message.Append(":" + command.Names[0] + param + " - " + command.Description + "\n");
             }
 
-            session.SendPacketAsync(new MessagesForYouComposer(message.ToString()));
+            await session.SendPacketAsync(new MessagesForYouComposer(message.ToString()));
             return true;
         }
     }

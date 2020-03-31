@@ -18,6 +18,8 @@ namespace AliasPro.Chat
         private static void RegisterCommands(IServiceCollection collection)
         {
             collection.AddSingleton<IChatCommand, UpdateCommand>();
+            collection.AddSingleton<IChatCommand, GiveCommand>();
+            collection.AddSingleton<IChatCommand, BanCommand>();
             collection.AddSingleton<IChatCommand, HotelAlertCommand>();
             collection.AddSingleton<IChatCommand, HotelAlertLinkCommand>();
             collection.AddSingleton<IChatCommand, EventAlertCommand>();
@@ -26,6 +28,8 @@ namespace AliasPro.Chat
             collection.AddSingleton<IChatCommand, PullCommand>();
 
             collection.AddSingleton<IChatCommand, CommandsCommand>();
+            collection.AddSingleton<IChatCommand, FollowCommand>();
+            collection.AddSingleton<IChatCommand, UnloadCommand>();
         }
     }
 }

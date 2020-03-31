@@ -34,7 +34,7 @@ namespace AliasPro.Moderation.Packets.Events
 
 			int playerId = message.ReadInt();
 
-            IPlayerData player = await _playerController.GetPlayerDataAsync((uint)playerId);
+            IPlayerData player = await _playerController.GetPlayerAsync((uint)playerId);
             if (player == null)
                 return;
 

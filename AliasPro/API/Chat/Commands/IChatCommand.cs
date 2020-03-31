@@ -1,4 +1,5 @@
 ﻿using AliasPro.API.Sessions.Models;
+using System.Threading.Tasks;
 
 namespace AliasPro.API.Chat.Commands
 {
@@ -8,6 +9,6 @@ namespace AliasPro.API.Chat.Commands
         string PermissionRequired { get; }
         string Parameters { get; }
         string Description { get; }
-        bool Handle(ISession session, string[] args);
+        Task<bool> Handle(ISession session, string[] args);
     }
 }

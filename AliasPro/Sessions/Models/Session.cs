@@ -15,7 +15,6 @@ namespace AliasPro.Sessions.Models
         public IPlayer Player { get; set; }
         public BaseEntity Entity { get; set; }
         public IRoom CurrentRoom { get; set; }
-		public bool Disconnecting { get; set; } = false;
 
         private readonly IChannelHandlerContext _channel;
 
@@ -26,7 +25,7 @@ namespace AliasPro.Sessions.Models
 
         public void Disconnect()
         {
-			_channel.CloseAsync();
+            _channel.CloseAsync();
         }
 
 		public Task SendPacketAsync(IMessageComposer ServerMessage)

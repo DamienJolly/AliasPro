@@ -22,7 +22,7 @@ namespace AliasPro.Moderation.Packets.Composers
             message.WriteString(_playerData.Figure);
             message.WriteInt(0); //account created
             message.WriteInt(0); //last online
-            message.WriteBoolean(true); //isOnline
+            message.WriteBoolean(_playerData.Online);
             message.WriteInt(0); //cfh sent
             message.WriteInt(0); //cfh abuse
             message.WriteInt(0); //cfh warning

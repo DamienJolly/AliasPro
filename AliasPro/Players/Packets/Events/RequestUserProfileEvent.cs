@@ -32,30 +32,21 @@ namespace AliasPro.Players.Packets.Events
             ClientMessage message)
         {
             int playerId = message.ReadInt();
-
-            IPlayerData playerdata;
             int friendCount;
+            IPlayer targetPlayer = 
+                await _playerController.GetPlayerAsync((uint)playerId);
 
-            if (_playerController.TryGetPlayer((uint)playerId, out IPlayer player))
+            if (targetPlayer.Messenger != null)
             {
-                playerdata = player;
-
-                if (player.Messenger != null)
-                    friendCount = player.Messenger.Friends.Count;
-                else
-                    friendCount = await _playerController.GetPlayerFriendsAsync((uint)playerId);
+                friendCount = targetPlayer.Messenger.Friends.Count;
             }
             else
             {
-                playerdata = await _playerController.GetPlayerDataAsync((uint)playerId);
-                if (playerdata == null)
-                    return;
-
                 friendCount = await _playerController.GetPlayerFriendsAsync((uint)playerId);
             }
 
             IList<IGroup> groups = new List<IGroup>();
-            foreach (int groupId in playerdata.Groups)
+            foreach (int groupId in targetPlayer.Groups)
             {
                 IGroup group = await _groupController.ReadGroupData(groupId);
 
@@ -63,7 +54,7 @@ namespace AliasPro.Players.Packets.Events
                     groups.Add(group);
             }
 
-            await session.SendPacketAsync(new UserProfileComposer(session.Player, playerdata, groups, friendCount));
+            await session.SendPacketAsync(new UserProfileComposer(session.Player, targetPlayer, groups, friendCount));
         }
     }
 }

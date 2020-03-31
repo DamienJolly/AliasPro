@@ -13,6 +13,7 @@ using AliasPro.Players.Components;
 using AliasPro.Players.Cycles;
 using AliasPro.Players.Models;
 using AliasPro.Players.Packets.Composers;
+using AliasPro.Players.Types;
 using AliasPro.Utilities;
 using System;
 using System.Threading.Tasks;
@@ -94,7 +95,10 @@ namespace AliasPro.Players.Packets.Events
 			player.Achievement = new AchievementComponent(
 				await _playerController.GetPlayerAchievementsAsync(player.Id));
 
-			player.Wardrobe = new WardrobeComponent(
+            player.Sanction = new SanctionComponent(
+                await _playerController.GetPlayerSanctionsAsync(player.Id));
+
+            player.Wardrobe = new WardrobeComponent(
 				await _figureController.GetPlayerWardrobeAsync(player.Id),
 				await _figureController.GetPlayerClothingAsync(player.Id));
 
@@ -103,6 +107,18 @@ namespace AliasPro.Players.Packets.Events
                 session.Disconnect();
                 return;
             }
+
+            System.Console.WriteLine("here");
+
+            if (player.Sanction.GetCurrentSanction(out IPlayerSanction sanction) && 
+                sanction.Type == SanctionType.BAN)
+            {
+                System.Console.WriteLine("banned");
+                session.Disconnect();
+                return;
+            }
+
+            System.Console.WriteLine("there");
 
             await session.SendPacketAsync(new SecureLoginOKComposer());
             await session.SendPacketAsync(new HomeRoomComposer(player.HomeRoom));

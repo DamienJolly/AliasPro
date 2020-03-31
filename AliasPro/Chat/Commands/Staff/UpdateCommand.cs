@@ -2,6 +2,7 @@
 using AliasPro.API.Chat.Commands;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Catalog.Packets.Composers;
+using System.Threading.Tasks;
 
 namespace AliasPro.Chat.Commands
 {
@@ -14,7 +15,7 @@ namespace AliasPro.Chat.Commands
 
         public string PermissionRequired => "cmd_update";
 
-        public string Parameters => "%item%";
+        public string Parameters => "%query%";
 
         public string Description => "Updates shit.";
 
@@ -25,7 +26,7 @@ namespace AliasPro.Chat.Commands
             _catalogController = catalogController;
         }
 
-        public bool Handle(ISession session, string[] args)
+        public async Task<bool> Handle(ISession session, string[] args)
         {
             if (args.Length <= 0)
                 return false;
@@ -38,7 +39,7 @@ namespace AliasPro.Chat.Commands
                 case "catalogue":
                     {
                         _catalogController.InitializeCatalog();
-                        session.SendPacketAsync(new CatalogUpdatedComposer());
+                        await session.SendPacketAsync(new CatalogUpdatedComposer());
                         break;
                     }
             }

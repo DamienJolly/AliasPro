@@ -6,6 +6,7 @@ using AliasPro.Rooms.Entities;
 using AliasPro.Rooms.Models;
 using AliasPro.Rooms.Packets.Composers;
 using AliasPro.Rooms.Types;
+using System.Threading.Tasks;
 
 namespace AliasPro.Chat.Commands
 {
@@ -22,11 +23,11 @@ namespace AliasPro.Chat.Commands
 
         public string Description => "Pulls the target player towards them.";
 
-        public bool Handle(ISession session, string[] args)
+        public async Task<bool> Handle(ISession session, string[] args)
         {
             if (args.Length <= 0)
             {
-                session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter the username of the user you wish to pull.", 0, 0, RoomChatType.WHISPER));
+                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter the username of the user you wish to pull.", 0, 0, RoomChatType.WHISPER));
                 return true;
             }
 
@@ -34,7 +35,7 @@ namespace AliasPro.Chat.Commands
 
             if (session.Player.Username == username)
             {
-                session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "You cannot pull yourself.", 0, 0, RoomChatType.WHISPER));
+                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "You cannot pull yourself.", 0, 0, RoomChatType.WHISPER));
                 return true;
             }
 
@@ -49,7 +50,7 @@ namespace AliasPro.Chat.Commands
 
             if (distanceX < -2 || distanceX > 2 || distanceY < -2 || distanceY > 2)
             {
-                session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "That user is too far away to be pulled.", 0, 0, RoomChatType.WHISPER));
+                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "That user is too far away to be pulled.", 0, 0, RoomChatType.WHISPER));
                 return true;
             }
 
@@ -57,7 +58,7 @@ namespace AliasPro.Chat.Commands
                 !targetTile.IsValidTile(null, true) ||
                 targetTile.Position.X == session.CurrentRoom.RoomModel.DoorX && targetTile.Position.Y == session.CurrentRoom.RoomModel.DoorY)
             {
-                session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "You cannot pull a user here.", 0, 0, RoomChatType.WHISPER));
+                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "You cannot pull a user here.", 0, 0, RoomChatType.WHISPER));
                 return true;
             }
 

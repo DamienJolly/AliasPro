@@ -40,7 +40,7 @@ namespace AliasPro.Moderation.Packets.Events
 
 			int playerId = message.ReadInt();
 
-            IPlayerData player = await _playerController.GetPlayerDataAsync((uint)playerId);
+            IPlayerData player = await _playerController.GetPlayerAsync((uint)playerId);
             if (player == null)
                 return;
 
@@ -53,7 +53,6 @@ namespace AliasPro.Moderation.Packets.Events
                 if (!chatlogs.TryAdd(visit, new List<IChatLog>()))
                     continue;
 
-                IList<IChatLog> logs = new List<IChatLog>();
                 chatlogs[visit] = await _chatController.ReadRoomChatlogs(
                     (uint)visit.RoomId, 
                     visit.EntryTimestamp, 

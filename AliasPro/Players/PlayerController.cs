@@ -1,5 +1,6 @@
 ﻿using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
+using AliasPro.Players.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -42,12 +43,20 @@ namespace AliasPro.Players
         public async Task<IPlayerData> GetPlayerDataAsync(string SSO) =>
             await _playerRepostiory.GetPlayerDataAsync(SSO);
 
-        public async Task<IPlayerData> GetPlayerDataAsync(uint playerId)
+        public async Task<IPlayer> GetPlayerAsync(uint playerId)
         {
             if (TryGetPlayer(playerId, out IPlayer player))
                 return player;
 
-            return await _playerRepostiory.GetPlayerDataAsync(playerId);
+            return new Player(null, await _playerRepostiory.GetPlayerDataAsync(playerId));
+        }
+
+        public async Task<IPlayer> GetPlayerByUsernameAsync(string username)
+        {
+            if (TryGetPlayer(username, out IPlayer player))
+                return player;
+
+            return new Player(null, await _playerRepostiory.GetPlayerDataByUsernameAsync(username));
         }
 
         public async Task<int> GetPlayerFriendsAsync(uint playerId) =>
@@ -113,7 +122,13 @@ namespace AliasPro.Players
 		public async Task<IDictionary<int, IPlayerAchievement>> GetPlayerAchievementsAsync(uint id) =>
 			await _playerRepostiory.GetPlayerAchievementsAsync(id);
 
-		public async Task UpdatePlayerBadgesAsync(IPlayer player) =>
+        public async Task<IList<IPlayerSanction>> GetPlayerSanctionsAsync(uint id) =>
+            await _playerRepostiory.GetPlayerSanctionsAsync(id);
+
+        public async Task AddPlayerSanction(uint playerId, IPlayerSanction sanction) =>
+            await _playerRepostiory.AddPlayerSanction(playerId, sanction);
+
+        public async Task UpdatePlayerBadgesAsync(IPlayer player) =>
             await _playerRepostiory.UpdatePlayerBadgesAsync(player);
 
 

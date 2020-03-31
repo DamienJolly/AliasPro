@@ -1,11 +1,12 @@
-﻿using AliasPro.API.Moderation;
-using AliasPro.API.Permissions;
+﻿using AliasPro.API.Permissions;
 using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Communication.Messages;
 using AliasPro.Communication.Messages.Headers;
 using AliasPro.Communication.Messages.Protocols;
+using AliasPro.Players.Models;
+using AliasPro.Players.Types;
 using AliasPro.Utilities;
 using System.Threading.Tasks;
 
@@ -22,16 +23,13 @@ namespace AliasPro.Moderation.Packets.Events
 		private const int BAN_100_YEARS = 6;
 		private const int BAN_AVATAR_ONLY_100_YEARS = 106;
 
-		private readonly IModerationController _moderationController;
 		private readonly IPlayerController _playerController;
 		private readonly IPermissionsController _permissionsController;
 
 		public ModerationBanEvent(
-			IModerationController moderationController,
 			IPlayerController playerController,
 			IPermissionsController permissionsController)
 		{
-			_moderationController = moderationController;
 			_playerController = playerController;
 			_permissionsController = permissionsController;
 		}
@@ -44,42 +42,53 @@ namespace AliasPro.Moderation.Packets.Events
 				return;
 
 			int playerId = message.ReadInt();
-			if (!_playerController.TryGetPlayer((uint)playerId, out IPlayer player))
+
+			IPlayer targetPlayer = await _playerController.GetPlayerAsync((uint)playerId);
+			if (targetPlayer == null)
 				return;
 
-            if (player.Session == null || 
-				player.Rank >= session.Player.Rank) return;
+            if (targetPlayer.Rank >= session.Player.Rank) 
+				return;
 
 			string reason = message.ReadString();
 			int topicId = message.ReadInt();
 			int banType = message.ReadInt();
 			message.ReadBoolean(); //dunno?
 
-			int duration = 0;
+			int duration = (int)UnixTimestamp.Now;
 			switch (banType)
 			{
 				case BAN_18_HOURS:
-					duration = 18 * 60 * 60;
+					duration += 18 * 60 * 60;
 					break;
 				case BAN_7_DAYS:
-					duration = 7 * 24 * 60 * 60;
+					duration += 7 * 24 * 60 * 60;
 					break;
 				case BAN_30_DAYS_STEP_1:
 				case BAN_30_DAYS_STEP_2:
-					duration = 30 * 24 * 60 * 60;
+					duration += 30 * 24 * 60 * 60;
 					break;
 				case BAN_100_YEARS:
 				case BAN_AVATAR_ONLY_100_YEARS:
-					duration = (int)UnixTimestamp.Now;
+					duration = int.MaxValue;
 					break;
 			}
 
 			if (duration <= 0) return;
 
-			if (player.Session != null)
-				player.Session.Disconnect();
+			IPlayerSanction sanction = new PlayerSanction(
+				SanctionType.BAN, 
+				duration,
+				reason,
+				topicId);
 
-			await _moderationController.AddPlayerSanction(player.Id, reason, duration, topicId);
+			await _playerController.AddPlayerSanction(targetPlayer.Id, sanction);
+
+			if (targetPlayer.Session != null)
+			{
+				targetPlayer.Session.Disconnect();
+				targetPlayer.Sanction.AddSanction(sanction);
+			}
         }
     }
 }

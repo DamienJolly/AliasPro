@@ -34,6 +34,9 @@ namespace AliasPro.Players
         public async Task<IPlayerData> GetPlayerDataAsync(uint playerId) =>
            await _playerDao.GetPlayerDataAsync(playerId);
 
+        public async Task<IPlayerData> GetPlayerDataByUsernameAsync(string username) =>
+           await _playerDao.GetPlayerDataByUsernameAsync(username);
+
         public async Task<int> GetPlayerFriendsAsync(uint playerId) =>
             await _playerDao.GetPlayerFriendsAsync(playerId);
 
@@ -121,7 +124,13 @@ namespace AliasPro.Players
 		internal async Task<IDictionary<int, IPlayerAchievement>> GetPlayerAchievementsAsync(uint id) =>
 			await _playerDao.GetPlayerAchievementsAsync(id);
 
-		public async Task UpdatePlayerBadgesAsync(IPlayer player) =>
+        internal async Task<IList<IPlayerSanction>> GetPlayerSanctionsAsync(uint id) =>
+            await _playerDao.GetPlayerSanctionsAsync(id);
+
+        internal async Task AddPlayerSanction(uint playerId, IPlayerSanction sanction) =>
+            await _playerDao.AddPlayerSanction(playerId, sanction);
+
+        public async Task UpdatePlayerBadgesAsync(IPlayer player) =>
             await _playerDao.UpdatePlayerBadgesAsync(player);
 
 

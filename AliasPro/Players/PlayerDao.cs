@@ -72,6 +72,23 @@ namespace AliasPro.Players
             return data;
         }
 
+        internal async Task<PlayerData> GetPlayerDataByUsernameAsync(string username)
+        {
+            PlayerData data = null;
+            await CreateTransaction(async transaction =>
+            {
+                await Select(transaction, async reader =>
+                {
+                    if (await reader.ReadAsync())
+                    {
+                        data = new PlayerData(reader);
+                        data.Groups = await GetPlayerGroups((int)data.Id);
+                    }
+                }, "SELECT * FROM `players` WHERE `username` = @0 LIMIT 1;", username);
+            });
+            return data;
+        }
+
         internal async Task<int> GetPlayerFriendsAsync(uint playerId)
         {
             int friends = 0;
@@ -324,7 +341,33 @@ namespace AliasPro.Players
 			return achievements;
 		}
 
-		internal async Task UpdatePlayerBadgesAsync(IPlayer player)
+        internal async Task<IList<IPlayerSanction>> GetPlayerSanctionsAsync(uint id)
+        {
+            IList<IPlayerSanction> sanctions = new List<IPlayerSanction>();
+            await CreateTransaction(async transaction =>
+            {
+                await Select(transaction, async reader =>
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        sanctions.Add(new PlayerSanction(reader));
+                    }
+                }, "SELECT * FROM `player_sanctions` WHERE `player_id` = @0;", id);
+            });
+            System.Console.WriteLine(sanctions.Count);
+            return sanctions;
+        }
+
+        public async Task AddPlayerSanction(uint playerId, IPlayerSanction sanction)
+        {
+            await CreateTransaction(async transaction =>
+            {
+                await Insert(transaction, "INSERT INTO `player_sanctions` (`player_id`, `type`, `reason`, `timestamp`, `expires`, `topic_id`) VALUES (@0, @1, @2, @3, @4, @5);",
+                    playerId, sanction.Type.ToString(), sanction.Reason, sanction.StartTime, sanction.ExpireTime, sanction.TopicId);
+            });
+        }
+
+        internal async Task UpdatePlayerBadgesAsync(IPlayer player)
         {
             await CreateTransaction(async transaction =>
             {
