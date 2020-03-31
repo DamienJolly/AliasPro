@@ -108,17 +108,12 @@ namespace AliasPro.Players.Packets.Events
                 return;
             }
 
-            System.Console.WriteLine("here");
-
             if (player.Sanction.GetCurrentSanction(out IPlayerSanction sanction) && 
                 sanction.Type == SanctionType.BAN)
             {
-                System.Console.WriteLine("banned");
                 session.Disconnect();
                 return;
             }
-
-            System.Console.WriteLine("there");
 
             await session.SendPacketAsync(new SecureLoginOKComposer());
             await session.SendPacketAsync(new HomeRoomComposer(player.HomeRoom));

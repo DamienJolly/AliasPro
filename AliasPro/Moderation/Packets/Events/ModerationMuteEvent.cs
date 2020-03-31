@@ -6,6 +6,9 @@ using AliasPro.Communication.Messages;
 using AliasPro.Communication.Messages.Headers;
 using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Moderation.Packets.Composers;
+using AliasPro.Players.Models;
+using AliasPro.Players.Types;
+using AliasPro.Utilities;
 using System.Threading.Tasks;
 
 namespace AliasPro.Moderation.Packets.Events
@@ -34,16 +37,25 @@ namespace AliasPro.Moderation.Packets.Events
 
 			int playerId = message.ReadInt();
 			string msg = message.ReadString();
+			int topicId = message.ReadInt();
 
-			if (!_playerController.TryGetPlayer((uint)playerId, out IPlayer player))
+			IPlayer targetPlayer = await _playerController.GetPlayerAsync((uint)playerId);
+			if (targetPlayer == null)
 				return;
 
-            if (player.Session == null)
-                return;
+			IPlayerSanction sanction = new PlayerSanction(
+				SanctionType.MUTE,
+				(int)UnixTimestamp.Now + (60 * 60),
+				msg,
+				topicId);
 
-			//todo: player muting
+			await _playerController.AddPlayerSanction(targetPlayer.Id, sanction);
 
-			await player.Session.SendPacketAsync(new ModerationIssueHandledComposer(msg));
+			if (targetPlayer.Session != null)
+			{
+				targetPlayer.Sanction.AddSanction(sanction);
+				await targetPlayer.Session.SendPacketAsync(new ModerationIssueHandledComposer(msg));
+			}
         }
     }
 }

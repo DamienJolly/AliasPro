@@ -6,6 +6,9 @@ using AliasPro.Communication.Messages;
 using AliasPro.Communication.Messages.Headers;
 using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Moderation.Packets.Composers;
+using AliasPro.Players.Models;
+using AliasPro.Players.Types;
+using AliasPro.Utilities;
 using System.Threading.Tasks;
 
 namespace AliasPro.Moderation.Packets.Events
@@ -31,17 +34,28 @@ namespace AliasPro.Moderation.Packets.Events
         {
             if (!_permissionsController.HasPermission(session.Player, "acc_modtool_player_alert"))
                 return;
-            
+
             int playerId = message.ReadInt();
-			string msg = message.ReadString();
+            string msg = message.ReadString();
+            int topicId = message.ReadInt();
 
-			if (!_playerController.TryGetPlayer((uint)playerId, out IPlayer player))
-				return;
-
-            if (player.Session == null)
+            IPlayer targetPlayer = await _playerController.GetPlayerAsync((uint)playerId);
+            if (targetPlayer == null)
                 return;
 
-            await player.Session.SendPacketAsync(new ModerationIssueHandledComposer(msg));
+            IPlayerSanction sanction = new PlayerSanction(
+                SanctionType.ALERT,
+                (int)UnixTimestamp.Now,
+                msg,
+                topicId);
+
+            await _playerController.AddPlayerSanction(targetPlayer.Id, sanction);
+
+            if (targetPlayer.Session != null)
+            {
+                targetPlayer.Sanction.AddSanction(sanction);
+                await targetPlayer.Session.SendPacketAsync(new ModerationIssueHandledComposer(msg));
+            }
         }
     }
 }

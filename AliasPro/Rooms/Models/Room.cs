@@ -15,6 +15,9 @@ using System.Collections.Generic;
 using AliasPro.Rooms.Types;
 using AliasPro.Items.Interaction;
 using AliasPro.Communication.Messages;
+using AliasPro.API.Players.Models;
+using AliasPro.Players.Types;
+using AliasPro.Utilities;
 
 namespace AliasPro.Rooms.Models
 {
@@ -73,15 +76,27 @@ namespace AliasPro.Rooms.Models
                 text = text.Substring(0, 100);
             }
 
-            if (entity is PlayerEntity player && !Rights.HasRights(player.Player.Id))
+            if (entity is PlayerEntity player)
             {
-                if (Muted) return;
-
-                if (Mute.PlayerMuted((int)player.Player.Id))
+                if (!Rights.HasRights(player.Player.Id))
                 {
-                    await player.Session.SendPacketAsync(new MutedWhisperComposer(Mute.MutedTimeLeft((int)player.Player.Id)));
+                    if (Muted) return;
+
+                    if (Mute.PlayerMuted((int)player.Player.Id))
+                    {
+                        await player.Session.SendPacketAsync(new MutedWhisperComposer(Mute.MutedTimeLeft((int)player.Player.Id)));
+                        return;
+                    }
+                }
+                System.Console.WriteLine("here");
+                if (player.Player.Sanction.GetCurrentSanction(out IPlayerSanction sanction) &&
+                    sanction.Type == SanctionType.MUTE)
+                {
+                    System.Console.WriteLine("muted");
+                    await player.Session.SendPacketAsync(new MutedWhisperComposer(sanction.ExpireTime - (int)UnixTimestamp.Now));
                     return;
                 }
+                System.Console.WriteLine("there");
             }
 
             foreach (string word in WordFilter)
