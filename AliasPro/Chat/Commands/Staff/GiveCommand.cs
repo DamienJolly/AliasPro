@@ -35,7 +35,7 @@ namespace AliasPro.Chat.Commands
         {
             if (args.Length <= 0)
             {
-                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter a username of the target user you wish to give to.", 0, 0, RoomChatType.WHISPER));
+                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter a username of the target user you wish to give to.", 0, 1, RoomChatType.WHISPER));
                 return true;
             }
 
@@ -43,13 +43,13 @@ namespace AliasPro.Chat.Commands
 
             if (!_playerController.TryGetPlayer(username, out IPlayer targetPlayer))
             {
-                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Player cannot be found or is not online.", 0, 0, RoomChatType.WHISPER));
+                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Player cannot be found or is not online.", 0, 1, RoomChatType.WHISPER));
                 return true;
             }
 
             if (args.Length <= 1)
             {
-                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter a query or type \":give list\" for a list of availabe quries.", 0, 0, RoomChatType.WHISPER));
+                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter a query or type \":give list\" for a list of availabe quries.", 0, 1, RoomChatType.WHISPER));
                 return true;
             }
 
@@ -57,7 +57,7 @@ namespace AliasPro.Chat.Commands
 
             if (query == "list")
             {
-                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Harrass Damien to add a list here.", 0, 0, RoomChatType.WHISPER));
+                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Harrass Damien to add a list here.", 0, 1, RoomChatType.WHISPER));
                 return true;
             }
 
@@ -67,13 +67,13 @@ namespace AliasPro.Chat.Commands
             {
                 if (args.Length <= 2)
                 {
-                    await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter the points type you wish to give to the target user.", 0, 0, RoomChatType.WHISPER));
+                    await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter the points type you wish to give to the target user.", 0, 1, RoomChatType.WHISPER));
                     return true;
                 }
 
                 if (!int.TryParse(args[2], out points))
                 {
-                    await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "You have no entered a valid points type. Type must be an integer.", 0, 0, RoomChatType.WHISPER));
+                    await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "You have no entered a valid points type. Type must be an integer.", 0, 1, RoomChatType.WHISPER));
                     return true;
                 }
 
@@ -84,7 +84,7 @@ namespace AliasPro.Chat.Commands
 
             if (args.Length <= 2)
             {
-                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter value to give to the target user.", 0, 0, RoomChatType.WHISPER));
+                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter value to give to the target user.", 0, 1, RoomChatType.WHISPER));
                 return true;
             }
 
@@ -97,7 +97,7 @@ namespace AliasPro.Chat.Commands
                     {
                         if (!int.TryParse(value, out int amount))
                         {
-                            await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "You have no entered a valid credits amount. Amount must be an integer.", 0, 0, RoomChatType.WHISPER));
+                            await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "You have no entered a valid credits amount. Amount must be an integer.", 0, 1, RoomChatType.WHISPER));
                             return true;
                         }
 
@@ -121,7 +121,7 @@ namespace AliasPro.Chat.Commands
                     }
                 case "badge":
                     {
-                        await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Tell Damien to code this, thanks!.", 0, 0, RoomChatType.WHISPER));
+                        await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Tell Damien to code this, thanks!.", 0, 1, RoomChatType.WHISPER));
                         return true;
                     }
             }

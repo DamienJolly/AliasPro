@@ -27,7 +27,7 @@ namespace AliasPro.Chat.Commands
         {
             if (args.Length <= 0)
             {
-                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter the username of the user you wish to push.", 0, 0, RoomChatType.WHISPER));
+                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter the username of the user you wish to push.", 0, 1, RoomChatType.WHISPER));
                 return true;
             }
 
@@ -35,7 +35,7 @@ namespace AliasPro.Chat.Commands
 
             if (session.Player.Username == username)
             {
-                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "You cannot push yourself.", 0, 0, RoomChatType.WHISPER));
+                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "You cannot push yourself.", 0, 1, RoomChatType.WHISPER));
                 return true;
             }
 
@@ -48,7 +48,7 @@ namespace AliasPro.Chat.Commands
             if (!session.CurrentRoom.RoomGrid.TryGetTileInFront(session.Entity.Position.X, session.Entity.Position.Y, session.Entity.BodyRotation, out IRoomTile targetTile) || 
                 (targetTile.Position.X != playerEntity.Position.X || targetTile.Position.Y != playerEntity.Position.Y))
             {
-                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "User must be stood infront of you.", 0, 0, RoomChatType.WHISPER));
+                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "User must be stood infront of you.", 0, 1, RoomChatType.WHISPER));
                 return true;
             }
 
@@ -57,7 +57,7 @@ namespace AliasPro.Chat.Commands
                 !newTargetTile.IsValidTile(null, true) ||
                 newTargetTile.Position.X == session.CurrentRoom.RoomModel.DoorX && newTargetTile.Position.Y == session.CurrentRoom.RoomModel.DoorY)
             {
-                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "You cannot push a user here.", 0, 0, RoomChatType.WHISPER));
+                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "You cannot push a user here.", 0, 1, RoomChatType.WHISPER));
                 return true;
             }
 

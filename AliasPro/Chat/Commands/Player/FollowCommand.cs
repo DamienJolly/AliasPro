@@ -34,7 +34,7 @@ namespace AliasPro.Chat.Commands
         {
             if (args.Length <= 0)
             {
-                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter the username of the user you wish to follow.", 0, 0, RoomChatType.WHISPER));
+                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter the username of the user you wish to follow.", 0, 1, RoomChatType.WHISPER));
                 return true;
             }
 
@@ -42,25 +42,25 @@ namespace AliasPro.Chat.Commands
 
             if (session.Player.Username == username)
             {
-                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "You cannot follow yourself.", 0, 0, RoomChatType.WHISPER));
+                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "You cannot follow yourself.", 0, 1, RoomChatType.WHISPER));
                 return true;
             }
 
             if (!_playerController.TryGetPlayer(username, out IPlayer targetPlayer))
             {
-                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Player cannot be found or is not online.", 0, 0, RoomChatType.WHISPER));
+                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Player cannot be found or is not online.", 0, 1, RoomChatType.WHISPER));
                 return true;
             }
 
             if (targetPlayer.Session?.CurrentRoom == null)
             {
-                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Player cannot be followed.", 0, 0, RoomChatType.WHISPER));
+                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Player cannot be followed.", 0, 1, RoomChatType.WHISPER));
                 return true;
             }
 
             if (targetPlayer.Session.CurrentRoom == session.CurrentRoom)
             {
-                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Player is already in this room.", 0, 0, RoomChatType.WHISPER));
+                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Player is already in this room.", 0, 1, RoomChatType.WHISPER));
                 return true;
             }
 

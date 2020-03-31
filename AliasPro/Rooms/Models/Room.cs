@@ -88,15 +88,13 @@ namespace AliasPro.Rooms.Models
                         return;
                     }
                 }
-                System.Console.WriteLine("here");
+
                 if (player.Player.Sanction.GetCurrentSanction(out IPlayerSanction sanction) &&
                     sanction.Type == SanctionType.MUTE)
                 {
-                    System.Console.WriteLine("muted");
                     await player.Session.SendPacketAsync(new MutedWhisperComposer(sanction.ExpireTime - (int)UnixTimestamp.Now));
                     return;
                 }
-                System.Console.WriteLine("there");
             }
 
             foreach (string word in WordFilter)

@@ -35,7 +35,7 @@ namespace AliasPro.Chat.Commands
         {
             if (args.Length <= 0)
             {
-                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter a message to send.", 0, 0, RoomChatType.WHISPER));
+                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter a message to send.", 0, 1, RoomChatType.WHISPER));
                 return true;
             }
 

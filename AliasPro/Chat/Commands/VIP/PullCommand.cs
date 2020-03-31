@@ -27,7 +27,7 @@ namespace AliasPro.Chat.Commands
         {
             if (args.Length <= 0)
             {
-                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter the username of the user you wish to pull.", 0, 0, RoomChatType.WHISPER));
+                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter the username of the user you wish to pull.", 0, 1, RoomChatType.WHISPER));
                 return true;
             }
 
@@ -35,7 +35,7 @@ namespace AliasPro.Chat.Commands
 
             if (session.Player.Username == username)
             {
-                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "You cannot pull yourself.", 0, 0, RoomChatType.WHISPER));
+                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "You cannot pull yourself.", 0, 1, RoomChatType.WHISPER));
                 return true;
             }
 
@@ -50,7 +50,7 @@ namespace AliasPro.Chat.Commands
 
             if (distanceX < -2 || distanceX > 2 || distanceY < -2 || distanceY > 2)
             {
-                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "That user is too far away to be pulled.", 0, 0, RoomChatType.WHISPER));
+                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "That user is too far away to be pulled.", 0, 1, RoomChatType.WHISPER));
                 return true;
             }
 
@@ -58,7 +58,7 @@ namespace AliasPro.Chat.Commands
                 !targetTile.IsValidTile(null, true) ||
                 targetTile.Position.X == session.CurrentRoom.RoomModel.DoorX && targetTile.Position.Y == session.CurrentRoom.RoomModel.DoorY)
             {
-                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "You cannot pull a user here.", 0, 0, RoomChatType.WHISPER));
+                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "You cannot pull a user here.", 0, 1, RoomChatType.WHISPER));
                 return true;
             }
 

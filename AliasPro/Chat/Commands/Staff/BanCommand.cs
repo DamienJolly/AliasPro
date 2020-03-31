@@ -42,7 +42,7 @@ namespace AliasPro.Chat.Commands
         {
             if (args.Length <= 0)
             {
-                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter a username of the target user you wish to give to.", 0, 0, RoomChatType.WHISPER));
+                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter a username of the target user you wish to give to.", 0, 1, RoomChatType.WHISPER));
                 return true;
             }
 
@@ -50,19 +50,19 @@ namespace AliasPro.Chat.Commands
             IPlayer targetPlayer = await _playerController.GetPlayerByUsernameAsync(username);
             if (targetPlayer == null)
             {
-                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Player cannot be found or is not online.", 0, 0, RoomChatType.WHISPER));
+                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Player cannot be found or is not online.", 0, 1, RoomChatType.WHISPER));
                 return true;
             }
 
             if (targetPlayer.Rank >= session.Player.Rank)
             {
-                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "You cannot ban this user sorry!.", 0, 0, RoomChatType.WHISPER));
+                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "You cannot ban this user sorry!.", 0, 1, RoomChatType.WHISPER));
                 return true;
             }
 
             if (args.Length <= 1)
             {
-                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter a type of ban you wish to issue.", 0, 0, RoomChatType.WHISPER));
+                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter a type of ban you wish to issue.", 0, 1, RoomChatType.WHISPER));
                 return true;
             }
 
@@ -85,11 +85,12 @@ namespace AliasPro.Chat.Commands
                 case "ip":
                 case "ipaddress":
                     {
+                        //todo:
                         duration = 78892200;
 
                         if (args.Length <= 2)
                         {
-                            await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter a reason for your ban.", 0, 0, RoomChatType.WHISPER));
+                            await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter a reason for your ban.", 0, 1, RoomChatType.WHISPER));
                             return true;
                         }
 
@@ -106,11 +107,12 @@ namespace AliasPro.Chat.Commands
                 case "mac":
                 case "machine":
                     {
+                        //todo:
                         duration = 78892200;
 
                         if (args.Length <= 2)
                         {
-                            await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter a reason for your ban.", 0, 0, RoomChatType.WHISPER));
+                            await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter a reason for your ban.", 0, 1, RoomChatType.WHISPER));
                             return true;
                         }
 
@@ -128,13 +130,13 @@ namespace AliasPro.Chat.Commands
                     {
                         if (!int.TryParse(query, out duration))
                         {
-                            await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter a valid duration for the ban.", 0, 0, RoomChatType.WHISPER));
+                            await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter a valid duration for the ban.", 0, 1, RoomChatType.WHISPER));
                             return true;
                         }
 
                         if (args.Length <= 2)
                         {
-                            await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter a reason for your ban.", 0, 0, RoomChatType.WHISPER));
+                            await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter a reason for your ban.", 0, 1, RoomChatType.WHISPER));
                             return true;
                         }
 
@@ -152,7 +154,7 @@ namespace AliasPro.Chat.Commands
 
             if (duration <= 0)
             {
-                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter a valid duration for the ban.", 0, 0, RoomChatType.WHISPER));
+                await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "Please enter a valid duration for the ban.", 0, 1, RoomChatType.WHISPER));
                 return true;
             }
 
