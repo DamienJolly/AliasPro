@@ -1,6 +1,6 @@
 ﻿using AliasPro.API.Items.Models;
-using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Tasks;
+using AliasPro.Items.Interaction;
 using AliasPro.Items.Packets.Composers;
 
 namespace AliasPro.Items.Tasks
@@ -8,18 +8,19 @@ namespace AliasPro.Items.Tasks
 	public class TeleportTaskThree : ITask
 	{
 		private readonly IItem _item;
-		private readonly BaseEntity _entity;
 
-		public TeleportTaskThree(IItem item, BaseEntity entity)
+		public TeleportTaskThree(IItem item)
 		{
 			_item = item;
-			_entity = entity;
 		}
 
 		public async void Run()
 		{
-			_item.ExtraData = "0";
-			await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
+			if (_item.Interaction is InteractionTeleport teleportInteraction)
+			{
+				teleportInteraction.Mode = 0;
+				await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
+			}
 		}
 	}
 }

@@ -1,25 +1,43 @@
 ﻿using AliasPro.API.Items.Models;
-using AliasPro.API.Rooms.Entities;
+using AliasPro.API.Rooms;
+using AliasPro.API.Rooms.Models;
 using AliasPro.API.Tasks;
-using AliasPro.Items.Packets.Composers;
+using AliasPro.Rooms.Entities;
+using AliasPro.Tasks;
 
 namespace AliasPro.Items.Tasks
 {
 	public class TeleportTaskSix : ITask
 	{
-		private readonly IItem _item;
-		private readonly BaseEntity _entity;
+		private readonly int _roomId;
+		private readonly int _playerId;
+		private readonly int _itemId;
 
-		public TeleportTaskSix(IItem item, BaseEntity entity)
+		public TeleportTaskSix(int roomId, int playerId, int itemId)
 		{
-			_item = item;
-			_entity = entity;
+			_roomId = roomId;
+			_playerId = playerId;
+			_itemId = itemId;
 		}
 
 		public async void Run()
 		{
-			_item.ExtraData = "0";
-			await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
+			if (!Program.GetService<IRoomController>().TryGetRoom((uint)_roomId, out IRoom room))
+				return;
+
+			if (!room.Loaded)
+			{
+				await TaskManager.ExecuteTask(new TeleportTaskSix(_roomId, _playerId, _itemId), 1000);
+				return;
+			}
+
+			if (!room.Items.TryGetItem((uint)_itemId, out IItem item))
+				return;
+
+			if (!room.Entities.TryGetPlayerEntityById(_playerId, out PlayerEntity entity))
+				return;
+
+			await TaskManager.ExecuteTask(new TeleportTaskFour(item, entity), 0);
 		}
 	}
 }

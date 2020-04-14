@@ -5,6 +5,7 @@ using AliasPro.API.Rooms.Models;
 using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Packets.Composers;
 using AliasPro.Items.Tasks;
+using AliasPro.Rooms.Entities;
 using AliasPro.Tasks;
 
 namespace AliasPro.Items.Interaction
@@ -12,10 +13,12 @@ namespace AliasPro.Items.Interaction
     public class InteractionTeleport : IItemInteractor
     {
         private readonly IItem _item;
+		public int Mode;
 
 		public InteractionTeleport(IItem item)
         {
             _item = item;
+			Mode = 0;
         }
 
 		public void Compose(ServerMessage message, bool tradeItem)
@@ -23,7 +26,7 @@ namespace AliasPro.Items.Interaction
 			if (!tradeItem)
 				message.WriteInt(1);
 			message.WriteInt(0);
-            message.WriteString(_item.ExtraData);
+            message.WriteString(Mode.ToString());
         }
 
 		public void OnPlaceItem()
@@ -33,12 +36,12 @@ namespace AliasPro.Items.Interaction
 
 		public void OnPickupItem()
 		{
-			_item.ExtraData = "0";
+			Mode = 0;
 		}
 
 		public void OnMoveItem()
 		{
-			_item.ExtraData = "0";
+			Mode = 0;
 		}
 
 		public void OnUserWalkOn(BaseEntity entity)
@@ -55,23 +58,25 @@ namespace AliasPro.Items.Interaction
         {
 			if (entity == null) return;
 
+			if (!(entity is PlayerEntity playerEntity)) return;
+
 			if (_item.ItemData.CanWalk) return;
 
 			if (!_item.CurrentRoom.RoomGrid.TryGetRoomTile(_item.Position.X, _item.Position.Y, out IRoomTile tile))
 				return;
 
 			IRoomPosition position = tile.PositionInFront(_item.Rotation);
-			if (!(position.X == entity.Position.X && position.Y == entity.Position.Y))
+			if (!(position.X == playerEntity.Position.X && position.Y == playerEntity.Position.Y))
 			{
-				entity.GoalPosition = position;
+				playerEntity.GoalPosition = position;
 				return;
 			}
 
 			_item.ItemData.CanWalk = true;
-			_item.ExtraData = "1";
-			entity.GoalPosition = _item.Position;
+			Mode = 1;
+			playerEntity.GoalPosition = _item.Position;
 			await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
-			await TaskManager.ExecuteTask(new TeleportTaskOne(_item, entity), 1500);
+			await TaskManager.ExecuteTask(new TeleportTaskOne(_item, playerEntity), 1500);
 		}
 
         public void OnCycle()

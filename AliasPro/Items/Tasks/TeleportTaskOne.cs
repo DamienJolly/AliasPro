@@ -1,7 +1,9 @@
 ﻿using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Tasks;
+using AliasPro.Items.Interaction;
 using AliasPro.Items.Packets.Composers;
+using AliasPro.Rooms.Entities;
 using AliasPro.Tasks;
 
 namespace AliasPro.Items.Tasks
@@ -9,9 +11,9 @@ namespace AliasPro.Items.Tasks
 	public class TeleportTaskOne : ITask
 	{
 		private readonly IItem _item;
-		private readonly BaseEntity _entity;
+		private readonly PlayerEntity _entity;
 
-		public TeleportTaskOne(IItem item, BaseEntity entity)
+		public TeleportTaskOne(IItem item, PlayerEntity entity)
 		{
 			_item = item;
 			_entity = entity;
@@ -19,19 +21,22 @@ namespace AliasPro.Items.Tasks
 
 		public async void Run()
 		{
-			if (_item.Position.X != _entity.Position.X || _item.Position.Y != _entity.Position.Y)
+			if (_item.Interaction is InteractionTeleport teleportInteraction)
 			{
+				if (_item.Position.X != _entity.Position.X || _item.Position.Y != _entity.Position.Y)
+				{
+					_item.ItemData.CanWalk = false;
+					teleportInteraction.Mode = 0;
+					await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
+					return;
+				}
+
 				_item.ItemData.CanWalk = false;
-				_item.ExtraData = "0";
+				teleportInteraction.Mode = 0;
+
 				await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
-				return;
+				await TaskManager.ExecuteTask(new TeleportTaskTwo(_item, _entity), 1500);
 			}
-
-			_item.ItemData.CanWalk = false;
-			_item.ExtraData = "0";
-
-			await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
-			await TaskManager.ExecuteTask(new TeleportTaskTwo(_item, _entity), 1500);
 		}
 	}
 }
