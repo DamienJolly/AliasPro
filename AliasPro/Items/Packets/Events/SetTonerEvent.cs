@@ -35,7 +35,7 @@ namespace AliasPro.Items.Packets.Events
                     int saturation = interaction.Saturation = message.ReadInt() % 256;
                     int brightness = interaction.Brightness = message.ReadInt() % 256;
 
-                    item.ExtraData = hue + ":" + saturation + ":" + brightness;
+                    item.ExtraData = interaction.Active ? "1" : "0" + ":" + hue + ":" + saturation + ":" + brightness;
                     await room.SendPacketAsync(new FloorItemUpdateComposer(item));
                 }
             }

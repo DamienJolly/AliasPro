@@ -16,10 +16,10 @@ namespace AliasPro.Items
 			_itemDao = itemDao;
 			_itemDatas = new Dictionary<uint, IItemData>();
 
-			InitializeItem();
+			InitializeItems();
 		}
 
-		private async void InitializeItem()
+		public async void InitializeItems()
 		{
 			_itemDatas = await _itemDao.GetItemData();
 		}

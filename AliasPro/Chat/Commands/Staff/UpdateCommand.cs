@@ -1,5 +1,6 @@
 ﻿using AliasPro.API.Catalog;
 using AliasPro.API.Chat.Commands;
+using AliasPro.API.Items;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Catalog.Packets.Composers;
 using System.Threading.Tasks;
@@ -20,10 +21,14 @@ namespace AliasPro.Chat.Commands
         public string Description => "Updates shit.";
 
         private readonly ICatalogController _catalogController;
+        private readonly IItemController _itemController;
 
-        public UpdateCommand(ICatalogController catalogController)
+        public UpdateCommand(
+            ICatalogController catalogController,
+            IItemController itemController)
         {
             _catalogController = catalogController;
+            _itemController = itemController;
         }
 
         public async Task<bool> Handle(ISession session, string[] args)
@@ -40,11 +45,17 @@ namespace AliasPro.Chat.Commands
                     {
                         _catalogController.InitializeCatalog();
                         await session.SendPacketAsync(new CatalogUpdatedComposer());
-                        break;
+                        return true;
+                    }
+                case "item":
+                case "items":
+                    {
+                        _itemController.InitializeItems();
+                        return true;
                     }
             }
 
-            return true;
+            return false;
         }
     }
 }

@@ -10,6 +10,7 @@ namespace AliasPro.Items.Interaction
     public class InteractionBackgroundToner : IItemInteractor
     {
         private readonly IItem _item;
+		public bool Active = false;
 		public int Hue = 126;
 		public int Saturation = 126;
 		public int Brightness = 126;
@@ -19,8 +20,9 @@ namespace AliasPro.Items.Interaction
             _item = item;
 
 			string[] data = _item.ExtraData.Split(":");
-			if (data.Length == 3)
+			if (data.Length == 4)
 			{
+				Active = bool.Parse(data[0]);
 				Hue = int.Parse(data[0]);
 				Saturation = int.Parse(data[1]);
 				Brightness = int.Parse(data[2]);
@@ -33,7 +35,7 @@ namespace AliasPro.Items.Interaction
 				message.WriteInt(0);
 			message.WriteInt(5);
 			message.WriteInt(4);
-            message.WriteInt(0);
+            message.WriteInt(Active ? 1 : 0);
             message.WriteInt(Hue);
             message.WriteInt(Saturation);
             message.WriteInt(Brightness);
@@ -64,10 +66,12 @@ namespace AliasPro.Items.Interaction
 
         }
         
-        public void OnUserInteract(BaseEntity entity, int state)
+        public async void OnUserInteract(BaseEntity entity, int state)
         {
-
-        }
+			Active = !Active;
+			_item.ExtraData = Active ? "1" : "0" + ":" + Hue + ":" + Saturation + ":" + Brightness;
+			await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
+		}
 
         public void OnCycle()
         {

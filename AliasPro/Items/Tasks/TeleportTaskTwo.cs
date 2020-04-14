@@ -4,6 +4,7 @@ using AliasPro.API.Rooms.Models;
 using AliasPro.API.Tasks;
 using AliasPro.Items.Interaction;
 using AliasPro.Items.Packets.Composers;
+using AliasPro.Items.Types;
 using AliasPro.Rooms.Entities;
 using AliasPro.Rooms.Packets.Composers;
 using AliasPro.Tasks;
@@ -27,20 +28,24 @@ namespace AliasPro.Items.Tasks
 			{
 				if (_item.Position.X != _entity.Position.X || _item.Position.Y != _entity.Position.Y) return;
 
-				bool inRoom = true;
-				if (_item.CurrentRoom.Items.TryGetItem(uint.Parse(_item.ExtraData), out IItem otherItem))
+				if (!uint.TryParse(_item.ExtraData, out uint linkId)) return;
+
+				if (_item.CurrentRoom.Items.TryGetItem(linkId, out IItem otherItem))
 				{
-					teleportInteraction.Mode = 2;
-					await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
-					await TaskManager.ExecuteTask(new TeleportTaskFour(otherItem, _entity), 1000);
-					await TaskManager.ExecuteTask(new TeleportTaskThree(_item), 1000);
+					if (otherItem.ItemData.InteractionType == ItemInteractionType.TELEPORT)
+					{
+						teleportInteraction.Mode = 2;
+						await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
+						await TaskManager.ExecuteTask(new TeleportTaskFour(otherItem, _entity), 1000);
+						await TaskManager.ExecuteTask(new TeleportTaskThree(_item), 1000);
+					}
 				}
 				else
 				{
 					otherItem =
-						await Program.GetService<IItemController>().GetPlayerItemByIdAsync(uint.Parse(_item.ExtraData));
+						await Program.GetService<IItemController>().GetPlayerItemByIdAsync(linkId);
 
-					if (otherItem != null && otherItem.RoomId != 0)
+					if (otherItem != null && otherItem.RoomId != 0 && otherItem.ItemData.InteractionType == ItemInteractionType.TELEPORT)
 					{
 						await _entity.Session.SendPacketAsync(new ForwardToRoomComposer(otherItem.RoomId));
 						teleportInteraction.Mode = 2;
