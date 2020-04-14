@@ -51,10 +51,7 @@ namespace AliasPro.Players.Cycles
                                 if (setting.Maximum != 0 && currency.Amount > setting.Maximum)
                                     currency.Amount = setting.Maximum;
 
-                                System.Console.WriteLine(setting.Id + ": success; amount: " + currency.Amount);
                                 currency.Cycles++;
-
-                                System.Console.WriteLine("uhm");
                                 if (setting.Id == -1)
                                 {
                                     await _player.Session.SendPacketAsync(new UserCreditsComposer(currency.Amount));

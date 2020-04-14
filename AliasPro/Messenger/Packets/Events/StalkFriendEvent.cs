@@ -42,7 +42,7 @@ namespace AliasPro.Messenger.Packets.Events
                 return;
             }
 
-            if (!friend.InRoom)
+            if (!friend.InRoom || targetPlayer.Session.CurrentRoom == null)
             {
                 await session.SendPacketAsync(new StalkErrorComposer(StalkErrorComposer.FRIEND_NOT_IN_ROOM));
                 return;
