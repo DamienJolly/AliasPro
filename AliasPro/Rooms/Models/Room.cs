@@ -18,6 +18,7 @@ using AliasPro.Communication.Messages;
 using AliasPro.API.Players.Models;
 using AliasPro.Players.Types;
 using AliasPro.Utilities;
+using System.Linq;
 
 namespace AliasPro.Rooms.Models
 {
@@ -189,7 +190,7 @@ namespace AliasPro.Rooms.Models
 		public async Task UpdateRoomGroup(IGroup group)
 		{
 			Group = group;
-			foreach (BaseEntity entity in Entities.Entities)
+			foreach (BaseEntity entity in Entities.Entities.ToList())
 			{
 				if (entity is PlayerEntity playerEntity)
 				{
@@ -201,7 +202,7 @@ namespace AliasPro.Rooms.Models
 
 		public async Task SendPacketAsync(IMessageComposer packet)
         {
-            foreach (BaseEntity entity in Entities.Entities)
+            foreach (BaseEntity entity in Entities.Entities.ToList())
             {
                 if (entity is PlayerEntity playerEntity)
                 {

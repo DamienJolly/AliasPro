@@ -276,7 +276,7 @@ namespace AliasPro.Catalog.Packets.Events
 				if (item.ItemData.InteractionType == ItemInteractionType.TELEPORT & teleport == null)
 				{
 					teleport = item;
-					return;
+					continue;
 				}
 
 				if (teleport != null)
