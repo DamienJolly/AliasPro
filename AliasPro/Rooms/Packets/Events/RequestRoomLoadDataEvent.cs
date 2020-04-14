@@ -25,8 +25,6 @@ namespace AliasPro.Rooms.Packets.Events
             ISession session,
             ClientMessage message)
         {
-            System.Console.WriteLine("hi");
-
             IRoom room = session.CurrentRoom;
             if (room == null) 
                 return;

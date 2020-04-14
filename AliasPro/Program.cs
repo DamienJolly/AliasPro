@@ -62,7 +62,6 @@ namespace AliasPro
             IList<IService> services = new List<IService>
 			{
 				new ServerService(),
-				//new NetworkService(),
 				new ModerationService(),
 				new MessengerService(),
 				new PlayerService(),
@@ -94,7 +93,6 @@ namespace AliasPro
                 service.Register(serviceCollection);
             }
             
-            //serviceCollection.AddSingleton<IEventProvider, EventProvider>();
             serviceCollection.AddSingleton<MessageHandler>();
             serviceCollection.AddSingleton<GameNetworkListener>();
 
@@ -106,11 +104,11 @@ namespace AliasPro
 
         private async Task Run()
         {
+            AppDomain currentDomain = AppDomain.CurrentDomain;
+            currentDomain.UnhandledException += MyHandler;
+
             GameNetworkListener listener = GetService<GameNetworkListener>();
             await listener.StartAsync(30000);
-
-            //INetworkListener listener = GetService<INetworkListener>();
-            //await listener.Listen(30000);
 
             IServerController server = GetService<IServerController>();
             await server.CleanupDatabase();
@@ -148,7 +146,15 @@ namespace AliasPro
                 }
             }
         }
-        
+
+        private static void MyHandler(object sender, UnhandledExceptionEventArgs args)
+        {
+            var e = (Exception)args.ExceptionObject;
+            Console.WriteLine("crash");
+            //Logger.LogCriticalException("SYSTEM CRITICAL EXCEPTION: " + e);
+            //shutdown
+        }
+
         static Task Main() => new Program().Run();
     }
 }

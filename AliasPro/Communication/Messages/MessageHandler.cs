@@ -1,6 +1,7 @@
 ﻿using AliasPro.API.Sessions.Models;
 using AliasPro.Communication.Messages.Protocols;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,13 +26,20 @@ namespace AliasPro.Communication.Messages
 
         public async Task TryHandleAsync(ISession session, ClientMessage message)
         {
-            if (messageEvents.TryGetValue(message.Id, out IMessageEvent messageEvent))
+            try
             {
-                await messageEvent.RunAsync(session, message);
+                if (messageEvents.TryGetValue(message.Id, out IMessageEvent messageEvent))
+                {
+                    await messageEvent.RunAsync(session, message);
+                }
+                else
+                {
+                    logger.LogDebug("Unregistered header {0}", message.Id);
+                }
             }
-            else
+            catch (Exception e)
             {
-                logger.LogWarning("Unregistered header {0}", message.Id);
+                logger.LogError("Packet Error! \n" + e);
             }
         }
     }

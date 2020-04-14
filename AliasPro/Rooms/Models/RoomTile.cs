@@ -146,9 +146,9 @@ namespace AliasPro.Rooms.Models
 					break;
 				}
 
-				if (tileItem.ItemData.InteractionType == ItemInteractionType.ROLLER &&
+				/*if (tileItem.ItemData.InteractionType == ItemInteractionType.ROLLER &&
                     item.ItemData.InteractionType == ItemInteractionType.ROLLER)
-                    return false;
+                    return false;*/
 
                 if (topItem == null ||
                     (tileItem.Position.Z + tileItem.ItemData.Height) >
@@ -159,7 +159,7 @@ namespace AliasPro.Rooms.Models
             }
 
             if (topItem == item) return true;
-            
+
             if (_entities.Count > 0) return false;
 
             if (topItem != null)

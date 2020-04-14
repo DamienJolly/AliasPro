@@ -354,7 +354,6 @@ namespace AliasPro.Players
                     }
                 }, "SELECT * FROM `player_sanctions` WHERE `player_id` = @0;", id);
             });
-            System.Console.WriteLine(sanctions.Count);
             return sanctions;
         }
 
