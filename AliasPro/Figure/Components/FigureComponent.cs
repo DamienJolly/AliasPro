@@ -19,13 +19,14 @@ namespace AliasPro.Figure.Components
             {
                 string[] parts = set.Split('-');
 
-                if (parts.Length < 3 || parts.Length > 4) return false;
+                if (parts.Length < 2 || parts.Length > 4) return false;
 
-                if (!CheckPart(parts[0]) ||
-                    !CheckType(parts[1]) ||
-                    !CheckColourOne(parts[2])) return false;
+                if (!CheckPart(parts[0]) || !CheckType(parts[1]))
+                    return false;
 
-                if (parts.Length == 4 && !CheckColourTwo(parts[3])) return false;
+                if (parts.Length >= 3 && !CheckColourTwo(parts[2])) return false;
+
+                if (parts.Length >= 4 && !CheckColourTwo(parts[3])) return false;
 
                 if (!usedParts.Contains(parts[0]))
                     usedParts.Add(parts[0]);
@@ -67,7 +68,7 @@ namespace AliasPro.Figure.Components
         {
             if (int.TryParse(i, out int type))
             {
-                if (type < 1)
+                if (type < 0)
                 {
                     return false;
                 }
@@ -83,7 +84,7 @@ namespace AliasPro.Figure.Components
         {
             if (int.TryParse(i, out int colour))
             {
-                if (colour < 1)
+                if (colour < 0)
                 {
                     return false;
                 }
@@ -99,7 +100,7 @@ namespace AliasPro.Figure.Components
         {
             if (int.TryParse(i, out int colour))
             {
-                if (colour < 1)
+                if (colour < 0)
                 {
                     return false;
                 }

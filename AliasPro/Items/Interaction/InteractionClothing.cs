@@ -18,8 +18,9 @@ namespace AliasPro.Items.Interaction
 		{
 			if (!tradeItem)
 				message.WriteInt(0);
-			message.WriteInt(0);
-			message.WriteString("0");
+			message.WriteInt(2);
+			message.WriteInt(1);
+			message.WriteString("");
 		}
 
 		public void OnPlaceItem()
