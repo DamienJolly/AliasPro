@@ -54,15 +54,8 @@ namespace AliasPro.Crafting.Packets.Events
 
             IDictionary<ICraftingRecipe, bool> recipes = altar.MatchRecipes(playerItems);
             bool found = false;
-            int c = recipes.Count;
             foreach (var r in recipes)
             {
-                if (session.Player.Recipe.TryGetRecipe(r.Key.Id))
-                {
-                    c--;
-                    continue;
-                }
-
                 if (r.Value)
                 {
                     found = true;
@@ -70,7 +63,7 @@ namespace AliasPro.Crafting.Packets.Events
                 }
             }
 
-            await session.SendPacketAsync(new CraftingRecipesAvailableComposer(c, found));
+            await session.SendPacketAsync(new CraftingRecipesAvailableComposer(recipes.Count, found));
 		}
 	}
 }

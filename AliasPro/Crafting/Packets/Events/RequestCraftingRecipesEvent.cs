@@ -38,7 +38,7 @@ namespace AliasPro.Crafting.Packets.Events
 			if (!_craftingController.TryGetAltar((int)item.ItemData.Id, out ICraftingAltar altar))
 				return;
 
-			await session.SendPacketAsync(new CraftableProductsComposer(altar.GetRecipesForPlayer(session.Player), altar.Ingredients));
+			await session.SendPacketAsync(new CraftableProductsComposer(altar.GetRecipesForPlayer(session.Player), altar.Ingredients.Values));
 		}
 	}
 }

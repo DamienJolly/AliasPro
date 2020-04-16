@@ -47,10 +47,9 @@ namespace AliasPro.Crafting
 							recipe.TryAddIngredient(ingredient);
 						}
 					}
-				}, "SELECT * FROM crafting_altars " +
-					"INNER JOIN crafting_recipes ON crafting_altars.recipe_id = crafting_recipes.id " +
+				}, "SELECT * FROM crafting_recipes " +
 					"INNER JOIN crafting_recipes_ingredients ON crafting_recipes.id = crafting_recipes_ingredients.recipe_id " +
-					"WHERE crafting_recipes.enabled = '1' ORDER BY altar_id ASC;");
+					"WHERE crafting_recipes.enabled = '1';");
 			});
 			return altars;
 		}

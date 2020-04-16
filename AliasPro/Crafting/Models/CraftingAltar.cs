@@ -75,7 +75,7 @@ namespace AliasPro.Crafting.Models
 
 			foreach (ICraftingRecipe recipe in Recipes.Values)
 			{
-				if (!recipe.Secret || !recipe.CanBeCrafted)
+				if (!recipe.CanBeCrafted)
 					continue;
 
 				bool contains = true;
@@ -108,16 +108,17 @@ namespace AliasPro.Crafting.Models
 		}
 
 
-		public ICollection<ICraftingIngredient> Ingredients
+		public IDictionary<int, ICraftingIngredient> Ingredients
 		{
 			get
 			{
-				IList<ICraftingIngredient> ingrdientList = new List<ICraftingIngredient>();
+				IDictionary<int, ICraftingIngredient> ingrdientList = new Dictionary<int, ICraftingIngredient>();
 				foreach (CraftingRecipe recipe in Recipes.Values)
 				{
 					foreach (ICraftingIngredient ingrdient in recipe.Ingredients.Values)
 					{
-						ingrdientList.Add(ingrdient);
+						if (!ingrdientList.ContainsKey(ingrdient.Id))
+							ingrdientList.Add(ingrdient.Id, ingrdient);
 					}
 				}
 

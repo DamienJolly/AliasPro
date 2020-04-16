@@ -81,12 +81,6 @@ namespace AliasPro.Crafting.Packets.Events
                 return;
             }
 
-            if (session.Player.Recipe.TryGetRecipe(recipe.Id))
-            {
-                ReturnItems(session, recipe, toRemove);
-                return;
-            }
-
             if (!recipe.CanBeCrafted)
             {
                 await session.SendPacketAsync(new AlertLimitedSoldOutComposer());
@@ -126,8 +120,11 @@ namespace AliasPro.Crafting.Packets.Events
                 //todo: some achievement
             }
 
-            session.Player.Recipe.TryAdd(recipe.Id);
-            await _playerController.AddPlayerRecipeAsync((int)session.Player.Id, recipe.Id);
+            if (!session.Player.Recipe.TryGetRecipe(recipe.Id))
+            {
+                session.Player.Recipe.TryAdd(recipe.Id);
+                await _playerController.AddPlayerRecipeAsync((int)session.Player.Id, recipe.Id);
+            }
         }
 
         public async void ReturnItems(ISession session, ICraftingRecipe recipe, IList<IItem> items)

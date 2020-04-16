@@ -5,7 +5,7 @@ namespace AliasPro.API.Crafting.Models
 {
 	public interface ICraftingAltar
 	{
-		ICollection<ICraftingIngredient> Ingredients { get; }
+		IDictionary<int, ICraftingIngredient> Ingredients { get; }
 
 		bool TryGetRecipe(int recipeId, out ICraftingRecipe recipe);
 		bool TryGetRecipe(string recipeName, out ICraftingRecipe recipe);
