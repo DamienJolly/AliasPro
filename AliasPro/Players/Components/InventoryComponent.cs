@@ -50,6 +50,20 @@ namespace AliasPro.Players.Components
 		public bool TryGetItem(uint itemId, out IItem item) =>
             _items.TryGetValue(itemId, out item);
 
+		public bool TryGetItemByBase(uint baseId, out IItem item)
+		{
+			item = null;
+			foreach (IItem i in _items.Values)
+			{
+				if (i.ItemData.Id == baseId)
+				{
+					item = i;
+					return true;
+				}
+			}
+			return false;
+		}
+
 		public bool TryGetBot(int botId, out IPlayerBot bot) =>
 			_bots.TryGetValue(botId, out bot);
 

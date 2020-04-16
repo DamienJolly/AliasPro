@@ -21,7 +21,7 @@ namespace AliasPro.Communication.Messages
 
             this.messageEvents = messageEvents.ToDictionary(messageEvent => messageEvent.Header);
 
-            logger.LogDebug("Loaded {0} message events", this.messageEvents.Count);
+            logger.LogInformation("Loaded {0} message events", this.messageEvents.Count);
         }
 
         public async Task TryHandleAsync(ISession session, ClientMessage message)
@@ -34,7 +34,7 @@ namespace AliasPro.Communication.Messages
                 }
                 else
                 {
-                    logger.LogDebug("Unregistered header {0}", message.Id);
+                    logger.LogError("Unregistered header {0}", message.Id);
                 }
             }
             catch (Exception e)

@@ -84,6 +84,9 @@ namespace AliasPro.Players.Packets.Events
             player.Ignore = new IgnoreComponent(
                 await _playerController.GetPlayerIgnoresAsync(player.Id));
 
+            player.Recipe = new RecipeComponent(
+                await _playerController.GetPlayerRecipesAsync(player.Id));
+
             player.Inventory = new InventoryComponent(
                 await _itemController.GetItemsForPlayerAsync(player.Id),
 				await _playerController.GetPlayerBotsAsync(player.Id),

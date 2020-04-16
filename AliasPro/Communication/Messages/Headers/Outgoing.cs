@@ -216,6 +216,12 @@
         internal const int PetBreedsMessageComposer = 1260;
         internal const int PetNameErrorMessageComposer = 470;
 
+        // Crafting
+        internal const int CraftableProductsMessageComposer = 1636;
+        internal const int CraftingRecipeMessageComposer = 3536;
+        internal const int CraftingRecipesAvailableMessageComposer = 13;
+        internal const int CraftingResultMessageComposer = 2115;
+
         // Misc
         internal const int BubbleAlertMessageComposer = 1469;
         internal const int StaffAlertWithLinkMessageComposer = 2488;

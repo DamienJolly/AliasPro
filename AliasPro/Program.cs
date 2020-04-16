@@ -8,6 +8,7 @@ using AliasPro.Catalog;
 using AliasPro.Chat;
 using AliasPro.Communication.Messages;
 using AliasPro.Configuration;
+using AliasPro.Crafting;
 using AliasPro.Figure;
 using AliasPro.Groups;
 using AliasPro.Items;
@@ -79,7 +80,8 @@ namespace AliasPro
 				new BadgeService(),
 				new GroupService(),
 				new TradingService(),
-				new PetService()
+				new PetService(),
+				new CraftingService()
 			};
 
             IServiceCollection serviceCollection = new ServiceCollection();

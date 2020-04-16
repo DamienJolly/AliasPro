@@ -43,5 +43,8 @@ namespace AliasPro.API.Players
 		Task AddPlayerIgnoreAsync(int playerId, int targetId);
 		Task RemovePlayerIgnoreAsync(int playerId, int targetId);
 		Task RemoveFavoriteGroup(int playerId, int groupId);
-	}
+
+        Task<IList<int>> GetPlayerRecipesAsync(uint playerId);
+        Task AddPlayerRecipeAsync(int playerId, int recipeId);
+    }
 }

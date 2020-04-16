@@ -236,6 +236,33 @@ namespace AliasPro.Players
             });
         }
 
+        internal async Task<IList<int>> GetPlayerRecipesAsync(uint playerId)
+        {
+            IList<int> recipes = new List<int>();
+            await CreateTransaction(async transaction =>
+            {
+                await Select(transaction, async reader =>
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        int recipeId = (int)reader.ReadData<int>("recipe_id");
+                        if (!recipes.Contains(recipeId))
+                            recipes.Add(recipeId);
+                    }
+                }, "SELECT `recipe_id` FROM `player_recipes` WHERE `player_id` = @0;", playerId);
+            });
+            return recipes;
+        }
+
+        internal async Task AddPlayerRecipeAsync(int playerId, int recipeId)
+        {
+            await CreateTransaction(async transaction =>
+            {
+                await Insert(transaction, "INSERT INTO `player_recipes` (`player_id`, `recipe_id`) VALUES (@0, @1);",
+                    playerId, recipeId);
+            });
+        }
+
         internal async Task AddPlayerCurrencyAsync(int playerId, IPlayerCurrency currency)
         {
             await CreateTransaction(async transaction =>

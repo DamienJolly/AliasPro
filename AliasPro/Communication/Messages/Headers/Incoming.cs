@@ -212,5 +212,12 @@
         // Pets
         internal const int RequestPetBreedsMessageEvent = 3072;
         internal const int CheckPetNameMessageEvent = 2330;
+
+        // Crafting
+        internal const int RequestCraftingRecipesMessageEvent = 3756;
+        internal const int CraftingAddRecipeMessageEvent = 1344;
+        internal const int RequestCraftingRecipesAvailableMessageEvent = 1749;
+        internal const int CraftingCraftItemMessageEvent = 2761;
+        internal const int CraftingCraftSecretMessageEvent = 2997;
     }
 }

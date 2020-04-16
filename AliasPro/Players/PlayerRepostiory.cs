@@ -105,6 +105,12 @@ namespace AliasPro.Players
         internal async Task RemovePlayerIgnoreAsync(int playerId, int targetId) =>
             await _playerDao.RemovePlayerIgnoreAsync(playerId, targetId);
 
+        internal async Task<IList<int>> GetPlayerRecipesAsync(uint playerId) =>
+            await _playerDao.GetPlayerRecipesAsync(playerId);
+
+        internal async Task AddPlayerRecipeAsync(int playerId, int recipeId) =>
+            await _playerDao.AddPlayerRecipeAsync(playerId, recipeId);
+
         public async Task AddPlayerCurrencyAsync(int playerId, IPlayerCurrency currency) =>
             await _playerDao.AddPlayerCurrencyAsync(playerId, currency);
 
