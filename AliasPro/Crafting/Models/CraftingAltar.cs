@@ -62,7 +62,7 @@ namespace AliasPro.Crafting.Models
 			IList<ICraftingRecipe> recipeList = new List<ICraftingRecipe>();
 			foreach (ICraftingRecipe recipe in Recipes.Values)
 			{
-				if (!recipe.Secret /*|| player.crafting.hasrecipe(recipe.Id)*/)
+				if (!recipe.Secret || player.Recipe.TryGetRecipe(recipe.Id))
 					recipeList.Add(recipe);
 			}
 
