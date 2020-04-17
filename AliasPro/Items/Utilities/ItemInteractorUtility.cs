@@ -36,6 +36,7 @@ namespace AliasPro.Items.Utilities
 				case ItemInteractionType.BACKGROUND_TONER: return new InteractionBackgroundToner(item);
 				case ItemInteractionType.ECOTRON: return new InteractionEcotron(item);
 				case ItemInteractionType.DIMMER: return new InteractionDimmer(item);
+				case ItemInteractionType.MANNEQUIN: return new InteractionMannequin(item);
 			}
         }
     }

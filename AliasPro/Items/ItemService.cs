@@ -35,6 +35,8 @@ namespace AliasPro.Items
 			collection.AddSingleton<IMessageEvent, SetTonerEvent>();
 			collection.AddSingleton<IMessageEvent, MoodLightTurnOnEvent>();
 			collection.AddSingleton<IMessageEvent, MoodLightSaveSettingsEvent>();
+			collection.AddSingleton<IMessageEvent, MannequinSaveLookEvent>();
+			collection.AddSingleton<IMessageEvent, MannequinSaveNameEvent>();
 		}
     }
 }

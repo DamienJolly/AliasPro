@@ -48,9 +48,11 @@ namespace AliasPro.Figure.Packets.Events
             string figure = message.ReadString().ToLower();
 
             if (figure.Length == 0 || 
-                figure == session.Player.Figure) return;
+                figure == session.Player.Figure) 
+                return;
 
-            if (!_figureController.ValidateFigure(figure, gender)) return;
+            if (!_figureController.ValidateFigure(figure, gender)) 
+                return;
 
             session.Player.Figure = figure;
             session.Player.Gender = gender;

@@ -8,7 +8,7 @@ namespace AliasPro.Items.Utilities
         {
             switch (interaction)
             {
-				default: System.Console.WriteLine(interaction);  return ItemInteractionType.DEFAULT;
+				default: return ItemInteractionType.DEFAULT;
 				case "default": return ItemInteractionType.DEFAULT;
 				case "wired_trigger": return ItemInteractionType.WIRED_TRIGGER;
                 case "wired_effect": return ItemInteractionType.WIRED_EFFECT;
@@ -41,6 +41,7 @@ namespace AliasPro.Items.Utilities
 				case "roombg": return ItemInteractionType.BACKGROUND_TONER;
 				case "ecotron": return ItemInteractionType.ECOTRON;
 				case "dimmer": return ItemInteractionType.DIMMER;
+				case "mannequin": return ItemInteractionType.MANNEQUIN;
 			}
         }
     }

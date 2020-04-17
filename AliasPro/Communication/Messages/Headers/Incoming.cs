@@ -59,6 +59,8 @@
         internal const short RedeemGiftMessageEvent = 173;
         internal const short ApplyDecorationMessageEvent = 1065;
         internal const short SetTonerMessageEvent = 2563;
+        internal const short MannequinSaveLookMessageEvent = 2350;
+        internal const short MannequinSaveNameMessageEvent = 3153;
 
         // Catalog
         internal const short RequestDiscountMessageEvent = 703;

@@ -30,6 +30,7 @@ namespace AliasPro.Communication.Messages
             {
                 if (messageEvents.TryGetValue(message.Id, out IMessageEvent messageEvent))
                 {
+                    logger.LogWarning("Registered header {0}", message.Id);
                     await messageEvent.RunAsync(session, message);
                 }
                 else
