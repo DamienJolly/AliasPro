@@ -6,7 +6,8 @@ namespace AliasPro.API.Items
 {
     public interface IItemController
     {
-        Task<IDictionary<uint, IItem>> GetItemsForPlayerAsync(uint id);
+		bool TryGetCrackableDataById(int itemId, out ICrackableData crackable);
+		Task<IDictionary<uint, IItem>> GetItemsForPlayerAsync(uint id);
 		Task<IItem> GetPlayerItemByIdAsync(uint itemId);
 		Task<IDictionary<uint, IItem>> GetItemsForRoomAsync(uint id);
         bool TryGetItemDataById(uint itemId, out IItemData item);

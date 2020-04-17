@@ -10,11 +10,13 @@ namespace AliasPro.Items
     {
 		private readonly ItemDao _itemDao;
 		private IDictionary<uint, IItemData> _itemDatas;
+		private IDictionary<int, ICrackableData> _crackableData;
 
 		public ItemController(ItemDao itemDao)
 		{
 			_itemDao = itemDao;
 			_itemDatas = new Dictionary<uint, IItemData>();
+			_crackableData = new Dictionary<int, ICrackableData>();
 
 			InitializeItems();
 		}
@@ -22,7 +24,11 @@ namespace AliasPro.Items
 		public async void InitializeItems()
 		{
 			_itemDatas = await _itemDao.GetItemData();
+			_crackableData = await _itemDao.GetCrackableData();
 		}
+
+		public bool TryGetCrackableDataById(int itemId, out ICrackableData crackable) =>
+			_crackableData.TryGetValue(itemId, out crackable);
 
 		public async Task<IDictionary<uint, IItem>> GetItemsForPlayerAsync(uint id) =>
 			await _itemDao.GetItemsForPlayerAsync(id, _itemDatas);

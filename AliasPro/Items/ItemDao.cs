@@ -27,12 +27,31 @@ namespace AliasPro.Items
                     while (await reader.ReadAsync())
                     {
                         ItemData item = new ItemData(reader);
-                        items.Add(item.Id, item);
+                        items.TryAdd(item.Id, item);
                     }
                 }, "SELECT * FROM `item_data`");
             });
 
             return items;
+        }
+
+        internal async Task<IDictionary<int, ICrackableData>> GetCrackableData()
+        {
+            IDictionary<int, ICrackableData> crackables = new Dictionary<int, ICrackableData>();
+
+            await CreateTransaction(async transaction =>
+            {
+                await Select(transaction, async reader =>
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        ICrackableData crackable = new CrackableData(reader);
+                        crackables.TryAdd(crackable.ItemId, crackable);
+                    }
+                }, "SELECT * FROM `items_crackable`");
+            });
+
+            return crackables;
         }
 
         internal async Task<IDictionary<uint, IItem>> GetItemsForPlayerAsync(uint id, IDictionary<uint, IItemData> itemDatas)

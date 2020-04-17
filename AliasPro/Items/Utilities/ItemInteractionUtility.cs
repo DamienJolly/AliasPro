@@ -42,6 +42,7 @@ namespace AliasPro.Items.Utilities
 				case "ecotron": return ItemInteractionType.ECOTRON;
 				case "dimmer": return ItemInteractionType.DIMMER;
 				case "mannequin": return ItemInteractionType.MANNEQUIN;
+				case "crackable": return ItemInteractionType.CRACKABLE;
 			}
         }
     }
