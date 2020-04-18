@@ -44,6 +44,8 @@ namespace AliasPro.Items.Packets.Events
 
                     if (!room.RoomGrid.CanStackAt(x, y, item)) return;
 
+                    item.RoomId = room.Id;
+                    item.CurrentRoom = room;
                     item.Position.X = x;
                     item.Position.Y = y;
                     item.Position.Z = item.ItemData.InteractionType == Types.ItemInteractionType.STACK_TOOL ? roomTile.Position.Z : roomTile.Height;
@@ -56,12 +58,12 @@ namespace AliasPro.Items.Packets.Events
                 {
                     if (data.Length < 4) return;
 
+                    item.RoomId = room.Id;
+                    item.CurrentRoom = room;
                     item.WallCord = data[1] + " " + data[2] + " " + data[3];
                     await room.SendPacketAsync(new AddWallItemComposer(item));
                 }
                 
-                item.RoomId = room.Id;
-                item.CurrentRoom = room;
 				room.Items.AddItem(item);
 				item.Interaction.OnPlaceItem();
 				session.Player.Inventory.RemoveItem(item.Id);

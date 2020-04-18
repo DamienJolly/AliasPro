@@ -30,6 +30,7 @@ namespace AliasPro.Rooms.Models
         public GameComponent Game { get; set; }
         public MuteComponent Mute { get; set; }
         public BanComponent Bans { get; set; }
+        public TraxComponent Trax { get; set; }
         public MoodlightComponent Moodlight { get; set; }
         public RoomGrid RoomGrid { get; set; }
         public RoomCycle RoomCycle { get; set; }

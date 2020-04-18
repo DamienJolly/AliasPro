@@ -54,6 +54,25 @@ namespace AliasPro.Items
             return crackables;
         }
 
+        internal async Task<IDictionary<int, ISongData>> GetSongData()
+        {
+            IDictionary<int, ISongData> songs = new Dictionary<int, ISongData>();
+
+            await CreateTransaction(async transaction =>
+            {
+                await Select(transaction, async reader =>
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        ISongData song = new SongData(reader);
+                        songs.TryAdd(song.Id, song);
+                    }
+                }, "SELECT * FROM `items_soundtracks`");
+            });
+
+            return songs;
+        }
+
         internal async Task<IDictionary<uint, IItem>> GetItemsForPlayerAsync(uint id, IDictionary<uint, IItemData> itemDatas)
         {
             IDictionary<uint, IItem> items = new Dictionary<uint, IItem>();
@@ -71,7 +90,7 @@ namespace AliasPro.Items
                         items.Add(item.Id, item);
 
                     }
-                }, "SELECT `items`.*, `players`.`username` FROM `items` INNER JOIN `players` ON `players`.`id` = `items`.`player_id` WHERE `items`.`player_id` = @0 AND `items`.`room_id` = '0';", id);
+                }, "SELECT `items`.*, IFNULL(`players`.`username`, '') AS `username` FROM `items` LEFT JOIN `players` ON `players`.`id` = `items`.`player_id` WHERE `items`.`player_id` = @0 AND `items`.`room_id` = '0';", id);
             });
 
             return items;
@@ -94,7 +113,7 @@ namespace AliasPro.Items
 						}
 
 					}
-				}, "SELECT `items`.*, `players`.`username` FROM `items` INNER JOIN `players` ON `players`.`id` = `items`.`player_id` WHERE `items`.`id` = @0;", itemId);
+				}, "SELECT `items`.*, IFNULL(`players`.`username`, '') AS `username` FROM `items` LEFT JOIN `players` ON `players`.`id` = `items`.`player_id` WHERE `items`.`id` = @0;", itemId);
             });
 
 			return item;

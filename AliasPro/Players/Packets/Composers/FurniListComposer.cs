@@ -41,7 +41,9 @@ namespace AliasPro.Players.Packets.Composers
                 if (item.ItemData.Type != "i")
                 {
                     message.WriteString("");
-                    message.WriteInt(0);
+
+                    int.TryParse(item.ItemData.ExtraData, out int songId);
+                    message.WriteInt(songId);
                 }
             }
             return message;

@@ -43,6 +43,8 @@ namespace AliasPro.Items.Utilities
 				case "dimmer": return ItemInteractionType.DIMMER;
 				case "mannequin": return ItemInteractionType.MANNEQUIN;
 				case "crackable": return ItemInteractionType.CRACKABLE;
+				case "musicdisc": return ItemInteractionType.MUSICDISC;
+				case "jukebox": return ItemInteractionType.JUKEBOX;
 			}
         }
     }

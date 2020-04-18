@@ -51,6 +51,7 @@ namespace AliasPro.Catalog.Models
 				case "marketplace": return new LayoutMarketplace(this);
 				case "marketplace_own_items": return new LayoutMarketplaceOwnItems(this);
 				case "default_3x3_color_grouping": return new LayoutColorGrouping(this);
+				case "soundmachine": return new LayoutTrax(this);
 			}
         }
 

@@ -1,6 +1,9 @@
-﻿using AliasPro.API.Items.Models;
+﻿using AliasPro.API.Items;
+using AliasPro.API.Items.Models;
 using AliasPro.API.Players.Models;
+using AliasPro.Items.Types;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AliasPro.Players.Components
 {

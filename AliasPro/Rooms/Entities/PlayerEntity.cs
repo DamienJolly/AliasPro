@@ -22,8 +22,8 @@ namespace AliasPro.Rooms.Entities
 
 		public override void OnEntityJoin()
 		{
-
-		}
+            
+        }
 
 		public override void OnEntityLeave()
 		{

@@ -1,4 +1,5 @@
-﻿using AliasPro.API.Rooms;
+﻿using AliasPro.API.Items.Models;
+using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.Rooms.Models;
@@ -40,6 +41,9 @@ namespace AliasPro.Rooms
 			{
 				if (room.Loaded)
 					room.RoomCycle.Cycle();
+
+				if (room.Trax != null)
+					room.Trax.Cycle();
 
 				if (!room.Loaded || !room.Entities.HasUserEntities)
 					room.IdleTimer++;
@@ -186,6 +190,15 @@ namespace AliasPro.Rooms
 
 		public async Task<IDictionary<int, BaseEntity>> GetPetsForRoomAsync(IRoom room) =>
 			await _roomDao.GetPetsForRoomAsync(room);
+
+		public async Task<IDictionary<int, IItem>> GetTraxForRoomAsync(uint roomId) =>
+			await _roomDao.GetTraxForRoomAsync(roomId);
+
+		public async Task AddRoomTraxAsync(uint roomId, int itemId) =>
+			await _roomDao.AddRoomTraxAsync(roomId, itemId);
+
+		public async Task RemoveRoomTraxAsync(uint roomId, int itemId) =>
+			await _roomDao.RemoveRoomTraxAsync(roomId, itemId);
 
 		public async Task UpdateBotSettings(BaseEntity entity, uint roomId) =>
 			await _roomDao.UpdateBotSettings(entity, roomId);

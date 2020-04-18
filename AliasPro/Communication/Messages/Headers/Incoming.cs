@@ -61,6 +61,13 @@
         internal const short SetTonerMessageEvent = 2563;
         internal const short MannequinSaveLookMessageEvent = 2350;
         internal const short MannequinSaveNameMessageEvent = 3153;
+        internal const short SongDataMessageEvent = 2434;
+        internal const short SongCodeMessageEvent = 3408;
+        internal const short JukeBoxRequestPlayerSongsMessageEvent = 1603;
+        internal const short JukeBoxRequestPlayListMessageEvent = 2488;
+        internal const short JukeBoxAddSoundTrackMessageEvent = 3900;
+        internal const short JukeBoxRemoveSoundTrackMessageEvent = 1000;
+        internal const short JukeBoxRequestCurrentSongMessageEvent = 3390;
 
         // Catalog
         internal const short RequestDiscountMessageEvent = 703;

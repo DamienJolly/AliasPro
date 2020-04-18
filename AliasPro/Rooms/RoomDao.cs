@@ -1,6 +1,7 @@
 ﻿using AliasPro.API.Configuration;
 using AliasPro.API.Database;
 using AliasPro.API.Groups.Models;
+using AliasPro.API.Items;
 using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
@@ -204,6 +205,50 @@ namespace AliasPro.Rooms
 			});
 
 			return pets;
+		}
+
+		internal async Task<IDictionary<int, IItem>> GetTraxForRoomAsync(uint roomId)
+		{
+			IDictionary<int, IItem> musicDiscs = new Dictionary<int, IItem>();
+			await CreateTransaction(async transaction =>
+			{
+				await Select(transaction, async reader =>
+				{
+					while (await reader.ReadAsync())
+					{
+						int itemId = reader.ReadData<int>("item_id");
+						IItem item = await Program.GetService<IItemController>().GetPlayerItemByIdAsync((uint)itemId);
+						if (item == null)
+							continue;
+
+						if (!int.TryParse(item.ItemData.ExtraData, out int songId))
+							continue;
+
+						musicDiscs.TryAdd(songId, item);
+					}
+				}, "SELECT * FROM `room_trax_playlist` WHERE `room_id` = @0;",
+				roomId);
+			});
+
+			return musicDiscs;
+		}
+
+		internal async Task AddRoomTraxAsync(uint roomId, int itemId)
+		{
+			await CreateTransaction(async transaction =>
+			{
+				await Insert(transaction, "INSERT INTO `room_trax_playlist` (`room_id`, `item_id`) VALUES (@0, @1)",
+					roomId, itemId);
+			});
+		}
+
+		internal async Task RemoveRoomTraxAsync(uint roomId, int itemId)
+		{
+			await CreateTransaction(async transaction =>
+			{
+				await Insert(transaction, "DELETE FROM `room_trax_playlist` WHERE `room_id` = @0 AND `item_id` = @1",
+					roomId, itemId);
+			});
 		}
 
 		internal async Task UpdateBotSettings(BaseEntity entity, uint roomId)

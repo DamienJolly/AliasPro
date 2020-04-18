@@ -29,7 +29,7 @@ namespace AliasPro.Items.Interaction
 
 		public void OnPlaceItem()
 		{
-
+			_item.ExtraData = "0";
 		}
 
 		public void OnPickupItem()

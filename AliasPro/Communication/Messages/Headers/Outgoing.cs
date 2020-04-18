@@ -58,6 +58,13 @@
         internal const short UpdateStackToolHeightMessageComposer = 1521;
         internal const short PresentItemOpenedMessageComposer = 1129;
 
+        internal const short SongDataMessageComposer = 1378;
+        internal const short SongCodeMessageComposer = 17;
+        internal const short JukeBoxPlayListMessageComposer = 264;
+        internal const short JukeBoxMySongsMessageComposer = 1830;
+        internal const short JukeBoxNowPlayingMessageComposer = 3087;
+        internal const short JukeBoxPlaylistFullMessageComposer = 263;
+
         // Catalog
         internal const short DiscountMessageComposer = 1602;
         internal const short CatalogUpdatedMessageComposer = 1592;

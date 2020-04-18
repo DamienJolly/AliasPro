@@ -38,6 +38,8 @@ namespace AliasPro.Items.Utilities
 				case ItemInteractionType.DIMMER: return new InteractionDimmer(item);
 				case ItemInteractionType.MANNEQUIN: return new InteractionMannequin(item);
 				case ItemInteractionType.CRACKABLE: return new InteractionCrackable(item);
+				case ItemInteractionType.MUSICDISC: return new InteractionMusicDisc(item);
+				case ItemInteractionType.JUKEBOX: return new InteractionJukeBox(item);
 			}
         }
     }

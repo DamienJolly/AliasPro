@@ -74,6 +74,10 @@ namespace AliasPro.Rooms.Packets.Events
                     room,
                     await _roomController.GetBannedPlayers(room.Id));
 
+                room.Trax = new TraxComponent(
+                    room,
+                    await _roomController.GetTraxForRoomAsync(room.Id));
+
                 room.RoomGrid = new RoomGrid(room);
 
                 room.Items = new ItemsComponent(

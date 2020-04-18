@@ -37,6 +37,13 @@ namespace AliasPro.Items
 			collection.AddSingleton<IMessageEvent, MoodLightSaveSettingsEvent>();
 			collection.AddSingleton<IMessageEvent, MannequinSaveLookEvent>();
 			collection.AddSingleton<IMessageEvent, MannequinSaveNameEvent>();
+			collection.AddSingleton<IMessageEvent, SongDataEvent>();
+			collection.AddSingleton<IMessageEvent, SongCodeEvent>();
+			collection.AddSingleton<IMessageEvent, JukeBoxRequestPlayerSongsEvent>();
+			collection.AddSingleton<IMessageEvent, JukeBoxRequestPlayListEvent>();
+			collection.AddSingleton<IMessageEvent, JukeBoxAddSoundTrackEvent>();
+			collection.AddSingleton<IMessageEvent, JukeBoxRemoveSoundTrackEvent>();
+			collection.AddSingleton<IMessageEvent, JukeBoxRequestCurrentSongEvent>();
 		}
     }
 }

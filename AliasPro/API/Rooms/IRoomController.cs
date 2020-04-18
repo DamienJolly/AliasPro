@@ -1,4 +1,5 @@
-﻿using AliasPro.API.Rooms.Entities;
+﻿using AliasPro.API.Items.Models;
+using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -21,6 +22,9 @@ namespace AliasPro.API.Rooms
 
 		Task<IDictionary<int, BaseEntity>> GetBotsForRoomAsync(IRoom room);
 		Task<IDictionary<int, BaseEntity>> GetPetsForRoomAsync(IRoom room);
+		Task<IDictionary<int, IItem>> GetTraxForRoomAsync(uint roomId);
+		Task AddRoomTraxAsync(uint roomId, int itemId);
+		Task RemoveRoomTraxAsync(uint roomId, int itemId);
 		Task UpdateBotSettings(BaseEntity entity, uint roomId);
 		Task UpdatePetSettings(BaseEntity entity, uint roomId);
 

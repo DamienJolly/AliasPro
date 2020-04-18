@@ -18,6 +18,7 @@ namespace AliasPro.API.Rooms.Models
         GameComponent Game { get; set; }
         MuteComponent Mute { get; set; }
         BanComponent Bans { get; set; }
+        TraxComponent Trax { get; set; }
         MoodlightComponent Moodlight { get; set; }
 		RoomGrid RoomGrid { get; set; }
         RoomCycle RoomCycle { get; set; }
