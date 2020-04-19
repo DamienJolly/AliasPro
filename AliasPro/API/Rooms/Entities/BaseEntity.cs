@@ -61,6 +61,9 @@ namespace AliasPro.API.Rooms.Entities
         public IRoomPosition Position { get; set; }
         public IRoomPosition NextPosition { get; set; }
         public IRoomPosition GoalPosition { get; set; }
+
+        public int DribbleDuration = 0;
+
         public string Name { get; set; }
         public string Figure { get; set; }
         public PlayerGender Gender { get; set; }

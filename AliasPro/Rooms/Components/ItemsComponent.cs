@@ -30,7 +30,7 @@ namespace AliasPro.Rooms.Components
 
         public void TriggerWired(WiredInteractionType interaction, params object[] args)
         {
-            foreach (IItem trigger in WiredTriggers)
+            foreach (IItem trigger in GetItemsByType(ItemInteractionType.WIRED_TRIGGER))
             {
                 if (trigger.ItemData.WiredInteractionType != interaction) continue;
 
@@ -77,18 +77,8 @@ namespace AliasPro.Rooms.Components
         internal ICollection<IItem> WallItems =>
             _items.Values.Where(item => item.ItemData.Type == "i").ToList();
 
-        internal ICollection<IItem> WiredTriggers =>
-            _items.Values.Where(item => item.ItemData.InteractionType == ItemInteractionType.WIRED_TRIGGER).ToList();
-
-        internal ICollection<IItem> WiredEffects =>
-            _items.Values.Where(item => item.ItemData.InteractionType == ItemInteractionType.WIRED_EFFECT).ToList();
-
-        internal ICollection<IItem> Rollers =>
-            _items.Values.Where(item => item.ItemData.InteractionType == ItemInteractionType.ROLLER).ToList();
-
-        internal ICollection<IItem> Moodlights =>
-            _items.Values.Where(item => item.ItemData.InteractionType == ItemInteractionType.DIMMER).ToList();
-
+        internal ICollection<IItem> GetItemsByType(ItemInteractionType type) =>
+            _items.Values.Where(item => item.ItemData.InteractionType == type).ToList();
 
         internal IDictionary<uint, string> GetItemOwners
         {

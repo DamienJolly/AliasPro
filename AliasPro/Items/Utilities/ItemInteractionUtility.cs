@@ -45,6 +45,7 @@ namespace AliasPro.Items.Utilities
 				case "crackable": return ItemInteractionType.CRACKABLE;
 				case "musicdisc": return ItemInteractionType.MUSICDISC;
 				case "jukebox": return ItemInteractionType.JUKEBOX;
+				case "ball": return ItemInteractionType.BALL;
 			}
         }
     }

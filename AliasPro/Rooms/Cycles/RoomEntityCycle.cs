@@ -95,8 +95,13 @@ namespace AliasPro.Rooms.Cycles
 
                 IItem nexTopItem = nextTile.TopItem;
                 IItem oldTopItem = oldTile.TopItem;
-                double newZ = nextTile.Height;
                 int newDir = _entity.Position.CalculateDirection(nextStep.X, nextStep.Y);
+
+                _entity.SetRotation(newDir);
+                _entity.NextPosition = new RoomPosition(
+                    nextTile.Position.X,
+                    nextTile.Position.Y,
+                    nextTile.Height);
 
                 if (oldTopItem != null)
                 {
@@ -108,17 +113,11 @@ namespace AliasPro.Rooms.Cycles
                 {
                     if (nexTopItem.ItemData.InteractionType == ItemInteractionType.BED ||
                         nexTopItem.ItemData.InteractionType == ItemInteractionType.CHAIR)
-                        newZ -= nexTopItem.ItemData.Height;
+                        _entity.NextPosition.Z -= nexTopItem.ItemData.Height;
 
                     nexTopItem.Interaction.OnUserWalkOn(_entity);
                     _entity.Room.Items.TriggerWired(WiredInteractionType.WALKS_ON_FURNI, _entity, nexTopItem);
                 }
-
-                _entity.SetRotation(newDir);
-                _entity.NextPosition = new RoomPosition(
-                    nextTile.Position.X,
-                    nextTile.Position.Y,
-                    newZ);
 
                 _moveStatus
                     .Clear()

@@ -36,7 +36,7 @@ namespace AliasPro.Rooms.Cycles
                     ICollection<int> itemsRolled = new List<int>();
                     ICollection<int> entitiesRolled = new List<int>();
 
-                    foreach (IItem item in _room.Items.Rollers)
+                    foreach (IItem item in _room.Items.GetItemsByType(ItemInteractionType.ROLLER))
                     {
                         if (!item.CurrentRoom.RoomGrid.TryGetRoomTile(item.Position.X, item.Position.Y, out IRoomTile rollerTile))
                             return;

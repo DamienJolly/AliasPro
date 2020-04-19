@@ -83,6 +83,17 @@ namespace AliasPro.Rooms.Models
             return canRoll;
         }
 
+        public bool HasEntities(int targertX, int targetY)
+        {
+            if (targertX < 0 || targetY < 0 || targertX >= MapSizeX || targetY >= MapSizeY)
+                return false;
+
+            if (!TryGetRoomTile(targertX, targetY, out IRoomTile tile))
+                return false;
+
+            return tile.Entities.Count > 0;
+        }
+
         public IList<IRoomTile> GetTilesFromItem(int targetX, int targetY, IItem item)
         {
             IList<IRoomTile> tiles = new List<IRoomTile>();

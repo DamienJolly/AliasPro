@@ -5,6 +5,7 @@ using AliasPro.Communication.Messages;
 using AliasPro.Communication.Messages.Headers;
 using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Packets.Composers;
+using AliasPro.Items.Types;
 using System.Threading.Tasks;
 
 namespace AliasPro.Items.Packets.Events
@@ -30,7 +31,7 @@ namespace AliasPro.Items.Packets.Events
 
             room.Moodlight.Enabled = !room.Moodlight.Enabled;
 
-            foreach (IItem item in room.Items.Moodlights)
+            foreach (IItem item in room.Items.GetItemsByType(ItemInteractionType.DIMMER))
             {
                 item.ExtraData = room.Moodlight.GenerateExtraData;
                 await room.SendPacketAsync(new WallItemUpdateComposer(item));
