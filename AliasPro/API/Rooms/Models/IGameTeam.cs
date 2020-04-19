@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace AliasPro.API.Rooms.Models
 {
-    internal interface IGameTeam
+    public interface IGameTeam
     {
         int Points { get; set; }
         int MaxPoints { get; set; }

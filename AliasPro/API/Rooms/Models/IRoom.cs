@@ -16,6 +16,7 @@ namespace AliasPro.API.Rooms.Models
         ItemsComponent Items { get; set; }
         RightsComponent Rights { get; set; }
         GameComponent Game { get; set; }
+        GameComponentNew GameNew { get; set; }
         MuteComponent Mute { get; set; }
         BanComponent Bans { get; set; }
         TraxComponent Trax { get; set; }

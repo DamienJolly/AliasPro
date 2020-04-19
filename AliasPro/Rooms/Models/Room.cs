@@ -28,6 +28,7 @@ namespace AliasPro.Rooms.Models
         public ItemsComponent Items { get; set; }
         public RightsComponent Rights { get; set; }
         public GameComponent Game { get; set; }
+        public GameComponentNew GameNew { get; set; }
         public MuteComponent Mute { get; set; }
         public BanComponent Bans { get; set; }
         public TraxComponent Trax { get; set; }
@@ -44,7 +45,7 @@ namespace AliasPro.Rooms.Models
         internal Room(IRoomData roomData)
             : base(roomData)
         {
-
+            GameNew = new GameComponentNew();
         }
 
         public async void Cycle()

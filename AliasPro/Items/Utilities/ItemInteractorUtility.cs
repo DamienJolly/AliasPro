@@ -41,6 +41,7 @@ namespace AliasPro.Items.Utilities
 				case ItemInteractionType.MUSICDISC: return new InteractionMusicDisc(item);
 				case ItemInteractionType.JUKEBOX: return new InteractionJukeBox(item);
 				case ItemInteractionType.BALL: return new InteractionBall(item);
+				case ItemInteractionType.FOOTBALL_SCOREBOARD: return new InteractionScoreboard(item);
 			}
         }
     }

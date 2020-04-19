@@ -46,6 +46,8 @@ namespace AliasPro.Items.Utilities
 				case "musicdisc": return ItemInteractionType.MUSICDISC;
 				case "jukebox": return ItemInteractionType.JUKEBOX;
 				case "ball": return ItemInteractionType.BALL;
+				case "football_score": return ItemInteractionType.FOOTBALL_SCOREBOARD;
+				case "football_goal": return ItemInteractionType.FOOTBALL_GOAL;
 			}
         }
     }
