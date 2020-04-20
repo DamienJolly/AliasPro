@@ -56,7 +56,9 @@ namespace AliasPro.Items.Tasks
 
             room.RoomGrid.TryGetTileInFront(currentTile.Position.X, currentTile.Position.Y, _currentDirection, out IRoomTile nextTile);
 
-            if (nextTile != null && nextTile.Entities.Count > 0) //back of goal
+
+
+            if (nextTile != null && _interaction.ValidBounce(nextTile, _currentDirection))
             {
                 _currentStep = _totalSteps;
                 await TaskManager.ExecuteTask(this);

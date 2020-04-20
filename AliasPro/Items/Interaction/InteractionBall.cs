@@ -152,10 +152,29 @@ namespace AliasPro.Items.Interaction
             return Item.CurrentRoom.RoomGrid.CanRollAt(tragetPos.Position.X, tragetPos.Position.Y, Item);
         }
 
+        public bool ValidBounce(IRoomTile tragetPos, int ballDirection)
+        {
+            if (tragetPos.Entities.Count > 0)
+                return false;
+
+            if (tragetPos.TopItem == null || tragetPos.TopItem.ItemData.InteractionType != Types.ItemInteractionType.FOOTBALL_GOAL)
+                return false;
+
+            if (!CanScore(tragetPos.TopItem.Rotation, ballDirection))
+                return false;
+
+            return true;
+        }
+
         public int GetNextRollDelay(int currentStep, int totalSteps)
         {
             int t = 2500;
             return (totalSteps == 1) ? 500 : (100 * (((t = (t / t) - 1) * t * t * t * t) + 1)) + (currentStep * 100);
+        }
+
+        private bool CanScore(int goalRotation, int ballDirection)
+        {
+            return !((goalRotation + 3) % 8 == ballDirection || (goalRotation + 4) % 8 == ballDirection || (goalRotation + 5) % 8 == ballDirection);
         }
 
         private int GetWalkOffRotation(int currentDirection)
