@@ -1,97 +1,57 @@
-﻿using AliasPro.API.Rooms.Entities;
-using AliasPro.API.Rooms.Models;
-using AliasPro.Items.Types;
-using AliasPro.Rooms.Models;
-using AliasPro.Rooms.Types;
+﻿using AliasPro.API.Rooms.Games;
+using AliasPro.Rooms.Games.Types;
 using System.Collections.Generic;
 
 namespace AliasPro.Rooms.Components
 {
     public class GameComponent
     {
-        private readonly IRoom _room;
-        private readonly IDictionary<GameTeamType, IGameTeam> _teams;
+        private readonly IDictionary<GameType, BaseGame> _games;
 
-        public bool GameStarted = false;
-
-        public GameComponent(IRoom room)
+        public GameComponent()
         {
-            _room = room;
+            _games = new Dictionary<GameType, BaseGame>();
+        }
 
-            _teams = new Dictionary<GameTeamType, IGameTeam>
+        public bool TryGetGame(GameType type, out BaseGame game) =>
+            _games.TryGetValue(type, out game);
+
+        public bool TryAddGame(BaseGame game) =>
+            _games.TryAdd(game.Type, game);
+
+        public void RemoveGame(GameType type) =>
+            _games.Remove(type);
+
+        public void StartGames()
+        {
+            foreach (BaseGame game in _games.Values)
             {
-                { GameTeamType.YELLOW, new GameTeam() },
-                { GameTeamType.BLUE, new GameTeam() },
-                { GameTeamType.GREEN, new GameTeam() },
-                { GameTeamType.RED, new GameTeam() }
-            };
-        }
-
-        public void LeaveTeam(BaseEntity entity)
-        {
-            if (!_teams.TryGetValue(entity.Team, out IGameTeam team))
-                return;
-
-            entity.Team = GameTeamType.NONE;
-            team.LeaveTeam(entity);
-        }
-
-        public void JoinTeam(BaseEntity entity, GameTeamType teamType)
-        {
-            if (!_teams.TryGetValue(teamType, out IGameTeam team))
-                return;
-
-            entity.Team = teamType;
-            team.JoinTeam(entity);
-        }
-
-        public void StartGame()
-        {
-            GameStarted = true;
-            _room.Items.TriggerWired(WiredInteractionType.GAME_STARTS);
-            _room.Items.TriggerWired(WiredInteractionType.AT_GIVEN_TIME);
-        }
-
-        public void EndGame()
-        {
-            ResetTeams();
-            GameStarted = false;
-            _room.Items.TriggerWired(WiredInteractionType.GAME_ENDS);
-        }
-
-        private void ResetTeams()
-        {
-            foreach (GameTeam team in _teams.Values)
-            {
-                team.MaxPoints = 0;
-                team.Points = 0;
+                game.Initialize();
+                game.StartGame();
             }
         }
 
-        public void GiveTeamPoints(GameTeamType teamType, int amount)
+        public void EndGames()
         {
-            if (!GameStarted) return;
-
-            if (!_teams.TryGetValue(teamType, out IGameTeam team))
-                return;
-
-            team.Points += amount;
-            _room.Items.TriggerWired(WiredInteractionType.SCORE_ACHIEVED, team.Points);
-        }
-
-        public void GiveTeamPoints(GameTeamType teamType, int amount, int maxAmount)
-        {
-            if (!GameStarted) return;
-
-            if (!_teams.TryGetValue(teamType, out IGameTeam team))
-                return;
-
-            if (maxAmount > team.MaxPoints)
+            foreach (BaseGame game in _games.Values)
             {
-                team.MaxPoints++;
-                team.Points += amount;
-                _room.Items.TriggerWired(WiredInteractionType.SCORE_ACHIEVED, team.Points);
+                game.EndGame();
             }
         }
+
+        public void PauseGames()
+        {
+            foreach (BaseGame game in _games.Values)
+                game.PuseGame();
+        }
+
+        public void UnpauseGames()
+        {
+            foreach (BaseGame game in _games.Values)
+                game.UnpauseGame();
+        }
+
+        public ICollection<BaseGame> Games =>
+            _games.Values;
     }
 }

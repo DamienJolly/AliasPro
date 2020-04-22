@@ -3,6 +3,7 @@ using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.Items.Models;
 using AliasPro.Items.Types;
+using AliasPro.Rooms.Games.Types;
 using AliasPro.Rooms.Types;
 
 namespace AliasPro.Items.WiredInteraction
@@ -45,9 +46,15 @@ namespace AliasPro.Items.WiredInteraction
                 if (_tick <= 0)
                 {
                     if (_target != null && 
-                        _target.Team != GameTeamType.NONE)
+                        _target.GamePlayer != null && 
+                        _target.GamePlayer.Game.State == GameState.RUNNING)
                     {
-                        _item.CurrentRoom.Game.GiveTeamPoints(_target.Team, TeamPoints, MaxPoints);
+                        if (_target.GamePlayer.Game.TimesGivenScore < MaxPoints)
+                        {
+                            _target.GamePlayer.Game.TimesGivenScore++;
+                            _target.GamePlayer.Points += Points;
+                            _item.CurrentRoom.Items.TriggerWired(WiredInteractionType.SCORE_ACHIEVED, _target.GamePlayer.Team.TotalPoints);
+                        }
                     }
                     _active = false;
                 }
@@ -55,7 +62,7 @@ namespace AliasPro.Items.WiredInteraction
             }
         }
 
-        private int TeamPoints =>
+        private int Points =>
             (WiredData.Params.Count <= 0) ? 1 : WiredData.Params[0];
 
         private int MaxPoints =>

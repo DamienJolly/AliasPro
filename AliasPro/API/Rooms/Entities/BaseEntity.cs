@@ -1,4 +1,6 @@
-﻿using AliasPro.API.Rooms.Models;
+﻿using AliasPro.API.Rooms.Games;
+using AliasPro.API.Rooms.Games.Models;
+using AliasPro.API.Rooms.Models;
 using AliasPro.API.Trading.Models;
 using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Players.Types;
@@ -88,7 +90,7 @@ namespace AliasPro.API.Rooms.Entities
 
         public int SignTimer = 0;
 
-        public GameTeamType Team = GameTeamType.NONE;
+        public IGamePlayer GamePlayer = null;
 
 		public ITrade Trade = null;
 

@@ -57,6 +57,7 @@
     <Compile Remove="Network\NetworkInitializer.cs" />
     <Compile Remove="Network\NetworkListener.cs" />
     <Compile Remove="Network\NetworkService.cs" />
+    <Compile Remove="Rooms\Components\GameComponentOld.cs" />
     <Compile Remove="Rooms\Components\MappingComponent.cs" />
   </ItemGroup>
 

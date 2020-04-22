@@ -45,9 +45,10 @@ namespace AliasPro.Items.WiredInteraction
                 if (_tick <= 0)
                 {
                     if (_target != null &&
-                        _target is PlayerEntity)
+                        _target is PlayerEntity playerEntity)
                     {
-                        _item.CurrentRoom.Game.LeaveTeam(_target);
+                        if (playerEntity.GamePlayer != null)
+                            playerEntity.GamePlayer.Game.LeaveTeam(playerEntity);
                     }
                     _active = false;
                 }

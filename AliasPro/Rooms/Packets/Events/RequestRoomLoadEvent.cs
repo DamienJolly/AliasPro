@@ -67,7 +67,6 @@ namespace AliasPro.Rooms.Packets.Events
                     await _roomController.GetBotsForRoomAsync(room),
                     await _roomController.GetPetsForRoomAsync(room));
 
-                room.Game = new GameComponent(room);
                 room.Mute = new MuteComponent(room);
 
                 room.Bans = new BanComponent(

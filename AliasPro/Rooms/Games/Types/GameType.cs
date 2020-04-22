@@ -2,7 +2,6 @@
 {
     public enum GameType
     {
-        FOOTBALL,
         BATTLE_BANZAI,
         WIRED
     }

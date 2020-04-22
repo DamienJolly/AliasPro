@@ -3,6 +3,7 @@ using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Packets.Composers;
+using AliasPro.Items.Types;
 using AliasPro.Rooms.Entities;
 using System;
 
@@ -13,6 +14,7 @@ namespace AliasPro.Items.Interaction
         private readonly IItem _item;
 
         private bool _active = false;
+        private bool _isPaused = false;
         private int _tick = 0;
         private int _timer = 30;
 
@@ -66,24 +68,31 @@ namespace AliasPro.Items.Interaction
 			if (entity is PlayerEntity playerEntity)
 				if (!_item.CurrentRoom.Rights.HasRights(playerEntity.Player.Id)) return;
 
-			switch (state)
+            //todo: activate with wired
+
+            switch (state)
             {
                 case 1:
                     {
                         if (_active)
                         {
-                            _active = false;
-                            _item.CurrentRoom.Game.EndGame();
+                            _isPaused = !_isPaused;
+
+                            if (_isPaused)
+                                _item.CurrentRoom.Game.PauseGames();
+                            else
+                                _item.CurrentRoom.Game.UnpauseGames();
                         }
                         else
                         {
-                            if (_item.CurrentRoom.Game.GameStarted) return;
-
                             _active = true;
-                            _item.CurrentRoom.Game.StartGame();
-                        }
+                            _isPaused = false;
+                            _tick = _timer * 2;
 
-                        _tick = _timer * 2;
+                            _item.CurrentRoom.Game.StartGames();
+                            _item.CurrentRoom.Items.TriggerWired(WiredInteractionType.GAME_STARTS);
+                            _item.CurrentRoom.Items.TriggerWired(WiredInteractionType.AT_GIVEN_TIME);
+                        }
 
                         break;
                     }
@@ -108,14 +117,15 @@ namespace AliasPro.Items.Interaction
 
         public async void OnCycle()
         {
-            if (_active)
+            if (_active && !_isPaused)
             {
-                if (_tick <= 0 ||
-                    !_item.CurrentRoom.Game.GameStarted)
+                if (_tick <= 0)
                 {
                     _active = false;
                     _tick = _timer * 2;
-                    _item.CurrentRoom.Game.EndGame();
+
+                    _item.CurrentRoom.Game.EndGames();
+                    _item.CurrentRoom.Items.TriggerWired(WiredInteractionType.GAME_ENDS);
                 }
                 _tick--;
 

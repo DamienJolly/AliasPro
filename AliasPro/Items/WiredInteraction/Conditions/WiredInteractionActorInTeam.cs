@@ -27,10 +27,10 @@ namespace AliasPro.Items.WiredInteraction
 
             BaseEntity entity = (BaseEntity)args[0];
             if (entity == null) return false;
+            
+            if (entity.GamePlayer == null) return false;
 
-            if (entity.Team == GameTeamType.NONE) return false;
-
-            if (entity.Team != TeamType) return false;
+            if (entity.GamePlayer.Team.Type != TeamType) return false;
 
             return true;
         }

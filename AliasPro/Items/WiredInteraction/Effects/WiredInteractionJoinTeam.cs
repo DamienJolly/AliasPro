@@ -1,9 +1,12 @@
 ﻿using AliasPro.API.Items.Interaction;
 using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
+using AliasPro.API.Rooms.Games;
 using AliasPro.Items.Models;
 using AliasPro.Items.Types;
 using AliasPro.Rooms.Entities;
+using AliasPro.Rooms.Games;
+using AliasPro.Rooms.Games.Types;
 using AliasPro.Rooms.Types;
 
 namespace AliasPro.Items.WiredInteraction
@@ -46,12 +49,15 @@ namespace AliasPro.Items.WiredInteraction
                 if (_tick <= 0)
                 {
                     if (_target != null &&
-                        _target is PlayerEntity)
+                        _target is PlayerEntity playerEntity)
                     {
-                        if (_target.Team != GameTeamType.NONE)
-                            _item.CurrentRoom.Game.LeaveTeam(_target);
+                        if (!_item.CurrentRoom.Game.TryGetGame(GameType.WIRED, out BaseGame game))
+                        {
+                            game = new WiredGame(_item.CurrentRoom);
+                            _item.CurrentRoom.Game.TryAddGame(game);
+                        }
 
-                        _item.CurrentRoom.Game.JoinTeam(_target, TeamType);
+                        game.JoinTeam(playerEntity, TeamType);
                     }
                     _active = false;
                 }

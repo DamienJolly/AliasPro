@@ -84,16 +84,9 @@ namespace AliasPro.Items.Tasks
 
                 if (nextTile.TopItem != null && nextTile.TopItem.ItemData.InteractionType == ItemInteractionType.FOOTBALL_GOAL)
                 {
-                    if (!room.GameNew.TryGetGame(GameType.FOOTBALL, out BaseGame game))
-                    {
-                        game = new FootballGame(room);
-                        room.GameNew.TryAddGame(game);
-                    }
-
-                    game.GivePlayerPoints(_entity, 1);
+                    await room.SendPacketAsync(new UserActionComposer(_entity, 1));
 
                     string colour = nextTile.TopItem.ItemData.Name.Split("fball_goal_")[1];
-
                     foreach (IItem scoreboard in room.Items.GetItemsByType(ItemInteractionType.FOOTBALL_SCOREBOARD))
                     {
                         if (scoreboard.ItemData.Name == "fball_score_" + colour)
