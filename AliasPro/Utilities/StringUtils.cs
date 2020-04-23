@@ -33,5 +33,15 @@ namespace AliasPro.Utilities
 
 		public static T ToEnum<T>(this string value) => 
 			(T)Enum.Parse(typeof(T), value, true);
+
+		public static string MergeParams(string[] args, int start, int end)
+		{
+			IList<string> parts = new List<string>();
+			for (int i = start; i < end; i++)
+			{
+				parts.Add(args[i]);
+			}
+			return string.Join(" ", parts);
+		}
 	}
 }

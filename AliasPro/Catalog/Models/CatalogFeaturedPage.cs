@@ -14,7 +14,7 @@ namespace AliasPro.Catalog.Models
             SlotId = reader.ReadData<int>("slot_id");
             Caption = reader.ReadData<string>("caption");
             Image = reader.ReadData<string>("image");
-            Type = reader.ReadData<string>("type").ToUpper().ToEnum<FeaturedPageType>();
+            Type = reader.ReadData<string>("type").ToEnum<FeaturedPageType>();
             PageName = reader.ReadData<string>("page_name");
             PageId = reader.ReadData<int>("page_id");
             ProductName = reader.ReadData<string>("product_name");

@@ -8,7 +8,6 @@ using AliasPro.Players.Types;
 using AliasPro.Rooms.Packets.Composers;
 using AliasPro.Rooms.Types;
 using AliasPro.Utilities;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AliasPro.Chat.Commands
@@ -94,14 +93,7 @@ namespace AliasPro.Chat.Commands
                             return true;
                         }
 
-                        StringBuilder message = new StringBuilder();
-                        //todo: probably some util
-                        for (int i = 2; i < args.Length; i++)
-                        {
-                            message.Append(args[i]).Append(" ");
-                        }
-
-                        reason = message.ToString();
+                        reason = StringUtils.MergeParams(args, 2, args.Length);
                         break;
                     }
                 case "mac":
@@ -116,14 +108,7 @@ namespace AliasPro.Chat.Commands
                             return true;
                         }
 
-                        StringBuilder message = new StringBuilder();
-                        //todo: probably some util
-                        for (int i = 2; i < args.Length; i++)
-                        {
-                            message.Append(args[i]).Append(" ");
-                        }
-
-                        reason = message.ToString();
+                        reason = StringUtils.MergeParams(args, 2, args.Length);
                         break;
                     }
                 default:
@@ -140,14 +125,7 @@ namespace AliasPro.Chat.Commands
                             return true;
                         }
 
-                        StringBuilder message = new StringBuilder();
-                        //todo: probably some util
-                        for (int i = 2; i < args.Length; i++)
-                        {
-                            message.Append(args[i]).Append(" ");
-                        }
-
-                        reason = message.ToString();
+                        reason = StringUtils.MergeParams(args, 2, args.Length);
                         break;
                     }
             }

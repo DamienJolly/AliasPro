@@ -2,11 +2,10 @@
 using AliasPro.API.Sessions;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Items.Packets.Composers;
-using AliasPro.Players.Packets.Composers;
 using AliasPro.Rooms.Packets.Composers;
 using AliasPro.Rooms.Types;
+using AliasPro.Utilities;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AliasPro.Chat.Commands
@@ -42,11 +41,7 @@ namespace AliasPro.Chat.Commands
 
             string link = args[0];
 
-            StringBuilder message = new StringBuilder();
-            //todo: probably some util
-            for (int i = 1; i < args.Length; i++) {
-                message.Append(args[i]).Append(" ");
-            }
+            string message = StringUtils.MergeParams(args, 1, args.Length);
 
             foreach (ISession targetSession in _sessionController.Sessions)
             {
