@@ -56,6 +56,14 @@ namespace AliasPro.API.Rooms.Entities
                 HandItemTimer = 240;
         }
 
+        public async void SetEffect(int effectId, int duration = -1)
+        {
+            EffectId = effectId;
+            EffectTimer = duration;
+
+            await Room.SendPacketAsync(new UserEffectComposer(Id, EffectId));
+        }
+
         public int Id { get; set; }
         public IRoom Room { get; set; }
         public int BodyRotation { get; set; }
@@ -87,6 +95,9 @@ namespace AliasPro.API.Rooms.Entities
 
         public int HandItemId = 0;
         public int HandItemTimer = 0;
+
+        public int EffectId = 0;
+        public int EffectTimer = -1;
 
         public int SignTimer = 0;
 

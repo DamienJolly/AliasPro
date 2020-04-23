@@ -1,5 +1,6 @@
 ﻿using AliasPro.API.Badge;
 using AliasPro.API.Badges.Models;
+using AliasPro.API.Permissions;
 using AliasPro.API.Players.Models;
 using AliasPro.Badges.Packets.Composers;
 using AliasPro.Players.Models;
@@ -43,7 +44,8 @@ namespace AliasPro.Badges
 
 			if (!string.IsNullOrEmpty(badge.RequiredRight))
 			{
-				//todo: check rights
+				if (!Program.GetService<IPermissionsController>().HasPermission(player, badge.RequiredRight))
+					return;
 			}
 
 			IPlayerBadge playerBadge = new PlayerBadge(badge.Id, badge.Code);

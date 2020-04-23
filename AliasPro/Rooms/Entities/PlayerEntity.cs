@@ -42,6 +42,14 @@ namespace AliasPro.Rooms.Entities
                 }
             }
 
+            if (EffectTimer != -1)
+            {
+                EffectTimer--;
+
+                if (EffectTimer <= 0)
+                    SetEffect(0);
+            }
+
             if (SignTimer > 0)
             {
                 SignTimer--;

@@ -28,14 +28,14 @@ namespace AliasPro.Rooms.Games
 
 		public override void JoinTeam(PlayerEntity entity, GameTeamType teamType)
 		{
-			//this.room.giveEffect(habbo, FreezeGame.effectId + teamColor.type, -1);
 			base.JoinTeam(entity, teamType);
+			entity.SetEffect(39 + (int)teamType);
 		}
 
 		public override void LeaveTeam(PlayerEntity entity)
 		{
-			//this.room.giveEffect(habbo, 0, -1);
 			base.LeaveTeam(entity);
+			entity.SetEffect(0);
 		}
 	}
 }

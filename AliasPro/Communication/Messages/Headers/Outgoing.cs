@@ -149,6 +149,7 @@
         internal const short RoomAccessDeniedMessageComposer = 3424;
         internal const short MoodLightDataMessageComposer = 1394;
         internal const short RoomUserRespectMessageComposer = 1300;
+        internal const short UserEffectMessageComposer = 3221;
 
         // Landing
         internal const short HotelViewMessageComposer = 2484;
