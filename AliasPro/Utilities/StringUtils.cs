@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace AliasPro.Utilities
 {
@@ -29,5 +30,8 @@ namespace AliasPro.Utilities
 
 		private static bool IsValid(char character) =>
 			_allowedchars.Contains(character);
+
+		public static T ToEnum<T>(this string value) => 
+			(T)Enum.Parse(typeof(T), value, true);
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using AliasPro.API.Catalog.Models;
 using AliasPro.API.Database;
 using AliasPro.Catalog.Types;
+using AliasPro.Utilities;
 using System;
 using System.Data.Common;
 
@@ -13,8 +14,7 @@ namespace AliasPro.Catalog.Models
             SlotId = reader.ReadData<int>("slot_id");
             Caption = reader.ReadData<string>("caption");
             Image = reader.ReadData<string>("image");
-            //todo: make util?
-            Type = (FeaturedPageType)Enum.Parse(typeof(FeaturedPageType), reader.ReadData<string>("type").ToUpper());
+            Type = reader.ReadData<string>("type").ToUpper().ToEnum<FeaturedPageType>();
             PageName = reader.ReadData<string>("page_name");
             PageId = reader.ReadData<int>("page_id");
             ProductName = reader.ReadData<string>("product_name");
