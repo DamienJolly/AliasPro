@@ -112,7 +112,6 @@ namespace AliasPro.Crafting.Packets.Events
             {
                 recipe.Remaining--;
                 await _craftingController.UpdateRecipeAsync(recipe);
-                //todo: update in db
             }
 
             if (recipe.Achievement != "")

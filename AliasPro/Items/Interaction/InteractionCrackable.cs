@@ -85,7 +85,7 @@ namespace AliasPro.Items.Interaction
 
             //todo: required effects
 
-            if (!_item.CurrentRoom.RoomGrid.TryGetRoomTile(_item.Position.X, _item.Position.Y, out IRoomTile tile))
+                if (!_item.CurrentRoom.RoomGrid.TryGetRoomTile(_item.Position.X, _item.Position.Y, out IRoomTile tile))
                 return;
 
             if (!tile.TilesAdjecent(playerEntity.Position))

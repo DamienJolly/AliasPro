@@ -8,6 +8,7 @@ using AliasPro.Communication.Messages.Headers;
 using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Messenger.Models;
 using AliasPro.Messenger.Packets.Composers;
+using AliasPro.Players.Types;
 using AliasPro.Utilities;
 using System.Threading.Tasks;
 
@@ -48,12 +49,11 @@ namespace AliasPro.Messenger.Packets.Events
                 return;
             }
 
-            //todo: muted
-            /*if ()
+            if (session.Player.Sanction.GetCurrentSanction(out IPlayerSanction playerSanction) && playerSanction.Type == SanctionType.MUTE)
             {
                 await session.SendPacketAsync(new RoomInviteErrorComposer(RoomInviteErrorComposer.YOU_ARE_MUTED, targetPlayer.Id));
                 return;
-            }*/
+            }
 
             IMessengerMessage privateMessage =
                     new MessengerMessage(session.Player.Id, msg, (int)UnixTimestamp.Now);
@@ -61,12 +61,11 @@ namespace AliasPro.Messenger.Packets.Events
 
             if (targetPlayer.Session != null)
             {
-                //todo: muted
-                /*if ()
+                if (targetPlayer.Sanction.GetCurrentSanction(out IPlayerSanction targetSanction) && targetSanction.Type == SanctionType.MUTE)
                 {
                     await session.SendPacketAsync(new RoomInviteErrorComposer(RoomInviteErrorComposer.FRIEND_MUTED, targetPlayer.Id));
                     return;
-                }*/
+                }
 
                 await targetPlayer.Session.SendPacketAsync(new FriendChatComposer(privateMessage));
             }
