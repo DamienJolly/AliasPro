@@ -1,4 +1,6 @@
 ﻿using AliasPro.API.Chat.Commands;
+using AliasPro.API.Currency;
+using AliasPro.API.Currency.Models;
 using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
 using AliasPro.API.Sessions.Models;
@@ -23,12 +25,15 @@ namespace AliasPro.Chat.Commands
 
         public string Description => "Give the target user credts, badges, points ext";
 
-        private IPlayerController _playerController;
+        private readonly IPlayerController _playerController;
+        private readonly ICurrencyController _currencyController;
 
         public GiveCommand(
-            IPlayerController playerController)
+            IPlayerController playerController,
+            ICurrencyController currencyController)
         {
             _playerController = playerController;
+            _currencyController = currencyController;
         }
 
         public async Task<bool> Handle(ISession session, string[] args)
@@ -77,7 +82,11 @@ namespace AliasPro.Chat.Commands
                     return true;
                 }
 
-                //todo: some check to see if currency exists
+                if (!_currencyController.TryGetCurrency(points, out ICurrencySetting _))
+                {
+                    await session.SendPacketAsync(new AvatarChatComposer(session.Entity.Id, "You have entered a points type that doesn't exist.", 0, 1, RoomChatType.WHISPER));
+                    return true;
+                }
 
                 args = args.Skip(1).ToArray();
             }

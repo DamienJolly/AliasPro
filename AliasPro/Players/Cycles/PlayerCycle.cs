@@ -1,4 +1,6 @@
-﻿using AliasPro.API.Players.Models;
+﻿using AliasPro.API.Currency;
+using AliasPro.API.Currency.Models;
+using AliasPro.API.Players.Models;
 using AliasPro.Players.Packets.Composers;
 using System.Collections.Generic;
 
@@ -15,13 +17,13 @@ namespace AliasPro.Players.Cycles
             _tickTimers = new Dictionary<int, int>();
         }
 
-        public async void Cycle(IDictionary<int, ICurrencySetting> settings)
+        public async void Cycle()
         {
             try
             {
                 _player.CheckLastOnline();
 
-                foreach (ICurrencySetting setting in settings.Values)
+                foreach (ICurrencySetting setting in Program.GetService<ICurrencyController>().CurrencySettings)
                 {
                     if (setting.Time == 0)
                         continue;

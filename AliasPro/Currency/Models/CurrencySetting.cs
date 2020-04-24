@@ -1,8 +1,8 @@
-﻿using AliasPro.API.Database;
-using AliasPro.API.Players.Models;
+﻿using AliasPro.API.Currency.Models;
+using AliasPro.API.Database;
 using System.Data.Common;
 
-namespace AliasPro.Players.Models
+namespace AliasPro.Currency.Models
 {
     internal class CurrencySetting : ICurrencySetting
     {

@@ -6,7 +6,6 @@ namespace AliasPro.API.Players
 {
     public interface IPlayerController
     {
-        void LoadCurrencySettings();
         void Cycle();
         ICollection<IPlayer> Players { get; }
         Task<IPlayerData> GetPlayerDataAsync(string SSO);

@@ -1,4 +1,4 @@
-﻿namespace AliasPro.API.Players.Models
+﻿namespace AliasPro.API.Currency.Models
 {
     public interface ICurrencySetting
     {
