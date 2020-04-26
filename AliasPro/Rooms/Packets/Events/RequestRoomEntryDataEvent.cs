@@ -67,9 +67,11 @@ namespace AliasPro.Rooms.Packets.Events
 				if (entity.DanceId != 0)
 					await session.SendPacketAsync(new UserDanceComposer(entity));
 
-                //todo: handitems
+                if (entity.EffectId != 0)
+                    await session.SendPacketAsync(new UserEffectComposer(entity.Id, entity.EffectId));
 
-                //todo: roomeffts
+                if (entity.HandItemId != 0)
+                    await session.SendPacketAsync(new UserHandItemComposer(entity.Id, entity.HandItemId));
 
                 if (entity.IsIdle)
                     await session.SendPacketAsync(new UserSleepComposer(entity));

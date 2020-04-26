@@ -1,6 +1,7 @@
 ﻿using AliasPro.API.Catalog;
 using AliasPro.API.Items;
 using AliasPro.API.Items.Models;
+using AliasPro.API.Server;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Catalog.Packets.Composers;
 using AliasPro.Communication.Messages;
@@ -20,22 +21,23 @@ namespace AliasPro.Catalog.Packets.Events
 
         private readonly ICatalogController _catalogController;
         private readonly IItemController _itemController;
+        private readonly IServerController _serverController;
 
         public RecycleEvent(
             ICatalogController catalogController,
-            IItemController itemController)
+            IItemController itemController,
+            IServerController serverController)
         {
             _catalogController = catalogController;
             _itemController = itemController;
+            _serverController = serverController;
         }
 
         public async Task RunAsync(
             ISession session,
             ClientMessage message)
         {
-            //todo: ecotron disabled config
-            //todo: add box name to config
-            if (!_itemController.TryGetItemDataByName("ecotron_box", out IItemData giftItemData)  /*|| ecotron disabled*/)
+            if (_serverController.GetSetting("ecotron.enabled") == "0")
             {
                 await session.SendPacketAsync(new RecyclerCompleteComposer(RecyclerCompleteComposer.RECYCLING_CLOSED));
                 return;
@@ -56,8 +58,7 @@ namespace AliasPro.Catalog.Packets.Events
                 items.Add(item);
             }
 
-            //todo: make count here config?
-            if (items.Count != count)
+            if (!int.TryParse(_serverController.GetSetting("ecotron.items.needed"), out int itemsNeeded) || items.Count != itemsNeeded)
             {
                 await session.SendPacketAsync(new AlertPurchaseFailedComposer(AlertPurchaseFailedComposer.SERVER_ERROR));
                 return;
@@ -65,6 +66,12 @@ namespace AliasPro.Catalog.Packets.Events
 
             IItemData rewardItemData = _catalogController.RecyclerPrize;
             if (rewardItemData == null)
+            {
+                await session.SendPacketAsync(new AlertPurchaseFailedComposer(AlertPurchaseFailedComposer.SERVER_ERROR));
+                return;
+            }
+
+            if (!_itemController.TryGetItemDataByName(_serverController.GetSetting("ecotron.item.name"), out IItemData giftItemData))
             {
                 await session.SendPacketAsync(new AlertPurchaseFailedComposer(AlertPurchaseFailedComposer.SERVER_ERROR));
                 return;

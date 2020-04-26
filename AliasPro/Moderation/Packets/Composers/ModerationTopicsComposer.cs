@@ -1,22 +1,35 @@
-﻿using AliasPro.Communication.Messages;
+﻿using AliasPro.API.Moderation.Models;
+using AliasPro.Communication.Messages;
 using AliasPro.Communication.Messages.Headers;
 using AliasPro.Communication.Messages.Protocols;
+using System.Collections.Generic;
+
 namespace AliasPro.Moderation.Packets.Composers
 {
     public class ModerationTopicsComposer : IMessageComposer
     {
-        public ServerMessage Compose()
+		private readonly ICollection<IModerationCategory> _categories;
+
+		public ModerationTopicsComposer(ICollection<IModerationCategory> categories)
+		{
+			_categories = categories;
+		}
+
+		public ServerMessage Compose()
         {
             ServerMessage message = new ServerMessage(Outgoing.ModerationTopicsMessageComposer);
-			message.WriteInt(1);
-			message.WriteString("Sexually Explicit");
-			message.WriteInt(2);
-			message.WriteString("test");
-			message.WriteInt(1);
-			message.WriteString("testing");
-			message.WriteString("test2");
-			message.WriteInt(2);
-			message.WriteString("testing2");
+			message.WriteInt(_categories.Count);
+			foreach (IModerationCategory category in _categories)
+			{
+				message.WriteString(category.Code);
+				message.WriteInt(category.Topics.Count);
+				foreach (IModerationTopic topic in category.Topics)
+				{
+					message.WriteString(topic.Name);
+					message.WriteInt(topic.Id);
+					message.WriteString(""); //dunno?
+				}
+			}
 			return message;
         }
     }

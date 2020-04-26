@@ -8,7 +8,10 @@ namespace AliasPro.API.Chat.Models
 
         int PlayerId { get; set; }
         string PlayerUsername { get; set; }
+        int TargetId { get; set; }
+        int RoomId { get; set; }
         int Timestamp { get; set; }
         string Message { get; set; }
+        bool Highlighted { get; set; }
     }
 }

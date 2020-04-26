@@ -84,7 +84,7 @@ namespace AliasPro.Chat.Commands
                 case "ip":
                 case "ipaddress":
                     {
-                        //todo:
+                        //todo: ip banning
                         duration = 78892200;
 
                         if (args.Length <= 2)
@@ -99,7 +99,7 @@ namespace AliasPro.Chat.Commands
                 case "mac":
                 case "machine":
                     {
-                        //todo:
+                        //todo: machine banning
                         duration = 78892200;
 
                         if (args.Length <= 2)

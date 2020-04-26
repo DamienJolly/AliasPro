@@ -25,6 +25,10 @@ namespace AliasPro.Chat
                 {
                     while (await reader.ReadAsync())
                     {
+                        IChatLog log = new ChatLog(reader)
+                        {
+                            RoomId = reader.ReadData<int>("room_id")
+                        };
                         logs.Add(new ChatLog(reader));
                     }
                 }, "SELECT `chatlogs`.* , `players`.`username` FROM `chatlogs` " +
@@ -43,6 +47,10 @@ namespace AliasPro.Chat
                 {
                     while (await reader.ReadAsync())
                     {
+                        IChatLog log = new ChatLog(reader)
+                        {
+                            RoomId = reader.ReadData<int>("room_id")
+                        };
                         logs.Add(new ChatLog(reader));
                     }
                 }, "SELECT `chatlogs`.* , `players`.`username` FROM `chatlogs` " +
@@ -51,6 +59,46 @@ namespace AliasPro.Chat
                 "ORDER BY `chatlogs`.`timestamp` DESC LIMIT 150;", roomId, enterTimestamp, exitTimestamp);
             });
             return logs;
+        }
+
+        public async Task<ICollection<IChatLog>> ReadMessengerChatlogs(uint playerId, uint targetId)
+        {
+            ICollection<IChatLog> logs = new List<IChatLog>();
+            await CreateTransaction(async transaction =>
+            {
+                await Select(transaction, async reader =>
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        logs.Add(new ChatLog(reader));
+                    }
+                }, "SELECT `chatlogs_private`.* , `players`.`username` FROM `chatlogs_private` " +
+                "INNER JOIN `players` ON `players`.`id` = `chatlogs_private`.`player_id` " +
+                "WHERE `chatlogs_private`.`player_id` = @0 AND `chatlogs_private`.`target_id` = @1 " +
+                "OR `chatlogs_private`.`target_id` = @0 AND `chatlogs_private`.`player_id` = @1 " +
+                "ORDER BY `chatlogs_private`.`timestamp` DESC LIMIT 150;", playerId, targetId);
+            });
+            return logs;
+        }
+
+        public async Task AddUserChatlog(IChatLog chatLog)
+        {
+            ICollection<IChatLog> logs = new List<IChatLog>();
+            await CreateTransaction(async transaction =>
+            {
+                await Insert(transaction, "INSERT INTO `chatlogs` (`player_id`, `target_id`, `room_id`, `message`, `timestamp`, `shouting`) VALUES (@0, @1, @2, @3, @4)",
+                    chatLog.PlayerId, chatLog.TargetId, chatLog.RoomId, chatLog.Message, chatLog.Timestamp);
+            });
+        }
+
+        public async Task AddMessengerChatlog(IChatLog chatLog)
+        {
+            ICollection<IChatLog> logs = new List<IChatLog>();
+            await CreateTransaction(async transaction =>
+            {
+                await Insert(transaction, "INSERT INTO `chatlogs_private` (`player_id`, `target_id`, `message`, `timestamp`) VALUES (@0, @1, @2, @3)",
+                    chatLog.PlayerId, chatLog.TargetId, chatLog.Message, chatLog.Timestamp);
+            });
         }
     }
 }

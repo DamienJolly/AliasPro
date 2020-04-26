@@ -62,6 +62,15 @@ namespace AliasPro.Chat
         public async Task<ICollection<IChatLog>> ReadRoomChatlogs(uint roomId, int enterTimestamp, int exitTimestamp) =>
             await _chatDao.ReadRoomChatlogs(roomId, enterTimestamp, exitTimestamp);
 
+        public async Task<ICollection<IChatLog>> ReadMessengerChatlogs(uint playerId, uint targetId) =>
+            await _chatDao.ReadMessengerChatlogs(playerId, targetId);
+
+        public async Task AddUserChatlog(IChatLog chatLog) =>
+            await _chatDao.AddUserChatlog(chatLog);
+
+        public async Task AddMessengerChatlog(IChatLog chatLog) =>
+            await _chatDao.AddMessengerChatlog(chatLog);
+
         public IList<IChatCommand> CommandsForRank(ISession session)
         {
             IList<IChatCommand> commands = new List<IChatCommand>();

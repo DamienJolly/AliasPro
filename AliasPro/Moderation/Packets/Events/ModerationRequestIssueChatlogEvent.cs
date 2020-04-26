@@ -8,6 +8,7 @@ using AliasPro.Communication.Messages;
 using AliasPro.Communication.Messages.Headers;
 using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Moderation.Packets.Composers;
+using AliasPro.Moderation.Types;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -42,13 +43,29 @@ namespace AliasPro.Moderation.Packets.Events
             if (!_moderationController.TryGetTicket(ticketId, out IModerationTicket ticket))
                 return;
 
+			ModerationChatlogType chatlogType;
 			ICollection<IChatLog> chatlogs;
-            if (ticket.RoomId != 0)
-                chatlogs = await _chatController.ReadRoomChatlogs((uint)ticket.RoomId);
-            else
-                chatlogs = await _chatController.ReadUserChatlogs((uint)ticket.ReportedId);
 
-            await session.SendPacketAsync(new ModerationIssueChatlogComposer(ticket, chatlogs));
+			switch (ticket.Type)
+			{
+				case ModerationTicketType.IM:
+					{
+						chatlogType = ModerationChatlogType.IM;
+						chatlogs = await _chatController.ReadMessengerChatlogs((uint)ticket.ReportedId, (uint)ticket.SenderId);
+					}
+					break;
+				default:
+					{
+						chatlogType = ModerationChatlogType.CHAT;
+						if (ticket.RoomId != 0)
+							chatlogs = await _chatController.ReadRoomChatlogs((uint)ticket.RoomId);
+						else
+							chatlogs = await _chatController.ReadUserChatlogs((uint)ticket.ReportedId);
+					}
+					break;
+			}
+
+            await session.SendPacketAsync(new ModerationIssueChatlogComposer(ticket, chatlogType, chatlogs));
         }
     }
 }

@@ -126,7 +126,7 @@ namespace AliasPro.Players.Packets.Events
             await session.SendPacketAsync(new AvailabilityStatusComposer());
             await session.SendPacketAsync(new BuildersClubMembershipComposer());
 
-			await session.SendPacketAsync(new ModerationTopicsComposer());
+			await session.SendPacketAsync(new ModerationTopicsComposer(_moderationController.Categories));
 
 		    if (_permissionsController.HasPermission(session.Player, "acc_modtool"))
             {

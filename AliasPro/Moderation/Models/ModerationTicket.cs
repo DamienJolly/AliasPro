@@ -2,6 +2,7 @@
 using AliasPro.API.Moderation.Models;
 using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Moderation.Types;
+using AliasPro.Utilities;
 using System.Data.Common;
 
 namespace AliasPro.Moderation.Models
@@ -26,13 +27,28 @@ namespace AliasPro.Moderation.Models
             RoomId = reader.ReadData<int>("room_id");
         }
 
+        internal ModerationTicket(int senderId, string senderUsername, int reportedId, string reportedUsername, int roomId, string message, int topicId, ModerationTicketType type)
+        {
+            SenderId = senderId;
+            SenderUsername = senderUsername;
+            ReportedId = reportedId;
+            ReportedUsername = reportedUsername;
+            RoomId = roomId;
+            Caption = message;
+            Timestamp = (int)UnixTimestamp.Now;
+            State = ModerationTicketState.OPEN;
+            Type = type;
+            Category = topicId;
+            Priority = 0;
+        }
+
         public void Compose(ServerMessage message)
         {
             message.WriteInt(Id);
             message.WriteInt((int)State);
             message.WriteInt((int)Type);
             message.WriteInt(Category);
-            message.WriteInt(Timestamp);
+            message.WriteInt((int)UnixTimestamp.Now - Timestamp);
             message.WriteInt(Priority);
             message.WriteInt(1); //dunno?
             message.WriteInt(SenderId);
@@ -61,8 +77,8 @@ namespace AliasPro.Moderation.Models
         public string SenderUsername { get; set; }
         public int ReportedId { get; set; }
         public string ReportedUsername { get; set; }
-        public int ModId { get; set; }
-        public string ModUsername { get; set; }
+        public int ModId { get; set; } = 0;
+        public string ModUsername { get; set; } = "";
         public string Caption { get; set; }
         public int RoomId { get; set; }
     }

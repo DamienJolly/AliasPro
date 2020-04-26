@@ -34,6 +34,7 @@ namespace AliasPro.Moderation
             collection.AddSingleton<IMessageEvent, ModerationRequestUserInfoEvent>();
             collection.AddSingleton<IMessageEvent, ModerationRequestRoomVisitsEvent>();
             collection.AddSingleton<IMessageEvent, ModerationRequestUserChatlogEvent>();
+            collection.AddSingleton<IMessageEvent, ModerationReportEvent>();
         }
     }
 }

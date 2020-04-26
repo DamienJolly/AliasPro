@@ -22,13 +22,13 @@ namespace AliasPro.Rooms.Packets.Events
             int action = message.ReadInt();
             if (action < 0 || action > 5) return;
 
-            if (session.Entity.DanceId > 0)
+            if (session.Entity.DanceId != 0)
             {
                 session.Entity.DanceId = 0;
                 await room.SendPacketAsync(new UserDanceComposer(session.Entity));
             }
 
-            //todo: remove effect
+            session.Entity.SetEffect(0);
 
             if (action == 5)
             {

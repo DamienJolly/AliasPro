@@ -12,5 +12,8 @@ namespace AliasPro.API.Chat
         Task<ICollection<IChatLog>> ReadUserChatlogs(uint playerId);
         Task<ICollection<IChatLog>> ReadRoomChatlogs(uint roomId, int enterTimestamp = 0, int exitTimestamp = int.MaxValue);
         IList<IChatCommand> CommandsForRank(ISession session);
-    }
+		Task<ICollection<IChatLog>> ReadMessengerChatlogs(uint playerId, uint targetId);
+		Task AddUserChatlog(IChatLog chatLog);
+		Task AddMessengerChatlog(IChatLog chatLog);
+	}
 }

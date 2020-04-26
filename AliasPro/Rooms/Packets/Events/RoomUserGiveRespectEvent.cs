@@ -29,6 +29,7 @@ namespace AliasPro.Rooms.Packets.Events
                 return;
 
             targetEntity.Player.RespectsRecieved++;
+            session.Entity.IdleTimer = 0;
             session.Player.Respects--;
             session.Player.RespectsGiven++;
 
@@ -36,8 +37,6 @@ namespace AliasPro.Rooms.Packets.Events
             await room.SendPacketAsync(new UserActionComposer(session.Entity, 7));
 
             // todo: some achievements
-
-            // todo: unidle
         }
     }
 }
