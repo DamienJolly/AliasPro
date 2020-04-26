@@ -10,7 +10,6 @@ namespace AliasPro.API.Rooms.Games
 {
 	public abstract class BaseGame
 	{
-		private readonly IRoom _room;
 		private readonly IDictionary<GameTeamType, IGameTeam> _teams;
 
         public int TimesGivenScore = 0;

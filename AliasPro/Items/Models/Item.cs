@@ -4,6 +4,7 @@ using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.Communication.Messages.Protocols;
+using AliasPro.Items.Interaction;
 using AliasPro.Items.Utilities;
 using AliasPro.Rooms.Models;
 using System.Data.Common;
@@ -51,7 +52,21 @@ namespace AliasPro.Items.Models
             message.WriteInt(Rotation);
             message.WriteString(string.Format("{0:0.00}", Position.Z.ToString()));
             message.WriteString("");
-            Interaction.Compose(message);
+
+            switch (Interaction)
+            {
+                case InteractionGift interactionGift:
+                    message.WriteInt((interactionGift.ColorId * 1000) + interactionGift.RibbonId);
+                    break;
+                case InteractionMusicDisc interactionMusicDisc:
+                    message.WriteInt(interactionMusicDisc.SongId);
+                    break;
+                default:
+                    message.WriteInt(0);
+                    break;
+            }
+
+            Interaction.ComposeExtraData(message);
             message.WriteInt(-1);
             message.WriteInt(ItemData.Modes > 1 ? 1 : 0);
             message.WriteInt((int)PlayerId); // -12345678 = builders club
@@ -83,10 +98,10 @@ namespace AliasPro.Items.Models
 
 		public IRoom CurrentRoom { get; set; } = null;
 
-        private IItemInteractor _interaction { get; set; }
+        private ItemInteraction _interaction { get; set; }
         private IWiredInteractor _wiredInteraction { get; set; }
 
-		public IItemInteractor Interaction
+		public ItemInteraction Interaction
 		{
 			get
 			{

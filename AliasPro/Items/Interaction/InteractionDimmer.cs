@@ -1,65 +1,35 @@
-﻿using AliasPro.API.Items.Interaction;
-using AliasPro.API.Items.Models;
-using AliasPro.API.Rooms.Entities;
+﻿using AliasPro.API.Items.Models;
 using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Packets.Composers;
 
 namespace AliasPro.Items.Interaction
 {
-    public class InteractionDimmer : IItemInteractor
+    public class InteractionDimmer : ItemInteraction
     {
-        private readonly IItem _item;
-
         public InteractionDimmer(IItem item)
+            : base(item)
         {
-            _item = item;
+
         }
 
-        public void Compose(ServerMessage message, bool tradeItem)
+        public override void ComposeExtraData(ServerMessage message)
         {
-            if (!tradeItem)
-                message.WriteInt(1);
             message.WriteInt(0);
-            message.WriteString(_item.ExtraData);
+            message.WriteString(Item.ExtraData);
         }
 
-        public async void OnPlaceItem()
+        public async override void OnPlaceItem()
 		{
-            if (_item.CurrentRoom.Moodlight != null)
+            if (Item.CurrentRoom.Moodlight != null)
             {
-                _item.ExtraData = _item.CurrentRoom.Moodlight.GenerateExtraData;
-                await _item.CurrentRoom.SendPacketAsync(new WallItemUpdateComposer(_item));
+                Item.ExtraData = Item.CurrentRoom.Moodlight.GenerateExtraData;
+                await Item.CurrentRoom.SendPacketAsync(new WallItemUpdateComposer(Item));
             }
         }
 
-		public void OnPickupItem()
+		public override void OnPickupItem()
 		{
-            _item.ExtraData = "";
-        }
-
-		public void OnMoveItem()
-		{
-
-		}
-
-		public void OnUserWalkOn(BaseEntity entity)
-        {
-
-        }
-
-        public void OnUserWalkOff(BaseEntity entity)
-        {
-
-        }
-        
-        public void OnUserInteract(BaseEntity entity, int state)
-        {
-
-        }
-
-        public void OnCycle()
-        {
-
+            Item.ExtraData = "";
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using AliasPro.API.Items.Interaction;
-using AliasPro.API.Items.Models;
+﻿using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.Communication.Messages.Protocols;
@@ -10,78 +9,55 @@ using AliasPro.Tasks;
 
 namespace AliasPro.Items.Interaction
 {
-    public class InteractionTeleport : IItemInteractor
-    {
-        private readonly IItem _item;
+    public class InteractionTeleport : ItemInteraction
+	{
 		public int Mode;
 
 		public InteractionTeleport(IItem item)
+			: base(item)
         {
-            _item = item;
 			Mode = 0;
         }
 
-		public void Compose(ServerMessage message, bool tradeItem)
+		public override void ComposeExtraData(ServerMessage message)
 		{
-			if (!tradeItem)
-				message.WriteInt(1);
 			message.WriteInt(0);
-            message.WriteString(Mode.ToString());
-        }
-
-		public void OnPlaceItem()
-		{
-
+			message.WriteString(Mode.ToString());
 		}
 
-		public void OnPickupItem()
+		public override void OnPlaceItem()
 		{
 			Mode = 0;
 		}
 
-		public void OnMoveItem()
+		public override void OnMoveItem()
 		{
 			Mode = 0;
-		}
-
-		public void OnUserWalkOn(BaseEntity entity)
-        {
-
-        }
-
-        public void OnUserWalkOff(BaseEntity entity)
-        {
-
 		}
         
-        public async void OnUserInteract(BaseEntity entity, int state)
+        public async override void OnUserInteract(BaseEntity entity, int state)
         {
 			if (entity == null) return;
 
 			if (!(entity is PlayerEntity playerEntity)) return;
 
-			if (_item.ItemData.CanWalk) return;
+			if (Item.ItemData.CanWalk) return;
 
-			if (!_item.CurrentRoom.RoomGrid.TryGetRoomTile(_item.Position.X, _item.Position.Y, out IRoomTile tile))
+			if (!Item.CurrentRoom.RoomGrid.TryGetRoomTile(Item.Position.X, Item.Position.Y, out IRoomTile tile))
 				return;
 
-			IRoomPosition position = tile.PositionInFront(_item.Rotation);
+			IRoomPosition position = tile.PositionInFront(Item.Rotation);
 			if (!(position.X == playerEntity.Position.X && position.Y == playerEntity.Position.Y))
 			{
 				playerEntity.GoalPosition = position;
 				return;
 			}
 
-			_item.ItemData.CanWalk = true;
+			Item.ItemData.CanWalk = true;
 			Mode = 1;
-			playerEntity.GoalPosition = _item.Position;
-			await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
-			await TaskManager.ExecuteTask(new TeleportTaskOne(_item, playerEntity), 1500);
-		}
-
-        public void OnCycle()
-        {
-
+			playerEntity.GoalPosition = Item.Position;
+			await Item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(Item));
+			await TaskManager.ExecuteTask(new TeleportTaskOne(Item, playerEntity), 1500);
 		}
     }
 }

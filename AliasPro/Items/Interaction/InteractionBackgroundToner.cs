@@ -1,25 +1,21 @@
-﻿using AliasPro.API.Items.Interaction;
-using AliasPro.API.Items.Models;
+﻿using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Packets.Composers;
-using AliasPro.Rooms.Entities;
 
 namespace AliasPro.Items.Interaction
 {
-    public class InteractionBackgroundToner : IItemInteractor
-    {
-        private readonly IItem _item;
+    public class InteractionBackgroundToner : ItemInteraction
+	{
 		public bool Active = false;
 		public int Hue = 126;
 		public int Saturation = 126;
 		public int Brightness = 126;
 
         public InteractionBackgroundToner(IItem item)
-        {
-            _item = item;
-
-			string[] data = _item.ExtraData.Split(":");
+			: base(item)
+		{
+			string[] data = Item.ExtraData.Split(":");
 			if (data.Length == 4)
 			{
 				Active = bool.Parse(data[0]);
@@ -29,10 +25,8 @@ namespace AliasPro.Items.Interaction
 			}
 		}
 
-		public void Compose(ServerMessage message, bool tradeItem)
+		public override void ComposeExtraData(ServerMessage message)
 		{
-			if (!tradeItem)
-				message.WriteInt(0);
 			message.WriteInt(5);
 			message.WriteInt(4);
             message.WriteInt(Active ? 1 : 0);
@@ -40,42 +34,12 @@ namespace AliasPro.Items.Interaction
             message.WriteInt(Saturation);
             message.WriteInt(Brightness);
         }
-
-		public void OnPlaceItem()
-		{
-
-		}
-
-		public void OnPickupItem()
-		{
-
-		}
-
-		public void OnMoveItem()
-		{
-
-		}
-
-		public void OnUserWalkOn(BaseEntity entity)
-        {
-
-        }
-
-        public void OnUserWalkOff(BaseEntity entity)
-        {
-
-        }
         
-        public async void OnUserInteract(BaseEntity entity, int state)
+        public async override void OnUserInteract(BaseEntity entity, int state)
         {
 			Active = !Active;
-			_item.ExtraData = Active ? "1" : "0" + ":" + Hue + ":" + Saturation + ":" + Brightness;
-			await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
+			Item.ExtraData = Active ? "1" : "0" + ":" + Hue + ":" + Saturation + ":" + Brightness;
+			await Item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(Item));
 		}
-
-        public void OnCycle()
-        {
-
-        }
     }
 }

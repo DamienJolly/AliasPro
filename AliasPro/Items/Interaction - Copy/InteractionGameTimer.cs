@@ -1,4 +1,5 @@
-﻿using AliasPro.API.Items.Models;
+﻿using AliasPro.API.Items.Interaction;
+using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Packets.Composers;
@@ -8,34 +9,64 @@ using System;
 
 namespace AliasPro.Items.Interaction
 {
-    public class InteractionGameTimer : ItemInteraction
+    public class InteractionGameTimer : IItemInteractor
     {
+        private readonly IItem _item;
+
         private bool _active = false;
         private bool _isPaused = false;
         private int _tick = 0;
         private int _timer = 30;
 
         public InteractionGameTimer(IItem item)
-            : base(item)
         {
-            if (int.TryParse(Item.ExtraData, out int timer))
+            _item = item;
+
+            if (int.TryParse(_item.ExtraData, out int timer))
                 _timer = timer;
 
             _tick = _timer * 2;
         }
 
-        public override void ComposeExtraData(ServerMessage message)
-        {
+		public void Compose(ServerMessage message, bool tradeItem)
+		{
 			double timeLeft = Math.Ceiling(_tick / 2.0);
 
+			if (!tradeItem)
+				message.WriteInt(1);
 			message.WriteInt(0);
             message.WriteDouble(timeLeft);
         }
 
-        public async override void OnUserInteract(BaseEntity entity, int state)
+		public void OnPlaceItem()
+		{
+
+		}
+
+		public void OnPickupItem()
+		{
+
+		}
+
+		public void OnMoveItem()
+		{
+
+		}
+
+		public void OnUserWalkOn(BaseEntity entity)
+        {
+
+        }
+
+        public void OnUserWalkOff(BaseEntity entity)
+        {
+
+        }
+
+        public async void OnUserInteract(BaseEntity entity, int state)
         {
 			if (entity is PlayerEntity playerEntity)
-				if (!Item.CurrentRoom.Rights.HasRights(playerEntity.Player.Id)) return;
+				if (!_item.CurrentRoom.Rights.HasRights(playerEntity.Player.Id)) return;
 
             //todo: activate with wired
 
@@ -48,9 +79,9 @@ namespace AliasPro.Items.Interaction
                             _isPaused = !_isPaused;
 
                             if (_isPaused)
-                                Item.CurrentRoom.Game.PauseGames();
+                                _item.CurrentRoom.Game.PauseGames();
                             else
-                                Item.CurrentRoom.Game.UnpauseGames();
+                                _item.CurrentRoom.Game.UnpauseGames();
                         }
                         else
                         {
@@ -58,9 +89,9 @@ namespace AliasPro.Items.Interaction
                             _isPaused = false;
                             _tick = _timer * 2;
 
-                            Item.CurrentRoom.Game.StartGames();
-                            Item.CurrentRoom.Items.TriggerWired(WiredInteractionType.GAME_STARTS);
-                            Item.CurrentRoom.Items.TriggerWired(WiredInteractionType.AT_GIVEN_TIME);
+                            _item.CurrentRoom.Game.StartGames();
+                            _item.CurrentRoom.Items.TriggerWired(WiredInteractionType.GAME_STARTS);
+                            _item.CurrentRoom.Items.TriggerWired(WiredInteractionType.AT_GIVEN_TIME);
                         }
 
                         break;
@@ -75,16 +106,16 @@ namespace AliasPro.Items.Interaction
                             _timer = 30;
 
                         _tick = _timer * 2;
-                        Item.ExtraData = _timer.ToString();
+                        _item.ExtraData = _timer.ToString();
 
                         break;
                     }
             }
 
-            await Item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(Item));
+            await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
         }
 
-        public async override void OnCycle()
+        public async void OnCycle()
         {
             if (_active && !_isPaused)
             {
@@ -93,12 +124,12 @@ namespace AliasPro.Items.Interaction
                     _active = false;
                     _tick = _timer * 2;
 
-                    Item.CurrentRoom.Game.EndGames();
-                    Item.CurrentRoom.Items.TriggerWired(WiredInteractionType.GAME_ENDS);
+                    _item.CurrentRoom.Game.EndGames();
+                    _item.CurrentRoom.Items.TriggerWired(WiredInteractionType.GAME_ENDS);
                 }
                 _tick--;
 
-                await Item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(Item));
+                await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
             }
         }
     }

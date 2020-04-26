@@ -1,63 +1,44 @@
-﻿using AliasPro.API.Items.Interaction;
-using AliasPro.API.Items.Models;
+﻿using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Packets.Composers;
 
 namespace AliasPro.Items.Interaction
 {
-    public class InteractionPressureTile : IItemInteractor
-    {
-        private readonly IItem _item;
-
+    public class InteractionPressureTile : ItemInteraction
+	{
         public InteractionPressureTile(IItem item)
-        {
-            _item = item;
-        }
-
-		public void Compose(ServerMessage message, bool tradeItem)
+			: base(item)
 		{
-			if (!tradeItem)
-				message.WriteInt(1);
+
+		}
+
+		public override void ComposeExtraData(ServerMessage message)
+		{
 			message.WriteInt(0);
-            message.WriteString(_item.ExtraData);
-        }
+			message.WriteString(Item.ExtraData);
+		}
 
-		public void OnPlaceItem()
+		public override void OnPlaceItem()
 		{
-			_item.ExtraData = "0";
+			Item.ExtraData = "0";
 		}
 
-		public void OnPickupItem()
+		public override void OnMoveItem()
 		{
-			_item.ExtraData = "0";
+			Item.ExtraData = "0";
 		}
 
-		public void OnMoveItem()
-		{
-			_item.ExtraData = "0";
+		public async override void OnUserWalkOn(BaseEntity entity)
+        {
+			Item.ExtraData = "1";
+			await Item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(Item));
 		}
 
-		public async void OnUserWalkOn(BaseEntity entity)
+        public async override void OnUserWalkOff(BaseEntity entity)
         {
-			_item.ExtraData = "1";
-			await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
+			Item.ExtraData = "0";
+			await Item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(Item));
 		}
-
-        public async void OnUserWalkOff(BaseEntity entity)
-        {
-			_item.ExtraData = "0";
-			await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
-		}
-        
-        public void OnUserInteract(BaseEntity entity, int state)
-        {
-
-        }
-
-        public void OnCycle()
-        {
-
-        }
     }
 }

@@ -1,5 +1,4 @@
-﻿using AliasPro.API.Items.Interaction;
-using AliasPro.API.Items.Models;
+﻿using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.Communication.Messages.Protocols;
@@ -10,83 +9,65 @@ using System.Collections.Generic;
 
 namespace AliasPro.Items.Interaction
 {
-    public class InteractionVendingMachine : IItemInteractor
+    public class InteractionVendingMachine : ItemInteraction
     {
-        private readonly IItem _item;
-
         private int _tickCount = 0;
 
         public InteractionVendingMachine(IItem item)
+            : base(item)
         {
-            _item = item;
+
         }
 
-        public void Compose(ServerMessage message, bool tradeItem)
+        public override void ComposeExtraData(ServerMessage message)
         {
-			if (!tradeItem)
-				message.WriteInt(1);
-			message.WriteInt(0);
-            message.WriteString(_item.ExtraData);
+            message.WriteInt(0);
+            message.WriteString(Item.ExtraData);
         }
 
-		public void OnPlaceItem()
+        public override void OnPlaceItem()
 		{
+            Item.ExtraData = "0";
+        }
 
+		public override void OnMoveItem()
+		{
+            Item.ExtraData = "0";
 		}
 
-		public void OnPickupItem()
-		{
-			_item.ExtraData = "0";
-		}
-
-		public void OnMoveItem()
-		{
-			_item.ExtraData = "0";
-		}
-
-		public void OnUserWalkOn(BaseEntity entity)
-        {
-
-        }
-
-        public void OnUserWalkOff(BaseEntity entity)
-        {
-
-        }
-
-        public async void OnUserInteract(BaseEntity entity, int state)
+        public async override void OnUserInteract(BaseEntity entity, int state)
         {
             if (entity == null) return;
 
-            if (!_item.CurrentRoom.RoomGrid.TryGetRoomTile(_item.Position.X, _item.Position.Y, out IRoomTile tile))
+            if (!Item.CurrentRoom.RoomGrid.TryGetRoomTile(Item.Position.X, Item.Position.Y, out IRoomTile tile))
                 return;
 
-            IRoomPosition position = tile.PositionInFront(_item.Rotation);
+            IRoomPosition position = tile.PositionInFront(Item.Rotation);
             if (!(position.X == entity.Position.X && position.Y == entity.Position.Y))
             {
                 entity.GoalPosition = position;
                 return;
             }
 
-            if (_item.ExtraData == "1") return;
+            if (Item.ExtraData == "1") return;
 
             if (!entity.Actions.HasStatus("sit") &&
                 !entity.Actions.HasStatus("lay"))
             {
                 entity.Actions.RemoveStatus("mv");
-                entity.SetRotation(entity.Position.CalculateDirection(_item.Position.X, _item.Position.Y));
+                entity.SetRotation(entity.Position.CalculateDirection(Item.Position.X, Item.Position.Y));
             }
 
-            _item.ExtraData = "1";
-            _item.InteractingPlayer = entity;
+            Item.ExtraData = "1";
+            Item.InteractingPlayer = entity;
             _tickCount = 0;
 
-            await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
+            await Item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(Item));
         }
 
-        public async void OnCycle()
+        public async override void OnCycle()
         {
-            if (_item.ExtraData != "1") return;
+            if (Item.ExtraData != "1") return;
 
             if (_tickCount < 1)
             {
@@ -94,15 +75,15 @@ namespace AliasPro.Items.Interaction
                 return;
             }
 
-            _item.ExtraData = "0";
+            Item.ExtraData = "0";
             int handItemId =
-                GetRandomVendingMachineId(_item.ItemData.ExtraData);
-            _item.InteractingPlayer.SetHandItem(handItemId);
+                GetRandomVendingMachineId(Item.ItemData.ExtraData);
+            Item.InteractingPlayer.SetHandItem(handItemId);
 
-            await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
-            await _item.CurrentRoom.SendPacketAsync(new UserHandItemComposer(
-                _item.InteractingPlayer.Id,
-                _item.InteractingPlayer.HandItemId));
+            await Item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(Item));
+            await Item.CurrentRoom.SendPacketAsync(new UserHandItemComposer(
+                Item.InteractingPlayer.Id,
+                Item.InteractingPlayer.HandItemId));
         }
 
         private int GetRandomVendingMachineId(string extraData)

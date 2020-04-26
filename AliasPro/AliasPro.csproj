@@ -9,6 +9,7 @@
   <ItemGroup>
     <Compile Remove="API\Network\**" />
     <Compile Remove="Game\**" />
+    <Compile Remove="Items\Interaction - Copy\**" />
     <Compile Remove="Network\Codec\**" />
     <Compile Remove="Network\Events\**" />
     <Compile Remove="Network\Protocol\**" />
@@ -22,6 +23,7 @@
     <Compile Remove="Settings\**" />
     <EmbeddedResource Remove="API\Network\**" />
     <EmbeddedResource Remove="Game\**" />
+    <EmbeddedResource Remove="Items\Interaction - Copy\**" />
     <EmbeddedResource Remove="Network\Codec\**" />
     <EmbeddedResource Remove="Network\Events\**" />
     <EmbeddedResource Remove="Network\Protocol\**" />
@@ -35,6 +37,7 @@
     <EmbeddedResource Remove="Settings\**" />
     <None Remove="API\Network\**" />
     <None Remove="Game\**" />
+    <None Remove="Items\Interaction - Copy\**" />
     <None Remove="Network\Codec\**" />
     <None Remove="Network\Events\**" />
     <None Remove="Network\Protocol\**" />

@@ -1,4 +1,5 @@
-﻿using AliasPro.API.Items.Models;
+﻿using AliasPro.API.Items.Interaction;
+using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.Communication.Messages.Protocols;
@@ -7,22 +8,25 @@ using AliasPro.Rooms.Entities;
 
 namespace AliasPro.Items.Interaction
 {
-    public class InteractionLoveLock : ItemInteraction
-	{
-		public InteractionLoveLock(IItem item)
-			: base(item)
-        {
+    public class InteractionLoveLock : IItemInteractor
+    {
+        private readonly IItem _item;
 
+		public InteractionLoveLock(IItem item)
+        {
+            _item = item;
         }
 
-		public override void ComposeExtraData(ServerMessage message)
+		public void Compose(ServerMessage message, bool tradeItem)
 		{
+			if (!tradeItem)
+				message.WriteInt(0);
 			message.WriteInt(2);
 			message.WriteInt(6);
 
-			if (!string.IsNullOrEmpty(Item.ExtraData))
+			if (!string.IsNullOrEmpty(_item.ExtraData))
 			{
-				string[] data = Item.ExtraData.Split(";");
+				string[] data = _item.ExtraData.Split(";");
 
 				message.WriteString("1");
 				message.WriteString(data[0]);
@@ -40,11 +44,37 @@ namespace AliasPro.Items.Interaction
 				message.WriteString(string.Empty);
 				message.WriteString(string.Empty);
 			}
+
 		}
-        
-        public async override void OnUserInteract(BaseEntity entity, int state)
+
+		public void OnPlaceItem()
+		{
+
+		}
+
+		public void OnPickupItem()
+		{
+
+		}
+
+		public void OnMoveItem()
+		{
+
+		}
+
+		public void OnUserWalkOn(BaseEntity entity)
         {
-			if (!string.IsNullOrEmpty(Item.ExtraData))
+
+        }
+
+        public void OnUserWalkOff(BaseEntity entity)
+        {
+
+        }
+        
+        public async void OnUserInteract(BaseEntity entity, int state)
+        {
+			if (!string.IsNullOrEmpty(_item.ExtraData))
 				return;
 
 			if (!(entity is PlayerEntity playerEntity))
@@ -53,33 +83,38 @@ namespace AliasPro.Items.Interaction
 			if (!CanLoveLock(entity))
 				return;
 
-			if (Item.PlayerId == playerEntity.Player.Id)
+			if (_item.PlayerId == playerEntity.Player.Id)
 			{
-				Item.InteractingPlayer = playerEntity;
-				await playerEntity.Player.Session.SendPacketAsync(new LoveLockStartComposer(Item));
+				_item.InteractingPlayer = playerEntity;
+				await playerEntity.Player.Session.SendPacketAsync(new LoveLockStartComposer(_item));
 			}
 			else
 			{
-				Item.InteractingPlayerTwo = playerEntity;
-				await playerEntity.Player.Session.SendPacketAsync(new LoveLockStartComposer(Item));
+				_item.InteractingPlayerTwo = playerEntity;
+				await playerEntity.Player.Session.SendPacketAsync(new LoveLockStartComposer(_item));
 			}
+        }
+
+        public void OnCycle()
+        {
+
         }
 
 		private bool CanLoveLock(BaseEntity entity)
 		{
-			int leftRot = Item.Rotation - 2;
-			int rightRot = Item.Rotation + 2;
+			int leftRot = _item.Rotation - 2;
+			int rightRot = _item.Rotation + 2;
 
 			if (leftRot < 0) leftRot = 6;
 			if (rightRot > 6) rightRot = 0;
 
-			if (!Item.CurrentRoom.RoomGrid.TryGetRoomTile(Item.Position.X, Item.Position.Y, out IRoomTile tile))
+			if (!_item.CurrentRoom.RoomGrid.TryGetRoomTile(_item.Position.X, _item.Position.Y, out IRoomTile tile))
 				return false;
 
-			if (!Item.CurrentRoom.RoomGrid.TryGetRoomTile(tile.PositionInFront(leftRot).X, tile.PositionInFront(leftRot).Y, out IRoomTile leftTile))
+			if (!_item.CurrentRoom.RoomGrid.TryGetRoomTile(tile.PositionInFront(leftRot).X, tile.PositionInFront(leftRot).Y, out IRoomTile leftTile))
 				return false;
 
-			if (!Item.CurrentRoom.RoomGrid.TryGetRoomTile(tile.PositionInFront(rightRot).X, tile.PositionInFront(rightRot).Y, out IRoomTile rightTile))
+			if (!_item.CurrentRoom.RoomGrid.TryGetRoomTile(tile.PositionInFront(rightRot).X, tile.PositionInFront(rightRot).Y, out IRoomTile rightTile))
 				return false;
 
 			if ((leftTile.Position.X == entity.Position.X && leftTile.Position.Y == entity.Position.Y) ||

@@ -1,56 +1,32 @@
-﻿using AliasPro.API.Items.Interaction;
-using AliasPro.API.Items.Models;
+﻿using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Packets.Composers;
 
 namespace AliasPro.Items.Interaction
 {
-    public class InteractionScoreboard : IItemInteractor
+    public class InteractionScoreboard : ItemInteraction
     {
-        private readonly IItem _item;
-
         public InteractionScoreboard(IItem item)
-        {
-            _item = item;
-        }
-
-		public void Compose(ServerMessage message, bool tradeItem)
-		{
-			if (!tradeItem)
-				message.WriteInt(1);
-			message.WriteInt(0);
-            message.WriteString(_item.ExtraData);
-        }
-
-		public void OnPlaceItem()
-		{
-
-		}
-
-		public void OnPickupItem()
-		{
-            _item.ExtraData = "";
-		}
-
-		public void OnMoveItem()
-		{
-
-		}
-
-		public void OnUserWalkOn(BaseEntity entity)
+            : base(item)
         {
 
         }
 
-        public void OnUserWalkOff(BaseEntity entity)
+        public override void ComposeExtraData(ServerMessage message)
         {
-
+            message.WriteInt(0);
+            message.WriteString(Item.ExtraData);
         }
+
+        public override void OnPlaceItem()
+		{
+            Item.ExtraData = "";
+		}
         
-        public async void OnUserInteract(BaseEntity entity, int state)
+        public async override void OnUserInteract(BaseEntity entity, int state)
         {
-            int.TryParse(_item.ExtraData, out int currentScore);
+            int.TryParse(Item.ExtraData, out int currentScore);
 
             switch (state)
             {
@@ -68,13 +44,8 @@ namespace AliasPro.Items.Interaction
             else if (currentScore < 0)
                 currentScore = 99;
 
-            _item.ExtraData = $"{currentScore}";
-			await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
-        }
-
-        public void OnCycle()
-        {
-
+            Item.ExtraData = $"{currentScore}";
+			await Item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(Item));
         }
     }
 }

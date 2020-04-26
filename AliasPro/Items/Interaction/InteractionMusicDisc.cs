@@ -1,63 +1,22 @@
-﻿using AliasPro.API.Items;
-using AliasPro.API.Items.Interaction;
-using AliasPro.API.Items.Models;
-using AliasPro.API.Rooms.Entities;
+﻿using AliasPro.API.Items.Models;
 using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Items.Interaction
 {
-    public class InteractionMusicDisc : IItemInteractor
+    public class InteractionMusicDisc : ItemInteraction
     {
-        private readonly IItem _item;
+        public int SongId = 0;
 
         public InteractionMusicDisc(IItem item)
+            : base(item)
         {
-            _item = item;
+            int.TryParse(Item.ItemData.ExtraData, out SongId);
         }
 
-		public void Compose(ServerMessage message, bool tradeItem)
-		{
-            int.TryParse(_item.ItemData.ExtraData, out int songId);
-
-            if (!tradeItem)
-				message.WriteInt(_item.CurrentRoom != null ? songId : 8);
+        public override void ComposeExtraData(ServerMessage message)
+        {
 			message.WriteInt(0);
-            message.WriteString(songId + "");
-        }
-
-        public void OnPlaceItem()
-		{
-
-		}
-
-		public void OnPickupItem()
-		{
-
-		}
-
-		public void OnMoveItem()
-		{
-
-		}
-
-		public void OnUserWalkOn(BaseEntity entity)
-        {
-
-        }
-
-        public void OnUserWalkOff(BaseEntity entity)
-        {
-
-        }
-        
-        public void OnUserInteract(BaseEntity entity, int state)
-        {
-
-        }
-
-        public void OnCycle()
-        {
-
+            message.WriteString(SongId + "");
         }
     }
 }

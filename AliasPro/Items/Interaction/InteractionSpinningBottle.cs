@@ -1,5 +1,4 @@
-﻿using AliasPro.API.Items.Interaction;
-using AliasPro.API.Items.Models;
+﻿using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.Communication.Messages.Protocols;
@@ -8,80 +7,57 @@ using AliasPro.Utilities;
 
 namespace AliasPro.Items.Interaction
 {
-    public class InteractionSpinningBottle : IItemInteractor
-    {
-        private readonly IItem _item;
-
+    public class InteractionSpinningBottle : ItemInteraction
+	{
 		private int _tickCount = 0;
 
 		public InteractionSpinningBottle(IItem item)
-        {
-            _item = item;
+			: base(item)
+		{
+
         }
 
-		public void Compose(ServerMessage message, bool tradeItem)
+		public override void ComposeExtraData(ServerMessage message)
 		{
-			if (!tradeItem)
-				message.WriteInt(1);
 			message.WriteInt(0);
-			message.WriteString(_item.ExtraData);
+			message.WriteString(Item.ExtraData);
 		}
 
-		public void OnPlaceItem()
+		public override void OnPlaceItem()
 		{
-
+			if (Item.ExtraData == "-1")
+				Item.ExtraData = "0";
 		}
-
-		public void OnPickupItem()
-		{
-			if (_item.ExtraData == "-1")
-				_item.ExtraData = "0";
-		}
-
-		public void OnMoveItem()
-		{
-
-		}
-
-		public void OnUserWalkOn(BaseEntity entity)
-        {
-
-        }
-
-        public void OnUserWalkOff(BaseEntity entity)
-        {
-
-        }
         
-        public async void OnUserInteract(BaseEntity entity, int state)
+        public async override void OnUserInteract(BaseEntity entity, int state)
         {
 			if (entity == null) return;
 
-			if (_item.ExtraData == "-1") return;
+			if (Item.ExtraData == "-1") return;
 
-			if (!_item.CurrentRoom.RoomGrid.TryGetRoomTile(_item.Position.X, _item.Position.Y, out IRoomTile tile))
+			if (!Item.CurrentRoom.RoomGrid.TryGetRoomTile(Item.Position.X, Item.Position.Y, out IRoomTile tile))
 				return;
 
 			if (!tile.TilesAdjecent(entity.Position))
 			{
-				IRoomPosition position = tile.PositionInFront(_item.Rotation);
+				IRoomPosition position = tile.PositionInFront(Item.Rotation);
 				entity.GoalPosition = position;
 				return;
 			}
 
-			_item.ExtraData = "-1";
+			Item.ExtraData = "-1";
 			_tickCount = 0;
-			await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
+			await Item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(Item));
 		}
 
-        public async void OnCycle()
+        public async override void OnCycle()
         {
-			if (_item.ExtraData == "-1")
+			if (Item.ExtraData == "-1")
 			{
 				if (_tickCount >= 6)
 				{
-					_item.ExtraData = Randomness.RandomNumber(0, _item.ItemData.Modes) + "";
-					await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
+					Item.ExtraData = Randomness.RandomNumber(0, Item.ItemData.Modes) + "";
+					await Item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(Item));
 				}
 				_tickCount++;
 			}

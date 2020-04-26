@@ -1,6 +1,4 @@
-﻿using AliasPro.API.Items;
-using AliasPro.API.Items.Interaction;
-using AliasPro.API.Items.Models;
+﻿using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.Communication.Messages.Protocols;
@@ -8,52 +6,29 @@ using AliasPro.Items.Packets.Composers;
 
 namespace AliasPro.Items.Interaction
 {
-    public class InteractionJukeBox : IItemInteractor
+    public class InteractionJukeBox : ItemInteraction
     {
-        private readonly IItem _item;
-
         public InteractionJukeBox(IItem item)
+            : base(item)
         {
-            _item = item;
+
         }
 
-		public void Compose(ServerMessage message, bool tradeItem)
-		{
-            if (!tradeItem)
-                message.WriteInt(1);
+        public override void ComposeExtraData(ServerMessage message)
+        {
             message.WriteInt(0);
-            message.WriteString(_item.ExtraData);
+            message.WriteString(Item.ExtraData);
         }
 
-        public void OnPlaceItem()
+		public override void OnPickupItem()
 		{
-
+            Item.CurrentRoom.Trax.Stop();
+            Item.ExtraData = "0";
         }
 
-		public void OnPickupItem()
-		{
-            _item.CurrentRoom.Trax.Stop();
-            _item.ExtraData = "0";
-        }
-
-		public void OnMoveItem()
-		{
-
-		}
-
-		public void OnUserWalkOn(BaseEntity entity)
+        public async override void OnUserInteract(BaseEntity entity, int state)
         {
-
-        }
-
-        public void OnUserWalkOff(BaseEntity entity)
-        {
-
-        }
-
-        public async void OnUserInteract(BaseEntity entity, int state)
-        {
-            IRoom room = _item.CurrentRoom;
+            IRoom room = Item.CurrentRoom;
             if (room == null)
                 return;
 
@@ -65,22 +40,22 @@ namespace AliasPro.Items.Interaction
                 room.Trax.Play();
 
                 if (room.Trax.CurrentlyPlaying)
-                    _item.ExtraData = "1";
+                    Item.ExtraData = "1";
                 else
-                    _item.ExtraData = "0";
+                    Item.ExtraData = "0";
             }
             else
             {
                 room.Trax.Stop();
-                _item.ExtraData = "0";
+                Item.ExtraData = "0";
             }
 
-            await room.SendPacketAsync(new FloorItemUpdateComposer(_item));
+            await room.SendPacketAsync(new FloorItemUpdateComposer(Item));
         }
 
-        public void OnCycle()
+        public override void OnCycle()
         {
-            if (_item.ExtraData == "1" && !_item.CurrentRoom.Trax.CurrentlyPlaying)
+            if (Item.ExtraData == "1" && !Item.CurrentRoom.Trax.CurrentlyPlaying)
                 OnUserInteract(null, 0);
         }
     }

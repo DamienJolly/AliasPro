@@ -2,6 +2,7 @@
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.Communication.Messages.Protocols;
+using AliasPro.Items.Interaction;
 
 namespace AliasPro.API.Items.Models
 {
@@ -25,7 +26,7 @@ namespace AliasPro.API.Items.Models
 
 		IRoom CurrentRoom { get; set; }
 
-        IItemInteractor Interaction { get; set; }
+        ItemInteraction Interaction { get; set; }
         IWiredInteractor WiredInteraction { get; set; }
     }
 }

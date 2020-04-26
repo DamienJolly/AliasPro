@@ -1,77 +1,35 @@
-﻿using AliasPro.API.Items.Interaction;
-using AliasPro.API.Items.Models;
-using AliasPro.API.Rooms.Entities;
+﻿using AliasPro.API.Items.Models;
 using AliasPro.Communication.Messages.Protocols;
 
 namespace AliasPro.Items.Interaction
 {
-    public class InteractionBadgeDisplay : IItemInteractor
-    {
-        private readonly IItem _item;
+    public class InteractionBadgeDisplay : ItemInteraction
+	{
+		private readonly string _badgeCode = "";
+		private readonly string _username = "Unknown Player";
+		private readonly string _date = "Unknown Date";
 
-        public InteractionBadgeDisplay(IItem item)
-        {
-            _item = item;
-        }
-
-		public void Compose(ServerMessage message, bool tradeItem)
+		public InteractionBadgeDisplay(IItem item)
+			: base(item)
 		{
-			if (!tradeItem)
-				message.WriteInt(0);
+			if(!string.IsNullOrEmpty(Item.ExtraData))
+			{
+				string[] data = Item.ExtraData.Split(";");
+
+				_badgeCode = data[0];
+				_username = data[1];
+				_date = data[2];
+			}
+		}
+
+		public override void ComposeExtraData(ServerMessage message)
+		{
 			message.WriteInt(2);
 			message.WriteInt(4);
 			message.WriteString("0");
-
-			if (!string.IsNullOrEmpty(_item.ExtraData))
-			{
-				string[] data = _item.ExtraData.Split(";");
-
-				message.WriteString(data[0]);
-				message.WriteString(data[1]);
-				message.WriteString(data[2]);
-			}
-			else
-			{
-				message.WriteString(string.Empty);
-				message.WriteString("Unknown User");
-				message.WriteString("Unknown Date");
-			}
-
+			message.WriteString(_badgeCode);
+			message.WriteString(_username);
+			message.WriteString(_date);
 		}
-
-		public void OnPlaceItem()
-		{
-
-		}
-
-		public void OnPickupItem()
-		{
-
-		}
-
-		public void OnMoveItem()
-		{
-
-		}
-
-		public void OnUserWalkOn(BaseEntity entity)
-        {
-
-        }
-
-        public void OnUserWalkOff(BaseEntity entity)
-        {
-
-        }
-        
-        public void OnUserInteract(BaseEntity entity, int state)
-        {
-			
-        }
-
-        public void OnCycle()
-        {
-
-        }
     }
 }

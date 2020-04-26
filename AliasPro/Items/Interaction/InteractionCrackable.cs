@@ -1,5 +1,4 @@
 ﻿using AliasPro.API.Items;
-using AliasPro.API.Items.Interaction;
 using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
@@ -11,65 +10,36 @@ using AliasPro.Tasks;
 
 namespace AliasPro.Items.Interaction
 {
-    public class InteractionCrackable : IItemInteractor
+    public class InteractionCrackable : ItemInteraction
     {
-        private readonly IItem _item;
-
         public bool Cracked = false;
 
-        public InteractionCrackable(IItem item)
+        public InteractionCrackable(IItem item) 
+            : base(item)
         {
-            _item = item;
+
         }
 
-		public void Compose(ServerMessage message, bool tradeItem)
-		{
-			if (!tradeItem)
-				message.WriteInt(1);
+        public override void ComposeExtraData(ServerMessage message)
+        {
 			message.WriteInt(7);
 
-            int.TryParse(_item.ExtraData, out int hits);
+            int.TryParse(Item.ExtraData, out int hits);
             int totalHits = 0;
             int crackState = 0;
 
-            if (Program.GetService<IItemController>().TryGetCrackableDataById((int)_item.ItemData.Id, out ICrackableData crackable))
+            if (Program.GetService<IItemController>().TryGetCrackableDataById((int)Item.ItemData.Id, out ICrackableData crackable))
             {
                 totalHits = crackable.Count;
-                crackState = crackable.CalculateCrackState(hits, _item.ItemData.Modes - 1);
+                crackState = crackable.CalculateCrackState(hits, Item.ItemData.Modes - 1);
             }
 
             message.WriteString(crackState + "");
             message.WriteInt(hits);
             message.WriteInt(totalHits);
-
-        }
-
-        public void OnPlaceItem()
-		{
-
-		}
-
-		public void OnPickupItem()
-		{
-
-		}
-
-		public void OnMoveItem()
-		{
-
-		}
-
-		public void OnUserWalkOn(BaseEntity entity)
-        {
-
-        }
-
-        public void OnUserWalkOff(BaseEntity entity)
-        {
-
         }
         
-        public async void OnUserInteract(BaseEntity entity, int state)
+        public async override void OnUserInteract(BaseEntity entity, int state)
         {
             if (!(entity is PlayerEntity playerEntity))
                 return;
@@ -77,44 +47,39 @@ namespace AliasPro.Items.Interaction
             if (Cracked)
                 return;
 
-            if (_item.PlayerId != playerEntity.Player.Id)
+            if (Item.PlayerId != playerEntity.Player.Id)
                 return;
 
-            if (!Program.GetService<IItemController>().TryGetCrackableDataById((int)_item.ItemData.Id, out ICrackableData crackable))
+            if (!Program.GetService<IItemController>().TryGetCrackableDataById((int)Item.ItemData.Id, out ICrackableData crackable))
                 return;
 
             //todo: required effects
 
-                if (!_item.CurrentRoom.RoomGrid.TryGetRoomTile(_item.Position.X, _item.Position.Y, out IRoomTile tile))
+                if (!Item.CurrentRoom.RoomGrid.TryGetRoomTile(Item.Position.X, Item.Position.Y, out IRoomTile tile))
                 return;
 
             if (!tile.TilesAdjecent(playerEntity.Position))
             {
-                IRoomPosition position = tile.PositionInFront(_item.Rotation);
+                IRoomPosition position = tile.PositionInFront(Item.Rotation);
                 playerEntity.GoalPosition = position;
                 return;
             }
 
-            int.TryParse(_item.ExtraData, out int hits);
+            int.TryParse(Item.ExtraData, out int hits);
             hits++;
-            _item.ExtraData = "" + hits;
-            await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
+            Item.ExtraData = "" + hits;
+            await Item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(Item));
 
             //todo: progress tick achievement
 
             if (!Cracked && hits == crackable.Count)
             {
                 Cracked = true;
-                await TaskManager.ExecuteTask(new CrackableExplode(_item, playerEntity.Session, true), 1500);
+                await TaskManager.ExecuteTask(new CrackableExplode(Item, playerEntity.Session, true), 1500);
 
                 //todo: progress cracked achievement
                 //todo: subscriptions (for sub boxes)
             }
-        }
-
-        public void OnCycle()
-        {
-
         }
     }
 }

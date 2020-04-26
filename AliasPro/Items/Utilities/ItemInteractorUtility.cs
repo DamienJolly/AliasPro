@@ -7,7 +7,7 @@ namespace AliasPro.Items.Utilities
 {
     public class ItemInteractorUtility
     {
-        public static IItemInteractor GetItemInteractor(ItemInteractionType interaction, IItem item)
+        public static ItemInteraction GetItemInteractor(ItemInteractionType interaction, IItem item)
         {
             switch (interaction)
             {
@@ -17,7 +17,6 @@ namespace AliasPro.Items.Utilities
                 case ItemInteractionType.WIRED_EFFECT: return new InteractionWired(item);
                 case ItemInteractionType.WIRED_CONDITION: return new InteractionWired(item);
                 case ItemInteractionType.VENDING_MACHINE: return new InteractionVendingMachine(item);
-                case ItemInteractionType.ROLLER: return new InteractionRoller(item);
                 case ItemInteractionType.DICE: return new InteractionDice(item);
 				case ItemInteractionType.EXCHANGE: return new InteractionExchange(item);
 				case ItemInteractionType.LOVE_LOCK: return new InteractionLoveLock(item);
@@ -31,8 +30,6 @@ namespace AliasPro.Items.Utilities
 				case ItemInteractionType.PRESSURE_TILE: return new InteractionPressureTile(item);
 				case ItemInteractionType.TENT: return new InteractionTent(item);
 				case ItemInteractionType.WATER: return new InteractionWater(item);
-				case ItemInteractionType.WALLPAPER: return new InteractionWallpaper(item);
-				case ItemInteractionType.FLOOR: return new InteractionFloor(item);
 				case ItemInteractionType.BACKGROUND_TONER: return new InteractionBackgroundToner(item);
 				case ItemInteractionType.ECOTRON: return new InteractionEcotron(item);
 				case ItemInteractionType.DIMMER: return new InteractionDimmer(item);

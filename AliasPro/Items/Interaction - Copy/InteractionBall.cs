@@ -1,34 +1,51 @@
-﻿using AliasPro.API.Items.Models;
+﻿using AliasPro.API.Items.Interaction;
+using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
+using AliasPro.API.Tasks;
 using AliasPro.Communication.Messages.Protocols;
+using AliasPro.Items.Packets.Composers;
 using AliasPro.Items.Tasks;
+using AliasPro.Rooms.Entities;
 using AliasPro.Tasks;
 
 namespace AliasPro.Items.Interaction
 {
-    public class InteractionBall : ItemInteraction
+    public class InteractionBall : IItemInteractor
     {
+        public readonly IItem Item;
+
         private KickBallTask _currentTask = null;
 
         public InteractionBall(IItem item)
-            : base (item)
         {
-
+            Item = item;
         }
 
-		public override void ComposeExtraData(ServerMessage message)
+		public void Compose(ServerMessage message, bool tradeItem)
 		{
+			if (!tradeItem)
+				message.WriteInt(1);
 			message.WriteInt(0);
             message.WriteString(Item.ExtraData);
         }
 
-		public override void OnPlaceItem()
+		public void OnPlaceItem()
 		{
-            Item.ExtraData = "";
+
 		}
 
-		public async override void OnUserWalkOn(BaseEntity entity)
+		public void OnPickupItem()
+		{
+
+		}
+
+		public void OnMoveItem()
+		{
+
+		}
+
+		public async void OnUserWalkOn(BaseEntity entity)
         {
             int velocity;
             int direction;
@@ -58,7 +75,7 @@ namespace AliasPro.Items.Interaction
             }
         }
 
-        public async override void OnUserWalkOff(BaseEntity entity)
+        public async void OnUserWalkOff(BaseEntity entity)
         {
             if (!(_currentTask == null || _currentTask.Dead))
                 return;
@@ -77,7 +94,7 @@ namespace AliasPro.Items.Interaction
             }
         }
 
-        public async override void OnUserInteract(BaseEntity entity, int state)
+        public async void OnUserInteract(BaseEntity entity, int state)
         {
             if (entity == null) return;
 
@@ -99,6 +116,11 @@ namespace AliasPro.Items.Interaction
                 _currentTask = new KickBallTask(this, entity, velocity, direction);
                 await TaskManager.ExecuteTask(_currentTask);
             }
+        }
+
+        public void OnCycle()
+        {
+
         }
 
         private int GetWalkOnVelocity(BaseEntity entity)

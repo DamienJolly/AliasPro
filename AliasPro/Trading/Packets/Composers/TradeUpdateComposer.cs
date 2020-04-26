@@ -31,7 +31,7 @@ namespace AliasPro.Trading.Packets.Composers
 					message.WriteInt((int)item.ItemData.SpriteId);
 					message.WriteInt(0);
 					message.WriteBoolean(item.ItemData.CanStack);
-					item.Interaction.Compose(message, true);
+					item.Interaction.ComposeExtraData(message);
 					message.WriteInt(0);
 					message.WriteInt(0);
 					message.WriteInt(0);

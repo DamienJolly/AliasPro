@@ -108,7 +108,6 @@ namespace AliasPro.Rooms.Packets.Events
 
             if (!roomData.IsPromoted || roomData.Promotion.Category != categoryId)
             {
-                //todo: add end timestamp to config?
                 roomData.Promotion = new RoomPromotion(categoryId, title, description, (int)UnixTimestamp.Now, (int)UnixTimestamp.Now + (120 * 60));
                 roomData.Promotion.Id = await _roomController.AddRoomPromotion(roomData.Id, roomData.Promotion);
             }

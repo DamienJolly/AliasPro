@@ -8,6 +8,8 @@ namespace AliasPro.Items.Interaction
 {
     public class InteractionDefault : ItemInteraction
     {
+        private readonly IItem _item;
+
         public InteractionDefault(IItem item)
             : base(item)
         {
@@ -17,30 +19,30 @@ namespace AliasPro.Items.Interaction
 		public override void ComposeExtraData(ServerMessage message)
 		{
 			message.WriteInt(0);
-            message.WriteString(Item.ExtraData);
+            message.WriteString(_item.ExtraData);
         }
         
         public async override void OnUserInteract(BaseEntity entity, int state)
         {
-            int modes = Item.ItemData.Modes - 1;
+            int modes = _item.ItemData.Modes - 1;
             if (modes <= 0)
                 return;
 
             if (entity is PlayerEntity playerEntity)
-				if (!Room.Rights.HasRights(playerEntity.Player.Id)) return;
+				if (!_item.CurrentRoom.Rights.HasRights(playerEntity.Player.Id)) return;
 
 
-            if (Item.ItemData.Modes > 0)
+            if (_item.ItemData.Modes > 0)
             {
-                if (!int.TryParse(Item.ExtraData, out int currentState))
+                if (!int.TryParse(_item.ExtraData, out int currentState))
                 {
                     currentState = 0;
                 }
 
-                Item.ExtraData = "" + (currentState + 1) % Item.ItemData.Modes;
+                _item.ExtraData = "" + (currentState + 1) % _item.ItemData.Modes;
             }
 
-			await Room.SendPacketAsync(new FloorItemUpdateComposer(Item));
+			await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
         }
     }
 }

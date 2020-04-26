@@ -1,42 +1,67 @@
-﻿using AliasPro.API.Items.Models;
+﻿using AliasPro.API.Items.Interaction;
+using AliasPro.API.Items.Models;
+using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Packets.Composers;
 
 namespace AliasPro.Items.Interaction
 {
-    public class InteractionWater : ItemInteraction
-	{
-        public InteractionWater(IItem item)
-			: base(item)
-        {
+    public class InteractionWater : IItemInteractor
+    {
+        private readonly IItem _item;
 
+        public InteractionWater(IItem item)
+        {
+            _item = item;
         }
 
-		public override void ComposeExtraData(ServerMessage message)
+		public void Compose(ServerMessage message, bool tradeItem)
 		{
+			if (!tradeItem)
+				message.WriteInt(1);
 			message.WriteInt(0);
-			message.WriteString(Item.ExtraData);
-		}
+            message.WriteString(_item.ExtraData);
+        }
 
-		public override void OnPlaceItem()
+		public void OnPlaceItem()
 		{
 			HandleWater();
 		}
 
-		public override void OnPickupItem()
+		public void OnPickupItem()
 		{
 			OnMoveItem();
 		}
 
-		public override void OnMoveItem()
+		public void OnMoveItem()
 		{
 			HandleWater();
 		}
 
+		public void OnUserWalkOn(BaseEntity entity)
+        {
+
+        }
+
+        public void OnUserWalkOff(BaseEntity entity)
+        {
+
+        }
+        
+        public void OnUserInteract(BaseEntity entity, int state)
+        {
+
+        }
+
+        public void OnCycle()
+        {
+
+        }
+
 		private async void HandleWater()
 		{
-			foreach (IItem waterItem in Item.CurrentRoom.Items.FloorItems)
+			foreach (IItem waterItem in _item.CurrentRoom.Items.FloorItems)
 			{
 				if (waterItem?.CurrentRoom == null) continue;
 

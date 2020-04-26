@@ -1,4 +1,5 @@
 ﻿using AliasPro.API.Figure;
+using AliasPro.API.Items.Interaction;
 using AliasPro.API.Items.Models;
 using AliasPro.API.Messenger;
 using AliasPro.API.Rooms.Entities;
@@ -10,8 +11,10 @@ using System.Collections.Generic;
 
 namespace AliasPro.Items.Interaction
 {
-    public class InteractionMannequin : ItemInteraction
+    public class InteractionMannequin : IItemInteractor
     {
+        private readonly IItem _item;
+
         public string Gender = "m";
         public string Figure = "";
         public string OutfitName = "My Look";
@@ -20,9 +23,10 @@ namespace AliasPro.Items.Interaction
             Gender + ":" + Figure + ":" + OutfitName;
 
         public InteractionMannequin(IItem item)
-            : base(item)
         {
-            string[] data = Item.ExtraData.Split(":");
+            _item = item;
+
+            string[] data = _item.ExtraData.Split(":");
             if (data.Length == 3)
             {
                 Gender = data[0].ToLower();
@@ -31,8 +35,10 @@ namespace AliasPro.Items.Interaction
             }
         }
 
-        public override void ComposeExtraData(ServerMessage message)
-        {
+		public void Compose(ServerMessage message, bool tradeItem)
+		{
+			if (!tradeItem)
+				message.WriteInt(1);
 			message.WriteInt(1);
 			message.WriteInt(3);
             message.WriteString("GENDER");
@@ -42,8 +48,33 @@ namespace AliasPro.Items.Interaction
             message.WriteString("OUTFIT_NAME");
             message.WriteString(OutfitName);
         }
+
+        public void OnPlaceItem()
+		{
+
+		}
+
+		public void OnPickupItem()
+		{
+
+		}
+
+		public void OnMoveItem()
+		{
+
+		}
+
+		public void OnUserWalkOn(BaseEntity entity)
+        {
+
+        }
+
+        public void OnUserWalkOff(BaseEntity entity)
+        {
+
+        }
         
-        public async override void OnUserInteract(BaseEntity entity, int state)
+        public async void OnUserInteract(BaseEntity entity, int state)
         {
             if (!(entity is PlayerEntity playerEntity))
                 return;
@@ -76,10 +107,15 @@ namespace AliasPro.Items.Interaction
             playerEntity.Player.Figure = playerEntity.Figure = figure;
             playerEntity.Player.Gender = playerEntity.Gender = gender;
             await playerEntity.Session.SendPacketAsync(new UpdateFigureComposer(playerEntity.Figure, playerEntity.Gender));
-            await Item.CurrentRoom.SendPacketAsync(new UpdateEntityDataComposer(playerEntity));
+            await _item.CurrentRoom.SendPacketAsync(new UpdateEntityDataComposer(playerEntity));
 
             if (playerEntity.Player.Messenger != null)
                 await Program.GetService<IMessengerController>().UpdateStatusAsync(playerEntity.Player, playerEntity.Player.Messenger.Friends);
+        }
+
+        public void OnCycle()
+        {
+
         }
     }
 }
