@@ -29,8 +29,8 @@ namespace AliasPro.Rooms.Packets.Events
             uint wiredItemId = (uint)message.ReadInt();
             if (room.Items.TryGetItem(wiredItemId, out IItem wiredItem))
             {
-                if (!wiredItem.ItemData.IsWired) 
-                    return;
+                //if (!wiredItem.ItemData.IsWired) 
+                 //   return;
                 
                 IWiredData wiredData = wiredItem.WiredInteraction.WiredData;
 
@@ -60,7 +60,7 @@ namespace AliasPro.Rooms.Packets.Events
                     }
                 }
                 
-                wiredItem.ExtraData = wiredData.ToString();
+                wiredItem.WiredData = wiredData.ToString();
                 
                 await session.SendPacketAsync(new WiredSavedComposer());
             }

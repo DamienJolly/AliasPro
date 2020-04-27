@@ -1,10 +1,10 @@
 ﻿using AliasPro.API.Database;
-using AliasPro.API.Items.Interaction;
 using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Interaction;
+using AliasPro.Items.Interaction.Wired;
 using AliasPro.Items.Utilities;
 using AliasPro.Rooms.Models;
 using System.Data.Common;
@@ -22,6 +22,7 @@ namespace AliasPro.Items.Models
             RoomId = reader.ReadData<uint>("room_id");
             Rotation = reader.ReadData<int>("rot");
             ExtraData = reader.ReadData<string>("extra_data");
+            WiredData = reader.ReadData<string>("wired_data");
             Position = new RoomPosition(
                 reader.ReadData<int>("x"),
                 reader.ReadData<int>("y"),
@@ -38,6 +39,7 @@ namespace AliasPro.Items.Models
             RoomId = 0;
             Rotation = 0;
             ExtraData = extraData;
+            WiredData = "";
             Position = new RoomPosition(0, 0, 0.00);
             WallCord = string.Empty;
             ItemData = itemData;
@@ -90,30 +92,31 @@ namespace AliasPro.Items.Models
         public uint RoomId { get; set; }
         public int Rotation { get; set; }
         public string ExtraData { get; set; }
+        public string WiredData { get; set; }
         public IRoomPosition Position { get; set; }
         public string WallCord { get; set; }
         public IItemData ItemData { get; set; }
         public BaseEntity InteractingPlayer { get; set; }
-		public BaseEntity InteractingPlayerTwo { get; set; }
+        public BaseEntity InteractingPlayerTwo { get; set; }
+        public IRoom CurrentRoom { get; set; } = null;
 
-		public IRoom CurrentRoom { get; set; } = null;
+        private ItemInteraction _interaction = null;
 
-        private ItemInteraction _interaction { get; set; }
-        private IWiredInteractor _wiredInteraction { get; set; }
+        private WiredInteraction _wiredInteraction = null;
 
-		public ItemInteraction Interaction
+        public ItemInteraction Interaction
 		{
 			get
 			{
-				if (_interaction == null)
-					_interaction = ItemInteractorUtility.GetItemInteractor(ItemData.InteractionType, this);
+                if (_interaction == null)
+                    _interaction = ItemInteractorUtility.GetItemInteraction(ItemData.InteractionType, this);
 
 				return _interaction;
 			}
-			set { }
-		}
+            set {  }
+        }
 
-        public IWiredInteractor WiredInteraction
+        public WiredInteraction WiredInteraction
         {
             get
             {
@@ -122,7 +125,7 @@ namespace AliasPro.Items.Models
 
                 return _wiredInteraction;
             }
-			set { }
-		}
+            set { }
+        }
     }
 }

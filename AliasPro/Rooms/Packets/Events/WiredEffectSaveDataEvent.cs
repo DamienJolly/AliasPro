@@ -61,7 +61,7 @@ namespace AliasPro.Rooms.Packets.Events
 
                 wiredData.Delay = message.ReadInt();
                 message.ReadInt();
-                wiredItem.ExtraData = wiredData.ToString();
+                wiredItem.WiredData = wiredData.ToString();
 
                 await session.SendPacketAsync(new WiredSavedComposer());
             }

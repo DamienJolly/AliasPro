@@ -38,8 +38,9 @@
 		FOOTBALL_SCOREBOARD,
 		FOOTBALL_GOAL,
 
+		//wired
 		WIRED_TRIGGER,
         WIRED_EFFECT,
         WIRED_CONDITION
-    }
+	}
 }

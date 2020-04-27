@@ -468,8 +468,8 @@ namespace AliasPro.Rooms
 			{
 				foreach (IItem item in items)
 				{
-					await Insert(transaction, "UPDATE `items` SET `room_id` = @1, `rot` = @2, `x` = @3, `y` = @4, `z` = @5, `extra_data` = @6, `item_id` = @7, `wall_cord` = @8 WHERE `id` = @0;",
-					   item.Id, item.RoomId, item.Rotation, item.Position.X, item.Position.Y, item.Position.Z, item.ExtraData, item.ItemId, item.WallCord);
+					await Insert(transaction, "UPDATE `items` SET `room_id` = @1, `rot` = @2, `x` = @3, `y` = @4, `z` = @5, `extra_data` = @6, `item_id` = @7, `wall_cord` = @8, `wired_data` = @9 WHERE `id` = @0;",
+					   item.Id, item.RoomId, item.Rotation, item.Position.X, item.Position.Y, item.Position.Z, item.ExtraData, item.ItemId, item.WallCord, item.WiredData);
 				}
 			});
 		}
@@ -478,8 +478,8 @@ namespace AliasPro.Rooms
 		{
 			await CreateTransaction(async transaction =>
 			{
-				await Insert(transaction, "UPDATE `items` SET `room_id` = @1, `rot` = @2, `x` = @3, `y` = @4, `z` = @5, `extra_data` = @6, `item_id` = @7, `wall_cord` = @8 WHERE `id` = @0;",
-					item.Id, item.RoomId, item.Rotation, item.Position.X, item.Position.Y, item.Position.Z, item.ExtraData, item.ItemId, item.WallCord);
+				await Insert(transaction, "UPDATE `items` SET `room_id` = @1, `rot` = @2, `x` = @3, `y` = @4, `z` = @5, `extra_data` = @6, `item_id` = @7, `wall_cord` = @8, `wired_data` = @9 WHERE `id` = @0;",
+					item.Id, item.RoomId, item.Rotation, item.Position.X, item.Position.Y, item.Position.Z, item.ExtraData, item.ItemId, item.WallCord, item.WiredData);
 			});
 		}
 

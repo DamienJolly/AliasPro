@@ -34,6 +34,15 @@ namespace AliasPro.Utilities
 		public static T ToEnum<T>(this string value) => 
 			(T)Enum.Parse(typeof(T), value, true);
 
+		public static T ToEnum<T>(this string value, T defaultValue) 
+			where T : struct
+		{
+			if (string.IsNullOrEmpty(value))
+				return defaultValue;
+
+			return Enum.TryParse(value, true, out T result) ? result : defaultValue;
+		}
+
 		public static string MergeParams(string[] args, int start, int end)
 		{
 			IList<string> parts = new List<string>();

@@ -42,6 +42,9 @@ namespace AliasPro.Players.Packets.Composers
                     case ItemInteractionType.WALLPAPER:
                         message.WriteInt(2);
                         break;
+                    case ItemInteractionType.MUSICDISC:
+                        message.WriteInt(8);
+                        break;
                     default:
                         switch (item.Interaction)
                         {
@@ -49,7 +52,7 @@ namespace AliasPro.Players.Packets.Composers
                                 message.WriteInt((interactionGift.ColorId * 1000) + interactionGift.RibbonId);
                                 break;
                             default:
-                                message.WriteInt(1);
+                                message.WriteInt(0);
                                 break;
                         }
                         break;

@@ -1,13 +1,12 @@
-﻿using AliasPro.API.Items.Interaction;
-using AliasPro.API.Items.Models;
+﻿using AliasPro.API.Items.Models;
+using AliasPro.Items.Interaction.Wired;
 using AliasPro.Items.Types;
-using AliasPro.Items.WiredInteraction;
 
 namespace AliasPro.Items.Utilities
 {
     public class WiredInteractorUtility
     {
-        public static IWiredInteractor GetWiredInteractor(WiredInteractionType interaction, IItem item)
+        public static WiredInteraction GetWiredInteractor(WiredInteractionType interaction, IItem item)
         {
             switch (interaction)
             {
@@ -44,7 +43,7 @@ namespace AliasPro.Items.Utilities
                 case WiredInteractionType.CALL_STACKS: return new WiredInteractionTriggerStacks(item);
 
                 // Conditions
-                case WiredInteractionType.ACTOR_IN_TEAM: return new WiredInteractionActorInTeam(item);
+                //case WiredInteractionType.ACTOR_IN_TEAM: return new WiredInteractionActorInTeam(item);
             }
         }
     }

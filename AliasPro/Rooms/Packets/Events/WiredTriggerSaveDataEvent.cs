@@ -60,7 +60,7 @@ namespace AliasPro.Rooms.Packets.Events
                 }
 
                 message.ReadInt();
-                wiredItem.ExtraData = wiredData.ToString();
+                wiredItem.WiredData = wiredData.ToString();
 
                 await session.SendPacketAsync(new WiredSavedComposer());
             }

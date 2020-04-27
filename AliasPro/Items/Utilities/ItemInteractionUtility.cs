@@ -10,9 +10,6 @@ namespace AliasPro.Items.Utilities
             {
 				default: return ItemInteractionType.DEFAULT;
 				case "default": return ItemInteractionType.DEFAULT;
-				case "wired_trigger": return ItemInteractionType.WIRED_TRIGGER;
-                case "wired_effect": return ItemInteractionType.WIRED_EFFECT;
-                case "wired_condition": return ItemInteractionType.WIRED_CONDITION;
                 case "game_timer": return ItemInteractionType.GAME_TIMER;
                 case "vendingmachine": return ItemInteractionType.VENDING_MACHINE;
 				case "lovelock": return ItemInteractionType.LOVE_LOCK;
@@ -48,6 +45,11 @@ namespace AliasPro.Items.Utilities
 				case "ball": return ItemInteractionType.BALL;
 				case "football_score": return ItemInteractionType.FOOTBALL_SCOREBOARD;
 				case "football_goal": return ItemInteractionType.FOOTBALL_GOAL;
+				
+				//wired
+				case "wired_trigger": return ItemInteractionType.WIRED_TRIGGER;
+				case "wired_effect": return ItemInteractionType.WIRED_EFFECT;
+				case "wired_condition": return ItemInteractionType.WIRED_CONDITION;
 			}
         }
     }

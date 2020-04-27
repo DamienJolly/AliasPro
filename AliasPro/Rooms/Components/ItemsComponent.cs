@@ -34,7 +34,7 @@ namespace AliasPro.Rooms.Components
             {
                 if (trigger.ItemData.WiredInteractionType != interaction) continue;
 
-                trigger.WiredInteraction.OnTrigger(args);
+                trigger.WiredInteraction.Execute(args);
             }
         }
 
@@ -42,7 +42,7 @@ namespace AliasPro.Rooms.Components
         {
             foreach (IItem condition in roomTile.WiredConditions)
             {
-                if (!condition.WiredInteraction.OnTrigger(args))
+                if (!condition.WiredInteraction.Execute(args))
                     return;
             }
 
@@ -50,7 +50,7 @@ namespace AliasPro.Rooms.Components
 
             foreach (IItem effect in roomTile.WiredEffects)
             {
-                effect.WiredInteraction.OnTrigger(args);
+                effect.WiredInteraction.Execute(args);
             }
         }
 

@@ -1,7 +1,7 @@
 ﻿using AliasPro.API.Database;
 using AliasPro.API.Items.Models;
 using AliasPro.Items.Types;
-using AliasPro.Items.Utilities;
+using AliasPro.Utilities;
 using System.Data.Common;
 
 namespace AliasPro.Items.Models
@@ -26,12 +26,14 @@ namespace AliasPro.Items.Models
             AllowInventoryStack = reader.ReadData<bool>("allow_inventory_stack");
             AllowMarketplace = reader.ReadData<bool>("allow_marketplace");
 
-            InteractionType = ItemInteractionUtility.GetItemInteractor(
-                reader.ReadData<string>("interaction_type"));
+            InteractionType = reader.ReadData<string>("interaction_type").ToEnum(ItemInteractionType.DEFAULT);
             WiredInteractionType = WiredInteractionType.DEFAULT;
 
             if (IsWired && int.TryParse(ExtraData, out int wiredId))
                 WiredInteractionType = (WiredInteractionType)wiredId;
+
+            if (InteractionType == ItemInteractionType.DEFAULT && reader.ReadData<string>("interaction_type") != "default")
+                System.Console.WriteLine("Unused interaction type: " + reader.ReadData<string>("interaction_type"));
         }
         
         public uint Id { get; }
@@ -52,7 +54,6 @@ namespace AliasPro.Items.Models
         
         public ItemInteractionType InteractionType { get; }
         public WiredInteractionType WiredInteractionType { get; }
-
         public bool IsWired =>
             InteractionType == ItemInteractionType.WIRED_CONDITION ||
             InteractionType == ItemInteractionType.WIRED_TRIGGER ||

@@ -1,8 +1,8 @@
-﻿using AliasPro.API.Items.Interaction;
-using AliasPro.API.Rooms.Entities;
+﻿using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Interaction;
+using AliasPro.Items.Interaction.Wired;
 
 namespace AliasPro.API.Items.Models
 {
@@ -18,15 +18,15 @@ namespace AliasPro.API.Items.Models
         uint RoomId { get; set; }
         int Rotation { get; set; }
         string ExtraData { get; set; }
+        string WiredData { get; set; }
         IRoomPosition Position { get; set; }
         string WallCord { get; set; }
         IItemData ItemData { get; set; }
         BaseEntity InteractingPlayer { get; set; }
 		BaseEntity InteractingPlayerTwo { get; set; }
-
-		IRoom CurrentRoom { get; set; }
+        IRoom CurrentRoom { get; set; }
 
         ItemInteraction Interaction { get; set; }
-        IWiredInteractor WiredInteraction { get; set; }
+        WiredInteraction WiredInteraction { get; set; }
     }
 }

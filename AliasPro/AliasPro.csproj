@@ -10,6 +10,7 @@
     <Compile Remove="API\Network\**" />
     <Compile Remove="Game\**" />
     <Compile Remove="Items\Interaction - Copy\**" />
+    <Compile Remove="Items\WiredInteraction\**" />
     <Compile Remove="Network\Codec\**" />
     <Compile Remove="Network\Events\**" />
     <Compile Remove="Network\Protocol\**" />
@@ -24,6 +25,7 @@
     <EmbeddedResource Remove="API\Network\**" />
     <EmbeddedResource Remove="Game\**" />
     <EmbeddedResource Remove="Items\Interaction - Copy\**" />
+    <EmbeddedResource Remove="Items\WiredInteraction\**" />
     <EmbeddedResource Remove="Network\Codec\**" />
     <EmbeddedResource Remove="Network\Events\**" />
     <EmbeddedResource Remove="Network\Protocol\**" />
@@ -38,6 +40,7 @@
     <None Remove="API\Network\**" />
     <None Remove="Game\**" />
     <None Remove="Items\Interaction - Copy\**" />
+    <None Remove="Items\WiredInteraction\**" />
     <None Remove="Network\Codec\**" />
     <None Remove="Network\Events\**" />
     <None Remove="Network\Protocol\**" />
@@ -77,6 +80,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Items\Interaction\Wired\Conditions\" />
+    <Folder Include="Items\Interaction\Wired\Effects\" />
     <Folder Include="Items\Tasks\Wired\" />
   </ItemGroup>
 

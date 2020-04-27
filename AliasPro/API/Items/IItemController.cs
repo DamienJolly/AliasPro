@@ -1,4 +1,5 @@
 ﻿using AliasPro.API.Items.Models;
+using AliasPro.Items.Interaction;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
