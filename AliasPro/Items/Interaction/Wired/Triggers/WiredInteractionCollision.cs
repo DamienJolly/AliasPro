@@ -15,7 +15,7 @@ namespace AliasPro.Items.Interaction.Wired
 
         }
 
-        public override bool Execute(params object[] args)
+        public override bool TryHandle(params object[] args)
         {
             IRoomPosition position = (IRoomPosition)args[0];
 

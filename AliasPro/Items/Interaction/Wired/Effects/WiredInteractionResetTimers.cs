@@ -7,36 +7,16 @@ namespace AliasPro.Items.Interaction.Wired
     {
         private static readonly WiredEffectType _type = WiredEffectType.RESET_TIMERS;
 
-        private bool _active = false;
-        private int _tick = 0;
-
         public WiredInteractionResetTimers(IItem item)
             : base(item, (int)_type)
         {
 
         }
 
-        public override bool Execute(params object[] args)
+        public override bool TryHandle(params object[] args)
         {
-            if (!_active)
-            {
-                _active = true;
-                _tick = WiredData.Delay;
-            }
+            //todo: code this Damien you idiot!
             return true;
-        }
-
-        public override void OnCycle()
-        {
-            if (_active)
-            {
-                if (_tick <= 0)
-                {
-                    //todo:
-                    _active = false;
-                }
-                _tick--;
-            }
         }
     }
 }

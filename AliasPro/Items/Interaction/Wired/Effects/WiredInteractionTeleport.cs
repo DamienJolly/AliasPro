@@ -11,60 +11,36 @@ namespace AliasPro.Items.Interaction.Wired
     {
         private static readonly WiredEffectType _type = WiredEffectType.TELEPORT;
 
-        private bool _active = false;
-        private BaseEntity _target = null;
-        private int _tick = 0;
-
         public WiredInteractionTeleport(IItem item)
             : base(item, (int)_type)
         {
 
         }
 
-        public override bool Execute(params object[] args)
+        public override bool TryHandle(params object[] args)
         {
-            if (!_active)
-            {
-                if (args.Length == 0) return false;
+            if (args.Length == 0)
+                return false;
 
-                _active = true;
-                _target = (BaseEntity)args[0];
-                _tick = WiredData.Delay;
-            }
+            BaseEntity target = (BaseEntity)args[0];
+            IWiredItemData itemData = RandomItemData;
+
+            if (itemData == null)
+                return false;
+
+            if (!Room.Items.TryGetItem(itemData.ItemId, out IItem item))
+                return false;
+
+            target.SetEffect(4, 6);
+            target.Room.RoomGrid.RemoveEntity(target);
+            target.Position =
+                target.NextPosition =
+                target.GoalPosition = new RoomPosition(
+                        item.Position.X,
+                        item.Position.Y,
+                     item.Position.Z);
+            target.Room.RoomGrid.AddEntity(target);
             return true;
-        }
-
-        public override void OnCycle()
-        {
-            if (_active)
-            {
-                if (_tick <= 0)
-                {
-                    if (_target != null)
-                    {
-                        IWiredItemData itemData = RandomItemData;
-
-                        if (itemData != null)
-                        {
-                            if (Room.Items.TryGetItem(itemData.ItemId, out IItem item))
-                            {
-                                _target.SetEffect(4, 6);
-                                _target.Room.RoomGrid.RemoveEntity(_target);
-                                _target.Position = 
-                                    _target.NextPosition = 
-                                    _target.GoalPosition = new RoomPosition(
-                                            item.Position.X,
-                                            item.Position.Y,
-                                         item.Position.Z);
-                                _target.Room.RoomGrid.AddEntity(_target);
-                                _target = null;
-                            }
-                        }
-                    }
-                    _active = false;
-                }
-                _tick--;
-            }
         }
 
         private IWiredItemData RandomItemData

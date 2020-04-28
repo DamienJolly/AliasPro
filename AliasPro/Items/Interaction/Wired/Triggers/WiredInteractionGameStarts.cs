@@ -14,7 +14,7 @@ namespace AliasPro.Items.Interaction.Wired
 
         }
 
-        public override bool Execute(params object[] args)
+        public override bool TryHandle(params object[] args)
         {
             if (Room.RoomGrid.TryGetRoomTile(Item.Position.X, Item.Position.Y, out IRoomTile roomTile))
             {

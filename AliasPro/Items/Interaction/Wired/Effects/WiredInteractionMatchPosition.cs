@@ -9,56 +9,37 @@ namespace AliasPro.Items.Interaction.Wired
     {
         private static readonly WiredEffectType _type = WiredEffectType.MATCH_POSITION;
 
-        private bool _active = false;
-        private int _tick = 0;
-
         public WiredInteractionMatchPosition(IItem item)
             : base(item, (int)_type)
         {
 
         }
 
-        public override bool Execute(params object[] args)
+        public override bool TryHandle(params object[] args)
         {
-            if (!_active)
+            foreach (WiredItemData itemData in WiredData.Items.Values)
             {
-                _active = true;
-                _tick = WiredData.Delay;
+                if (!Room.Items.TryGetItem(itemData.ItemId, out IItem item)) 
+                    continue;
+
+                Room.RoomGrid.RemoveItem(item);
+
+                //todo: check it state can be changed. E.g; Teleporters = false, Gates = true.
+                if (ChangeState)
+                    item.ExtraData = itemData.ExtraData + "";
+
+                if (ChangeDirection)
+                    item.Rotation = itemData.Rotation;
+
+                if (ChangePosition)
+                    item.Position = itemData.Position;
+
+                Room.RoomGrid.AddItem(item);
+
+                Room.SendPacketAsync(new FloorItemUpdateComposer(item));
             }
+
             return true;
-        }
-
-        public async override void OnCycle()
-        {
-            if (_active)
-            {
-                if (_tick <= 0)
-                {
-                    foreach (WiredItemData itemData in WiredData.Items.Values)
-                    {
-                        if (!Room.Items.TryGetItem(itemData.ItemId, out IItem item)) continue;
-
-                        Room.RoomGrid.RemoveItem(item);
-                        
-                        //todo: check it state can be changed. E.g; Teleporters = false, Gates = true.
-                        if (ChangeState)
-                            item.ExtraData = itemData.ExtraData + "";
-
-                        if (ChangeDirection)
-                            item.Rotation = itemData.Rotation;
-
-                        if (ChangePosition)
-                            item.Position = itemData.Position;
-
-                        Room.RoomGrid.AddItem(item);
-
-                        await Room.SendPacketAsync(new FloorItemUpdateComposer(item));
-                    }
-
-                    _active = false;
-                }
-                _tick--;
-            }
         }
 
         private bool ChangeState =>

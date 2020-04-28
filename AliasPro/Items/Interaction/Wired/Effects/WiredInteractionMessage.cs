@@ -11,55 +11,36 @@ namespace AliasPro.Items.Interaction.Wired
     {
         private static readonly WiredEffectType _type = WiredEffectType.SHOW_MESSAGE;
 
-        private bool _active = false;
-        private BaseEntity _target = null;
-        private int _tick = 0;
-
         public WiredInteractionMessage(IItem item)
             : base(item, (int)_type)
         {
 
         }
 
-        public override bool Execute(params object[] args)
+        public override bool TryHandle(params object[] args)
         {
-            if (!_active)
-            {
-                _active = true;
-                _tick = WiredData.Delay;
+            BaseEntity target = null;
+            if (args.Length != 0)
+                target = (BaseEntity)args[0];
 
-                if (args.Length != 0)
-                    _target = (BaseEntity)args[0];
-            }
-            return true;
-        }
-
-        public async override void OnCycle()
-        {
-            if (_active)
+            if (target != null)
             {
-                if (_tick <= 0)
+                if (target is PlayerEntity userEntity)
                 {
-                    if (_target != null)
-                    {
-                        if (_target is PlayerEntity userEntity)
-                        {
-                            await userEntity.Session.SendPacketAsync(new AvatarChatComposer(
-                                userEntity.Id, WiredData.Message, 0, 34, RoomChatType.TALK));
-                        }
-                    }
-                    else
-                    {
-                        foreach (PlayerEntity entity in Room.Entities.Entities)
-                        {
-                            await entity.Session.SendPacketAsync(new AvatarChatComposer(
-                            entity.Id, WiredData.Message, 0, 34, RoomChatType.TALK));
-                        }
-                    }
-                    _active = false;
+                    userEntity.Session.SendPacketAsync(new AvatarChatComposer(
+                        userEntity.Id, WiredData.Message, 0, 34, RoomChatType.TALK));
                 }
-                _tick--;
             }
+            else
+            {
+                foreach (PlayerEntity entity in Room.Entities.Entities)
+                {
+                    entity.Session.SendPacketAsync(new AvatarChatComposer(
+                        entity.Id, WiredData.Message, 0, 34, RoomChatType.TALK));
+                }
+            }
+
+            return true;
         }
     }
 }

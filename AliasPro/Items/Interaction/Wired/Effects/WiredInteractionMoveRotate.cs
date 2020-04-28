@@ -12,66 +12,46 @@ namespace AliasPro.Items.Interaction.Wired
     {
         private static readonly WiredEffectType _type = WiredEffectType.MOVE_ROTATE;
 
-        private bool _active = false;
-        private int _tick = 0;
-
         public WiredInteractionMoveRotate(IItem item)
             : base(item, (int)_type)
         {
 
         }
 
-        public override bool Execute(params object[] args)
+        public override bool TryHandle(params object[] args)
         {
-            if (!_active)
+            foreach (WiredItemData itemData in WiredData.Items.Values)
             {
-                _active = true;
-                _tick = WiredData.Delay;
+                if (!Room.Items.TryGetItem(itemData.ItemId, out IItem item)) 
+                    continue;
+
+                int movementMode = 0;
+                int rotationMode = 0;
+
+                if (WiredData.Params.Count >= 2)
+                {
+                    movementMode = WiredData.Params[0];
+                    rotationMode = WiredData.Params[1];
+                }
+
+                IRoomPosition newPos = HandleMovement(movementMode, item.Position);
+                int newRot = HandleRotation(rotationMode, item.Rotation);
+
+                Room.Items.TriggerWired(WiredInteractionType.COLLISION, newPos);
+
+                if (!Room.RoomGrid.TryGetRoomTile(newPos.X, newPos.Y, out IRoomTile roomTile) ||
+                    !Room.RoomGrid.CanRollAt(newPos.X, newPos.Y, item))
+                    continue;
+
+                newPos.Z = roomTile.Height;
+                Room.SendPacketAsync(new FloorItemOnRollerComposer(item, newPos, 0));
+
+                Room.RoomGrid.RemoveItem(item);
+                item.Position = newPos;
+                item.Rotation = newRot;
+                Room.RoomGrid.AddItem(item);
             }
             return true;
-        }
-
-        public async override void OnCycle()
-        {
-            if (_active)
-            {
-                if (_tick <= 0)
-                {
-                    foreach (WiredItemData itemData in WiredData.Items.Values)
-                    {
-                        if (!Room.Items.TryGetItem(itemData.ItemId, out IItem item)) continue;
-
-                        int movementMode = 0;
-                        int rotationMode = 0;
-
-                        if (WiredData.Params.Count >= 2)
-                        {
-                            movementMode = WiredData.Params[0];
-                            rotationMode = WiredData.Params[1];
-                        }
-
-                        IRoomPosition newPos = HandleMovement(movementMode, item.Position);
-                        int newRot = HandleRotation(rotationMode, item.Rotation);
-
-                        Room.Items.TriggerWired(WiredInteractionType.COLLISION, newPos);
-
-                        if (!Room.RoomGrid.TryGetRoomTile(newPos.X, newPos.Y, out IRoomTile roomTile) ||
-                            !Room.RoomGrid.CanRollAt(newPos.X, newPos.Y, item))
-                            continue;
-
-                        newPos.Z = roomTile.Height;
-                        await Room.SendPacketAsync(new FloorItemOnRollerComposer(item, newPos, 0));
-                        
-                        Room.RoomGrid.RemoveItem(item);
-                        item.Position = newPos;
-                        item.Rotation = newRot;
-                        Room.RoomGrid.AddItem(item);
-                    }
-
-                    _active = false;
-                }
-                _tick--;
-            }
         }
 
         private int HandleRotation(int mode, int rotation)

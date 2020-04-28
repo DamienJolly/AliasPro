@@ -42,8 +42,8 @@ namespace AliasPro.Rooms.Components
         {
             foreach (IItem condition in roomTile.WiredConditions)
             {
-                if (!condition.WiredInteraction.Execute(args))
-                    return;
+                //if (!condition.WiredInteraction.Execute(args))
+                   // return;
             }
 
             // todo: addons

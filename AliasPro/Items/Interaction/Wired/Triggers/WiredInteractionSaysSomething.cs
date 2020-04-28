@@ -16,7 +16,7 @@ namespace AliasPro.Items.Interaction.Wired
 
         }
 
-        public override bool Execute(params object[] args)
+        public override bool TryHandle(params object[] args)
         {
             BaseEntity entity = (BaseEntity)args[0];
             if (entity == null) return false;

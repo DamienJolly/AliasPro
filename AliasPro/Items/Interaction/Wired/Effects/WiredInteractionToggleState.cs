@@ -8,41 +8,22 @@ namespace AliasPro.Items.Interaction.Wired
     {
         private static readonly WiredEffectType _type = WiredEffectType.TOGGLE_STATE;
 
-        private bool _active = false;
-        private int _tick = 0;
-
         public WiredInteractionToggleState(IItem item)
             : base(item, (int)_type)
         {
 
         }
 
-        public override bool Execute(params object[] args)
+        public override bool TryHandle(params object[] args)
         {
-            if (!_active)
+            foreach (WiredItemData itemData in WiredData.Items.Values)
             {
-                _active = true;
-                _tick = WiredData.Delay;
+                if (!Room.Items.TryGetItem(itemData.ItemId, out IItem item)) 
+                    continue;
+
+                item.Interaction.OnUserInteract(null);
             }
             return true;
-        }
-
-        public override void OnCycle()
-        {
-            if (_active)
-            {
-                if (_tick <= 0)
-                {
-                    foreach (WiredItemData itemData in WiredData.Items.Values)
-                    {
-                        if (!Room.Items.TryGetItem(itemData.ItemId, out IItem item)) continue;
-
-                        item.Interaction.OnUserInteract(null);
-                    }
-                    _active = false;
-                }
-                _tick--;
-            }
         }
     }
 }

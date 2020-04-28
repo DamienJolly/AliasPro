@@ -9,50 +9,29 @@ namespace AliasPro.Items.Interaction.Wired
     {
         private static readonly WiredEffectType _type = WiredEffectType.GIVE_SCORE;
 
-        private bool _active = false;
-        private BaseEntity _target = null;
-        private int _tick = 0;
-
         public WiredInteractionGiveScore(IItem item)
             : base(item, (int)_type)
         {
 
         }
 
-        public override bool Execute(params object[] args)
+        public override bool TryHandle(params object[] args)
         {
-            if (!_active)
-            {
-                if (args.Length == 0) return false;
-                
-                _active = true;
-                _target = (BaseEntity)args[0];
-                _tick = WiredData.Delay;
-            }
-            return true;
-        }
+            if (args.Length == 0)
+                return false;
 
-        public override void OnCycle()
-        {
-            if (_active)
-            {
-                if (_tick <= 0)
-                {
-                    if (_target != null && 
-                        _target.GamePlayer != null && 
-                        _target.GamePlayer.Game.State == GameState.RUNNING)
-                    {
-                        if (_target.GamePlayer.Game.TimesGivenScore < MaxPoints)
-                        {
-                            _target.GamePlayer.Game.TimesGivenScore++;
-                            _target.GamePlayer.Points += Points;
-                            Room.Items.TriggerWired(WiredInteractionType.SCORE_ACHIEVED, _target.GamePlayer.Team.TotalPoints);
-                        }
-                    }
-                    _active = false;
-                }
-                _tick--;
-            }
+            BaseEntity target = (BaseEntity)args[0];
+
+            if (target.GamePlayer == null || target.GamePlayer.Game.State != GameState.RUNNING)
+                return false;
+
+            if (target.GamePlayer.Game.TimesGivenScore >= MaxPoints)
+                return true;
+
+            target.GamePlayer.Game.TimesGivenScore++;
+            target.GamePlayer.Points += Points;
+            Room.Items.TriggerWired(WiredInteractionType.SCORE_ACHIEVED, target.GamePlayer.Team.TotalPoints);
+            return true;
         }
 
         private int Points =>

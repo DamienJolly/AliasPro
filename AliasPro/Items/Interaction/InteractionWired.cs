@@ -25,8 +25,6 @@ namespace AliasPro.Items.Interaction
             {
                 Item.WiredInteraction.Execute();
             }
-
-            Item.WiredInteraction.OnCycle();
         }
     }
 }

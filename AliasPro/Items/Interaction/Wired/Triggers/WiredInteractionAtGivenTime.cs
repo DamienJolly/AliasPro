@@ -8,7 +8,6 @@ namespace AliasPro.Items.Interaction.Wired
     {
         private static readonly WiredTriggerType _type = WiredTriggerType.AT_GIVEN_TIME;
 
-        private bool _active = false;
         private int _tick = 0;
 
         public WiredInteractionAtGivenTime(IItem item)
@@ -17,30 +16,18 @@ namespace AliasPro.Items.Interaction.Wired
 
         }
 
-        public override bool Execute(params object[] args)
+        public override bool TryHandle(params object[] args)
         {
-            if (!_active)
-            {
-                _active = true;
-                _tick = Timer;
-            }
-            return true;
-        }
+            //todo: check if this is right
+            _tick++;
+            if (_tick < Timer)
+                return false;
 
-        public override void OnCycle()
-        {
-            if (_active)
-            {
-                _tick--;
-                if (_tick <= 0)
-                {
-                    if (Room.RoomGrid.TryGetRoomTile(Item.Position.X, Item.Position.Y, out IRoomTile roomTile))
-                    {
-                        Room.Items.TriggerEffects(roomTile);
-                    }
-                    _active = false;
-                }
-            }
+            if (Room.RoomGrid.TryGetRoomTile(Item.Position.X, Item.Position.Y, out IRoomTile roomTile))
+                Room.Items.TriggerEffects(roomTile);
+
+            _tick = 0;
+            return true;
         }
 
         private int Timer =>

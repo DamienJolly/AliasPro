@@ -11,47 +11,27 @@ namespace AliasPro.Items.Interaction.Wired
     {
         private static readonly WiredEffectType _type = WiredEffectType.GIVE_SCORE_TEAM;
 
-        private bool _active = false;
-        private int _tick = 0;
-
         public WiredInteractionGiveScoreTeam(IItem item)
             : base(item, (int)_type)
         {
 
         }
 
-        public override bool Execute(params object[] args)
+        public override bool TryHandle(params object[] args)
         {
-            if (!_active)
+            foreach (BaseGame game in Room.Game.Games)
             {
-                _active = true;
-                _tick = WiredData.Delay;
+                if (game.State != GameState.RUNNING || game.TimesGivenScore >= MaxPoints)
+                    continue;
+
+                if (!game.TryGetTeam(TeamType, out IGameTeam team))
+                    continue;
+
+                game.TimesGivenScore++;
+                team.TeamPoints += Points;
+                Room.Items.TriggerWired(WiredInteractionType.SCORE_ACHIEVED, team.TotalPoints);
             }
             return true;
-        }
-
-        public override void OnCycle()
-        {
-            if (_active)
-            {
-                if (_tick <= 0)
-                {
-                    foreach (BaseGame game in Room.Game.Games)
-                    {
-                        if (game.State == GameState.RUNNING && game.TimesGivenScore < MaxPoints)
-                        {
-                            if (game.TryGetTeam(TeamType, out IGameTeam team))
-                            {
-                                game.TimesGivenScore++;
-                                team.TeamPoints += Points;
-                                Room.Items.TriggerWired(WiredInteractionType.SCORE_ACHIEVED, team.TotalPoints);
-                            }
-                        }
-                    }
-                    _active = false;
-                }
-                _tick--;
-            }
         }
 
         private int Points =>
