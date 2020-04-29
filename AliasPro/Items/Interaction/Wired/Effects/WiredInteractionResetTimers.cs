@@ -1,5 +1,6 @@
 ﻿using AliasPro.API.Items.Models;
 using AliasPro.Items.Types;
+using AliasPro.Utilities;
 
 namespace AliasPro.Items.Interaction.Wired
 {
@@ -17,11 +18,26 @@ namespace AliasPro.Items.Interaction.Wired
         {
             foreach (IItem item in Room.Items.GetItemsByType(ItemInteractionType.WIRED_TRIGGER))
             {
-                if (item.ItemData.WiredInteractionType == WiredInteractionType.REPEATER ||
-                    item.ItemData.WiredInteractionType == WiredInteractionType.REPEATER_LONG ||
-                    item.ItemData.WiredInteractionType == WiredInteractionType.AT_GIVEN_TIME)
+                switch (item.ItemData.WiredInteractionType)
                 {
-                    item.WiredInteraction.ResetTimers();
+                    case WiredInteractionType.REPEATER:
+                    case WiredInteractionType.REPEATER_LONG:
+                    case WiredInteractionType.AT_GIVEN_TIME:
+                        item.WiredInteraction.ResetTimers();
+                        break;
+                }
+            }
+
+            foreach (IItem item in Room.Items.GetItemsByType(ItemInteractionType.WIRED_EFFECT))
+            {
+                switch (item.WiredInteraction)
+                {
+                    case WiredInteractionLessTimeElapsed lessThan:
+                        lessThan.LastTimerReset = (int)UnixTimestamp.Now;
+                        break;
+                    case WiredInteractionMoreTimeElapsed moreThan:
+                        moreThan.LastTimerReset = (int)UnixTimestamp.Now;
+                        break;
                 }
             }
             return true;

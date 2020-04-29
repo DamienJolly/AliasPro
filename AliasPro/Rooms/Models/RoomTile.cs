@@ -62,7 +62,8 @@ namespace AliasPro.Rooms.Models
 					(topItem.ItemData.InteractionType == ItemInteractionType.ONE_WAY_GATE || 
 					topItem.ItemData.InteractionType == ItemInteractionType.TELEPORT)) return true;
 
-                if (topItem.ItemData.InteractionType == ItemInteractionType.GATE)
+                if (topItem.ItemData.InteractionType == ItemInteractionType.GATE || 
+                    topItem.ItemData.InteractionType == ItemInteractionType.WIRED_PYRAMID)
                 {
                     if (int.TryParse(topItem.ExtraData, out int mode))
                     {
