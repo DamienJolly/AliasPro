@@ -60,7 +60,12 @@ namespace AliasPro.Items.Interaction
 
                             Item.CurrentRoom.Game.StartGames();
                             Item.CurrentRoom.Items.TriggerWired(WiredInteractionType.GAME_STARTS);
-                            Item.CurrentRoom.Items.TriggerWired(WiredInteractionType.AT_GIVEN_TIME);
+
+                            foreach (IItem wiredBlob in Room.Items.GetItemsByType(ItemInteractionType.WIRED_BLOB))
+                            {
+                                wiredBlob.ExtraData = "0";
+                                await Room.SendPacketAsync(new FloorItemUpdateComposer(wiredBlob));
+                            }
                         }
 
                         break;
@@ -95,6 +100,12 @@ namespace AliasPro.Items.Interaction
 
                     Item.CurrentRoom.Game.EndGames();
                     Item.CurrentRoom.Items.TriggerWired(WiredInteractionType.GAME_ENDS);
+
+                    foreach (IItem wiredBlob in Room.Items.GetItemsByType(ItemInteractionType.WIRED_BLOB))
+                    {
+                        wiredBlob.ExtraData = "1";
+                        await Room.SendPacketAsync(new FloorItemUpdateComposer(wiredBlob));
+                    }
                 }
                 _tick--;
 

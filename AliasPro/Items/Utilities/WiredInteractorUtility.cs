@@ -43,7 +43,31 @@ namespace AliasPro.Items.Utilities
                 case WiredInteractionType.CALL_STACKS: return new WiredInteractionTriggerStacks(item);
 
                 // Conditions
-                //case WiredInteractionType.ACTOR_IN_TEAM: return new WiredInteractionActorInTeam(item);
+                case WiredInteractionType.ACTOR_HAS_HANDITEM: return new WiredInteractionPlayerHasHanditem(item);
+
+                // Positive Conditions
+                case WiredInteractionType.FURNI_HAS_FURNI: return new WiredInteractionFurniHaveFurni(item);
+                case WiredInteractionType.ACTOR_WEARS_BADGE: return new WiredInteractionPlayerWearsBadge(item);
+                case WiredInteractionType.ACTOR_IN_TEAM: return new WiredInteractionPlayerInTeam(item);
+                case WiredInteractionType.TRIGGER_ON_FURNI: return new WiredInteractionPlayerOnFurni(item);
+                case WiredInteractionType.ACTOR_WEARS_EFFECT: return new WiredInteractionPlayerHasEffect(item);
+                case WiredInteractionType.USER_COUNT: return new WiredInteractionPlayerCount(item);
+                case WiredInteractionType.FURNI_HAVE_HABBO: return new WiredInteractionFurniHavePlayer(item);
+                case WiredInteractionType.STUFF_IS: return new WiredInteractionFurniTypeMatch(item);
+                case WiredInteractionType.MATCH_SSHOT: return new WiredInteractionMatchStatePosition(item);
+                case WiredInteractionType.ACTOR_IN_GROUP: return new WiredInteractionPlayerInGroup(item);
+
+                // Negative Conditions
+                case WiredInteractionType.NOT_FURNI_HAVE_FURNI: return new WiredInteractionNotFurniHaveFurni(item);
+                case WiredInteractionType.NOT_ACTOR_WEARS_BADGE: return new WiredInteractionNotPlayerWearsBadge(item);
+                case WiredInteractionType.NOT_ACTOR_IN_TEAM: return new WiredInteractionNotPlayerInTeam(item);
+                case WiredInteractionType.NOT_ACTOR_ON_FURNI: return new WiredInteractionNotPlayerOnFurni(item);
+                case WiredInteractionType.NOT_ACTOR_WEARS_EFFECT: return new WiredInteractionNotPlayerHasEffect(item);
+                case WiredInteractionType.NOT_USER_COUNT: return new WiredInteractionNotPlayerCount(item);
+                case WiredInteractionType.NOT_FURNI_HAVE_HABBO: return new WiredInteractionNotFurniHavePlayer(item);
+                case WiredInteractionType.NOT_STUFF_IS: return new WiredInteractionNotFurniTypeMatch(item);
+                case WiredInteractionType.NOT_MATCH_SSHOT: return new WiredInteractionNotMatchStatePosition(item);
+                case WiredInteractionType.NOT_ACTOR_IN_GROUP: return new WiredInteractionNotPlayerInGroup(item);
             }
         }
     }

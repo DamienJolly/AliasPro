@@ -44,10 +44,10 @@
         ACTOR_IN_TEAM = 33,
         FURNI_HAS_FURNI = 34,
         STUFF_IS = 35,
-        ACTOR_IN_GROUP = 36,
+        ACTOR_IN_GROUP = 36, //?
         ACTOR_WEARS_BADGE = 37,
         ACTOR_WEARS_EFFECT = 38,
-        NOT_MATCH_SSHOT = 39,
+        NOT_MATCH_SSHOT = 39, 
         NOT_FURNI_HAVE_HABBO = 40,
         NOT_ACTOR_ON_FURNI = 41,
         NOT_USER_COUNT = 42,

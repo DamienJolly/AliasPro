@@ -50,6 +50,9 @@ namespace AliasPro.Items.Utilities
 				case "wired_trigger": return ItemInteractionType.WIRED_TRIGGER;
 				case "wired_effect": return ItemInteractionType.WIRED_EFFECT;
 				case "wired_condition": return ItemInteractionType.WIRED_CONDITION;
+
+				case "wired_blob": return ItemInteractionType.WIRED_BLOB;
+				case "wired_pyramid": return ItemInteractionType.WIRED_PYRAMID;
 			}
         }
     }

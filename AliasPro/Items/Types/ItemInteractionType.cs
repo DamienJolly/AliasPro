@@ -41,6 +41,9 @@
 		//wired
 		WIRED_TRIGGER,
         WIRED_EFFECT,
-        WIRED_CONDITION
+        WIRED_CONDITION,
+
+		WIRED_BLOB,
+		WIRED_PYRAMID
 	}
 }

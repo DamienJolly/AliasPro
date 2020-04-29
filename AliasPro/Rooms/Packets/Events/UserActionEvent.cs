@@ -28,8 +28,6 @@ namespace AliasPro.Rooms.Packets.Events
                 await room.SendPacketAsync(new UserDanceComposer(session.Entity));
             }
 
-            session.Entity.SetEffect(0);
-
             if (action == 5)
             {
                 if (!session.Entity.IsIdle)

@@ -15,7 +15,15 @@ namespace AliasPro.Items.Interaction.Wired
 
         public override bool TryHandle(params object[] args)
         {
-            //todo: code this Damien you idiot!
+            foreach (IItem item in Room.Items.GetItemsByType(ItemInteractionType.WIRED_TRIGGER))
+            {
+                if (item.ItemData.WiredInteractionType == WiredInteractionType.REPEATER ||
+                    item.ItemData.WiredInteractionType == WiredInteractionType.REPEATER_LONG ||
+                    item.ItemData.WiredInteractionType == WiredInteractionType.AT_GIVEN_TIME)
+                {
+                    item.WiredInteraction.ResetTimers();
+                }
+            }
             return true;
         }
     }

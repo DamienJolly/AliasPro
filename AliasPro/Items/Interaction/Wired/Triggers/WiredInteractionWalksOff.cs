@@ -27,7 +27,7 @@ namespace AliasPro.Items.Interaction.Wired
 
             if (Room.RoomGrid.TryGetRoomTile(Item.Position.X, Item.Position.Y, out IRoomTile roomTile))
             {
-                Room.Items.TriggerEffects(roomTile, entity);
+                Room.Items.TriggerEffects(roomTile, args);
             }
             return true;
         }

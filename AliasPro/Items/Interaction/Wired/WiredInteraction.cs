@@ -23,6 +23,8 @@ namespace AliasPro.Items.Interaction.Wired
                 new WiredData(type, Item.WiredData);
         }
 
+        public virtual void ResetTimers() { }
+
         public virtual void Execute(params object[] args)
         {
             _args = args;

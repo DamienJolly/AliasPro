@@ -39,6 +39,9 @@ namespace AliasPro.Items.Utilities
 				case ItemInteractionType.WIRED_TRIGGER: return new InteractionWiredTrigger(item);
 				case ItemInteractionType.WIRED_EFFECT: return new InteractionWiredEffect(item);
 				case ItemInteractionType.WIRED_CONDITION: return new InteractionWiredCondition(item);
+
+				case ItemInteractionType.WIRED_BLOB: return new InteractionWiredBlob(item);
+				case ItemInteractionType.WIRED_PYRAMID: return new InteractionWiredPyramid(item);
 			}
 		}
     }

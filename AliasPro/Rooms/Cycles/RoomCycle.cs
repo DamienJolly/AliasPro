@@ -1,10 +1,12 @@
 ﻿using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
+using AliasPro.Items.Interaction;
 using AliasPro.Items.Packets.Composers;
 using AliasPro.Items.Types;
 using AliasPro.Rooms.Models;
 using AliasPro.Rooms.Packets.Composers;
+using AliasPro.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -28,6 +30,15 @@ namespace AliasPro.Rooms.Cycles
 
                 foreach (IItem item in _room.Items.Items)
                     item.Interaction.OnCycle();
+
+                foreach (IItem item in _room.Items.GetItemsByType(ItemInteractionType.WIRED_PYRAMID))
+                {
+                    if (item.Interaction is InteractionWiredPyramid pyramid)
+                    {
+                        if (pyramid.NextChange < (int)UnixTimestamp.Now)
+                            pyramid.ChangeState();
+                    }
+                }
 
                 if (_room.RollerCycle <= 0)
                 {

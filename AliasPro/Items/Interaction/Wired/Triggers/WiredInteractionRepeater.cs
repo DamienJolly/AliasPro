@@ -29,6 +29,13 @@ namespace AliasPro.Items.Interaction.Wired
             return true;
         }
 
+        public override void ResetTimers()
+        {
+            _tick = 0;
+            if (Room.RoomGrid.TryGetRoomTile(Item.Position.X, Item.Position.Y, out IRoomTile roomTile))
+                Room.Items.TriggerEffects(roomTile);
+        }
+
         private int Timer =>
             (WiredData.Params.Count != 1) ? 1 : WiredData.Params[0];
     }
