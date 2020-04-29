@@ -18,6 +18,8 @@
         SCORE_ACHIEVED = 19,
         AT_GIVEN_TIME = 20,
 
+        AT_LONG_TIME = 56,
+
         // Effects
         MESSAGE = 2,
         TOGGLE_STATE = 9,
@@ -33,6 +35,13 @@
         FLEE = 24,
         RESET_TIMERS = 25,
         CALL_STACKS = 26,
+
+        TOGGLE_RANDOM = 51,
+        MOVE_FURNI_TO = 52,
+        GIVE_REWARD = 53, //?
+        KICK_USER = 54,
+        MUTE_TRIGGER = 55,
+
 
         // Conditions
         MATCH_SSHOT = 27,

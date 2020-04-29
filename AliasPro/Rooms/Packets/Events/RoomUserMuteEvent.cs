@@ -5,6 +5,7 @@ using AliasPro.Communication.Messages;
 using AliasPro.Communication.Messages.Headers;
 using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Rooms.Entities;
+using AliasPro.Rooms.Packets.Composers;
 using AliasPro.Utilities;
 using System.Threading.Tasks;
 
@@ -22,7 +23,7 @@ namespace AliasPro.Rooms.Packets.Events
             _roomController = roomController;
         }
 
-        public Task RunAsync(
+        public async Task RunAsync(
             ISession session,
             ClientMessage message)
         {
@@ -31,23 +32,22 @@ namespace AliasPro.Rooms.Packets.Events
             int minutes = message.ReadInt();
 
             if (!_roomController.TryGetRoom((uint)roomId, out IRoom room))
-                return Task.CompletedTask;
+                return;
 
             switch (room.Settings.WhoMutes)
             {
-                case 0: default: if (!room.Rights.IsOwner(session.Player.Id)) return Task.CompletedTask; break;
-                case 1: if (!room.Rights.HasRights(session.Player.Id)) return Task.CompletedTask; break;
+                case 0: default: if (!room.Rights.IsOwner(session.Player.Id)) return; break;
+                case 1: if (!room.Rights.HasRights(session.Player.Id)) return; break;
             }
 
             if (room.Rights.HasRights((uint)playerId)) 
-                return Task.CompletedTask;
+                return;
 
             if (!room.Entities.TryGetPlayerEntityById(playerId, out PlayerEntity entity))
-                return Task.CompletedTask;
+                return;
 
-            room.Mute.MutePlayer(playerId, (int)UnixTimestamp.Now + (minutes * 60));
-
-            return Task.CompletedTask;
+            room.Mute.MutePlayer((int)entity.Player.Id, (int)UnixTimestamp.Now + (minutes * 60));
+            await entity.Player.Session.SendPacketAsync(new MutedWhisperComposer(minutes * 60));
         }
     }
 }

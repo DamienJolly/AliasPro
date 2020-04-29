@@ -23,12 +23,15 @@ namespace AliasPro.Items.Interaction.Wired
             if (args.Length != 0)
                 target = (BaseEntity)args[0];
 
+            if (string.IsNullOrWhiteSpace(WiredData.Message))
+                return false;
+
             if (target != null)
             {
                 if (target is PlayerEntity userEntity)
                 {
                     userEntity.Session.SendPacketAsync(new AvatarChatComposer(
-                        userEntity.Id, WiredData.Message, 0, 34, RoomChatType.TALK));
+                        userEntity.Id, WiredData.Message, 0, 34, RoomChatType.WHISPER));
                 }
             }
             else

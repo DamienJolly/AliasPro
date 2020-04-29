@@ -18,14 +18,7 @@ namespace AliasPro.Items.Interaction.Wired
         {
             foreach (IItem item in Room.Items.GetItemsByType(ItemInteractionType.WIRED_TRIGGER))
             {
-                switch (item.ItemData.WiredInteractionType)
-                {
-                    case WiredInteractionType.REPEATER:
-                    case WiredInteractionType.REPEATER_LONG:
-                    case WiredInteractionType.AT_GIVEN_TIME:
-                        item.WiredInteraction.ResetTimers();
-                        break;
-                }
+                item.WiredInteraction.ResetTimers();
             }
 
             foreach (IItem item in Room.Items.GetItemsByType(ItemInteractionType.WIRED_EFFECT))

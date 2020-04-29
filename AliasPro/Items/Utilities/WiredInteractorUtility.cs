@@ -26,6 +26,8 @@ namespace AliasPro.Items.Utilities
                 case WiredInteractionType.SCORE_ACHIEVED: return new WiredInteractionScoreAchieved(item);
                 case WiredInteractionType.AT_GIVEN_TIME: return new WiredInteractionAtGivenTime(item);
 
+                case WiredInteractionType.AT_LONG_TIME: return new WiredInteractionAtLongTime(item); //staff
+
                 // Effects
                 case WiredInteractionType.MESSAGE: return new WiredInteractionMessage(item);
                 case WiredInteractionType.TOGGLE_STATE: return new WiredInteractionToggleState(item);
@@ -41,9 +43,17 @@ namespace AliasPro.Items.Utilities
                 case WiredInteractionType.FLEE: return new WiredInteractionFlee(item);
                 case WiredInteractionType.RESET_TIMERS: return new WiredInteractionResetTimers(item);
                 case WiredInteractionType.CALL_STACKS: return new WiredInteractionTriggerStacks(item);
+                case WiredInteractionType.KICK_USER: return new WiredInteractionKickPlayer(item);
+                case WiredInteractionType.MUTE_TRIGGER: return new WiredInteractionMutePlayer(item);
+
+                case WiredInteractionType.TOGGLE_RANDOM: return new WiredInteractionToggleRandom(item); //staff
+                case WiredInteractionType.MOVE_FURNI_TO: return new WiredInteractionMoveFurniTo(item); //staff
+                case WiredInteractionType.GIVE_REWARD: return new WiredInteractionGiveReward(item); //staff
 
                 // Conditions
                 case WiredInteractionType.ACTOR_HAS_HANDITEM: return new WiredInteractionPlayerHasHanditem(item);
+                case WiredInteractionType.TIME_MORE_THAN: return new WiredInteractionMoreTimeElapsed(item);
+                case WiredInteractionType.TIME_LESS_THAN: return new WiredInteractionLessTimeElapsed(item);
 
                 // Positive Conditions
                 case WiredInteractionType.FURNI_HAS_FURNI: return new WiredInteractionFurniHaveFurni(item);

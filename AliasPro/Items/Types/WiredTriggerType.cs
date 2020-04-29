@@ -15,6 +15,7 @@
         SCORE_ACHIEVED = 10,
         COLLISION = 11,
         PERIODICALLY_LONG = 12,
+
         BOT_REACHED_STF = 13,
         BOT_REACHED_AVTR = 14
     }
