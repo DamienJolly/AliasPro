@@ -1,6 +1,8 @@
 ﻿using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Models;
+using AliasPro.Items.Interaction;
 using AliasPro.Items.Types;
+using AliasPro.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -46,11 +48,35 @@ namespace AliasPro.Rooms.Components
                     return;
             }
 
-            // todo: addons
+            bool hasRandom = false;
+            IList<IItem> effects = roomTile.WiredEffects.ToList();
 
-            foreach (IItem effect in roomTile.WiredEffects)
+            foreach (IItem extra in roomTile.WiredExtras)
+            {
+                if (extra.Interaction is InteractionWiredExtraUnseen extraUnseen)
+                {
+                    effects.Shuffle();
+
+                    IItem effect = extraUnseen.GetUnseenEffect(effects);
+                    if (effect == null)
+                        continue;
+
+                    effect.WiredInteraction.Execute(args);
+                    return;
+                }
+                else if (extra.Interaction is InteractionWiredExtraRandom extraRandom)
+                {
+                    effects.Shuffle();
+                    hasRandom = true;
+                    break;
+                }
+            }
+
+            foreach (IItem effect in effects)
             {
                 effect.WiredInteraction.Execute(args);
+                if (hasRandom)
+                    break;
             }
         }
 

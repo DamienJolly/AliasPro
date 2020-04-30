@@ -36,12 +36,16 @@ namespace AliasPro.Items.Utilities
 				case ItemInteractionType.BALL: return new InteractionBall(item);
 				case ItemInteractionType.FOOTBALL_SCOREBOARD: return new InteractionScoreboard(item);
 
+				//wired
 				case ItemInteractionType.WIRED_TRIGGER: return new InteractionWiredTrigger(item);
 				case ItemInteractionType.WIRED_EFFECT: return new InteractionWiredEffect(item);
 				case ItemInteractionType.WIRED_CONDITION: return new InteractionWiredCondition(item);
 
 				case ItemInteractionType.WIRED_BLOB: return new InteractionWiredBlob(item);
 				case ItemInteractionType.WIRED_PYRAMID: return new InteractionWiredPyramid(item);
+
+				case ItemInteractionType.WIRED_EXTRA_RANDOM: return new InteractionWiredExtraRandom(item);
+				case ItemInteractionType.WIRED_EXTRA_UNSEEN: return new InteractionWiredExtraUnseen(item);
 			}
 		}
     }

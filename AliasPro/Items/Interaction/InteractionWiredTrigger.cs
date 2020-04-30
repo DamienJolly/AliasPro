@@ -16,7 +16,7 @@ namespace AliasPro.Items.Interaction
 
         public async override void OnUserInteract(BaseEntity entity, int state)
         {
-			if (entity is PlayerEntity playerEntity)
+            if (entity is PlayerEntity playerEntity)
 			{
 				if (!Item.CurrentRoom.Rights.HasRights(playerEntity.Player.Id)) return;
 

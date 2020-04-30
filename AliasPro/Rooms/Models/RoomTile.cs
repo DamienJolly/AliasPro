@@ -230,6 +230,25 @@ namespace AliasPro.Rooms.Models
             }
         }
 
+        public ICollection<IItem> WiredExtras
+        {
+            get
+            {
+                IList<IItem> conditions = new List<IItem>();
+                foreach (IItem item in _items.Values)
+                {
+                    switch (item.ItemData.InteractionType)
+                    {
+                        case ItemInteractionType.WIRED_EXTRA_RANDOM:
+                        case ItemInteractionType.WIRED_EXTRA_UNSEEN:
+                            conditions.Add(item);
+                            break;
+                    }
+                }
+                return conditions;
+            }
+        }
+
         public IItem TopItem
         {
             get

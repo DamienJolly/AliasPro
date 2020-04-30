@@ -28,6 +28,7 @@ namespace AliasPro.Items.Interaction.Wired
         public virtual void Execute(params object[] args)
         {
             _args = args;
+            Item.Interaction.OnUserInteract(null);
             TaskManager.ExecuteTask(this, RequiredCooldown);
         }
 

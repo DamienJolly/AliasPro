@@ -67,8 +67,6 @@
         NOT_ACTOR_WEARS_BADGE = 47,
         NOT_ACTOR_WEARS_EFFECT = 48,
         DATE_RANGE = 49,
-        ACTOR_HAS_HANDITEM = 50
-
-        // Other
+        ACTOR_HAS_HANDITEM = 50,
     }
 }

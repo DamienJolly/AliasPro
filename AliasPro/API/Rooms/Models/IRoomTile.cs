@@ -11,6 +11,7 @@ namespace AliasPro.API.Rooms.Models
         ICollection<IItem> Items { get; }
         ICollection<IItem> WiredEffects { get; }
         ICollection<IItem> WiredConditions { get; }
+        ICollection<IItem> WiredExtras { get; }
         IItem TopItem { get; }
         double Height { get; }
         short RelativeHeight { get; }

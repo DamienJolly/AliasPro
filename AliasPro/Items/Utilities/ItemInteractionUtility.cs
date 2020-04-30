@@ -53,6 +53,9 @@ namespace AliasPro.Items.Utilities
 
 				case "wired_blob": return ItemInteractionType.WIRED_BLOB;
 				case "wired_pyramid": return ItemInteractionType.WIRED_PYRAMID;
+
+				case "wired_extra_unseen": return ItemInteractionType.WIRED_EXTRA_UNSEEN;
+				case "wired_extra_random": return ItemInteractionType.WIRED_EXTRA_RANDOM;
 			}
         }
     }

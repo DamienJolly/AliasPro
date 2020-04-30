@@ -18,6 +18,11 @@ namespace AliasPro.Items.Interaction
             message.WriteString(Item.ExtraData);
         }
 
+        public override void OnPickupItem()
+        {
+            Item.ExtraData = "0";
+        }
+
         public override void OnCycle()
         {
             if (Item.ItemData.WiredInteractionType == WiredInteractionType.REPEATER ||
