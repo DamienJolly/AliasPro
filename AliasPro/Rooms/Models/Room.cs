@@ -172,7 +172,6 @@ namespace AliasPro.Rooms.Models
 			entity.OnEntityLeave();
 			Entities.RemoveEntity(entity);
             RoomGrid.RemoveEntity(entity);
-            //Game.LeaveTeam(entity); //todo: fix
 
 			await SendPacketAsync(new EntityRemoveComposer(entity.Id));
 
@@ -180,11 +179,14 @@ namespace AliasPro.Rooms.Models
 			{
 				if (playerEntity.Session == null) return;
 
-                //todo: fix
-				//if (playerEntity.Trade != null)
-					//await playerEntity.Trade.StopTrade(playerEntity.Player.Id);
+                if (playerEntity.GamePlayer != null)
+                    playerEntity.GamePlayer.Game.LeaveTeam(playerEntity);
 
-				playerEntity.Session.Entity = null;
+                //todo: fix
+                //if (playerEntity.Trade != null)
+                //await playerEntity.Trade.StopTrade(playerEntity.Player.Id);
+
+                playerEntity.Session.Entity = null;
 				playerEntity.Session.CurrentRoom = null;
 
 				if (notifyUser)

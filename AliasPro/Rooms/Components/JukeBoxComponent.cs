@@ -35,16 +35,10 @@ namespace AliasPro.Rooms.Components
             {
                 int.TryParse(musicDisc.ItemData.ExtraData, out int songId);
                 if (!Program.GetService<IItemController>().TryGetSongDataById(songId, out ISongData song))
-                {
-                    //todo: return item
                     return;
-                }
 
                 if (!TryAddSong((int)musicDisc.Id, song))
-                {
-                    //todo: return item
                     return;
-                }
             }
         }
 
