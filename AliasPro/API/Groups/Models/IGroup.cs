@@ -23,6 +23,7 @@ namespace AliasPro.API.Groups.Models
 		int RoomId { get; set; }
 		string RoomName { get; set; }
 		GroupState State { get; set; }
+		bool Rights { get; set; }
 		string Badge { get; set; }
 		int ColourOne { get; set; }
 		int ColourTwo { get; set; }

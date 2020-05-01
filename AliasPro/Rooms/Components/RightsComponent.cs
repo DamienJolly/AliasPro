@@ -33,10 +33,10 @@ namespace AliasPro.Rooms.Components
                 {
                     flatCtrl = RightLevel.GROUP_ADMIN;
                 }
-                /*else if (_room.Group.IsMember((int)session.Player.Id) && _room.Group.Rights)
+                else if (_room.Group.IsMember((int)session.Player.Id) && _room.Group.Rights)
 				{
 					flatCtrl = RightLevel.GROUP_RIGHTS;
-				}*/
+				}
             }
             else if (HasRights(session.Player.Id))
             {
@@ -66,12 +66,12 @@ namespace AliasPro.Rooms.Components
 		public bool HasRights(uint playerId)
 		{
 			if (IsOwner(playerId)) return true;
-			else if (_room.Group != null)
+            else if (_room.Group != null)
 			{
-				if (_room.Group.IsAdmin((int)playerId)) return true;
-				// else if (_room.Group.IsMember((int)session.Player.Id) && _room.Group.Rights) return true;
+                if (_room.Group.IsAdmin((int)playerId)) return true;
+				else if (_room.Group.IsMember((int)playerId) && _room.Group.Rights) return true;
 			}
-			else if (_rights.ContainsKey(playerId)) return true;
+            else if (_rights.ContainsKey(playerId)) return true;
 
 			return false;
 		}

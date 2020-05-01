@@ -45,7 +45,7 @@ namespace AliasPro.Groups.Packets.Composers
 			message.WriteBoolean(_group.IsAdmin((int)_player.Id));
 			message.WriteString(_group.OwnerName);
 			message.WriteBoolean(_newWindow);
-			message.WriteBoolean(false); // user can furni
+			message.WriteBoolean(_group.Rights);
 			message.WriteInt(_group.IsAdmin((int)_player.Id) ? _group.GetRequests : 0);
 			message.WriteBoolean(true); // forum
 			return message;

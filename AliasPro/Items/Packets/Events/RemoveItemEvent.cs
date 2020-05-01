@@ -49,9 +49,9 @@ namespace AliasPro.Items.Packets.Events
                     await room.SendPacketAsync(new RemoveWallItemComposer(item));
                 }
 
-				item.Interaction.OnPickupItem();
+                item.Interaction.OnPickupItem();
 
-				item.RoomId = 0;
+                item.RoomId = 0;
                 item.CurrentRoom = null;
                 room.Items.RemoveItem(item.Id);
                 await _itemController.UpdatePlayerItemAsync(item);

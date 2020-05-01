@@ -38,14 +38,12 @@ namespace AliasPro.Groups.Packets.Events
 			if (!group.IsOwner((int)session.Player.Id)) return;
 
 			int state = message.ReadInt();
-			bool rights = message.ReadInt() == 0 ? true : false;
+			bool rights = message.ReadInt() == 0;
 
 			if (state < 0 || state > 2) return;
 
 			group.State = (GroupState)state;
-
-			//todo: group rights
-			//group.Rights = rights;
+			group.Rights = rights;
 
 			if (_roomController.TryGetRoom((uint)group.RoomId, out IRoom room))
 				await room.UpdateRoomGroup(group);

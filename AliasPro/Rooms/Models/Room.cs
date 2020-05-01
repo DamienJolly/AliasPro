@@ -19,6 +19,9 @@ using AliasPro.API.Players.Models;
 using AliasPro.Players.Types;
 using AliasPro.Utilities;
 using System.Linq;
+using AliasPro.Items.Packets.Composers;
+using AliasPro.API.Items;
+using AliasPro.API.Players;
 
 namespace AliasPro.Rooms.Models
 {
@@ -177,6 +180,7 @@ namespace AliasPro.Rooms.Models
 			{
 				if (playerEntity.Session == null) return;
 
+                //todo: fix
 				//if (playerEntity.Trade != null)
 					//await playerEntity.Trade.StopTrade(playerEntity.Player.Id);
 
@@ -194,14 +198,17 @@ namespace AliasPro.Rooms.Models
 			foreach (BaseEntity entity in Entities.Entities.ToList())
 			{
 				if (entity is PlayerEntity playerEntity)
-				{
-					if (playerEntity.Session != null)
-						await playerEntity.Session.SendPacketAsync(new GroupInfoComposer(group, playerEntity.Player, false));
-				}
-			}
+                {
+                    if (playerEntity.Session == null)
+                        continue;
+
+                    await playerEntity.Session.SendPacketAsync(new GroupInfoComposer(group, playerEntity.Player, false));
+                    await Rights.ReloadRights(playerEntity.Session);
+                }
+            }
 		}
 
-		public async Task SendPacketAsync(IMessageComposer packet)
+        public async Task SendPacketAsync(IMessageComposer packet)
         {
             foreach (BaseEntity entity in Entities.Entities.ToList())
             {

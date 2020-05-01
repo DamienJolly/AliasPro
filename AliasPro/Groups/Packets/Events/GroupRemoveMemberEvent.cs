@@ -2,7 +2,6 @@
 using AliasPro.API.Groups.Models;
 using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
-using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Communication.Messages;
 using AliasPro.Communication.Messages.Headers;
@@ -49,30 +48,29 @@ namespace AliasPro.Groups.Packets.Events
 					!group.IsOwner((int)session.Player.Id)) return;
 			}
 
-			if (!_playerController.TryGetPlayer((uint)playerId, out IPlayer player)) return;
-
-			player.RemoveGroup(group.Id);
-
-			await player.Session.SendPacketAsync(new GroupInfoComposer(group, player, false));
-
-			IRoom room = player.Session.CurrentRoom;
-			if (room != null)
-				await room.SendPacketAsync(new GroupRefreshGroupsComposer((int)player.Id));
-			else
-				await player.Session.SendPacketAsync(new GroupRefreshGroupsComposer((int)player.Id));
-
-			if (player.IsFavoriteGroup(group.Id))
+			if (_playerController.TryGetPlayer((uint)playerId, out IPlayer player))
 			{
-				player.FavoriteGroup = 0;
+				player.RemoveGroup(group.Id);
+				await player.Session.SendPacketAsync(new GroupInfoComposer(group, player, false));
 
-				if (room != null)
-					await room.SendPacketAsync(new GroupFavoriteUpdateComposer(player.Session.Entity, null));
+				if (player.IsFavoriteGroup(group.Id))
+				{
+					player.FavoriteGroup = 0;
+
+					if (player.Session.CurrentRoom.Id == group.RoomId)
+						await player.Session.CurrentRoom.SendPacketAsync(new GroupFavoriteUpdateComposer(player.Session.Entity, null));
+				}
+
+				if (player.Session.CurrentRoom.Id == group.RoomId)
+				{
+					await player.Session.CurrentRoom.Rights.ReloadRights(player.Session);
+					await player.Session.CurrentRoom.SendPacketAsync(new GroupRefreshGroupsComposer(playerId));
+				}
+				else
+					await player.Session.CurrentRoom.SendPacketAsync(new GroupRefreshGroupsComposer(playerId));
+
+				//todo: eject furniture
 			}
-
-			if (room != null && room.Group != null && room.Group.Id == groupId)
-				await room.Rights.ReloadRights(player.Session);
-
-			// todo: eject furni
 
 			group.RemoveMember(playerId);
 			await _groupController.RemoveGroupMember(group.Id, playerId);

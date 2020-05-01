@@ -7,6 +7,7 @@ using AliasPro.API.Groups.Models;
 using System.Collections.Generic;
 using AliasPro.Rooms.Types;
 using AliasPro.Communication.Messages;
+using AliasPro.API.Items.Models;
 
 namespace AliasPro.API.Rooms.Models
 {
@@ -37,5 +38,5 @@ namespace AliasPro.API.Rooms.Models
 		Task UpdateRoomGroup(IGroup group);
 		Task SendPacketAsync(IMessageComposer packet);
         void Dispose();
-    }
+	}
 }

@@ -89,8 +89,8 @@ namespace AliasPro.Groups
 		{
 			await CreateTransaction(async transaction =>
 			{
-				await Insert(transaction, "UPDATE `groups` SET `name` = @1, `desc` = @2, `badge` = @3, `state` = @4, `colour1` = @5, `colour2` = @6 WHERE `id` = @0;",
-					group.Id, group.Name, group.Description, group.Badge, (int)group.State, group.ColourOne, group.ColourTwo);
+				await Insert(transaction, "UPDATE `groups` SET `name` = @1, `desc` = @2, `badge` = @3, `state` = @4, `colour1` = @5, `colour2` = @6, `rights` = @7 WHERE `id` = @0;",
+					group.Id, group.Name, group.Description, group.Badge, (int)group.State, group.ColourOne, group.ColourTwo, group.Rights ? "1" : "0");
 
 				foreach (IGroupMember member in group.Members.Values)
 				{

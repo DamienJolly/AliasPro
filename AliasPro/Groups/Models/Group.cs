@@ -21,6 +21,7 @@ namespace AliasPro.Groups.Models
 			RoomId = reader.ReadData<int>("room_id");
 			RoomName = reader.ReadData<string>("room_name");
 			State = (GroupState)reader.ReadData<int>("state");
+			Rights = reader.ReadData<string>("rights") == "1";
 			Badge = reader.ReadData<string>("badge");
 			ColourOne = reader.ReadData<int>("colour1");
 			ColourTwo = reader.ReadData<int>("colour2");
@@ -38,6 +39,7 @@ namespace AliasPro.Groups.Models
 			RoomId = roomId;
 			RoomName = roomName;
 			State = GroupState.OPEN;
+			Rights = false;
 			Badge = badge;
 			ColourOne = colourOne;
 			ColourTwo = colourTwo;
@@ -92,6 +94,7 @@ namespace AliasPro.Groups.Models
 		public int RoomId { get; set; }
 		public string RoomName { get; set; }
 		public GroupState State { get; set; }
+		public bool Rights { get; set; }
 		public string Badge { get; set; }
 		public int ColourOne { get; set; }
 		public int ColourTwo { get; set; }

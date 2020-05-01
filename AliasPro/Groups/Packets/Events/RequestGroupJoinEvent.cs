@@ -53,8 +53,7 @@ namespace AliasPro.Groups.Packets.Events
 				return;
 			}
 
-			int groupsCount = 0; //todo: player group count
-			if (groupsCount >= 100)
+			if (session.Player.Groups.Count >= 10)
 			{
 				await session.SendPacketAsync(new GroupJoinErrorComposer(GroupJoinErrorComposer.GROUP_LIMIT_EXCEED));
 				return;

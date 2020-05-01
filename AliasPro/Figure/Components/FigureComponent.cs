@@ -7,7 +7,7 @@ namespace AliasPro.Figure.Components
     {
         public FigureComponent()
         {
-            //todo: initilize something
+            //todo: figure - all this shit
         }
 
         public bool Validate(string figure, PlayerGender gender)
@@ -73,7 +73,6 @@ namespace AliasPro.Figure.Components
                     return false;
                 }
 
-                // todo:
                 return true;
             }
 
@@ -89,7 +88,6 @@ namespace AliasPro.Figure.Components
                     return false;
                 }
 
-                // todo:
                 return true;
             }
 
@@ -105,7 +103,6 @@ namespace AliasPro.Figure.Components
                     return false;
                 }
 
-                // todo:
                 return true;
             }
 
