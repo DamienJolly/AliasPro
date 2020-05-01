@@ -6,6 +6,7 @@ namespace AliasPro.API.Items.Models
     {
         int ItemId { get; }
         int Count { get; }
+        int EffectId { get; }
         IDictionary<int, int> Prizes { get; }
         int TotalChance { get; }
         int CalculateCrackState(int hits, int states);

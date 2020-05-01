@@ -13,6 +13,7 @@ namespace AliasPro.Items.Models
         {
             ItemId = reader.ReadData<int>("item_id");
             Count = reader.ReadData<int>("count");
+            EffectId = reader.ReadData<int>("effect_id");
             Prizes = new Dictionary<int, int>();
 
             TotalChance = 0;
@@ -64,6 +65,7 @@ namespace AliasPro.Items.Models
 
         public int ItemId { get; }
         public int Count { get; }
+        public int EffectId { get; }
         public IDictionary<int, int> Prizes { get; }
         public int TotalChance { get; }
     }

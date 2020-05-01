@@ -53,9 +53,10 @@ namespace AliasPro.Items.Interaction
             if (!Program.GetService<IItemController>().TryGetCrackableDataById((int)Item.ItemData.Id, out ICrackableData crackable))
                 return;
 
-            //todo: required effects
+            if (crackable.EffectId != 0 && crackable.EffectId != entity.EffectId)
+                return;
 
-                if (!Item.CurrentRoom.RoomGrid.TryGetRoomTile(Item.Position.X, Item.Position.Y, out IRoomTile tile))
+            if (!Item.CurrentRoom.RoomGrid.TryGetRoomTile(Item.Position.X, Item.Position.Y, out IRoomTile tile))
                 return;
 
             if (!tile.TilesAdjecent(playerEntity.Position))
