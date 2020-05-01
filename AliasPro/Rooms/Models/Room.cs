@@ -182,9 +182,8 @@ namespace AliasPro.Rooms.Models
                 if (playerEntity.GamePlayer != null)
                     playerEntity.GamePlayer.Game.LeaveTeam(playerEntity);
 
-                //todo: fix
-                //if (playerEntity.Trade != null)
-                //await playerEntity.Trade.StopTrade(playerEntity.Player.Id);
+                if (playerEntity.Trade != null)
+                    await playerEntity.Trade.EndTrade(false, playerEntity.Player.Id);
 
                 playerEntity.Session.Entity = null;
 				playerEntity.Session.CurrentRoom = null;
