@@ -451,5 +451,32 @@ namespace AliasPro.Players
                     playerId, groupId);
             });
         }
+
+        internal async Task AddPlayerBadge(uint playerId, IPlayerBadge badge)
+        {
+            await CreateTransaction(async transaction =>
+            {
+                await Insert(transaction, "INSERT INTO `player_badges` (`player_id`, `badge_id`, `code`) VALUES (@0, @1, @2);",
+                    playerId, badge.BadgeId, badge.Code);
+            });
+        }
+
+        internal async Task UpdatePlayerBadge(uint playerId, string oldCode, string newCode)
+        {
+            await CreateTransaction(async transaction =>
+            {
+                await Insert(transaction, "UPDATE `player_badges` set `code` = @2 WHERE `player_id` = @0 AND `code` = @1;",
+                    playerId, oldCode, newCode);
+            });
+        }
+
+        internal async Task RemovePlayerBadge(uint playerId, string code)
+        {
+            await CreateTransaction(async transaction =>
+            {
+                await Insert(transaction, "DELETE FROM `player_badges` WHERE `player_id` = @0 AND `code` = @1;",
+                    playerId, code);
+            });
+        }
     }
 }

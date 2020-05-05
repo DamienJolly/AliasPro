@@ -145,5 +145,14 @@ namespace AliasPro.Players
 
         public async Task RemoveFavoriteGroup(int playerId, int groupId) =>
             await _playerDao.RemoveFavoriteGroup(playerId, groupId);
+
+        public async Task AddPlayerBadge(uint playerId, IPlayerBadge badge) =>
+           await _playerDao.AddPlayerBadge(playerId, badge);
+
+        public async Task UpdatePlayerBadge(uint playerId, string oldCode, string newCode) =>
+           await _playerDao.UpdatePlayerBadge(playerId, oldCode, newCode);
+
+        public async Task RemovePlayerBadge(uint playerId, string code) =>
+           await _playerDao.RemovePlayerBadge(playerId, code);
     }
 }

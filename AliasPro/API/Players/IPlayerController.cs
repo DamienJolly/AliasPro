@@ -1,4 +1,5 @@
 ﻿using AliasPro.API.Players.Models;
+using AliasPro.Game.Badges.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -45,5 +46,8 @@ namespace AliasPro.API.Players
 
         Task<IList<int>> GetPlayerRecipesAsync(uint playerId);
         Task AddPlayerRecipeAsync(int playerId, int recipeId);
-    }
+		void AddPlayerBadge(IPlayer player, BadgeData badge);
+		void RemovePlayerBadge(IPlayer player, IPlayerBadge badge);
+		void UpdatePlayerBadge(IPlayer player, IPlayerBadge badge, string newCode);
+	}
 }

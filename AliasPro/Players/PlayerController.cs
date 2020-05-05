@@ -1,5 +1,7 @@
 ﻿using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
+using AliasPro.Game.Badges.Models;
+using AliasPro.Game.Badges.Packets.Composers;
 using AliasPro.Players.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -134,5 +136,30 @@ namespace AliasPro.Players
 
         public async Task RemoveFavoriteGroup(int playerId, int groupId) =>
             await _playerRepostiory.RemoveFavoriteGroup(playerId, groupId);
+
+        public async void AddPlayerBadge(IPlayer player, BadgeData badge)
+        {
+            if (player.Badge.TryGetBadge(badge.Code, out _))
+                return;
+
+            IPlayerBadge playerBadge = new PlayerBadge(badge.Id, badge.Code);
+            player.Badge.AddBadge(playerBadge);
+            await _playerRepostiory.AddPlayerBadge(player.Id, playerBadge);
+
+            if (player.Session != null)
+                await player.Session.SendPacketAsync(new AddPlayerBadgeComposer(playerBadge));
+        }
+
+        public async void RemovePlayerBadge(IPlayer player, IPlayerBadge badge)
+        {
+            player.Badge.Badges.Remove(badge);
+            await _playerRepostiory.RemovePlayerBadge(player.Id, badge.Code);
+        }
+
+        public async void UpdatePlayerBadge(IPlayer player, IPlayerBadge badge, string newCode)
+        {
+            badge.Code = newCode;
+            await _playerRepostiory.UpdatePlayerBadge(player.Id, badge.Code, newCode);
+        }
     }
 }

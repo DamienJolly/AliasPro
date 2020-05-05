@@ -1,7 +1,7 @@
 ﻿using AliasPro.Achievements.Packets.Composers;
 using AliasPro.API.Achievements;
 using AliasPro.API.Achievements.Models;
-using AliasPro.API.Badge;
+using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
 using AliasPro.Players.Models;
 using AliasPro.Players.Packets.Composers;
@@ -11,16 +11,17 @@ namespace AliasPro.Achievements
 {
     internal class AchievementController : IAchievementController
 	{
-		private readonly IBadgeController _badgeController;
+		//todo: badge
+		//private readonly IBadgeController _badgeController;
 		private readonly AchievementDao _achievementDao;
 
 		private IDictionary<string, IAchievement> _achievements;
 
 		public AchievementController(
-			IBadgeController badgeController,
+			//IBadgeController badgeController,
 			AchievementDao achievementDao)
         {
-			_badgeController = badgeController;
+			//_badgeController = badgeController;
 			_achievementDao = achievementDao;
 
 			_achievements = new Dictionary<string, IAchievement>();
@@ -74,7 +75,7 @@ namespace AliasPro.Achievements
 			{
 				if (player.Badge.TryGetBadge("ACH_" + achievement.Name + oldLevel.Level, out badge))
 				{
-					_badgeController.UpdatePlayerBadge(player, badge, "ACH_" + achievement.Name + newLevel.Level);
+					Program.GetService<IPlayerController>().UpdatePlayerBadge(player, badge, "ACH_" + achievement.Name + newLevel.Level);
 
 					if (badge.Slot > 0)
 					{
@@ -85,8 +86,9 @@ namespace AliasPro.Achievements
 				}
 			}
 
-			if (badge == null)
-				_badgeController.AddPlayerBadge(player, "ACH_" + achievement.Name + newLevel.Level);
+			//todo: badge
+			//if (badge == null)
+			//	Program.GetService<IPlayerController>().AddPlayerBadge(player, "ACH_" + achievement.Name + newLevel.Level);
 
 			player.Score += newLevel.RewardPoints;
 

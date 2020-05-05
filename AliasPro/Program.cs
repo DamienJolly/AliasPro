@@ -3,7 +3,6 @@ using AliasPro.API.Groups;
 using AliasPro.API.Rooms;
 using AliasPro.API.Server;
 using AliasPro.API.Sessions;
-using AliasPro.Badges;
 using AliasPro.Catalog;
 using AliasPro.Chat;
 using AliasPro.Communication.Messages;
@@ -11,6 +10,7 @@ using AliasPro.Configuration;
 using AliasPro.Crafting;
 using AliasPro.Currency;
 using AliasPro.Figure;
+using AliasPro.Game.Badges;
 using AliasPro.Groups;
 using AliasPro.Items;
 using AliasPro.Landing;
@@ -78,13 +78,14 @@ namespace AliasPro
 				new ConfigurationService(),
 				new PermissionsService(),
 				new AchievementService(),
-				new BadgeService(),
 				new GroupService(),
 				new TradingService(),
 				new PetService(),
 				new CraftingService(),
-				new CurrencyService()
-			};
+				new CurrencyService(),
+
+                new BadgeService(),
+            };
 
             IServiceCollection serviceCollection = new ServiceCollection();
             serviceCollection.AddLogging(logging =>

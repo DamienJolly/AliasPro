@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="API\Badges\**" />
     <Compile Remove="API\Network\**" />
+    <Compile Remove="Badges\**" />
     <Compile Remove="Game\**" />
     <Compile Remove="Items\Interaction - Copy\**" />
     <Compile Remove="Items\WiredInteraction\**" />
@@ -22,7 +24,9 @@
     <Compile Remove="Rooms\Models\Right\**" />
     <Compile Remove="Rooms\Tasks\**" />
     <Compile Remove="Settings\**" />
+    <EmbeddedResource Remove="API\Badges\**" />
     <EmbeddedResource Remove="API\Network\**" />
+    <EmbeddedResource Remove="Badges\**" />
     <EmbeddedResource Remove="Game\**" />
     <EmbeddedResource Remove="Items\Interaction - Copy\**" />
     <EmbeddedResource Remove="Items\WiredInteraction\**" />
@@ -37,7 +41,9 @@
     <EmbeddedResource Remove="Rooms\Models\Right\**" />
     <EmbeddedResource Remove="Rooms\Tasks\**" />
     <EmbeddedResource Remove="Settings\**" />
+    <None Remove="API\Badges\**" />
     <None Remove="API\Network\**" />
+    <None Remove="Badges\**" />
     <None Remove="Game\**" />
     <None Remove="Items\Interaction - Copy\**" />
     <None Remove="Items\WiredInteraction\**" />
@@ -65,6 +71,14 @@
     <Compile Remove="Network\NetworkService.cs" />
     <Compile Remove="Rooms\Components\GameComponentOld.cs" />
     <Compile Remove="Rooms\Components\MappingComponent.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Game\Badges\BadgeController.cs" />
+    <Compile Include="Game\Badges\BadgeDao.cs" />
+    <Compile Include="Game\Badges\BadgeService.cs" />
+    <Compile Include="Game\Badges\Models\Badge.cs" />
+    <Compile Include="Game\Badges\Packets\Composers\AddPlayerBadgeComposer.cs" />
   </ItemGroup>
 
   <ItemGroup>

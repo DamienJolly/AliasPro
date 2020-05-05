@@ -1,17 +1,19 @@
-﻿using AliasPro.API.Badge;
-using AliasPro.API.Badges.Models;
-using AliasPro.API.Catalog;
+﻿using AliasPro.API.Catalog;
 using AliasPro.API.Catalog.Models;
 using AliasPro.API.Items;
 using AliasPro.API.Items.Models;
+using AliasPro.API.Permissions;
 using AliasPro.API.Pets;
 using AliasPro.API.Pets.Models;
+using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Catalog.Packets.Composers;
 using AliasPro.Communication.Messages;
 using AliasPro.Communication.Messages.Headers;
 using AliasPro.Communication.Messages.Protocols;
+using AliasPro.Game.Badges;
+using AliasPro.Game.Badges.Models;
 using AliasPro.Items.Models;
 using AliasPro.Items.Packets.Composers;
 using AliasPro.Items.Types;
@@ -23,24 +25,24 @@ using System.Threading.Tasks;
 
 namespace AliasPro.Catalog.Packets.Events
 {
-    public class CatalogBuyItemEvent : IMessageEvent
+    internal class CatalogBuyItemEvent : IMessageEvent
     {
         public short Header => Incoming.CatalogBuyItemMessageEvent;
 
         private readonly ICatalogController _catalogController;
         private readonly IItemController _itemController;
-        private readonly IBadgeController _badgeController;
+        private readonly BadgeController badgeController;
         private readonly IPetController _petController;
 
 		public CatalogBuyItemEvent(
 			ICatalogController catalogController, 
 			IItemController itemController,
-			IBadgeController badgeController,
+			BadgeController badgeController,
 			IPetController petController)
         {
             _catalogController = catalogController;
             _itemController = itemController;
-			_badgeController = badgeController;
+			this.badgeController = badgeController;
 			_petController = petController;
 		}
 
@@ -170,10 +172,19 @@ namespace AliasPro.Catalog.Packets.Events
 								}
 							case "b":
 								{
-									if (!_badgeController.TryGetBadge(itemData.ItemData.ExtraData, out IBadge badge))
+									if (!badgeController.TryGetBadge(itemData.ItemData.ExtraData, out BadgeData badge))
 									{
 										await session.SendPacketAsync(new AlertPurchaseFailedComposer(AlertPurchaseFailedComposer.SERVER_ERROR));
 										return;
+									}
+
+									if (!string.IsNullOrEmpty(badge.RequiredRight))
+									{
+										if (!Program.GetService<IPermissionsController>().HasPermission(session.Player, badge.RequiredRight))
+										{
+											await session.SendPacketAsync(new AlertPurchaseFailedComposer(AlertPurchaseFailedComposer.SERVER_ERROR));
+											return;
+										}
 									}
 
 									if (session.Player.Badge.HasBadge(badge.Code))
@@ -185,7 +196,7 @@ namespace AliasPro.Catalog.Packets.Events
 									}
 									else
 									{
-										_badgeController.AddPlayerBadge(session.Player, badge.Code);
+										Program.GetService<IPlayerController>().AddPlayerBadge(session.Player, badge);
 
 										if (!itemsData.ContainsKey(4))
 											itemsData.Add(4, new List<int>());
