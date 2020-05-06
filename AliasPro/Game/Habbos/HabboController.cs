@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using AliasPro.Game.Habbo.Models;
+using System.Collections.Generic;
 
-namespace AliasPro.Game.Habbo
+namespace AliasPro.Game.Habbos
 {
-	public class HabboController
+	internal class HabboController
 	{
 		private readonly HabboDao dao;
 

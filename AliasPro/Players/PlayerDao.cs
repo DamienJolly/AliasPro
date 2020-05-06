@@ -478,5 +478,23 @@ namespace AliasPro.Players
                     playerId, code);
             });
         }
+
+        public async Task AddPlayerAchievementAsync(int id, int progress, uint playerId)
+        {
+            await CreateTransaction(async transaction =>
+            {
+                await Insert(transaction, "INSERT INTO `player_achievements` (`id`, `player_id`, `progress`) VALUES (@0, @1, @2);",
+                    id, playerId, progress);
+            });
+        }
+
+        public async Task UpdatePlayerAchievementAsync(int id, int progress, uint playerId)
+        {
+            await CreateTransaction(async transaction =>
+            {
+                await Insert(transaction, "UPDATE `player_achievements` set `progress` = @2 WHERE `id` = @0 AND `player_id` = @1;",
+                    id, playerId, progress);
+            });
+        }
     }
 }

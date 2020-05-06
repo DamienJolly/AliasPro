@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Achievements\**" />
+    <Compile Remove="API\Achievements\**" />
     <Compile Remove="API\Badges\**" />
     <Compile Remove="API\Network\**" />
     <Compile Remove="Badges\**" />
@@ -24,6 +26,8 @@
     <Compile Remove="Rooms\Models\Right\**" />
     <Compile Remove="Rooms\Tasks\**" />
     <Compile Remove="Settings\**" />
+    <EmbeddedResource Remove="Achievements\**" />
+    <EmbeddedResource Remove="API\Achievements\**" />
     <EmbeddedResource Remove="API\Badges\**" />
     <EmbeddedResource Remove="API\Network\**" />
     <EmbeddedResource Remove="Badges\**" />
@@ -41,6 +45,8 @@
     <EmbeddedResource Remove="Rooms\Models\Right\**" />
     <EmbeddedResource Remove="Rooms\Tasks\**" />
     <EmbeddedResource Remove="Settings\**" />
+    <None Remove="Achievements\**" />
+    <None Remove="API\Achievements\**" />
     <None Remove="API\Badges\**" />
     <None Remove="API\Network\**" />
     <None Remove="Badges\**" />
@@ -74,6 +80,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Game\Achievements\AchievementDao.cs" />
+    <Compile Include="Game\Achievements\AchievementService.cs" />
+    <Compile Include="Game\Achievements\AchievementController.cs" />
+    <Compile Include="Game\Achievements\Models\AchievementData.cs" />
+    <Compile Include="Game\Achievements\Models\AchievementLevel.cs" />
+    <Compile Include="Game\Achievements\Packets\Composers\AchievementListComposer.cs" />
+    <Compile Include="Game\Achievements\Packets\Composers\AchievementProgressComposer.cs" />
+    <Compile Include="Game\Achievements\Packets\Composers\AchievementUnlockedComposer.cs" />
+    <Compile Include="Game\Achievements\Packets\Events\RequestAchievementsEvent.cs" />
+    <Compile Include="Game\Achievements\Types\AchievementCategory.cs" />
+    <Compile Include="Game\Achievements\Utilities\AchievementCategoryUtility.cs" />
     <Compile Include="Game\Badges\BadgeController.cs" />
     <Compile Include="Game\Badges\BadgeDao.cs" />
     <Compile Include="Game\Badges\BadgeService.cs" />

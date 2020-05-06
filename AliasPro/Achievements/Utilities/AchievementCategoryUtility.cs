@@ -1,4 +1,4 @@
-﻿using AliasPro.Achievements.Types;
+﻿using AliasPro.Game.Achievements.Types;
 
 namespace AliasPro.Achievements.Utilities
 {

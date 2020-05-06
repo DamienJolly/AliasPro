@@ -154,5 +154,11 @@ namespace AliasPro.Players
 
         public async Task RemovePlayerBadge(uint playerId, string code) =>
            await _playerDao.RemovePlayerBadge(playerId, code);
+
+        public async Task AddPlayerAchievementAsync(int id, int progress, uint playerId) =>
+            await _playerDao.AddPlayerAchievementAsync(id, progress, playerId);
+
+        public async Task UpdatePlayerAchievementAsync(int id, int progress, uint playerId) =>
+            await _playerDao.UpdatePlayerAchievementAsync(id, progress, playerId);
     }
 }

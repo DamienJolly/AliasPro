@@ -161,5 +161,11 @@ namespace AliasPro.Players
             badge.Code = newCode;
             await _playerRepostiory.UpdatePlayerBadge(player.Id, badge.Code, newCode);
         }
+
+        public async Task AddPlayerAchievementAsync(int id, int progress, uint playerId) =>
+            await _playerRepostiory.AddPlayerAchievementAsync(id, progress, playerId);
+
+        public async Task UpdatePlayerAchievementAsync(int id, int progress, uint playerId) =>
+            await _playerRepostiory.UpdatePlayerAchievementAsync(id, progress, playerId);
     }
 }

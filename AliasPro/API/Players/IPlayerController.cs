@@ -49,5 +49,7 @@ namespace AliasPro.API.Players
 		void AddPlayerBadge(IPlayer player, BadgeData badge);
 		void RemovePlayerBadge(IPlayer player, IPlayerBadge badge);
 		void UpdatePlayerBadge(IPlayer player, IPlayerBadge badge, string newCode);
+		Task AddPlayerAchievementAsync(int id, int progress, uint playerId);
+		Task UpdatePlayerAchievementAsync(int id, int progress, uint playerId);
 	}
 }

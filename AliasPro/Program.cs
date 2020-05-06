@@ -1,5 +1,4 @@
-﻿using AliasPro.Achievements;
-using AliasPro.API.Groups;
+﻿using AliasPro.API.Groups;
 using AliasPro.API.Rooms;
 using AliasPro.API.Server;
 using AliasPro.API.Sessions;
@@ -10,6 +9,7 @@ using AliasPro.Configuration;
 using AliasPro.Crafting;
 using AliasPro.Currency;
 using AliasPro.Figure;
+using AliasPro.Game.Achievements;
 using AliasPro.Game.Badges;
 using AliasPro.Groups;
 using AliasPro.Items;
@@ -77,7 +77,6 @@ namespace AliasPro
 				new FigureService(),
 				new ConfigurationService(),
 				new PermissionsService(),
-				new AchievementService(),
 				new GroupService(),
 				new TradingService(),
 				new PetService(),
@@ -85,6 +84,7 @@ namespace AliasPro
 				new CurrencyService(),
 
                 new BadgeService(),
+                new AchievementService(),
             };
 
             IServiceCollection serviceCollection = new ServiceCollection();
