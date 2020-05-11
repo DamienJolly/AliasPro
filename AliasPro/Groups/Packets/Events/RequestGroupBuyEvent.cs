@@ -9,6 +9,7 @@ using AliasPro.Catalog.Packets.Composers;
 using AliasPro.Communication.Messages;
 using AliasPro.Communication.Messages.Headers;
 using AliasPro.Communication.Messages.Protocols;
+using AliasPro.Game.Catalog.Packets.Composers;
 using AliasPro.Groups.Models;
 using AliasPro.Groups.Packets.Composers;
 using AliasPro.Players.Packets.Composers;

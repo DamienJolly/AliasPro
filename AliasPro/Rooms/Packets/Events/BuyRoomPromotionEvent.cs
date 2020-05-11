@@ -1,6 +1,4 @@
-﻿using AliasPro.API.Catalog;
-using AliasPro.API.Catalog.Models;
-using AliasPro.API.Players.Models;
+﻿using AliasPro.API.Players.Models;
 using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
@@ -8,6 +6,9 @@ using AliasPro.Catalog.Packets.Composers;
 using AliasPro.Communication.Messages;
 using AliasPro.Communication.Messages.Headers;
 using AliasPro.Communication.Messages.Protocols;
+using AliasPro.Game.Catalog;
+using AliasPro.Game.Catalog.Models;
+using AliasPro.Game.Catalog.Packets.Composers;
 using AliasPro.Players.Packets.Composers;
 using AliasPro.Rooms.Models;
 using AliasPro.Rooms.Packets.Composers;
@@ -20,14 +21,14 @@ namespace AliasPro.Rooms.Packets.Events
     {
         public short Header => Incoming.BuyRoomPromotionMessageEvent;
 
-        private readonly ICatalogController _catalogController;
+        private readonly CatalogController catalogController;
         private readonly IRoomController _roomController;
 
         public BuyRoomPromotionEvent(
-            ICatalogController catalogController,
+            CatalogController catalogController,
             IRoomController roomController)
         {
-            _catalogController = catalogController;
+            this.catalogController = catalogController;
             _roomController = roomController;
         }
 
@@ -43,7 +44,7 @@ namespace AliasPro.Rooms.Packets.Events
             string description = message.ReadString();
             int categoryId = message.ReadInt();
 
-            if (!_catalogController.TryGetCatalogPage(pageId, out ICatalogPage page))
+            if (!catalogController.TryGetCatalogPage(pageId, out CatalogPage page))
             {
                 await session.SendPacketAsync(new AlertPurchaseFailedComposer(AlertPurchaseFailedComposer.SERVER_ERROR));
                 return;
@@ -55,7 +56,7 @@ namespace AliasPro.Rooms.Packets.Events
                 return;
             }
 
-            if (!page.TryGetCatalogItem(itemId, out ICatalogItem catalogItem))
+            if (!page.TryGetCatalogItem(itemId, out CatalogItem catalogItem))
             {
                 await session.SendPacketAsync(new AlertPurchaseFailedComposer(AlertPurchaseFailedComposer.SERVER_ERROR));
                 return;

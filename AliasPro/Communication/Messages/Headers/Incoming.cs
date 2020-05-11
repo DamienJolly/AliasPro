@@ -85,6 +85,7 @@
         internal const short SellItemMessageEvent = 2016;
         internal const short RequestOwnItemsMessageEvent = 3463;
         internal const short RequestOffersMessageEvent = 61;
+        internal const short CatalogSearchedItemMessageEvent = 1846;
 
         // Rooms
         internal const short RequestRoomLoadMessageEvent = 3464;

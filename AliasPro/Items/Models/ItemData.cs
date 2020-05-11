@@ -25,8 +25,9 @@ namespace AliasPro.Items.Models
             AllowTrade = reader.ReadData<bool>("allow_trade");
             AllowInventoryStack = reader.ReadData<bool>("allow_inventory_stack");
             AllowMarketplace = reader.ReadData<bool>("allow_marketplace");
+            Interaction = reader.ReadData<string>("interaction_type");
 
-            InteractionType = reader.ReadData<string>("interaction_type").ToEnum(ItemInteractionType.DEFAULT);
+            InteractionType = Interaction.ToEnum(ItemInteractionType.DEFAULT);
             WiredInteractionType = WiredInteractionType.DEFAULT;
 
             if (IsWired && int.TryParse(ExtraData, out int wiredId))
@@ -51,6 +52,7 @@ namespace AliasPro.Items.Models
         public bool AllowTrade { get; }
         public bool AllowInventoryStack { get; }
         public bool AllowMarketplace { get; }
+        public string Interaction { get; }
         
         public ItemInteractionType InteractionType { get; }
         public WiredInteractionType WiredInteractionType { get; }

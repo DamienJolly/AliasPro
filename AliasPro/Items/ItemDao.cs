@@ -90,7 +90,7 @@ namespace AliasPro.Items
                         items.Add(item.Id, item);
 
                     }
-                }, "SELECT `items`.*, IFNULL(`players`.`username`, '') AS `username` FROM `items` LEFT JOIN `players` ON `players`.`id` = `items`.`player_id` WHERE `items`.`player_id` = @0 AND `items`.`room_id` = '0';", id);
+                }, "SELECT `items`.*, IFNULL(`players`.`username`, '') AS `username` FROM `items` LEFT JOIN `players` ON `players`.`id` = `items`.`player_id` WHERE `items`.`player_id` = @0 AND `items`.`room_id` = '0' ORDER BY `id` DESC;", id);
             });
 
             return items;

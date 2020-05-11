@@ -19,6 +19,7 @@ namespace AliasPro.API.Items.Models
         bool AllowTrade { get; }
         bool AllowInventoryStack { get; }
         bool AllowMarketplace { get; }
+        string Interaction { get; }
 
         ItemInteractionType InteractionType { get; }
         WiredInteractionType WiredInteractionType { get; }

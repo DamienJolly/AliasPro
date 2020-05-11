@@ -17,7 +17,7 @@ namespace AliasPro.Items.Interaction
 
 			if (!string.IsNullOrEmpty(Item.ExtraData))
 			{
-				string[] data = Item.ExtraData.Split(";");
+				string[] data = Item.ExtraData.Split("-");
 
 				message.WriteString(data[0] + (char)9 + data[1] + (char)9 + data[2]);
 			}

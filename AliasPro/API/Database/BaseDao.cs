@@ -33,9 +33,9 @@ namespace AliasPro.API.Database
                     await con.CloseAsync();
                 }
             }
-            catch
+            catch (Exception e)
             {
-                _logger.LogCritical("Unable to connect to database, check settings and restart Alias.");
+                _logger.LogCritical("Unable to connect to database, check settings and restart Alias." + e.ToString());
             }
         }
 

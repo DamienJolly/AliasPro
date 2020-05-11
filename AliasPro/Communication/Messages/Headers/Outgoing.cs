@@ -84,6 +84,7 @@
         internal const short MarketplaceItemPostedMessageComposer = 1551;
         internal const short MarketplaceOwnItemsMessageComposer = 3062;
         internal const short MarketplaceOffersMessageComposer = 976;
+        internal const short CatalogSearchResultMessageComposer = 2090;
 
         // Rooms
         internal const short RoomOpenMessageComposer = 1975;

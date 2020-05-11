@@ -1,8 +1,8 @@
-﻿using AliasPro.API.Catalog;
-using AliasPro.API.Chat.Commands;
+﻿using AliasPro.API.Chat.Commands;
 using AliasPro.API.Items;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Catalog.Packets.Composers;
+using AliasPro.Game.Catalog;
 using System.Threading.Tasks;
 
 namespace AliasPro.Chat.Commands
@@ -20,14 +20,14 @@ namespace AliasPro.Chat.Commands
 
         public string Description => "Updates shit.";
 
-        private readonly ICatalogController _catalogController;
+        private readonly CatalogController catalogController;
         private readonly IItemController _itemController;
 
         public UpdateCommand(
-            ICatalogController catalogController,
+            CatalogController catalogController,
             IItemController itemController)
         {
-            _catalogController = catalogController;
+            this.catalogController = catalogController;
             _itemController = itemController;
         }
 
@@ -43,7 +43,7 @@ namespace AliasPro.Chat.Commands
                 case "catalog":
                 case "catalogue":
                     {
-                        _catalogController.InitializeCatalog();
+                        catalogController.InitializeCatalog();
                         await session.SendPacketAsync(new CatalogUpdatedComposer());
                         return true;
                     }

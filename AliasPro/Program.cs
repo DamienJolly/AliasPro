@@ -2,7 +2,6 @@
 using AliasPro.API.Rooms;
 using AliasPro.API.Server;
 using AliasPro.API.Sessions;
-using AliasPro.Catalog;
 using AliasPro.Chat;
 using AliasPro.Communication.Messages;
 using AliasPro.Configuration;
@@ -11,6 +10,7 @@ using AliasPro.Currency;
 using AliasPro.Figure;
 using AliasPro.Game.Achievements;
 using AliasPro.Game.Badges;
+using AliasPro.Game.Catalog;
 using AliasPro.Groups;
 using AliasPro.Items;
 using AliasPro.Landing;
@@ -72,7 +72,6 @@ namespace AliasPro
 				new RoomService(),
 				new NavigatorService(),
 				new ItemService(),
-				new CatalogService(),
 				new ChatService(),
 				new FigureService(),
 				new ConfigurationService(),
@@ -85,6 +84,7 @@ namespace AliasPro
 
                 new BadgeService(),
                 new AchievementService(),
+                new CatalogService(),
             };
 
             IServiceCollection serviceCollection = new ServiceCollection();
