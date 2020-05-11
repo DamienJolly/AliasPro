@@ -11,9 +11,11 @@
     <Compile Remove="API\Achievements\**" />
     <Compile Remove="API\Badges\**" />
     <Compile Remove="API\Catalog\**" />
+    <Compile Remove="API\Chat\**" />
     <Compile Remove="API\Network\**" />
     <Compile Remove="Badges\**" />
     <Compile Remove="Catalog\**" />
+    <Compile Remove="Chat\**" />
     <Compile Remove="Game\**" />
     <Compile Remove="Items\Interaction - Copy\**" />
     <Compile Remove="Items\WiredInteraction\**" />
@@ -32,9 +34,11 @@
     <EmbeddedResource Remove="API\Achievements\**" />
     <EmbeddedResource Remove="API\Badges\**" />
     <EmbeddedResource Remove="API\Catalog\**" />
+    <EmbeddedResource Remove="API\Chat\**" />
     <EmbeddedResource Remove="API\Network\**" />
     <EmbeddedResource Remove="Badges\**" />
     <EmbeddedResource Remove="Catalog\**" />
+    <EmbeddedResource Remove="Chat\**" />
     <EmbeddedResource Remove="Game\**" />
     <EmbeddedResource Remove="Items\Interaction - Copy\**" />
     <EmbeddedResource Remove="Items\WiredInteraction\**" />
@@ -53,9 +57,11 @@
     <None Remove="API\Achievements\**" />
     <None Remove="API\Badges\**" />
     <None Remove="API\Catalog\**" />
+    <None Remove="API\Chat\**" />
     <None Remove="API\Network\**" />
     <None Remove="Badges\**" />
     <None Remove="Catalog\**" />
+    <None Remove="Chat\**" />
     <None Remove="Game\**" />
     <None Remove="Items\Interaction - Copy\**" />
     <None Remove="Items\WiredInteraction\**" />
@@ -165,6 +171,22 @@
     <Compile Include="Game\Catalog\Types\FeaturedPageType.cs" />
     <Compile Include="Game\Catalog\Utilities\CatalogGiftPartUtility.cs" />
     <Compile Include="Game\Catalog\Utilities\CatalogLayoutUtility.cs" />
+    <Compile Include="Game\Chat\ChatController.cs" />
+    <Compile Include="Game\Chat\ChatDao.cs" />
+    <Compile Include="Game\Chat\ChatService.cs" />
+    <Compile Include="Game\Chat\Commands\ICommand.cs" />
+    <Compile Include="Game\Chat\Commands\Player\CommandsCommand.cs" />
+    <Compile Include="Game\Chat\Commands\Player\FollowCommand.cs" />
+    <Compile Include="Game\Chat\Commands\Player\UnloadCommand.cs" />
+    <Compile Include="Game\Chat\Commands\Staff\BanCommand.cs" />
+    <Compile Include="Game\Chat\Commands\Staff\EventAlertCommand.cs" />
+    <Compile Include="Game\Chat\Commands\Staff\GiveCommand.cs" />
+    <Compile Include="Game\Chat\Commands\Staff\HotelAlertCommand.cs" />
+    <Compile Include="Game\Chat\Commands\Staff\HotelAlertLinkCommand.cs" />
+    <Compile Include="Game\Chat\Commands\Staff\UpdateCommand.cs" />
+    <Compile Include="Game\Chat\Commands\VIP\PullCommand.cs" />
+    <Compile Include="Game\Chat\Commands\VIP\PushCommand.cs" />
+    <Compile Include="Game\Chat\Models\ChatLog.cs" />
   </ItemGroup>
 
   <ItemGroup>

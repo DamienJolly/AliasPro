@@ -1,12 +1,12 @@
-﻿using AliasPro.API.Chat;
-using AliasPro.API.Chat.Models;
-using AliasPro.API.Moderation;
+﻿using AliasPro.API.Moderation;
 using AliasPro.API.Moderation.Models;
 using AliasPro.API.Permissions;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Communication.Messages;
 using AliasPro.Communication.Messages.Headers;
 using AliasPro.Communication.Messages.Protocols;
+using AliasPro.Game.Chat;
+using AliasPro.Game.Chat.Models;
 using AliasPro.Moderation.Packets.Composers;
 using AliasPro.Moderation.Types;
 using System.Collections.Generic;
@@ -19,12 +19,12 @@ namespace AliasPro.Moderation.Packets.Events
         public short Header => Incoming.ModerationRequestIssueChatlogMessageEvent;
 
         private readonly IModerationController _moderationController;
-        private readonly IChatController _chatController;
+        private readonly ChatController _chatController;
 		private readonly IPermissionsController _permissionsController;
 
 		public ModerationRequestIssueChatlogEvent(
 			IModerationController moderationController,
-			IChatController chatController,
+			ChatController chatController,
 			IPermissionsController permissionsController)
 		{
 			_moderationController = moderationController;
@@ -44,7 +44,7 @@ namespace AliasPro.Moderation.Packets.Events
                 return;
 
 			ModerationChatlogType chatlogType;
-			ICollection<IChatLog> chatlogs;
+			ICollection<ChatLog> chatlogs;
 
 			switch (ticket.Type)
 			{

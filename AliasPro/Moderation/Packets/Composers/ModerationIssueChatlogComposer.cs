@@ -1,8 +1,8 @@
-﻿using AliasPro.API.Chat.Models;
-using AliasPro.API.Moderation.Models;
+﻿using AliasPro.API.Moderation.Models;
 using AliasPro.Communication.Messages;
 using AliasPro.Communication.Messages.Headers;
 using AliasPro.Communication.Messages.Protocols;
+using AliasPro.Game.Chat.Models;
 using AliasPro.Moderation.Types;
 using System.Collections.Generic;
 
@@ -12,12 +12,12 @@ namespace AliasPro.Moderation.Packets.Composers
     {
         private readonly IModerationTicket _ticket;
         private readonly ModerationChatlogType _chatlogType;
-        private readonly ICollection<IChatLog> _chatLogs;
+        private readonly ICollection<ChatLog> _chatLogs;
         
         public ModerationIssueChatlogComposer(
             IModerationTicket ticket,
             ModerationChatlogType chatlogType,
-            ICollection<IChatLog> chatLogs)
+            ICollection<ChatLog> chatLogs)
         {
             _ticket = ticket;
             _chatlogType = chatlogType;
@@ -61,7 +61,7 @@ namespace AliasPro.Moderation.Packets.Composers
             }
 
             message.WriteShort((short)_chatLogs.Count);
-            foreach (IChatLog chatlog in _chatLogs)
+            foreach (ChatLog chatlog in _chatLogs)
                 chatlog.Compose(message);
 
             return message;

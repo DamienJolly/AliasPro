@@ -1,11 +1,11 @@
-﻿using AliasPro.API.Chat;
-using AliasPro.API.Permissions;
+﻿using AliasPro.API.Permissions;
 using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Communication.Messages;
 using AliasPro.Communication.Messages.Headers;
 using AliasPro.Communication.Messages.Protocols;
+using AliasPro.Game.Chat;
 using AliasPro.Moderation.Packets.Composers;
 using System.Threading.Tasks;
 
@@ -16,12 +16,12 @@ namespace AliasPro.Moderation.Packets.Events
         public short Header => Incoming.ModerationRequestRoomChatlogMessageEvent;
 
         private readonly IRoomController _roomController;
-        private readonly IChatController _chatController;
+        private readonly ChatController _chatController;
 		private readonly IPermissionsController _permissionsController;
 
 		public ModerationRequestRoomChatlogEvent(
 			IRoomController roomController,
-			IChatController chatController,
+			ChatController chatController,
 			IPermissionsController permissionsController)
 		{
 			_roomController = roomController;

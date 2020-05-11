@@ -1,9 +1,9 @@
-﻿using AliasPro.API.Chat;
-using AliasPro.API.Rooms.Models;
+﻿using AliasPro.API.Rooms.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Communication.Messages;
 using AliasPro.Communication.Messages.Headers;
 using AliasPro.Communication.Messages.Protocols;
+using AliasPro.Game.Chat;
 using AliasPro.Rooms.Types;
 using System.Threading.Tasks;
 
@@ -13,9 +13,9 @@ namespace AliasPro.Rooms.Packets.Events
     {
         public short Header => Incoming.AvatarChatMessageEvent;
 
-        private readonly IChatController _chatController;
+        private readonly ChatController _chatController;
 
-        public AvatarChatEvent(IChatController chatController)
+        public AvatarChatEvent(ChatController chatController)
         {
             _chatController = chatController;
         }
@@ -33,7 +33,7 @@ namespace AliasPro.Rooms.Packets.Events
 
             session.Entity.Unidle();
 
-            if (!await _chatController.HandleCommand(session, text))
+            if (!await _chatController.TryHandleCommand(session, text))
             {
                 room.OnChat(text, colour, session.Entity, RoomChatType.TALK);
             }

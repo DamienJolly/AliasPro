@@ -1,12 +1,12 @@
-﻿using AliasPro.API.Chat;
-using AliasPro.API.Chat.Models;
-using AliasPro.API.Permissions;
+﻿using AliasPro.API.Permissions;
 using AliasPro.API.Players;
 using AliasPro.API.Players.Models;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Communication.Messages;
 using AliasPro.Communication.Messages.Headers;
 using AliasPro.Communication.Messages.Protocols;
+using AliasPro.Game.Chat;
+using AliasPro.Game.Chat.Models;
 using AliasPro.Moderation.Packets.Composers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -18,12 +18,12 @@ namespace AliasPro.Moderation.Packets.Events
         public short Header => Incoming.ModerationRequestUserChatlogMessageEvent;
 
 		private readonly IPlayerController _playerController;
-		private readonly IChatController _chatController;
+		private readonly ChatController _chatController;
 		private readonly IPermissionsController _permissionsController;
 
 		public ModerationRequestUserChatlogEvent(
 			IPlayerController playerController,
-			IChatController chatController,
+            ChatController chatController,
 			IPermissionsController permissionsController)
 		{
 			_playerController = playerController;
@@ -44,13 +44,13 @@ namespace AliasPro.Moderation.Packets.Events
             if (player == null)
                 return;
 
-            IDictionary<IPlayerRoomVisited, ICollection<IChatLog>> chatlogs = 
-                new Dictionary<IPlayerRoomVisited, ICollection<IChatLog>>();
+            IDictionary<IPlayerRoomVisited, ICollection<ChatLog>> chatlogs = 
+                new Dictionary<IPlayerRoomVisited, ICollection<ChatLog>>();
 
             foreach (IPlayerRoomVisited visit in
                 await _playerController.GetPlayerRoomVisitsAsync(player.Id))
             {
-                if (!chatlogs.TryAdd(visit, new List<IChatLog>()))
+                if (!chatlogs.TryAdd(visit, new List<ChatLog>()))
                     continue;
 
                 chatlogs[visit] = await _chatController.ReadRoomChatlogs(
