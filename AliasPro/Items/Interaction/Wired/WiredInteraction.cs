@@ -1,6 +1,5 @@
 ﻿using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Models;
-using AliasPro.API.Tasks;
 using AliasPro.Items.Models;
 using AliasPro.Tasks;
 
@@ -29,7 +28,7 @@ namespace AliasPro.Items.Interaction.Wired
         {
             _args = args;
             Item.Interaction.OnUserInteract(null);
-            TaskManager.ExecuteTask(this, RequiredCooldown);
+            Program.Tasks.ExecuteTask(this, RequiredCooldown);
         }
 
         public void Run()

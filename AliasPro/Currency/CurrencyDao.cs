@@ -1,5 +1,4 @@
-﻿using AliasPro.API.Configuration;
-using AliasPro.API.Currency.Models;
+﻿using AliasPro.API.Currency.Models;
 using AliasPro.API.Database;
 using AliasPro.Currency.Models;
 using Microsoft.Extensions.Logging;
@@ -10,8 +9,8 @@ namespace AliasPro.Currency
 {
 	internal class CurrencyDao : BaseDao
 	{
-		public CurrencyDao(ILogger<BaseDao> logger, IConfigurationController configurationController)
-			: base(logger, configurationController)
+		public CurrencyDao(ILogger<BaseDao> logger)
+			: base(logger)
 		{
 
 		}

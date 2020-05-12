@@ -1,5 +1,4 @@
-﻿using AliasPro.API.Configuration;
-using AliasPro.API.Database;
+﻿using AliasPro.API.Database;
 using AliasPro.API.Figure.Models;
 using AliasPro.Figure.Models;
 using AliasPro.Players.Types;
@@ -11,8 +10,8 @@ namespace AliasPro.Figure
 {
     internal class FigureDao : BaseDao
     {
-        public FigureDao(ILogger<BaseDao> logger, IConfigurationController configurationController)
-			: base(logger, configurationController)
+        public FigureDao(ILogger<BaseDao> logger)
+			: base(logger)
 		{
 
 		}

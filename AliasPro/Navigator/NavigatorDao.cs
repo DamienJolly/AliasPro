@@ -1,5 +1,4 @@
-﻿using AliasPro.API.Configuration;
-using AliasPro.API.Database;
+﻿using AliasPro.API.Database;
 using AliasPro.API.Navigator.Models;
 using AliasPro.Navigator.Models;
 using Microsoft.Extensions.Logging;
@@ -10,8 +9,8 @@ namespace AliasPro.Navigator
 {
     internal class NavigatorDao : BaseDao
     {
-        public NavigatorDao(ILogger<BaseDao> logger, IConfigurationController configurationController)
-            : base(logger, configurationController)
+        public NavigatorDao(ILogger<BaseDao> logger)
+            : base(logger)
         {
 
         }

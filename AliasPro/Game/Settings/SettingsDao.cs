@@ -3,19 +3,19 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace AliasPro.Server
+namespace AliasPro.Game.Settings
 {
-    internal class ServerDao : BaseDao
+	public class SettingsDao : BaseDao
     {
-        public ServerDao(ILogger<BaseDao> logger)
+        public SettingsDao(ILogger<BaseDao> logger)
             : base(logger)
         {
 
         }
 
-        internal async Task<IDictionary<string, string>> GetEmulatorSettings()
+        internal async Task<Dictionary<string, string>> GetEmulatorSettings()
         {
-            IDictionary<string, string> settings = new Dictionary<string, string>();
+            Dictionary<string, string> settings = new Dictionary<string, string>();
             await CreateTransaction(async transaction =>
             {
                 await Select(transaction, async reader =>

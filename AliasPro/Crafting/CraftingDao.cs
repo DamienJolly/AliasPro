@@ -1,5 +1,4 @@
-﻿using AliasPro.API.Configuration;
-using AliasPro.API.Crafting.Models;
+﻿using AliasPro.API.Crafting.Models;
 using AliasPro.API.Database;
 using AliasPro.Crafting.Models;
 using Microsoft.Extensions.Logging;
@@ -10,8 +9,8 @@ namespace AliasPro.Crafting
 {
 	internal class CraftingDao : BaseDao
 	{
-		public CraftingDao(ILogger<BaseDao> logger, IConfigurationController configurationController)
-			: base(logger, configurationController)
+		public CraftingDao(ILogger<BaseDao> logger)
+			: base(logger)
 		{
 
 		}

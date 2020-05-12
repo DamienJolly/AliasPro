@@ -1,5 +1,4 @@
-﻿using AliasPro.API.Configuration;
-using AliasPro.API.Database;
+﻿using AliasPro.API.Database;
 using AliasPro.API.Players.Models;
 using AliasPro.Players.Models;
 using AliasPro.Players.Types;
@@ -12,8 +11,8 @@ namespace AliasPro.Players
 {
     internal class PlayerDao : BaseDao
     {
-        public PlayerDao(ILogger<BaseDao> logger, IConfigurationController configurationController)
-            : base(logger, configurationController)
+        public PlayerDao(ILogger<BaseDao> logger)
+            : base(logger)
         {
 
         }

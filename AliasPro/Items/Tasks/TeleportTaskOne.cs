@@ -1,6 +1,4 @@
 ﻿using AliasPro.API.Items.Models;
-using AliasPro.API.Rooms.Entities;
-using AliasPro.API.Tasks;
 using AliasPro.Items.Interaction;
 using AliasPro.Items.Packets.Composers;
 using AliasPro.Rooms.Entities;
@@ -35,7 +33,7 @@ namespace AliasPro.Items.Tasks
 				teleportInteraction.Mode = 0;
 
 				await _item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(_item));
-				await TaskManager.ExecuteTask(new TeleportTaskTwo(_item, _entity), 1500);
+				await Program.Tasks.ExecuteTask(new TeleportTaskTwo(_item, _entity), 1500);
 			}
 		}
 	}

@@ -1,5 +1,4 @@
-﻿using AliasPro.API.Configuration;
-using AliasPro.API.Database;
+﻿using AliasPro.API.Database;
 using AliasPro.API.Moderation.Models;
 using AliasPro.Moderation.Models;
 using Microsoft.Extensions.Logging;
@@ -10,8 +9,8 @@ namespace AliasPro.Moderation
 {
     internal class ModerationDao : BaseDao
     {
-        public ModerationDao(ILogger<BaseDao> logger, IConfigurationController configurationController)
-			: base(logger, configurationController)
+        public ModerationDao(ILogger<BaseDao> logger)
+			: base(logger)
 		{
 
 		}

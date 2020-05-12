@@ -6,7 +6,6 @@ using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Packets.Composers;
 using AliasPro.Items.Tasks;
 using AliasPro.Rooms.Entities;
-using AliasPro.Tasks;
 
 namespace AliasPro.Items.Interaction
 {
@@ -76,7 +75,7 @@ namespace AliasPro.Items.Interaction
             if (!Cracked && hits == crackable.Count)
             {
                 Cracked = true;
-                await TaskManager.ExecuteTask(new CrackableExplode(Item, playerEntity.Session, true), 1500);
+                await Program.Tasks.ExecuteTask(new CrackableExplode(Item, playerEntity.Session, true), 1500);
 
                 //todo: progress cracked achievement
                 //todo: subscriptions (for sub boxes)

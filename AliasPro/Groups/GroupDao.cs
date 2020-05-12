@@ -1,5 +1,4 @@
-﻿using AliasPro.API.Configuration;
-using AliasPro.API.Database;
+﻿using AliasPro.API.Database;
 using AliasPro.API.Groups.Models;
 using AliasPro.Groups.Models;
 using Microsoft.Extensions.Logging;
@@ -10,8 +9,8 @@ namespace AliasPro.Groups
 {
     internal class GroupDao : BaseDao
     {
-        public GroupDao(ILogger<BaseDao> logger, IConfigurationController configurationController)
-			: base(logger, configurationController)
+        public GroupDao(ILogger<BaseDao> logger)
+			: base(logger)
 		{
 
 		}

@@ -1,5 +1,4 @@
-﻿using AliasPro.API.Configuration;
-using AliasPro.API.Database;
+﻿using AliasPro.API.Database;
 using AliasPro.API.Landing.Models;
 using AliasPro.Landing.Models;
 using Microsoft.Extensions.Logging;
@@ -10,8 +9,8 @@ namespace AliasPro.Landing
 {
     internal class LandingDao : BaseDao
     {
-        public LandingDao(ILogger<BaseDao> logger, IConfigurationController configurationController)
-            : base(logger, configurationController)
+        public LandingDao(ILogger<BaseDao> logger)
+            : base(logger)
         {
 
         }

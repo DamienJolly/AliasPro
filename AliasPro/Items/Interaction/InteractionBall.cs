@@ -3,7 +3,6 @@ using AliasPro.API.Rooms.Entities;
 using AliasPro.API.Rooms.Models;
 using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Tasks;
-using AliasPro.Tasks;
 
 namespace AliasPro.Items.Interaction
 {
@@ -54,7 +53,7 @@ namespace AliasPro.Items.Interaction
                     _currentTask.Dead = true;
 
                 _currentTask = new KickBallTask(this, entity, velocity, direction);
-                await TaskManager.ExecuteTask(_currentTask);
+                await Program.Tasks.ExecuteTask(_currentTask);
             }
         }
 
@@ -73,7 +72,7 @@ namespace AliasPro.Items.Interaction
                     _currentTask.Dead = true;
 
                 _currentTask = new KickBallTask(this, entity, velocity, direction);
-                await TaskManager.ExecuteTask(_currentTask);
+                await Program.Tasks.ExecuteTask(_currentTask);
             }
         }
 
@@ -97,7 +96,7 @@ namespace AliasPro.Items.Interaction
                     _currentTask.Dead = true;
 
                 _currentTask = new KickBallTask(this, entity, velocity, direction);
-                await TaskManager.ExecuteTask(_currentTask);
+                await Program.Tasks.ExecuteTask(_currentTask);
             }
         }
 

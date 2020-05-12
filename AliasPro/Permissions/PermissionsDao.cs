@@ -1,5 +1,4 @@
-﻿using AliasPro.API.Configuration;
-using AliasPro.API.Database;
+﻿using AliasPro.API.Database;
 using AliasPro.API.Permissions.Models;
 using AliasPro.Permissions.Models;
 using Microsoft.Extensions.Logging;
@@ -10,8 +9,8 @@ namespace AliasPro.Permissions
 {
     internal class PermissionsDao : BaseDao
     {
-        public PermissionsDao(ILogger<BaseDao> logger, IConfigurationController configurationController)
-			: base(logger, configurationController)
+        public PermissionsDao(ILogger<BaseDao> logger)
+			: base(logger)
 		{
 
 		}

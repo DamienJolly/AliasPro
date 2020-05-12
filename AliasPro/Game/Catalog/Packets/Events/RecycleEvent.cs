@@ -1,6 +1,5 @@
 ﻿using AliasPro.API.Items;
 using AliasPro.API.Items.Models;
-using AliasPro.API.Server;
 using AliasPro.API.Sessions.Models;
 using AliasPro.Communication.Messages;
 using AliasPro.Communication.Messages.Headers;
@@ -20,23 +19,20 @@ namespace AliasPro.Game.Catalog.Packets.Events
 
         private readonly CatalogController catalogController;
         private readonly IItemController itemController;
-        private readonly IServerController serverController;
 
         public RecycleEvent(
             CatalogController catalogController,
-            IItemController itemController,
-            IServerController serverController)
+            IItemController itemController)
         {
             this.catalogController = catalogController;
             this.itemController = itemController;
-            this.serverController = serverController;
         }
 
         public async Task RunAsync(
             ISession session,
             ClientMessage message)
         {
-            if (serverController.GetSetting("ecotron.enabled") == "0")
+            if (Program.ServerSettings.GetBool("ecotron.enabled"))
             {
                 await session.SendPacketAsync(new RecyclerCompleteComposer(RecyclerCompleteComposer.RECYCLING_CLOSED));
                 return;
@@ -57,7 +53,8 @@ namespace AliasPro.Game.Catalog.Packets.Events
                 items.Add(item);
             }
 
-            if (!int.TryParse(serverController.GetSetting("ecotron.items.needed"), out int itemsNeeded) || items.Count != itemsNeeded)
+            int itemsNeeded = Program.ServerSettings.GetInt("ecotron.items.needed");
+            if (itemsNeeded == 0 || items.Count != itemsNeeded)
             {
                 await session.SendPacketAsync(new AlertPurchaseFailedComposer(AlertPurchaseFailedComposer.SERVER_ERROR));
                 return;
@@ -69,7 +66,7 @@ namespace AliasPro.Game.Catalog.Packets.Events
                 return;
             }
 
-            if (!itemController.TryGetItemDataByName(serverController.GetSetting("ecotron.item.name"), out IItemData giftItemData))
+            if (!itemController.TryGetItemDataByName(Program.ServerSettings.GetString("ecotron.item.name"), out IItemData giftItemData))
             {
                 await session.SendPacketAsync(new AlertPurchaseFailedComposer(AlertPurchaseFailedComposer.SERVER_ERROR));
                 return;

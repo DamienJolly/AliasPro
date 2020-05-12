@@ -1,8 +1,8 @@
 ﻿using AliasPro.API.Items.Models;
 using AliasPro.API.Sessions.Models;
-using AliasPro.API.Tasks;
 using AliasPro.Items.Packets.Composers;
 using AliasPro.Items.Types;
+using AliasPro.Tasks;
 using System;
 
 namespace AliasPro.Items.Tasks

@@ -1,5 +1,4 @@
-﻿using AliasPro.API.Configuration;
-using AliasPro.API.Database;
+﻿using AliasPro.API.Database;
 using AliasPro.API.Items.Models;
 using AliasPro.Items.Models;
 using Microsoft.Extensions.Logging;
@@ -10,8 +9,8 @@ namespace AliasPro.Items
 {
     internal class ItemDao : BaseDao
     {
-        public ItemDao(ILogger<BaseDao> logger, IConfigurationController configurationController)
-            : base(logger, configurationController)
+        public ItemDao(ILogger<BaseDao> logger)
+            : base(logger)
         {
 
         }

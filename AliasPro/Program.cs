@@ -1,6 +1,5 @@
 ﻿using AliasPro.API.Groups;
 using AliasPro.API.Rooms;
-using AliasPro.API.Server;
 using AliasPro.API.Sessions;
 using AliasPro.Communication.Messages;
 using AliasPro.Configuration;
@@ -11,6 +10,7 @@ using AliasPro.Game.Achievements;
 using AliasPro.Game.Badges;
 using AliasPro.Game.Catalog;
 using AliasPro.Game.Chat;
+using AliasPro.Game.Settings;
 using AliasPro.Groups;
 using AliasPro.Items;
 using AliasPro.Landing;
@@ -23,8 +23,8 @@ using AliasPro.Permissions;
 using AliasPro.Pets;
 using AliasPro.Players;
 using AliasPro.Rooms;
-using AliasPro.Server;
 using AliasPro.Sessions;
+using AliasPro.Tasks;
 using AliasPro.Trading;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -37,8 +37,10 @@ namespace AliasPro
 {
     public class Program
     {
-        private static IServiceProvider _serviceProvider;
-        public static IServerController Server;
+        private static IServiceProvider serviceProvider;
+
+        public static ConfigurationHandler Config;
+        public static TaskHandler Tasks;
 
         private Program()
         {
@@ -62,25 +64,24 @@ namespace AliasPro
             Console.ForegroundColor = ConsoleColor.Gray;
 
             IList<IService> services = new List<IService>
-			{
-				new ServerService(),
-				new ModerationService(),
-				new MessengerService(),
-				new PlayerService(),
-				new SessionService(),
-				new LandingService(),
-				new RoomService(),
-				new NavigatorService(),
-				new ItemService(),
-				new FigureService(),
-				new ConfigurationService(),
-				new PermissionsService(),
-				new GroupService(),
-				new TradingService(),
-				new PetService(),
-				new CraftingService(),
-				new CurrencyService(),
+            {
+                new ModerationService(),
+                new MessengerService(),
+                new PlayerService(),
+                new SessionService(),
+                new LandingService(),
+                new RoomService(),
+                new NavigatorService(),
+                new ItemService(),
+                new FigureService(),
+                new PermissionsService(),
+                new GroupService(),
+                new TradingService(),
+                new PetService(),
+                new CraftingService(),
+                new CurrencyService(),
 
+                new SettingsService(),
                 new BadgeService(),
                 new AchievementService(),
                 new CatalogService(),
@@ -100,25 +101,39 @@ namespace AliasPro
             
             serviceCollection.AddSingleton<MessageHandler>();
             serviceCollection.AddSingleton<GameNetworkListener>();
+            serviceCollection.AddSingleton<ConfigurationHandler>();
+            serviceCollection.AddSingleton<TaskHandler>();
 
-            _serviceProvider = serviceCollection.BuildServiceProvider();
+            serviceProvider = serviceCollection.BuildServiceProvider();
         }
 
         public static T GetService<T>() =>
-            _serviceProvider.GetService<T>();
+            serviceProvider.GetService<T>();
+
+        public static SettingsController ServerSettings =>
+            serviceProvider.GetService<SettingsController>();
 
         private async Task Run()
         {
             AppDomain currentDomain = AppDomain.CurrentDomain;
             currentDomain.UnhandledException += MyHandler;
 
+            // Load configuration file
+            Config = GetService<ConfigurationHandler>(); ;
+            Config.ReadConfigurationFile();
+
+            // Start listening to server
             GameNetworkListener listener = GetService<GameNetworkListener>();
-            await listener.StartAsync(30000);
+            await listener.StartAsync(Config.GetInt("server", "port"));
 
-            IServerController server = GetService<IServerController>();
-            await server.CleanupDatabase();
-            Server = server;
+            // Clean up the database
+            await ServerSettings.CleanupDatabase();
 
+            // Start the game cycle
+            Tasks = GetService<TaskHandler>();
+            Tasks.StartGameCycle();
+
+            //todo: hmm redo this probs
             IGroupController group = GetService<IGroupController>();
             group.InitalizeBadgeImager();
 

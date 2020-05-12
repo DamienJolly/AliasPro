@@ -1,5 +1,4 @@
-﻿using AliasPro.API.Configuration;
-using AliasPro.API.Database;
+﻿using AliasPro.API.Database;
 using AliasPro.API.Items;
 using AliasPro.API.Items.Models;
 using AliasPro.API.Players.Models;
@@ -16,8 +15,8 @@ namespace AliasPro.Game.Catalog
 	{
 		private readonly ILogger<BaseDao> logger;
 
-		public CatalogDao(ILogger<BaseDao> logger, IConfigurationController configurationController)
-			: base(logger, configurationController)
+		public CatalogDao(ILogger<BaseDao> logger)
+			: base(logger)
 		{
 			this.logger = logger;
 		}

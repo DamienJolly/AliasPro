@@ -12,10 +12,14 @@
     <Compile Remove="API\Badges\**" />
     <Compile Remove="API\Catalog\**" />
     <Compile Remove="API\Chat\**" />
+    <Compile Remove="API\Configuration\**" />
     <Compile Remove="API\Network\**" />
+    <Compile Remove="API\Server\**" />
+    <Compile Remove="API\Tasks\**" />
     <Compile Remove="Badges\**" />
     <Compile Remove="Catalog\**" />
     <Compile Remove="Chat\**" />
+    <Compile Remove="ConfigurationOld\**" />
     <Compile Remove="Game\**" />
     <Compile Remove="Items\Interaction - Copy\**" />
     <Compile Remove="Items\WiredInteraction\**" />
@@ -29,16 +33,22 @@
     <Compile Remove="Rooms\Models\Item\**" />
     <Compile Remove="Rooms\Models\Right\**" />
     <Compile Remove="Rooms\Tasks\**" />
+    <Compile Remove="Server\**" />
     <Compile Remove="Settings\**" />
+    <Compile Remove="TasksOld\**" />
     <EmbeddedResource Remove="Achievements\**" />
     <EmbeddedResource Remove="API\Achievements\**" />
     <EmbeddedResource Remove="API\Badges\**" />
     <EmbeddedResource Remove="API\Catalog\**" />
     <EmbeddedResource Remove="API\Chat\**" />
+    <EmbeddedResource Remove="API\Configuration\**" />
     <EmbeddedResource Remove="API\Network\**" />
+    <EmbeddedResource Remove="API\Server\**" />
+    <EmbeddedResource Remove="API\Tasks\**" />
     <EmbeddedResource Remove="Badges\**" />
     <EmbeddedResource Remove="Catalog\**" />
     <EmbeddedResource Remove="Chat\**" />
+    <EmbeddedResource Remove="ConfigurationOld\**" />
     <EmbeddedResource Remove="Game\**" />
     <EmbeddedResource Remove="Items\Interaction - Copy\**" />
     <EmbeddedResource Remove="Items\WiredInteraction\**" />
@@ -52,16 +62,22 @@
     <EmbeddedResource Remove="Rooms\Models\Item\**" />
     <EmbeddedResource Remove="Rooms\Models\Right\**" />
     <EmbeddedResource Remove="Rooms\Tasks\**" />
+    <EmbeddedResource Remove="Server\**" />
     <EmbeddedResource Remove="Settings\**" />
+    <EmbeddedResource Remove="TasksOld\**" />
     <None Remove="Achievements\**" />
     <None Remove="API\Achievements\**" />
     <None Remove="API\Badges\**" />
     <None Remove="API\Catalog\**" />
     <None Remove="API\Chat\**" />
+    <None Remove="API\Configuration\**" />
     <None Remove="API\Network\**" />
+    <None Remove="API\Server\**" />
+    <None Remove="API\Tasks\**" />
     <None Remove="Badges\**" />
     <None Remove="Catalog\**" />
     <None Remove="Chat\**" />
+    <None Remove="ConfigurationOld\**" />
     <None Remove="Game\**" />
     <None Remove="Items\Interaction - Copy\**" />
     <None Remove="Items\WiredInteraction\**" />
@@ -75,7 +91,9 @@
     <None Remove="Rooms\Models\Item\**" />
     <None Remove="Rooms\Models\Right\**" />
     <None Remove="Rooms\Tasks\**" />
+    <None Remove="Server\**" />
     <None Remove="Settings\**" />
+    <None Remove="TasksOld\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -187,6 +205,9 @@
     <Compile Include="Game\Chat\Commands\VIP\PullCommand.cs" />
     <Compile Include="Game\Chat\Commands\VIP\PushCommand.cs" />
     <Compile Include="Game\Chat\Models\ChatLog.cs" />
+    <Compile Include="Game\Settings\SettingsController.cs" />
+    <Compile Include="Game\Settings\SettingsDao.cs" />
+    <Compile Include="Game\Settings\SettingsService.cs" />
   </ItemGroup>
 
   <ItemGroup>

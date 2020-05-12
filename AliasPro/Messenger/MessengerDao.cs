@@ -1,5 +1,4 @@
-﻿using AliasPro.API.Configuration;
-using AliasPro.API.Database;
+﻿using AliasPro.API.Database;
 using AliasPro.API.Messenger.Models;
 using AliasPro.Messenger.Models;
 using Microsoft.Extensions.Logging;
@@ -10,8 +9,8 @@ namespace AliasPro.Messenger
 {
     internal class MessengerDao : BaseDao
     {
-        public MessengerDao(ILogger<BaseDao> logger, IConfigurationController configurationController)
-            : base(logger, configurationController)
+        public MessengerDao(ILogger<BaseDao> logger)
+            : base(logger)
         {
 
         }

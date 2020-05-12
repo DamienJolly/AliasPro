@@ -1,6 +1,4 @@
-﻿using AliasPro.API.Configuration;
-using AliasPro.API.Configuration.Models;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
 using System;
 using System.Data.Common;
@@ -11,22 +9,37 @@ namespace AliasPro.API.Database
     public abstract class BaseDao
     {
         private readonly ILogger<BaseDao> _logger;
-        private readonly string _connectionString;
-        private readonly IConfigurationController _configurationController;
 
-        protected BaseDao(ILogger<BaseDao> logger, IConfigurationController configurationController)
+        protected BaseDao(ILogger<BaseDao> logger)
         {
             _logger = logger;
-            _configurationController = configurationController;
-            IConfigurationData configData = _configurationController.ConfigurationData;
-            _connectionString = configData.ConnectionString;
+        }
+
+        private string ConnectionString
+        {
+            get
+            {
+                MySqlConnectionStringBuilder connectionString = new MySqlConnectionStringBuilder
+                {
+                    Server = Program.Config.GetString("mysql", "hostname"),
+                    Port = (uint)Program.Config.GetInt("mysql", "port"),
+                    UserID = Program.Config.GetString("mysql", "username"),
+                    Password = Program.Config.GetString("mysql", "password"),
+                    Database = Program.Config.GetString("mysql", "database"),
+                    MinimumPoolSize = (uint)Program.Config.GetInt("mysql", "min_connections"),
+                    MaximumPoolSize = (uint)Program.Config.GetInt("mysql", "max_connections"),
+                    Pooling = true,
+                    SslMode = MySqlSslMode.None
+                };
+                return connectionString.ToString();
+            }
         }
 
         private async Task CreateConnection(Action<MySqlConnection> connection)
         {
             try
             {
-                using (MySqlConnection con = new MySqlConnection(_connectionString))
+                using (MySqlConnection con = new MySqlConnection(ConnectionString))
                 {
                     await con.OpenAsync();
                     connection(con);

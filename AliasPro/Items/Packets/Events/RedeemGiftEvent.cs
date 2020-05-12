@@ -8,7 +8,6 @@ using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Interaction;
 using AliasPro.Items.Packets.Composers;
 using AliasPro.Items.Tasks;
-using AliasPro.Tasks;
 using System.Threading.Tasks;
 
 namespace AliasPro.Items.Packets.Events
@@ -55,7 +54,7 @@ namespace AliasPro.Items.Packets.Events
 				if (!_itemController.TryGetItemDataById((uint)giftInteraction.itemId, out IItemData giftData))
 					return;
 
-				await TaskManager.ExecuteTask(new OpenGiftTask(giftData, giftInteraction.ExtraData, item, session), giftInteraction.Exploaded ? 1500 : 0);
+				await Program.Tasks.ExecuteTask(new OpenGiftTask(giftData, giftInteraction.ExtraData, item, session), giftInteraction.Exploaded ? 1500 : 0);
 			}
 			else if (item.Interaction is InteractionEcotron ecotronInteraction)
 			{

@@ -1,5 +1,4 @@
-﻿using AliasPro.API.Configuration;
-using AliasPro.API.Database;
+﻿using AliasPro.API.Database;
 using AliasPro.API.Pets.Models;
 using AliasPro.Pets.Models;
 using Microsoft.Extensions.Logging;
@@ -10,8 +9,8 @@ namespace AliasPro.Pets
 {
     internal class PetDao : BaseDao
     {
-        public PetDao(ILogger<BaseDao> logger, IConfigurationController configurationController)
-			: base(logger, configurationController)
+        public PetDao(ILogger<BaseDao> logger)
+			: base(logger)
 		{
 
 		}

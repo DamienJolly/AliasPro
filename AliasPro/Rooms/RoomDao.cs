@@ -1,5 +1,4 @@
-﻿using AliasPro.API.Configuration;
-using AliasPro.API.Database;
+﻿using AliasPro.API.Database;
 using AliasPro.API.Groups.Models;
 using AliasPro.API.Items;
 using AliasPro.API.Items.Models;
@@ -19,8 +18,8 @@ namespace AliasPro.Rooms
 {
     internal class RoomDao : BaseDao
     {
-		public RoomDao(ILogger<BaseDao> logger, IConfigurationController configurationController)
-			: base(logger, configurationController)
+		public RoomDao(ILogger<BaseDao> logger)
+			: base(logger)
 		{
 
 		}

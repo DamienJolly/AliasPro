@@ -1,7 +1,6 @@
 ﻿using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms;
 using AliasPro.API.Rooms.Models;
-using AliasPro.API.Tasks;
 using AliasPro.Rooms.Entities;
 using AliasPro.Tasks;
 
@@ -27,7 +26,7 @@ namespace AliasPro.Items.Tasks
 
 			if (!room.Loaded)
 			{
-				await TaskManager.ExecuteTask(new TeleportTaskSix(_roomId, _playerId, _itemId), 1000);
+				await Program.Tasks.ExecuteTask(new TeleportTaskSix(_roomId, _playerId, _itemId), 1000);
 				return;
 			}
 
@@ -37,7 +36,7 @@ namespace AliasPro.Items.Tasks
 			if (!room.Entities.TryGetPlayerEntityById(_playerId, out PlayerEntity entity))
 				return;
 
-			await TaskManager.ExecuteTask(new TeleportTaskFour(item, entity), 0);
+			await Program.Tasks.ExecuteTask(new TeleportTaskFour(item, entity), 0);
 		}
 	}
 }

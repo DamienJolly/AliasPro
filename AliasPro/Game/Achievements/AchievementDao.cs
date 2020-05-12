@@ -1,5 +1,4 @@
-﻿using AliasPro.API.Configuration;
-using AliasPro.API.Database;
+﻿using AliasPro.API.Database;
 using AliasPro.Game.Achievements.Models;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
@@ -9,8 +8,8 @@ namespace AliasPro.Game.Achievements
 {
 	public class AchievementDao : BaseDao
 	{
-		public AchievementDao(ILogger<BaseDao> logger, IConfigurationController configurationController)
-			: base(logger, configurationController)
+		public AchievementDao(ILogger<BaseDao> logger)
+			: base(logger)
 		{
 
 		}

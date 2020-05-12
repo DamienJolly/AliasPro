@@ -32,7 +32,7 @@ namespace AliasPro.Groups.Imager
 
                 if (!string.IsNullOrEmpty(part.AssetOne))
                 {
-                    string path = Program.Server.GetSetting("group.internal_imager.badge_parts") + "badgepart_" + part.AssetOne;
+                    string path = Program.ServerSettings.GetString("group.internal_imager.badge_parts") + "badgepart_" + part.AssetOne;
                     try
                     {
                         Bitmap image = new Bitmap(path);
@@ -49,7 +49,7 @@ namespace AliasPro.Groups.Imager
 
                 if (!string.IsNullOrEmpty(part.AssetTwo))
                 {
-                    string path = Program.Server.GetSetting("group.internal_imager.badge_parts") + "badgepart_" + part.AssetTwo;
+                    string path = Program.ServerSettings.GetString("group.internal_imager.badge_parts") + "badgepart_" + part.AssetTwo;
                     try
                     {
                         Bitmap image = new Bitmap(path);
@@ -67,7 +67,7 @@ namespace AliasPro.Groups.Imager
 
         public void GenerateImage(string badge)
         {
-            string path = Program.Server.GetSetting("group.internal_imager.output_path") + badge + ".png";
+            string path = Program.ServerSettings.GetString("group.internal_imager.output_path") + badge + ".png";
 
             if (File.Exists(path)) return;
 

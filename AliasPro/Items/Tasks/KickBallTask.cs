@@ -1,14 +1,9 @@
 ﻿using AliasPro.API.Items.Models;
 using AliasPro.API.Rooms.Entities;
-using AliasPro.API.Rooms.Games;
 using AliasPro.API.Rooms.Models;
-using AliasPro.API.Tasks;
 using AliasPro.Items.Interaction;
 using AliasPro.Items.Packets.Composers;
 using AliasPro.Items.Types;
-using AliasPro.Rooms.Entities;
-using AliasPro.Rooms.Games;
-using AliasPro.Rooms.Games.Types;
 using AliasPro.Rooms.Models;
 using AliasPro.Rooms.Packets.Composers;
 using AliasPro.Tasks;
@@ -61,7 +56,7 @@ namespace AliasPro.Items.Tasks
             if (nextTile != null && _interaction.ValidBounce(nextTile, _currentDirection))
             {
                 _currentStep = _totalSteps;
-                await TaskManager.ExecuteTask(this);
+                await Program.Tasks.ExecuteTask(this);
                 return;
             }
 
@@ -75,7 +70,7 @@ namespace AliasPro.Items.Tasks
                 if (_currentDirection == oldDirection)
                     _currentStep = _totalSteps;
 
-                await TaskManager.ExecuteTask(this);
+                await Program.Tasks.ExecuteTask(this);
                 return;
             }
             else
@@ -109,7 +104,7 @@ namespace AliasPro.Items.Tasks
                 _interaction.Item.Position = newPosition;
                 room.RoomGrid.AddItem(_interaction.Item);
 
-                await TaskManager.ExecuteTask(this, delay);
+                await Program.Tasks.ExecuteTask(this, delay);
             }
         }
     }

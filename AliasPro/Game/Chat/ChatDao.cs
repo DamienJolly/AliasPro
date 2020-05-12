@@ -1,5 +1,4 @@
-﻿using AliasPro.API.Configuration;
-using AliasPro.API.Database;
+﻿using AliasPro.API.Database;
 using AliasPro.Game.Chat.Models;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
@@ -9,8 +8,8 @@ namespace AliasPro.Game.Chat
 {
 	public class ChatDao : BaseDao
     {
-        public ChatDao(ILogger<BaseDao> logger, IConfigurationController configurationController)
-            : base(logger, configurationController)
+        public ChatDao(ILogger<BaseDao> logger)
+            : base(logger)
         {
 
         }

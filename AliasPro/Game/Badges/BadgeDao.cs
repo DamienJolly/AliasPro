@@ -1,5 +1,4 @@
-﻿using AliasPro.API.Configuration;
-using AliasPro.API.Database;
+﻿using AliasPro.API.Database;
 using AliasPro.Game.Badges.Models;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
@@ -9,8 +8,8 @@ namespace AliasPro.Game.Badges
 {
 	internal class BadgeDao : BaseDao
 	{
-		public BadgeDao(ILogger<BaseDao> logger, IConfigurationController configurationController)
-			: base(logger, configurationController)
+		public BadgeDao(ILogger<BaseDao> logger)
+			: base(logger)
 		{
 
 		}

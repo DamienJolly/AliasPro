@@ -5,7 +5,6 @@ using AliasPro.Communication.Messages.Protocols;
 using AliasPro.Items.Packets.Composers;
 using AliasPro.Items.Tasks;
 using AliasPro.Rooms.Entities;
-using AliasPro.Tasks;
 
 namespace AliasPro.Items.Interaction
 {
@@ -57,7 +56,7 @@ namespace AliasPro.Items.Interaction
 			Mode = 1;
 			playerEntity.GoalPosition = Item.Position;
 			await Item.CurrentRoom.SendPacketAsync(new FloorItemUpdateComposer(Item));
-			await TaskManager.ExecuteTask(new TeleportTaskOne(Item, playerEntity), 1500);
+			await Program.Tasks.ExecuteTask(new TeleportTaskOne(Item, playerEntity), 1500);
 		}
     }
 }
